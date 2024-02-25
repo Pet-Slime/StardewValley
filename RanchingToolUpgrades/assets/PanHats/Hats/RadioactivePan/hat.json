@@ -1,0 +1,7 @@
+﻿{
+  "Name": "Radioactive Pan",
+  "Description": "Your radioactive pan might make you glow green!",
+  "ShowHair": false,
+  "IgnoreHairstyleOffset": true,
+  "CanPurshase": false
+}

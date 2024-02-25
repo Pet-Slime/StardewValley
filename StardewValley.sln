@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MoonShared", "MoonShared\MoonShared.shproj", "{8F13906D-7E88-45B4-ABBC-617437970163}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_root", "_root", "{7BB5EFE4-05AA-48E1-BA1C-5F7F0599381E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		common-nospace.targets = common-nospace.targets
+		common.targets = common.targets
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MoonSharedSpaceCore", "MoonSharedSpaceCore\MoonSharedSpaceCore.shproj", "{19CEDB88-A912-48DA-B35D-FCE2509E70E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookingSkill", "CookingSkillRedux\CookingSkill.csproj", "{B4835048-A339-456F-B0ED-64CFE03C4C29}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcavationSkill", "ExcavationSkill\ExcavationSkill.csproj", "{56651B71-984E-463C-BD0C-027917E96089}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RanchingToolUpgrades", "RanchingToolUpgrades\RanchingToolUpgrades.csproj", "{574D101F-E561-46B4-95B2-2C8796CA4755}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShovelToolUpgrades", "ShovelToolUpgrades\ShovelToolUpgrades.csproj", "{CA7454A3-0D10-4F64-876E-A62C6423860B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19CEDB88-A912-48DA-B35D-FCE2509E70E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19CEDB88-A912-48DA-B35D-FCE2509E70E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4835048-A339-456F-B0ED-64CFE03C4C29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4835048-A339-456F-B0ED-64CFE03C4C29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4835048-A339-456F-B0ED-64CFE03C4C29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4835048-A339-456F-B0ED-64CFE03C4C29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56651B71-984E-463C-BD0C-027917E96089}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56651B71-984E-463C-BD0C-027917E96089}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56651B71-984E-463C-BD0C-027917E96089}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56651B71-984E-463C-BD0C-027917E96089}.Release|Any CPU.Build.0 = Release|Any CPU
+		{574D101F-E561-46B4-95B2-2C8796CA4755}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{574D101F-E561-46B4-95B2-2C8796CA4755}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{574D101F-E561-46B4-95B2-2C8796CA4755}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{574D101F-E561-46B4-95B2-2C8796CA4755}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA7454A3-0D10-4F64-876E-A62C6423860B}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{CA7454A3-0D10-4F64-876E-A62C6423860B}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{CA7454A3-0D10-4F64-876E-A62C6423860B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA7454A3-0D10-4F64-876E-A62C6423860B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2CC4FC86-39C6-4152-8058-FE3B146896A6}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{19cedb88-a912-48da-b35d-fce2509e70e6}*SharedItemsImports = 13
+		MoonShared\MoonShared.projitems*{8f13906d-7e88-45b4-abbc-617437970163}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal

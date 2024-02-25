@@ -1,0 +1,84 @@
+﻿{
+    "Name": "moonslime.cooking.oceanplatter",
+    "TranslationKey": "moonslime.cooking.oceanplatter",
+    "Category": "Cooking",
+    "Edibility": 84,
+    "EdibleIsDrink": false,
+    "EdibleBuffs": null,
+    "Price": 410,
+    "IsColored": false,
+    "CanPurchase": false,
+    "PurchaseFrom": "Gus",
+    "PurchasePrice": 300,
+    "PurchaseRequirements": null,
+    "Recipe": {
+        "ResultCount": 1,
+        "Ingredients": [
+            {
+                "Object": 198,
+                "Count": 1
+            },
+            {
+                "Object": "moonslime.cooking.lobster",
+                "Count": 1
+            },
+            {
+                "Object": 423,
+                "Count": 1
+            },
+            {
+                "Object": 723,
+                "Count": 2
+            }
+        ],
+        "CanPurchase": false,
+        "PurchaseFrom": "Gus",
+        "PurchasePrice": 500,
+        "PurchaseRequirements": null
+    },
+    "GiftTastes": {
+        "Love": [
+            "Willy",
+            "Demetrius"
+        ],
+        "Like": [
+            "Vincent",
+            "Jas",
+            "Penny",
+            "Gus",
+            "Leah",
+            "Marnie",
+            "Clint",
+            "Evelyn",
+            "George",
+            "Abigail",
+            "Alex",
+            "Caroline",
+            "Elliott",
+            "Emily",
+            "Haley",
+            "Jodi",
+            "Lewis",
+            "Linus",
+            "Maru",
+            "Pierre",
+            "Robin",
+            "Sam",
+            "Sandy",
+            "Pam"
+        ],
+        "Neutral": [
+            "Kent",
+            "Wizard"
+        ],
+        "Dislike": [
+            "Shane",
+            "Sebastian",
+            "Dwarf",
+            "Harvey"
+        ],
+        "Hate": [
+            "Krobus"
+        ]
+    }
+}

@@ -1,0 +1,76 @@
+﻿{
+    "Name": "moonslime.cooking.onionsoup",
+    "TranslationKey": "moonslime.cooking.onionsoup",
+    "Category": "Cooking",
+    "Edibility": 68,
+    "EdibleIsDrink": true,
+    "EdibleBuffs": null,
+    "Price": 320,
+    "IsColored": false,
+    "CanPurchase": false,
+    "PurchaseFrom": "Gus",
+    "PurchasePrice": 300,
+    "PurchaseRequirements": null,
+    "Recipe": {
+        "ResultCount": 1,
+        "Ingredients": [
+            {
+                "Object": 248,
+                "Count": 3
+            },
+            {
+                "Object": 424,
+                "Count": 1
+            }
+        ],
+        "CanPurchase": false,
+        "PurchaseFrom": "Gus",
+        "PurchasePrice": 500,
+        "PurchaseRequirements": null
+    },
+    "GiftTastes": {
+        "Love": [
+            "Willy",
+            "Demetrius"
+        ],
+        "Like": [
+            "Vincent",
+            "Jas",
+            "Penny",
+            "Gus",
+            "Leah",
+            "Marnie",
+            "Clint",
+            "Evelyn",
+            "George",
+            "Abigail",
+            "Alex",
+            "Caroline",
+            "Elliott",
+            "Emily",
+            "Haley",
+            "Jodi",
+            "Lewis",
+            "Linus",
+            "Maru",
+            "Pierre",
+            "Robin",
+            "Sam",
+            "Sandy",
+            "Pam"
+        ],
+        "Neutral": [
+            "Kent",
+            "Wizard"
+        ],
+        "Dislike": [
+            "Shane",
+            "Sebastian",
+            "Dwarf",
+            "Harvey"
+        ],
+        "Hate": [
+            "Krobus"
+        ]
+    }
+}

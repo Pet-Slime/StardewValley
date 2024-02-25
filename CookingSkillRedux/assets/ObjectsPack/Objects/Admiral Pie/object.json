@@ -1,0 +1,92 @@
+﻿{
+    "Name": "moonslime.cooking.admiralpie",
+    "TranslationKey": "moonslime.cooking.admiralpie",
+    "Category": "Cooking",
+    "Edibility": 81,
+    "EdibleIsDrink": false,
+    "EdibleBuffs": {
+        "Farming": 0,
+        "Fishing": 1,
+        "Mining": 0,
+        "Luck": 0,
+        "Foraging": 0,
+        "MaxStamina": 18,
+        "MagnetRadius": 0,
+        "Speed": 0,
+        "Defense": 0,
+        "Attack": 0,
+        "Duration": 103
+    },
+    "Price": 395,
+    "IsColored": false,
+    "CanPurchase": false,
+    "PurchaseFrom": "Gus",
+    "PurchasePrice": 300,
+    "PurchaseRequirements": null,
+    "Recipe": {
+        "ResultCount": 1,
+        "Ingredients": [
+            {
+                "Object": 246,
+                "Count": 1
+            },
+            {
+                "Object": -6,
+                "Count": 1
+            },
+            {
+                "Object": -4,
+                "Count": 2
+            }
+        ],
+        "CanPurchase": false,
+        "PurchaseFrom": "Gus",
+        "PurchasePrice": 500,
+        "PurchaseRequirements": null
+    },
+    "GiftTastes": {
+        "Love": [
+            "Willy",
+            "Demetrius"
+        ],
+        "Like": [
+            "Vincent",
+            "Jas",
+            "Penny",
+            "Gus",
+            "Leah",
+            "Marnie",
+            "Clint",
+            "Evelyn",
+            "George",
+            "Abigail",
+            "Alex",
+            "Caroline",
+            "Elliott",
+            "Emily",
+            "Haley",
+            "Jodi",
+            "Lewis",
+            "Linus",
+            "Maru",
+            "Pierre",
+            "Robin",
+            "Sam",
+            "Sandy",
+            "Pam"
+        ],
+        "Neutral": [
+            "Kent",
+            "Wizard"
+        ],
+        "Dislike": [
+            "Shane",
+            "Sebastian",
+            "Dwarf",
+            "Harvey"
+        ],
+        "Hate": [
+            "Krobus"
+        ]
+    }
+}

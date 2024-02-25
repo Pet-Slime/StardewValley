@@ -1,0 +1,84 @@
+﻿{
+    "Name": "moonslime.cooking.burrito",
+    "TranslationKey": "moonslime.cooking.burrito",
+    "Category": "Cooking",
+    "Edibility": 63,
+    "EdibleIsDrink": false,
+    "EdibleBuffs": null,
+    "Price": 185,
+    "IsColored": false,
+    "CanPurchase": true,
+    "PurchaseFrom": "Gus",
+    "PurchasePrice": 220,
+    "PurchaseRequirements": [
+        "y 2"
+    ],
+    "Recipe": {
+        "ResultCount": 1,
+        "Ingredients": [
+            {
+                "Object": 229,
+                "Count": 1
+            },
+            {
+                "Object": 423,
+                "Count": 1
+            },
+            {
+                "Object": 260,
+                "Count": 1
+            }
+        ],
+        "CanPurchase": true,
+        "PurchaseFrom": "Gus",
+        "PurchasePrice": 500,
+        "PurchaseRequirements": [
+            "y 2"
+        ]
+    },
+    "GiftTastes": {
+        "Love": [
+            "Willy",
+            "Demetrius"
+        ],
+        "Like": [
+            "Vincent",
+            "Jas",
+            "Penny",
+            "Gus",
+            "Leah",
+            "Marnie",
+            "Clint",
+            "Evelyn",
+            "George",
+            "Abigail",
+            "Alex",
+            "Caroline",
+            "Elliott",
+            "Emily",
+            "Haley",
+            "Jodi",
+            "Lewis",
+            "Linus",
+            "Maru",
+            "Pierre",
+            "Robin",
+            "Sam",
+            "Sandy",
+            "Pam"
+        ],
+        "Neutral": [
+            "Kent",
+            "Wizard"
+        ],
+        "Dislike": [
+            "Shane",
+            "Sebastian",
+            "Dwarf",
+            "Harvey"
+        ],
+        "Hate": [
+            "Krobus"
+        ]
+    }
+}
