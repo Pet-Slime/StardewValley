@@ -8,71 +8,71 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
+using BirbCore.Attributes;
+using HarmonyLib;
 
-namespace ExcavationSkill
+namespace ArchaeologySkill
 {
-    [AssetClass]
+    [SAsset(Priority = 0)]
     public class Assets
     {
-        [AssetProperty("assets/excavationiconA.png")]
+        [SAsset.Asset("assets/ArchaeologyiconA.png")]
         public Texture2D IconA { get; set; }
 
-        [AssetProperty("assets/excavationiconB.png")]
+        [SAsset.Asset("assets/ArchaeologyiconB.png")]
         public Texture2D IconB { get; set; }
 
-        [AssetProperty("assets/excavationiconBalt.png")]
+        [SAsset.Asset("assets/ArchaeologyiconBalt.png")]
         public Texture2D IconBalt { get; set; }
 
-        [AssetProperty("assets/Excavation5a.png")]
-        public Texture2D Excavation5a { get; set; }
-        [AssetProperty("assets/Excavation5b.png")]
-        public Texture2D Excavation5b { get; set; }
-        [AssetProperty("assets/Excavation10a1.png")]
-        public Texture2D Excavation10a1 { get; set; }
-        [AssetProperty("assets/Excavation10a2.png")]
-        public Texture2D Excavation10a2 { get; set; }
-        [AssetProperty("assets/Excavation10b1.png")]
-        public Texture2D Excavation10b1 { get; set; }
-        [AssetProperty("assets/Excavation10b2.png")]
-        public Texture2D Excavation10b2 { get; set; }
+        [SAsset.Asset("assets/Archaeology5a.png")]
+        public Texture2D Archaeology5a { get; set; }
+        [SAsset.Asset("assets/Archaeology5b.png")]
+        public Texture2D Archaeology5b { get; set; }
+        [SAsset.Asset("assets/Archaeology10a1.png")]
+        public Texture2D Archaeology10a1 { get; set; }
+        [SAsset.Asset("assets/Archaeology10a2.png")]
+        public Texture2D Archaeology10a2 { get; set; }
+        [SAsset.Asset("assets/Archaeology10b1.png")]
+        public Texture2D Archaeology10b1 { get; set; }
+        [SAsset.Asset("assets/Archaeology10b2.png")]
+        public Texture2D Archaeology10b2 { get; set; }
 
         // Prestige Icons
-        [AssetProperty("assets/Excavation5aP.png")]
-        public Texture2D Excavation5aP { get; set; }
-        [AssetProperty("assets/Excavation5bP.png")]
-        public Texture2D Excavation5bP { get; set; }
-        [AssetProperty("assets/Excavation10a1P.png")]
-        public Texture2D Excavation10a1P { get; set; }
-        [AssetProperty("assets/Excavation10a2P.png")]
-        public Texture2D Excavation10a2P { get; set; }
-        [AssetProperty("assets/Excavation10b1P.png")]
-        public Texture2D Excavation10b1P { get; set; }
-        [AssetProperty("assets/Excavation10b2P.png")]
-        public Texture2D Excavation10b2P { get; set; }
+        [SAsset.Asset("assets/Archaeology5aP.png")]
+        public Texture2D Archaeology5aP { get; set; }
+        [SAsset.Asset("assets/Archaeology5bP.png")]
+        public Texture2D Archaeology5bP { get; set; }
+        [SAsset.Asset("assets/Archaeology10a1P.png")]
+        public Texture2D Archaeology10a1P { get; set; }
+        [SAsset.Asset("assets/Archaeology10a2P.png")]
+        public Texture2D Archaeology10a2P { get; set; }
+        [SAsset.Asset("assets/Archaeology10b1P.png")]
+        public Texture2D Archaeology10b1P { get; set; }
+        [SAsset.Asset("assets/Archaeology10b2P.png")]
+        public Texture2D Archaeology10b2P { get; set; }
+
+
+        [SAsset.Asset("assets/gold_rush.png")]
+        public Texture2D Gold_Rush_Buff { get; set; }
 
 
 
-        [AssetProperty("assets/Flooring.png")]
-        public Texture2D Flooring { get; set; }
-        [AssetProperty("assets/Flooring_winter.png")]
-        public Texture2D FlooringWinter { get; set; }
 
 
 
-        [AssetProperty("assets/tilesheet.png")]
-        public Texture2D tilesheet { get; set; }
 
-        [AssetProperty("assets/totem_volcano_warp.png", Priority = AssetLoadPriority.Medium)]
+        [SAsset.Asset("assets/totem_volcano_warp.png", AssetLoadPriority.Medium)]
         public Texture2D Totem_volcano_warp { get; set; }
         public string Totem_volcano_warpPath { get; set; }
 
 
 
-        [AssetProperty("assets/itemDefinitions.json")]
+        [SAsset.Asset("assets/itemDefinitions.json")]
         public Dictionary<string, List<string>> ItemDefinitions { get; set; }
 
-        [AssetProperty("assets/excavationSkillLevelUpRecipes.json")]
-        public Dictionary<string, List<string>> ExcavationSkillLevelUpRecipes { get; set; }
+        [SAsset.Asset("assets/ArchaeologySkillLevelUpRecipes.json")]
+        public Dictionary<string, List<string>> ArchaeologySkillLevelUpRecipes { get; set; }
 
         public static string BigCraftablesPackPath { get; private set; } = "assets/BigCraftablesPack";
         public static string FencesPackPath { get; private set; } = "assets/FencesPack";

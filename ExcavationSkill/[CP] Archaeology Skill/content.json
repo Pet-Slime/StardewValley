@@ -1,0 +1,16 @@
+{
+    "Format": "2.0.0",
+    "Changes": [
+        {
+            "Action": "Include",
+            "FromFile": "Paths/Paths.json, Data/PathsData.json, Data/ObjectsData.json, Data/CraftingData.json, Data/ObjectCatagories.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=spacechase0.SpaceCore": true
+            },
+            "FromFile": "Data/ObjectCatagories.json"
+        }
+    ]
+}

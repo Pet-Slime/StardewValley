@@ -6,54 +6,38 @@ using Microsoft.Xna.Framework;
 using SpaceCore;
 using StardewValley;
 
-namespace ExcavationSkill
+namespace ArchaeologySkill
 {
-    internal class Excavation_Skill : SpaceCore.Skills.Skill
+    internal class Archaeology_Skill : SpaceCore.Skills.Skill
     {
-        public static KeyedProfession Excavation5a;
-        public static KeyedProfession Excavation5b;
-        public static KeyedProfession Excavation10a1;
-        public static KeyedProfession Excavation10a2;
-        public static KeyedProfession Excavation10b1;
-        public static KeyedProfession Excavation10b2;
+        public static KeyedProfession Archaeology5a;
+        public static KeyedProfession Archaeology5b;
+        public static KeyedProfession Archaeology10a1;
+        public static KeyedProfession Archaeology10a2;
+        public static KeyedProfession Archaeology10b1;
+        public static KeyedProfession Archaeology10b2;
         public static readonly IList<string> StartingRecipes = new List<string>();
-        public static readonly IDictionary<int, IList<string>> ExcavationSkillLevelUpRecipes = new Dictionary<int, IList<string>>();
+        public static readonly IDictionary<int, IList<string>> ArchaeologySkillLevelUpRecipes = new Dictionary<int, IList<string>>();
 
-        public Excavation_Skill() : base("moonslime.Excavation")
+        public Archaeology_Skill() : base("moonslime.Archaeology")
         {
             this.Icon = ModEntry.Assets.IconA;
             this.SkillsPageIcon = ModEntry.Config.AlternativeSkillPageIcon ? ModEntry.Assets.IconBalt : ModEntry.Assets.IconB;
             this.ExperienceBarColor = new Microsoft.Xna.Framework.Color(205, 127, 50);
+            this.ExperienceCurve = new[] { 100, 380, 770, 1300, 2150, 3300, 4000, 6900, 10000, 15000 };
+            this.AddProfessions(
+                Archaeology5a = new KeyedProfession(this, "Archaeology5a", ModEntry.Assets.Archaeology5a, ModEntry.Instance.I18n),
+                Archaeology5b = new KeyedProfession(this, "Archaeology5b", ModEntry.Assets.Archaeology5b, ModEntry.Instance.I18n),
+                Archaeology10a1 = new KeyedProfession(this, "Archaeology10a1", ModEntry.Assets.Archaeology10a1, ModEntry.Instance.I18n),
+                Archaeology10a2 = new KeyedProfession(this, "Archaeology10a2", ModEntry.Assets.Archaeology10a2, ModEntry.Instance.I18n),
+                Archaeology10b1 = new KeyedProfession(this, "Archaeology10b1", ModEntry.Assets.Archaeology10b1, ModEntry.Instance.I18n),
+                Archaeology10b2 = new KeyedProfession(this, "Archaeology10b2", ModEntry.Assets.Archaeology10b2, ModEntry.Instance.I18n)
+            );
 
-           if (ModEntry.MargoLoaded && ModEntry.Config.EnablePrestige)
-           {
-               this.ExperienceCurve = new[] { 100, 380, 770, 1300, 2150, 3300, 4000, 6900, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000, 55000, 60000, 70000 };
-               this.AddProfessions(
-                   Excavation5a = new KeyedProfession(this, "Excavation5a", ModEntry.Assets.Excavation5a, ModEntry.Assets.Excavation5aP, ModEntry.Instance.Helper),
-                   Excavation5b = new KeyedProfession(this, "Excavation5b", ModEntry.Assets.Excavation5b, ModEntry.Assets.Excavation5bP, ModEntry.Instance.Helper),
-                   Excavation10a1 = new KeyedProfession(this, "Excavation10a1", ModEntry.Assets.Excavation10a1, ModEntry.Assets.Excavation10a1P, ModEntry.Instance.Helper),
-                   Excavation10a2 = new KeyedProfession(this, "Excavation10a2", ModEntry.Assets.Excavation10a2, ModEntry.Assets.Excavation10a2P, ModEntry.Instance.Helper),
-                   Excavation10b1 = new KeyedProfession(this, "Excavation10b1", ModEntry.Assets.Excavation10b1, ModEntry.Assets.Excavation10b1P, ModEntry.Instance.Helper),
-                   Excavation10b2 = new KeyedProfession(this, "Excavation10b2", ModEntry.Assets.Excavation10b2, ModEntry.Assets.Excavation10b2P, ModEntry.Instance.Helper)
-               );
-           }
-           else
-           {
-               this.ExperienceCurve = new[] { 100, 380, 770, 1300, 2150, 3300, 4000, 6900, 10000, 15000 };
-               this.AddProfessions(
-                   Excavation5a = new KeyedProfession(this, "Excavation5a", ModEntry.Assets.Excavation5a, ModEntry.Instance.I18n),
-                   Excavation5b = new KeyedProfession(this, "Excavation5b", ModEntry.Assets.Excavation5b, ModEntry.Instance.I18n),
-                   Excavation10a1 = new KeyedProfession(this, "Excavation10a1", ModEntry.Assets.Excavation10a1, ModEntry.Instance.I18n),
-                   Excavation10a2 = new KeyedProfession(this, "Excavation10a2", ModEntry.Assets.Excavation10a2, ModEntry.Instance.I18n),
-                   Excavation10b1 = new KeyedProfession(this, "Excavation10b1", ModEntry.Assets.Excavation10b1, ModEntry.Instance.I18n),
-                   Excavation10b2 = new KeyedProfession(this, "Excavation10b2", ModEntry.Assets.Excavation10b2, ModEntry.Instance.I18n)
-               );
-           }
-
-            // Read excavation skill level up recipes from data file
-            foreach (KeyValuePair<string, List<string>> pair in ModEntry.ExcavationSkillLevelUpTable)
+            // Read Archaeology skill level up recipes from data file
+            foreach (KeyValuePair<string, List<string>> pair in ModEntry.ArchaeologySkillLevelUpTable)
             {
-                ExcavationSkillLevelUpRecipes.Add(int.Parse(pair.Key), pair.Value);
+                ArchaeologySkillLevelUpRecipes.Add(int.Parse(pair.Key), pair.Value);
             }
 
             // Read starting recipes from general data file

@@ -1,0 +1,20 @@
+{
+    "Changes": [
+        {
+            "Action": "Load",
+            "Target": "Paths/H_Archeology_Paths",
+            "FromFile": "Paths/H_{{season}}_Archeology_Paths.png"
+        },
+		{
+            "Action": "Load",
+            "Target": "Paths/H_Archeology_Fences",
+            "FromFile": "Paths/H_Archeology_Fences.png"
+        },
+        {
+            "Action": "EditImage",
+            "PatchMode": "Overlay",
+            "Target": "Maps/springobjects",
+            "FromFile": "Paths/objects.png"
+        }
+    ]
+}

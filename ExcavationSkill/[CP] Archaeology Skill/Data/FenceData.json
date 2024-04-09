@@ -1,0 +1,26 @@
+{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/Fences",
+            "Entries": {
+                "moonslime.Archaeology.glass_fence": {
+                    "Health": 100,
+                    "RepairHealthAdjustmentMinimum": -5,
+                    "RepairHealthAdjustmentMaximum": 5,
+                    "Texture": "Paths\\H_Archeology_Fences",
+                    "PlacementSound": "hammer",
+                    "RemovalSound": "hammer",
+                    "RemovalToolIds": [],
+                    "RemovalToolTypes": [
+                        "StardewValley.Tools.Pickaxe"
+                    ],
+                    "RemovalDebrisType": 12,
+                    "HeldObjectDrawOffset": "0, -20",
+                    "LeftEndHeldObjectDrawX": -1,
+                    "RightEndHeldObjectDrawX": 0
+                }
+            }
+        }
+    ]
+}

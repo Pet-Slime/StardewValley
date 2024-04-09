@@ -1,45 +1,40 @@
-﻿{
-    "skill.name": "Archaeology",
-    "skill.perk": "+{{bonus}}% chance of bonus item from digging",
-    "skill.perk_bonus": "Chance to get {{rarity}} bonus digging drops",
+{
+    "moonslime.Archaeology.item_catagory": "Display Artifact",
+	
+    "moonslime.Archaeology.glass_path.name": "Glass Path",
+    "moonslime.Archaeology.glass_path.description": "Place on the ground to create paths or to spruce up your floors.",
+	
+    "moonslime.Archaeology.bone_path.name": "Bone Path",
+    "moonslime.Archaeology.bone_path.description": "Place on the ground to create paths or to make your floors terrifying.",
+	
+    "moonslime.Archaeology.rust_path.name": "Rusty Path",
+    "moonslime.Archaeology.rust_path.description": "Place on the ground to create paths or to make your floors rustic.",
+	
+    "moonslime.Archaeology.totem_volcano_warp.name": "Dwarf Gadget: Infinite Volcano Simulation",
+    "moonslime.Archaeology.totem_volcano_warp.description": "A device made from your studies of artifacts. Warps you to version of the Volcano that you can climb infinitely. Warning: Bring a warping item to escape.",
+	
+    "moonslime.Archaeology.diggers_delight.name": "Digger's Delight",
+    "moonslime.Archaeology.diggers_delight.description": "A nice cold tasty treat to have before you start digging in the dirt!",
+	
+    "moonslime.Archaeology.rocky_root.name": "Rocky Root Coffee",
+    "moonslime.Archaeology.rocky_root.description": "WARNING: Do not actually drink the stone. it's there for flavor.",
+	
+    "moonslime.Archaeology.glass_fence.name": "Glass Fence",
+    "moonslime.Archaeology.glass_fence.description": "A crystal clear fence.",
+	
+	"moonslime.Archaeology.grinder.name": "Grinder",
+    "moonslime.Archaeology.grinder.description": "Grindes old rusty artifacts into ore.",
 
-    "config.AlternativeSkillPageIcon": "Alternative Skill Icon Page",
-    "config.AlternativeSkillPageIcon.tooltip": "Requires restart, change the page icon from a brush and rock to a shovel.",
+    "moonslime.Archaeology.ancient_battery.name": "Ancient Battery Production Station",
+    "moonslime.Archaeology.ancient_battery.description": "Using knowledge gained from studing artifacts, you can make battery packs the old fashion way! Use juice, clay, and time to make them at this station.",
 
+    "moonslime.Archaeology.preservation_chamber.name": "Preservation Chamber",
+    "moonslime.Archaeology.preservation_chamber.description": "Put a wooden display and an artifact on here to make an artifact on a wooden display.",
 
-    "config.ExperienceFromArtifactSpots": "Artifact spot experience gain",
-    "config.ExperienceFromArtifactSpots.tooltip": "Archaeology exp gained from digging specifically in an artifact spot.",
+    "moonslime.Archaeology.h_preservation_chamber.name": "Hardwood Preservation Chamber",
+    "moonslime.Archaeology.h_preservation_chamber.description": "Put a hardwood display and an artifact on here to make an artifact ona hardwood display.",
 
-    "config.ExperienceFromMinesDigging": "Mines and Skull Cavern experince gain",
-    "config.ExperienceFromMinesDigging.tooltip": "Archaeology exp gained from digging while in the mines or skull cavern.",
-
-    "config.ExperienceFromBuriedAndPannedItem": "Buired items and panning experince gain",
-    "config.ExperienceFromBuriedAndPannedItem.tooltip": "Archaeology exp gained from digging up random items like clay, and from panning.",
-
-    "config.ExperienceFromWaterShifter": "Water Shifter experince gain",
-    "config.ExperienceFromWaterShifter.tooltip": "Archaeology exp gained from harvesting from a water shifter.",
-
-    "Archaeology5a.name": "Pioneer",
-    "Archaeology5a.desc": "More artifact spots might appear!",
-    "Archaeology5b.name": "Trawler",
-    "Archaeology5b.desc": "Have a 25% chance to find an artifact while panning.",
-    "Archaeology10a1.name": "Antiquarian",
-    "Archaeology10a1.desc": "Be able to find additional items while at an artifact spot",
-    "Archaeology10a2.name": "Curator",
-    "Archaeology10a2.desc": "Sell artifacts that are on displays for twice the amount!",
-    "Archaeology10b1.name": "Dowser",
-    "Archaeology10b1.desc": "While panning, be able to find additional items.",
-    "Archaeology10b2.name": "Gold Rusher",
-    "Archaeology10b2.desc": "On Successful Panning or Digging an artifact spot, \n Get a speed boost for a minute.",
-
-    "Archaeology5a.prestige.description": "A lot more artifact spots might appear!",
-    "Archaeology5b.prestige.description": "Have a 35% chance to find an artifact while panning.",
-    "Archaeology10a1.prestige.description": "Be able to find a lot of additional items while at an artifact spot",
-    "Archaeology10a2.prestige.description": "Sell artifacts that are on display for three times the amount!",
-    "Archaeology10b1.prestige.description": "While panning, be able to find a lot more additional items.",
-    "Archaeology10b2.prestige.description": "On Successful Panning or Digging an artifact spot, \n Get a speed boost for two minutes.",
-
-
+	
     "moonslime.Archaeology.h_display.name": "Hardwood Display",
     "moonslime.Archaeology.h_display.description": "A display stand made out of hard wood.",
     "moonslime.Archaeology.h_amphibian_fossil.name": "Hardwood Display: Amphibian Fossil",
@@ -175,8 +170,8 @@
     "moonslime.Archaeology.w_dried_starfish.description": "A dried starfish on a wooden stand.",
     "moonslime.Archaeology.w_dwarf_gadget.name": "Wooden Display: Dwarf Gadget",
     "moonslime.Archaeology.w_dwarf_gadget.description": "A dwarf gadget on a wooden stand.",
-    "moonslime.Archaeology.w_dwarvisw_helm.name": "Wooden Display: Dwarvish Helm",
-    "moonslime.Archaeology.w_dwarvisw_helm.description": "A dwarvish helm on a wooden stand.",
+    "moonslime.Archaeology.w_dwarvish_helm.name": "Wooden Display: Dwarvish Helm",
+    "moonslime.Archaeology.w_dwarvish_helm.description": "A dwarvish helm on a wooden stand.",
     "moonslime.Archaeology.w_dwarf_scroll_i.name": "Wooden Display: Dwarf Scroll I",
     "moonslime.Archaeology.w_dwarf_scroll_i.description": "A Dwarf Scroll I on a wooden stand.",
     "moonslime.Archaeology.w_dwarf_scroll_ii.name": "Wooden Display: Dwarf Scroll II",
@@ -185,8 +180,8 @@
     "moonslime.Archaeology.w_dwarf_scroll_iii.description": "A Dwarf Scroll III on a wooden stand.",
     "moonslime.Archaeology.w_dwarf_scroll_iv.name": "Wooden Display: Dwarf Scroll IV",
     "moonslime.Archaeology.w_dwarf_scroll_iv.description": "A Dwarf Scroll IV on a wooden stand.",
-    "moonslime.Archaeology.w_elvisw_jewelry.name": "Wooden Display: Elvish Jewelry",
-    "moonslime.Archaeology.w_elvisw_jewelry.description": "Elvish jewelry on a wooden stand.",
+    "moonslime.Archaeology.w_elvish_jewelry.name": "Wooden Display: Elvish Jewelry",
+    "moonslime.Archaeology.w_elvish_jewelry.description": "Elvish jewelry on a wooden stand.",
     "moonslime.Archaeology.w_glass_shards.name": "Wooden Display: Glass Shards",
     "moonslime.Archaeology.w_glass_shards.description": "Glass shards on a wooden stand.",
     "moonslime.Archaeology.w_golden_mask.name": "Wooden Display: Golden Mask",
@@ -248,51 +243,7 @@
     "moonslime.Archaeology.w_snake_skull.name": "Wooden Display: Snake Skull",
     "moonslime.Archaeology.w_snake_skull.description": "A snake skull on a wooden stand.",
     "moonslime.Archaeology.w_snake_vertebrae.name": "Wooden Display: Snake Vertebrae",
-    "moonslime.Archaeology.w_snake_vertebrae.description": "A snake vertebrae on a wooden stand.",
+    "moonslime.Archaeology.w_snake_vertebrae.description": "A snake vertebrae on a wooden stand."
 
 
-    "moonslime.Archaeology.totem_volcano_warp.name": "Dwarf Gadget: Infinite Volcano Simulation",
-    "moonslime.Archaeology.totem_volcano_warp.description": "A device made from your studies of artifacts. Warps you to version of the Volcano that you can climb infinitely. Warning: Bring a warping item to escape.",
-
-    "moonslime.Archaeology.grinder.name": "Grinder",
-    "moonslime.Archaeology.grinder.description": "Grindes old rusty artifacts into ore.",
-
-    "moonslime.Archaeology.ancient_battery.name": "Ancient Battery Production Station",
-    "moonslime.Archaeology.ancient_battery.description": "Using knowledge gained from studing artifacts, you can make battery packs the old fashion way! Use juice, clay, and time to make them at this station.",
-
-    "moonslime.Archaeology.preservation_chamber.name": "Preservation Chamber",
-    "moonslime.Archaeology.preservation_chamber.description": "Put a wooden display and an artifact on here to make an artifact on a wooden display.",
-
-    "moonslime.Archaeology.h_preservation_chamber.name": "Hardwood Preservation Chamber",
-    "moonslime.Archaeology.h_preservation_chamber.description": "Put a hardwood display and an artifact on here to make an artifact ona hardwood display.",
-
-    "DO.NOT.CHANGE.THE.BASE.NAME.WHEN.TRANSLATING": null,
-    "moonslime.Archaeology.obj_water_strainer.BaseName": "Error Object",
-    "moonslime.Archaeology.obj_PathsObject.BaseName": "Base Path Object",
-    "moonslime.Archaeology.obj_PathsObject.description": "If you see this, there is most likely an error.",
-    "DO.NOT.CHANGE.THE.BASE.NAME.WHEN.TRANSLATING.": null,
-
-    "moonslime.Archaeology.obj_water_strainer.name": "Water Shifter",
-    "moonslime.Archaeology.obj_water_strainer.description": "Place it in the water, string it with fiber, and check the next day to see it has anything. \nWorks in streams, lakes, and the ocean.",
-
-    "moonslime.Archaeology.dummy_water_strainer.name": "Water Shifter",
-    "moonslime.Archaeology.dummy_water_strainer.description": "Place it in the water, string it with fiber, \nand check the next day to see it has anything. \nWorks in streams, lakes, and the ocean.",
-
-    "moonslime.Archaeology.obj_bone_path.name": "Bone Path",
-    "moonslime.Archaeology.obj_bone_path.description": "Place on the ground to create paths or to make your floors terrifying.",
-
-    "moonslime.Archaeology.dummy_path_bone.name": "Bone Path",
-    "moonslime.Archaeology.dummy_path_bone.description": "Place on the ground to create paths or to make your floors terrifying.",
-
-    "moonslime.Archaeology.obj_glass_path.name": "Glass Path",
-    "moonslime.Archaeology.obj_glass_path.description": "Place on the ground to create paths or to spruce up your floors.",
-
-    "moonslime.Archaeology.dummy_path_glass.name": "Glass Path",
-    "moonslime.Archaeology.dummy_path_glass.description": "Place on the ground to create paths or to spruce up your floors.",
-
-    "moonslime.Archaeology.glass_bazier.name": "Glass Bazier",
-    "moonslime.Archaeology.glass_bazier.description": "Provides a moderate amount of light.",
-
-    "moonslime.Archaeology.glass_fence.name": "Glass Fence",
-    "moonslime.Archaeology.glass_fence.description": "A fragile fence made of glass."
 }

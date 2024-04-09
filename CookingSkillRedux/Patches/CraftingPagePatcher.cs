@@ -85,7 +85,7 @@ namespace CookingSkill.Patches
                 Game1.player.craftingRecipes[menu.pagesOfCraftingRecipes[___currentCraftingPage][c].name] += menu.pagesOfCraftingRecipes[___currentCraftingPage][c].numberProducedPerCraft;
             if (___cooking)
             {
-                Game1.player.cookedRecipe(___heldItem.ParentSheetIndex);
+                Game1.player.cookedRecipe(___heldItem.ItemId);
 
                 // custom code begins
                 Log.Debug("Cooking 1 patch fired");

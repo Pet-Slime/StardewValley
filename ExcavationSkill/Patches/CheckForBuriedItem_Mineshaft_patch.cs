@@ -6,8 +6,10 @@ using StardewValley.Tools;
 using MoonShared;
 using StardewModdingAPI;
 using MoonShared.Patching;
+using StardewValley.Enchantments;
+using StardewValley.Extensions;
 
-namespace ExcavationSkill
+namespace ArchaeologySkill
 {
     internal class CheckForBuriedItem_Mineshaft_patch : BasePatcher
     {
@@ -33,29 +35,16 @@ namespace ExcavationSkill
         private static bool Replace_EXP(
         MineShaft __instance, string __result, int xLocation, int yLocation, bool explosion, bool detectOnly, Farmer who)
         {
-            bool isQuarryArea = false;
-            try
-            {
-                ///isQuarryArea from the vanilla method is private.
-                ///isQuarryArea is equal to the value of netIsQuarryArea
-                ///use reflection to get the value of netIsQuarryArea and set our own isQuarryArea equal to it to match vanilla
-                var isQuarryAreaNet = ModEntry.Instance.Helper.Reflection.GetField<NetBool>(__instance, "netIsQuarryArea");
-                isQuarryArea = isQuarryAreaNet.GetValue();
-            }
-            catch
-            {
-                Log.Error("Could not get value of isQuarryArea");
-            }
 
 
-            if (isQuarryArea)
+            if (__instance.isQuarryArea)
             {
                 __result = "";
             }
 
             if (Game1.random.NextDouble() < 0.15)
             {
-                int objectIndex = 330;
+                string id = "(O)330";
                 if (Game1.random.NextDouble() < 0.07)
                 {
                     if (Game1.random.NextDouble() < 0.75)
@@ -63,19 +52,19 @@ namespace ExcavationSkill
                         switch (Game1.random.Next(5))
                         {
                             case 0:
-                                objectIndex = 96;
+                                id = "(O)96";
                                 break;
                             case 1:
-                                objectIndex = ((!who.hasOrWillReceiveMail("lostBookFound")) ? 770 : (((int)Game1.netWorldState.Value.LostBooksFound.Value < 21) ? 102 : 770));
+                                id = ((!who.hasOrWillReceiveMail("lostBookFound")) ? "(O)770" : ((Game1.netWorldState.Value.LostBooksFound < 21) ? "(O)102" : "(O)770"));
                                 break;
                             case 2:
-                                objectIndex = 110;
+                                id = "(O)110";
                                 break;
                             case 3:
-                                objectIndex = 112;
+                                id = "(O)112";
                                 break;
                             case 4:
-                                objectIndex = 585;
+                                id = "(O)585";
                                 break;
                         }
                     }
@@ -85,115 +74,70 @@ namespace ExcavationSkill
                         {
                             case 0:
                             case 10:
-                                objectIndex = ((Game1.random.NextDouble() < 0.5) ? 121 : 97);
+                                id = Game1.random.Choose("(O)121", "(O)97");
                                 break;
                             case 40:
-                                objectIndex = ((Game1.random.NextDouble() < 0.5) ? 122 : 336);
+                                id = Game1.random.Choose("(O)122", "(O)336");
                                 break;
                             case 80:
-                                objectIndex = 99;
+                                id = "(O)99";
                                 break;
                         }
                     }
                     else
                     {
-                        objectIndex = ((Game1.random.NextDouble() < 0.5) ? 126 : 127);
+                        id = Game1.random.Choose("(O)126", "(O)127");
                     }
                 }
                 else if (Game1.random.NextDouble() < 0.19)
                 {
-                    objectIndex = ((Game1.random.NextDouble() < 0.5) ? 390 : __instance.getOreIndexForLevel(__instance.mineLevel, Game1.random));
+                    id = (Game1.random.NextBool() ? "(O)390" : __instance.getOreIdForLevel(__instance.mineLevel, Game1.random));
                 }
-                else
+                else if (Game1.random.NextDouble() < 0.45)
                 {
-                    if (Game1.random.NextDouble() < 0.08)
+                    id = "(O)330";
+                }
+                else if (Game1.random.NextDouble() < 0.12)
+                {
+                    if (Game1.random.NextDouble() < 0.25)
                     {
-                        Game1.createRadialDebris(__instance, 8, xLocation, yLocation, Game1.random.Next(1, 5), resource: true);
-
-                        //Custom code
-                        double test2 = Utilities.GetLevel() * 0.05;
-                        bool bonusLoot2 = false;
-                        if (Game1.random.NextDouble() < test2)
-                        {
-                            bonusLoot2 = true;
-                        }
-                        ModEntry.AddEXP(Game1.getFarmer(who.UniqueMultiplayerID), ModEntry.Config.ExperienceFromMinesDigging);
-                        Utilities.ApplySpeedBoost(Game1.getFarmer(who.UniqueMultiplayerID));
-                        if (bonusLoot2)
-                        {
-                            Game1.createRadialDebris(__instance, 8, xLocation, yLocation, Game1.random.Next(1, 5), resource: true);
-                        }
-                        ///Custom Code Location
-
-
-                        __result = "";
-                    }
-
-                    if (Game1.random.NextDouble() < 0.45)
-                    {
-                        objectIndex = 330;
-                    }
-                    else if (Game1.random.NextDouble() < 0.12)
-                    {
-                        if (Game1.random.NextDouble() < 0.25)
-                        {
-                            objectIndex = 749;
-                        }
-                        else
-                        {
-                            switch (__instance.getMineArea())
-                            {
-                                case 0:
-                                case 10:
-                                    objectIndex = 535;
-                                    break;
-                                case 40:
-                                    objectIndex = 536;
-                                    break;
-                                case 80:
-                                    objectIndex = 537;
-                                    break;
-                            }
-                        }
+                        id = "(O)749";
                     }
                     else
                     {
-                        objectIndex = 78;
+                        switch (__instance.getMineArea())
+                        {
+                            case 0:
+                            case 10:
+                                id = "(O)535";
+                                break;
+                            case 40:
+                                id = "(O)536";
+                                break;
+                            case 80:
+                                id = "(O)537";
+                                break;
+                        }
                     }
                 }
-                Game1.createObjectDebris(objectIndex, xLocation, yLocation, who.UniqueMultiplayerID, __instance);
-
-
-                //Custom code
-                double test = Utilities.GetLevel() * 0.05;
-                bool bonusLoot = false;
-                if (Game1.random.NextDouble() < test)
+                else
                 {
-                    bonusLoot = true;
+                    id = "(O)78";
                 }
 
-                ModEntry.AddEXP(Game1.getFarmer(who.UniqueMultiplayerID), ModEntry.Config.ExperienceFromMinesDigging);
-                Utilities.ApplySpeedBoost(Game1.getFarmer(who.UniqueMultiplayerID));
-                if (bonusLoot)
-                {
-                    Game1.createObjectDebris(objectIndex, xLocation, yLocation, who.UniqueMultiplayerID, __instance);
-                }
-                //Custom Code Location
-                bool num = who != null && who.CurrentTool != null && who.CurrentTool is Hoe && who.CurrentTool.hasEnchantmentOfType<GenerousEnchantment>();
+                Game1.createObjectDebris(id, xLocation, yLocation, who.UniqueMultiplayerID, __instance);
+                bool num = who?.CurrentTool is Hoe && who.CurrentTool.hasEnchantmentOfType<GenerousEnchantment>();
                 float num2 = 0.25f;
                 if (num && Game1.random.NextDouble() < (double)num2)
                 {
-                    Game1.createObjectDebris(objectIndex, xLocation, yLocation, who.UniqueMultiplayerID, __instance);
-                    //Custom Code Location
-                    ModEntry.AddEXP(Game1.getFarmer(who.UniqueMultiplayerID), ModEntry.Config.ExperienceFromMinesDigging);
-                    //Custom Code Location
+                    Game1.createObjectDebris(id, xLocation, yLocation, who.UniqueMultiplayerID, __instance);
                 }
 
                 __result = "";
             }
 
             __result = "";
-            return true;
+            return false;
         }
     }
 }

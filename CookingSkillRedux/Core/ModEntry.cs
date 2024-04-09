@@ -120,15 +120,15 @@ namespace CookingSkill
 
 
 
-                    if (MargoLoaded)
-                    {
-                        MargoAPI = this.Helper.ModRegistry.GetApi<IMargo>("DaLion.Overhaul");
-                        if (MargoAPI is null)
-                        {
-                            Log.Error("Can't access the MARGO API. Is the mod installed correctly?");
-                        }
-                    }
-                    isLoaded = true;
+ ///                   if (MargoLoaded)
+ ///                   {
+ ///                       MargoAPI = this.Helper.ModRegistry.GetApi<IMargo>("DaLion.Overhaul");
+ ///                       if (MargoAPI is null)
+ ///                       {
+ ///                           Log.Error("Can't access the MARGO API. Is the mod installed correctly?");
+ ///                       }
+ ///                   }
+ ///                   isLoaded = true;
                 }
             }
             catch (Exception ex)
@@ -247,7 +247,7 @@ namespace CookingSkill
         {
             if (recipe.isCookingRecipe && item is SObject obj)
             {
-                if (!Game1.player.recipesCooked.TryGetValue(obj.ParentSheetIndex, out int timesCooked))
+                if (!Game1.player.recipesCooked.TryGetValue(obj.ItemId, out int timesCooked))
                     timesCooked = 0;
 
                 Random rand = new Random((int)(Game1.stats.daysPlayed + Game1.uniqueIDForThisGame + (uint)obj.ParentSheetIndex + (uint)timesCooked));
@@ -473,15 +473,15 @@ namespace CookingSkill
                 digging: attr.GetOrDefault(3),
                 luck: attr.GetOrDefault(Buff.luck),
                 foraging: attr.GetOrDefault(Buff.foraging),
-                crafting: attr.GetOrDefault(Buff.crafting),
+                crafting: attr.GetOrDefault(Buff.craft),
                 maxStamina: attr.GetOrDefault(Buff.maxStamina),
                 magneticRadius: attr.GetOrDefault(Buff.magneticRadius),
                 speed: attr.GetOrDefault(Buff.speed),
                 defense: attr.GetOrDefault(Buff.defense),
                 attack: attr.GetOrDefault(Buff.attack),
                 minutesDuration: minutesDuration,
-                source: objectFields.GetOrDefault(SObject.objectInfoNameIndex),
-                displaySource: objectFields.GetOrDefault(SObject.objectInfoDisplayNameIndex)
+                source: objectFields.GetOrDefault(SObject.),
+                displaySource: objectFields.GetOrDefault(SObject.)
             );
         }
 
@@ -537,7 +537,7 @@ namespace CookingSkill
         {
             if (isDrink)
             {
-                Game1.buffsDisplay.drink?.removeBuff();
+                Game1.player.buffs.;
                 Game1.buffsDisplay.drink = newBuff;
                 Game1.buffsDisplay.drink.addBuff();
                 this.LastDrink = newBuff;

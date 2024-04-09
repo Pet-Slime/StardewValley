@@ -61,7 +61,7 @@ namespace CookingSkill.Patches
                 Log.Debug("Cooking 3 patch fired 1");
                 for (int itemIndex = Game1.player.Items.Count - 1; itemIndex >= 0; --itemIndex)
                 {
-                    if (Game1.player.Items[itemIndex] is StardewValley.Object obj && !obj.bigCraftable.Value && (obj.ParentSheetIndex == recipe.recipeList.Keys.ElementAt(recipeIndex) || obj.Category == recipe.recipeList.Keys.ElementAt(recipeIndex) || CraftingRecipe.isThereSpecialIngredientRule(obj, recipe.recipeList.Keys.ElementAt(recipeIndex))))
+                    if (Game1.player.Items[itemIndex] is StardewValley.Object obj && !obj.bigCraftable.Value && (obj.ItemId == recipe.recipeList.Keys.ElementAt(recipeIndex) || CraftingRecipe.isThereSpecialIngredientRule(obj, recipe.recipeList.Keys.ElementAt(recipeIndex))))
                     {
                         int toRemove = recipe.recipeList[recipe.recipeList.Keys.ElementAt(recipeIndex)];
                         requiredCount -= obj.Stack;
@@ -96,21 +96,21 @@ namespace CookingSkill.Patches
                         bool removedItem = false;
 
                         Log.Debug("Cooking 6 patch fired 1");
-                        for (int materialIndex = chest.items.Count - 1; materialIndex >= 0; --materialIndex)
+                        for (int materialIndex = chest.Items.Count - 1; materialIndex >= 0; --materialIndex)
                         {
-                            if (chest.items[materialIndex] != null && chest.items[materialIndex] is StardewValley.Object && (chest.items[materialIndex].ParentSheetIndex == recipe.recipeList.Keys.ElementAt(recipeIndex) || chest.items[materialIndex].Category == recipe.recipeList.Keys.ElementAt(recipeIndex) || CraftingRecipe.isThereSpecialIngredientRule((StardewValley.Object)chest.items[materialIndex], recipe.recipeList.Keys.ElementAt(recipeIndex))))
+                            if (chest.Items[materialIndex] != null && chest.Items[materialIndex] is StardewValley.Object && (chest.Items[materialIndex].ParentSheetIndex == recipe.recipeList.Keys.ElementAt(recipeIndex) || chest.items[materialIndex].Category == recipe.recipeList.Keys.ElementAt(recipeIndex) || CraftingRecipe.isThereSpecialIngredientRule((StardewValley.Object)chest.items[materialIndex], recipe.recipeList.Keys.ElementAt(recipeIndex))))
                             {
-                                int removedCount = Math.Min(requiredCount, chest.items[materialIndex].Stack);
+                                int removedCount = Math.Min(requiredCount, chest.Items[materialIndex].Stack);
                                 requiredCount -= removedCount;
                                 // custom code begins
-                                CraftingRecipePatcher.LastUsedItems.Add(new ConsumedItem(chest.items[materialIndex] as StardewValley.Object));
+                                CraftingRecipePatcher.LastUsedItems.Add(new ConsumedItem(chest.Items[materialIndex] as StardewValley.Object));
                                 if (CraftingRecipePatcher.ShouldConsumeItems)
                                 {
                                     // custom code ends
-                                    chest.items[materialIndex].Stack -= removedCount;
-                                    if (chest.items[materialIndex].Stack <= 0)
+                                    chest.Items[materialIndex].Stack -= removedCount;
+                                    if (chest.Items[materialIndex].Stack <= 0)
                                     {
-                                        chest.items[materialIndex] = null;
+                                        chest.Items[materialIndex] = null;
                                         removedItem = true;
                                     }
                                 }

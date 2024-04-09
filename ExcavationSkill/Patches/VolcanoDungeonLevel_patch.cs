@@ -14,8 +14,9 @@ using StardewValley.Locations;
 using System;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.BellsAndWhistles;
+using StardewValley.Extensions;
 
-namespace ExcavationSkill.Patches
+namespace ArchaeologySkill.Patches
 {
     internal class VolcanoDungeonLevel_patch : BasePatcher
     {
@@ -43,10 +44,10 @@ namespace ExcavationSkill.Patches
         {
             if (__instance.level?.Get() > 15)
             {
-                int color = 2;
+                Color color_Red = SpriteText.color_Red;
                 string s = (__instance.level?.Get() - 30).Value.ToString() ?? "";
                 Microsoft.Xna.Framework.Rectangle titleSafeArea = Game1.game1.GraphicsDevice.Viewport.GetTitleSafeArea();
-                SpriteText.drawString(b, s, titleSafeArea.Left + 16, titleSafeArea.Top + 16, 999999, -1, 999999, 1f, 1f, junimoText: false, 2, "", color);
+                SpriteText.drawString(b, s, titleSafeArea.Left + 16, titleSafeArea.Top + 16, 999999, -1, 999999, 1f, 1f, junimoText: false, 2, "", color_Red);
                 return false; // don't run original code
             }
 

@@ -9,7 +9,7 @@ using xTile.Dimensions;
 using static SpaceCore.Skills.Skill;
 using System.Reflection;
 
-namespace ExcavationSkill
+namespace ArchaeologySkill
 {
     internal class GetPriceAfterMultipliers_patcher : BasePatcher
     {
@@ -58,17 +58,10 @@ namespace ExcavationSkill
                     {
                         continue;
                     }
-                    if (farmer.HasCustomProfession(Excavation_Skill.Excavation10a2) && (__instance.name.Contains("moonslime.excavation.h") || __instance.name.Contains("moonslime.excavation.w")))
+                    if (farmer.HasCustomProfession(Archaeology_Skill.Archaeology10a2) && (__instance.HasContextTag("moonslime_artifact")))
                     {
-                        Log.Trace("Excavation Skill: Player has Antiquary profession, adjusting item price");
-                        if (ModEntry.MargoLoaded && Game1.player.HasCustomPrestigeProfession(Excavation_Skill.Excavation10a2))
-                        {
-                            saleMultiplier += 2f;
-                        }
-                        else
-                        {
-                            saleMultiplier += 1f;
-                        }
+                        Log.Trace("Archaeology Skill: Player has Antiquary profession, adjusting item price");
+                        saleMultiplier += 1f;
                     }
                 }
             }

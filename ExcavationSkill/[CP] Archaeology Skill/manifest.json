@@ -1,0 +1,19 @@
+﻿{
+    "Name": "[CP] Archaeology Skill",
+    "Author": "moonslime",
+    "Version": "1.0.0",
+    "Description": "Archaeology Skill Content Patcher",
+    "UniqueID": "moonslime.ArchaeologySkill.CP",
+    "ContentPackFor": {
+        "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    "UpdateKeys": [],
+    "Dependencies": [
+        {
+            "UniqueID": "Pathoschild.ContentPatcher"
+        },
+        {
+            "UniqueID": "spacechase0.SpaceCore"
+        }
+    ]
+}

@@ -12,7 +12,7 @@ using System.Linq;
 using StardewModdingAPI;
 using MoonShared.Patching;
 
-namespace ExcavationSkill
+namespace ArchaeologySkill
 {
     internal class DigUpArtifactSpot_Patcher : BasePatcher
     {
@@ -45,26 +45,17 @@ namespace ExcavationSkill
         GameLocation __instance, int xLocation, int yLocation, Farmer who)
         {
             //Does The player have the Antiquarian Profession?
-            if (Game1.player.HasCustomProfession(Excavation_Skill.Excavation10a1))
+            if (Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology10a1))
             {
 
-                Log.Trace("Excavation skill: Player has Antiquarian");
-                Random random = new Random(who.getTileX() * (int)who.DailyLuck * 2000 + who.getTileY() + (int)Game1.uniqueIDForThisGame / 2 + (int)Game1.stats.DaysPlayed);
+                Log.Trace("Archaeology skill: Player has Antiquarian");
+                Random random = Utility.CreateDaySaveRandom(xLocation * 2000, yLocation, Game1.netWorldState.Value.TreasureTotemsUsed * 777);
+                Vector2 vector = new Vector2(xLocation * 64, yLocation * 64);
                 int id = random.Next(ModEntry.ArtifactLootTable.Count - 1);
                 int itemId = Math.Max(0, id);
-                int item = ModEntry.ArtifactLootTable[itemId];
-                if (ModEntry.MargoLoaded && Game1.player.HasCustomPrestigeProfession(Excavation_Skill.Excavation10a1))
-                {
-                    for (int i = 0; i < 2; i++)
-                    {
-                        Game1.createDebris(item, xLocation, yLocation, random.Next(3));
-                    }
-                }
-                else
-                {
-
-                    Game1.createDebris(item, xLocation, yLocation, random.Next(3));
-                }
+                string item = ModEntry.ArtifactLootTable[itemId];
+                Item finalItem = ItemRegistry.Create(item);
+                Game1.createItemDebris(finalItem, vector, Game1.random.Next(4), __instance);
             }
         }
 
@@ -73,7 +64,7 @@ namespace ExcavationSkill
         [HarmonyLib.HarmonyPostfix]
         private static void After_Gain_EXP(GameLocation __instance, int xLocation, int yLocation, Farmer who)
         {
-            ModEntry.AddEXP(Game1.getFarmer(who.UniqueMultiplayerID), ModEntry.Config.ExperienceFromArtifactSpots);
+            Utilities.AddEXP(Game1.getFarmer(who.UniqueMultiplayerID), ModEntry.Config.ExperienceFromArtifactSpots);
             Utilities.ApplySpeedBoost(Game1.getFarmer(who.UniqueMultiplayerID));
 
             double test = Utilities.GetLevel() * 0.05;
@@ -84,8 +75,8 @@ namespace ExcavationSkill
             }
             if (bonusLoot)
             {
-                Log.Trace("excavation Skll, you won the extra loot chance!");
-                int ObjectID = ModEntry.ArtifactLootTable[Math.Max(0, Game1.random.Next(ModEntry.ArtifactLootTable.Count - 1))];
+                Log.Trace("Archaeology Skll, you won the extra loot chance!");
+                string ObjectID = ModEntry.ArtifactLootTable[Math.Max(0, Game1.random.Next(ModEntry.ArtifactLootTable.Count - 1))];
                 Game1.createMultipleObjectDebris(ObjectID, xLocation, yLocation, 1, who.UniqueMultiplayerID);
             }
         }

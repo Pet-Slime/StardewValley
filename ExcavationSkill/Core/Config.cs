@@ -1,6 +1,6 @@
 using MoonShared.Config;
 
-namespace ExcavationSkill
+namespace ArchaeologySkill
 {
     [ConfigClass(I18NNameSuffix = "")]
     public class Config

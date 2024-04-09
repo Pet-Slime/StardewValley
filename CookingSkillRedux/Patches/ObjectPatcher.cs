@@ -15,7 +15,7 @@ namespace CookingSkill.Patches
         public override void Apply(Harmony harmony, IMonitor monitor)
         {
             harmony.Patch(
-                original: this.RequireMethod<SObject>(nameof(SObject._GetOneFrom)),
+                original: this.RequireMethod<SObject>(nameof(SObject.getOne)),
                 prefix: this.GetHarmonyMethod(nameof(ObjectPatcher.After_GetOneFrom))
             );
         }

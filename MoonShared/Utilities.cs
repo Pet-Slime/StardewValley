@@ -90,76 +90,51 @@ namespace MoonShared
                 if (jsonAssets == null && parts[0].StartsWith("ja_"))
                 {
                     Log.Error($"Tried to parse JsonAssets trash drop but mod isn't loaded {id}");
-                    return new StardewValley.Object(168, 1);
+                    return new StardewValley.Object("(O)168", 1);
                 }
                 if (dynamicGameAssets == null && parts[0].StartsWith("dga_"))
                 {
                     Log.Error($"Tried to parse DynamicGameAssets trash drop but mod isn't loaded {id}");
-                    return new StardewValley.Object(168, 1);
+                    return new StardewValley.Object("(O)168", 1);
                 }
 
-                int externalId = -1;
+                string externalId = "(O)168";
                 switch (itemType)
                 {
                     case "item":
-                        return new StardewValley.Object(int.Parse(itemId), itemCount);
+                        return new StardewValley.Object(itemId, itemCount);
                     case "bigcraftable":
-                        return new StardewValley.Object(Vector2.Zero, int.Parse(itemId));
+                        return new StardewValley.Object(Vector2.Zero, itemId);
                     case "bedfurniture":
-                        return new BedFurniture(int.Parse(itemId), Vector2.Zero);
+                        return new BedFurniture(itemId, Vector2.Zero);
                     case "boots":
-                        return new Boots(int.Parse(itemId));
+                        return new Boots(itemId);
                     case "clothing":
-                        return new Clothing(int.Parse(itemId));
+                        return new Clothing(itemId);
                     case "furniture":
-                        return new Furniture(int.Parse(itemId), Vector2.Zero);
+                        return new Furniture(itemId, Vector2.Zero);
                     case "hat":
-                        return new Hat(int.Parse(itemId));
+                        return new Hat(itemId);
                     case "ring":
-                        return new Ring(int.Parse(itemId));
+                        return new Ring(itemId);
                     case "storagefurniture":
-                        return new StorageFurniture(int.Parse(itemId), Vector2.Zero);
+                        return new StorageFurniture(itemId, Vector2.Zero);
                     case "weapon":
-                        return new MeleeWeapon(int.Parse(itemId));
+                        return new MeleeWeapon(itemId);
                     case "ja_item":
-                        externalId = jsonAssets.GetObjectId(itemId);
-                        if (externalId < 0)
-                        {
-                            Log.Error($"Tried to parse JsonAssets trash drop, but item was unknown {id}");
-                            return new StardewValley.Object(168, 1);
-                        }
+                        externalId = itemId;
                         return new StardewValley.Object(externalId, itemCount);
                     case "ja_bigcraftable":
-                        externalId = jsonAssets.GetBigCraftableId(itemId);
-                        if (externalId < 0)
-                        {
-                            Log.Error($"Tried to parse JsonAssets trash drop, but item was unknown {id}");
-                            return new StardewValley.Object(168, 1);
-                        }
+                        externalId = itemId;
                         return new StardewValley.Object(Vector2.Zero, externalId);
                     case "ja_hat":
-                        externalId = jsonAssets.GetHatId(itemId);
-                        if (externalId < 0)
-                        {
-                            Log.Error($"Tried to parse JsonAssets trash drop, but item was unknown {id}");
-                            return new StardewValley.Object(168, 1);
-                        }
+                        externalId = itemId;
                         return new Hat(externalId);
                     case "ja_weapon":
-                        externalId = jsonAssets.GetWeaponId(itemId);
-                        if (externalId < 0)
-                        {
-                            Log.Error($"Tried to parse JsonAssets trash drop, but item was unknown {id}");
-                            return new StardewValley.Object(168, 1);
-                        }
+                        externalId = itemId;
                         return new MeleeWeapon(externalId);
                     case "ja_clothing":
-                        externalId = jsonAssets.GetClothingId(itemId);
-                        if (externalId < 0)
-                        {
-                            Log.Error($"Tried to parse JsonAssets trash drop, but item was unknown {id}");
-                            return new StardewValley.Object(168, 1);
-                        }
+                        externalId = itemId;
                         return new Clothing(externalId);
                     case "dga_item":
                         object dgaItem = dynamicGameAssets.SpawnDGAItem(itemId);
@@ -169,17 +144,17 @@ namespace MoonShared
                             return item;
                         }
                         Log.Error($"Tried to parse DynamicGameAssets trash drop, but item was unknown {id}");
-                        return new StardewValley.Object(168, 1);
+                        return new StardewValley.Object("(O)168", 1);
 
                     default:
                         Log.Error($"Failed to parse drop type {id}");
-                        return new StardewValley.Object(168, 1);
+                        return new StardewValley.Object("(O)168", 1);
                 }
             }
             catch (Exception ex)
             {
                 Log.Error($"Failed to parse drop id {id}\n{ex}");
-                return new StardewValley.Object(168, 1);
+                return new StardewValley.Object("(O)168", 1);
             }
         }
     }
