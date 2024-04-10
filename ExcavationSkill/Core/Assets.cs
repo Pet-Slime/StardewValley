@@ -16,6 +16,10 @@ namespace ArchaeologySkill
     [SAsset(Priority = 0)]
     public class Assets
     {
+
+        [SAsset.Asset("assets/tilesheet.png")]
+        public Texture2D tilesheet { get; set; }
+
         [SAsset.Asset("assets/ArchaeologyiconA.png")]
         public Texture2D IconA { get; set; }
 
@@ -71,14 +75,8 @@ namespace ArchaeologySkill
         [SAsset.Asset("assets/itemDefinitions.json")]
         public Dictionary<string, List<string>> ItemDefinitions { get; set; }
 
-        [SAsset.Asset("assets/ArchaeologySkillLevelUpRecipes.json")]
-        public Dictionary<string, List<string>> ArchaeologySkillLevelUpRecipes { get; set; }
 
-        public static string BigCraftablesPackPath { get; private set; } = "assets/BigCraftablesPack";
-        public static string FencesPackPath { get; private set; } = "assets/FencesPack";
-        public static string ObjectsPackPath { get; private set; } = "assets/ObjectsPack";
-        public static string PFWPackPath { get; private set; } = "assets/PFWPack";
-        public static string DGAPackPath { get; private set; } = "assets/DGAPack";
+
 
     }
 }

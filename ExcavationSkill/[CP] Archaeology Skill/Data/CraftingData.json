@@ -4,27 +4,27 @@
             "Action": "EditData",
             "Target": "Data/CraftingRecipes",
             "Entries": {
-                "moonslime.Archaeology.preservation_chamber": "388 15 334 1 725 30//moonslime.Archaeology.preservation_chamber/true/Farming 1",
-                "moonslime.Archaeology.w_display": "388 25/Field/moonslime.Archaeology.w_display/false/Farming 1",
-                "moonslime.Archaeology.grinder": "112 10 335 5 787 1//moonslime.Archaeology.grinder/true/Farming 2",
-                "moonslime.Archaeology.rust_path_1": "111 1/Field/moonslime.Archaeology.rust_path/false/Farming 2",
-                "moonslime.Archaeology.rust_path_2": "112 1/Field/moonslime.Archaeology.rust_path/false/Farming 3",
-                "moonslime.Archaeology.glass_path": "118 1/Field/moonslime.Archaeology.glass_path/false/Farming 3",
-                "moonslime.Archaeology.bone_path": "881 2/Field/moonslime.Archaeology.bone_path/false/Farming 4",
-                "moonslime.Archaeology.rust_path_3": "110 1/Field/moonslime.Archaeology.rust_path/false/Farming 4",
-                "moonslime.Archaeology.h_preservation_chamber": "709 15 334 1 725 30//moonslime.Archaeology.h_preservation_chamber/true/Farming 6",
-                "moonslime.Archaeology.h_display": "709 10/Field/moonslime.Archaeology.h_display/false/Farming 6",
-                "moonslime.Archaeology.ancient_battery": "390 40 334 10 335 5//moonslime.Archaeology.ancient_battery/true/Farming 7",
-                "moonslime.Archaeology.lucky_ring": "104 1 446 5 562 1/Field/859/false/Farming 8",
-                "moonslime.Archaeology.totem_volcano_warp": "848 5 122 1 108 1//moonslime.Archaeology.totem_volcano_warp/false/Farming 9"
+                "moonslime.Archaeology.preservation_chamber": "388 15 334 1 725 30//moonslime.Archaeology.preservation_chamber/true/moonslime.Archaeology 1",
+                "moonslime.Archaeology.w_display": "388 25/Field/moonslime.Archaeology.w_display/false/moonslime.Archaeology 1",
+                "moonslime.Archaeology.grinder": "112 10 335 5 787 1//moonslime.Archaeology.grinder/true/moonslime.Archaeology 2",
+                "moonslime.Archaeology.rust_path_1": "111 1/Field/moonslime.Archaeology.rust_path/false/moonslime.Archaeology 2",
+                "moonslime.Archaeology.rust_path_2": "112 1/Field/moonslime.Archaeology.rust_path/false/moonslime.Archaeology 3",
+                "moonslime.Archaeology.glass_path": "118 1/Field/moonslime.Archaeology.glass_path/false/moonslime.Archaeology 3",
+                "moonslime.Archaeology.bone_path": "881 2/Field/moonslime.Archaeology.bone_path/false/moonslime.Archaeology 4",
+                "moonslime.Archaeology.rust_path_3": "110 1/Field/moonslime.Archaeology.rust_path/false/moonslime.Archaeology 4",
+                "moonslime.Archaeology.h_preservation_chamber": "709 15 334 1 725 30//moonslime.Archaeology.h_preservation_chamber/true/moonslime.Archaeology 6",
+                "moonslime.Archaeology.h_display": "709 10/Field/moonslime.Archaeology.h_display/false/moonslime.Archaeology 6",
+                "moonslime.Archaeology.ancient_battery": "390 40 334 10 335 5//moonslime.Archaeology.ancient_battery/true/moonslime.Archaeology 7",
+                "moonslime.Archaeology.lucky_ring": "104 1 446 5 562 1/Field/859/false/moonslime.Archaeology 8",
+                "moonslime.Archaeology.totem_volcano_warp": "848 5 122 1 108 1//moonslime.Archaeology.totem_volcano_warp/false/moonslime.Archaeology 9"
             }
         },
         {
             "Action": "EditData",
             "Target": "Data/CookingRecipes",
             "Entries": {
-                "moonslime.Archaeology.diggers_delight": "78 2 245 1 -6 1//moonslime.Archaeology.diggers_delight/Farming 3/",
-                "moonslime.Archaeology.rocky_root": "78 3 395 1 390 1//moonslime.Archaeology.rocky_root/Farming 8/"
+                "moonslime.Archaeology.diggers_delight": "78 2 245 1 -6 1//moonslime.Archaeology.diggers_delight/moonslime.Archaeology 3/",
+                "moonslime.Archaeology.rocky_root": "78 3 395 1 390 1//moonslime.Archaeology.rocky_root/moonslime.Archaeology 8/"
             }
         }
     ]

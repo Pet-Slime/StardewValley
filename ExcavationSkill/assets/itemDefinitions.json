@@ -1,7 +1,4 @@
 ﻿{
-    "StartingRecipes": [
-
-    ],
     "extra_loot_table": [
         "(O)74",
         "(O)380",
@@ -12,7 +9,7 @@
         "(O)768",
         "(O)769",
         "(O)852",
-		"(O)909"
+        "(O)909"
     ],
     "artifact_loot_table": [
         "(O)587",
@@ -53,11 +50,5 @@
         "(O)126",
         "(O)127",
         "(O)589"
-    ],
-	"shifter_loot_table": [
-
-    ],
-	"water_strainer_crafting_recipe": [
-		"388 1 92 2/Field/2/false/l 0"
-	]
+    ]
 }

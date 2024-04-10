@@ -6,6 +6,7 @@
             "Entries": {
                 "moonslime.Archaeology.glass_fence": {
                     "Health": 100,
+					"itemId": "moonslime.Archaeology.glass_fence",
                     "RepairHealthAdjustmentMinimum": -5,
                     "RepairHealthAdjustmentMaximum": 5,
                     "Texture": "Paths\\H_Archeology_Fences",

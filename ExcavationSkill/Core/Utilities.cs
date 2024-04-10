@@ -7,78 +7,62 @@ using StardewValley;
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Buffs;
+using StardewValley.BellsAndWhistles;
+using BirbCore.Attributes;
 
 namespace ArchaeologySkill
 {
     internal class Utilities
     {
-        internal static void PopulateMissingRecipes()
+        /// <summary>
+        /// Apply the basic Archaeology skill items. Give who the exp, check to see if they have the gold rush profession, and spawn bonus loot
+        /// </summary>
+        /// <param name="who"> The player</param>
+        /// <param name="bonusLoot"> Do they get bonus loot or not</param>
+        /// <param name="Object"> the int that the bonus loot should be</param>
+        /// <param name="xLocation">the player's x location</param>
+        /// <param name="yLocation">the player's y location</param>
+        /// <param name="panning">is the effect from panning, since bonus loot works differently there.</param>
+        /// <param name="exactItem">What bonus item if it passes the checks do you want to give the player</param>
+        public static void ApplyArchaeologySkill(Farmer who, bool bonusLoot = false, int xLocation = 0, int yLocation = 0, bool panning = false, string exactItem = "")
         {
+            var farmer = Game1.getFarmer(who.UniqueMultiplayerID);
 
-            // Add any missing starting recipes
-            foreach (string recipe in Archaeology_Skill.StartingRecipes)
+            //Give the player EXP
+            BirbCore.Attributes.Log.Trace("Archaeology Skll: Adding EXP to the player");
+            AddEXP(farmer, ModEntry.Config.ExperienceFromArtifactSpots);
+
+            //If the player has the gold rush profession, give them a speed buff
+            BirbCore.Attributes.Log.Trace("Archaeology Skll: Does the player have gold rusher?");
+            if (farmer.HasCustomProfession(Archaeology_Skill.Archaeology10b2))
             {
-                if (!Game1.player.craftingRecipes.ContainsKey(recipe))
+                BirbCore.Attributes.Log.Trace("Archaeology Skll: The player does have gold rusher!");
+                ApplySpeedBoost(farmer);
+            } else
+            {
+                BirbCore.Attributes.Log.Trace("Archaeology Skll: the player does not have gold rusher");
+            }
+
+            //Check to see if the player wins the double loot chance roll if they are not panning.
+            if (!panning)
+            {
+                BirbCore.Attributes.Log.Trace("Archaeology Skll: Does the player get bonus loot?");
+                double doubleLootChance = GetLevel(farmer) * 0.05;
+                double diceRoll = Game1.random.NextDouble();
+                bool didTheyWin = (diceRoll < doubleLootChance);
+                BirbCore.Attributes.Log.Trace("Archaeology Skll: The dice roll is... " + diceRoll.ToString() + ". The player's chance is... " + doubleLootChance.ToString() + ". ");
+                if (didTheyWin || bonusLoot)
                 {
-                    Log.Trace($"Added missing starting recipe {recipe}");
-                    Game1.player.craftingRecipes.Add(recipe, 0);
+                    BirbCore.Attributes.Log.Trace("Archaeology Skill: They do get bonus loot!");
+                    string objectID = exactItem != "" ? exactItem : ModEntry.BonusLootTable[Math.Max(0, Game1.random.Next(ModEntry.BonusLootTable.Count - 1))];
+                    Game1.createMultipleObjectDebris(objectID, xLocation, yLocation, 1, farmer.UniqueMultiplayerID);
+                }
+                else
+                {
+                    BirbCore.Attributes.Log.Trace("Archaeology Skill: They do not get bonus loot!");
                 }
             }
-        
-            // Add any missing recipes from the level-up recipe table
-            int level = GetLevel();
-            IReadOnlyDictionary<int, IList<string>> recipes = (IReadOnlyDictionary<int, IList<string>>)Archaeology_Skill.ArchaeologySkillLevelUpRecipes;
-            IEnumerable<string> missingRecipes = recipes
-                // Take all recipe lists up to the current level
-                .TakeWhile(pair => pair.Key < level)
-                .SelectMany(pair => pair.Value) // Flatten recipe lists into their recipes
-                .Select(r => r) // Add item prefixes
-                .Where(r => !Game1.player.craftingRecipes.ContainsKey(r)); // Take recipes not known by the player
-            foreach (string recipe in missingRecipes)
-            {
-                Log.Trace($"Added missing recipe {recipe}");
-                Game1.player.craftingRecipes.Add(recipe, 0);
-            }
-        
         }
-
-///        public static void AddAndDisplayNewRecipesOnLevelUp(SpaceCore.Interface.SkillLevelUpMenu menu, int level)
-///        {
-///            List<CraftingRecipe> excevationRecipes =
-///                GetArchaeologyRecipesForLevel(level)
-///                .ToList()
-///                .ConvertAll(name => new CraftingRecipe(name))
-///                .Where(recipe => !Game1.player.knowsRecipe(recipe.name))
-///                .ToList();
-///            if (excevationRecipes is not null && excevationRecipes.Count > 0)
-///            {
-///                foreach (CraftingRecipe recipe in excevationRecipes.Where(r => !Game1.player.craftingRecipes.ContainsKey(r.name)))
-///                {
-///                    Game1.player.craftingRecipes[recipe.name] = 0;
-///                }
-///            }
-///
-///            // Add crafting recipes
-///            var craftingRecipes = new List<CraftingRecipe>();
-///            // No new crafting recipes currently.
-///
-///            // Apply new recipes
-///            List<CraftingRecipe> combinedRecipes = craftingRecipes
-///                .Concat(excevationRecipes)
-///                .ToList();
-///            ModEntry.Instance.Helper.Reflection
-///                .GetField<List<CraftingRecipe>>(menu, "newCraftingRecipes")
-///                .SetValue(combinedRecipes);
-///            Log.Trace(combinedRecipes.Aggregate($"New recipes for level {level}:", (total, cur) => $"{total}{Environment.NewLine}{cur.name} ({cur.createItem().ParentSheetIndex})"));
-///
-///            // Adjust menu to fit if necessary
-///            const int defaultMenuHeightInRecipes = 4;
-///            int menuHeightInRecipes = combinedRecipes.Count + combinedRecipes.Count(recipe => recipe.bigCraftable);
-///            if (menuHeightInRecipes >= defaultMenuHeightInRecipes)
-///            {
-///                menu.height += (menuHeightInRecipes - defaultMenuHeightInRecipes) * StardewValley.Object.spriteSheetTileSize * Game1.pixelZoom;
-///            }
-///        }
 
         //For the goldrush profession
         public static bool ApplySpeedBoost(Farmer who)
@@ -89,19 +73,15 @@ namespace ArchaeologySkill
             if (who != player)
                 return false;
 
-            //Check to see if the player has the Archaeology skill. If not, return false.
-            if (!player.HasCustomProfession(Archaeology_Skill.Archaeology10b2))
-                return false;
-
-            Buff buff = new Buff(
+            Buff buff = new(
                 id: "Archaeology:profession:haste",
                 displayName: "Gold Rush", // can optionally specify description text too
                 iconTexture: ModEntry.Assets.Gold_Rush_Buff,
                 iconSheetIndex: 0,
-                duration: 30_000, // 30 seconds
+                duration: 5_000*GetLevel(Game1.getFarmer(who.UniqueMultiplayerID)), // 50 seconds by default. Can go higher with buffs.
                 effects: new BuffEffects()
                 {
-                    Speed = { 10 } // shortcut for buff.Speed.Value = 10
+                    Speed = { 5 } // shortcut for buff.Speed.Value = 5
                 }
             );
             //Check to see if the player already has the haste buff. if so, don't refresh it and return false.
@@ -123,48 +103,16 @@ namespace ArchaeologySkill
             return true;
         }
 
-        /// <summary>
-        /// Apply the basic Archaeology skill items. Give who the exp, check to see if they have the gold rush profession, and spawn bonus loot
-        /// </summary>
-        /// <param name="who"> The player</param>
-        /// <param name="bonusLoot"> Do they get bonus loot or not</param>
-        /// <param name="Object"> the int that the bonus loot should be</param>
-        /// <param name="xLocation">the player's x location</param>
-        /// <param name="yLocation">the player's y location</param>
-        public static void ApplyArchaeologySkill(Farmer who, bool bonusLoot = false, string Object = "(O)874", int xLocation = 0, int yLocation = 0)
-        {
-            AddEXP(who, ModEntry.Config.ExperienceFromBuriedAndPannedItem);
-            Utilities.ApplySpeedBoost(who);
-            if (bonusLoot)
-            {
-                Game1.createObjectDebris(Object, xLocation, yLocation);
-            }
-        }
-
         public static void AddEXP(StardewValley.Farmer who, int amount)
         {
-            SpaceCore.Skills.AddExperience(who, "moonslime.Archaeology", amount);
+            SpaceCore.Skills.AddExperience(Game1.getFarmer(who.UniqueMultiplayerID), "moonslime.Archaeology", amount);
         }
 
-        public static int GetLevel()
+        public static int GetLevel(StardewValley.Farmer who)
         {
-            return SpaceCore.Skills.GetSkillLevel(Game1.player, "moonslime.Archaeology");
+            var player = Game1.getFarmer(who.UniqueMultiplayerID);
+            return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Archaeology") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Archaeology");
         }
 
-        /// <returns>New recipes learned when reaching this level.</returns>
-        public static IReadOnlyList<string> GetArchaeologyRecipesForLevel(int level)
-        {
-            // Level undefined
-            if (!Archaeology_Skill.ArchaeologySkillLevelUpRecipes.ContainsKey(level))
-            {
-                return new List<string>();
-            }
-            // Level used for professions, no new recipes added
-            if (level % 5 == 0)
-            {
-                return new List<string>();
-            }
-            return (IReadOnlyList<string>)Archaeology_Skill.ArchaeologySkillLevelUpRecipes[level];
-        }
     }
 }
