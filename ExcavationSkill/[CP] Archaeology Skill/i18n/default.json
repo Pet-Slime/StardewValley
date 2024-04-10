@@ -22,6 +22,9 @@
     "moonslime.Archaeology.glass_fence.name": "Glass Fence",
     "moonslime.Archaeology.glass_fence.description": "A crystal clear fence.",
 	
+    "moonslime.Archaeology.rusty_scrap.name": "Scrap Rust",
+    "moonslime.Archaeology.rusty_scrap.description": "Rusty scrap gained from the grinder.",
+	
 	"moonslime.Archaeology.grinder.name": "Grinder",
     "moonslime.Archaeology.grinder.description": "Grindes old rusty artifacts into ore.",
 

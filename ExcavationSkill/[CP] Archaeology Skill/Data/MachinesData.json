@@ -307,9 +307,16 @@
                             ],
                             "UseFirstValidOutput": true,
                             "OutputItem": [
-                                {
+								{
                                     "Id": "Iron",
+                                    "Condition": "RANDOM 0.3",
                                     "ItemId": "(O)380",
+                                    "MinStack": 5,
+                                    "MaxStack": 10
+                                },
+                                {
+                                    "Id": "RustScrap",
+                                    "ItemId": "moonslime.Archaeology.rusty_scrap",
                                     "MinStack": 5,
                                     "MaxStack": 10
                                 }
@@ -330,9 +337,16 @@
                             "OutputItem": [
                                 {
                                     "Id": "Iron",
+                                    "Condition": "RANDOM 0.3",
                                     "ItemId": "(O)380",
-                                    "MinStack": 1,
-                                    "MaxStack": 5
+                                    "MinStack": 2,
+                                    "MaxStack": 7
+                                },
+                                {
+                                    "Id": "RustScrap",
+                                    "ItemId": "moonslime.Archaeology.rusty_scrap",
+                                    "MinStack": 2,
+                                    "MaxStack": 7
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -351,7 +365,14 @@
                             "OutputItem": [
                                 {
                                     "Id": "Iron",
+                                    "Condition": "RANDOM 0.3",
                                     "ItemId": "(O)380",
+                                    "MinStack": 1,
+                                    "MaxStack": 3
+                                },
+                                {
+                                    "Id": "RustScrap",
+                                    "ItemId": "moonslime.Archaeology.rusty_scrap",
                                     "MinStack": 1,
                                     "MaxStack": 3
                                 }

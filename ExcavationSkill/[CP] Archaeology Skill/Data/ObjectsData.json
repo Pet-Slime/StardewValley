@@ -255,10 +255,10 @@
                     ],
                     "CustomFields": null
                 },
-                "moonslime.Archaeology.water_strainer": {
-                    "Name": "Water Shifter",
-                    "DisplayName": "{{i18n:moonslime.Archaeology.water_strainer.name}}",
-                    "Description": "{{i18n:moonslime.Archaeology.water_strainer.description}}",
+                "moonslime.Archaeology.rusty_scrap": {
+                    "Name": "Rusted Scrap",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.rusty_scrap.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.rusty_scrap.description}}",
                     "Type": "Crafting",
                     "Category": 0,
                     "Price": 10,

@@ -22,6 +22,9 @@
     "moonslime.Archaeology.glass_fence.name": "玻璃栅栏",
     "moonslime.Archaeology.glass_fence.description": "易碎的玻璃围栏.",
 	
+    "moonslime.Archaeology.rusty_scrap.name": "Scrap Rust",
+    "moonslime.Archaeology.rusty_scrap.description": "Rusty scrap gained from the grinder.",
+	
     "moonslime.Archaeology.grinder.name": "研磨机",
     "moonslime.Archaeology.grinder.description": "将生锈的古物研磨成矿石.",
 	

@@ -3,7 +3,7 @@
     "Changes": [
         {
             "Action": "Include",
-            "FromFile": "Paths/Paths.json, Data/PathsData.json, Data/ObjectsData.json, Data/CraftingData.json, Data/MachinesData.json, Data/ObjectCatagories.json"
+            "FromFile": "Paths/Paths.json, Data/PathsData.json, Data/ObjectsData.json, Data/CraftingData.json, Data/MachinesData.json, Data/ObjectCatagories.json, GiftTastes/gift-tastes.json"
         },
         {
             "Action": "Include",
