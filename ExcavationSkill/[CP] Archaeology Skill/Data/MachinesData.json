@@ -1,11 +1,6 @@
 {
     "Changes": [
         {
-            "Action": "Load",
-            "Target": "Mods/moonslime.ArchaeologySkill/textures",
-            "FromFile": "Assets/sprites.png"
-        },
-        {
             "Action": "EditData",
             "Target": "Data/Machines",
             "Entries": {

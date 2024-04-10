@@ -81,7 +81,7 @@ namespace ArchaeologySkill
                 duration: 5_000*GetLevel(Game1.getFarmer(who.UniqueMultiplayerID)), // 50 seconds by default. Can go higher with buffs.
                 effects: new BuffEffects()
                 {
-                    Speed = { 5 } // shortcut for buff.Speed.Value = 5
+                    Speed = { 2 } // shortcut for buff.Speed.Value = 5
                 }
             );
             //Check to see if the player already has the haste buff. if so, don't refresh it and return false.
