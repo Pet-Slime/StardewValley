@@ -439,10 +439,18 @@ namespace ArchaeologySkill.Core
                     {
                         continue;
                     }
-                    if (farmer.HasCustomProfession(Archaeology_Skill.Archaeology10a2) && (__instance.HasContextTag("moonslime_artifact")))
+                    if (__instance.HasContextTag("moonslime_artifact"))
                     {
-                        BirbCore.Attributes.Log.Trace("Archaeology Skill: Player has Curator profession, adjusting item price");
-                        saleMultiplier += 1f;
+                        if (farmer.HasCustomProfession(Archaeology_Skill.Archaeology10a2))
+                        {
+                            BirbCore.Attributes.Log.Trace("Archaeology Skill: Player has Curator profession, adjusting item price");
+                            saleMultiplier += 1f;
+                        }
+
+                        if (farmer.stats.Get("Book_Artifact") != 0)
+                        {
+                            saleMultiplier += 3f;
+                        }
                     }
                 }
             }
