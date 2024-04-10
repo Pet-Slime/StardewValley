@@ -1,11 +1,11 @@
 ﻿{
     "Name": "ArchaeologySkill",
     "Author": "moonslime",
-    "Version": "2.2.0",
+    "Version": "2.2.1",
     "Description": "Adds a skill related to digging and panning.",
     "UniqueID": "moonslime.ArchaeologySkill",
     "EntryDll": "ArchaeologySkill.dll",
-    "MinimumApiVersion": "3.0.0",
+    "MinimumApiVersion": "4.0.0",
     "UpdateKeys": [
         "Nexus:15793"
     ],

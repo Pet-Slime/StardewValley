@@ -1,7 +1,7 @@
 ﻿{
     "Name": "[CP] Archaeology Skill",
     "Author": "moonslime",
-    "Version": "1.0.0",
+    "Version": "2.2.1",
     "Description": "Archaeology Skill Content Patcher",
     "UniqueID": "moonslime.ArchaeologySkill.CP",
     "ContentPackFor": {
@@ -11,6 +11,14 @@
     "Dependencies": [
         {
             "UniqueID": "moonslime.ArchaeologySkill"
+        },
+		{
+            "UniqueID": "Rafseazz.RSVCP",
+			"IsRequired": false
+        },
+		{
+            "UniqueID": "FlashShifter.StardewValleyExpandedCP",
+			"IsRequired": false
         }
     ]
 }
