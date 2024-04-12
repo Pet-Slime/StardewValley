@@ -1,13 +1,13 @@
 ﻿{
     "Name": "ArchaeologySkill",
     "Author": "moonslime",
-    "Version": "2.2.1",
+    "Version": "2.3.0",
     "Description": "Adds a skill related to digging and panning.",
     "UniqueID": "moonslime.ArchaeologySkill",
     "EntryDll": "ArchaeologySkill.dll",
     "MinimumApiVersion": "4.0.0",
     "UpdateKeys": [
-        "Nexus:15793"
+        "Nexus:22199"
     ],
     "Dependencies": [
         {
@@ -22,6 +22,18 @@
         },
         {
             "UniqueID": "spacechase0.GenericModConfigMenu",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "Shockah.XPDisplay",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "spacechase0.JsonAssets",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "spacechase0.DynamicGameAssets",
             "IsRequired": false
         },
         {

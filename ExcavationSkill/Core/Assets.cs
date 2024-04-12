@@ -17,9 +17,6 @@ namespace ArchaeologySkill
     public class Assets
     {
 
-        [SAsset.Asset("assets/tilesheet.png")]
-        public Texture2D tilesheet { get; set; }
-
         [SAsset.Asset("assets/ArchaeologyiconA.png")]
         public Texture2D IconA { get; set; }
 
@@ -62,6 +59,8 @@ namespace ArchaeologySkill
 
 
 
+        [SAsset.Asset("assets/water_shifter.png")]
+        public Texture2D Water_shifter { get; set; }
 
 
 

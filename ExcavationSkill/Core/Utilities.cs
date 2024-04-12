@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Buffs;
 using StardewValley.BellsAndWhistles;
 using BirbCore.Attributes;
+using Object = StardewValley.Object;
+using ArchaeologySkill.Objects.Water_Shifter;
 
 namespace ArchaeologySkill
 {
@@ -112,6 +114,31 @@ namespace ArchaeologySkill
         {
             var player = Game1.getFarmer(who.UniqueMultiplayerID);
             return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Archaeology") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Archaeology");
+        }
+
+        internal static Object? GetObjectFromSerializable(WaterShifterSerializable serializable)
+        {
+            Object? o = null;
+            string id = serializable.ObjectId;
+            if (serializable.IsJAObject)
+            {
+                id = ModEntry.JAAPI.GetObjectId(serializable.ObjectName);
+                if (string.IsNullOrWhiteSpace(id))
+                    id = serializable.ObjectId;
+            }
+            else if (serializable.IsDGAObject)
+            {
+                object spawned = ModEntry.DGAAPI.SpawnDGAItem(serializable.ObjectName);
+                if (spawned is Object dgaObject)
+                {
+                    o = dgaObject;
+                    o.Stack = serializable.ObjectStack;
+                    o.Quality = serializable.ObjectQuality;
+                }
+                return o;
+            }
+            o = (Object?)ItemRegistry.Create(id, serializable.ObjectStack, serializable.ObjectQuality, true);
+            return o;
         }
 
     }

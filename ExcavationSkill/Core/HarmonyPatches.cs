@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using ArchaeologySkill.Objects.Water_Shifter;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,6 +13,7 @@ using StardewValley.Extensions;
 using StardewValley.GameData.Locations;
 using StardewValley.Locations;
 using StardewValley.Tools;
+using static BirbCore.Attributes.SMod;
 namespace ArchaeologySkill.Core
 {
 
@@ -362,7 +364,76 @@ namespace ArchaeologySkill.Core
                 Game1.createItemDebris(finalItem, farmer.Tile, Game1.random.Next(4), __instance);
             }
         }
+    }
 
+    [HarmonyPatch(typeof(StardewValley.Object), "readBook")]
+    class ReadBook_patch
+    {
+        [HarmonyLib.HarmonyPrefix]
+        private static bool Prefix(
+        StardewValley.Object __instance, GameLocation location)
+        {
+            if (__instance.HasContextTag("moonslime.Archaeology.skill_book"))
+            {
+                Game1.player.canMove = false;
+                Game1.player.freezePause = 1030;
+                Game1.player.faceDirection(2);
+                Game1.player.FarmerSprite.animateOnce(new FarmerSprite.AnimationFrame[1]
+                {
+                new FarmerSprite.AnimationFrame(57, 1000, secondaryArm: false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true)
+                {
+                    frameEndBehavior = delegate
+                    {
+                        location.removeTemporarySpritesWithID(1987654);
+                        Utility.addRainbowStarExplosion(location, Game1.player.getStandingPosition() + new Vector2(-40f, -156f), 8);
+                    }
+                }
+                });
+                Game1.MusicDuckTimer = 4000f;
+                Game1.playSound("book_read");
+                Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite("LooseSprites\\Book_Animation", new Microsoft.Xna.Framework.Rectangle(0, 0, 20, 20), 10f, 45, 1, Game1.player.getStandingPosition() + new Vector2(-48f, -156f), flicker: false, flipped: false, Game1.player.getDrawLayer() + 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f)
+                {
+                    holdLastFrame = true,
+                    id = 1987654
+                });
+                Color? colorFromTags = ItemContextTagManager.GetColorFromTags(__instance);
+                if (colorFromTags.HasValue)
+                {
+                    Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite("LooseSprites\\Book_Animation", new Microsoft.Xna.Framework.Rectangle(0, 20, 20, 20), 10f, 45, 1, Game1.player.getStandingPosition() + new Vector2(-48f, -156f), flicker: false, flipped: false, Game1.player.getDrawLayer() + 0.0012f, 0f, colorFromTags.Value, 4f, 0f, 0f, 0f)
+                    {
+                        holdLastFrame = true,
+                        id = 1987654
+                    });
+                }
+
+                int count = Game1.player.newLevels.Count;
+                Utilities.AddEXP(Game1.player, 250) ;
+                if (Game1.player.newLevels.Count == count || (Game1.player.newLevels.Count > 1 && count >= 1))
+                {
+                    DelayedAction.functionAfterDelay(delegate
+                    {
+                        Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("moonslime.Archaeology.skill_book.levelup")) ;
+                    }, 1000);
+                }
+                return false;
+            }
+            return true;
+        }
+
+    }
+
+    [HarmonyPatch(typeof(StardewValley.Object), nameof(StardewValley.Object.isPlaceable))]
+    class IsPlaceablePrefix_Patch
+    {
+        [HarmonyLib.HarmonyPostfix]
+        internal static void IsPlaceablePrefix(StardewValley.Object __instance, ref bool __result)
+        {
+            //Patch to stop displays from being placeable
+            if (__instance.HasContextTag("moonslime_artifact"))
+            {
+                __result = false;
+            }
+        }
     }
 
     [HarmonyPatch(typeof(Pan), nameof(Pan.getPanItems))]
@@ -381,29 +452,64 @@ namespace ArchaeologySkill.Core
             int yLocation = who.TilePoint.Y;
 
             //Add Artifacts to the drop list chance if they have the Trowler Profession
-            if (farmer.HasCustomProfession(Archaeology_Skill.Archaeology5b))
+            if (farmer.HasCustomProfession(Archaeology_Skill.Archaeology10b1))
             {
-                BirbCore.Attributes.Log.Trace("Archaeology skill: Player has Trowler");
+                BirbCore.Attributes.Log.Trace("Archaeology skill: Dowser skill");
                 //Get a random Number
                 Random random = Utility.CreateDaySaveRandom(xLocation * 2000, yLocation, Game1.netWorldState.Value.TreasureTotemsUsed * 777);
 
-                if (random.NextDouble() < 0.25)
+                if (random.NextDouble() < Utilities.GetLevel(farmer))
                 {
-                    BirbCore.Attributes.Log.Trace("Archaeology skill: Trowler loot roll won, replacing item with artifact");
+                    BirbCore.Attributes.Log.Trace("Archaeology skill: Dowser skill artifact roll won");
                     //Find a random artifact to add from the artifact loot table
-                    string item = ModEntry.ArtifactLootTable[Math.Max(0, random.Next(ModEntry.ArtifactLootTable.Count - 1))];
-                    __result.Clear();
-                    __result.Add(new StardewValley.Object(item, 1));
+                    string artifact = ModEntry.ArtifactLootTable[Math.Max(0, random.Next(ModEntry.ArtifactLootTable.Count - 1))];
+                    __result.Add(new StardewValley.Object(artifact, 1));
                 }
 
-                //Add extra loot to the list if they have the Dowser profession
-                if (Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology5b))
-                {
+                BirbCore.Attributes.Log.Trace("Archaeology skill: Dowser skill adding additional loot to panning");
+                random = new Random(xLocation * (int)who.DailyLuck * 2000 + yLocation + (int)Game1.uniqueIDForThisGame / 2 + (int)Game1.stats.DaysPlayed);
+                string item = ModEntry.BonusLootTable[Math.Max(0, random.Next(ModEntry.BonusLootTable.Count - 1))];
+                __result.Add(new StardewValley.Object(item, 1));
+            }
+        }
+    }
 
-                    BirbCore.Attributes.Log.Trace("Archaeology skill: Dowser");
-                    random = new Random(xLocation * (int)who.DailyLuck * 2000 + yLocation + (int)Game1.uniqueIDForThisGame / 2 + (int)Game1.stats.DaysPlayed);
-                    string item = ModEntry.BonusLootTable[Math.Max(0, random.Next(ModEntry.BonusLootTable.Count - 1))];
-                    __result.Add(new StardewValley.Object(item, 1));
+    [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.performOrePanTenMinuteUpdate))]
+    class PerformOrePanTenMinuteUpdate_Patch
+    {
+        [HarmonyLib.HarmonyPostfix]
+        private static void TryToSpawnMorePanPoints(
+        GameLocation __instance, bool __result, ref Random r)
+        {
+            if (Game1.IsMasterGame && __instance.orePanPoint.Value.Equals(Point.Zero))
+            {
+                int extraPanningPointChance = 0;
+
+                foreach (Farmer farmer in Game1.getOnlineFarmers())
+                {
+                    var player = Game1.getFarmer(farmer.UniqueMultiplayerID);
+                    if (player.isActive() && player.HasCustomProfession(Archaeology_Skill.Archaeology5b))
+                    {
+                        extraPanningPointChance += 2;
+                    }
+                }
+                if (Game1.MasterPlayer.mailReceived.Contains("ccFishTank") && !(__instance is Beach) && __instance.orePanPoint.Value.Equals(Point.Zero) && r.NextBool())
+                {
+                    for (int i = 0; i < extraPanningPointChance; i++)
+                    {
+                        Point point = new Point(r.Next(0, __instance.Map.RequireLayer("Back").LayerWidth), r.Next(0, __instance.Map.RequireLayer("Back").LayerHeight));
+                        if (__instance.isOpenWater(point.X, point.Y) && FishingRod.distanceToLand(point.X, point.Y, __instance, landMustBeAdjacentToWalkableTile: true) <= 1 && __instance.getTileIndexAt(point, "Buildings") == -1)
+                        {
+                            if (Game1.player.currentLocation.Equals(__instance))
+                            {
+                                __instance.playSound("slosh");
+                            }
+
+                            __instance.orePanPoint.Value = point;
+                            __result = true;
+                            break;
+                        }
+                    }
                 }
             }
         }

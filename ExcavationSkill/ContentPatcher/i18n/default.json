@@ -1,6 +1,9 @@
 {
     "moonslime.Archaeology.item_catagory": "Display Artifact",
 	
+    "moonslime.Archaeology.water_shifter.name": "Water Shifter",
+    "moonslime.Archaeology.water_shifter.description": "Place it in the water, string it with fiber, and check the next day to see it has anything. \nWorks in streams, lakes, and the ocean.",
+
     "moonslime.Archaeology.glass_path.name": "Glass Path",
     "moonslime.Archaeology.glass_path.description": "Place on the ground to create paths or to spruce up your floors.",
 	
@@ -10,6 +13,9 @@
     "moonslime.Archaeology.rust_path.name": "Rusty Path",
     "moonslime.Archaeology.rust_path.description": "Place on the ground to create paths or to make your floors rustic.",
 	
+    "moonslime.Archaeology.skill_book.name": "Digging Like Worms",
+    "moonslime.Archaeology.skill_book.description": "A Dummy's guide to Archaeology and now to find treasure.",
+	
     "moonslime.Archaeology.totem_volcano_warp.name": "Dwarf Gadget: Infinite Volcano Simulation",
     "moonslime.Archaeology.totem_volcano_warp.description": "A device made from your studies of artifacts. Warps you to version of the Volcano that you can climb infinitely. Warning: Bring a warping item to escape.",
 	
@@ -18,6 +24,9 @@
 	
     "moonslime.Archaeology.rocky_root.name": "Rocky Root Coffee",
     "moonslime.Archaeology.rocky_root.description": "WARNING: Do not actually drink the stone. it's there for flavor.",
+	
+    "moonslime.Archaeology.ancient_jello.name": "Ancient Jello",
+    "moonslime.Archaeology.ancient_jello.description": "Cooked in half an amphora, This 'jello' is actually a custard made with cave jelly.",
 	
     "moonslime.Archaeology.glass_fence.name": "Glass Fence",
     "moonslime.Archaeology.glass_fence.description": "A crystal clear fence.",

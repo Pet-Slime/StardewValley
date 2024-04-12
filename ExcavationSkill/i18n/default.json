@@ -18,24 +18,19 @@
     "config.ExperienceFromWaterShifter": "Water Shifter experince gain",
     "config.ExperienceFromWaterShifter.tooltip": "Archaeology exp gained from harvesting from a water shifter.",
 
+    "moonslime.Archaeology.skill_book.levelup": "You learned a few things about Archaeology.",
+
     "Archaeology5a.name": "Pioneer",
-    "Archaeology5a.desc": "Two additional Artifact spots might appear!",
-    "Archaeology5b.name": "Trawler",
-    "Archaeology5b.desc": "Have a 25% chance to find an artifact while panning.",
+    "Archaeology5a.desc": "Extra chances of artifact spots spawning.",
+    "Archaeology5b.name": "Dowser",
+    "Archaeology5b.desc": "Extra chances of panning spots spawning.",
     "Archaeology10a1.name": "Antiquarian",
     "Archaeology10a1.desc": "Be able to find additional Artifacts while digging.",
     "Archaeology10a2.name": "Curator",
     "Archaeology10a2.desc": "Sell artifacts that are on displays for twice the amount!",
-    "Archaeology10b1.name": "Dowser",
-    "Archaeology10b1.desc": "While panning, be able to find additional items.",
-    "Archaeology10b2.name": "Gold Rusher",
-    "Archaeology10b2.desc": "On Successful Panning or Digging,\n Get a speed boost based on level.",
-
-    "Archaeology5a.prestige.description": "A lot more artifact spots might appear!",
-    "Archaeology5b.prestige.description": "Have a 35% chance to find an artifact while panning.",
-    "Archaeology10a1.prestige.description": "Be able to find a lot of additional items while at an artifact spot",
-    "Archaeology10a2.prestige.description": "Sell artifacts that are on display for three times the amount!",
-    "Archaeology10b1.prestige.description": "While panning, be able to find a lot more additional items.",
-    "Archaeology10b2.prestige.description": "On Successful Panning or Digging,\n Get a speed boost based on level."
+    "Archaeology10b1.name": "Dredger",
+    "Archaeology10b1.desc": "Gain additional items while panning",
+    "Archaeology10b2.name": "Forty-Niner",
+    "Archaeology10b2.desc": "On Successful Panning or Digging, Get a speed boost.\n Duration based on level."
 
 }

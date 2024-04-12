@@ -1,6 +1,9 @@
 ﻿{
     "moonslime.Archaeology.item_catagory": "Display Artifact",
 	
+    "moonslime.Archaeology.water_shifter.name": "Water Shifter",
+    "moonslime.Archaeology.water_shifter.description": "Place it in the water, string it with fiber, and check the next day to see it has anything. \nWorks in streams, lakes, and the ocean.",
+	
     "moonslime.Archaeology.glass_path.name": "Glass Path",
     "moonslime.Archaeology.glass_path.description": "Place on the ground to create paths or to spruce up your floors.",
 	
@@ -21,6 +24,9 @@
 	
     "moonslime.Archaeology.glass_fence.name": "玻璃栅栏",
     "moonslime.Archaeology.glass_fence.description": "易碎的玻璃围栏.",
+	
+    "moonslime.Archaeology.ancient_jello.name": "Ancient Jello",
+    "moonslime.Archaeology.ancient_jello.description": "Cooked in half an amphora, This 'jello' is actually a custard made with cave jelly.",
 	
     "moonslime.Archaeology.rusty_scrap.name": "Scrap Rust",
     "moonslime.Archaeology.rusty_scrap.description": "Rusty scrap gained from the grinder.",

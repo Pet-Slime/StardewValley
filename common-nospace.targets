@@ -4,6 +4,8 @@
     <!--common project properties-->
     <PropertyGroup>
         <Authors>moonslime</Authors>
+        <UniqueId>$(Authors).$(AssemblyName)</UniqueId>
+        <EntryDll>$(AssemblyName)</EntryDll>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
         <LangVersion>latest</LangVersion>

@@ -1,4 +1,4 @@
-{
+﻿{
     "Changes": [
         {
             "Action": "EditData",
@@ -22,7 +22,8 @@
             "Target": "Data/CookingRecipes",
             "Entries": {
                 "moonslime.Archaeology.diggers_delight": "78 2 245 1 -6 1//moonslime.Archaeology.diggers_delight/moonslime.Archaeology 3/",
-                "moonslime.Archaeology.rocky_root": "78 3 395 1 390 1//moonslime.Archaeology.rocky_root/moonslime.Archaeology 8/"
+                "moonslime.Archaeology.rocky_root": "78 3 395 1 390 1//moonslime.Archaeology.rocky_root/moonslime.Archaeology 7/",
+                "moonslime.Archaeology.ancient_jello": "CaveJelly 6 245 5 -5 1 -6 1 100 1//moonslime.Archaeology.ancient_jello/moonslime.Archaeology 9/"
             }
         }
     ]

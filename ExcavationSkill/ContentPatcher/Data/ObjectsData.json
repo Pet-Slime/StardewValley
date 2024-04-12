@@ -1,9 +1,14 @@
-{
+﻿{
     "Changes": [
         {
             "Action": "Load",
             "Target": "Mods/moonslime.ArchaeologySkill/textures",
             "FromFile": "Assets/sprites.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/water_shifter",
+            "FromFile": "Assets/water_shifter.png"
         },
         {
             "Action": "EditData",
@@ -62,8 +67,8 @@
                     "GeodeDropsDefaultItems": false,
                     "GeodeDrops": null,
                     "ArtifactSpotChances": null,
-                    "ExcludeFromFishingCollection": false,
-                    "ExcludeFromShippingCollection": false,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": null,
                     "CustomFields": null
@@ -108,6 +113,31 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": null,
+                    "CustomFields": null
+                },
+				"moonslime.Archaeology.skill_book": {
+                    "Name": "Digging Like Worms",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.skill_book.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.skill_book.description}}",
+                    "Type": "asdf",
+					"Category": -103,
+					"Price": 500,
+                    "Texture": "Mods/moonslime.ArchaeologySkill/textures",
+                    "SpriteIndex": 6,
+					"Edibility": -300,
+					"IsDrink": false,
+					"Buffs": null,
+					"GeodeDropsDefaultItems": false,
+					"GeodeDrops": null,
+					"ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+					"ExcludeFromRandomSale": false,
+					"ContextTags": [
+						"moonslime.Archaeology.skill_book",
+						"color_yellow",
+						"book_item"
+                    ],
                     "CustomFields": null
                 },
                 "moonslime.Archaeology.totem_volcano_warp": {
@@ -232,18 +262,43 @@
                     ],
                     "CustomFields": null
                 },
-                "moonslime.Archaeology.glass_fence": {
-                    "Name": "Glass Fence",
-                    "DisplayName": "{{i18n:moonslime.Archaeology.glass_fence.name}}",
-                    "Description": "{{i18n:moonslime.Archaeology.glass_fence.description}}",
-                    "Type": "Crafting",
-                    "Category": -8,
-                    "Price": 10,
+                "moonslime.Archaeology.ancient_jello": {
+                    "Name": "Ancient Jello",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.ancient_jello.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.ancient_jello.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 2000,
                     "Texture": "Mods/moonslime.ArchaeologySkill/textures",
                     "SpriteIndex": 16,
-                    "Edibility": -300,
+                    "Edibility": 175,
                     "IsDrink": false,
-                    "Buffs": null,
+                    "Buffs": [
+                        {
+                            "Id": "Food",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 720,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 0,
+                                "MiningLevel": 0,
+                                "LuckLevel": 6,
+                                "ForagingLevel": 0,
+                                "MaxStamina": 0,
+                                "MagneticRadius": 0,
+                                "Speed": 3,
+                                "Defense": 3,
+                                "Attack": 3
+                            },
+                            "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Archaeology": "3"
+                            }
+                        }
+                    ],
                     "GeodeDropsDefaultItems": false,
                     "GeodeDrops": null,
                     "ArtifactSpotChances": null,
@@ -251,7 +306,8 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
-                        "color_dark_red"
+                        "color_white",
+                        "food_sweet"
                     ],
                     "CustomFields": null
                 },
