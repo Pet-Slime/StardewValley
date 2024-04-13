@@ -52,6 +52,29 @@
             "Action": "EditData",
             "Target": "Data/Objects",
             "Entries": {
+                "moonslime.Archaeology.water_shifter": {
+                    "Name": "Water Shifter",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.water_shifter.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.water_shifter.description}}",
+                    "Type": "Crafting",
+                    "Category": 0,
+                    "Price": 10,
+                    "Texture": "Mods/moonslime.ArchaeologySkill/water_shifter",
+                    "SpriteIndex": 0,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_brown"
+                    ],
+                    "CustomFields": null
+                },
                 "moonslime.Archaeology.glass_path": {
                     "Name": "Glass Path",
                     "DisplayName": "{{i18n:moonslime.Archaeology.glass_path.name}}",
@@ -115,28 +138,28 @@
                     "ContextTags": null,
                     "CustomFields": null
                 },
-				"moonslime.Archaeology.skill_book": {
+                "moonslime.Archaeology.skill_book": {
                     "Name": "Digging Like Worms",
                     "DisplayName": "{{i18n:moonslime.Archaeology.skill_book.name}}",
                     "Description": "{{i18n:moonslime.Archaeology.skill_book.description}}",
                     "Type": "asdf",
-					"Category": -103,
-					"Price": 500,
+                    "Category": -103,
+                    "Price": 500,
                     "Texture": "Mods/moonslime.ArchaeologySkill/textures",
                     "SpriteIndex": 6,
-					"Edibility": -300,
-					"IsDrink": false,
-					"Buffs": null,
-					"GeodeDropsDefaultItems": false,
-					"GeodeDrops": null,
-					"ArtifactSpotChances": null,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
                     "ExcludeFromFishingCollection": true,
                     "ExcludeFromShippingCollection": true,
-					"ExcludeFromRandomSale": false,
-					"ContextTags": [
-						"moonslime.Archaeology.skill_book",
-						"color_yellow",
-						"book_item"
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "moonslime.Archaeology.skill_book",
+                        "color_yellow",
+                        "book_item"
                     ],
                     "CustomFields": null
                 },
@@ -160,6 +183,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_volcano_warp",
+                        "not_placeable",
                         "color_dark_red"
                     ],
                     "CustomFields": null
@@ -354,6 +378,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "bone_item",
                         "color_white",
                         "fossil_item",
@@ -382,6 +407,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "color_gray",
                         "dye_strong",
                         "marine_item"
@@ -408,6 +434,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "color_blue",
                         "dye_strong",
                         "toy_item"
@@ -434,6 +461,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "color_purple",
                         "dye_strong",
                         "instrument_item"
@@ -459,7 +487,8 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
-                        "moonslime_artifact"
+                        "moonslime_artifact",
+                        "not_placeable"
                     ],
                     "CustomFields": null
                 },
@@ -483,6 +512,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "ancient_item",
                         "color_gray",
                         "dye_strong"
@@ -509,6 +539,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "color_gray",
                         "dye_strong",
                         "hunting_item"
@@ -517,8 +548,8 @@
                 },
                 "moonslime.Archaeology.h_bone_flute": {
                     "Name": "Hardwood Display: Bone Flute",
-                    "DisplayName": "{{i18n:moonslime.Archaeology.h_arrowhead.name}}",
-                    "Description": "{{i18n:moonslime.Archaeology.h_arrowhead.description}}",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.h_bone_flute.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.h_bone_flute.description}}",
                     "Type": "Basic",
                     "Category": 0,
                     "Price": 360,
@@ -535,6 +566,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "color_sand",
                         "dye_strong",
                         "instrument_item",
@@ -562,6 +594,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "ancient_item",
                         "color_brown",
                         "dye_strong"
@@ -588,7 +621,11 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "chicken_item",
+                        "color_sand",
+                        "dye_strong",
+                        "statue_item"
                     ],
                     "CustomFields": null
                 },
@@ -612,7 +649,11 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "ancient_item",
+                        "ceramic_item",
+                        "color_brown",
+                        "dye_strong"
                     ],
                     "CustomFields": null
                 },
@@ -636,7 +677,11 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_green",
+                        "dinosaur_item",
+                        "dye_strong",
+                        "egg_item"
                     ],
                     "CustomFields": null
                 },
@@ -660,6 +705,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "color_dark_red"
                     ],
                     "CustomFields": null
@@ -684,7 +730,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_yellow",
+                        "dye_strong",
+                        "marine_item"
                     ],
                     "CustomFields": null
                 },
@@ -708,6 +757,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "color_dark_red"
                     ],
                     "CustomFields": null
@@ -732,7 +782,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_red",
+                        "dye_strong",
+                        "scroll_item"
                     ],
                     "CustomFields": null
                 },
@@ -756,7 +809,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_green",
+                        "dye_strong",
+                        "scroll_item"
                     ],
                     "CustomFields": null
                 },
@@ -780,7 +836,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_blue",
+                        "dye_strong",
+                        "scroll_item"
                     ],
                     "CustomFields": null
                 },
@@ -804,7 +863,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_yellow",
+                        "dye_strong",
+                        "scroll_item"
                     ],
                     "CustomFields": null
                 },
@@ -828,7 +890,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_brown",
+                        "dwarvish_item",
+                        "dye_strong"
                     ],
                     "CustomFields": null
                 },
@@ -852,7 +917,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_yellow",
+                        "dye_strong",
+                        "elvish_item"
                     ],
                     "CustomFields": null
                 },
@@ -876,7 +944,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -900,7 +971,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -924,7 +998,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -948,7 +1025,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -972,7 +1052,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -996,7 +1079,9 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_cyan",
+                        "dye_strong"
                     ],
                     "CustomFields": null
                 },
@@ -1020,7 +1105,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_gold",
+                        "dye_strong",
+                        "golden_relic_item"
                     ],
                     "CustomFields": null
                 },
@@ -1044,7 +1132,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_gold",
+                        "dye_strong",
+                        "golden_relic_item"
                     ],
                     "CustomFields": null
                 },
@@ -1068,7 +1159,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -1092,12 +1186,15 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
                 "moonslime.Archaeology.h_nautilus_fossil": {
-                    "Name": "Hardwood Display: nautilus Fossil",
+                    "Name": "Hardwood Display: Nautilus Fossil",
                     "DisplayName": "{{i18n:moonslime.Archaeology.h_nautilus_fossil.name}}",
                     "Description": "{{i18n:moonslime.Archaeology.h_nautilus_fossil.description}}",
                     "Type": "Basic",
@@ -1116,7 +1213,12 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_white",
+                        "fossil_item",
+                        "marine_item",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -1140,7 +1242,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_white",
+                        "dye_strong",
+                        "noble_item"
                     ],
                     "CustomFields": null
                 },
@@ -1164,12 +1269,15 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_white",
+                        "fossil_item"
                     ],
                     "CustomFields": null
                 },
                 "moonslime.Archaeology.h_prehistoric_handaxe": {
-                    "Name": "Hardwood Display: prehistoric Handaxe",
+                    "Name": "Hardwood Display: Prehistoric Handaxe",
                     "DisplayName": "{{i18n:moonslime.Archaeology.h_prehistoric_handaxe.name}}",
                     "Description": "{{i18n:moonslime.Archaeology.h_prehistoric_handaxe.description}}",
                     "Type": "Basic",
@@ -1188,7 +1296,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_gray",
+                        "dye_strong",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -1212,7 +1323,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_white",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -1236,7 +1350,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_white",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -1260,7 +1377,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_white",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -1284,7 +1404,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_white",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -1308,12 +1431,15 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_gray",
+                        "dye_strong",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
                 "moonslime.Archaeology.h_prehistoric_vertebra": {
-                    "Name": "Hardwood Display: Prehistoric Vertabra",
+                    "Name": "Hardwood Display: Prehistoric Vertebra",
                     "DisplayName": "{{i18n:moonslime.Archaeology.h_prehistoric_vertebra.name}}",
                     "Description": "{{i18n:moonslime.Archaeology.h_prehistoric_vertebra.description}}",
                     "Type": "Basic",
@@ -1332,7 +1458,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_white",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -1356,7 +1485,9 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_dark_gray",
+                        "dye_strong"
                     ],
                     "CustomFields": null
                 },
@@ -1380,7 +1511,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_brown",
+                        "dye_strong",
+                        "machine_item"
                     ],
                     "CustomFields": null
                 },
@@ -1404,7 +1538,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_gray",
+                        "cooking_item",
+                        "dye_strong"
                     ],
                     "CustomFields": null
                 },
@@ -1428,7 +1565,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_brown",
+                        "cowboy_item",
+                        "dye_strong"
                     ],
                     "CustomFields": null
                 },
@@ -1451,8 +1591,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "bone_item",
+                        "color_white",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -1476,7 +1619,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_white",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -1500,7 +1646,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -1524,7 +1673,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -1548,7 +1700,11 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "not_placeable",
+                        "color_green",
+                        "doll_item",
+                        "dye_strong",
+                        "strange_doll_1"
                     ],
                     "CustomFields": null
                 },
@@ -1571,8 +1727,12 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "color_yellow",
+                        "doll_item",
+                        "dye_strong",
+                        "strange_doll_2"
                     ],
                     "CustomFields": null
                 },
@@ -1595,8 +1755,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_dark_red"
+                        "bone_item",
+                        "color_white",
+                        "fossil_item"
                     ],
                     "CustomFields": null
                 },
@@ -1619,8 +1782,13 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "bone_item",
+                        "color_white",
+                        "fossil_item",
+                        "marine_item",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -1643,8 +1811,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "color_gray",
+                        "dye_strong",
+                        "marine_item"
                     ],
                     "CustomFields": null
                 },
@@ -1667,8 +1838,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "color_blue",
+                        "dye_strong",
+                        "toy_item"
                     ],
                     "CustomFields": null
                 },
@@ -1692,7 +1866,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "color_purple",
+                        "dye_strong",
+                        "instrument_item"
                     ],
                     "CustomFields": null
                 },
@@ -1716,6 +1893,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "color_brown"
                     ],
                     "CustomFields": null
@@ -1740,6 +1918,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "ancient_item",
                         "color_gray",
                         "dye_strong"
@@ -1766,6 +1945,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "color_gray",
                         "dye_strong",
                         "hunting_item"
@@ -1792,6 +1972,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "color_sand",
                         "dye_strong",
                         "instrument_item",
@@ -1819,6 +2000,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
+                        "not_placeable",
                         "ancient_item",
                         "color_brown",
                         "dye_strong"
@@ -1845,7 +2027,11 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "chicken_item",
+                        "color_sand",
+                        "dye_strong",
+                        "statue_item"
                     ],
                     "CustomFields": null
                 },
@@ -1869,7 +2055,11 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "ancient_item",
+                        "ceramic_item",
+                        "color_brown",
+                        "dye_strong"
                     ],
                     "CustomFields": null
                 },
@@ -1892,8 +2082,12 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "color_green",
+                        "dinosaur_item",
+                        "dye_strong",
+                        "egg_item"
                     ],
                     "CustomFields": null
                 },
@@ -1916,6 +2110,7 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
                         "color_brown"
                     ],
@@ -1941,7 +2136,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "color_yellow",
+                        "dye_strong",
+                        "marine_item"
                     ],
                     "CustomFields": null
                 },
@@ -1964,8 +2162,12 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "color_gray",
+                        "dwarvish_item",
+                        "dye_strong",
+                        "machine_item"
                     ],
                     "CustomFields": null
                 },
@@ -1988,8 +2190,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "color_red",
+                        "dye_strong",
+                        "scroll_item"
                     ],
                     "CustomFields": null
                 },
@@ -2013,7 +2218,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "color_green",
+                        "dye_strong",
+                        "scroll_item"
                     ],
                     "CustomFields": null
                 },
@@ -2037,7 +2245,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "color_blue",
+                        "dye_strong",
+                        "scroll_item"
                     ],
                     "CustomFields": null
                 },
@@ -2061,7 +2272,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "color_yellow",
+                        "dye_strong",
+                        "scroll_item"
                     ],
                     "CustomFields": null
                 },
@@ -2085,7 +2299,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "color_brown",
+                        "dwarvish_item",
+                        "dye_strong"
                     ],
                     "CustomFields": null
                 },
@@ -2108,8 +2325,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "color_yellow",
+                        "dye_strong",
+                        "elvish_item"
                     ],
                     "CustomFields": null
                 },
@@ -2132,8 +2352,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2156,8 +2379,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2180,8 +2406,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2205,7 +2434,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2229,7 +2461,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2252,8 +2487,10 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "color_cyan",
+                        "dye_strong"
                     ],
                     "CustomFields": null
                 },
@@ -2277,7 +2514,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "color_gold",
+                        "not_placeable",
+                        "dye_strong",
+                        "golden_relic_item"
                     ],
                     "CustomFields": null
                 },
@@ -2301,7 +2541,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "color_gold",
+                        "not_placeable",
+                        "dye_strong",
+                        "golden_relic_item"
                     ],
                     "CustomFields": null
                 },
@@ -2325,7 +2568,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "bone_item",
+                        "not_placeable",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2349,7 +2595,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2372,8 +2621,13 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "bone_item",
+                        "color_white",
+                        "fossil_item",
+                        "marine_item",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2397,7 +2651,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "color_white",
+                        "not_placeable",
+                        "dye_strong",
+                        "noble_item"
                     ],
                     "CustomFields": null
                 },
@@ -2420,8 +2677,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "bone_item",
+                        "color_white",
+                        "fossil_item"
                     ],
                     "CustomFields": null
                 },
@@ -2445,7 +2705,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "color_gray",
+                        "dye_strong",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2469,7 +2732,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "bone_item",
+                        "color_white",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2493,7 +2759,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "bone_item",
+                        "color_white",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2517,7 +2786,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "bone_item",
+                        "color_white",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2540,8 +2812,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "bone_item",
+                        "color_white",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2565,7 +2840,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "color_gray",
+                        "dye_strong",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2588,8 +2866,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "bone_item",
+                        "color_white",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2612,8 +2893,10 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "color_dark_gray",
+                        "dye_strong"
                     ],
                     "CustomFields": null
                 },
@@ -2636,8 +2919,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "color_brown",
+                        "dye_strong",
+                        "machine_item"
                     ],
                     "CustomFields": null
                 },
@@ -2661,7 +2947,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "color_gray",
+                        "cooking_item",
+                        "dye_strong"
                     ],
                     "CustomFields": null
                 },
@@ -2684,8 +2973,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "color_brown",
+                        "cowboy_item",
+                        "dye_strong"
                     ],
                     "CustomFields": null
                 },
@@ -2708,8 +3000,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "bone_item",
+                        "color_white",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2732,8 +3027,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "bone_item",
+                        "color_white",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2756,8 +3054,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2780,8 +3081,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "bone_item",
+                        "color_sand",
+                        "prehistoric_item"
                     ],
                     "CustomFields": null
                 },
@@ -2805,7 +3109,11 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "color_green",
+                        "doll_item",
+                        "dye_strong",
+                        "strange_doll_1"
                     ],
                     "CustomFields": null
                 },
@@ -2828,8 +3136,12 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "not_placeable",
                         "moonslime_artifact",
-                        "color_brown"
+                        "color_yellow",
+                        "doll_item",
+                        "dye_strong",
+                        "strange_doll_2"
                     ],
                     "CustomFields": null
                 },
@@ -2853,7 +3165,10 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "moonslime_artifact",
-                        "color_brown"
+                        "not_placeable",
+                        "bone_item",
+                        "color_white",
+                        "fossil_item"
                     ],
                     "CustomFields": null
                 }

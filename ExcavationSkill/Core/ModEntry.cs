@@ -18,7 +18,6 @@ namespace ArchaeologySkill
     {
         [SMod.Instance]
         internal static ModEntry Instance;
-        public static string ModDataKey;
 
         internal static Config Config;
         internal static Assets Assets;
@@ -43,33 +42,15 @@ namespace ArchaeologySkill
         public static readonly IList<string> WaterSifterLootTable = [];
 
 
-        internal static ObjectInformation ObjectInfo;
-        internal bool ValidateInventory = true;
 
 
 
         public override void Entry(IModHelper helper)
         {
             Instance = this;
-            ModDataKey = $"{helper.ModRegistry.ModID}.water_shifter";
-            ObjectInfo = Helper.Data.ReadJsonFile<ObjectInformation>($"assets/data.json");
-            Instance.Helper.Events.GameLoop.GameLaunched += Instance.OnGameLaunched;
-            Instance.Helper.Events.GameLoop.ReturnedToTitle += (_, _) => Instance.ValidateInventory = true;
 
             Parser.ParseAll(this);
         }
 
-        private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
-        {
-            if (JsonAssetsLoaded)
-                JAAPI = ModEntry.Instance.Helper.ModRegistry.GetApi<MoonShared.APIs.IJsonAssetsApi>("spacechase0.JsonAssets");
-            if (DynamicGameAssetsLoaded)
-                DGAAPI = Instance.Helper.ModRegistry.GetApi<IDynamicGameAssetsApi>("spacechase0.DynamicGameAssets");
-
-
-            var sc = this.Helper.ModRegistry.GetApi<ISpaceCoreApi>("spacechase0.SpaceCore");
-            sc.RegisterSerializerType(typeof(WaterShifter));
-
-        }
     }
 }

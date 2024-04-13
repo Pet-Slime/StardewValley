@@ -39,14 +39,15 @@ namespace ArchaeologySkill.Core
             float num = 0.5f;
             if (!__instance.IsFarm && (bool)__instance.IsOutdoors && __instance.GetSeason() == Season.Winter && random.NextDouble() < 0.08 && !explosion && !detectOnly && !(__instance is Desert))
             {
-                Game1.createObjectDebris(random.Choose("(O)412", "(O)416"), xLocation, yLocation);
+                string item = random.Choose("(O)412", "(O)416");
+                Game1.createObjectDebris(item, xLocation, yLocation);
                 if (flag && random.NextDouble() < (double)num)
                 {
                     Game1.createObjectDebris(random.Choose("(O)412", "(O)416"), xLocation, yLocation);
                 }
 
                 __result = "";
-                Utilities.ApplyArchaeologySkill(farmer, false, xLocation, yLocation);
+                Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: item);
                 return false;
             }
 
@@ -67,7 +68,7 @@ namespace ArchaeologySkill.Core
                 }
 
                 __result = "";
-                Utilities.ApplyArchaeologySkill(farmer, false, xLocation, yLocation);
+                Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: "(O)330");
                 return false;
             }
 
@@ -105,7 +106,7 @@ namespace ArchaeologySkill.Core
                         if (ArgUtility.TryGet(array, 1, out string value4, out error))
                         {
                             Game1.createObjectDebris(value4, xLocation, yLocation);
-                            Utilities.ApplyArchaeologySkill(farmer, false, xLocation, yLocation, false, value4);
+                            Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, false, value4);
                         }
                         else
                         {
@@ -116,11 +117,11 @@ namespace ArchaeologySkill.Core
                     }
                 case "CaveCarrot":
                     Game1.createObjectDebris("(O)78", xLocation, yLocation);
-                    Utilities.ApplyArchaeologySkill(farmer, false, xLocation, yLocation, false, "(O)78");
+                    Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, false, "(O)78");
                     break;
                 case "Coins":
                     Game1.createObjectDebris("(O)330", xLocation, yLocation);
-                    Utilities.ApplyArchaeologySkill(farmer, false, xLocation, yLocation, false, "(O)330");
+                    Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, false, "(O)330");
                     break;
                 case "Coal":
                 case "Copper":
@@ -139,7 +140,7 @@ namespace ArchaeologySkill.Core
                         if (ArgUtility.TryGetInt(array, 1, out int value6, out error))
                         {
                             Game1.createDebris(debrisType, xLocation, yLocation, value6);
-                            Utilities.ApplyArchaeologySkill(farmer, false, xLocation, yLocation, false, value2);
+                            Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, false, value2);
                         }
                         else
                         {
@@ -153,7 +154,7 @@ namespace ArchaeologySkill.Core
                         if (ArgUtility.TryGet(array, 1, out string value5, out error))
                         {
                             Game1.createObjectDebris(value5, xLocation, yLocation);
-                            Utilities.ApplyArchaeologySkill(farmer, false, xLocation, yLocation, false, value5);
+                            Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, false, value5);
                             if (value5 == "78" || value5 == "(O)79")
                             {
                                 Game1.stats.CaveCarrotsFound++;
@@ -172,7 +173,7 @@ namespace ArchaeologySkill.Core
                         {
                             Item item = ItemRegistry.Create(value3);
                             Game1.createItemDebris(item, new Vector2(xLocation, yLocation), -1, location);
-                            Utilities.ApplyArchaeologySkill(farmer, false, xLocation, yLocation, false, item.ItemId);
+                            Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, false, item.ItemId);
                             if (item.QualifiedItemId == "(O)78")
                             {
                                 Game1.stats.CaveCarrotsFound++;
@@ -233,6 +234,7 @@ namespace ArchaeologySkill.Core
             if (__instance.isQuarryArea)
             {
                 __result = "";
+                return false;
             }
 
             if (Game1.random.NextDouble() < 0.15)
@@ -321,10 +323,8 @@ namespace ArchaeologySkill.Core
                 Game1.createObjectDebris(id, xLocation, yLocation, who.UniqueMultiplayerID, __instance);
                 bool num = who?.CurrentTool is Hoe && who.CurrentTool.hasEnchantmentOfType<GenerousEnchantment>();
                 float num2 = 0.25f;
-
-
                 /// Custom code
-                Utilities.ApplyArchaeologySkill(Game1.getFarmer(who.UniqueMultiplayerID), false, xLocation, yLocation);
+                Utilities.ApplyArchaeologySkill(Game1.getFarmer(who.UniqueMultiplayerID), ModEntry.Config.ExperienceFromMinesDigging, false, xLocation, yLocation);
                 ///
                 if (num && Game1.random.NextDouble() < (double)num2)
                 {
@@ -332,6 +332,7 @@ namespace ArchaeologySkill.Core
                 }
 
                 __result = "";
+                return false;
             }
 
             __result = "";
@@ -348,7 +349,7 @@ namespace ArchaeologySkill.Core
         {
 
             var farmer = Game1.getFarmer(who.UniqueMultiplayerID);
-            Utilities.ApplyArchaeologySkill(farmer, false, xLocation, yLocation);
+            Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots,false, xLocation, yLocation);
             //Does The player have the Antiquarian Profession?
             BirbCore.Attributes.Log.Trace("Archaeology skill: Checking to see if the player has Antiquarian");
             if (Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology10a1))
@@ -422,19 +423,7 @@ namespace ArchaeologySkill.Core
 
     }
 
-    [HarmonyPatch(typeof(StardewValley.Object), nameof(StardewValley.Object.isPlaceable))]
-    class IsPlaceablePrefix_Patch
-    {
-        [HarmonyLib.HarmonyPostfix]
-        internal static void IsPlaceablePrefix(StardewValley.Object __instance, ref bool __result)
-        {
-            //Patch to stop displays from being placeable
-            if (__instance.HasContextTag("moonslime_artifact"))
-            {
-                __result = false;
-            }
-        }
-    }
+
 
     [HarmonyPatch(typeof(Pan), nameof(Pan.getPanItems))]
     class GetPanItems_Patch
@@ -446,7 +435,7 @@ namespace ArchaeologySkill.Core
 
             var farmer = Game1.getFarmer(who.UniqueMultiplayerID);
             //Add EXP for the player Panning and check for the gold rush profession
-            Utilities.ApplyArchaeologySkill(farmer, panning: true);
+            Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromPanSpots, panning: true);
 
             int xLocation = who.TilePoint.X;
             int yLocation = who.TilePoint.Y;

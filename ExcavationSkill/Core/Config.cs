@@ -16,12 +16,10 @@ namespace ArchaeologySkill
         public int ExperienceFromArtifactSpots { get; set; } = 10;
 
         [SConfig.Option(0, 100, 1)]
-        public int ExperienceFromMinesDigging { get; set; } = 5;
-
+        public int ExperienceFromPanSpots { get; set; } = 20;
 
         [SConfig.Option(0, 100, 1)]
-        public int ExperienceFromBuriedAndPannedItem { get; set; } = 5;
-
+        public int ExperienceFromMinesDigging { get; set; } = 5;
 
         [SConfig.Option(0, 100, 1)]
         public int ExperienceFromWaterShifter { get; set; } = 2;

@@ -8,6 +8,7 @@ using StardewValley;
 using StardewValley.Extensions;
 using StardewValley.ItemTypeDefinitions;
 using StardewValley.Locations;
+using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -17,91 +18,59 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace ArchaeologySkill.Objects.Water_Shifter
 {
-    [XmlType("Mods_moonslime_Archaeology_ShifterObject")]
-    public class WaterShifter : Object
+    [XmlType("Mods_moonslime.Archaeology.water_shifter")]
+    public class WaterShifter : CrabPot
     {
+        public const int LidFlapTimerInterval = 60;
+
+        [XmlIgnore]
         private float YBob;
-        [XmlElement("ShifterDirectionOffset")]
-        public readonly NetVector2 ShifterDirectionOffset = new();
 
-
-        [XmlElement("ShifterBait")]
-        public readonly NetRef<Object> ShifterBait = new();
-
-        public static Texture2D Texture => ModEntry.Assets.Water_shifter;
-
-        public static Microsoft.Xna.Framework.Rectangle SourceRect => new(0, 0, 16, 16);
-
-        [XmlElement("ShifterArtTileToShowNet")]
-        public readonly NetInt ShifterArtTileToShowNet = new NetInt();
+        [XmlElement("Water_shifter_TITS")]
+        public readonly NetInt Water_shifter_TITS = new NetInt(0);
 
         [XmlIgnore]
-        public virtual int ShifterArtTileToShow
+        public int TileIndexToShow
         {
-            get
-            {
-                return ShifterArtTileToShowNet.Value;
-            }
-            set
-            {
-                if (ShifterArtTileToShowNet.Value != value)
-                {
-                    ShifterArtTileToShowNet.Value = value;
-                    RecalculateBoundingBox();
-                }
-            }
+            get => Water_shifter_TITS.Value;
+            set => Water_shifter_TITS.Value = value;
         }
-
-
-        [XmlElement("ShifterLocationNet")]
-        public readonly NetVector2 ShifterLocationNet = new NetVector2();
 
         [XmlIgnore]
-        public virtual Vector2 ShifterLocation
+        private bool LidFlapping;
+
+        [XmlIgnore]
+        private bool LidClosing;
+
+        [XmlIgnore]
+        private float LidFlapTimer;
+
+        [XmlIgnore]
+        private float ShakeTimer;
+
+        [XmlIgnore]
+        private Vector2 Shake;
+
+        public WaterShifter() : base() { }
+
+        public WaterShifter(Vector2 TileLocation, int stack = 1) : this()
         {
-            get
-            {
-                return ShifterLocationNet.Value;
-            }
-            set
-            {
-                if (ShifterLocationNet.Value != value)
-                {
-                    ShifterLocationNet.Value = value;
-                    RecalculateBoundingBox();
-                }
-            }
+            TileLocation = Vector2.Zero;
+            ParentSheetIndex = 0;
+            base.itemId.Value = "moonslime.Archaeology.water_shifter";
+            name = ModEntry.Instance.I18N.Get("moonslime.Archaeology.water_shifter.name");
+            CanBeSetDown = true;
+            CanBeGrabbed = false;
+            IsSpawnedObject = false;
+            this.Type = "interactive";
+            this.TileIndexToShow = 0;
         }
 
-
-        [XmlElement("shifterOwner")]
-        public readonly NetLong Owner = new NetLong();
-
-        public bool LidFlapping;
-
-        public bool LidClosing;
-
-        public float LidFlapTimer;
-
-        public float ShakeTimer;
-
-        public Vector2 Shake;
-
-        private readonly int[] Qualities = [lowQuality, medQuality, highQuality, bestQuality];
-
-        public WaterShifter() : base(Vector2.Zero, ModEntry.ObjectInfo.Id) { }
-
-        public WaterShifter(Vector2 shifterLocation, int stack = 1) : this()
+        protected override void initNetFields()
         {
-            ItemId = "moonslime.Archaeology.water_shifter";
-            ShifterArtTileToShow = 0;
-            ShifterLocation = shifterLocation;
-            Type = "interactive";
-            Stack = stack;
-            Owner = owner;
+            base.initNetFields();
+            base.NetFields.AddField(Water_shifter_TITS, "Water_shifter_TITS");
         }
-
-
 
         protected void AddOverlayTilesIfNecessary(GameLocation location, int x, int y, List<Vector2> tiles)
         {
@@ -110,26 +79,53 @@ namespace ArchaeologySkill.Objects.Water_Shifter
             tiles.Add(new(x, y));
         }
 
-        protected bool CheckLocation(GameLocation location, float x, float y) => location.doesTileHaveProperty((int)x, (int)y, "Water", "Back") == null || location.doesTileHaveProperty((int)x, (int)y, "Passable", "Buildings") != null;
 
-
-        protected override void initNetFields()
+        public override string DisplayName
         {
-            base.initNetFields();
-            NetFields.AddField(ShifterDirectionOffset, "ShifterDirectionOffset").AddField(ShifterBait, "ShifterBait").AddField(Owner, "shifterOwner")
-                .AddField(ShifterLocationNet, "ShifterLocationNet").AddField(ShifterArtTileToShowNet, "ShifterArtTileToShowNet");
+            get
+            {
+                displayName = ModEntry.Instance.I18N.Get("moonslime.Archaeology.water_shifter.name");
+                if (orderData.Value == "QI_COOKING")
+                {
+                    displayName = Game1.content.LoadString("Strings\\StringsFromCSFiles:Fresh_Prefix", displayName);
+                }
+
+                if (isRecipe.Value)
+                {
+                    string text = displayName;
+                    if (CraftingRecipe.craftingRecipes.TryGetValue(displayName, out string value))
+                    {
+                        string text2 = ArgUtility.SplitBySpaceAndGet(ArgUtility.Get(value.Split('/'), 2), 1);
+                        if (text2 != null)
+                        {
+                            text = text + " x" + text2;
+                        }
+                    }
+
+                    return text + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657");
+                }
+
+                return displayName;
+            }
         }
+
+        public override string getDescription()
+        {
+            return ModEntry.Instance.I18N.Get("moonslime.Archaeology.water_shifter.description");
+        }
+
+        public new string Name = ModEntry.Instance.I18N.Get("moonslime.Archaeology.water_shifter.name");
 
         public List<Vector2> GetOverlayTiles(GameLocation location)
         {
             List<Vector2> tiles = new();
-            if (ShifterDirectionOffset.Y < 0f)
-                AddOverlayTilesIfNecessary(location, (int)ShifterLocation.X, (int)ShifterLocation.Y, tiles);
-            AddOverlayTilesIfNecessary(location, (int)ShifterLocation.X, (int)ShifterLocation.Y + 1, tiles);
-            if (ShifterDirectionOffset.X < 0f)
-                AddOverlayTilesIfNecessary(location, (int)ShifterLocation.X - 1, (int)ShifterLocation.Y + 1, tiles);
-            if (ShifterDirectionOffset.X > 0f)
-                AddOverlayTilesIfNecessary(location, (int)ShifterLocation.X + 1, (int)ShifterLocation.Y + 1, tiles);
+            if (directionOffset.Y < 0f)
+                AddOverlayTilesIfNecessary(location, (int)TileLocation.X, (int)TileLocation.Y, tiles);
+            AddOverlayTilesIfNecessary(location, (int)TileLocation.X, (int)TileLocation.Y + 1, tiles);
+            if (directionOffset.X < 0f)
+                AddOverlayTilesIfNecessary(location, (int)TileLocation.X - 1, (int)TileLocation.Y + 1, tiles);
+            if (directionOffset.X > 0f)
+                AddOverlayTilesIfNecessary(location, (int)TileLocation.X + 1, (int)TileLocation.Y + 1, tiles);
             return tiles;
         }
 
@@ -160,20 +156,35 @@ namespace ArchaeologySkill.Objects.Water_Shifter
             }
         }
 
-        public void UpdateOffset(GameLocation location)
+        public void UpdateOffset()
         {
             Vector2 zero = Vector2.Zero;
-            if ( CheckLocation(location,  ShifterLocation.X - 1f,  ShifterLocation.Y))
+            if (checkLocation(tileLocation.X - 1f, tileLocation.Y))
+            {
                 zero += new Vector2(32f, 0f);
-            if ( CheckLocation(location,  ShifterLocation.X + 1f,  ShifterLocation.Y))
+            }
+
+            if (checkLocation(tileLocation.X + 1f, tileLocation.Y))
+            {
                 zero += new Vector2(-32f, 0f);
-            if (zero.X != 0.0f &&  CheckLocation(location,  ShifterLocation.X + Math.Sign(zero.X),  ShifterLocation.Y + 1f))
-                zero += new Vector2(0.0f, -42f);
-            if ( CheckLocation(location,  ShifterLocation.X,  ShifterLocation.Y - 1f))
-                zero += new Vector2(0.0f, 32f);
-            if ( CheckLocation(location,  ShifterLocation.X,  ShifterLocation.Y + 1f))
-                zero += new Vector2(0.0f, -42f);
-             ShifterDirectionOffset.Value = zero;
+            }
+
+            if (zero.X != 0f && checkLocation(tileLocation.X + (float)Math.Sign(zero.X), tileLocation.Y + 1f))
+            {
+                zero += new Vector2(0f, -42f);
+            }
+
+            if (checkLocation(tileLocation.X, tileLocation.Y - 1f))
+            {
+                zero += new Vector2(0f, 32f);
+            }
+
+            if (checkLocation(tileLocation.X, tileLocation.Y + 1f))
+            {
+                zero += new Vector2(0f, -42f);
+            }
+
+            directionOffset.Value = zero;
         }
 
         public static bool IsValidPlacementLocation(GameLocation location, int x, int y)
@@ -200,27 +211,7 @@ namespace ArchaeologySkill.Objects.Water_Shifter
 
         public override bool canBeShipped() => false;
 
-        public override void actionOnPlayerEntry()
-        {
-             UpdateOffset( Location);
-             AddOverlayTiles( Location);
-            base.actionOnPlayerEntry();
-        }
 
-        public override bool placementAction(GameLocation location, int x, int y, Farmer who = null)
-        {
-            if (who != null)
-                 Owner.Value = who.UniqueMultiplayerID;
-            if (!IsValidPlacementLocation(location, (int)Math.Floor(x / 64f), (int)Math.Floor(y / 64f)))
-                return false;
-            ShifterLocation = new Vector2((int)Math.Floor(x / 64f), (int)Math.Floor(y / 64f));
-            location.Objects.Add( ShifterLocation, this);
-            location.playSound("waterSlosh");
-            DelayedAction.playSoundAfterDelay("slosh", 150);
-             UpdateOffset(location);
-             AddOverlayTiles(location);
-            return true;
-        }
 
         public override bool performObjectDropInAction(Item dropInItem, bool probe, Farmer who, bool returnFalseIfItemConsumed = false)
         {
@@ -236,16 +227,16 @@ namespace ArchaeologySkill.Objects.Water_Shifter
             }
 
 
-            if (@object.name == "Fiber" &&  ShifterBait.Value == null)
+            if (@object.name == "Fiber" &&  bait.Value == null)
             {
                 if (!probe)
                 {
                     if (who != null)
                     {
-                         Owner.Value = who.UniqueMultiplayerID;
+                         owner.Value = who.UniqueMultiplayerID;
                     }
 
-                     ShifterBait.Value = @object.getOne() as Object;
+                     bait.Value = @object.getOne() as Object;
                     location.playSound("Ship");
                      LidFlapping = true;
                      LidFlapTimer = 60f;
@@ -257,17 +248,10 @@ namespace ArchaeologySkill.Objects.Water_Shifter
             return false;
         }
 
-        public override void performRemoveAction()
-        {
-             RemoveOverlayTiles(Location);
-             ShifterBait.Value = null;
-            base.performRemoveAction();
-        }
-
         public override bool checkForAction(Farmer who, bool justCheckingForActivity = false)
         {
             GameLocation location = Location;
-            if (ShifterArtTileToShow == 4)
+            if (TileIndexToShow == 4)
             {
 
                 if (justCheckingForActivity)
@@ -277,9 +261,9 @@ namespace ArchaeologySkill.Objects.Water_Shifter
 
                 if ( heldObject.Value == null)
                 {
-                    ShifterBait.Value = null;
+                    bait.Value = null;
                     readyForHarvest.Value = false;
-                    ShifterArtTileToShow = 0;
+                    TileIndexToShow = 0;
                     return true;
                 }
 
@@ -293,20 +277,20 @@ namespace ArchaeologySkill.Objects.Water_Shifter
                 }
 
                 readyForHarvest.Value = false;
-                ShifterArtTileToShow = 0;
+                TileIndexToShow = 0;
                 LidFlapping = true;
                 LidFlapTimer = 60f;
-                ShifterBait.Value = null;
+                bait.Value = null;
                 who.animateOnce(279 + who.FacingDirection);
                 who.currentLocation.playSound("fishingRodBend");
                 DelayedAction.playSoundAfterDelay("coin", 500);
-//              ModEntry.AddEXP(Game1.getFarmer(who.UniqueMultiplayerID), ModEntry.Config.ExperienceFromWaterShifter);
+                Utilities.AddEXP(Game1.getFarmer(who.UniqueMultiplayerID), ModEntry.Config.ExperienceFromWaterShifter);
                 Shake = Vector2.Zero;
                 ShakeTimer = 0f;
                 return true;
             }
 
-            if ( ShifterBait.Value == null)
+            if ( bait.Value == null)
             {
                 if (justCheckingForActivity)
                 {
@@ -323,7 +307,7 @@ namespace ArchaeologySkill.Objects.Water_Shifter
                         }
 
                         Game1.playSound("coin");
-                        location.objects.Remove(ShifterLocation);
+                        location.objects.Remove(tileLocation.Value);
                         return true;
                     }
 
@@ -338,36 +322,46 @@ namespace ArchaeologySkill.Objects.Water_Shifter
         {
             if (fragility == 2)
                 return;
-            string itemID = ModEntry.ObjectInfo.Id;
+            string itemID = "moonslime.Archaeology.water_shifter";
             location.debris.Add(new(new Object(itemID, 1), origin, destination));
         }
 
         public override void DayUpdate()
         {
-            var player = Game1.getFarmer( Owner.Value);
+            var player = Game1.getFarmer( owner.Value);
             //Player Can get artifacts from the shift if they have the Trowler Profession
-            bool flag = player != null && player.HasCustomProfession(Archaeology_Skill.Archaeology10b1);
+            bool flag = player != null && player.HasCustomProfession(Archaeology_Skill.Archaeology5b);
+            bool flag2 = player != null && player.HasCustomProfession(Archaeology_Skill.Archaeology10b1);
 
             //If there is no fiber in the shifter, return and don't do anything.
             //If there is already an item in the shifter, return an don't do anything
-            if (!( ShifterBait.Value != null) ||  heldObject.Value != null)
+            if (!( bait.Value != null) ||  heldObject.Value != null)
             {
                 return;
             }
 
-            ShifterArtTileToShow = 4;
+            TileIndexToShow = 4;
              readyForHarvest.Value = true;
-            Random random = new Random((int)Game1.stats.DaysPlayed + (int)Game1.uniqueIDForThisGame / 2 + (int) ShifterLocation.X * 1000 + (int) ShifterLocation.Y);
+            Random random = new Random((int)Game1.stats.DaysPlayed + (int)Game1.uniqueIDForThisGame / 2 + (int) TileLocation.X * 1000 + (int) TileLocation.Y);
 
             //Generate the list of loot
             List<string> list =
             [
                 //Populate the loot list
-                .. ModEntry.BonusLootTable,
+                .. ModEntry.WaterSifterLootTable,
             ];
 
             //If flag is true, add in the artifact loot table to the list
-            if (flag)
+            if (flag2)
+            {
+                foreach (string item in ModEntry.BonusLootTable)
+                {
+                    list.Add(item);
+                }
+            }
+
+            //If flag is true, add in the artifact loot table to the list
+            if (flag2)
             {
                 foreach (string item in ModEntry.ArtifactLootTable)
                 {
@@ -381,7 +375,8 @@ namespace ArchaeologySkill.Objects.Water_Shifter
 
             if ( heldObject.Value == null)
             {
-                 heldObject.Value = new Object(list[random.Next(list.Count)], 1);
+                string test = list[random.Next(list.Count)];
+                heldObject.Value = new Object(test, random.Choose(1, 2, 3, 4, 5));
             }
         }
 
@@ -392,24 +387,24 @@ namespace ArchaeologySkill.Objects.Water_Shifter
                  LidFlapTimer -= time.ElapsedGameTime.Milliseconds;
                 if ( LidFlapTimer <= 0f)
                 {
-                    ShifterArtTileToShow += ((! LidClosing) ? 1 : (-1));
-                    if (ShifterArtTileToShow >= 3 && ! LidClosing)
+                    TileIndexToShow += ((! LidClosing) ? 1 : (-1));
+                    if (TileIndexToShow >= 3 && ! LidClosing)
                     {
                          LidClosing = true;
-                        ShifterArtTileToShow--;
+                        TileIndexToShow--;
 
                     }
-                    else if (ShifterArtTileToShow <= 1 &&  LidClosing)
+                    else if (TileIndexToShow <= 1 &&  LidClosing)
                     {
                          LidClosing = false;
-                        ShifterArtTileToShow++;
+                        TileIndexToShow++;
                          LidFlapping = false;
-                        if ( ShifterBait.Value != null)
+                        if ( bait.Value != null)
                         {
-                            ShifterArtTileToShow = 3;
+                            TileIndexToShow = 3;
                         } else
                         {
-                            ShifterArtTileToShow = 0;
+                            TileIndexToShow = 0;
                         }
                     }
 
@@ -448,40 +443,40 @@ namespace ArchaeologySkill.Objects.Water_Shifter
 
             if (heldObject.Value != null)
             {
-                ShifterArtTileToShow = 4;
+                TileIndexToShow = 4;
             }
-            else if (ShifterArtTileToShow == 0)
+            else if (TileIndexToShow == 0)
             {
-                ShifterArtTileToShow = 0;
+                TileIndexToShow = 0;
             }
 
             YBob = (float)(Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 500.0 + (double)(x * 64)) * 8.0 + 8.0);
             if (YBob <= 0.001f)
             {
-                location.temporarySprites.Add(new TemporaryAnimatedSprite("TileSheets\\animations", new Rectangle(0, 0, 64, 64), 150f, 8, 0, ShifterDirectionOffset.Value + new Vector2(x * 64 + 4, y * 64 + 32), flicker: false, Game1.random.NextBool(), 0.001f, 0.01f, Color.White, 0.75f, 0.003f, 0f, 0f));
+                location.temporarySprites.Add(new TemporaryAnimatedSprite("TileSheets\\animations", new Rectangle(0, 0, 64, 64), 150f, 8, 0, directionOffset.Value + new Vector2(x * 64 + 4, y * 64 + 32), flicker: false, Game1.random.NextBool(), 0.001f, 0.01f, Color.White, 0.75f, 0.003f, 0f, 0f));
             }
 
-            spriteBatch.Draw(ModEntry.Assets.Water_shifter, Game1.GlobalToLocal(Game1.viewport, ShifterDirectionOffset.Value + new Vector2(x * 64, y * 64 + (int)YBob)) + Shake, Game1.getSourceRectForStandardTileSheet(ModEntry.Assets.Water_shifter, ShifterArtTileToShow, 16, 16), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, ((float)(y * 64) + ShifterDirectionOffset.Y + (float)(x % 4)) / 10000f);
+            spriteBatch.Draw(ModEntry.Assets.Water_shifter, Game1.GlobalToLocal(Game1.viewport, directionOffset.Value + new Vector2(x * 64, y * 64 + (int)YBob)) + Shake, Game1.getSourceRectForStandardTileSheet(ModEntry.Assets.Water_shifter, TileIndexToShow, 16, 16), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, ((float)(y * 64) + directionOffset.Y + (float)(x % 4)) / 10000f);
             if (location.waterTiles != null && x < location.waterTiles.waterTiles.GetLength(0) && y < location.waterTiles.waterTiles.GetLength(1) && location.waterTiles.waterTiles[x, y].isWater)
             {
                 if (location.waterTiles.waterTiles[x, y].isVisible)
                 {
-                    spriteBatch.Draw(Game1.mouseCursors, Game1.GlobalToLocal(Game1.viewport, ShifterDirectionOffset.Value + new Vector2(x * 64 + 4, y * 64 + 48)) + Shake, new Rectangle(location.waterAnimationIndex * 64, 2112 + (((x + y) % 2 != 0) ? ((!location.waterTileFlip) ? 128 : 0) : (location.waterTileFlip ? 128 : 0)), 56, 16 + (int)YBob), location.waterColor.Value, 0f, Vector2.Zero, 1f, SpriteEffects.None, ((float)(y * 64) + ShifterDirectionOffset.Y + (float)(x % 4)) / 9999f);
+                    spriteBatch.Draw(Game1.mouseCursors, Game1.GlobalToLocal(Game1.viewport, directionOffset.Value + new Vector2(x * 64 + 4, y * 64 + 48)) + Shake, new Rectangle(location.waterAnimationIndex * 64, 2112 + (((x + y) % 2 != 0) ? ((!location.waterTileFlip) ? 128 : 0) : (location.waterTileFlip ? 128 : 0)), 56, 16 + (int)YBob), location.waterColor.Value, 0f, Vector2.Zero, 1f, SpriteEffects.None, ((float)(y * 64) + directionOffset.Y + (float)(x % 4)) / 9999f);
                 }
                 else
                 {
                     Color a = new Color(135, 135, 135, 215);
                     a = Utility.MultiplyColor(a, location.waterColor.Value);
-                    spriteBatch.Draw(Game1.staminaRect, Game1.GlobalToLocal(Game1.viewport, ShifterDirectionOffset.Value + new Vector2(x * 64 + 4, y * 64 + 48)) + Shake, null, a, 0f, Vector2.Zero, new Vector2(56f, 16 + (int)YBob), SpriteEffects.None, ((float)(y * 64) + ShifterDirectionOffset.Y + (float)(x % 4)) / 9999f);
+                    spriteBatch.Draw(Game1.staminaRect, Game1.GlobalToLocal(Game1.viewport, directionOffset.Value + new Vector2(x * 64 + 4, y * 64 + 48)) + Shake, null, a, 0f, Vector2.Zero, new Vector2(56f, 16 + (int)YBob), SpriteEffects.None, ((float)(y * 64) + directionOffset.Y + (float)(x % 4)) / 9999f);
                 }
             }
 
             if (readyForHarvest.Value && heldObject.Value != null)
             {
                 float num = 4f * (float)Math.Round(Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 250.0), 2);
-                spriteBatch.Draw(Game1.mouseCursors, Game1.GlobalToLocal(Game1.viewport, ShifterDirectionOffset.Value + new Vector2(x * 64 - 8, (float)(y * 64 - 96 - 16) + num)), new Rectangle(141, 465, 20, 24), Color.White * 0.75f, 0f, Vector2.Zero, 4f, SpriteEffects.None, (float)((y + 1) * 64) / 10000f + 1E-06f + ShifterLocation.X / 10000f);
+                spriteBatch.Draw(Game1.mouseCursors, Game1.GlobalToLocal(Game1.viewport, directionOffset.Value + new Vector2(x * 64 - 8, (float)(y * 64 - 96 - 16) + num)), new Rectangle(141, 465, 20, 24), Color.White * 0.75f, 0f, Vector2.Zero, 4f, SpriteEffects.None, (float)((y + 1) * 64) / 10000f + 1E-06f + TileLocation.X / 10000f);
                 ParsedItemData dataOrErrorItem = ItemRegistry.GetDataOrErrorItem(heldObject.Value.QualifiedItemId);
-                spriteBatch.Draw(dataOrErrorItem.GetTexture(), Game1.GlobalToLocal(Game1.viewport, ShifterDirectionOffset.Value + new Vector2(x * 64 + 32, (float)(y * 64 - 64 - 8) + num)), dataOrErrorItem.GetSourceRect(), Color.White * 0.75f, 0f, new Vector2(8f, 8f), 4f, SpriteEffects.None, (float)((y + 1) * 64) / 10000f + 1E-05f + ShifterLocation.X / 10000f);
+                spriteBatch.Draw(dataOrErrorItem.GetTexture(), Game1.GlobalToLocal(Game1.viewport, directionOffset.Value + new Vector2(x * 64 + 32, (float)(y * 64 - 64 - 8) + num)), dataOrErrorItem.GetSourceRect(), Color.White * 0.75f, 0f, new Vector2(8f, 8f), 4f, SpriteEffects.None, (float)((y + 1) * 64) / 10000f + 1E-05f + TileLocation.X / 10000f);
             }
         }
     }

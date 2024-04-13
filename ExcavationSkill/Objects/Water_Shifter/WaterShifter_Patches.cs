@@ -23,27 +23,27 @@ namespace ArchaeologySkill.Objects.Water_Shifter
 
             harmony.Patch(
                 original: AccessTools.Method(typeof(Object), nameof(Object.placementAction)),
-                prefix: new(typeof(Patches), nameof(placementActionPrefix))
+                prefix: new(typeof(Patches), nameof(PlacementActionPrefix))
             );
             harmony.Patch(
                 original: AccessTools.Method(typeof(Object), nameof(Object.canBePlacedHere)),
-                prefix: new(typeof(Patches), nameof(canBePlacedHerePrefix))
+                prefix: new(typeof(Patches), nameof(CanBePlacedHerePrefix))
             );
             harmony.Patch(
                 original: AccessTools.Method(typeof(Object), nameof(Object.isPlaceable)),
-                prefix: new(typeof(Patches), nameof(isPlaceablePrefix))
+                prefix: new(typeof(Patches), nameof(IsPlaceablePrefix))
             );
             harmony.Patch(
                 original: AccessTools.Method(typeof(Object), nameof(Object.drawPlacementBounds)),
-                postfix: new(typeof(Patches), nameof(drawPlacementBoundsPostfix))
+                postfix: new(typeof(Patches), nameof(DrawPlacementBoundsPostfix))
             );
         }
 
-        internal static bool placementActionPrefix(Object __instance, ref bool __result, GameLocation location, int x, int y, Farmer who = null)
+        internal static bool PlacementActionPrefix(Object __instance, ref bool __result, GameLocation location, int x, int y, Farmer who = null)
         {
             try
             {
-                if (__instance.ItemId == ModEntry.ObjectInfo.Id)
+                if (__instance.ItemId == "moonslime.Archaeology.water_shifter")
                 {
                     Point tile = new((int)Math.Floor(x / 64f), (int)Math.Floor(y / 64f));
                     if (!WaterShifter.IsValidPlacementLocation(location, tile.X, tile.Y))
@@ -55,42 +55,42 @@ namespace ArchaeologySkill.Objects.Water_Shifter
                 }
                 return true;
             }
-            catch (Exception ex) { return handleError($"Object.{nameof(Object.placementAction)}", ex, __instance?.ItemId != ModEntry.ObjectInfo.Id); }
+            catch (Exception ex) { return HandleError($"Object.{nameof(Object.placementAction)}", ex, __instance?.ItemId != "moonslime.Archaeology.water_shifter"); }
         }
 
-        internal static bool canBePlacedHerePrefix(Object __instance, ref bool __result, GameLocation l, Vector2 tile)
+        internal static bool CanBePlacedHerePrefix(Object __instance, ref bool __result, GameLocation l, Vector2 tile)
         {
             try
             {
-                if (__instance.ItemId == ModEntry.ObjectInfo.Id)
+                if (__instance.ItemId == "moonslime.Archaeology.water_shifter")
                 {
                     __result = WaterShifter.IsValidPlacementLocation(l, (int)tile.X, (int)tile.Y);
                     return false;
                 }
                 return true;
             }
-            catch (Exception ex) { return handleError($"Object.{nameof(Object.canBePlacedHere)}", ex, true); }
+            catch (Exception ex) { return HandleError($"Object.{nameof(Object.canBePlacedHere)}", ex, true); }
         }
 
-        internal static bool isPlaceablePrefix(Object __instance, ref bool __result)
+        internal static bool IsPlaceablePrefix(Object __instance, ref bool __result)
         {
             try
             {
-                if (__instance.ItemId == ModEntry.ObjectInfo.Id)
+                if (__instance.ItemId == "moonslime.Archaeology.water_shifter")
                 {
                     __result = _instance.isPlaceable();
                     return false;
                 }
                 return true;
             }
-            catch (Exception ex) { return handleError($"Object.{nameof(Object.isPlaceable)}", ex, true); }
+            catch (Exception ex) { return HandleError($"Object.{nameof(Object.isPlaceable)}", ex, true); }
         }
 
-        internal static void drawPlacementBoundsPostfix(Object __instance, SpriteBatch spriteBatch, GameLocation location)
+        internal static void DrawPlacementBoundsPostfix(Object __instance, SpriteBatch spriteBatch, GameLocation location)
         {
             try
             {
-                if (__instance.ItemId != ModEntry.ObjectInfo.Id)
+                if (__instance.ItemId != "moonslime.Archaeology.water_shifter")
                     return;
                 int X = (int)Game1.GetPlacementGrabTile().X * 64;
                 int Y = (int)Game1.GetPlacementGrabTile().Y * 64;
@@ -103,12 +103,12 @@ namespace ArchaeologySkill.Objects.Water_Shifter
                 }
                 _instance.draw(spriteBatch, X / 64, Y / 64, 0.5f);
             }
-            catch (Exception ex) { handleError($"Object.{nameof(Object.drawWhenHeld)}", ex, false); }
+            catch (Exception ex) { HandleError($"Object.{nameof(Object.drawWhenHeld)}", ex, false); }
         }
 
 
 
-        private static bool handleError(string source, Exception ex, bool result)
+        private static bool HandleError(string source, Exception ex, bool result)
         {
             IMonitor.Log($"Faild patching {source}", LogLevel.Error);
             IMonitor.Log($"{ex.Message}\n{ex.StackTrace}");

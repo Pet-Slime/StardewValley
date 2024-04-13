@@ -26,13 +26,16 @@ namespace ArchaeologySkill
         /// <param name="yLocation">the player's y location</param>
         /// <param name="panning">is the effect from panning, since bonus loot works differently there.</param>
         /// <param name="exactItem">What bonus item if it passes the checks do you want to give the player</param>
-        public static void ApplyArchaeologySkill(Farmer who, bool bonusLoot = false, int xLocation = 0, int yLocation = 0, bool panning = false, string exactItem = "")
+        public static void ApplyArchaeologySkill(Farmer who, int EXP, bool bonusLoot = false, int xLocation = 0, int yLocation = 0, bool panning = false, string exactItem = "")
         {
             var farmer = Game1.getFarmer(who.UniqueMultiplayerID);
 
             //Give the player EXP
             BirbCore.Attributes.Log.Trace("Archaeology Skll: Adding EXP to the player");
-            AddEXP(farmer, ModEntry.Config.ExperienceFromArtifactSpots);
+
+
+
+            AddEXP(farmer, EXP);
 
             //If the player has the gold rush profession, give them a speed buff
             BirbCore.Attributes.Log.Trace("Archaeology Skll: Does the player have gold rusher?");
@@ -114,31 +117,6 @@ namespace ArchaeologySkill
         {
             var player = Game1.getFarmer(who.UniqueMultiplayerID);
             return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Archaeology") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Archaeology");
-        }
-
-        internal static Object? GetObjectFromSerializable(WaterShifterSerializable serializable)
-        {
-            Object? o = null;
-            string id = serializable.ObjectId;
-            if (serializable.IsJAObject)
-            {
-                id = ModEntry.JAAPI.GetObjectId(serializable.ObjectName);
-                if (string.IsNullOrWhiteSpace(id))
-                    id = serializable.ObjectId;
-            }
-            else if (serializable.IsDGAObject)
-            {
-                object spawned = ModEntry.DGAAPI.SpawnDGAItem(serializable.ObjectName);
-                if (spawned is Object dgaObject)
-                {
-                    o = dgaObject;
-                    o.Stack = serializable.ObjectStack;
-                    o.Quality = serializable.ObjectQuality;
-                }
-                return o;
-            }
-            o = (Object?)ItemRegistry.Create(id, serializable.ObjectStack, serializable.ObjectQuality, true);
-            return o;
         }
 
     }
