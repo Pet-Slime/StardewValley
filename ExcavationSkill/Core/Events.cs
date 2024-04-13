@@ -65,12 +65,26 @@ namespace ArchaeologySkill.Core
         private void DayStarted(object sender, DayStartedEventArgs e)
         {
 
-            Log.Trace("Archaeology: Does player have Pioneer Profession?");
-            if (Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology5a))
+            if (Game1.IsMasterGame)
             {
-                Log.Trace("Archaeology: They do have Pioneer profession, spawn extra artifact spots.");
-                SpawnDiggingSpots(2);
+                int extraArtifactSpot = 0;
 
+                foreach (Farmer farmer in Game1.getOnlineFarmers())
+                {
+                    Log.Trace("Archaeology: Does a player have Pioneer Profession?");
+                    var player = Game1.getFarmer(farmer.UniqueMultiplayerID);
+                    if (player.isActive() && player.HasCustomProfession(Archaeology_Skill.Archaeology5a))
+                    {
+                        Log.Trace("Archaeology: They do have Pioneer profession, spawn extra artifact spots.");
+                        extraArtifactSpot += 2;
+                        Log.Trace("Archaeology: extra artifact spot chance increased by: " + extraArtifactSpot.ToString());
+                    }
+                }
+
+                if (extraArtifactSpot != 0)
+                {
+                    SpawnDiggingSpots(extraArtifactSpot);
+                }
             }
 
             if (ModEntry.Instance.ValidateInventory) //Check if the item's id has changed, so the player doesn't end up with bugged objects
@@ -148,35 +162,35 @@ namespace ArchaeologySkill.Core
                     l.Objects.Remove(f.TileLocation);
             }
         }
-
-        [SEvent.AssetRequested]
-        private void AssetRequested(object sender, AssetRequestedEventArgs e)
-        {
-            if (e.NameWithoutLocale.IsEquivalentTo("Data/Objects"))
-            {
-                e.Edit(asset =>
-                {
-                    var data = asset.AsDictionary<string, ObjectData>().Data;
-                    ModEntry.ObjectInfo.Object.DisplayName = ModEntry.Instance.I18N.Get("moonslime.Archaeology.water_shifter.name");
-                    ModEntry.ObjectInfo.Object.Description = ModEntry.Instance.I18N.Get("moonslime.Archaeology.water_shifter.description");
-                    data[ModEntry.ObjectInfo.Id] = ModEntry.ObjectInfo.Object;
-                });
-            }
-
-            if (e.NameWithoutLocale.IsEquivalentTo("Data/CraftingRecipes"))
-            {
-                e.Edit(asset =>
-                {
-                    var data = asset.AsDictionary<string, string>().Data;
-                    data["moonslime.Archaeology.water_shifter"] = string.Format(ModEntry.ObjectInfo.Recipe, ModEntry.ObjectInfo.Id, ModEntry.Instance.I18N.Get("moonslime.Archaeology.water_shifter.name"));
-                });
-            }
-
-            if (e.NameWithoutLocale.IsEquivalentTo("moonslime.Archaeology.water_shifter/waterShifter"))
-            {
-                e.LoadFromModFile<Texture2D>("assets/water_shifter.png", AssetLoadPriority.Exclusive);
-            }
-        }
+ //
+ //       [SEvent.AssetRequested]
+ //       private void AssetRequested(object sender, AssetRequestedEventArgs e)
+ //       {
+ //           if (e.NameWithoutLocale.IsEquivalentTo("Data/Objects"))
+ //           {
+ //               e.Edit(asset =>
+ //               {
+ //                   var data = asset.AsDictionary<string, ObjectData>().Data;
+ //                   ModEntry.ObjectInfo.Object.DisplayName = ModEntry.Instance.I18N.Get("moonslime.Archaeology.water_shifter.name");
+ //                   ModEntry.ObjectInfo.Object.Description = ModEntry.Instance.I18N.Get("moonslime.Archaeology.water_shifter.description");
+ //                   data[ModEntry.ObjectInfo.Id] = ModEntry.ObjectInfo.Object;
+ //               });
+ //           }
+ //
+ //           if (e.NameWithoutLocale.IsEquivalentTo("Data/CraftingRecipes"))
+ //           {
+ //               e.Edit(asset =>
+ //               {
+ //                   var data = asset.AsDictionary<string, string>().Data;
+ //                   data["moonslime.Archaeology.water_shifter"] = string.Format(ModEntry.ObjectInfo.Recipe, ModEntry.ObjectInfo.Id, ModEntry.Instance.I18N.Get("moonslime.Archaeology.water_shifter.name"));
+ //               });
+ //           }
+ //
+ //           if (e.NameWithoutLocale.IsEquivalentTo("moonslime.Archaeology.water_shifter/waterShifter"))
+ //           {
+ //               e.LoadFromModFile<Texture2D>("assets/water_shifter.png", AssetLoadPriority.Exclusive);
+ //           }
+ //       }
 
         [SEvent.MenuChanged]
         private void MenuChanged(object sender, MenuChangedEventArgs e)
@@ -333,9 +347,9 @@ namespace ArchaeologySkill.Core
 
                 if (loc.IsFarm || !loc.IsOutdoors)
                     continue;
-
+                //   0 >= 2
                 if (maxspawn >= spawn)
-                    continue;
+                    break;
 
                 for (int z = 0; z < spawn; z++)
                 {
