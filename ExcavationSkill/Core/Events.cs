@@ -47,7 +47,7 @@ namespace ArchaeologySkill.Core
             foreach (string entry in ModEntry.ItemDefinitions["waterShifter_loot_table"])
             {
                 Log.Trace("Archaeology: Adding " + entry + " to the water shifter loot table");
-                ModEntry.ArtifactLootTable.Add(entry);
+                ModEntry.WaterSifterLootTable.Add(entry);
             }
             foreach (string entry in ModEntry.ItemDefinitions["artifact_loot_table"])
             {

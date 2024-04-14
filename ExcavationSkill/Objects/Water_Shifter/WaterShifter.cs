@@ -351,8 +351,8 @@ namespace ArchaeologySkill.Objects.Water_Shifter
                 .. ModEntry.WaterSifterLootTable,
             ];
 
-            //If flag is true, add in the artifact loot table to the list
-            if (flag2)
+            //If flag is true, add in the bonus loot table to the list
+            if (flag)
             {
                 foreach (string item in ModEntry.BonusLootTable)
                 {
@@ -360,7 +360,7 @@ namespace ArchaeologySkill.Objects.Water_Shifter
                 }
             }
 
-            //If flag is true, add in the artifact loot table to the list
+            //If flag2 is true, add in the artifact loot table to the list
             if (flag2)
             {
                 foreach (string item in ModEntry.ArtifactLootTable)
@@ -376,7 +376,7 @@ namespace ArchaeologySkill.Objects.Water_Shifter
             if ( heldObject.Value == null)
             {
                 string test = list[random.Next(list.Count)];
-                heldObject.Value = new Object(test, random.Choose(1, 2, 3, 4, 5));
+                heldObject.Value = new Object(test, 1);
             }
         }
 

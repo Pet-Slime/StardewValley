@@ -11,6 +11,13 @@
                 "HasMod |contains=spacechase0.SpaceCore": true
             },
             "FromFile": "Data/ObjectCatagories.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=Lumisteria.MtVapius": true
+            },
+            "FromFile": "Data/VMV_ObjectsData.json, Data/VMV_MachinesData.json, Data/VMV_ObjectCatagories.json"
         }
     ]
 }

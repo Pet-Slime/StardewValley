@@ -1,7 +1,7 @@
 ﻿{
     "Name": "[CP] Archaeology Skill",
     "Author": "moonslime",
-    "Version": "2.4.0",
+    "Version": "2.5.0",
     "Description": "Archaeology Skill Content Patcher",
     "UniqueID": "moonslime.ArchaeologySkill.CP",
     "ContentPackFor": {
@@ -18,6 +18,10 @@
         },
 		{
             "UniqueID": "FlashShifter.StardewValleyExpandedCP",
+			"IsRequired": false
+        },
+		{
+            "UniqueID": "Lumisteria.MtVapius",
 			"IsRequired": false
         }
     ]
