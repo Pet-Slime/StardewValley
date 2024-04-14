@@ -33,8 +33,6 @@ namespace ArchaeologySkill
             //Give the player EXP
             BirbCore.Attributes.Log.Trace("Archaeology Skll: Adding EXP to the player");
 
-
-
             AddEXP(farmer, EXP);
 
             //If the player has the gold rush profession, give them a speed buff
@@ -73,9 +71,9 @@ namespace ArchaeologySkill
         public static bool ApplySpeedBoost(Farmer who)
         {
             //Get the player
-            var player = Game1.player;
+            var player = Game1.getFarmer(who.UniqueMultiplayerID);
             //check to see the player who is doing the request is the same one as this player. 
-            if (who != player)
+            if (player != Game1.player)
                 return false;
 
             Buff buff = new(
@@ -83,19 +81,19 @@ namespace ArchaeologySkill
                 displayName: "Gold Rush", // can optionally specify description text too
                 iconTexture: ModEntry.Assets.Gold_Rush_Buff,
                 iconSheetIndex: 0,
-                duration: 5_000*GetLevel(Game1.getFarmer(who.UniqueMultiplayerID)), // 50 seconds by default. Can go higher with buffs.
+                duration: 6_000*GetLevel(player), // 60 seconds by default. Can go higher with buffs.
                 effects: new BuffEffects()
                 {
-                    Speed = { 2 } // shortcut for buff.Speed.Value = 5
+                    Speed = { 3 } // shortcut for buff.Speed.Value = 5
                 }
             );
             //Check to see if the player already has the haste buff. if so, don't refresh it and return false.
-            if (Game1.player.hasBuff(buff.id))
+            if (player.hasBuff(buff.id))
                 return false;
 
 
             //Apply the buff make sure we have it have a custon name.
-            Game1.player.applyBuff(buff);
+            player.applyBuff(buff);
 
             //get the player's tile positon as a vector2
             Vector2 tile = new(

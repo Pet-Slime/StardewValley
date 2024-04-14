@@ -1109,10 +1109,10 @@
                     ],
                     "CustomFields": null
                 },
-                "moonslime.Archaeology.w_dwarvisw_device": {
+                "moonslime.Archaeology.w_dwarvish_device": {
                     "Name": "Wooden Display: Dwarvish Device",
-                    "DisplayName": "{{i18n:moonslime.Archaeology.w_dwarvisw_device.name}}",
-                    "Description": "{{i18n:moonslime.Archaeology.w_dwarvisw_device.description}}",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.w_dwarvish_device.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.w_dwarvish_device.description}}",
                     "Type": "Basic",
                     "Category": 0,
                     "Price": 1180,

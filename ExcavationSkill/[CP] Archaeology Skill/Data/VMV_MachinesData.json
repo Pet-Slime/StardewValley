@@ -948,58 +948,6 @@
                             ],
                             "MinutesUntilReady": 720
                         }
-                    ],
-                    "AdditionalConsumedItems": [
-                        {
-                            "ItemId": "(O)moonslime.Archaeology.w_display",
-                            "RequiredCount": 1
-                        }
-                    ],
-                    "WobbleWhileWorking": true,
-                    "LoadEffects": [
-                        {
-                            "Id": "Default",
-                            "Condition": null,
-                            "Sounds": [
-                                {
-                                    "Id": "Ship",
-                                    "Delay": 0
-                                },
-                                {
-                                    "Id": "bubbles",
-                                    "Delay": 0
-                                }
-                            ],
-                            "Interval": 100,
-                            "Frames": null,
-                            "ShakeDuration": -1,
-                            "TemporarySprites": [
-                                {
-                                    "Id": "Default",
-                                    "Condition": null,
-                                    "Texture": "TileSheets\\animations",
-                                    "SourceRect": {
-                                        "X": 256,
-                                        "Y": 1856,
-                                        "Width": 64,
-                                        "Height": 128
-                                    },
-                                    "Interval": 80,
-                                    "Frames": 6,
-                                    "Loops": 999999,
-                                    "PositionOffset": "0, -32",
-                                    "Flicker": false,
-                                    "Flip": false,
-                                    "SortOffset": 0,
-                                    "AlphaFade": 0.005,
-                                    "Scale": 0.25,
-                                    "ScaleChange": 0,
-                                    "Rotation": 0,
-                                    "RotationChange": 0,
-                                    "Color": "#bfbf00bf"
-                                }
-                            ]
-                        }
                     ]
                 },
                 "(BC)moonslime.Archaeology.h_preservation_chamber": {
@@ -1633,58 +1581,6 @@
                                 }
                             ],
                             "MinutesUntilReady": 720
-                        }
-                    ],
-                    "AdditionalConsumedItems": [
-                        {
-                            "ItemId": "(O)moonslime.Archaeology.h_display",
-                            "RequiredCount": 1
-                        }
-                    ],
-                    "WobbleWhileWorking": true,
-                    "LoadEffects": [
-                        {
-                            "Id": "Default",
-                            "Condition": null,
-                            "Sounds": [
-                                {
-                                    "Id": "Ship",
-                                    "Delay": 0
-                                },
-                                {
-                                    "Id": "bubbles",
-                                    "Delay": 0
-                                }
-                            ],
-                            "Interval": 100,
-                            "Frames": null,
-                            "ShakeDuration": -1,
-                            "TemporarySprites": [
-                                {
-                                    "Id": "Default",
-                                    "Condition": null,
-                                    "Texture": "TileSheets\\animations",
-                                    "SourceRect": {
-                                        "X": 256,
-                                        "Y": 1856,
-                                        "Width": 64,
-                                        "Height": 128
-                                    },
-                                    "Interval": 80,
-                                    "Frames": 6,
-                                    "Loops": 999999,
-                                    "PositionOffset": "0, -32",
-                                    "Flicker": false,
-                                    "Flip": false,
-                                    "SortOffset": 0,
-                                    "AlphaFade": 0.005,
-                                    "Scale": 0.25,
-                                    "ScaleChange": 0,
-                                    "Rotation": 0,
-                                    "RotationChange": 0,
-                                    "Color": "#bfbf00bf"
-                                }
-                            ]
                         }
                     ]
                 }
