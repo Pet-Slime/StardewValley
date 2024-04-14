@@ -1,8 +1,8 @@
 {
     "moonslime.Archaeology.item_catagory": "展示古物",
 	
-    "moonslime.Archaeology.water_shifter.name": "水过滤器",
-    "moonslime.Archaeology.water_shifter.description": "水过滤器",
+    "moonslime.Archaeology.water_shifter.name": "滤水器",
+    "moonslime.Archaeology.water_shifter.description": "把它放在水中，系上纤维，第二天检查它是否有任何东西。\n在河流、湖泊和海洋中工作。",
 
     "moonslime.Archaeology.glass_path.name": "玻璃小径",
     "moonslime.Archaeology.glass_path.description": "放在地上修建小路，也可以装饰地板。",
