@@ -1,4 +1,4 @@
-{
+﻿{
     "moonslime.Archaeology.item_catagory": "Display Artifact",
 	
     "moonslime.Archaeology.water_shifter.name": "Water Shifter",
@@ -313,8 +313,6 @@
     "moonslime.Archaeology.h_medallion.description": "A medallion on a hardwood stand.",
     "moonslime.Archaeology.h_cyanotype.name": "Hardwood Display: Cyanotype",
     "moonslime.Archaeology.h_cyanotype.description": "A Cyanotype on a hardwood stand.",
-    "moonslime.Archaeology.h_prehistoric_vertebra.name": "Hardwood Display: Prehistoric Vertebra",
-    "moonslime.Archaeology.h_prehistoric_vertebra.description": "A prehistoric vertebra on a hardwood stand.",
 	
     "moonslime.Archaeology.w_fossilized_starfish.name": "Wooden Display: Fossilized Starfish",
     "moonslime.Archaeology.w_fossilized_starfish.description": "A fossilized starfish on a wooden stand.",
@@ -371,7 +369,5 @@
     "moonslime.Archaeology.w_medallion.name": "Wooden Display: Medallion",
     "moonslime.Archaeology.w_medallion.description": "A medallion on a wooden stand.",
     "moonslime.Archaeology.w_cyanotype.name": "Wooden Display: Cyanotype",
-    "moonslime.Archaeology.w_cyanotype.description": "A Cyanotype on a wooden stand.",
-    "moonslime.Archaeology.w_prehistoric_vertebra.name": "Wooden Display: Prehistoric Vertebra",
-    "moonslime.Archaeology.w_prehistoric_vertebra.description": "A prehistoric vertebra on a wooden stand."
+    "moonslime.Archaeology.w_cyanotype.description": "A Cyanotype on a wooden stand."
 }

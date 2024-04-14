@@ -1,40 +1,40 @@
-{
+﻿{
     "moonslime.Archaeology.item_catagory": "展示古物",
-	
+
     "moonslime.Archaeology.water_shifter.name": "滤水器",
     "moonslime.Archaeology.water_shifter.description": "把它放在水中，系上纤维，第二天检查它是否有任何东西。\n在河流、湖泊和海洋中工作。",
 
     "moonslime.Archaeology.glass_path.name": "玻璃小径",
     "moonslime.Archaeology.glass_path.description": "放在地上修建小路，也可以装饰地板。",
-	
+
     "moonslime.Archaeology.bone_path.name": "骨头小径",
     "moonslime.Archaeology.bone_path.description": "放在地上修建小路，也可以让你的地板变得恐怖。",
-	
+
     "moonslime.Archaeology.rust_path.name": "锈蚀小径",
     "moonslime.Archaeology.rust_path.description": "放在地上修建小路，也可以让你的地板变得更朴素。",
-	
+
     "moonslime.Archaeology.skill_book.name": "像蠕虫一样挖掘",
     "moonslime.Archaeology.skill_book.description": "一个蠢货的考古指南，现在去寻找宝藏。",
-	
+
     "moonslime.Archaeology.totem_volcano_warp.name": "矮人小工具：无限火山模拟",
     "moonslime.Archaeology.totem_volcano_warp.description": "用你对古物的研究制成的装置。将你传送到可以无限攀登火山的版本。警告:携带传送的物品撤离。",
-	
+
     "moonslime.Archaeology.diggers_delight.name": "挖掘者之乐",
     "moonslime.Archaeology.diggers_delight.description": "在你开始挖掘泥土之前，这是一种美味的冷食！",
-	
+
     "moonslime.Archaeology.rocky_root.name": "岩石根茎咖啡",
     "moonslime.Archaeology.rocky_root.description": "警告：不要把石头喝下去。它们只是调味品。",
-	
+
     "moonslime.Archaeology.ancient_jello.name": "古代果冻",
     "moonslime.Archaeology.ancient_jello.description": "在有缺口的土罐里烹饪，这种果冻实际上是用洞穴凝胶制成的。",
-	
+
     "moonslime.Archaeology.glass_fence.name": "玻璃围栏",
     "moonslime.Archaeology.glass_fence.description": "晶莹剔透玻璃围栏。",
-	
+
     "moonslime.Archaeology.rusty_scrap.name": "生锈碎块",
     "moonslime.Archaeology.rusty_scrap.description": "从研磨机上得到的生锈的碎块。",
-	
-	"moonslime.Archaeology.grinder.name": "研磨机",
+
+    "moonslime.Archaeology.grinder.name": "研磨机",
     "moonslime.Archaeology.grinder.description": "将生锈的古物磨成矿石。",
 
     "moonslime.Archaeology.ancient_battery.name": "电池古法生产站",
@@ -46,7 +46,7 @@
     "moonslime.Archaeology.h_preservation_chamber.name": "硬木收藏室",
     "moonslime.Archaeology.h_preservation_chamber.description": "在这里放一个硬木展台和一件古物去制作一件硬木展台展品。",
 
-	
+
     "moonslime.Archaeology.h_display.name": "硬木展台",
     "moonslime.Archaeology.h_display.description": "一个硬木制成的展台。",
     "moonslime.Archaeology.h_amphibian_fossil.name": "硬木展台：两栖动物化石",
@@ -255,7 +255,119 @@
     "moonslime.Archaeology.w_snake_skull.name": "木展台: 蛇头骨",
     "moonslime.Archaeology.w_snake_skull.description": "在木展台上的蛇头骨。",
     "moonslime.Archaeology.w_snake_vertebrae.name": "木展台: 蛇脊椎骨",
-    "moonslime.Archaeology.w_snake_vertebrae.description": "在木展台上的蛇脊椎骨。"
+    "moonslime.Archaeology.w_snake_vertebrae.description": "在木展台上的蛇脊椎骨。",
 
+    "moonslime.Archaeology.h_fossilized_starfish.name": "Hardwood Display: Fossilized Starfish",
+    "moonslime.Archaeology.h_fossilized_starfish.description": "A fossilized starfish on a hardwood stand.",
+    "moonslime.Archaeology.h_fossilised_moth.name": "Hardwood Display: Fossilized Moth",
+    "moonslime.Archaeology.h_fossilised_moth.description": "A fossilized moth on a hardwood stand.",
+    "moonslime.Archaeology.h_fossilised_fern.name": "Hardwood Display: Fossilized Fern",
+    "moonslime.Archaeology.h_fossilised_fern.description": "A fossilized fern on a hardwood stand.",
+    "moonslime.Archaeology.h_fossilised_fish.name": "Hardwood Display: Fossilized Fish",
+    "moonslime.Archaeology.h_fossilised_fish.description": "A fossilized fern on a hardwood stand.",
+    "moonslime.Archaeology.h_fossilised_ammonites.name": "Hardwood Display: Fossilized Ammonites",
+    "moonslime.Archaeology.h_fossilised_ammonites.description": "A fossilized ammonites on a hardwood stand.",
+    "moonslime.Archaeology.h_giant_tusk.name": "Hardwood Display: Giant Tusk",
+    "moonslime.Archaeology.h_giant_tusk.description": "A giant tusk on a hardwood stand.",
+    "moonslime.Archaeology.h_broken_watch.name": "Hardwood Display: Broken Watch",
+    "moonslime.Archaeology.h_broken_watch.description": "A broken watch on a hardwood stand",
+    "moonslime.Archaeology.h_broken_tea_cup.name": "Hardwood Display: Broken Tea Cup",
+    "moonslime.Archaeology.h_broken_tea_cup.description": "A broken tea cup on a hardwood stand",
+    "moonslime.Archaeology.h_efficient_cog.name": "Hardwood Display: Efficient Cog",
+    "moonslime.Archaeology.h_efficient_cog.description": "An efficient cog on a hardwood stand.",
+    "moonslime.Archaeology.h_dwarvish_device.name": "Hardwood Display: Dwarvish Device",
+    "moonslime.Archaeology.h_dwarvish_device.description": "A dwarvish device on a hardwood stand.",
+    "moonslime.Archaeology.h_rusty_chest.name": "Hardwood Display: Rusty Chest",
+    "moonslime.Archaeology.h_rusty_chest.description": "A rusty chest on a hardwood stand.",
+    "moonslime.Archaeology.h_petrified_flower.name": "Hardwood Display: Petrified Flower",
+    "moonslime.Archaeology.h_petrified_flower.description": "A petrified flower on a hardwood stand.",
+    "moonslime.Archaeology.h_dahu_statuette.name": "Hardwood Display: Dahu Statuette",
+    "moonslime.Archaeology.h_dahu_statuette.description": "A dahu statuette on a hardwood stand.",
+    "moonslime.Archaeology.h_faience_plate.name": "Hardwood Display: Faience Plate",
+    "moonslime.Archaeology.h_faience_plate.description": "A faience plate on a hardwood stand.",
+    "moonslime.Archaeology.h_copper_fibula.name": "Hardwood Display: Copper Fibula",
+    "moonslime.Archaeology.h_copper_fibula.description": "A copper fibula on a hardwood stand.",
+    "moonslime.Archaeology.h_fragment_mask.name": "Hardwood Display: Fragmented Mask",
+    "moonslime.Archaeology.h_fragment_mask.description": "A fragmented mask on a hardwood stand.",
+    "moonslime.Archaeology.h_old_miner_lamp.name": "Hardwood Display: Old Miner's Lamp",
+    "moonslime.Archaeology.h_old_miner_lamp.description": "An old miner's lamp on a hardwood stand.",
+    "moonslime.Archaeology.h_rusty_ring.name": "Hardwood Display: Rusty ring",
+    "moonslime.Archaeology.h_rusty_ring.description": "A rusty ring on a hardwood stand.",
+    "moonslime.Archaeology.h_stained_glass.name": "Hardwood Display: Stained Glass",
+    "moonslime.Archaeology.h_stained_glass.description": "Some stained glass on a hardwood stand.",
+    "moonslime.Archaeology.h_blue_cameo.name": "Hardwood Display: Blue Cameo",
+    "moonslime.Archaeology.h_blue_cameo.description": "A blue cameo on a hardwood stand.",
+    "moonslime.Archaeology.h_broken_sundial.name": "Hardwood Display: Broken Sundial",
+    "moonslime.Archaeology.h_broken_sundial.description": "A broken sundial on a hardwood stand.",
+    "moonslime.Archaeology.h_old_shield.name": "Hardwood Display: Old Shield",
+    "moonslime.Archaeology.h_old_shield.description": "An old shield on a hardwood stand.",
+    "moonslime.Archaeology.h_fragment_of_fossil_I.name": "Hardwood Display: Fragment of Fossil I",
+    "moonslime.Archaeology.h_fragment_of_fossil_I.description": "A fragment of a fossil a hardwood stand.",
+    "moonslime.Archaeology.h_fragment_of_fossil_II.name": "Hardwood Display: Fragment of Fossil II",
+    "moonslime.Archaeology.h_fragment_of_fossil_II.description": "A fragment of a fossil on a hardwood stand.",
+    "moonslime.Archaeology.h_fragment_of_fossil_III.name": "Hardwood Display: Fragment of Fossil III",
+    "moonslime.Archaeology.h_fragment_of_fossil_III.description": "A fragment of a fossil on a hardwood stand.",
+    "moonslime.Archaeology.h_rare_stamp.name": "Hardwood Display: Rare Stamp",
+    "moonslime.Archaeology.h_rare_stamp.description": "A rare stamp on a hardwood stand.",
+    "moonslime.Archaeology.h_medallion.name": "Hardwood Display: Medallion",
+    "moonslime.Archaeology.h_medallion.description": "A medallion on a hardwood stand.",
+    "moonslime.Archaeology.h_cyanotype.name": "Hardwood Display: Cyanotype",
+    "moonslime.Archaeology.h_cyanotype.description": "A Cyanotype on a hardwood stand.",
 
+    "moonslime.Archaeology.w_fossilized_starfish.name": "Wooden Display: Fossilized Starfish",
+    "moonslime.Archaeology.w_fossilized_starfish.description": "A fossilized starfish on a wooden stand.",
+    "moonslime.Archaeology.w_fossilised_moth.name": "Wooden Display: Fossilized Moth",
+    "moonslime.Archaeology.w_fossilised_moth.description": "A fossilized moth on a wooden stand.",
+    "moonslime.Archaeology.w_fossilised_fern.name": "Wooden Display: Fossilized Fern",
+    "moonslime.Archaeology.w_fossilised_fern.description": "A fossilized fern on a wooden stand.",
+    "moonslime.Archaeology.w_fossilised_fish.name": "Wooden Display: Fossilized Fish",
+    "moonslime.Archaeology.w_fossilised_fish.description": "A fossilized fern on a wooden stand.",
+    "moonslime.Archaeology.w_fossilised_ammonites.name": "Wooden Display: Fossilized Ammonites",
+    "moonslime.Archaeology.w_fossilised_ammonites.description": "A fossilized ammonites on a wooden stand.",
+    "moonslime.Archaeology.w_giant_tusk.name": "Wooden Display: Giant Tusk",
+    "moonslime.Archaeology.w_giant_tusk.description": "A giant tusk on a wooden stand.",
+    "moonslime.Archaeology.w_broken_watch.name": "Wooden Display: Broken Watch",
+    "moonslime.Archaeology.w_broken_watch.description": "A broken watch on a wooden stand",
+    "moonslime.Archaeology.w_broken_tea_cup.name": "Wooden Display: Broken Tea Cup",
+    "moonslime.Archaeology.w_broken_tea_cup.description": "A broken tea cup on a wooden stand",
+    "moonslime.Archaeology.w_efficient_cog.name": "Wooden Display: Efficient Cog",
+    "moonslime.Archaeology.w_efficient_cog.description": "An efficient cog on a wooden stand.",
+    "moonslime.Archaeology.w_dwarvish_device.name": "Wooden Display: Dwarvish Device",
+    "moonslime.Archaeology.w_dwarvish_device.description": "A dwarvish device on a wooden stand.",
+    "moonslime.Archaeology.w_rusty_chest.name": "Wooden Display: Rusty Chest",
+    "moonslime.Archaeology.w_rusty_chest.description": "A rusty chest on a wooden stand.",
+    "moonslime.Archaeology.w_petrified_flower.name": "Wooden Display: Petrified Flower",
+    "moonslime.Archaeology.w_petrified_flower.description": "A petrified flower on a wooden stand.",
+    "moonslime.Archaeology.w_dahu_statuette.name": "Wooden Display: Dahu Statuette",
+    "moonslime.Archaeology.w_dahu_statuette.description": "A dahu statuette on a wooden stand.",
+    "moonslime.Archaeology.w_faience_plate.name": "Wooden Display: Faience Plate",
+    "moonslime.Archaeology.w_faience_plate.description": "A faience plate on a wooden stand.",
+    "moonslime.Archaeology.w_copper_fibula.name": "Wooden Display: Copper Fibula",
+    "moonslime.Archaeology.w_copper_fibula.description": "A copper fibula on a wooden stand.",
+    "moonslime.Archaeology.w_fragment_mask.name": "Wooden Display: Fragmented Mask",
+    "moonslime.Archaeology.w_fragment_mask.description": "A fragmented mask on a wooden stand.",
+    "moonslime.Archaeology.w_old_miner_lamp.name": "Wooden Display: Old Miner's Lamp",
+    "moonslime.Archaeology.w_old_miner_lamp.description": "An old miner's lamp on a wooden stand.",
+    "moonslime.Archaeology.w_rusty_ring.name": "Wooden Display: Rusty ring",
+    "moonslime.Archaeology.w_rusty_ring.description": "A rusty ring on a wooden stand.",
+    "moonslime.Archaeology.w_stained_glass.name": "Wooden Display: Stained Glass",
+    "moonslime.Archaeology.w_stained_glass.description": "Some stained glass on a wooden stand.",
+    "moonslime.Archaeology.w_blue_cameo.name": "Wooden Display: Blue Cameo",
+    "moonslime.Archaeology.w_blue_cameo.description": "A blue cameo on a wooden stand.",
+    "moonslime.Archaeology.w_broken_sundial.name": "Wooden Display: Broken Sundial",
+    "moonslime.Archaeology.w_broken_sundial.description": "A broken sundial on a wooden stand.",
+    "moonslime.Archaeology.w_old_shield.name": "Wooden Display: Old Shield",
+    "moonslime.Archaeology.w_old_shield.description": "An old shield on a wooden stand.",
+    "moonslime.Archaeology.w_fragment_of_fossil_I.name": "Wooden Display: Fragment of Fossil I",
+    "moonslime.Archaeology.w_fragment_of_fossil_I.description": "A fragment of a fossil a wooden stand.",
+    "moonslime.Archaeology.w_fragment_of_fossil_II.name": "Wooden Display: Fragment of Fossil II",
+    "moonslime.Archaeology.w_fragment_of_fossil_II.description": "A fragment of a fossil on a wooden stand.",
+    "moonslime.Archaeology.w_fragment_of_fossil_III.name": "Wooden Display: Fragment of Fossil III",
+    "moonslime.Archaeology.w_fragment_of_fossil_III.description": "A fragment of a fossil on a wooden stand.",
+    "moonslime.Archaeology.w_rare_stamp.name": "Wooden Display: Rare Stamp",
+    "moonslime.Archaeology.w_rare_stamp.description": "A rare stamp on a wooden stand.",
+    "moonslime.Archaeology.w_medallion.name": "Wooden Display: Medallion",
+    "moonslime.Archaeology.w_medallion.description": "A medallion on a wooden stand.",
+    "moonslime.Archaeology.w_cyanotype.name": "Wooden Display: Cyanotype",
+    "moonslime.Archaeology.w_cyanotype.description": "A Cyanotype on a wooden stand."
 }
