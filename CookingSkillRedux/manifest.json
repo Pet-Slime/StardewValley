@@ -1,8 +1,8 @@
 ﻿{
-    "Name": "CookingSkill",
+    "Name": "Yet Another Cooking Skill",
     "Author": "moonslime",
-    "Version": "0.5.4",
-    "Description": "Yet Another Cooking Skill Mod",
+    "Version": "0.6.0",
+    "Description": "A remix built from the ground, for players must cook!",
     "UniqueID": "moonslime.CookingSkill",
     "EntryDll": "CookingSkill.dll",
     "MinimumApiVersion": "4.0.0",
