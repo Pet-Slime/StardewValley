@@ -3,8 +3,6 @@
     "skill.perk": "+{{bonus}}% edibility in home-cooked foods",
     "skill.perk_bonus": "+{{bonus}}% edibility in home-cooked foods",
 
-    "config.EnablePrestige": "Enable Prestige (requires MARGO)",
-    "config.EnablePrestige.tooltip": "Requires restart: Enables Cooking to Prestige like other skills",
 
     "cooking5a.name": "Sous Chef",
     "cooking5a.desc": "+20% sell price",
@@ -18,6 +16,8 @@
     "cooking10b1.desc": "Food buffs are one level stronger once eaten\n(+20% for max energy or magnetism)",
     "cooking10b2.name": "Picky Eater",
     "cooking10b2.desc": "Provides a few random buffs when eating unbuffed food",
+
+    "moonslime.Cooking.Profession10b2.buff": "Bonus Food Buff",
 
     "cooking5a.prestige.description": "+30% sell price",
     "cooking5b.prestige.description": "+35% buff duration once eaten",

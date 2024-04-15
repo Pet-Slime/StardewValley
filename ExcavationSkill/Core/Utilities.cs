@@ -78,7 +78,7 @@ namespace ArchaeologySkill
 
             Buff buff = new(
                 id: "Archaeology:profession:haste",
-                displayName: "Gold Rush", // can optionally specify description text too
+                displayName: ModEntry.Instance.I18N.Get("Archaeology10b2.buff"), // can optionally specify description text too
                 iconTexture: ModEntry.Assets.Gold_Rush_Buff,
                 iconSheetIndex: 0,
                 duration: 6_000*GetLevel(player), // 60 seconds by default. Can go higher with buffs.

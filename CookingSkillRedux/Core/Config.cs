@@ -6,7 +6,5 @@ namespace CookingSkill
     public class Config
     {
 
-        [ConfigOption]
-        public bool EnablePrestige{ get; set; } = false;
     }
 }

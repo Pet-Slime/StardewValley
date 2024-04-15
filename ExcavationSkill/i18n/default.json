@@ -35,6 +35,7 @@
     "Archaeology10b1.name": "Dredger",
     "Archaeology10b1.desc": "Gain additional items while panning",
     "Archaeology10b2.name": "Forty-Niner",
-    "Archaeology10b2.desc": "On Successful Panning or Digging, Get a speed boost.\n Duration based on level."
+    "Archaeology10b2.desc": "On Successful Panning or Digging, Get a speed boost.\n Duration based on level.",
+    "Archaeology10b2.buff": "Gold Rush!"
 
 }
