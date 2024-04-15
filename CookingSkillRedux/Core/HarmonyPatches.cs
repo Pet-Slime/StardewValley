@@ -39,11 +39,22 @@ namespace CookingSkill.Core
                 if (CraftingRecipe.DoesFarmerHaveAdditionalIngredientsInInventory(list, GetContainerContents(__instance._materialContainers)))
                 {
                     item.Quality = 2;
+                    
                 }
                 else
                 {
                     list = null;
                 }
+
+
+                ///Custom Code to increase the quality of the item
+                if (Game1.player.HasCustomProfession(Cooking_Skill.Cooking5a))
+                {
+                    item.Quality += 1;
+                    if (item.Quality == 3)
+                        item.Quality += 1;
+                }
+                ///
             }
 
             if (___heldItem == null)
@@ -59,6 +70,9 @@ namespace CookingSkill.Core
             {
                 if (___cooking)
                 {
+                    /// Make sure the item of food has the same type of edibility value. if they do not, prevent stacking.
+                    /// This is to make sure if the player levels up mid cooking, all the items they are crafting doesn't suddenly stack and go up in edibility
+                    ///
                     StardewValley.Object stackCheck = (Object)craftingRecipe.createItem();
                     if (item is Object @object && @object.Edibility == stackCheck.Edibility)
                     {
@@ -68,7 +82,7 @@ namespace CookingSkill.Core
                     {
                         return false;
                     }
-
+                    ///
                 } else
                 {
                     if (!(___heldItem.Name == item.Name) || !___heldItem.getOne().canStackWith(item.getOne()) || ___heldItem.Stack + craftingRecipe.numberProducedPerCraft - 1 >= ___heldItem.maximumStackSize())
@@ -126,19 +140,13 @@ namespace CookingSkill.Core
                 {
                     itemObj.Edibility = (int)(itemObj.Edibility * Utilities.GetLevelValue(Game1.player));
                 }
-                if (player.HasCustomProfession(Cooking_Skill.Cooking5a))
+                float exp = ModEntry.Config.ExperienceFromCooking + (itemObj.Edibility * 0.1f);
+                Utilities.AddEXP(player, (int)(Math.Floor(exp)));
+                if (player.HasCustomProfession(Cooking_Skill.Cooking10a1) && player.couldInventoryAcceptThisItem(___heldItem))
                 {
-                    if (___heldItem.Quality != 4)
-                    {
-                        ___heldItem.Quality += 1;
-                    }
-
-                    if (player.HasCustomProfession(Cooking_Skill.Cooking10a1) && player.couldInventoryAcceptThisItem(___heldItem))
-                    {
-                        player.addItemToInventoryBool(itemObj);
-                    }
+                    ___heldItem.Stack += craftingRecipe.numberProducedPerCraft;
                 }
-                
+
                 ////////////////////////////////////
 
             }
