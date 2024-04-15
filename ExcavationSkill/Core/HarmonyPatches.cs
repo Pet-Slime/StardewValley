@@ -541,7 +541,6 @@ namespace ArchaeologySkill.Core
                             BirbCore.Attributes.Log.Trace("Archaeology Skill: Player has Curator profession, adjusting item price");
                             saleMultiplier += 1f;
                         }
-
                         if (farmer.stats.Get("Book_Artifact") != 0)
                         {
                             saleMultiplier += 3f;
