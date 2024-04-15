@@ -235,18 +235,12 @@ namespace CookingSkill.Core
         private static void Postfix(
         StardewValley.Item __instance, ref bool __result, ref ISalable other)
         {
-            if (!(other is Item item) || other.GetType() != __instance.GetType())
-            {
-                __result = false;
-                return;
-            }
+            //Prevent items with different edibility values from stacking. 
             if (__instance is Object @object && other is Object object2 && object2.Edibility != @object.Edibility)
             {
                 __result = false;
                 return;
             }
-
-
         }
     }
 }
