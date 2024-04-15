@@ -12,13 +12,16 @@ using Netcode;
 using SpaceCore;
 using SpaceCore.Events;
 using SpaceShared.APIs;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Buffs;
 using StardewValley.Extensions;
 using StardewValley.GameData.Objects;
+using StardewValley.Objects;
 using static BirbCore.Attributes.SEvent;
 using static BirbCore.Attributes.SMod;
+using static SpaceCore.Skills;
 
 namespace CookingSkill.Core
 {
@@ -170,6 +173,47 @@ namespace CookingSkill.Core
                     }
                 }
             }
+        }
+
+
+        public static Item PreCook(CraftingRecipe recipe, Item item)
+        {
+            if (recipe.isCookingRecipe && item is StardewValley.Object obj)
+            {
+
+                obj.Edibility = (int)(obj.Edibility * Utilities.GetLevelValue(Game1.player));
+
+                if (Game1.player.HasCustomProfession(Cooking_Skill.Cooking10a2))
+                    obj.Price = obj.Price * 2;
+
+                if (Game1.player.HasCustomProfession(Cooking_Skill.Cooking5a))
+                {
+                    obj.Quality += 1;
+
+                    if (obj.Quality == 3)
+                        obj.Quality += 1;
+                }
+                return item;
+            }
+            return item;
+        }
+
+        public static Item PostCook(CraftingRecipe recipe, Item heldItem, Farmer who)
+        {
+            if (recipe.isCookingRecipe && heldItem is StardewValley.Object obj)
+            {
+
+                StardewValley.Object itemObj = heldItem as StardewValley.Object;
+                float exp = ModEntry.Config.ExperienceFromCooking + (itemObj.Edibility * ModEntry.Config.ExperienceFromEdibility);
+                Utilities.AddEXP(who, (int)(Math.Floor(exp)));
+                if (who.HasCustomProfession(Cooking_Skill.Cooking10a1) && who.couldInventoryAcceptThisItem(heldItem))
+                {
+                    heldItem.Stack += recipe.numberProducedPerCraft;
+                    return heldItem;
+                }
+            }
+
+            return heldItem;
         }
     }
 }

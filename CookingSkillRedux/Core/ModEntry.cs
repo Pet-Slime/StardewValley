@@ -28,6 +28,11 @@ namespace CookingSkill
             Parser.ParseAll(this);
         }
 
+        public override object GetApi()
+        {
+            return new CookingAPI();
+        }
+
 
 
     }

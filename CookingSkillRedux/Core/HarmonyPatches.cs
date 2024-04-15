@@ -46,15 +46,11 @@ namespace CookingSkill.Core
                     list = null;
                 }
 
-
-                ///Custom Code to increase the quality of the item
-                if (Game1.player.HasCustomProfession(Cooking_Skill.Cooking5a))
-                {
-                    item.Quality += 1;
-                    if (item.Quality == 3)
-                        item.Quality += 1;
-                }
-                ///
+                /// /////////////////////////////
+                /// Custom Code
+                /// for Cooking
+                CookingSkill.Core.Events.PreCook(craftingRecipe, item);
+                ////////////////////////////////////
             }
 
             if (___heldItem == null)
@@ -68,33 +64,10 @@ namespace CookingSkill.Core
             }
             else
             {
-                if (___cooking)
+                if (!(___heldItem.Name == item.Name) || !___heldItem.getOne().canStackWith(item.getOne()) || ___heldItem.Stack + craftingRecipe.numberProducedPerCraft - 1 >= ___heldItem.maximumStackSize())
                 {
-                    /// Make sure the item of food has the same type of edibility value. if they do not, prevent stacking.
-                    /// This is to make sure if the player levels up mid cooking, all the items they are crafting doesn't suddenly stack and go up in edibility
-                    ///
-                    StardewValley.Object stackCheck = (Object)craftingRecipe.createItem();
-                    if (item is Object @object && @object.Edibility == stackCheck.Edibility)
-                    {
-                        stackCheck.Edibility = (int)(stackCheck.Edibility * Utilities.GetLevelValue(Game1.player));
-                    }
-                    if (!(___heldItem.Name == item.Name) || !___heldItem.getOne().canStackWith(stackCheck) || ___heldItem.Stack + craftingRecipe.numberProducedPerCraft - 1 >= ___heldItem.maximumStackSize())
-                    {
-                        return false;
-                    }
-                    ///
-                } else
-                {
-                    if (!(___heldItem.Name == item.Name) || !___heldItem.getOne().canStackWith(item.getOne()) || ___heldItem.Stack + craftingRecipe.numberProducedPerCraft - 1 >= ___heldItem.maximumStackSize())
-                    {
-                        return false;
-                    }
-
+                    return false;
                 }
-
-
-
-                
 
                 ___heldItem.Stack += craftingRecipe.numberProducedPerCraft;
                 craftingRecipe.consumeIngredients(__instance._materialContainers);
@@ -134,19 +107,7 @@ namespace CookingSkill.Core
                 /// /////////////////////////////
                 /// Custom Code
                 /// for Cooking
-                ___heldItem.modDataForSerialization.TryAdd("moonslime.cooking.Cooked", "1");
-                StardewValley.Object itemObj = ___heldItem as StardewValley.Object;
-                if (item is Object @object && @object.Edibility == itemObj.Edibility)
-                {
-                    itemObj.Edibility = (int)(itemObj.Edibility * Utilities.GetLevelValue(Game1.player));
-                }
-                float exp = ModEntry.Config.ExperienceFromCooking + (itemObj.Edibility * 0.1f);
-                Utilities.AddEXP(player, (int)(Math.Floor(exp)));
-                if (player.HasCustomProfession(Cooking_Skill.Cooking10a1) && player.couldInventoryAcceptThisItem(___heldItem))
-                {
-                    ___heldItem.Stack += craftingRecipe.numberProducedPerCraft;
-                }
-
+                CookingSkill.Core.Events.PostCook(craftingRecipe, item, player);
                 ////////////////////////////////////
 
             }
@@ -181,52 +142,6 @@ namespace CookingSkill.Core
     }
 
 
-    [HarmonyPatch(typeof(StardewValley.Object), "getPriceAfterMultipliers")]
-    class GetPriceAfterMultipliers_Patch
-    {
-        [HarmonyLib.HarmonyPostfix]
-        public static void Postfix(
-        StardewValley.Object __instance, ref float __result, float startPrice, long specificPlayerID)
-        {
-            float saleMultiplier = 1f;
-            try
-            {
-                foreach (var farmer in Game1.getAllFarmers())
-                {
-                    if (Game1.player.useSeparateWallets)
-                    {
-                        if (specificPlayerID == -1)
-                        {
-                            if (farmer.UniqueMultiplayerID != Game1.player.UniqueMultiplayerID || !farmer.isActive())
-                            {
-                                continue;
-                            }
-                        }
-                        else if (farmer.UniqueMultiplayerID != specificPlayerID)
-                        {
-                            continue;
-                        }
-                    }
-                    else if (!farmer.isActive())
-                    {
-                        continue;
-                    }
-                    if (__instance.modDataForSerialization.ContainsKey("moonslime.cooking.Cooked"))
-                    {
-                        if (farmer.HasCustomProfession(Cooking_Skill.Cooking10a2))
-                        {
-                            saleMultiplier += 1f;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                BirbCore.Attributes.Log.Error($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
-            }
-            __result *= saleMultiplier;
-        }
-    }
 
     [HarmonyPatch(typeof(StardewValley.Item), nameof(Item.canStackWith))]
     class CanStackWith_Patch
