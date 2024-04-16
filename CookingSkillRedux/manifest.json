@@ -7,7 +7,7 @@
     "EntryDll": "CookingSkill.dll",
     "MinimumApiVersion": "4.0.0",
     "UpdateKeys": [
-        "Nexus:-1"
+        "Nexus:22681"
     ],
     "Dependencies": [
         {

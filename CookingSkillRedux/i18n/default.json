@@ -9,17 +9,17 @@
     "cooking5b.name": "Glutton",
     "cooking5b.desc": "Extra buff duration from food based on level.",
     "cooking10a1.name": "Culinarian",
-    "cooking10a1.desc": "When Cooking, Cook Two Meals",
+    "cooking10a1.desc": "When Cooking, Receive double the recipe production amount.",
     "cooking10a2.name": "Chef",
-    "cooking10a2.desc": "Home Cooked food sells for double the amount",
+    "cooking10a2.desc": "Home Cooked food sells for double the amount.",
     "cooking10b1.name": "Gourmand",
-    "cooking10b1.desc": "Food buffs are one level stronger once eaten\n(+16 for energy or magnetism)",
+    "cooking10b1.desc": "Food buffs are one level stronger once eaten\n(+16 for energy or magnetism).",
     "cooking10b2.name": "Gastronomist",
     "cooking10b2.desc": "Eating or Drinking gives a random bonus buff.",
 
     "moonslime.Cooking.Profession10b2.buff": "Refined Taste",
 
-    "moonslime.Cooking.skill_book.levelup":  "You have gained some knowledge in Cooking!"
+    "moonslime.Cooking.skill_book.levelup": "You have gained some knowledge in Cooking!"
 
 
 }
