@@ -1,6 +1,5 @@
 using StardewModdingAPI;
 using IJsonAssetsApi = MoonShared.APIs.IJsonAssetsApi;
-using IBetterCraftingApi = MoonShared.APIs.IBetterCrafting;
 using BirbCore.Attributes;
 using CookingSkill.Core;
 using MoonShared.APIs;
@@ -17,9 +16,7 @@ namespace CookingSkill
         internal static bool BCLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("leclair.bettercrafting");
 
         internal static IJsonAssetsApi JsonAssets;
-        internal static IBetterCraftingApi BetterCrafting;
-        internal static IPostCraftEvent PostCraftEvent;
-        internal static IGlobalPerformCraftEvent GlobalPerformCraftingEvent;
+        internal static IBetterCrafting BetterCrafting;
 
         internal ITranslationHelper I18n => this.Helper.Translation;
 

@@ -31,11 +31,9 @@ namespace CookingSkill.Core
                 {
                     Log.Trace("Cooking: I do see better crafting, Registering API.");
                     ModEntry.BetterCrafting = ModEntry.Instance.Helper.ModRegistry.GetApi<IBetterCrafting>("leclair.bettercrafting");
-                    ModEntry.PostCraftEvent = ModEntry.Instance.Helper.ModRegistry.GetApi<IPostCraftEvent>("leclair.bettercrafting");
-                    ModEntry.GlobalPerformCraftingEvent = ModEntry.Instance.Helper.ModRegistry.GetApi<IGlobalPerformCraftEvent>("leclair.bettercrafting");
 
-                    ModEntry.BetterCrafting.PerformCraft += BetterCraftingPerformCraftEvent();
-                    ModEntry.BetterCrafting.PostCraft += BetterCraftingPostCraftEvent();
+                    ModEntry.BetterCrafting.PerformCraft += BetterCraftingPerformCraftEvent;
+                    ModEntry.BetterCrafting.PostCraft += BetterCraftingPostCraftEvent;
                 }
             }
             catch
@@ -48,7 +46,16 @@ namespace CookingSkill.Core
             SpaceEvents.OnItemEaten += OnItemEat;
         }
 
+        private static void BetterCraftingPerformCraftEvent(IGlobalPerformCraftEvent @event)
+        {
 
+          //  @event.Item = PreCook(@event.Recipe.CraftingRecipe, @event.Item);
+        }
+
+        private static void BetterCraftingPostCraftEvent(IPostCraftEvent @event)
+        {
+         //   @event.Item = PostCook(@event.Recipe.CraftingRecipe, @event.Item, @event.Player);
+        }
 
         [SEvent.MenuChanged]
         private void MenuChanged(object sender, MenuChangedEventArgs e)
@@ -319,20 +326,6 @@ namespace CookingSkill.Core
                     }
                 }
             }
-        }
-
-
-
-        private static Action<IPostCraftEvent> BetterCraftingPostCraftEvent()
-        {
-
-            ModEntry.PostCraftEvent.Item = PostCook(ModEntry.PostCraftEvent.Recipe.CraftingRecipe, ModEntry.PostCraftEvent.Item, ModEntry.PostCraftEvent.Player);
-        }
-
-        private static Action<IGlobalPerformCraftEvent> BetterCraftingPerformCraftEvent()
-        {
-
-            ModEntry.GlobalPerformCraftingEvent.Item = PreCook(ModEntry.GlobalPerformCraftingEvent.Recipe.CraftingRecipe, ModEntry.GlobalPerformCraftingEvent.Item);
         }
 
         public static Item PreCook(CraftingRecipe recipe, Item item)
