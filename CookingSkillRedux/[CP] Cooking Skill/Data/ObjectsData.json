@@ -7,13 +7,6 @@
         },
         {
             "Action": "EditData",
-            "Target": "Data/BigCraftables",
-            "Entries": {
-                
-            }
-        },
-        {
-            "Action": "EditData",
             "Target": "Data/Objects",
             "Entries": {
                 "moonslime.Cooking.pie_crust": {
@@ -1177,7 +1170,7 @@
                     "CustomFields": null
                 },
                 "moonslime.Cooking.skill_book": {
-                    "Name": "Digging Like Worms",
+                    "Name": "The Big Book for Cooking",
                     "DisplayName": "{{i18n:moonslime.Cooking.skill_book.name}}",
                     "Description": "{{i18n:moonslime.Cooking.skill_book.description}}",
                     "Type": "asdf",

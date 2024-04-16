@@ -420,7 +420,6 @@ namespace ArchaeologySkill.Core
             }
             return true;
         }
-
     }
 
 

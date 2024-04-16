@@ -1,5 +1,12 @@
-{
+﻿{
     "Format": "2.0.0",
+    "ConfigSchema": {
+
+        "Enable Vanilla Changes (besides pie recipe changes which are always active sorry)": {
+            "AllowValues": "true,false",
+            "Default": "true"
+        }
+    },
     "Changes": [
         {
             "Action": "Include",
