@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BirbCore.Attributes;
 using MoonShared.APIs;
+using Netcode;
 using SpaceCore;
 using SpaceCore.Events;
 using SpaceCore.Interface;
@@ -192,19 +193,26 @@ namespace CookingSkill.Core
 
         public static void OnItemEat(object sender, EventArgs e)
         {
+            // get the farmer. If there is no farmer (like maybe they disconnected, make sure it isnt null)
             StardewValley.Farmer who = sender as StardewValley.Farmer;
             if (who == null) return;
 
+            //Get the farmer's unique ID, and again check for an ull player (cause I am parinoid)
+            // If they don't have any professions related to food buffs, return so the rest of the code does not get ran.
             var player = Game1.getFarmer(who.UniqueMultiplayerID);
             if (player == null || !player.HasCustomProfession(Cooking_Skill.Cooking5b)) return;
 
+            //Get the food item the player is going to eat. Make sure it doesnt return as a null item.
             StardewValley.Object food = player.itemToEat as StardewValley.Object;
             if (food == null) return;
 
+            //Get the food's ObjectData and make sure it isn't null
             if (!Game1.objectData.TryGetValue(food.ItemId, out ObjectData data) || data == null) return;
 
+            //For each buff in the object data, let's go through it.
             foreach (var buffData in data.Buffs)
             {
+                //If there are any spaceCore buffs on the food, run this code to increase those buffs. If there are not, run the other code.
                 if (buffData.CustomFields != null && buffData.CustomFields.Any(b => b.Key.StartsWith("spacechase.SpaceCore.SkillBuff.")))
                 {
                     Buff matchingBuff = null;
@@ -247,7 +255,7 @@ namespace CookingSkill.Core
                 }
             }
 
-
+            // If the player has the right profession, give them an extra buff
             if (player.HasCustomProfession(Cooking_Skill.Cooking10b2))
             {
                 // Define constants for attribute types and max values
@@ -293,17 +301,19 @@ namespace CookingSkill.Core
                     case 10: randomEffect.Speed.Value = attributeLevel; break;
                 }
 
-                // Create and apply the buff
+                // Create the buff
                 Buff buff = new(
                     id: "Cooking:profession:random_buff",
                     displayName: ModEntry.Instance.I18n.Get("moonslime.Cooking.Profession10b2.buff"),
                     description: null,
                     iconTexture: ModEntry.Assets.Random_Buff,
                     iconSheetIndex: 0,
-                    duration: BuffDurationMultiplier * Utilities.GetLevel(player),
+                    duration: BuffDurationMultiplier * Utilities.GetLevel(player), //Buff duration based on player Cooking level, to reward them for eating cooking foods
                     effects: randomEffect
                 );
+                //Remove the old buff
                 player.buffs.Remove(buff.id);
+                //Apply the new buff
                 player.applyBuff(buff);
             }
 
@@ -311,55 +321,85 @@ namespace CookingSkill.Core
 
         private static void ApplyAttributeBuff(BuffEffects effects, float value)
         {
-            var effectArrays = new[] { new[] { effects.FarmingLevel, effects.FishingLevel, effects.MiningLevel, effects.LuckLevel, effects.ForagingLevel, effects.Speed, effects.Defense, effects.Attack }, new[] { effects.MaxStamina, effects.MagneticRadius } };
-
-            foreach (var effectArray in effectArrays)
+            // Define an array of all attributes with their base modifier and a multiplier
+            var attributes = new (NetFloat attribute, float multiplier)[]
             {
-                foreach (var netFloat in effectArray)
+                (effects.FarmingLevel, 1f),
+                (effects.FishingLevel, 1f),
+                (effects.MiningLevel, 1f),
+                (effects.LuckLevel, 1f),
+                (effects.ForagingLevel, 1f),
+                (effects.Speed, 1f),
+                (effects.Defense, 1f),
+                (effects.Attack, 1f),
+                (effects.CombatLevel, 1f),
+                (effects.Immunity, 1f),
+                (effects.MaxStamina, 16f), // Special multiplier for MaxStamina
+                (effects.MagneticRadius, 16f) // Special multiplier for MagneticRadius
+            };
+
+            // Apply the value modification to each attribute
+            foreach (var (attribute, multiplier) in attributes)
+            {
+                if (attribute.Value != 0f)
                 {
-                    if (netFloat.Value != 0f)
-                    {
-                        netFloat.Value += value * (effectArray == effectArrays[1] ? 1.2f : 1f);
-                    }
+                    attribute.Value += value * multiplier;
                 }
             }
         }
 
         public static Item PreCook(CraftingRecipe recipe, Item item)
         {
+            //Make sure the recipe is not null
+            //Check to see if the recipe is a cooking recipe
+            //Make sure the item coming out of the cooking recipe is an object
             if (recipe is not null && recipe.isCookingRecipe && item is StardewValley.Object obj)
             {
-
+                //increase the edibility of the object based on the cooking level of the player
                 obj.Edibility = (int)(obj.Edibility * Utilities.GetLevelValue(Game1.player));
 
+                //If the player has the right profession, increase the selling price
                 if (Game1.player.HasCustomProfession(Cooking_Skill.Cooking10a2))
-                    obj.Price = obj.Price * 2;
+                    obj.Price *= 2;
 
+                //If the player has right profession, increase item quality
                 if (Game1.player.HasCustomProfession(Cooking_Skill.Cooking5a))
                 {
                     obj.Quality += 1;
-
+                    // make sure quality is equal to 4 and not 3 if the player has Qi Seasoning
                     if (obj.Quality == 3)
                         obj.Quality += 1;
                 }
+                //Return the object
                 return item;
             }
+            //Return the object
             return item;
         }
 
         public static Item PostCook(CraftingRecipe recipe, Item heldItem, Farmer who)
         {
+            //Make sure the recipe is not null
+            //Check to see if the recipe is a cooking recipe
+            //Make sure the item coming out of the cooking recipe is an object
             if (recipe is not null && recipe.isCookingRecipe && heldItem is StardewValley.Object obj)
             {
+                //Get the exp value, based off the general exp you get from cooking (Default:2)
+                //Then add it to the bonus value gained from the objects edibility (Default: 10% of the items edibility given as bonus exp)
                 float exp = ModEntry.Config.ExperienceFromCooking + (obj.Edibility * ModEntry.Config.ExperienceFromEdibility);
+
+                //Give the player exp. Make sure to floor the value. Don't want no decimels.
                 Utilities.AddEXP(who, (int)(Math.Floor(exp)));
+
+                //If the player has the right profession, they get an extra number of crafts from crafting the item.
                 if (who.HasCustomProfession(Cooking_Skill.Cooking10a1) && who.couldInventoryAcceptThisItem(heldItem))
                 {
                     heldItem.Stack += recipe.numberProducedPerCraft;
+                    //Return the object
                     return heldItem;
                 }
             }
-
+            //Return the object
             return heldItem;
         }
     }

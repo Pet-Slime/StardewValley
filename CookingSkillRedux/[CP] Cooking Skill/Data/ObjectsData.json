@@ -888,7 +888,7 @@
                     "Category": -7,
                     "Price": 205,
                     "Texture": "Mods/moonslime.CookingSkill/textures",
-                    "SpriteIndex": 10,
+                    "SpriteIndex": 18,
                     "Edibility": 11,
                     "IsDrink": false,
                     "Buffs": [

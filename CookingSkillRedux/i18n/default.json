@@ -1,5 +1,5 @@
 ﻿{
-    "moonslime.Cooking": "Cooking",
+    "skill.name": "Cooking",
     "skill.perk": "+{{bonus}}% edibility in home-cooked foods",
     "skill.perk_bonus": "+{{bonus}}% edibility in home-cooked foods",
 
@@ -13,7 +13,7 @@
     "cooking10a2.name": "Chef",
     "cooking10a2.desc": "Home Cooked food sells for double the amount",
     "cooking10b1.name": "Gourmand",
-    "cooking10b1.desc": "Food buffs are one level stronger once eaten\n(+20% for energy or magnetism)",
+    "cooking10b1.desc": "Food buffs are one level stronger once eaten\n(+16 for energy or magnetism)",
     "cooking10b2.name": "Gastronomist",
     "cooking10b2.desc": "Eating or Drinking gives a random bonus buff.",
 
