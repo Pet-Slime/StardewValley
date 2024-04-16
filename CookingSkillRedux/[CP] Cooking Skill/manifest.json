@@ -1,0 +1,28 @@
+﻿{
+    "Name": "[CP] Yet Another Cooking Skill",
+    "Author": "moonslime",
+    "Version": "1.0.0",
+    "Description": "YACS Content Patcher",
+    "UniqueID": "moonslime.CookingSkill.CP",
+    "ContentPackFor": {
+        "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    "UpdateKeys": [],
+    "Dependencies": [
+        {
+            "UniqueID": "moonslime.CookingSkill"
+        },
+		{
+            "UniqueID": "Rafseazz.RSVCP",
+			"IsRequired": false
+        },
+		{
+            "UniqueID": "FlashShifter.StardewValleyExpandedCP",
+			"IsRequired": false
+        },
+		{
+            "UniqueID": "Lumisteria.MtVapius",
+			"IsRequired": false
+        }
+    ]
+}

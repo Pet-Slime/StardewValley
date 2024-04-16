@@ -16,4 +16,8 @@
 	  <PackageReference Update="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="[CP] Cooking Skill\" />
+	</ItemGroup>
+
 </Project>

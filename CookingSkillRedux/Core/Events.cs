@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Netcode;
 using SpaceCore;
 using SpaceCore.Events;
+using SpaceCore.Interface;
 using SpaceShared.APIs;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -38,6 +39,142 @@ namespace CookingSkill.Core
 
 
             SpaceEvents.OnItemEaten += OnItemEat;
+        }
+
+        [SEvent.MenuChanged]
+        private void MenuChanged(object sender, MenuChangedEventArgs e)
+        {
+            if (e.NewMenu is not SkillLevelUpMenu levelUpMenu)
+            {
+                return;
+            }
+
+
+
+            string skill = ModEntry.Instance.Helper.Reflection.GetField<string>(levelUpMenu, "currentSkill").GetValue();
+            if (skill != "moonslime.Cooking")
+            {
+                return;
+            }
+
+            int level = ModEntry.Instance.Helper.Reflection.GetField<int>(levelUpMenu, "currentLevel").GetValue();
+
+            List<CraftingRecipe> newRecipes = [];
+
+            int menuHeight = 0;
+            foreach (KeyValuePair<string, string> recipePair in CraftingRecipe.craftingRecipes)
+            {
+                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
+                if (!conditions.Contains(skill) || !conditions.Contains(level.ToString()))
+                {
+                    continue;
+                }
+
+                CraftingRecipe recipe = new(recipePair.Key, isCookingRecipe: false);
+                newRecipes.Add(recipe);
+                Game1.player.craftingRecipes.TryAdd(recipePair.Key, 0);
+                menuHeight += recipe.bigCraftable ? 128 : 64;
+            }
+
+            foreach (KeyValuePair<string, string> recipePair in CraftingRecipe.cookingRecipes)
+            {
+                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 3, "");
+                if (!conditions.Contains(skill) || !conditions.Contains(level.ToString()))
+                {
+                    continue;
+                }
+
+                CraftingRecipe recipe = new(recipePair.Key, isCookingRecipe: true);
+                newRecipes.Add(recipe);
+                if (Game1.player.cookingRecipes.TryAdd(recipePair.Key, 0) &&
+                    !Game1.player.hasOrWillReceiveMail("robinKitchenLetter"))
+                {
+                    Game1.mailbox.Add("robinKitchenLetter");
+                }
+
+                menuHeight += recipe.bigCraftable ? 128 : 64;
+            }
+
+            ModEntry.Instance.Helper.Reflection.GetField<List<CraftingRecipe>>(levelUpMenu, "newCraftingRecipes")
+                .SetValue(newRecipes);
+
+            levelUpMenu.height = menuHeight + 256 + (levelUpMenu.getExtraInfoForLevel(skill, level).Count * 64 * 3 / 4);
+        }
+
+
+
+        [SEvent.SaveLoaded]
+        private void SaveLoaded(object sender, SaveLoadedEventArgs e)
+        {
+            string Id = "moonslime.Cooking";
+            int skillLevel = Game1.player.GetCustomSkillLevel(Id);
+            if (skillLevel == 0)
+            {
+                return;
+            }
+
+            if (skillLevel >= 5 && !(Game1.player.HasCustomProfession(Cooking_Skill.Cooking5a) ||
+                                     Game1.player.HasCustomProfession(Cooking_Skill.Cooking5b)))
+            {
+                Game1.endOfNightMenus.Push(new SkillLevelUpMenu(Id, 5));
+            }
+
+            if (skillLevel >= 10 && !(Game1.player.HasCustomProfession(Cooking_Skill.Cooking10a1) ||
+                                      Game1.player.HasCustomProfession(Cooking_Skill.Cooking10a2) ||
+                                      Game1.player.HasCustomProfession(Cooking_Skill.Cooking10b1) ||
+                                      Game1.player.HasCustomProfession(Cooking_Skill.Cooking10b2)))
+            {
+                Game1.endOfNightMenus.Push(new SkillLevelUpMenu(Id, 10));
+            }
+
+            foreach (KeyValuePair<string, string> recipePair in DataLoader.CraftingRecipes(Game1.content))
+            {
+                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
+                if (!conditions.Contains(Id))
+                {
+                    continue;
+                }
+                if (conditions.Split(" ").Length < 2)
+                {
+                    continue;
+                }
+
+                int level = int.Parse(conditions.Split(" ")[1]);
+
+                if (skillLevel < level)
+                {
+                    continue;
+                }
+
+                Game1.player.craftingRecipes.TryAdd(recipePair.Key, 0);
+            }
+
+            foreach (KeyValuePair<string, string> recipePair in DataLoader.CookingRecipes(Game1.content))
+            {
+                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 3, "");
+                if (!conditions.Contains(Id))
+                {
+                    continue;
+                }
+                if (conditions.Split(" ").Length < 2)
+                {
+                    continue;
+                }
+
+                int level = int.Parse(conditions.Split(" ")[1]);
+
+                if (skillLevel < level)
+                {
+                    continue;
+                }
+
+                if (Game1.player.cookingRecipes.TryAdd(recipePair.Key, 0) &&
+                    !Game1.player.hasOrWillReceiveMail("robinKitchenLetter"))
+                {
+                    Game1.mailbox.Add("robinKitchenLetter");
+                }
+            }
+
         }
 
         public static void OnItemEat(object sender, EventArgs e)
