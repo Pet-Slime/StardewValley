@@ -29,10 +29,14 @@ namespace CookingSkill
 
         public override object GetApi()
         {
-            return new CookingAPI();
+            try
+            {
+                return new CookingAPI();
+            } catch
+            {
+                return null;
+            }
+
         }
-
-
-
     }
 }

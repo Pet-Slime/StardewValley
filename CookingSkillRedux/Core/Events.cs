@@ -40,21 +40,18 @@ namespace CookingSkill.Core
             {
                 Log.Trace("Cooking: Error with trying to load better crafting API");
             }
-
-
-
             SpaceEvents.OnItemEaten += OnItemEat;
         }
 
         private static void BetterCraftingPerformCraftEvent(IGlobalPerformCraftEvent @event)
         {
-
-          //  @event.Item = PreCook(@event.Recipe.CraftingRecipe, @event.Item);
+            @event.Item = PreCook(@event.Recipe.CraftingRecipe, @event.Item);
+            @event.Complete();
         }
 
         private static void BetterCraftingPostCraftEvent(IPostCraftEvent @event)
         {
-         //   @event.Item = PostCook(@event.Recipe.CraftingRecipe, @event.Item, @event.Player);
+            @event.Item = PostCook(@event.Recipe.CraftingRecipe, @event.Item, @event.Player);
         }
 
         [SEvent.MenuChanged]
@@ -330,7 +327,7 @@ namespace CookingSkill.Core
 
         public static Item PreCook(CraftingRecipe recipe, Item item)
         {
-            if (recipe.isCookingRecipe && item is StardewValley.Object obj)
+            if (recipe is not null && recipe.isCookingRecipe && item is StardewValley.Object obj)
             {
 
                 obj.Edibility = (int)(obj.Edibility * Utilities.GetLevelValue(Game1.player));
@@ -352,11 +349,9 @@ namespace CookingSkill.Core
 
         public static Item PostCook(CraftingRecipe recipe, Item heldItem, Farmer who)
         {
-            if (recipe.isCookingRecipe && heldItem is StardewValley.Object obj)
+            if (recipe is not null && recipe.isCookingRecipe && heldItem is StardewValley.Object obj)
             {
-
-                StardewValley.Object itemObj = heldItem as StardewValley.Object;
-                float exp = ModEntry.Config.ExperienceFromCooking + (itemObj.Edibility * ModEntry.Config.ExperienceFromEdibility);
+                float exp = ModEntry.Config.ExperienceFromCooking + (obj.Edibility * ModEntry.Config.ExperienceFromEdibility);
                 Utilities.AddEXP(who, (int)(Math.Floor(exp)));
                 if (who.HasCustomProfession(Cooking_Skill.Cooking10a1) && who.couldInventoryAcceptThisItem(heldItem))
                 {
