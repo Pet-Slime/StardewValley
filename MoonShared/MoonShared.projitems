@@ -9,6 +9,7 @@
     <Import_RootNamespace>MoonShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)APIs\IBetterCraftingApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)APIs\IXPDisplayApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)APIs\IDynamicGameAssets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)APIs\IGenericModConfigMenu.cs" />

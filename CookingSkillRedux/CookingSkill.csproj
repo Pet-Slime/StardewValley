@@ -6,6 +6,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Reference Include="BetterCrafting">
+	    <HintPath>S:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\Mods\BetterCrafting\BetterCrafting.dll</HintPath>
+	    <Private>False</Private>
+	    <EmbedInteropTypes>False</EmbedInteropTypes>
+	  </Reference>
 	  <Reference Include="BirbCore">
 	    <HintPath>S:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\Mods\BirbCore\BirbCore.dll</HintPath>
 	    <Private>False</Private>
@@ -18,6 +23,10 @@
 
 	<ItemGroup>
 	  <Folder Include="[CP] Cooking Skill\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
 </Project>

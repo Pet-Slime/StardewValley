@@ -1,10 +1,9 @@
-using System.Collections.Generic;
-using MoonShared.APIs;
 using StardewModdingAPI;
 using IJsonAssetsApi = MoonShared.APIs.IJsonAssetsApi;
+using IBetterCraftingApi = MoonShared.APIs.IBetterCrafting;
 using BirbCore.Attributes;
-using SpaceCore.Events;
 using CookingSkill.Core;
+using MoonShared.APIs;
 
 namespace CookingSkill
 {
@@ -15,9 +14,12 @@ namespace CookingSkill
         internal static Assets Assets;
 
         internal static bool JALoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("spacechase0.JsonAssets");
-        internal static bool MargoLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("DaLion.Overhaul");
+        internal static bool BCLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("leclair.bettercrafting");
 
         internal static IJsonAssetsApi JsonAssets;
+        internal static IBetterCraftingApi BetterCrafting;
+        internal static IPostCraftEvent PostCraftEvent;
+        internal static IGlobalPerformCraftEvent GlobalPerformCraftingEvent;
 
         internal ITranslationHelper I18n => this.Helper.Translation;
 

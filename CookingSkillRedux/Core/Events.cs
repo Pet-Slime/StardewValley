@@ -1,28 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using BirbCore.Attributes;
-using Force.DeepCloner;
-using Microsoft.Xna.Framework.Graphics;
-using Netcode;
+using MoonShared.APIs;
 using SpaceCore;
 using SpaceCore.Events;
 using SpaceCore.Interface;
-using SpaceShared.APIs;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Buffs;
-using StardewValley.Extensions;
 using StardewValley.GameData.Objects;
-using StardewValley.Objects;
-using static BirbCore.Attributes.SEvent;
-using static BirbCore.Attributes.SMod;
-using static SpaceCore.Skills;
 
 namespace CookingSkill.Core
 {
@@ -37,9 +24,31 @@ namespace CookingSkill.Core
             Log.Trace("Cooking: Trying to Register skill.");
             SpaceCore.Skills.RegisterSkill(new Cooking_Skill());
 
+            try
+            {
+                Log.Trace("Cooking: Do I see better crafting?");
+                if (ModEntry.BCLoaded)
+                {
+                    Log.Trace("Cooking: I do see better crafting, Registering API.");
+                    ModEntry.BetterCrafting = ModEntry.Instance.Helper.ModRegistry.GetApi<IBetterCrafting>("leclair.bettercrafting");
+                    ModEntry.PostCraftEvent = ModEntry.Instance.Helper.ModRegistry.GetApi<IPostCraftEvent>("leclair.bettercrafting");
+                    ModEntry.GlobalPerformCraftingEvent = ModEntry.Instance.Helper.ModRegistry.GetApi<IGlobalPerformCraftEvent>("leclair.bettercrafting");
+
+                    ModEntry.BetterCrafting.PerformCraft += BetterCraftingPerformCraftEvent();
+                    ModEntry.BetterCrafting.PostCraft += BetterCraftingPostCraftEvent();
+                }
+            }
+            catch
+            {
+                Log.Trace("Cooking: Error with trying to load better crafting API");
+            }
+
+
 
             SpaceEvents.OnItemEaten += OnItemEat;
         }
+
+
 
         [SEvent.MenuChanged]
         private void MenuChanged(object sender, MenuChangedEventArgs e)
@@ -312,6 +321,19 @@ namespace CookingSkill.Core
             }
         }
 
+
+
+        private static Action<IPostCraftEvent> BetterCraftingPostCraftEvent()
+        {
+
+            ModEntry.PostCraftEvent.Item = PostCook(ModEntry.PostCraftEvent.Recipe.CraftingRecipe, ModEntry.PostCraftEvent.Item, ModEntry.PostCraftEvent.Player);
+        }
+
+        private static Action<IGlobalPerformCraftEvent> BetterCraftingPerformCraftEvent()
+        {
+
+            ModEntry.GlobalPerformCraftingEvent.Item = PreCook(ModEntry.GlobalPerformCraftingEvent.Recipe.CraftingRecipe, ModEntry.GlobalPerformCraftingEvent.Item);
+        }
 
         public static Item PreCook(CraftingRecipe recipe, Item item)
         {

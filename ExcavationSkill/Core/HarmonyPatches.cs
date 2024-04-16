@@ -538,7 +538,6 @@ namespace ArchaeologySkill.Core
                     {
                         if (farmer.HasCustomProfession(Archaeology_Skill.Archaeology10a2))
                         {
-                            BirbCore.Attributes.Log.Trace("Archaeology Skill: Player has Curator profession, adjusting item price");
                             saleMultiplier += 1f;
                         }
                         if (farmer.stats.Get("Book_Artifact") != 0)
