@@ -400,8 +400,20 @@ namespace CookingSkill.Core
             if (recipe is not null && recipe.isCookingRecipe && heldItem is StardewValley.Object obj)
             {
                 //Get the exp value, based off the general exp you get from cooking (Default:2)
-                //Then add it to the bonus value gained from the objects edibility (Default: 10% of the items edibility given as bonus exp)
-                float exp = ModEntry.Config.ExperienceFromCooking + (obj.Edibility * ModEntry.Config.ExperienceFromEdibility);
+                float exp = ModEntry.Config.ExperienceFromCooking;
+
+                //Find out how many times they have cooked said recipe
+                who.recipesCooked.TryGetValue(heldItem.ItemId, out int value);
+                if (value < ModEntry.Config.BonusExpLimit)
+                {
+                    //Then add it to the bonus value gained from the objects edibility (Default: 10% of the items edibility given as bonus exp)
+                    exp += (obj.Edibility * ModEntry.Config.ExperienceFromEdibility);
+                }
+
+                if (value == ModEntry.Config.BonusExpLimit - 1)
+                {
+                    Game1.showGlobalMessage(ModEntry.Instance.I18n.Get("moonslime.Cooking.no_more_bonus_exp"));
+                }
 
                 obj.modDataForSerialization.TryAdd("moonslime.Cooking.homemade", "yes");
 

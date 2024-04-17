@@ -63,10 +63,10 @@
                     "Description": "{{i18n:moonslime.Cooking.apple_pie.description}}",
                     "Type": "Cooking",
                     "Category": -7,
-                    "Price": 100,
+                    "Price": 500,
                     "Texture": "Mods/moonslime.CookingSkill/textures",
                     "SpriteIndex": 1,
-                    "Edibility": 10,
+                    "Edibility": 50,
                     "IsDrink": false,
                     "Buffs": [
                         {
@@ -78,11 +78,11 @@
                             "IsDebuff": false,
                             "GlowColor": null,
                             "CustomAttributes": {
-                                "FarmingLevel": 0,
+                                "FarmingLevel": 5,
                                 "FishingLevel": 0,
                                 "MiningLevel": 0,
                                 "LuckLevel": 0,
-                                "ForagingLevel": 0,
+                                "ForagingLevel": 5,
                                 "MaxStamina": 0,
                                 "MagneticRadius": 0,
                                 "Speed": 0,
@@ -111,10 +111,10 @@
                     "Description": "{{i18n:moonslime.Cooking.strawberry_pie.description}}",
                     "Type": "Cooking",
                     "Category": -7,
-                    "Price": 100,
+                    "Price": 400,
                     "Texture": "Mods/moonslime.CookingSkill/textures",
                     "SpriteIndex": 2,
-                    "Edibility": 10,
+                    "Edibility": 70,
                     "IsDrink": false,
                     "Buffs": [
                         {
@@ -126,10 +126,10 @@
                             "IsDebuff": false,
                             "GlowColor": null,
                             "CustomAttributes": {
-                                "FarmingLevel": 0,
+                                "FarmingLevel": 1,
                                 "FishingLevel": 0,
                                 "MiningLevel": 0,
-                                "LuckLevel": 0,
+                                "LuckLevel": 3,
                                 "ForagingLevel": 0,
                                 "MaxStamina": 0,
                                 "MagneticRadius": 0,
@@ -138,6 +138,7 @@
                                 "Attack": 0
                             },
                             "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.drbirbdev.Socializing": "1"
                             }
                         }
                     ],
@@ -159,10 +160,10 @@
                     "Description": "{{i18n:moonslime.Cooking.fish_pie.description}}",
                     "Type": "Cooking",
                     "Category": -7,
-                    "Price": 100,
+                    "Price": 200,
                     "Texture": "Mods/moonslime.CookingSkill/textures",
                     "SpriteIndex": 3,
-                    "Edibility": 10,
+                    "Edibility": 40,
                     "IsDrink": false,
                     "Buffs": [
                         {
@@ -175,11 +176,11 @@
                             "GlowColor": null,
                             "CustomAttributes": {
                                 "FarmingLevel": 0,
-                                "FishingLevel": 0,
+                                "FishingLevel": 1,
                                 "MiningLevel": 0,
                                 "LuckLevel": 0,
                                 "ForagingLevel": 0,
-                                "MaxStamina": 0,
+                                "MaxStamina": 64,
                                 "MagneticRadius": 0,
                                 "Speed": 0,
                                 "Defense": 0,
@@ -207,10 +208,10 @@
                     "Description": "{{i18n:moonslime.Cooking.cream_pie.description}}",
                     "Type": "Cooking",
                     "Category": -7,
-                    "Price": 100,
+                    "Price": 500,
                     "Texture": "Mods/moonslime.CookingSkill/textures",
                     "SpriteIndex": 4,
-                    "Edibility": 10,
+                    "Edibility": 45,
                     "IsDrink": false,
                     "Buffs": [
                         {
@@ -222,7 +223,7 @@
                             "IsDebuff": false,
                             "GlowColor": null,
                             "CustomAttributes": {
-                                "FarmingLevel": 0,
+                                "FarmingLevel": 3,
                                 "FishingLevel": 0,
                                 "MiningLevel": 0,
                                 "LuckLevel": 0,
@@ -234,6 +235,7 @@
                                 "Attack": 0
                             },
                             "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.drbirbdev.Socializing": "2"
                             }
                         }
                     ],
@@ -1176,7 +1178,7 @@
                     "Type": "asdf",
                     "Category": -103,
                     "Price": 500,
-                    "Texture": "Mods/moonslime.ArchaeologySkill/textures",
+                    "Texture": "Mods/moonslime.CookingSkill/textures",
                     "SpriteIndex": 24,
                     "Edibility": -300,
                     "IsDrink": false,
