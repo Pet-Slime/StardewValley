@@ -1,6 +1,6 @@
 ﻿{
     "skill.name": "Cooking",
-    "skill.perk": "+{{bonus}}% edibility in home-cooked foods",
+    "skill.perk": "+{{bonus}}% edibility in home-cooked foods.",
     "skill.perk_bonus": "+{{bonus}}% edibility in home-cooked foods",
 
 
@@ -9,9 +9,9 @@
     "cooking5b.name": "Glutton",
     "cooking5b.desc": "Extra buff duration from food based on level.",
     "cooking10a1.name": "Culinarian",
-    "cooking10a1.desc": "When Cooking, Receive double the recipe production amount.",
+    "cooking10a1.desc": "When Cooking, Have a chance at double the recipe\nproduction amount based on cooking level.",
     "cooking10a2.name": "Chef",
-    "cooking10a2.desc": "Home Cooked food sells for double the amount.",
+    "cooking10a2.desc": "Cooked Foods sell for more based on cooking level.",
     "cooking10b1.name": "Gourmand",
     "cooking10b1.desc": "Food buffs are one level stronger once eaten\n(+16 for energy or magnetism).",
     "cooking10b2.name": "Gastronomist",

@@ -42,7 +42,21 @@ namespace CookingSkill.Core
                 Log.Trace("Cooking: Error with trying to load better crafting API");
             }
             SpaceEvents.OnItemEaten += OnItemEat;
+            SpaceEvents.AfterGiftGiven += AfterGiftGiven;
         }
+
+
+
+        private static void AfterGiftGiven(object sender, EventArgsGiftGiven e)
+        {
+            if (e.Gift.modData.ContainsKey("moonslime.Cooking.Cooked"))
+            {
+                int giftValue = ((int)Math.Ceiling(e.Gift.Edibility * 0.1));
+                Game1.player.changeFriendship(giftValue, e.Npc);
+            }
+        }
+
+
 
         private static void BetterCraftingPerformCraftEvent(IGlobalPerformCraftEvent @event)
         {
@@ -355,12 +369,17 @@ namespace CookingSkill.Core
             //Make sure the item coming out of the cooking recipe is an object
             if (recipe is not null && recipe.isCookingRecipe && item is StardewValley.Object obj)
             {
+                //Get the cooking level which is based off the player's level
+                float cookingValue = Utilities.GetLevelValue(Game1.player);
+
                 //increase the edibility of the object based on the cooking level of the player
-                obj.Edibility = (int)(obj.Edibility * Utilities.GetLevelValue(Game1.player));
+                obj.Edibility = (int)(obj.Edibility * cookingValue);
 
                 //If the player has the right profession, increase the selling price
                 if (Game1.player.HasCustomProfession(Cooking_Skill.Cooking10a2))
-                    obj.Price *= 2;
+                {
+                    obj.Price *= (int)(2 * cookingValue);
+                }
 
                 //If the player has right profession, increase item quality
                 if (Game1.player.HasCustomProfession(Cooking_Skill.Cooking5a))
@@ -391,10 +410,16 @@ namespace CookingSkill.Core
                 //Give the player exp. Make sure to floor the value. Don't want no decimels.
                 Utilities.AddEXP(who, (int)(Math.Floor(exp)));
 
+                //Add in mod data to check for later
+                obj.modDataForSerialization.TryAdd("moonslime.Cooking.Cooked", "1");
+
                 //If the player has the right profession, they get an extra number of crafts from crafting the item.
                 if (who.HasCustomProfession(Cooking_Skill.Cooking10a1) && who.couldInventoryAcceptThisItem(heldItem))
                 {
-                    heldItem.Stack += recipe.numberProducedPerCraft;
+                    if (Game1.random.NextDouble() < Utilities.GetLevelValue(who))
+                    {
+                        heldItem.Stack += recipe.numberProducedPerCraft;
+                    }
                     //Return the object
                     return heldItem;
                 }
