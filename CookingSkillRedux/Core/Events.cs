@@ -401,13 +401,20 @@ namespace CookingSkill.Core
             {
                 //Get the exp value, based off the general exp you get from cooking (Default:2)
                 float exp = ModEntry.Config.ExperienceFromCooking;
+                //Get the bonus exp value based off the object's edbility. (default:50% of the object's edbility)
+                float bonusExp = (obj.Edibility * ModEntry.Config.ExperienceFromEdibility);
 
                 //Find out how many times they have cooked said recipe
                 who.recipesCooked.TryGetValue(heldItem.ItemId, out int value);
                 if (value < ModEntry.Config.BonusExpLimit)
                 {
                     //Then add it to the bonus value gained from the objects edibility (Default: 10% of the items edibility given as bonus exp)
-                    exp += (obj.Edibility * ModEntry.Config.ExperienceFromEdibility);
+                    exp += bonusExp;
+                } else
+                {
+                    //Else, give a demishing return on the bonus exp
+                    float min = Math.Max(1, value - ModEntry.Config.BonusExpLimit);
+                    exp += (bonusExp / min);
                 }
 
                 if (value == ModEntry.Config.BonusExpLimit - 1)
