@@ -11,7 +11,8 @@
     ],
     "Dependencies": [
         {
-            "UniqueID": "DaLion.Overhaul",
+            "UniqueID": "leclair.bettercrafting",
+            "MinimumVersion": "2.6.2",
             "IsRequired": false
         },
         {
