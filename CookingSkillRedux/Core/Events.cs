@@ -412,7 +412,7 @@ namespace CookingSkill.Core
                     exp += bonusExp;
                 } else
                 {
-                    //Else, give a demishing return on the bonus exp
+                    //Else, give a diminishing return on the bonus exp
                     float min = Math.Max(1, value - ModEntry.Config.BonusExpLimit);
                     exp += (bonusExp / min);
                 }
