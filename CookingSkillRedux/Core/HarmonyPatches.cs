@@ -39,7 +39,7 @@ namespace CookingSkill.Core
                 if (CraftingRecipe.DoesFarmerHaveAdditionalIngredientsInInventory(list, GetContainerContents(__instance._materialContainers)))
                 {
                     item.Quality = 2;
-                    
+
                 }
                 else
                 {

@@ -18,7 +18,6 @@ namespace CookingSkill
         {
             var player = Game1.getFarmer(who.UniqueMultiplayerID);
             float level = SpaceCore.Skills.GetSkillLevel(player, "moonslime.Cooking") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Cooking");
-            Log.Trace("Cooking: The player's level is... " + level.ToString());
             float sendback = (level * 0.03f) + 1f;
             return sendback;
         }

@@ -411,7 +411,7 @@ namespace CookingSkill.Core
                 //If the player has the right profession, they get an extra number of crafts from crafting the item.
                 if (who.HasCustomProfession(Cooking_Skill.Cooking10a1) && who.couldInventoryAcceptThisItem(heldItem))
                 {
-                    if (Game1.random.NextDouble() < (Utilities.GetLevelValue(who)+ Utilities.GetLevelValue(who)))
+                    if (Game1.random.NextDouble() < (Utilities.GetLevelValue(who) + Utilities.GetLevelValue(who)))
                     {
                         heldItem.Stack += recipe.numberProducedPerCraft;
                     }

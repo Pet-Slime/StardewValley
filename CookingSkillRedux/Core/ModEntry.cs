@@ -32,7 +32,8 @@ namespace CookingSkill
             try
             {
                 return new CookingAPI();
-            } catch
+            }
+            catch
             {
                 return null;
             }
