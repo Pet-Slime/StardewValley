@@ -417,15 +417,18 @@ namespace CookingSkill.Core
                     exp += (bonusExp / min);
                 }
 
+                //Send a message to the player at the limit for the bonus exp
                 if (value == ModEntry.Config.BonusExpLimit - 1)
                 {
                     Game1.showGlobalMessage(ModEntry.Instance.I18n.Get("moonslime.Cooking.no_more_bonus_exp"));
                 }
 
-                obj.modDataForSerialization.TryAdd("moonslime.Cooking.homemade", "yes");
-
                 //Give the player exp. Make sure to floor the value. Don't want no decimels.
                 Utilities.AddEXP(who, (int)(Math.Floor(exp)));
+
+                //Add the homecooked value to the modData for the item. So we can check for it later
+                obj.modDataForSerialization.TryAdd("moonslime.Cooking.homemade", "yes");
+
 
                 //If the player has the right profession, they get an extra number of crafts from crafting the item.
                 if (who.HasCustomProfession(Cooking_Skill.Cooking10a1) && who.couldInventoryAcceptThisItem(heldItem))
