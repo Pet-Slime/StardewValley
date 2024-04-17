@@ -9,7 +9,7 @@
     "cooking5b.name": "Glutton",
     "cooking5b.desc": "Extra buff duration from food based on level.",
     "cooking10a1.name": "Culinarian",
-    "cooking10a1.desc": "When Cooking, Cook Two Meals",
+    "cooking10a1.desc": "When Cooking, Chance based on level to Cook Two Meals",
     "cooking10a2.name": "Chef",
     "cooking10a2.desc": "Home Cooked food sells for double the amount",
     "cooking10b1.name": "Gourmand",
