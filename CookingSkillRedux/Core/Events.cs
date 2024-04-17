@@ -406,7 +406,7 @@ namespace CookingSkill.Core
 
                 //Find out how many times they have cooked said recipe
                 who.recipesCooked.TryGetValue(heldItem.ItemId, out int value);
-                if (value < ModEntry.Config.BonusExpLimit)
+                if (value <= ModEntry.Config.BonusExpLimit)
                 {
                     //Then add it to the bonus value gained from the objects edibility (Default: 10% of the items edibility given as bonus exp)
                     exp += bonusExp;
