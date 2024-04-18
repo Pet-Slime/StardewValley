@@ -1,6 +1,6 @@
-﻿{
+{
     "moonslime.Archaeology.item_catagory": "展示古物",
-
+   
     "moonslime.Archaeology.water_shifter.name": "水筛",
     "moonslime.Archaeology.water_shifter.description": "水筛",
 
@@ -35,17 +35,26 @@
     "moonslime.Archaeology.rusty_scrap.description": "从研磨机上得到的生锈的碎块。",
 
     "moonslime.Archaeology.grinder.name": "研磨机",
-    "moonslime.Archaeology.grinder.description": "将生锈的古物磨成矿石。",
+    "moonslime.Archaeology.grinder.description": "将生锈的古物磨成矿石。",    
+    "moonslime.Archaeology.grinder.need_item": "这个研磨机需要煤才能运行。",
 
     "moonslime.Archaeology.ancient_battery.name": "电池古法生产站",
-    "moonslime.Archaeology.ancient_battery.description": "利用你从古物中获得的知识，你可以用古老的方式制作电池组。在这个工作站用果汁、粘土还有时间来制作电池组。",
+    "moonslime.Archaeology.ancient_battery.description": "利用你从古物中获得的知识，你可以用古老的方式制作电池组。在这个工作站用果汁、铜还有时间来制作电池组。",
+    "moonslime.Archaeology.ancient_battery.need_item": "这个生产站需铜和果汁才能运行。",
 
     "moonslime.Archaeology.preservation_chamber.name": "收藏室",
     "moonslime.Archaeology.preservation_chamber.description": "在这里放一个木展台和一件古物去制作一件木展台展品。",
+    "moonslime.Archaeology.preservation_chamber.need_item": "这个收藏室一个木展台和一件古物才能运行。",
 
     "moonslime.Archaeology.h_preservation_chamber.name": "硬木收藏室",
     "moonslime.Archaeology.h_preservation_chamber.description": "在这里放一个硬木展台和一件古物去制作一件硬木展台展品。",
+    "moonslime.Archaeology.h_preservation_chamber.need_item": "这个硬木收藏室一个硬木展台和一件古物才能运行。",
 
+    "moonslime.Archaeology.glass_brazier.name": "玻璃火盆",
+    "moonslime.Archaeology.glass_brazier.description": "提供适度的光。",
+	
+    "moonslime.Archaeology.rusty_brazier.name": "锈火盆",
+    "moonslime.Archaeology.rusty_brazier.description": "提供适度的光。",
 
     "moonslime.Archaeology.h_display.name": "硬木展台",
     "moonslime.Archaeology.h_display.description": "一个硬木制成的展台。",
@@ -256,8 +265,7 @@
     "moonslime.Archaeology.w_snake_skull.description": "在木展台上的蛇头骨。",
     "moonslime.Archaeology.w_snake_vertebrae.name": "木展台: 蛇脊椎骨",
     "moonslime.Archaeology.w_snake_vertebrae.description": "在木展台上的蛇脊椎骨。",
-
-
+    
     "moonslime.Archaeology.h_fossilized_starfish.name": "硬木展台：海星化石",
     "moonslime.Archaeology.h_fossilized_starfish.description": "在硬木展台上的海星化石。",
     "moonslime.Archaeology.h_fossilised_moth.name": "硬木展台：蛾化石",
