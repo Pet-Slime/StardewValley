@@ -21,7 +21,7 @@ namespace LuckSkill
         public static int GetLevel(StardewValley.Farmer who)
         {
             var player = Game1.getFarmer(who.UniqueMultiplayerID);
-            return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Luck") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Luck");
+            return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Luck");
         }
 
         public static void MasteryEXPCheck(Farmer who, int howMuch)
