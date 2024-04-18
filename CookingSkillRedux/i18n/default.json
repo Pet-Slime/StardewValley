@@ -11,7 +11,7 @@
     "config.ExperienceFromEdibility.tooltip": "The Bonus Exp earned based on the item's edibility.",
 
     "config.BonusExpLimit": "Bonus Limit",
-    "config.BonusExpLimit.tooltip": "How many times you can cook an item to get the bonus exp.",
+    "config.BonusExpLimit.tooltip": "How many times you can cook an item to get the bonus exp before diminishing returns kicks in.",
 
     "moonslime.Cooking.no_more_bonus_exp": "You have mastered cooking this dish and won't gain as much knowledge from it.",
 
