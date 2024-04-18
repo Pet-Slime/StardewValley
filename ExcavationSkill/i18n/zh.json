@@ -15,12 +15,12 @@
     "config.ExperienceFromBuriedAndPannedItem": "埋藏的物品和淘金经验增益",
     "config.ExperienceFromBuriedAndPannedItem.tooltip": "从挖掘随机物品（例如粘土）和淘金获得的经验收益。",
 
-    "config.ExperienceFromWaterShifter": "滤水器经验增益",
-    "config.ExperienceFromWaterShifter.tooltip": "收获滤水器时获得的经验收益。",
+    "config.ExperienceFromWaterShifter": "水筛经验增益",
+    "config.ExperienceFromWaterShifter.tooltip": "收获水筛时获得的经验收益。",
 
     "moonslime.Archaeology.skill_book.levelup": "你学会了一些考古知识。",
 
-    "moonslime.Archaeology.water_shifter.name": "滤水器",
+    "moonslime.Archaeology.water_shifter.name": "水筛",
     "moonslime.Archaeology.water_shifter.description": "把它放在水中，系上纤维，第二天检查它是否有任何东西。\n在河流、湖泊和海洋中工作。",
 
 
