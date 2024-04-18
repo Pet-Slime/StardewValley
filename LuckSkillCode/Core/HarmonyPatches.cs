@@ -7,6 +7,8 @@ using HarmonyLib;
 using StardewValley.Inventories;
 using StardewValley.Menus;
 using StardewValley;
+using StardewValley.Locations;
+using System.Diagnostics;
 
 namespace LuckSkill.Core
 {
@@ -18,6 +20,28 @@ namespace LuckSkill.Core
         {
             if (__instance.IsLocalPlayer && which == 5)
             {
+                if (Game1.currentLocation is MineShaft ms)
+                {
+                    bool foundGeode = false;
+                    var st = new StackTrace();
+                    foreach (var frame in st.GetFrames())
+                    {
+                        if (frame.GetMethod().Name.Contains(nameof(MineShaft.checkStoneForItems)))
+                        {
+                            foundGeode = true;
+                            break;
+                        }
+                    }
+
+                    if (foundGeode)
+                    {
+                        int msa = ms.getMineArea();
+                        if (msa != 0)
+                        {
+                            howMuch /= msa;
+                        }
+                    }
+                }
                 Utilities.AddEXP(Game1.getFarmer(__instance.UniqueMultiplayerID), howMuch);
             }
         }
