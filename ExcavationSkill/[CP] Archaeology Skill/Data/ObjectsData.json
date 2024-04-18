@@ -11,6 +11,11 @@
             "FromFile": "Assets/water_shifter.png"
         },
         {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/machines",
+            "FromFile": "Assets/machines.png"
+        },
+        {
             "Action": "EditData",
             "Target": "Data/BigCraftables",
             "Entries": {
@@ -19,32 +24,32 @@
                     "DisplayName": "{{i18n:moonslime.Archaeology.ancient_battery.name}}",
                     "Description": "{{i18n:moonslime.Archaeology.ancient_battery.description}}",
                     "Price": 50,
-                    "Texture": "Mods/moonslime.ArchaeologySkill/textures",
-                    "SpriteIndex": 12
+                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
+                    "SpriteIndex": 9
                 },
                 "moonslime.Archaeology.grinder": {
                     "Name": "Grinder",
                     "DisplayName": "{{i18n:moonslime.Archaeology.grinder.name}}",
                     "Description": "{{i18n:moonslime.Archaeology.grinder.description}}",
                     "Price": 50,
-                    "Texture": "Mods/moonslime.ArchaeologySkill/textures",
-                    "SpriteIndex": 9
+                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
+                    "SpriteIndex": 0
                 },
                 "moonslime.Archaeology.preservation_chamber": {
                     "Name": "Preservation Chamber",
                     "DisplayName": "{{i18n:moonslime.Archaeology.preservation_chamber.name}}",
                     "Description": "{{i18n:moonslime.Archaeology.preservation_chamber.description}}",
                     "Price": 50,
-                    "Texture": "Mods/moonslime.ArchaeologySkill/textures",
-                    "SpriteIndex": 8
+                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
+                    "SpriteIndex": 3
                 },
                 "moonslime.Archaeology.h_preservation_chamber": {
                     "Name": "Hardwood Preservation Chamber",
                     "DisplayName": "{{i18n:moonslime.Archaeology.h_preservation_chamber.name}}",
                     "Description": "{{i18n:moonslime.Archaeology.h_preservation_chamber.description}}",
                     "Price": 50,
-                    "Texture": "Mods/moonslime.ArchaeologySkill/textures",
-                    "SpriteIndex": 7
+                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
+                    "SpriteIndex": 6
                 }
             }
         },

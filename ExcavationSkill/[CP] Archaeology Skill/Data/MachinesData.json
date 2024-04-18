@@ -1,4 +1,4 @@
-{
+﻿{
     "Changes": [
         {
             "Action": "EditData",
@@ -12,8 +12,8 @@
                                 {
                                     "Id": "ItemPlacedInMachine",
                                     "Trigger": "ItemPlacedInMachine",
-                                    "RequiredItemId": "(O)330",
-                                    "RequiredCount": 3
+                                    "RequiredItemId": "(O)334",
+                                    "RequiredCount": 5
                                 }
                             ],
                             "UseFirstValidOutput": true,
@@ -31,10 +31,13 @@
                     "AdditionalConsumedItems": [
                         {
                             "ItemId": "(O)350",
-                            "RequiredCount": 1
+                            "RequiredCount": 1,
+							"InvalidCountMessage": "{{i18n: moonslime.Archaeology.ancient_battery.need_item}}"
                         }
                     ],
                     "WobbleWhileWorking": true,
+					"ShowNextIndexWhileWorking": true,
+					"ShowNextIndexWhenReady": true,
                     "LoadEffects": [
                         {
                             "Id": "Default",
@@ -307,7 +310,7 @@
                             ],
                             "UseFirstValidOutput": true,
                             "OutputItem": [
-								{
+                                {
                                     "Id": "Iron",
                                     "Condition": "RANDOM 0.3",
                                     "ItemId": "(O)380",
@@ -404,10 +407,13 @@
                     "AdditionalConsumedItems": [
                         {
                             "ItemId": "(O)382",
-                            "RequiredCount": 1
+                            "RequiredCount": 1,
+							"InvalidCountMessage": "{{i18n: moonslime.Archaeology.grinder.need_item}}"
                         }
                     ],
                     "WobbleWhileWorking": true,
+                    "ShowNextIndexWhileWorking": true,
+                    "ShowNextIndexWhenReady": true,
                     "LoadEffects": [
                         {
                             "Id": "Default",
@@ -1506,10 +1512,13 @@
                     "AdditionalConsumedItems": [
                         {
                             "ItemId": "(O)moonslime.Archaeology.w_display",
-                            "RequiredCount": 1
+                            "RequiredCount": 1,
+							"InvalidCountMessage": "{{i18n: moonslime.Archaeology.preservation_chamber.need_item}}"
                         }
                     ],
                     "WobbleWhileWorking": true,
+                    "ShowNextIndexWhileWorking": true,
+                    "ShowNextIndexWhenReady": true,
                     "LoadEffects": [
                         {
                             "Id": "Default",
@@ -2633,10 +2642,13 @@
                     "AdditionalConsumedItems": [
                         {
                             "ItemId": "(O)moonslime.Archaeology.h_display",
-                            "RequiredCount": 1
+                            "RequiredCount": 1,
+							"InvalidCountMessage": "{{i18n: moonslime.Archaeology.h_preservation_chamber.need_item}}"
                         }
                     ],
                     "WobbleWhileWorking": true,
+                    "ShowNextIndexWhileWorking": true,
+                    "ShowNextIndexWhenReady": true,
                     "LoadEffects": [
                         {
                             "Id": "Default",
