@@ -19,14 +19,6 @@
             "Action": "EditData",
             "Target": "Data/BigCraftables",
             "Entries": {
-                "moonslime.Archaeology.ancient_battery": {
-                    "Name": "Ancient Battery",
-                    "DisplayName": "{{i18n:moonslime.Archaeology.ancient_battery.name}}",
-                    "Description": "{{i18n:moonslime.Archaeology.ancient_battery.description}}",
-                    "Price": 50,
-                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
-                    "SpriteIndex": 9
-                },
                 "moonslime.Archaeology.grinder": {
                     "Name": "Grinder",
                     "DisplayName": "{{i18n:moonslime.Archaeology.grinder.name}}",
@@ -50,6 +42,46 @@
                     "Price": 50,
                     "Texture": "Mods/moonslime.ArchaeologySkill/machines",
                     "SpriteIndex": 6
+                },
+				"moonslime.Archaeology.ancient_battery": {
+                    "Name": "Ancient Battery",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.ancient_battery.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.ancient_battery.description}}",
+                    "Price": 50,
+                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
+                    "SpriteIndex": 9
+                },
+                "moonslime.Archaeology.glass_brazier": {
+                    "Name": "Glass Brazier",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.glass_brazier.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.glass_brazier.description}}",
+                    "Price": 50,
+					"CanBePlacedOutdoors": true,
+					"CanBePlacedIndoors": true,
+					"IsLamp": false,
+                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
+					"SpriteIndex": 12,
+					"ContextTags": [
+					"light_source",
+					"torch_item"
+					],
+					"CustomFields": null
+                },
+                "moonslime.Archaeology.rusty_brazier": {
+                    "Name": "Rusty Brazier",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.rusty_brazier.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.rusty_brazier.description}}",
+                    "Price": 50,
+					"CanBePlacedOutdoors": true,
+					"CanBePlacedIndoors": true,
+					"IsLamp": false,
+                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
+					"SpriteIndex": 26,
+					"ContextTags": [
+					"light_source",
+					"torch_item"
+					],
+					"CustomFields": null
                 }
             }
         },

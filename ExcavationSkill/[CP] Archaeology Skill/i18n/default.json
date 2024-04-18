@@ -49,7 +49,12 @@
     "moonslime.Archaeology.h_preservation_chamber.name": "Hardwood Preservation Chamber",
     "moonslime.Archaeology.h_preservation_chamber.description": "Put a hardwood display and an artifact on here to make an artifact ona hardwood display.",
     "moonslime.Archaeology.h_preservation_chamber.need_item": "This station needs a hardwood display and an artifact to function",
-
+	
+    "moonslime.Archaeology.glass_brazier.name": "Glass Brazier",
+    "moonslime.Archaeology.glass_brazier.description": "Provides a moderate amount of light.",
+	
+    "moonslime.Archaeology.rusty_brazier.name": "Rusty Brazier",
+    "moonslime.Archaeology.rusty_brazier.description": "Provides a moderate amount of light.",
 
     "moonslime.Archaeology.h_display.name": "Hardwood Display",
     "moonslime.Archaeology.h_display.description": "A display stand made out of hard wood.",
