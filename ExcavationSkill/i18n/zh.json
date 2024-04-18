@@ -1,4 +1,4 @@
-{
+﻿{
     "skill.name": "考古",
     "skill.perk": "+{{bonus}}%挖掘奖励的额外奖励",
     "skill.perk_bonus": "挖掘时有机会获得 {{稀有}} 奖励",
@@ -35,7 +35,7 @@
     "Archaeology10b1.name": "挖掘船",
     "Archaeology10b1.desc": "淘金时获得额外物品。",
     "Archaeology10b2.name": "49年淘金者",
-    "Archaeology10b2.desc": "成功挖掘或者淘金时，根据等级获得\n速度提升。"
+    "Archaeology10b2.desc": "成功挖掘或者淘金时，根据等级获得\n速度提升。",
     "Archaeology10b2.buff": "淘金热！"
 
 }

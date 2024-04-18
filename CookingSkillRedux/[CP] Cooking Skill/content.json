@@ -2,7 +2,11 @@
     "Format": "2.0.0",
     "ConfigSchema": {
 
-        "Enable Vanilla Changes (besides pie recipe changes which are always active sorry)": {
+        "Enable_Vanilla_Food_Changes": {
+            "AllowValues": "true,false",
+            "Default": "true"
+        },
+        "Enable_Cookout_Kit_Changes": {
             "AllowValues": "true,false",
             "Default": "true"
         }
@@ -15,7 +19,7 @@
         {
             "Action": "Include",
             "When": {
-                "Enable Vanilla Changes (besides pie recipe changes which are always active sorry)": true
+                "Enable_Vanilla_Food_Changes": true
             },
             "FromFile": "Data/Vanilla_ObjectsData.json"
 

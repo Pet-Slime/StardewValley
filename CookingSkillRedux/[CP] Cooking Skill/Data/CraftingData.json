@@ -1,17 +1,32 @@
 ﻿{
     "Changes": [
-		{
+        {
             "Action": "EditData",
-            "Target": "Data/CookingRecipes",
+            "Target": "Data/CraftingRecipes",
             "Entries": {
-				"Pumpkin Pie": "276 1 moonslime.Cooking.pie_crust 2/1 10/608 2/l 100/",
-				"Rhubarb Pie": "252 1 moonslime.Cooking.pie_crust 1/2 4/222/f Marnie 7/"
+                "Cookout Kit": "388 4 390 10/Field/926/false/moonslime.Cooking 0/"
+            },
+            "When": {
+                "Enable_Cookout_Kit_Changes": true
             }
         },
         {
             "Action": "EditData",
             "Target": "Data/CookingRecipes",
             "Entries": {
+                "Pumpkin Pie": "276 1 moonslime.Cooking.pie_crust 2/1 10/608 2/l 100/",
+                "Rhubarb Pie": "252 1 moonslime.Cooking.pie_crust 1/2 4/222/f Marnie 7/"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/CookingRecipes",
+            "Entries": {
+
+                "moonslime.Cooking.green_stew": "MossSoup 1 192 3 457 1/1 10/moonslime.Cooking.green_stew/s Foraging 3/",
+                "moonslime.Cooking.green_smoothy": "MossSoup 1 -75 4/1 10/moonslime.Cooking.green_smoothy/s Foraging 9/",
+
+
                 "moonslime.Cooking.pie_crust": "246 1 -6 1 245 1//moonslime.Cooking.pie_crust/moonslime.Cooking 1/",
                 "moonslime.Cooking.rice": "423 3//moonslime.Cooking.rice/moonslime.Cooking 1/",
                 "moonslime.Cooking.banana_field_snack": "403 1 91 1//moonslime.Cooking.banana_field_snack/moonslime.Cooking 1/",
@@ -42,7 +57,8 @@
                 "moonslime.Cooking.nigiri": "148 3//moonslime.Cooking.nigiri/moonslime.Cooking 8/",
 
                 "moonslime.Cooking.seafoam_icecream": "265 1 233 1//moonslime.Cooking.seafoam_icecream/moonslime.Cooking 9/",
-                "moonslime.Cooking.wizard_casserole": "422 2 188 2 246 2 155 2//moonslime.Cooking.wizard_casserole/moonslime.Cooking 9/"
+                "moonslime.Cooking.wizard_casserole": "422 2 188 2 246 2 155 2//moonslime.Cooking.wizard_casserole/moonslime.Cooking 9/",
+                "moonslime.Cooking.anchovy_pizza": "206 1 129 8//moonslime.Cooking.anchovy_pizza/moonslime.Cooking 9/"
 
             }
         }

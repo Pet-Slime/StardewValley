@@ -125,17 +125,81 @@ namespace CookingSkill.Core
             levelUpMenu.height = menuHeight + 256 + (levelUpMenu.getExtraInfoForLevel(skill, level).Count * 64 * 3 / 4);
         }
 
+        [SEvent.SaveCreating]
+        private void SaveCreating(object sender, SaveCreatingEventArgs e)
+        {
+            string Id = "moonslime.Cooking";
+            int skillLevel = Game1.player.GetCustomSkillLevel(Id);
 
+            if (skillLevel >= 5 && !(Game1.player.HasCustomProfession(Cooking_Skill.Cooking5a) ||
+                                     Game1.player.HasCustomProfession(Cooking_Skill.Cooking5b)))
+            {
+                Game1.endOfNightMenus.Push(new SkillLevelUpMenu(Id, 5));
+            }
+
+            if (skillLevel >= 10 && !(Game1.player.HasCustomProfession(Cooking_Skill.Cooking10a1) ||
+                                      Game1.player.HasCustomProfession(Cooking_Skill.Cooking10a2) ||
+                                      Game1.player.HasCustomProfession(Cooking_Skill.Cooking10b1) ||
+                                      Game1.player.HasCustomProfession(Cooking_Skill.Cooking10b2)))
+            {
+                Game1.endOfNightMenus.Push(new SkillLevelUpMenu(Id, 10));
+            }
+
+            foreach (KeyValuePair<string, string> recipePair in DataLoader.CraftingRecipes(Game1.content))
+            {
+                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
+                if (!conditions.Contains(Id))
+                {
+                    continue;
+                }
+                if (conditions.Split(" ").Length < 2)
+                {
+                    continue;
+                }
+
+                int level = int.Parse(conditions.Split(" ")[1]);
+
+                if (skillLevel < level)
+                {
+                    continue;
+                }
+
+                Game1.player.craftingRecipes.TryAdd(recipePair.Key, 0);
+            }
+
+            foreach (KeyValuePair<string, string> recipePair in DataLoader.CookingRecipes(Game1.content))
+            {
+                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 3, "");
+                if (!conditions.Contains(Id))
+                {
+                    continue;
+                }
+                if (conditions.Split(" ").Length < 2)
+                {
+                    continue;
+                }
+
+                int level = int.Parse(conditions.Split(" ")[1]);
+
+                if (skillLevel < level)
+                {
+                    continue;
+                }
+
+                if (Game1.player.cookingRecipes.TryAdd(recipePair.Key, 0) &&
+                    !Game1.player.hasOrWillReceiveMail("robinKitchenLetter"))
+                {
+                    Game1.mailbox.Add("robinKitchenLetter");
+                }
+            }
+
+        }
 
         [SEvent.SaveLoaded]
         private void SaveLoaded(object sender, SaveLoadedEventArgs e)
         {
             string Id = "moonslime.Cooking";
             int skillLevel = Game1.player.GetCustomSkillLevel(Id);
-            if (skillLevel == 0)
-            {
-                return;
-            }
 
             if (skillLevel >= 5 && !(Game1.player.HasCustomProfession(Cooking_Skill.Cooking5a) ||
                                      Game1.player.HasCustomProfession(Cooking_Skill.Cooking5b)))

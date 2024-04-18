@@ -1,4 +1,23 @@
-{
+﻿{
+
+    "config.Enable_Vanilla_Food_Changes.name": "Enable this mod",
+    "config.Enable_Vanilla_Food_Changes.description": "Unchecking this will turn off most vanilla food changes. I say most because the pie recipe changes to require pie crust will remain.",
+
+    "config.Enable_Cookout_Kit_Changes.name": "Cookout kit Changes",
+    "config.Enable_Cookout_Kit_Changes.description": "Unchecking this will keep the cookout kit as a level 3 foraging recipe instead of a level 0 Cooking recipe.",
+
+    "moonslime.Cooking.green_stew.name": "Green Stew",
+    "moonslime.Cooking.green_stew.description": "A delicate stew with a hint of sulfur and potato.",
+
+    "moonslime.Cooking.green_smoothy.name": "Green Smoothy",
+    "moonslime.Cooking.green_smoothy.description": "A great and healthy drink!.",
+
+    "moonslime.Cooking.anchovy_pizza.name": "Anchovy Pizza",
+    "moonslime.Cooking.anchovy_pizza.description": "Some say tastier, some say worse.",
+
+    "moonslime.Cooking.wizards_brew.name": "Wizards Brew",
+    "moonslime.Cooking.wizards_brew.description": "Not made on a mountain top with a group of owls.",
+
 
     "moonslime.Cooking.pie_crust.name": "파이 크러스트",
     "moonslime.Cooking.pie_crust.description": "파이를 만들기 위한 기본 베이스",

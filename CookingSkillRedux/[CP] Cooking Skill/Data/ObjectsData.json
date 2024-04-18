@@ -417,7 +417,7 @@
                             "GlowColor": null,
                             "CustomAttributes": {
                                 "FarmingLevel": 0,
-                                "FishingLevel": 4,
+                                "FishingLevel": 5,
                                 "MiningLevel": 0,
                                 "LuckLevel": 0,
                                 "ForagingLevel": 0,
@@ -1193,6 +1193,151 @@
                         "moonslime.Cooking.skill_book",
                         "color_light_cyan",
                         "book_item"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Cooking.green_stew": {
+                    "Name": "Green Stew",
+                    "DisplayName": "{{i18n:moonslime.Cooking.green_stew.name}}",
+                    "Description": "{{i18n:moonslime.Cooking.green_stew.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 550,
+                    "Texture": "Mods/moonslime.CookingSkill/textures",
+                    "SpriteIndex": 25,
+                    "Edibility": 105,
+                    "IsDrink": false,
+                    "Buffs": [
+                        {
+                            "Id": "Food",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 380,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 0,
+                                "MiningLevel": 0,
+                                "LuckLevel": 0,
+                                "ForagingLevel": 2,
+                                "MaxStamina": 0,
+                                "MagneticRadius": 0,
+                                "Speed": 0,
+                                "Defense": 0,
+                                "Attack": 0
+                            },
+                            "CustomFields": {
+                            }
+                        }
+                    ],
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_green",
+                        "food_soup"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Cooking.green_smoothy": {
+                    "Name": "Green Smoothy",
+                    "DisplayName": "{{i18n:moonslime.Cooking.green_smoothy.name}}",
+                    "Description": "{{i18n:moonslime.Cooking.green_smoothy.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 175,
+                    "Texture": "Mods/moonslime.CookingSkill/textures",
+                    "SpriteIndex": 26,
+                    "Edibility": 38,
+                    "IsDrink": true,
+                    "Buffs": [
+                        {
+                            "Id": "Drink",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 480,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 0,
+                                "MiningLevel": 0,
+                                "LuckLevel": 0,
+                                "ForagingLevel": 3,
+                                "MaxStamina": 0,
+                                "MagneticRadius": 0,
+                                "Speed": 0,
+                                "Defense": 0,
+                                "Attack": 0
+                            },
+                            "CustomFields": {
+                            }
+                        }
+                    ],
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_green"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Cooking.anchovy_pizza": {
+                    "Name": "Anchovy Pizza",
+                    "DisplayName": "{{i18n:moonslime.Cooking.anchovy_pizza.name}}",
+                    "Description": "{{i18n:moonslime.Cooking.anchovy_pizza.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 675,
+                    "Texture": "Mods/moonslime.CookingSkill/textures",
+                    "SpriteIndex": 27,
+                    "Edibility": 100,
+                    "IsDrink": false,
+                    "Buffs": [
+                        {
+                            "Id": "Food",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 480,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 3,
+                                "MiningLevel": 0,
+                                "LuckLevel": 0,
+                                "ForagingLevel": 0,
+                                "MaxStamina": 32,
+                                "MagneticRadius": 0,
+                                "Speed": 0,
+                                "Defense": 0,
+                                "Attack": 0
+                            },
+                            "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.drbirbdev.Socializing": "2"
+                            }
+                        }
+                    ],
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_red",
+                        "food_party",
+                        "food_seafood"
                     ],
                     "CustomFields": null
                 }
