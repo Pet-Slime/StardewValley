@@ -17,9 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_root", "_root", "{7BB5EFE4
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MoonSharedSpaceCore", "MoonSharedSpaceCore\MoonSharedSpaceCore.shproj", "{19CEDB88-A912-48DA-B35D-FCE2509E70E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookingSkill", "CookingSkillRedux\CookingSkill.csproj", "{B4835048-A339-456F-B0ED-64CFE03C4C29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookingSkillCode", "CookingSkillRedux\CookingSkillCode.csproj", "{B4835048-A339-456F-B0ED-64CFE03C4C29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchaeologySkill", "ExcavationSkill\ArchaeologySkill.csproj", "{56651B71-984E-463C-BD0C-027917E96089}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchaeologySkillCode", "ExcavationSkill\ArchaeologySkillCode.csproj", "{56651B71-984E-463C-BD0C-027917E96089}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShovelToolUpgrades", "ShovelToolUpgrades\ShovelToolUpgrades.csproj", "{CA7454A3-0D10-4F64-876E-A62C6423860B}"
 EndProject
