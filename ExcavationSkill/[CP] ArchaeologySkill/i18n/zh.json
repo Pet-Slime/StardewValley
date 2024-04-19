@@ -35,12 +35,12 @@
     "moonslime.Archaeology.rusty_scrap.description": "从研磨机上得到的生锈的碎块。",
 
     "moonslime.Archaeology.grinder.name": "研磨机",
-    "moonslime.Archaeology.grinder.description": "将生锈的古物磨成矿石。",    
+    "moonslime.Archaeology.grinder.description": "将生锈的古物磨成矿石。"，    
     "moonslime.Archaeology.grinder.need_item": "这个研磨机需要煤才能运行。",
 
     "moonslime.Archaeology.ancient_battery.name": "电池古法生产站",
-    "moonslime.Archaeology.ancient_battery.description": "利用你从古物中获得的知识，你可以用古老的方式制作电池组。在这个工作站用果汁、铜还有时间来制作电池组。",
-    "moonslime.Archaeology.ancient_battery.need_item": "这个生产站需铜和果汁才能运行。",
+    "moonslime.Archaeology.ancient_battery.description": "利用你从古物中获得的知识，你可以用古老的方式制作电池组。在这个工作站用蔬菜汁、铜还有时间来制作电池组。",
+    "moonslime.Archaeology.ancient_battery.need_item": "这个生产站需铜和蔬菜汁才能运行。",
 
     "moonslime.Archaeology.preservation_chamber.name": "收藏室",
     "moonslime.Archaeology.preservation_chamber.description": "在这里放一个木展台和一件古物去制作一件木展台展品。",
