@@ -7,10 +7,13 @@ using Netcode;
 using SpaceCore;
 using SpaceCore.Events;
 using SpaceCore.Interface;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Buffs;
 using StardewValley.GameData.Objects;
+using StardewValley.Inventories;
+using static BirbCore.Attributes.SMod;
 
 namespace CookingSkill.Core
 {
@@ -56,7 +59,7 @@ namespace CookingSkill.Core
 
         private static void BetterCraftingPerformCraftEvent(IGlobalPerformCraftEvent @event)
         {
-            @event.Item = PreCook(@event.Recipe.CraftingRecipe, @event.Item);
+            @event.Item = PreCook(@event.Recipe.CraftingRecipe, @event.Item, null, @event.Player);
             @event.Complete();
         }
 
@@ -422,8 +425,16 @@ namespace CookingSkill.Core
             }
         }
 
-        public static Item PreCook(CraftingRecipe recipe, Item item)
+        public static Item PreCook(CraftingRecipe recipe, Item item, Dictionary<Item, int> consumed_items, Farmer who)
         {
+            ModEntry.Instance.Monitor.Log($"Starting PreCook for {item.DisplayName}", LogLevel.Debug);
+            //Make sure I am selecting the right items for debug purposes
+            if (consumed_items != null)
+            {
+                string items_string = string.Join(",", consumed_items.Select(kvp => $"{kvp.Key.DisplayName} of quality {kvp.Key.Quality}: {kvp.Value}"));
+                ModEntry.Instance.Monitor.Log($"In PreCook for recipe {items_string}", LogLevel.Debug);
+            }
+
             //Make sure the recipe is not null
             //Check to see if the recipe is a cooking recipe
             //Make sure the item coming out of the cooking recipe is an object
@@ -441,14 +452,58 @@ namespace CookingSkill.Core
                     obj.Price *= ((int)(2 * levelValue));
                 }
 
+
+                bool QI_seasoning = item.Quality == 2;
+                double ingredients_quality_RMS = 0;
+                if (consumed_items != null)
+                {
+                    double total_items = 0;
+                    foreach (var consumed in consumed_items)
+                    {
+                        ingredients_quality_RMS += (consumed.Key.Quality * consumed.Key.Quality) * consumed.Value;
+                        total_items += consumed.Value;
+                    }
+                    ingredients_quality_RMS = Math.Sqrt(ingredients_quality_RMS / total_items);
+                }
+                double cooking_skill_quality = 4.0 * who.GetCustomSkillLevel("moonslime.Cooking") / 10;
+                who.recipesCooked.TryGetValue(item.ItemId, out int num_times_cooked);
+                double recipe_experience_quality = 4.0 * Math.Tanh(num_times_cooked / 10.0);
+                double dish_quality;
+
+                //I'm currently not "punishing" players who use better crafting,
+                //but quality works differently for them and is more lenient if anything.
+                if (consumed_items != null)
+                {
+                    dish_quality = (ingredients_quality_RMS + cooking_skill_quality + recipe_experience_quality) / 12.0;
+                    double r = Game1.random.NextDouble();
+                    dish_quality *= (3.0 + r) / 4.0;
+                    ModEntry.Instance.Monitor.Log($"ingredients {ingredients_quality_RMS}, skill {cooking_skill_quality}, experience {recipe_experience_quality} and random {r} led to quality {dish_quality}", LogLevel.Debug);
+                }
+                else
+                {
+                    dish_quality = (cooking_skill_quality + recipe_experience_quality) / 8.0;
+                    ModEntry.Instance.Monitor.Log($"skill {cooking_skill_quality} and experience {recipe_experience_quality} led to quality {dish_quality}", LogLevel.Debug);
+                }
+
+                if (dish_quality < 0.25)
+                    obj.Quality = 0;
+                else if (dish_quality < 0.5)
+                    obj.Quality = 1;
+                else if (dish_quality < 0.75)
+                    obj.Quality = 2;
+                else
+                    obj.Quality = 4;
+
                 //If the player has right profession, increase item quality
                 if (Game1.player.HasCustomProfession(Cooking_Skill.Cooking5a))
-                {
                     obj.Quality += 1;
-                    // make sure quality is equal to 4 and not 3 if the player has Qi Seasoning
-                    if (obj.Quality == 3)
-                        obj.Quality += 1;
-                }
+                //If the player uses QI_seasoning incerase quality by 2
+                if (QI_seasoning)
+                    obj.Quality += 2;
+
+                // make sure quality is equal to 4 and not 3 if iridium, and maxes out at iridium
+                if (obj.Quality >= 3)
+                    obj.Quality = 4;
                 //Return the object
                 return item;
             }
@@ -458,6 +513,7 @@ namespace CookingSkill.Core
 
         public static Item PostCook(CraftingRecipe recipe, Item heldItem, Farmer who)
         {
+            ModEntry.Instance.Monitor.Log($"Starting PostCook for {heldItem.DisplayName}", LogLevel.Debug);
             //Make sure the recipe is not null
             //Check to see if the recipe is a cooking recipe
             //Make sure the item coming out of the cooking recipe is an object
@@ -474,7 +530,8 @@ namespace CookingSkill.Core
                 {
                     //Then add it to the bonus value gained from the objects edibility (Default: 10% of the items edibility given as bonus exp)
                     exp += bonusExp;
-                } else
+                }
+                else
                 {
                     //Else, give a diminishing return on the bonus exp
                     float min = Math.Max(1, value - ModEntry.Config.BonusExpLimit);
@@ -488,6 +545,7 @@ namespace CookingSkill.Core
                 }
 
                 //Give the player exp. Make sure to floor the value. Don't want no decimels.
+                //ModEntry.Instance.Monitor.Log($"Adding to player {who.Name} exp of amount {exp}", LogLevel.Debug);
                 Utilities.AddEXP(who, (int)(Math.Floor(exp)));
 
                 //Add the homecooked value to the modData for the item. So we can check for it later
@@ -508,5 +566,67 @@ namespace CookingSkill.Core
             //Return the object
             return heldItem;
         }
+
+        public static Dictionary<Item, int> FigureOutItems(CraftingRecipe recipe, List<IInventory> additionalInventories)
+        {
+            Dictionary<Item, int> items = new Dictionary<Item, int>();
+            foreach (KeyValuePair<string, int> ingredient in recipe.recipeList)
+            {
+                string key = ingredient.Key;
+                int num = ingredient.Value;
+                bool flag = false;
+                for (int num2 = Game1.player.Items.Count - 1; num2 >= 0; num2--)
+                {
+                    if (CraftingRecipe.ItemMatchesForCrafting(Game1.player.Items[num2], key))
+                    {
+                        int amount = num;
+                        num -= Game1.player.Items[num2].Stack;
+                        items.Add(Game1.player.Items[num2], Math.Min(Game1.player.Items[num2].Stack, amount));
+                        if (num <= 0)
+                        {
+                            flag = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (additionalInventories == null || flag)
+                {
+                    continue;
+                }
+
+                for (int i = 0; i < additionalInventories.Count; i++)
+                {
+                    IInventory inventory = additionalInventories[i];
+                    if (inventory == null)
+                    {
+                        continue;
+                    }
+                    for (int num3 = inventory.Count - 1; num3 >= 0; num3--)
+                    {
+                        if (CraftingRecipe.ItemMatchesForCrafting(inventory[num3], key))
+                        {
+                            int num4 = Math.Min(num, inventory[num3].Stack);
+                            num -= num4;
+                            items.Add(inventory[num3], num4);
+
+                            if (num <= 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+
+                    if (num <= 0)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return items;
+        }
+
     }
 }

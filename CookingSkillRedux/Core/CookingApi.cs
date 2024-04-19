@@ -18,7 +18,7 @@ namespace CookingSkill.Core
         /// <param name="recipe">The crafting recipe.</param>
         /// <param name="item">The crafted item from the recipe. Nothing is changed if the recipe isn't cooking.</param>
         /// <returns>Returns the held item.</returns>
-        Item PreCook(CraftingRecipe recipe, Item item);
+        Item PreCook(CraftingRecipe recipe, Item item, Dictionary<Item, int> consumed_items, Farmer who);
 
         /// <summary>
         /// Grants the player EXP and increases the held Item by the value of the crafting recipe.
@@ -32,9 +32,9 @@ namespace CookingSkill.Core
 
     public class CookingAPI : ICookingApi
     {
-        public Item PreCook(CraftingRecipe recipe, Item item)
+        public Item PreCook(CraftingRecipe recipe, Item item, Dictionary<Item, int> consumed_items, Farmer who)
         {
-            return CookingSkill.Core.Events.PreCook(recipe, item);
+            return CookingSkill.Core.Events.PreCook(recipe, item, consumed_items, who);
         }
 
         public Item PostCook(CraftingRecipe recipe, Item heldItem, Farmer who)

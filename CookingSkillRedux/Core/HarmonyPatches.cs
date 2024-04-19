@@ -31,9 +31,15 @@ namespace CookingSkill.Core
         {
             CraftingRecipe craftingRecipe = __instance.pagesOfCraftingRecipes[__instance.currentCraftingPage][c];
             Item item = craftingRecipe.createItem();
+            var player = Game1.getFarmer(Game1.player.UniqueMultiplayerID);
             List<KeyValuePair<string, int>> list = null;
             if (___cooking && item.Quality == 0)
             {
+                //don't allow the player to force a certain quality dish
+                if (player.isInventoryFull() && ___heldItem != null)
+                {
+                    return false;
+                }
                 list = new List<KeyValuePair<string, int>>();
                 list.Add(new KeyValuePair<string, int>("917", 1));
                 if (CraftingRecipe.DoesFarmerHaveAdditionalIngredientsInInventory(list, GetContainerContents(__instance._materialContainers)))
@@ -49,7 +55,8 @@ namespace CookingSkill.Core
                 /// /////////////////////////////
                 /// Custom Code
                 /// for Cooking
-                CookingSkill.Core.Events.PreCook(craftingRecipe, item);
+                var consumed_items = CookingSkill.Core.Events.FigureOutItems(craftingRecipe, __instance._materialContainers);
+                CookingSkill.Core.Events.PreCook(craftingRecipe, item, consumed_items, player);
                 ////////////////////////////////////
             }
 
@@ -66,10 +73,17 @@ namespace CookingSkill.Core
             {
                 if (!(___heldItem.Name == item.Name) || !___heldItem.getOne().canStackWith(item.getOne()) || ___heldItem.Stack + craftingRecipe.numberProducedPerCraft - 1 >= ___heldItem.maximumStackSize())
                 {
-                    return false;
+                    item.Stack = craftingRecipe.numberProducedPerCraft;
+                    if (player.couldInventoryAcceptThisItem(item))
+                    {
+                        player.addItemToInventoryBool(item);
+                    }
+                    else { return false; }
                 }
-
-                ___heldItem.Stack += craftingRecipe.numberProducedPerCraft;
+                else
+                {
+                    ___heldItem.Stack += craftingRecipe.numberProducedPerCraft;
+                }
                 craftingRecipe.consumeIngredients(__instance._materialContainers);
                 if (playSound)
                 {
@@ -91,8 +105,6 @@ namespace CookingSkill.Core
                 }
             }
 
-            var player = Game1.getFarmer(Game1.player.UniqueMultiplayerID);
-
             player.checkForQuestComplete(null, -1, -1, item, null, 2);
             if (!___cooking && player.craftingRecipes.ContainsKey(craftingRecipe.name))
             {
@@ -101,7 +113,7 @@ namespace CookingSkill.Core
 
             if (___cooking)
             {
-                player.cookedRecipe(___heldItem.ItemId);
+                player.cookedRecipe(item.ItemId);
                 Game1.stats.checkForCookingAchievements();
 
                 /// /////////////////////////////
