@@ -35,7 +35,7 @@
     "moonslime.Archaeology.rusty_scrap.description": "从研磨机上得到的生锈的碎块。",
 
     "moonslime.Archaeology.grinder.name": "研磨机",
-    "moonslime.Archaeology.grinder.description": "将生锈的古物磨成矿石。"，    
+    "moonslime.Archaeology.grinder.description": "将生锈的古物磨成矿石。"， 
     "moonslime.Archaeology.grinder.need_item": "这个研磨机需要煤才能运行。",
 
     "moonslime.Archaeology.ancient_battery.name": "电池古法生产站",
