@@ -8,7 +8,7 @@ using StardewValley;
 
 namespace CookingSkill
 {
-    internal class Cooking_Skill : SpaceCore.Skills.Skill
+    public class Cooking_Skill : SpaceCore.Skills.Skill
     {
         public static KeyedProfession Cooking5a;
         public static KeyedProfession Cooking5b;

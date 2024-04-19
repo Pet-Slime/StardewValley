@@ -7,7 +7,7 @@ using StardewValley;
 
 namespace MoonShared
 {
-    internal class KeyedProfession : Skills.Skill.Profession
+    public class KeyedProfession : Skills.Skill.Profession
     {
         readonly object Tokens;
         readonly ITranslationHelper I18n;

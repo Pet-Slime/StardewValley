@@ -11,7 +11,7 @@ using StardewModdingAPI;
 
 namespace ArchaeologySkill
 {
-    internal class Archaeology_Skill : SpaceCore.Skills.Skill
+    public class Archaeology_Skill : SpaceCore.Skills.Skill
     {
         public static KeyedProfession Archaeology5a;
         public static KeyedProfession Archaeology5b;

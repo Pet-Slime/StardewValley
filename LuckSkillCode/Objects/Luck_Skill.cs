@@ -11,7 +11,7 @@ using StardewModdingAPI;
 
 namespace LuckSkill
 {
-    internal class Luck_Skill : SpaceCore.Skills.Skill
+    public class Luck_Skill : SpaceCore.Skills.Skill
     {
         public static KeyedProfession Luck5a;
         public static KeyedProfession Luck5b;
