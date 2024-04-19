@@ -6,8 +6,8 @@
     "config.AlternativeSkillPageIcon": "替代技能图标",
     "config.AlternativeSkillPageIcon.tooltip": "需要重新启动： 将图标从铲子替换为毛刷和岩石",
 
-    "config.ExperienceFromArtifactSpots": "远古斑点经验增益。",
-    "config.ExperienceFromArtifactSpots.tooltip": "从挖掘远古斑点获得的经验收益（应该是只有挖出古物才有额外经验）。",
+    "config.ExperienceFromArtifactSpots": "古物挖掘点经验增益。",
+    "config.ExperienceFromArtifactSpots.tooltip": "从挖掘古物挖掘点获得的经验收益（应该是只有挖出古物才有额外经验）。",
 
     "config.ExperienceFromMinesDigging": "矿井和骷髅洞穴经验增益",
     "config.ExperienceFromMinesDigging.tooltip": "在矿井和骷髅洞穴获得的经验收益。",
