@@ -5,10 +5,10 @@
             "LogName": "Buff Luck Icon",
             "Action": "EditImage",
             "Target": "TileSheets/BuffsIcons",
-            "FromFile": "assets/LuckiconA.png",
+            "FromFile": "Assets/LuckiconA.png",
             "ToArea": {
-                "X": 0,
-                "Y": 64,
+                "X": 64,
+                "Y": 0,
                 "Width": 16,
                 "Height": 16
             }
@@ -17,10 +17,10 @@
             "LogName": "Buff Luck Icon",
             "Action": "EditImage",
             "Target": "TerrainFeatures/BuffsIcons",
-            "FromFile": "assets/LuckiconB.png",
+            "FromFile": "Assets/LuckiconB.png",
             "ToArea": {
-                "X": 0,
-                "Y": 256,
+                "X": 256,
+                "Y": 0,
                 "Width": 64,
                 "Height": 64
             }
