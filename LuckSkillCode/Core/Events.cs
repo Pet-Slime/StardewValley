@@ -165,6 +165,7 @@ namespace LuckSkill.Core
 
         private static void ChangeFarmEvent(object sender, EventArgsChooseNightlyFarmEvent args)
         {
+
             if (Game1.player.HasCustomProfession(Luck_Skill.Luck10b1) && !Game1.weddingToday &&
                     (args.NightEvent == null || (args.NightEvent is SoundInTheNightEvent &&
                     ModEntry.Instance.Helper.Reflection.GetField<NetInt>(args.NightEvent, "behavior").GetValue().Value == 2)))
@@ -241,13 +242,18 @@ namespace LuckSkill.Core
         [SEvent.DayEnding]
         private void OnDayEnding(object sender, DayEndingEventArgs args)
         {
-            LuckSkill(Game1.player);
-            if (Game1.player.HasCustomProfession(Luck_Skill.Luck10b2))
+
+            if (!Game1.player.IsLocalPlayer)
+                return;
+            var farmer = Game1.getFarmer(Game1.player.UniqueMultiplayerID);
+
+            LuckSkill(farmer);
+            if (farmer.HasCustomProfession(Luck_Skill.Luck10b2))
             {
                 int rolls = 0;
-                foreach (string friendKey in Game1.player.friendshipData.Keys)
+                foreach (string friendKey in farmer.friendshipData.Keys)
                 {
-                    var data = Game1.player.friendshipData[friendKey];
+                    var data = farmer.friendshipData[friendKey];
                     if (data.GiftsToday > 0)
                         rolls++;
                 }
@@ -404,10 +410,10 @@ namespace LuckSkill.Core
                     {
                         farmer.luckLevel.Value -= storedskillLevel;
                         farmer.luckLevel.Value += currnentSkillLevel;
+                        farmer.modDataForSerialization.Remove("moonslime.LuckSkill.skillValue");
+                        farmer.modDataForSerialization.TryAdd("moonslime.LuckSkill.skillValue", currnentSkillLevel.ToString());
 
                     }
-                    farmer.modDataForSerialization.Remove("moonslime.LuckSkill.skillValue");
-                    farmer.modDataForSerialization.TryAdd("moonslime.LuckSkill.skillValue", currnentSkillLevel.ToString());
                 }
             }
         }

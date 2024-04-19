@@ -1,0 +1,29 @@
+﻿{
+    "Format": "2.0.0",
+    "Changes": [
+        {
+            "LogName": "Buff Luck Icon",
+            "Action": "EditImage",
+            "Target": "TileSheets/BuffsIcons",
+            "FromFile": "assets/LuckiconA.png",
+            "ToArea": {
+                "X": 0,
+                "Y": 64,
+                "Width": 16,
+                "Height": 16
+            }
+        },
+        {
+            "LogName": "Buff Luck Icon",
+            "Action": "EditImage",
+            "Target": "TerrainFeatures/BuffsIcons",
+            "FromFile": "assets/LuckiconB.png",
+            "ToArea": {
+                "X": 0,
+                "Y": 256,
+                "Width": 64,
+                "Height": 64
+            }
+        }
+    ]
+}
