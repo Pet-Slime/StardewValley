@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 namespace MoonShared.Asset
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    internal class AssetClass : Attribute
+    public class AssetClass : Attribute
     {
     }
 

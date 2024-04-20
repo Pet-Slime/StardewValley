@@ -22,7 +22,7 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 namespace ArchaeologySkill.Core
 {
     [SEvent]
-    internal class Events
+    public class Events
     {
 
         [SEvent.GameLaunchedLate]

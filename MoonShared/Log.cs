@@ -3,7 +3,7 @@ using StardewModdingAPI;
 
 namespace MoonShared
 {
-	internal class Log
+	public class Log
 	{
 		public static IMonitor Monitor;
 

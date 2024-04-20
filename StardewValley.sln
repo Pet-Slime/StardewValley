@@ -25,6 +25,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShovelToolUpgrades", "Shove
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuckSkillCode", "LuckSkillCode\LuckSkillCode.csproj", "{582E2861-2BF8-4704-8F5E-1AB9BAE2B572}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManaBar", "ManaAPI\ManaBar.csproj", "{1E50C395-2BE4-4F79-B919-02ED7BA9FD42}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicSkillCode", "MagicSkillCode\MagicSkillCode.csproj", "{03CE7DB8-DBCA-4EED-8878-83BDDA475241}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,14 @@ Global
 		{582E2861-2BF8-4704-8F5E-1AB9BAE2B572}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{582E2861-2BF8-4704-8F5E-1AB9BAE2B572}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{582E2861-2BF8-4704-8F5E-1AB9BAE2B572}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E50C395-2BE4-4F79-B919-02ED7BA9FD42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E50C395-2BE4-4F79-B919-02ED7BA9FD42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E50C395-2BE4-4F79-B919-02ED7BA9FD42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E50C395-2BE4-4F79-B919-02ED7BA9FD42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03CE7DB8-DBCA-4EED-8878-83BDDA475241}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03CE7DB8-DBCA-4EED-8878-83BDDA475241}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03CE7DB8-DBCA-4EED-8878-83BDDA475241}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03CE7DB8-DBCA-4EED-8878-83BDDA475241}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,7 +63,11 @@ Global
 		SolutionGuid = {2CC4FC86-39C6-4152-8058-FE3B146896A6}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{03ce7db8-dbca-4eed-8878-83bdda475241}*SharedItemsImports = 5
+		MoonShared\MoonShared.projitems*{03ce7db8-dbca-4eed-8878-83bdda475241}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{19cedb88-a912-48da-b35d-fce2509e70e6}*SharedItemsImports = 13
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{1e50c395-2be4-4f79-b919-02ed7ba9fd42}*SharedItemsImports = 5
+		MoonShared\MoonShared.projitems*{1e50c395-2be4-4f79-b919-02ed7ba9fd42}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{582e2861-2bf8-4704-8f5e-1ab9bae2b572}*SharedItemsImports = 5

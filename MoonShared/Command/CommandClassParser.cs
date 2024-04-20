@@ -6,7 +6,7 @@ using StardewModdingAPI;
 
 namespace MoonShared.Command
 {
-    internal class CommandClassParser
+    public class CommandClassParser
     {
         private readonly ICommandHelper CommandHelper;
         private readonly object Command;

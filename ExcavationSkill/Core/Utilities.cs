@@ -14,7 +14,7 @@ using ArchaeologySkill.Objects.Water_Shifter;
 
 namespace ArchaeologySkill
 {
-    internal class Utilities
+    public class Utilities
     {
         /// <summary>
         /// Apply the basic Archaeology skill items. Give who the exp, check to see if they have the gold rush profession, and spawn bonus loot

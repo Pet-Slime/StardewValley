@@ -1,0 +1,18 @@
+﻿{
+    "Name": "ManaBarApi",
+    "Author": "moonslime",
+    "Version": "1.0.0",
+    "Description": "A port of spacechase0's API to 1.6",
+    "UniqueID": "moonslime.ManaBarApi",
+    "EntryDll": "ManaBar.dll",
+    "MinimumApiVersion": "4.0.0",
+    "UpdateKeys": [
+        "Nexus:-1"
+    ],
+    "Dependencies": [
+        {
+            "UniqueID": "spacechase0.SpaceCore",
+            "MinimumVersion": "1.21.0"
+        }
+    ]
+}

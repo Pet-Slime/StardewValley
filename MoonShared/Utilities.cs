@@ -8,7 +8,7 @@ using StardewValley.Tools;
 
 namespace MoonShared
 {
-    internal class Utilities
+    public class Utilities
     {
         public static int GetIntData(Item item, string key, int defaultValue = 0)
         {

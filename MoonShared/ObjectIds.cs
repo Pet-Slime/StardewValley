@@ -30,7 +30,7 @@ namespace MoonShared
         public const int Topaz = 68;
         public const int BananaSapling = 69;
         public const int Jade = 70;
-        public const int TrimmedLuckyPurpleShorts = 71;
+        public const int TrimmedMagicyPurpleShorts = 71;
         public const int Diamond = 72;
         public const int GoldenWalnut = 73;
         public const int PrismaticShard = 74;
@@ -145,7 +145,7 @@ namespace MoonShared
         public const int CompleteBreakfast = 201;
         public const int FriedCalamari = 202;
         public const int StrangeBun = 203;
-        public const int LuckyLunch = 204;
+        public const int MagicyLunch = 204;
         public const int FriedMushroom = 205;
         public const int Pizza = 206;
         public const int BeanHotpot = 207;
@@ -584,7 +584,7 @@ namespace MoonShared
         public const int Weeds21 = 786;
         public const int BatteryPack = 787;
         public const int LostAxe = 788;
-        public const int LuckyPurpleShorts = 789;
+        public const int MagicyPurpleShorts = 789;
         public const int BerryBasket = 790;
         public const int GoldenCoconut = 791;
         public const int Weeds22 = 792;
@@ -648,7 +648,7 @@ namespace MoonShared
         public const int CuriosityLure = 856;
         public const int TigerSlimeEgg = 857;
         public const int QiGem = 858;
-        public const int LuckyRIng = 859;
+        public const int MagicyRIng = 859;
         public const int HotJavaRing = 860;
         public const int ProtectionRing = 861;
         public const int SoulSapperRing = 862;

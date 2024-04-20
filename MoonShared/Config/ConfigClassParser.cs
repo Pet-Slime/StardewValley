@@ -8,7 +8,7 @@ using StardewModdingAPI.Utilities;
 
 namespace MoonShared.Config
 {
-    internal class ConfigClassParser
+    public class ConfigClassParser
     {
         private readonly IMod Mod;
         private readonly object Config;
