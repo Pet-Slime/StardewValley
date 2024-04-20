@@ -8,6 +8,7 @@ namespace CookingSkill
 {
     internal class Utilities
     {
+        public static Item BetterCraftingTempItem;
 
         public static void AddEXP(StardewValley.Farmer who, int amount)
         {
