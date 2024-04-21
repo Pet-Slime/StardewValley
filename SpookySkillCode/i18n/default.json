@@ -1,0 +1,23 @@
+﻿{
+    "skill.name": "Spooky",
+    "skill.perk": "Higher chance for good events, lower chance of bad events.",
+    "skill.perk_bonus": "Higher chance for good events, lower chance of bad events.",
+
+    "Spooky5a.name": "Gambler",
+    "Spooky5a.desc": "Better daily luck.",
+    "Spooky5b.name": "Assistant",
+    "Spooky5b.desc": "Daily quests occur three times as often.",
+    "Spooky10a1.name": "Spookyy",
+    "Spooky10a1.desc": "20% chance for max daily luck.",
+    "Spooky10a2.name": "Fortune Teller",
+    "Spooky10a2.desc": "Never have bad luck.",
+    "Spooky10b1.name": "Shooting Star",
+    "Spooky10b1.desc": "Nightly events occur twice as often.",
+    "Spooky10b2.name": "Spirit Child",
+    "Spooky10b2.desc": "Giving gifts makes junimos happy. They might help your farm.\n(15% chance for some form of farm advancement.)",
+
+    "junimo-rewards.animal-friendship": "The junimos made some of your animals more fond of you!",
+    "junimo-rewards.grow-crops": "The junimos advanced your crops!",
+    "junimo-rewards.grow-grass": "The junimos grew your grass and repaired your fences!",
+    "junimo-rewards.prismatic-shard": "The junimos gave you a prismatic shard!"
+}

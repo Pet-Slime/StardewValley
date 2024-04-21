@@ -1,0 +1,29 @@
+﻿{
+    "Format": "2.0.0",
+    "Changes": [
+        {
+            "LogName": "Buff Spooky Icon",
+            "Action": "EditImage",
+            "Target": "TileSheets/BuffsIcons",
+            "FromFile": "Assets/SpookyiconA.png",
+            "ToArea": {
+                "X": 64,
+                "Y": 0,
+                "Width": 16,
+                "Height": 16
+            }
+        },
+        {
+            "LogName": "Buff Spooky Icon",
+            "Action": "EditImage",
+            "Target": "TerrainFeatures/BuffsIcons",
+            "FromFile": "Assets/SpookyiconB.png",
+            "ToArea": {
+                "X": 256,
+                "Y": 0,
+                "Width": 64,
+                "Height": 64
+            }
+        }
+    ]
+}
