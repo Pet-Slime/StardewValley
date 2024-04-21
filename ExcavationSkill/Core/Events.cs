@@ -91,66 +91,6 @@ namespace ArchaeologySkill.Core
             }
         }
 
-        [SEvent.MenuChanged]
-        private void MenuChanged(object sender, MenuChangedEventArgs e)
-        {
-            if (e.NewMenu is not SkillLevelUpMenu levelUpMenu)
-            {
-                return;
-            }
-            
-
-
-            string skill = ModEntry.Instance.Helper.Reflection.GetField<string>(levelUpMenu, "currentSkill").GetValue();
-            if (skill != "moonslime.Archaeology")
-            {
-                return;
-            }
-
-            int level = ModEntry.Instance.Helper.Reflection.GetField<int>(levelUpMenu, "currentLevel").GetValue();
-
-            List<CraftingRecipe> newRecipes = [];
-
-            int menuHeight = 0;
-            foreach (KeyValuePair<string, string> recipePair in CraftingRecipe.craftingRecipes)
-            {
-                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
-                if (!conditions.Contains(skill) || !conditions.Contains(level.ToString()))
-                {
-                    continue;
-                }
-
-                CraftingRecipe recipe = new(recipePair.Key, isCookingRecipe: false);
-                newRecipes.Add(recipe);
-                Game1.player.craftingRecipes.TryAdd(recipePair.Key, 0);
-                menuHeight += recipe.bigCraftable ? 128 : 64;
-            }
-
-            foreach (KeyValuePair<string, string> recipePair in CraftingRecipe.cookingRecipes)
-            {
-                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 3, "");
-                if (!conditions.Contains(skill) || !conditions.Contains(level.ToString()))
-                {
-                    continue;
-                }
-
-                CraftingRecipe recipe = new(recipePair.Key, isCookingRecipe: true);
-                newRecipes.Add(recipe);
-                if (Game1.player.cookingRecipes.TryAdd(recipePair.Key, 0) &&
-                    !Game1.player.hasOrWillReceiveMail("robinKitchenLetter"))
-                {
-                    Game1.mailbox.Add("robinKitchenLetter");
-                }
-
-                menuHeight += recipe.bigCraftable ? 128 : 64;
-            }
-
-            ModEntry.Instance.Helper.Reflection.GetField<List<CraftingRecipe>>(levelUpMenu, "newCraftingRecipes")
-                .SetValue(newRecipes);
-
-            levelUpMenu.height = menuHeight + 256 + (levelUpMenu.getExtraInfoForLevel(skill, level).Count * 64 * 3 / 4);
-        }
-
 
 
         [SEvent.SaveLoaded]
@@ -231,7 +171,6 @@ namespace ArchaeologySkill.Core
                     Game1.mailbox.Add("robinKitchenLetter");
                 }
             }
-        
         }
 
         private static void SpawnDiggingSpots(int spawn)

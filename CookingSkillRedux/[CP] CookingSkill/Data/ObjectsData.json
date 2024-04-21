@@ -1190,7 +1190,7 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
-                        "moonslime.Cooking.skill_book",
+                        "moonslime.Cooking",
                         "color_light_cyan",
                         "book_item"
                     ],

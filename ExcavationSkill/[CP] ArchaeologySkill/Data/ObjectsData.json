@@ -76,7 +76,7 @@
 					"CanBePlacedIndoors": true,
 					"IsLamp": false,
                     "Texture": "Mods/moonslime.ArchaeologySkill/machines",
-					"SpriteIndex": 26,
+					"SpriteIndex": 13,
 					"ContextTags": [
 					"light_source",
 					"torch_item"
@@ -194,8 +194,8 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
-                        "moonslime.Archaeology.skill_book",
-                        "color_yellow",
+                        "moonslime.Archaeology",
+                        "color_sand",
                         "book_item"
                     ],
                     "CustomFields": null

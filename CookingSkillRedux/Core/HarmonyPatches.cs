@@ -31,7 +31,7 @@ namespace CookingSkill.Core
 {
 
     [HarmonyPatch(typeof(CraftingPage), "clickCraftingRecipe")]
-    class HarmonyPatches
+    class ClickCraftingRecipe_patch
     {
         [HarmonyLib.HarmonyPrefix]
         public static bool ClickCraftingRecipe(CraftingPage __instance, ClickableTextureComponent c, bool playSound, ref int ___currentCraftingPage, ref Item ___heldItem, ref bool ___cooking)
@@ -242,61 +242,6 @@ namespace CookingSkill.Core
         }
     }
 
-    [HarmonyPatch(typeof(StardewValley.Object), "readBook")]
-    class ReadBook_patch
-    {
-        [HarmonyLib.HarmonyPrefix]
-        private static bool Prefix(
-        StardewValley.Object __instance, GameLocation location)
-        {
-            if (__instance.HasContextTag("moonslime.Cooking.skill_book"))
-            {
-                Game1.player.canMove = false;
-                Game1.player.freezePause = 1030;
-                Game1.player.faceDirection(2);
-                Game1.player.FarmerSprite.animateOnce(new FarmerSprite.AnimationFrame[1]
-                {
-                new FarmerSprite.AnimationFrame(57, 1000, secondaryArm: false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true)
-                {
-                    frameEndBehavior = delegate
-                    {
-                        location.removeTemporarySpritesWithID(1987654);
-                        Utility.addRainbowStarExplosion(location, Game1.player.getStandingPosition() + new Vector2(-40f, -156f), 8);
-                    }
-                }
-                });
-                Game1.MusicDuckTimer = 4000f;
-                Game1.playSound("book_read");
-                Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite("LooseSprites\\Book_Animation", new Microsoft.Xna.Framework.Rectangle(0, 0, 20, 20), 10f, 45, 1, Game1.player.getStandingPosition() + new Vector2(-48f, -156f), flicker: false, flipped: false, Game1.player.getDrawLayer() + 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f)
-                {
-                    holdLastFrame = true,
-                    id = 1987654
-                });
-                Color? colorFromTags = ItemContextTagManager.GetColorFromTags(__instance);
-                if (colorFromTags.HasValue)
-                {
-                    Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite("LooseSprites\\Book_Animation", new Microsoft.Xna.Framework.Rectangle(0, 20, 20, 20), 10f, 45, 1, Game1.player.getStandingPosition() + new Vector2(-48f, -156f), flicker: false, flipped: false, Game1.player.getDrawLayer() + 0.0012f, 0f, colorFromTags.Value, 4f, 0f, 0f, 0f)
-                    {
-                        holdLastFrame = true,
-                        id = 1987654
-                    });
-                }
-
-                int count = Game1.player.newLevels.Count;
-                Utilities.AddEXP(Game1.player, 250);
-                if (Game1.player.newLevels.Count == count || (Game1.player.newLevels.Count > 1 && count >= 1))
-                {
-                    DelayedAction.functionAfterDelay(delegate
-                    {
-                        Game1.showGlobalMessage(ModEntry.Instance.I18n.Get("moonslime.Cooking.skill_book.levelup"));
-                    }, 1000);
-                }
-                return false;
-            }
-            return true;
-        }
-    }
-
 
     [HarmonyPatch(typeof(StardewValley.Buildings.Building), "CheckItemConversionRule")]
     class MillItemConversion_patch
@@ -465,5 +410,4 @@ namespace CookingSkill.Core
             return conversions;
         }
     }
-
 }
