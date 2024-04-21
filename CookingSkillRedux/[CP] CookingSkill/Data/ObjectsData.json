@@ -931,7 +931,7 @@
                     "CustomFields": null
                 },
                 "moonslime.Cooking.mushroom_rice": {
-                    "Name": "Egg Sandwhich",
+                    "Name": "Mushroom Rice",
                     "DisplayName": "{{i18n:moonslime.Cooking.mushroom_rice.name}}",
                     "Description": "{{i18n:moonslime.Cooking.mushroom_rice.description}}",
                     "Type": "Cooking",

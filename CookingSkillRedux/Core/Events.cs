@@ -320,6 +320,35 @@ namespace CookingSkill.Core
                             player.buffs.Apply(newSkillBuff);
                         }
                     }
+                    //For Food or drink with only custom buffs, matchingBuff will always return null.
+                    //So we need to make our own food buff.
+                    //With blackjack, and buffs.
+                    else
+                    {
+
+                        float durationMultiplier = ((food.Quality != 0) ? 1.5f : 1f);
+                        matchingBuff = new(
+                            id: buffData.BuffId,
+                            source: food.Name,
+                            displaySource: food.DisplayName,
+                            iconSheetIndex: buffData.IconSpriteIndex,
+                            duration: (int)((float)buffData.Duration * durationMultiplier) * Game1.realMilliSecondsPerGameMinute
+                        );
+
+
+                        var newSkillBuff = new Skills.SkillBuff(matchingBuff, id, buffData.CustomFields);
+                        if (player.hasBuff(newSkillBuff.id))
+                        {
+                            player.buffs.Remove(newSkillBuff.id);
+                            newSkillBuff.millisecondsDuration = (int)(Utilities.GetLevelValue(player) * newSkillBuff.millisecondsDuration);
+                            if (player.HasCustomProfession(Cooking_Skill.Cooking10b1))
+                            {
+                                ApplyAttributeBuff(newSkillBuff.effects, 1f);
+                                newSkillBuff.SkillLevelIncreases = newSkillBuff.SkillLevelIncreases.ToDictionary(kv => kv.Key, kv => kv.Value + 1);
+                            }
+                            player.buffs.Apply(newSkillBuff);
+                        }
+                    }
                 }
                 else
                 {
