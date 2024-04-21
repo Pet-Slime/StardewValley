@@ -317,6 +317,8 @@ namespace CookingSkill.Core
                         {quality--;}
                         if (quality >= 3)
                         {quality = 4;}
+                        if (quality < 0)
+                        { quality = 0; }
                         item.Quality = quality;
                         //currently, quality is the quality of the worst ingredient. Can be possibly changed to some sort of mean.
                         int producedCount = item.Stack;
