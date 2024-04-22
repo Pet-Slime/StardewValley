@@ -1,7 +1,7 @@
 ﻿{
-    "skill.name": "Spooky",
-    "skill.perk": "+{{bonus}}% bonus to your scare chance.",
-    "skill.perk_bonus": "+{{bonus}}% bonus to your scare chance.",
+    "skill.Spooky.name": "Scaring",
+    "skill.Spooky.perk": "+{{bonus}}% bonus to your scare chance.",
+    "skill.Spooky.perk_bonus": "+{{bonus}}% bonus to your scare chance.",
 
     "Spooky5a.name": "Ghost",
     "Spooky5a.desc": "Direction does not affect scare chance",
@@ -16,6 +16,54 @@
     "Spooky10b2.name": "Ghoul",
     "Spooky10b2.desc": "Higher chance of scaring",
 
+    "skill.Thief.name": "Thieving",
+    "skill.Thief.perk": "+{{bonus}}% bonus to your steal chance.",
+    "skill.Thief.perk_bonus": "+{{bonus}}% bonus to your steal chance.",
+
+    "Thief5a.name": "Pickpocket",
+    "Thief5a.desc": "Direction does not affect scare chance",
+    "Thief5b.name": "Robin Hood",
+    "Thief5b.desc": "Chance to not loose friendship when scaring",
+    "Thief10a1.name": "Highwayman",
+    "Thief10a1.desc": "Can scare multiple people around you at once.",
+    "Thief10a2.name": "Mugger",
+    "Thief10a2.desc": "Gain Life and Stamina when you scare",
+    "Thief10b1.name": "Bandit",
+    "Thief10b1.desc": "Chance to get better items from scaring",
+    "Thief10b2.name": "Rogue",
+    "Thief10b2.desc": "Higher chance of stealing",
+
+    "config.DeScary": "Remove the Spooky",
+    "config.DeScary.tooltip": "Changes the Scaring Skill and theme to that of Thieving.\nTHIS REQUIRES A RESTART TO WORK.\nDO NOT DO THIS MID SAVE AFTER YOU PLAYED FOR A BIT.\nThe theiving professions and scary professions have different IDs",
+
+    "config.Key_Cast": "The keybinding to scare/steal",
+    "config.Key_Cast.tooltip": "Press this key to scare/steal NPCs when near them.",
+
+    "config.ExpMod": "Global EXP mod",
+    "config.ExpMod.tooltip": "This will change how much exp all other options are multiplied by",
+
+    "config.ExpFromFail": "Exp From failing",
+    "config.ExpFromFail.tooltip": "If you fail at Scaring/Stealing, you will get this much exp.",
+
+    "config.ExpLevel1": "Exp from Tier 1 success",
+    "config.ExpLevel1.tooltip": "How much exp you get at a tier 1 success",
+
+    "config.ExpLevel2": "Exp from Tier 2 success",
+    "config.ExpLevel2.tooltip": "How much exp you get at a tier 2 success",
+
+    "config.ExpLevel3": "Exp from Tier 3 success",
+    "config.ExpLevel3.tooltip": "How much exp you get at a tier 3 success",
+
+    "config.ExpLevel4": "Exp from Tier 4 success",
+    "config.ExpLevel4.tooltip": "How much exp you get at a tier 4 success",
+
+
+
+    "moonslime.Spooky.Stolen.default.level_0": "STOP THIEF!",
+    "moonslime.Spooky.Stolen.default.level_1": "Ah..Why?",
+    "moonslime.Spooky.Stolen.default.level_2": "Huh?",
+    "moonslime.Spooky.Stolen.default.level_3": "...?",
+    "moonslime.Spooky.Stolen.default.level_4": "...",
 
     "moonslime.Spooky.Scared.default.level_0": "...",
     "moonslime.Spooky.Scared.default.level_1": "Ah..Why?",
@@ -28,6 +76,12 @@
     "moonslime.Spooky.Scared.Pierre.level_2": "AHdsaha",
     "moonslime.Spooky.Scared.Pierre.level_3": "AHHHHHHHHH",
     "moonslime.Spooky.Scared.Pierre.level_4": "NOOOOOOOOO!",
+
+    "moonslime.Spooky.Stolen.Pierre.level_0": "THIEF!?! STOP!",
+    "moonslime.Spooky.Stolen.Pierre.level_1": "Get your hands away!",
+    "moonslime.Spooky.Stolen.Pierre.level_2": "mhm?",
+    "moonslime.Spooky.Stolen.Pierre.level_3": "...?",
+    "moonslime.Spooky.Stolen.Pierre.level_4": "...",
 
     "moonslime.Spooky.Scared.Sebastian.level_0": "Good Try",
     "moonslime.Spooky.Scared.Sebastian.level_1": "Ah, nice",

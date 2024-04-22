@@ -15,16 +15,29 @@ using xTile.Dimensions;
 
 namespace SpookySkill.Core
 {
+
     [SEvent]
     internal class Events
     {
         public static string Boo = "moonslime.Spooky.Boo";
+        public static KeyedProfession Proffession5a => ModEntry.Config.DeScary ? Thief_Skill.Thief5a : Spooky_Skill.Spooky5a;
+        public static KeyedProfession Proffession5b => ModEntry.Config.DeScary ? Thief_Skill.Thief5b : Spooky_Skill.Spooky5b;
+        public static KeyedProfession Proffession10a1 => ModEntry.Config.DeScary ? Thief_Skill.Thief10a1 : Spooky_Skill.Spooky10a1;
+        public static KeyedProfession Proffession10a2 => ModEntry.Config.DeScary ? Thief_Skill.Thief10a2 : Spooky_Skill.Spooky10a2;
+        public static KeyedProfession Proffession10b1 => ModEntry.Config.DeScary ?  Thief_Skill.Thief10b1 : Spooky_Skill.Spooky10b1;
+        public static KeyedProfession Proffession10b2 => ModEntry.Config.DeScary ? Thief_Skill.Thief10b2 : Spooky_Skill.Spooky10b2;
 
         [SEvent.GameLaunchedLate]
         private static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
             BirbCore.Attributes.Log.Trace("Spooky: Trying to Register skill.");
-            SpaceCore.Skills.RegisterSkill(new Spooky_Skill());
+            if (!ModEntry.Config.DeScary)
+            {
+                SpaceCore.Skills.RegisterSkill(new Spooky_Skill());
+            } else
+            {
+                SpaceCore.Skills.RegisterSkill(new Thief_Skill());
+            }
         }
 
         [SEvent.ButtonReleased]
@@ -44,7 +57,7 @@ namespace SpookySkill.Core
                 if (NPC is Character &&
                     //Check to see if they are in range of the player
                     //8 tiles if they have banshee, 2 if not
-                    Vector2.Distance(NPC.Tile, playerTile) <= (player.HasCustomProfession(Spooky_Skill.Spooky10a1) ? 8 : 2) &&
+                    Vector2.Distance(NPC.Tile, playerTile) <= (player.HasCustomProfession(Proffession10a1) ? 8 : 2) &&
                     //Check to see if they are a villager
                     NPC.IsVillager &&
                     //Check to see if the player has talked to them
@@ -71,7 +84,7 @@ namespace SpookySkill.Core
                 return;
             }
 
-            if (player.HasCustomProfession(Spooky_Skill.Spooky10a1))
+            if (player.HasCustomProfession(Proffession10a1))
             {
                 foreach (var npc in npcsInRange)
                 {
@@ -95,36 +108,47 @@ namespace SpookySkill.Core
             ///Like if the player and NPC are facing each other, is the player facing the side, or the NPC's back
             string facingSide = GetFacingSide(npc, player);
             ///Get the spook level adjustment based on if the player is facing the NPC's back, sides, or front
-            spookyRoll = CalculateSpookyDirectionChange(spookyRoll, facingSide, player.HasCustomProfession(Spooky_Skill.Spooky5a));
+            spookyRoll = CalculateSpookyDirectionChange(spookyRoll, facingSide, player.HasCustomProfession(Proffession5a));
             ///Fall adjustment for the spooky roll
             spookyRoll = FallAdjustment(spookyRoll);
+
             ///Add 10 if the player has the ghoul profession
-            if (player.HasCustomProfession(Spooky_Skill.Spooky10b2))
+            if (player.HasCustomProfession(Proffession10b2))
             {
                 spookyRoll += 10;
             }
             ///Get the spook level
             string spookLevel = GetSpookLevel(spookyRoll);
+
             ///If the player has the zombie profession, they have a 50% chance of ignoring friendship lost
-            bool zombieCharm = player.HasCustomProfession(Spooky_Skill.Spooky5b) && Game1.random.NextDouble() < 0.5;
+            bool zombieCharm = player.HasCustomProfession(Proffession5b) && Game1.random.NextDouble() < 0.5;
+
             ///Calculate friendship lost based on facing direction
             int friendshipLost = CalculateFriendshipChangeDirectional(facingSide, zombieCharm);
+
             ///Adjust friendship lost based on spook level
             friendshipLost = CalculateFriendshipSpookLevel(friendshipLost, spookLevel, zombieCharm);
+
             ///People are moer in the mood to get scared during the fall
             friendshipLost = FallAdjustment(friendshipLost);
+
             ///Set the string to the current NPC's name and the spook level. So each NPC can have a custom string
-            string spookString = ModEntry.Instance.I18N.Get($"moonslime.Spooky.Scared.{npc.Name}.{spookLevel}");
+            string type = ModEntry.Config.DeScary ? "Stolen" : "Scared";
+            string spookString = ModEntry.Instance.I18N.Get($"moonslime.Spooky."+type+".{npc.Name}.{spookLevel}");
             if (spookString.Contains("no translation"))
             {
                 ///If no translation/custom string is found, set it to the default string for the spook level
-                spookString = ModEntry.Instance.I18N.Get("moonslime.Spooky.Scared.default." + spookLevel);
+                spookString = ModEntry.Instance.I18N.Get("moonslime.Spooky."+type+".default." + spookLevel);
             }
             SpookyEffects(npc, player, friendshipLost, spookString, spookLevel, spookLevel == "level_3" || spookLevel == "level_4");
         }
 
         private static int FallAdjustment(int value)
         {
+            if (ModEntry.Config.DeScary)
+            {
+                return value;
+            }
             ///People are more in the mood to get scared during the fall
             if (Game1.currentSeason == "fall")
             {
@@ -198,6 +222,10 @@ namespace SpookySkill.Core
         {
             player.performPlayerEmote("exclamation");
             string soundID = Game1.random.Choose("ghost", "explosion", "dog_bark", "thunder", "shadowpeep");
+            if (ModEntry.Config.DeScary)
+            {
+                soundID = "wind";
+            }
             player.currentLocation.playSound(soundID);
             if (jump) npc.jump();
             if (jump) npc.Halt();
@@ -211,7 +239,7 @@ namespace SpookySkill.Core
 
             CreateLoot(npc, player, spookLevel);
 
-            if (player.HasCustomProfession(Spooky_Skill.Spooky10a2))
+            if (player.HasCustomProfession(Proffession10a2))
             {
                 player.health += (int)(player.health * 1.25);
                 player.stamina += (int)(player.stamina * 1.25);
@@ -241,7 +269,7 @@ namespace SpookySkill.Core
             int diceRoll = Game1.random.Next(100);
             int spookyRoll = (Utilities.GetLevel(player) * 2) + diceRoll;
 
-            if (player.HasCustomProfession(Spooky_Skill.Spooky10b2))
+            if (player.HasCustomProfession(Proffession10b2))
             {
                 spookyRoll += 10;
             }
@@ -283,12 +311,15 @@ namespace SpookySkill.Core
         {
             List<string> list = new List<string>();
 
-            if (!player.HasCustomProfession(Spooky_Skill.Spooky10b1))
+            if (!player.HasCustomProfession(Proffession10b1))
             {
                 list.AddRange(ArgUtility.SplitBySpace(Game1.NPCGiftTastes["Universal_Like"]));
                 list.AddRange(ArgUtility.SplitBySpace(Game1.NPCGiftTastes["Universal_Neutral"]));
             }
-            list.AddRange(ArgUtility.SplitBySpace(Game1.NPCGiftTastes["Universal_Love"]));
+            if (Game1.year != 1 || player.HasCustomProfession(Proffession10b1))
+            {
+                list.AddRange(ArgUtility.SplitBySpace(Game1.NPCGiftTastes["Universal_Love"]));
+            }
 
             Game1.NPCGiftTastes.TryGetValue(npc.Name, out string value2);
             string[] array5 = value2.Split('/');
@@ -310,7 +341,7 @@ namespace SpookySkill.Core
 
 
             // Assume list2 is defined somewhere and populated properly as per earlier description.
-            if (player.HasCustomProfession(Spooky_Skill.Spooky10b1))
+            if (player.HasCustomProfession(Proffession10b1))
             {
                 // Player has vampire profession, only add loved items
                 list.AddRange(list2[0].Where(item => !list.Contains(item)));
@@ -347,13 +378,13 @@ namespace SpookySkill.Core
 
         private static int CalculateExpSpookLevel(string spookLevel)
         {
-            int exp = 0;
+            float exp = 0;
             if (spookLevel == "level_0") exp += ModEntry.Config.ExpMod * ModEntry.Config.ExpFromFail;
             if (spookLevel == "level_1") exp += ModEntry.Config.ExpMod * ModEntry.Config.ExpLevel1;
             if (spookLevel == "level_2") exp += ModEntry.Config.ExpMod * ModEntry.Config.ExpLevel2;
             if (spookLevel == "level_3") exp += ModEntry.Config.ExpMod * ModEntry.Config.ExpLevel3;
             if (spookLevel == "level_4") exp += ModEntry.Config.ExpMod * ModEntry.Config.ExpLevel4;
-            return (int)exp;
+            return (int)Math.Floor(exp);
         }
     }
 }

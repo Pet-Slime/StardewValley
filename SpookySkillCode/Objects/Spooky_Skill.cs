@@ -16,18 +16,18 @@ namespace SpookySkill
 
         public Spooky_Skill() : base("moonslime.Spooky")
         {
-            this.Icon = ModEntry.Assets.IconA;
-            this.SkillsPageIcon = ModEntry.Assets.IconB;
+            this.Icon = ModEntry.Assets.IconA_Scary;
+            this.SkillsPageIcon = ModEntry.Assets.IconB_Scary;
 
             this.ExperienceBarColor = new Microsoft.Xna.Framework.Color(205, 127, 50);
             this.ExperienceCurve = new[] { 100, 380, 770, 1300, 2150, 3300, 4000, 6900, 10000, 15000 };
             this.AddProfessions(
-                Spooky5a = new KeyedProfession(this, "Spookyk5a", ModEntry.Assets.Spooky5a, ModEntry.Instance.I18N),
-                Spooky5b = new KeyedProfession(this, "Spookyk5b", ModEntry.Assets.Spooky5b, ModEntry.Instance.I18N),
-                Spooky10a1 = new KeyedProfession(this, "Spooky10a1", ModEntry.Assets.Spooky10a1, ModEntry.Instance.I18N),
-                Spooky10a2 = new KeyedProfession(this, "Spooky10a2", ModEntry.Assets.Spooky10a2, ModEntry.Instance.I18N),
-                Spooky10b1 = new KeyedProfession(this, "Spooky10b1", ModEntry.Assets.Spooky10b1, ModEntry.Instance.I18N),
-                Spooky10b2 = new KeyedProfession(this, "Spooky10b2", ModEntry.Assets.Spooky10b2, ModEntry.Instance.I18N)
+                Spooky5a = new KeyedProfession(this, "Spookyk5a", ModEntry.Assets.Spooky5a_Scary, ModEntry.Instance.I18N),
+                Spooky5b = new KeyedProfession(this, "Spookyk5b", ModEntry.Assets.Spooky5b_Scary, ModEntry.Instance.I18N),
+                Spooky10a1 = new KeyedProfession(this, "Spooky10a1", ModEntry.Assets.Spooky10a1_Scary, ModEntry.Instance.I18N),
+                Spooky10a2 = new KeyedProfession(this, "Spooky10a2", ModEntry.Assets.Spooky10a2_Scary, ModEntry.Instance.I18N),
+                Spooky10b1 = new KeyedProfession(this, "Spooky10b1", ModEntry.Assets.Spooky10b1_Scary, ModEntry.Instance.I18N),
+                Spooky10b2 = new KeyedProfession(this, "Spooky10b2", ModEntry.Assets.Spooky10b2_Scary, ModEntry.Instance.I18N)
             );
 
 
@@ -50,21 +50,21 @@ namespace SpookySkill
 
         public override string GetName()
         {
-            return ModEntry.Instance.I18N.Get("skill.name");
+            return ModEntry.Instance.I18N.Get("skill.Spooky.name");
         }
 
         public override List<string> GetExtraLevelUpInfo(int level)
         {
             List<string> result = new()
             {
-                ModEntry.Instance.I18N.Get("skill.perk", new { bonus = 2 })
+                ModEntry.Instance.I18N.Get("skill.Spooky.perk", new { bonus = 2 })
             };
             return result;
         }
 
         public override string GetSkillPageHoverText(int level)
         {
-            return ModEntry.Instance.I18N.Get("skill.perk", new { bonus = 2 * level });
+            return ModEntry.Instance.I18N.Get("skill.Spooky.perk", new { bonus = 2 * level });
         }
 
 

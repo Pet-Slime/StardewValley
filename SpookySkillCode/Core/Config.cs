@@ -11,11 +11,16 @@ namespace SpookySkill
     [SConfig]
     public class Config
     {
+
+        [SConfig.Option()]
+        public bool DeScary { get; set; } = false;
+
+
         [SConfig.Option()]
         public SButton Key_Cast { get; set; } = SButton.B;
 
-        [SConfig.Option(0, 100, 1)]
-        public int ExpMod { get; set; } = 1;
+        [SConfig.Option(0.0f, 50f, 1.0f)]
+        public float ExpMod { get; set; } = 1f;
 
         [SConfig.Option(0, 100, 1)]
         public int ExpFromFail { get; set; } = 1;
