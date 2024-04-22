@@ -145,6 +145,7 @@ namespace SpookySkill.Core
 
         private static int FallAdjustment(int value)
         {
+            ///Thieving doesn't get any bous if it's fall or spirit's eve.
             if (ModEntry.Config.DeScary)
             {
                 return value;
