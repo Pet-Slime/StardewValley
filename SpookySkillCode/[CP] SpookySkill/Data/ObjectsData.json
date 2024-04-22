@@ -1,0 +1,246 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.SpookySkill/textures",
+            "FromFile": "Assets/sprites.png"
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/BigCraftables",
+            "Entries": {
+                "moonslime.Spooky.scary_brazier": {
+                    "Name": "Scary Brazier",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.scary_brazier.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.scary_brazier.description}}",
+                    "Price": 50,
+                    "CanBePlacedOutdoors": true,
+                    "CanBePlacedIndoors": true,
+                    "IsLamp": false,
+                    "Texture": "Mods/moonslime.SpookySkill/textures",
+                    "SpriteIndex": 3,
+                    "ContextTags": [
+                        "light_source",
+                        "torch_item"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Spooky.dark_brazier": {
+                    "Name": "Dark Brazier",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.dark_brazier.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.dark_brazier.description}}",
+                    "Price": 50,
+                    "CanBePlacedOutdoors": true,
+                    "CanBePlacedIndoors": true,
+                    "IsLamp": false,
+                    "Texture": "Mods/moonslime.SpookySkill/textures",
+                    "SpriteIndex": 4,
+                    "ContextTags": [
+                        "light_source",
+                        "torch_item"
+                    ],
+                    "CustomFields": null
+                }
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "Entries": {
+                "moonslime.Spooky.strobberies": {
+                    "Name": "Strobberies",
+                    "DisplayName": "{{i18n:moonslime.Cooking.strobberies.name}}",
+                    "Description": "{{i18n:moonslime.Cooking.strobberies.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 500,
+                    "Texture": "Mods/moonslime.SpookySkill/textures",
+                    "SpriteIndex": 0,
+                    "Edibility": 50,
+                    "IsDrink": false,
+                    "Buffs": [
+                        {
+                            "Id": "Food",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 380,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 0,
+                                "MiningLevel": 0,
+                                "LuckLevel": 0,
+                                "ForagingLevel": 0,
+                                "MaxStamina": 0,
+                                "MagneticRadius": 32,
+                                "Speed": 1,
+                                "Defense": 0,
+                                "Attack": 0
+                            },
+                            "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Spooky": "1"
+                            }
+                        }
+                    ],
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_red",
+                        "food_sweet"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Spooky.candy_corn": {
+                    "Name": "Candy Corn",
+                    "DisplayName": "{{i18n:moonslime.Cooking.candy_corn.name}}",
+                    "Description": "{{i18n:moonslime.Cooking.candy_corn.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 500,
+                    "Texture": "Mods/moonslime.SpookySkill/textures",
+                    "SpriteIndex": 1,
+                    "Edibility": 50,
+                    "IsDrink": false,
+                    "Buffs": [
+                        {
+                            "Id": "Food",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 280,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 0,
+                                "MiningLevel": 0,
+                                "LuckLevel": 0,
+                                "ForagingLevel": 0,
+                                "MaxStamina": 32,
+                                "MagneticRadius": 0,
+                                "Speed": 1,
+                                "Defense": 0,
+                                "Attack": 0
+                            },
+                            "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Spooky": "2"
+                            }
+                        }
+                    ],
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_yellow",
+                        "food_sweet"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Spooky.carrot_cake": {
+                    "Name": "Carrot Cake",
+                    "DisplayName": "{{i18n:moonslime.Cooking.carrot_cake.name}}",
+                    "Description": "{{i18n:moonslime.Cooking.carrot_cake.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 500,
+                    "Texture": "Mods/moonslime.SpookySkill/textures",
+                    "SpriteIndex": 3,
+                    "Edibility": 50,
+                    "IsDrink": false,
+                    "Buffs": [
+                        {
+                            "Id": "Food",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 780,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 0,
+                                "MiningLevel": 0,
+                                "LuckLevel": 0,
+                                "ForagingLevel": 0,
+                                "MaxStamina": 0,
+                                "MagneticRadius": 64,
+                                "Speed": 0,
+                                "Defense": 2,
+                                "Attack": 2
+                            },
+                            "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Spooky": "3"
+                            }
+                        }
+                    ],
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_brown",
+                        "food_sweet"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Spooky.dark_floor": {
+                    "Name": "Dark Flooring",
+                    "DisplayName": "{{i18n:moonslime.Spooky.dark_floor.name}}",
+                    "Description": "{{i18n:moonslime.Spooky.dark_floor.description}}",
+                    "Type": "Crafting",
+                    "Category": -24,
+                    "Price": 1,
+                    "Texture": "Mods/moonslime.SpookySkill/textures",
+                    "SpriteIndex": 5,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": null,
+                    "CustomFields": null
+                },
+                "moonslime.Spooky.skill_book": {
+                    "Name": "Symphony of the Night",
+                    "DisplayName": "{{i18n:moonslime.Spooky.skill_book.name}}",
+                    "Description": "{{i18n:moonslime.Spooky.skill_book.description}}",
+                    "Type": "asdf",
+                    "Category": -103,
+                    "Price": 500,
+                    "Texture": "Mods/moonslime.SpookySkill/textures",
+                    "SpriteIndex": 7,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "moonslime.Spooky",
+                        "color_dark_blue",
+                        "book_item"
+                    ],
+                    "CustomFields": null
+                }
+            }
+        }
+    ]
+}

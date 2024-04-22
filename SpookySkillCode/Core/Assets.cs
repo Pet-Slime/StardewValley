@@ -34,8 +34,14 @@ namespace SpookySkill
         [SAsset.Asset("assets/thief/SpookyiconA.png")]
         public Texture2D IconA_Thief { get; set; }
 
-        [SAsset.Asset("assets/thief/SpookyiconB.png")]
-        public Texture2D IconB_Thief { get; set; }
+        [SAsset.Asset("assets/thief/SpookyiconB1.png")]
+        public Texture2D IconB_Thief_1 { get; set; }
+
+        [SAsset.Asset("assets/thief/SpookyiconB2.png")]
+        public Texture2D IconB_Thief_2 { get; set; }
+
+        [SAsset.Asset("assets/thief/SpookyiconB3.png")]
+        public Texture2D IconB_Thief_3 { get; set; }
 
         [SAsset.Asset("assets/thief/Spooky5a.png")]
         public Texture2D Spooky5a_Thief { get; set; }

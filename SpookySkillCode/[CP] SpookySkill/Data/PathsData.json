@@ -1,0 +1,27 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/FloorsAndPaths",
+            "Entries": {
+                "Spooky_Dark_Floor": {
+                    "Id": "Spooky_Dark_Floor",
+                    "ItemId": "moonslime.Spooky.dark_floor",
+                    "Texture": "Paths\\H_Spooky_Paths",
+                    "Corner": {
+                        "X": 0,
+                        "Y": 0
+                    },
+                    "PlacementSound": "thudStep",
+                    "RemovalSound": "hammer",
+                    "RemovalDebrisType": 14,
+                    "FootstepSound": "stoneStep",
+                    "ConnectType": "Default",
+                    "ShadowType": "Square",
+                    "CornerSize": 4,
+                    "FarmSpeedBuff": 4.0
+                }
+            }
+        }
+    ]
+}

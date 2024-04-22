@@ -3,15 +3,19 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using MoonShared;
 using SpaceCore;
+using SpaceCore.Interface;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.BellsAndWhistles;
 using StardewValley.Extensions;
+using StardewValley.GameData.Objects;
 using StardewValley.ItemTypeDefinitions;
+using StardewValley.Monsters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using xTile.Dimensions;
+using Log = BirbCore.Attributes.Log;
 
 namespace SpookySkill.Core
 {
@@ -19,7 +23,7 @@ namespace SpookySkill.Core
     [SEvent]
     internal class Events
     {
-        public static string Boo = "moonslime.Spooky.Boo";
+        public static string Boo = "moonslime.Spooky.Cooldown";
         public static KeyedProfession Proffession5a => ModEntry.Config.DeScary ? Thief_Skill.Thief5a : Spooky_Skill.Spooky5a;
         public static KeyedProfession Proffession5b => ModEntry.Config.DeScary ? Thief_Skill.Thief5b : Spooky_Skill.Spooky5b;
         public static KeyedProfession Proffession10a1 => ModEntry.Config.DeScary ? Thief_Skill.Thief10a1 : Spooky_Skill.Spooky10a1;
@@ -40,6 +44,113 @@ namespace SpookySkill.Core
             }
         }
 
+        [SEvent.SaveLoaded]
+        private void SaveLoaded(object sender, SaveLoadedEventArgs e)
+        {
+
+            string Id = "moonslime.Spooky";
+            int skillLevel = Game1.player.GetCustomSkillLevel(Id);
+            if (skillLevel == 0)
+            {
+                return;
+            }
+
+            if (skillLevel >= 5 && !(Game1.player.HasCustomProfession(Proffession5a) ||
+                                     Game1.player.HasCustomProfession(Proffession5b)))
+            {
+                Game1.endOfNightMenus.Push(new SkillLevelUpMenu(Id, 5));
+            }
+
+            if (skillLevel >= 10 && !(Game1.player.HasCustomProfession(Proffession10a1) ||
+                                      Game1.player.HasCustomProfession(Proffession10a2) ||
+                                      Game1.player.HasCustomProfession(Proffession10b1) ||
+                                      Game1.player.HasCustomProfession(Proffession10b2)))
+            {
+                Game1.endOfNightMenus.Push(new SkillLevelUpMenu(Id, 10));
+            }
+
+            foreach (KeyValuePair<string, string> recipePair in DataLoader.CraftingRecipes(Game1.content))
+            {
+                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
+                if (!conditions.Contains(Id))
+                {
+                    continue;
+                }
+                if (conditions.Split(" ").Length < 2)
+                {
+                    continue;
+                }
+
+                int level = int.Parse(conditions.Split(" ")[1]);
+
+                if (skillLevel < level)
+                {
+                    continue;
+                }
+
+                Game1.player.craftingRecipes.TryAdd(recipePair.Key, 0);
+            }
+
+            foreach (KeyValuePair<string, string> recipePair in DataLoader.CookingRecipes(Game1.content))
+            {
+                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 3, "");
+                if (!conditions.Contains(Id))
+                {
+                    continue;
+                }
+                if (conditions.Split(" ").Length < 2)
+                {
+                    continue;
+                }
+
+                int level = int.Parse(conditions.Split(" ")[1]);
+
+                if (skillLevel < level)
+                {
+                    continue;
+                }
+
+                if (Game1.player.cookingRecipes.TryAdd(recipePair.Key, 0) &&
+                    !Game1.player.hasOrWillReceiveMail("robinKitchenLetter"))
+                {
+                    Game1.mailbox.Add("robinKitchenLetter");
+                }
+            }
+        }
+
+        [SEvent.TimeChanged]
+        private static void TimeChanged(object sender, TimeChangedEventArgs e)
+        {
+            ///Make sure this only runs on the player's client.
+            if (!Game1.player.IsLocalPlayer)
+                return;
+
+            var farmer = Game1.getFarmer(Game1.player.UniqueMultiplayerID);
+
+
+            farmer.modDataForSerialization.TryGetValue(Boo, out string value_1);
+            int storedCooldown = 0;
+
+            if (value_1 != null)
+            {
+                storedCooldown = int.Parse(value_1);
+            }
+
+            /// Check to see if the cooldown for scaring/stealing is not 0
+            if (storedCooldown != 0)
+            {
+                SetCooldown(farmer, storedCooldown - 1);
+
+                if (storedCooldown - 1 == 0)
+                {
+                    string line = ModEntry.Config.DeScary ? "moonslime.Spooky.Cooldown.Thieving.off_cooldown" : "moonslime.Spooky.Cooldown.Scaring.off_cooldown";
+                    Game1.addHUDMessage(HUDMessage.ForCornerTextbox(ModEntry.Instance.I18N.Get(line)));
+                    return;
+                }
+                
+            }
+        }
+
         [SEvent.ButtonReleased]
         private static void ButtonReleased(object sender, ButtonReleasedEventArgs e)
         {
@@ -47,12 +158,28 @@ namespace SpookySkill.Core
                 return;
 
             Farmer player = Game1.player;
+            player.modDataForSerialization.TryGetValue(Boo, out string value_1);
+            int storedCooldown = 0;
+            if (value_1 != null)
+            {
+                storedCooldown = int.Parse(value_1);
+            }
+
+            if (storedCooldown != 0)
+            {
+                player.performPlayerEmote("sad");
+                string line = ModEntry.Config.DeScary ? "moonslime.Spooky.Cooldown.Thieving.on_cooldown" : "moonslime.Spooky.Cooldown.Scaring.on_cooldown";
+                Game1.addHUDMessage(HUDMessage.ForCornerTextbox(ModEntry.Instance.I18N.Get(line)));
+                return;
+            }
+
             GameLocation location = player.currentLocation;
             Vector2 playerTile = player.Tile;
             List<NPC> npcsInRange = new List<NPC>();
+            List<NPC> monstersInRange = new List<NPC>();
 
 
-            foreach(var NPC in location.characters)
+            foreach (var NPC in location.characters)
             {
 
                 float Distance = Vector2.Distance(NPC.Tile, playerTile);
@@ -67,15 +194,11 @@ namespace SpookySkill.Core
                 BirbCore.Attributes.Log.Warn("Spooky distance check: " + (Distance > profession).ToString());
                 BirbCore.Attributes.Log.Warn("Spooky has talked check: " + player.hasPlayerTalkedToNPC(NPC.Name).ToString());
 
-                //me being parinoid, make sure the NPC is a character
-                if (NPC is Character &&
+                //Check to see if they are a villager
+                if (NPC.IsVillager &&
                     //Check to see if they are in range of the player
                     //8 tiles if they have banshee, 2 if not
                     Distance <= profession &&
-                    //Check to see if they are a villager
-                    NPC.IsVillager &&
-                    //Check to see if the player has talked to them
-                //    player.hasPlayerTalkedToNPC(NPC.Name) &&
                     //Check to see if they are giftable
                     NPC.CanReceiveGifts() &&
                     //Check to make sure the player has not given them two gifts this week
@@ -87,29 +210,109 @@ namespace SpookySkill.Core
                     NPC.Name != "Evelyn" && NPC.Name != "George")
                 {
                     npcsInRange.Add(NPC);
+                    continue;
+                }
+
+                
+                if (NPC.IsMonster &&
+                    NPC is Monster && //If the NPC is a monster
+                    Distance <= profession*2 //and if the monster is in range
+                    )
+                {
+                    monstersInRange.Add(NPC);
                 }
             }
 
-            if (npcsInRange.Count == 0)
+            if (npcsInRange.Count != 0)
             {
-                player.performPlayerEmote("sad");
+                if (player.HasCustomProfession(Proffession10a1))
+                {
+                    foreach (var npc in npcsInRange)
+                    {
+                        Villager_SPOOKY(npc, player);
+                    }
+                }
+                else
+                {
+                    Villager_SPOOKY(npcsInRange[0], player);
+                }
                 return;
             }
 
-            if (player.HasCustomProfession(Proffession10a1))
+            if (monstersInRange.Count != 0)
             {
-                foreach (var npc in npcsInRange)
+                if (player.HasCustomProfession(Proffession10a1))
                 {
-                    SPOOKY(npc, player);
+                    foreach (var monster in monstersInRange)
+                    {
+                        Monster_SPOOKY(monster, player);
+                    }
                 }
+                else
+                {
+                    Monster_SPOOKY(monstersInRange[0], player);
+                }
+                return;
             }
-            else
-            {
-                SPOOKY(npcsInRange[0], player);
-            }
+
+
+
+            player.performPlayerEmote("sad");
+
+
         }
 
-        public static void SPOOKY(NPC npc, Farmer player)
+        public static void Monster_SPOOKY(NPC npc, Farmer player)
+        {
+            if (npc is not Monster)
+            {
+                return;
+            }
+
+            Monster monsterNPC = (Monster)npc;
+
+
+            ///Get the random dice roll from 0 to 99
+            int diceRoll = Game1.random.Next(100);
+            ///Get how spooky the player is.
+            ///this is the player's spooky level * 2 + the dice roll.
+            int spookyRoll = (Utilities.GetLevel(player) * 2) + diceRoll;
+            spookyRoll = FallAdjustment(spookyRoll);
+            ///Add 10 if the player has the ghoul profession
+            if (player.HasCustomProfession(Proffession10b2))
+            {
+                spookyRoll += 10;
+            }
+            ///Get the spook level
+            string spookLevel = GetSpookLevel(spookyRoll);
+
+            player.performPlayerEmote("exclamation");
+            string soundID = Game1.random.Choose("ghost", "explosion", "dog_bark", "thunder", "shadowpeep");
+            if (ModEntry.Config.DeScary)
+            {
+                soundID = "wind";
+            }
+
+            bool jump = spookLevel == "level_3" || spookLevel == "level_4";
+            player.currentLocation.playSound(soundID);
+            if (jump) monsterNPC.jump();
+
+
+
+            Monster_CreateLoot(monsterNPC, player, spookLevel);
+
+            if (player.HasCustomProfession(Proffession10a2))
+            {
+                player.health += (int)(player.health * 1.25);
+                player.stamina += (int)(player.stamina * 1.25);
+            }
+
+            int exp = ((int)(CalculateExpSpookLevel(spookLevel) * 0.33));
+
+            Utilities.AddEXP(player, CalculateExpSpookLevel(spookLevel));
+        }
+
+        public static void Villager_SPOOKY(NPC npc, Farmer player)
         {
             ///Get the random dice roll from 0 to 99
             int diceRoll = Game1.random.Next(100);
@@ -261,6 +464,74 @@ namespace SpookySkill.Core
             Utilities.AddEXP(player, CalculateExpSpookLevel(spookLevel));
         }
 
+        public static void Monster_CreateLoot(Monster npc, Farmer player, string spookLevel)
+        {
+
+
+            var list = npc.objectsToDrop;
+
+            var finalList = new List<string>();
+
+            foreach (string thing in list)
+            {
+                if (thing != null && !thing.StartsWith('-') && ItemRegistry.GetData(thing) != null)
+                {
+                    finalList.Add(thing);
+                    finalList.Shuffle(Game1.random);
+                }
+            }
+
+            string item = finalList[Math.Max(1, Game1.random.Next(finalList.Count))];
+
+            int diceRoll = Game1.random.Next(100);
+            int spookyRoll = (Utilities.GetLevel(player) * 2) + diceRoll;
+
+            if (player.HasCustomProfession(Proffession10b2))
+            {
+                spookyRoll += 10;
+            }
+
+            switch (spookLevel)
+            {
+                case "level_0":
+                    if (spookyRoll > 100)
+                    {
+                        Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
+                    }
+                    SetCooldown(player, 5);
+                    break;
+                case "level_1":
+                    if (spookyRoll > 66)
+                    {
+                        Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
+                    }
+                    SetCooldown(player, 4);
+                    break;
+                case "level_2":
+                    if (spookyRoll > 33)
+                    {
+                        Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
+                    }
+                    SetCooldown(player, 3);
+                    break;
+                case "level_3":
+                    if (spookyRoll > 0)
+                    {
+                        Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
+                    }
+                    SetCooldown(player, 2);
+                    break;
+                case "level_4":
+                    int howMany = spookyRoll / 10;
+                    Game1.createMultipleObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, howMany, player.UniqueMultiplayerID, npc.currentLocation);
+                    SetCooldown(player, 1);
+                    break;
+            }
+            string line = ModEntry.Config.DeScary ? "moonslime.Spooky.Cooldown.Thieving.apply" : "moonslime.Spooky.Cooldown.Scaring.apply";
+            Game1.addHUDMessage(HUDMessage.ForCornerTextbox(ModEntry.Instance.I18N.Get(line)));
+            return;
+        }
+
         public static void CreateLoot(NPC npc, Farmer player, string spookLevel)
         {
             var list = GetItemList(npc, player);
@@ -269,7 +540,7 @@ namespace SpookySkill.Core
 
             foreach (string thing in list)
             {
-                if (thing != null && !thing.StartsWith('-'))
+                if (thing != null && !thing.StartsWith('-') && ItemRegistry.GetData(thing) != null)
                 {
                     finalList.Add(thing);
                     finalList.Shuffle(Game1.random);
@@ -283,6 +554,7 @@ namespace SpookySkill.Core
                 finalList.Add("789");
                 finalList.Shuffle(Game1.random);
             }
+
 
             string item = finalList[Math.Max(1, Game1.random.Next(finalList.Count))];
 
@@ -302,30 +574,40 @@ namespace SpookySkill.Core
                     {
                         Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
                     }
+                    SetCooldown(player, 5);
                     break;
                 case "level_1":
                     if (spookyRoll > 66)
                     {
                         Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
                     }
+                    SetCooldown(player, 4);
                     break;
                 case "level_2":
                     if (spookyRoll > 33)
                     {
                         Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
                     }
+                    SetCooldown(player, 3);
                     break;
                 case "level_3":
                     if (spookyRoll > 0)
                     {
                         Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
                     }
+                    SetCooldown(player, 2);
                     break;
                 case "level_4":
                     int howMany = spookyRoll / 10;
                     Game1.createMultipleObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, howMany, player.UniqueMultiplayerID, npc.currentLocation);
+                    SetCooldown(player, 1);
                     break;
+
             }
+            string line = ModEntry.Config.DeScary ? "moonslime.Spooky.Cooldown.Thieving.apply" : "moonslime.Spooky.Cooldown.Scaring.apply";
+            Game1.addHUDMessage(HUDMessage.ForCornerTextbox(ModEntry.Instance.I18N.Get(line)));
+            player.modDataForSerialization.TryGetValue(Boo, out string value_1);
+            Log.Warn("Spooky skill cooldown is now set to: " + value_1);
         }
 
         public static List<string> GetItemList(NPC npc, Farmer player)
@@ -334,8 +616,14 @@ namespace SpookySkill.Core
 
             if (!player.HasCustomProfession(Proffession10b1))
             {
-                list.AddRange(ArgUtility.SplitBySpace(Game1.NPCGiftTastes["Universal_Like"]));
-                list.AddRange(ArgUtility.SplitBySpace(Game1.NPCGiftTastes["Universal_Neutral"]));
+                if (Utilities.GetLevel(player) >= 3)
+                {
+                    list.AddRange(ArgUtility.SplitBySpace(Game1.NPCGiftTastes["Universal_Neutral"]));
+                }
+                if (Utilities.GetLevel(player) >= 7)
+                {
+                    list.AddRange(ArgUtility.SplitBySpace(Game1.NPCGiftTastes["Universal_Like"]));
+                }
             }
             if (Game1.year != 1 || player.HasCustomProfession(Proffession10b1))
             {
@@ -406,6 +694,33 @@ namespace SpookySkill.Core
             if (spookLevel == "level_3") exp += ModEntry.Config.ExpMod * ModEntry.Config.ExpLevel3;
             if (spookLevel == "level_4") exp += ModEntry.Config.ExpMod * ModEntry.Config.ExpLevel4;
             return (int)Math.Floor(exp);
+        }
+
+
+
+        private static void SetCooldown(Farmer who, int cooldown)
+        {
+            Farmer farmer = Game1.getFarmer(who.UniqueMultiplayerID);
+            if (farmer != null && farmer.IsLocalPlayer)
+            {
+                if (!farmer.modDataForSerialization.ContainsKey(Boo))
+                {
+                    farmer.modDataForSerialization.TryAdd(Boo, cooldown.ToString());
+                }
+                else
+                {
+                    farmer.modDataForSerialization.TryGetValue(Boo, out string value_1);
+                    int storedCooldown = int.Parse(value_1);
+
+                    int currentCooldown = cooldown;
+
+                    if (currentCooldown != storedCooldown)
+                    {
+                        farmer.modDataForSerialization.Remove(Boo);
+                        farmer.modDataForSerialization.TryAdd(Boo, currentCooldown.ToString());
+                    }
+                }
+            }
         }
     }
 }

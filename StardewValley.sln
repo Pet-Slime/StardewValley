@@ -76,6 +76,10 @@ Global
 		MoonShared\MoonShared.projitems*{2d854387-8148-4acf-8ef1-bfb3a5ec6716}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{582e2861-2bf8-4704-8f5e-1ab9bae2b572}*SharedItemsImports = 5
+		MoonShared\MoonShared.projitems*{582e2861-2bf8-4704-8f5e-1ab9bae2b572}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{8f13906d-7e88-45b4-abbc-617437970163}*SharedItemsImports = 13
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{b4835048-a339-456f-b0ed-64cfe03c4c29}*SharedItemsImports = 5
+		MoonShared\MoonShared.projitems*{b4835048-a339-456f-b0ed-64cfe03c4c29}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

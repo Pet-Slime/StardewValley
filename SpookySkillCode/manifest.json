@@ -1,8 +1,8 @@
 ﻿{
-    "Name": "SpookySkill",
+    "Name": "Scaring / Thieving Skill",
     "Author": "moonslime",
     "Version": "0.1.0",
-    "Description": "Scare NPCs, get items",
+    "Description": "Scare(or steal from) NPCs, get items",
     "UniqueID": "moonslime.SpookySkill",
     "EntryDll": "SpookySkillCode.dll",
     "MinimumApiVersion": "4.0.0",

@@ -12,12 +12,26 @@ namespace SpookySkill
         public static KeyedProfession Thief10a2;
         public static KeyedProfession Thief10b1;
         public static KeyedProfession Thief10b2;
-        public readonly IModHelper _modHelper;
 
         public Thief_Skill() : base("moonslime.Spooky")
         {
             this.Icon = ModEntry.Assets.IconA_Thief;
-            this.SkillsPageIcon = ModEntry.Assets.IconB_Thief;
+
+            switch (ModEntry.Config.ThiefIcon)
+            {
+                case 1:
+                    this.SkillsPageIcon = ModEntry.Assets.IconB_Thief_1;
+                    break;
+                case 2:
+                    this.SkillsPageIcon = ModEntry.Assets.IconB_Thief_2;
+                    break;
+                case 3:
+                    this.SkillsPageIcon = ModEntry.Assets.IconB_Thief_3;
+                    break;
+                default:
+                    this.SkillsPageIcon = ModEntry.Assets.IconB_Thief_1;
+                    break;
+            }
 
             this.ExperienceBarColor = new Microsoft.Xna.Framework.Color(205, 127, 50);
             this.ExperienceCurve = new[] { 100, 380, 770, 1300, 2150, 3300, 4000, 6900, 10000, 15000 };
@@ -59,6 +73,14 @@ namespace SpookySkill
             {
                 ModEntry.Instance.I18N.Get("skill.Thief.perk", new { bonus = 2 })
             };
+            if (level == 3)
+            {
+                result.Add(ModEntry.Instance.I18N.Get("skill.Thief.perk.level_3"));
+            }
+            if (level == 7)
+            {
+                result.Add(ModEntry.Instance.I18N.Get("skill.Thief.perk.level_6"));
+            }
             return result;
         }
 

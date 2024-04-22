@@ -15,6 +15,8 @@ namespace SpookySkill
         [SConfig.Option()]
         public bool DeScary { get; set; } = false;
 
+        [SConfig.Option(1, 3, 1)]
+        public int ThiefIcon { get; set; } = 1;
 
         [SConfig.Option()]
         public SButton Key_Cast { get; set; } = SButton.B;

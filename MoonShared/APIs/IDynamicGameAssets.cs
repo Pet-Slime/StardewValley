@@ -22,7 +22,9 @@ namespace MoonShared.APIs
         public string[] ListContentPacks();
 
 
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         public string[]? GetItemsByPack(string packname);
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 
         public string[] GetAllItems();
 

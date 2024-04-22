@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MoonShared;
 using StardewModdingAPI;
+using StardewValley;
 
 namespace SpookySkill
 {
@@ -12,7 +13,6 @@ namespace SpookySkill
         public static KeyedProfession Spooky10a2;
         public static KeyedProfession Spooky10b1;
         public static KeyedProfession Spooky10b2;
-        public readonly IModHelper _modHelper;
 
         public Spooky_Skill() : base("moonslime.Spooky")
         {
@@ -59,6 +59,14 @@ namespace SpookySkill
             {
                 ModEntry.Instance.I18N.Get("skill.Spooky.perk", new { bonus = 2 })
             };
+            if (level == 3)
+            {
+                result.Add(ModEntry.Instance.I18N.Get("skill.Spooky.perk.level_3"));
+            }
+            if (level == 7)
+            {
+                result.Add(ModEntry.Instance.I18N.Get("skill.Spooky.perk.level_6"));
+            }
             return result;
         }
 

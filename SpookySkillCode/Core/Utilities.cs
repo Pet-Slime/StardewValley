@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SpaceCore;
 using StardewValley;
 using StardewValley.Menus;
+using MoonShared;
 using static BirbCore.Attributes.SMod;
 
 namespace SpookySkill
@@ -26,7 +23,7 @@ namespace SpookySkill
         public static int GetLevel(StardewValley.Farmer who)
         {
             var player = Game1.getFarmer(who.UniqueMultiplayerID);
-            return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Spooky");
+            return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Archaeology") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Archaeology");
         }
 
         public static void MasteryEXPCheck(Farmer who, int howMuch)
