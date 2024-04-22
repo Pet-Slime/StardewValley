@@ -66,7 +66,10 @@ namespace SpookySkill.Core
             }
 
             if (npcsInRange.Count == 0)
+            {
+                player.performPlayerEmote("sad");
                 return;
+            }
 
             if (player.HasCustomProfession(Spooky_Skill.Spooky10a1))
             {
@@ -194,6 +197,8 @@ namespace SpookySkill.Core
         public static void SpookyEffects(NPC npc, Farmer player, int friendshipLost, string spookString, string spookLevel, bool jump = false)
         {
             player.performPlayerEmote("exclamation");
+            string soundID = Game1.random.Choose("ghost", "explosion", "dog_bark", "thunder", "shadowpeep");
+            player.currentLocation.playSound(soundID);
             if (jump) npc.jump();
             if (jump) npc.Halt();
 
