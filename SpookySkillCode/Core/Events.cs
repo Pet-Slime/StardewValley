@@ -51,25 +51,37 @@ namespace SpookySkill.Core
             Vector2 playerTile = player.Tile;
             List<NPC> npcsInRange = new List<NPC>();
 
+
             foreach(var NPC in location.characters)
             {
+
+                float Distance = Vector2.Distance(NPC.Tile, playerTile);
+                float profession = (player.HasCustomProfession(Proffession10a1) ? 8 : 2);
+
+
+                BirbCore.Attributes.Log.Warn("Spooky: Check");
+                BirbCore.Attributes.Log.Warn("NPC name is: "+ NPC.Name);
+                BirbCore.Attributes.Log.Warn("is NPC villager?: " + NPC.IsVillager.ToString());
+                BirbCore.Attributes.Log.Warn("Spooky: to NPC Distance: "+ Distance.ToString());
+                BirbCore.Attributes.Log.Warn("Spooky distance value: "+ profession.ToString());
+                BirbCore.Attributes.Log.Warn("Spooky distance check: " + (Distance > profession).ToString());
+                BirbCore.Attributes.Log.Warn("Spooky has talked check: " + player.hasPlayerTalkedToNPC(NPC.Name).ToString());
+
                 //me being parinoid, make sure the NPC is a character
                 if (NPC is Character &&
                     //Check to see if they are in range of the player
                     //8 tiles if they have banshee, 2 if not
-                    Vector2.Distance(NPC.Tile, playerTile) <= (player.HasCustomProfession(Proffession10a1) ? 8 : 2) &&
+                    Distance <= profession &&
                     //Check to see if they are a villager
                     NPC.IsVillager &&
                     //Check to see if the player has talked to them
-                    player.hasPlayerTalkedToNPC(NPC.Name) &&
+                //    player.hasPlayerTalkedToNPC(NPC.Name) &&
                     //Check to see if they are giftable
                     NPC.CanReceiveGifts() &&
                     //Check to make sure the player has not given them two gifts this week
                     player.friendshipData[NPC.Name].GiftsThisWeek < 2 &&
                     //Check to make sure the player has not given them a gift today
                     player.friendshipData[NPC.Name].GiftsToday < 1 &&
-                    //Make sure the player can emote
-                    player.CanEmote() &&
                     //And last, I don't want to give the elderly a heart attack, so leaving Evelyn and George out of this
                     //Sorry Cross-mod Elderfolk
                     NPC.Name != "Evelyn" && NPC.Name != "George")
@@ -134,11 +146,11 @@ namespace SpookySkill.Core
 
             ///Set the string to the current NPC's name and the spook level. So each NPC can have a custom string
             string type = ModEntry.Config.DeScary ? "Stolen" : "Scared";
-            string spookString = ModEntry.Instance.I18N.Get($"moonslime.Spooky."+type+".{npc.Name}.{spookLevel}");
+            string spookString = ModEntry.Instance.I18N.Get($"moonslime.Spooky.{type}.{npc.Name}.{spookLevel}");
             if (spookString.Contains("no translation"))
             {
                 ///If no translation/custom string is found, set it to the default string for the spook level
-                spookString = ModEntry.Instance.I18N.Get("moonslime.Spooky."+type+".default." + spookLevel);
+                spookString = ModEntry.Instance.I18N.Get($"moonslime.Spooky.{type}.default.{spookLevel}");
             }
             SpookyEffects(npc, player, friendshipLost, spookString, spookLevel, spookLevel == "level_3" || spookLevel == "level_4");
         }
@@ -228,8 +240,8 @@ namespace SpookySkill.Core
                 soundID = "wind";
             }
             player.currentLocation.playSound(soundID);
-            if (jump) npc.jump();
             if (jump) npc.Halt();
+            if (jump) npc.jump();
 
             npc.showTextAboveHead(spookString);
             Friendship friendship = player.friendshipData[npc.Name];
@@ -262,6 +274,14 @@ namespace SpookySkill.Core
                     finalList.Add(thing);
                     finalList.Shuffle(Game1.random);
                 }
+            }
+
+
+            ///if the NPC is mayor Lewis, add his shorts to the list.
+            if (npc.Name == "Lewis" || npc.Name == "Marnie")
+            {
+                finalList.Add("789");
+                finalList.Shuffle(Game1.random);
             }
 
             string item = finalList[Math.Max(1, Game1.random.Next(finalList.Count))];
