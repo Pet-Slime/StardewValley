@@ -1,22 +1,22 @@
 ﻿{
 
-    "config.Enable_Vanilla_Food_Changes.name": "Enable this mod",
-    "config.Enable_Vanilla_Food_Changes.description": "Unchecking this will turn off most vanilla food changes. I say most because the pie recipe changes to require pie crust will remain.",
+    "config.Enable_Vanilla_Food_Changes.name": "모드 활성화",
+    "config.Enable_Vanilla_Food_Changes.description": "이 옵션을 선택 해제시, 파이 크러스트가 요구되는 파이 레시피 변경을 제외한 대부분의 바닐라의 음식 변경이 꺼집니다.",
 
-    "config.Enable_Cookout_Kit_Changes.name": "Cookout kit Changes",
-    "config.Enable_Cookout_Kit_Changes.description": "Unchecking this will keep the cookout kit as a level 3 foraging recipe instead of a level 0 Cooking recipe.",
+    "config.Enable_Cookout_Kit_Changes.name": "야외 요리 키트 변경",
+    "config.Enable_Cookout_Kit_Changes.description": "이 옵션을 선택 해제시, 요리 키트가 레벨 0 요리 레시피가 아닌 레벨 3 채집 레시피로 유지됩니다.",
 
-    "moonslime.Cooking.green_stew.name": "Green Stew",
-    "moonslime.Cooking.green_stew.description": "A delicate stew with a hint of sulfur and potato.",
+    "moonslime.Cooking.green_stew.name": "녹색 스튜",
+    "moonslime.Cooking.green_stew.description": "조금의 유황과 감자가 가미된 우아한 녹색 스튜입니다.",
 
-    "moonslime.Cooking.green_smoothy.name": "Green Smoothy",
-    "moonslime.Cooking.green_smoothy.description": "A great and healthy drink!.",
+    "moonslime.Cooking.green_smoothy.name": "그린 스무디",
+    "moonslime.Cooking.green_smoothy.description": "힘쎄고 건강한 음료!",
 
-    "moonslime.Cooking.anchovy_pizza.name": "Anchovy Pizza",
-    "moonslime.Cooking.anchovy_pizza.description": "Some say tastier, some say worse.",
+    "moonslime.Cooking.anchovy_pizza.name": "멸치 피자",
+    "moonslime.Cooking.anchovy_pizza.description": "누군 맛있다고, 누군 맛없다고 합니다.",
 
-    "moonslime.Cooking.wizards_brew.name": "Wizards Brew",
-    "moonslime.Cooking.wizards_brew.description": "Not made on a mountain top with a group of owls.",
+    "moonslime.Cooking.wizards_brew.name": "마법사의 스튜",
+    "moonslime.Cooking.wizards_brew.description": "올빼미 때가 잔뜩 있는 산 정상에서 만든건 아닙니다.",
 
 
     "moonslime.Cooking.pie_crust.name": "파이 크러스트",
