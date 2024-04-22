@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManaBar", "ManaAPI\ManaBar.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicSkillCode", "MagicSkillCode\MagicSkillCode.csproj", "{03CE7DB8-DBCA-4EED-8878-83BDDA475241}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpookySkillCode", "SpookySkillCode\SpookySkillCode.csproj", "{2D854387-8148-4ACF-8EF1-BFB3A5EC6716}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpookySkillCode", "SpookySkillCode\SpookySkillCode.csproj", "{2D854387-8148-4ACF-8EF1-BFB3A5EC6716}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,11 +69,11 @@ Global
 		SolutionGuid = {2CC4FC86-39C6-4152-8058-FE3B146896A6}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{03ce7db8-dbca-4eed-8878-83bdda475241}*SharedItemsImports = 5
+		MoonShared\MoonShared.projitems*{03ce7db8-dbca-4eed-8878-83bdda475241}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{19cedb88-a912-48da-b35d-fce2509e70e6}*SharedItemsImports = 13
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{2d854387-8148-4acf-8ef1-bfb3a5ec6716}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{2d854387-8148-4acf-8ef1-bfb3a5ec6716}*SharedItemsImports = 5
-		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
-		MoonShared\MoonShared.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{8f13906d-7e88-45b4-abbc-617437970163}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

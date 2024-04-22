@@ -2,7 +2,7 @@
     "Name": "SpookySkill",
     "Author": "moonslime",
     "Version": "0.1.0",
-    "Description": "A Spacecore version of the luck skill",
+    "Description": "Scare NPCs, get items",
     "UniqueID": "moonslime.SpookySkill",
     "EntryDll": "SpookySkillCode.dll",
     "MinimumApiVersion": "4.0.0",

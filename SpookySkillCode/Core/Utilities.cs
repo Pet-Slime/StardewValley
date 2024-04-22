@@ -11,6 +11,11 @@ namespace SpookySkill
 {
     internal class Utilities
     {
+        public static bool IsBetween(int x, int low, int high)
+        {
+            return low <= x && x <= high;
+        }
+
         public static void AddEXP(StardewValley.Farmer who, int amount)
         {
             var farmer = Game1.getFarmer(who.UniqueMultiplayerID);
