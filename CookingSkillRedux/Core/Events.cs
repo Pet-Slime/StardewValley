@@ -59,7 +59,7 @@ namespace CookingSkill.Core
 
         private static void BetterCraftingPerformCraftEvent(IGlobalPerformCraftEvent @event)
         {
-            if (@event.Recipe.CraftingRecipe.isCookingRecipe)
+            if (@event.Recipe is not null && @event.Recipe.CraftingRecipe.isCookingRecipe)
             {
                 @event.Item = PreCook(@event.Recipe.CraftingRecipe, @event.Item, true);
                 @event.Complete();
@@ -447,14 +447,14 @@ namespace CookingSkill.Core
             //Check to see if the recipe is a cooking recipe
             //Make sure the item coming out of the cooking recipe is an object
 
-            if (betterCrafting && recipe is not null && recipe.isCookingRecipe)
+            if (betterCrafting)
             {
                 item = Utilities.BetterCraftingTempItem;
                 ModEntry.Instance.Monitor.Log($"Using better crafting - retrived stashed item: {item.DisplayName}", LogLevel.Trace);
                 
             }
 
-            if (recipe is not null && recipe.isCookingRecipe && item is StardewValley.Object obj)
+            if (recipe is not null && item is StardewValley.Object obj)
             {
                 ModEntry.Instance.Monitor.Log($"Starting PostCook for {item.DisplayName}", LogLevel.Trace);
                 //Make sure I am selecting the right items for debug purposes
