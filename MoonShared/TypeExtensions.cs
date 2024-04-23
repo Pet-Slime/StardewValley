@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using HarmonyLib;
+using StardewValley;
 using StardewValley.Mods;
 
 namespace MoonShared
@@ -84,6 +85,51 @@ namespace MoonShared
                 : defaultValue;
         }
 
+        /// <summary>Get a value from a list if it's in range, else get the default value.</summary>
+        /// <typeparam name="T">The value type.</typeparam>
+        /// <param name="list">The list to search.</param>
+        /// <param name="index">The index of the value within the array to find.</param>
+        /// <param name="defaultValue">The default value if the value isn't in range.</param>
+        public static T GetOrDefault<T>(this IList<T> list, int index, T defaultValue = default)
+        {
+            return list.TryGetIndex(index, out T value)
+                ? value
+                : defaultValue;
+        }
+
+        /// <summary>Get a value from a list if it's in range.</summary>
+        /// <typeparam name="T">The value type.</typeparam>
+        /// <param name="list">The list to search.</param>
+        /// <param name="index">The index of the value within the array to find.</param>
+        /// <param name="value">The value at the given index, if found.</param>
+        /// <returns>Returns whether the index was within the array bounds.</returns>
+        public static bool TryGetIndex<T>(this IList<T> list, int index, out T value)
+        {
+            if (list == null || index < 0 || index >= list.Count)
+            {
+                value = default;
+                return false;
+            }
+
+            value = list[index];
+            return true;
+        }
+
+        /// <summary>Get a value from a list if it's in range, else get the default value.</summary>
+        /// <typeparam name="T">The value type.</typeparam>
+        /// <param name="list">The list to search.</param>
+        /// <param name="random">the random seed needed.</param>
+        /// <param name="defaultValue">The default value if the value isn't in range.</param>
+        public static T RandomChoose<T>(this IList<T> list, Random random, T defaultValue = default)
+        {
+            if (list == null || list.Count <= 0)
+            {
+                return defaultValue;
+            }
+
+            return list[random.Next(list.Count)];
+        }
+
 
 
         /// <summary>Shuffle a List for a random value.</summary>
@@ -92,16 +138,16 @@ namespace MoonShared
         /// <param name="random">The RNG to shuffle off of.</param>
         public static void Shuffle<T>(this IList<T> list, Random random)
         {
-            int n = list.Count;
-            while (n > 1)
+            for (int n = list.Count - 1; n > 0; --n)
             {
-                n--;
                 int k = random.Next(n + 1);
                 T value = list[k];
                 list[k] = list[n];
                 list[n] = value;
             }
         }
+
+
 
 
 

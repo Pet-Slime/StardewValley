@@ -466,6 +466,7 @@ namespace SpookySkill.Core
         public static void Monster_CreateLoot(Monster npc, Farmer player, string spookLevel)
         {
             var list = npc.objectsToDrop;
+            ///Add stone to the list so that there is always something on the list.
 
             var finalList = new List<string>();
 
@@ -478,9 +479,11 @@ namespace SpookySkill.Core
                 }
             }
 
-            int randomValue = Math.Max(0, Game1.random.Next(finalList.Count - 1));
 
-            string item = finalList[randomValue];
+
+            string item = finalList.RandomChoose(Game1.random, "766");
+
+
 
             Log.Warn("Attempting to steal: " + ItemRegistry.GetData(item).DisplayName);
 
@@ -556,8 +559,8 @@ namespace SpookySkill.Core
                 finalList.Shuffle(Game1.random);
             }
 
-
-            string item = finalList[Math.Max(1, Game1.random.Next(finalList.Count))];
+            
+            string item = finalList.RandomChoose(Game1.random, "216");
 
 
             int diceRoll = Game1.random.Next(100);

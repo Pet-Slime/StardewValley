@@ -57,7 +57,7 @@ namespace ArchaeologySkill
                 if (didTheyWin || bonusLoot)
                 {
                     BirbCore.Attributes.Log.Trace("Archaeology Skill: They do get bonus loot!");
-                    string objectID = exactItem != "" ? exactItem : ModEntry.BonusLootTable[Math.Max(0, Game1.random.Next(ModEntry.BonusLootTable.Count - 1))];
+                    string objectID = exactItem != "" ? exactItem : ModEntry.BonusLootTable.RandomChoose(Game1.random, "390");
                     Game1.createMultipleObjectDebris(objectID, xLocation, yLocation, 1, farmer.UniqueMultiplayerID);
                 }
                 else

@@ -5,6 +5,7 @@ using ArchaeologySkill.Objects.Water_Shifter;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MoonShared;
 using SpaceCore;
 using StardewValley;
 using StardewValley.BellsAndWhistles;
@@ -358,9 +359,7 @@ namespace ArchaeologySkill.Core
                 BirbCore.Attributes.Log.Trace("Archaeology skill: Player has Antiquarian");
                 Random random = Utility.CreateDaySaveRandom(xLocation * 2000, yLocation, Game1.netWorldState.Value.TreasureTotemsUsed * 777);
                 Vector2 vector = new Vector2(xLocation * 64, yLocation * 64);
-                int id = random.Next(ModEntry.ArtifactLootTable.Count - 1);
-                int itemId = Math.Max(0, id);
-                string item = ModEntry.ArtifactLootTable[itemId];
+                string item = ModEntry.ArtifactLootTable.RandomChoose(Game1.random, "390");
                 Item finalItem = ItemRegistry.Create(item);
                 Game1.createItemDebris(finalItem, farmer.Tile, Game1.random.Next(4), __instance);
             }
@@ -394,13 +393,13 @@ namespace ArchaeologySkill.Core
                 {
                     BirbCore.Attributes.Log.Trace("Archaeology skill: Dowser skill artifact roll won");
                     //Find a random artifact to add from the artifact loot table
-                    string artifact = ModEntry.ArtifactLootTable[Math.Max(0, random.Next(ModEntry.ArtifactLootTable.Count - 1))];
+                    string artifact = ModEntry.ArtifactLootTable.RandomChoose(random, "390");
                     __result.Add(new StardewValley.Object(artifact, 1));
                 }
 
                 BirbCore.Attributes.Log.Trace("Archaeology skill: Dowser skill adding additional loot to panning");
                 random = new Random(xLocation * (int)who.DailyLuck * 2000 + yLocation + (int)Game1.uniqueIDForThisGame / 2 + (int)Game1.stats.DaysPlayed);
-                string item = ModEntry.BonusLootTable[Math.Max(0, random.Next(ModEntry.BonusLootTable.Count - 1))];
+                string item = ModEntry.BonusLootTable.RandomChoose(random, "390");
                 __result.Add(new StardewValley.Object(item, 1));
             }
         }

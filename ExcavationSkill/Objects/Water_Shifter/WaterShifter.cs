@@ -371,12 +371,11 @@ namespace ArchaeologySkill.Objects.Water_Shifter
 
 
             //Shuffle the list so it's in a random order!
-            list.Shuffle<string>(random);
+            list.Shuffle(random);
 
             if ( heldObject.Value == null)
             {
-                string test = list[random.Next(list.Count)];
-                heldObject.Value = new Object(test, 1);
+                heldObject.Value = new Object(list[random.Next(list.Count)], 1);
             }
         }
 
