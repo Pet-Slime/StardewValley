@@ -10,5 +10,6 @@ namespace LuckSkill
     [SConfig]
     public class Config
     {
+
     }
 }
