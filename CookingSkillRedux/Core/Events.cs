@@ -59,20 +59,29 @@ namespace CookingSkill.Core
 
         private static void BetterCraftingPerformCraftEvent(IGlobalPerformCraftEvent @event)
         {
-            @event.Item = PreCook(@event.Recipe.CraftingRecipe, @event.Item, true);
+            if (@event.Recipe.CraftingRecipe.isCookingRecipe)
+            {
+                @event.Item = PreCook(@event.Recipe.CraftingRecipe, @event.Item, true);
+                @event.Complete();
+            }
             @event.Complete();
+
         }
 
         private static void BetterCraftingPostCraftEvent(IPostCraftEvent @event)
         {
-            //it's easier for me to use a dictionary to not override item stack sized
-            Dictionary<Item,int> consumed_items_dict = new Dictionary<Item,int>();
-            foreach(Item consumed in @event.ConsumedItems)
+            if (@event.Recipe.CraftingRecipe.isCookingRecipe)
             {
-                consumed_items_dict.Add(consumed, consumed.Stack);
-            }
+                //it's easier for me to use a dictionary to not override item stack sized
+                Dictionary<Item, int> consumed_items_dict = new Dictionary<Item, int>();
+                foreach (Item consumed in @event.ConsumedItems)
+                {
+                    consumed_items_dict.Add(consumed, consumed.Stack);
+                }
 
-            @event.Item = PostCook(@event.Recipe.CraftingRecipe, @event.Item, consumed_items_dict, @event.Player, true);
+                @event.Item = PostCook(@event.Recipe.CraftingRecipe, @event.Item, consumed_items_dict, @event.Player, true);
+            }
+            
         }
 
         [SEvent.MenuChanged]
