@@ -11,6 +11,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Buffs;
+using StardewValley.Extensions;
 using StardewValley.GameData.Objects;
 using StardewValley.Inventories;
 using static BirbCore.Attributes.SMod;
@@ -502,17 +503,23 @@ namespace CookingSkill.Core
                 double total_items = 0;
                 foreach (var consumed in consumed_items)
                 {
-                    ingredients_quality_RMS += (consumed.Key.Quality * consumed.Key.Quality) * consumed.Value;
+                    int q = consumed.Key.Quality ==  4 ? 3 : consumed.Key.Quality;
+                    ingredients_quality_RMS += (q*q) * consumed.Value;
                     total_items += consumed.Value;
                 }
-                ingredients_quality_RMS = Math.Sqrt(ingredients_quality_RMS / total_items);
-                double cooking_skill_quality = 4.0 * who.GetCustomSkillLevel("moonslime.Cooking") / 10;
+                ingredients_quality_RMS = Math.Sqrt(ingredients_quality_RMS / total_items)/3.0;
+                double cooking_skill_quality = who.GetCustomSkillLevel("moonslime.Cooking") / 10.0;
                 who.recipesCooked.TryGetValue(item.ItemId, out int num_times_cooked);
-                double recipe_experience_quality = 4.0 * Math.Tanh(num_times_cooked / 20.0);
-                double dish_quality;
-                dish_quality = (ingredients_quality_RMS + cooking_skill_quality + recipe_experience_quality) / 12.0;
+                double recipe_experience_quality = Math.Tanh(num_times_cooked / 20.0);
                 double r = Game1.random.NextDouble();
+                //old formula
+                //                double dish_quality = (4*ingredients_quality_RMS + 4*cooking_skill_quality + 4*recipe_experience_quality) / 12.0;
+                double dish_quality = 1.0;
                 dish_quality *= (3.0 + 2.0*r) / 5.0;
+                dish_quality *= 0.4 + 0.45 * cooking_skill_quality + 0.15 * recipe_experience_quality;
+                dish_quality *= 0.5 + 0.15 * cooking_skill_quality + 0.35 * recipe_experience_quality;
+                dish_quality *= 0.6 + 0.1 * cooking_skill_quality + 0.1 * recipe_experience_quality + 0.2*ingredients_quality_RMS;
+
                 ModEntry.Instance.Monitor.Log($"ingredients {ingredients_quality_RMS}, skill {cooking_skill_quality}, experience {recipe_experience_quality} and random {r} led to quality {dish_quality}", LogLevel.Trace);
                 if (dish_quality < 0.25)
                     obj.Quality = 0;
@@ -522,8 +529,8 @@ namespace CookingSkill.Core
                     obj.Quality = 2;
                 else
                     obj.Quality = 4;
-                //If the player has right profession, increase item quality
-                if (Game1.player.HasCustomProfession(Cooking_Skill.Cooking5a))
+                //If the player has right profession, 50% chance tp increase dish quality
+                if (Game1.player.HasCustomProfession(Cooking_Skill.Cooking5a) && Game1.random.NextBool())
                     obj.Quality += 1;
                 //If the player uses QI_seasoning incerase quality by 2
                 if (QI_seasoning)
