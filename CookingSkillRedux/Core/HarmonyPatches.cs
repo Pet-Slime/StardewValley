@@ -70,9 +70,13 @@ namespace CookingSkill.Core
                 /// /////////////////////////////
                 /// Custom Code
                 /// for Cooking
-                var consumed_items = FigureOutItems(craftingRecipe, __instance._materialContainers);
-                CookingSkill.Core.Events.PreCook(craftingRecipe, item);
-                CookingSkill.Core.Events.PostCook(craftingRecipe, item, consumed_items, player);
+                if (craftingRecipe is not null && craftingRecipe.isCookingRecipe)
+                {
+                    var consumed_items = FigureOutItems(craftingRecipe, __instance._materialContainers);
+                    CookingSkill.Core.Events.PreCook(craftingRecipe, item);
+                    CookingSkill.Core.Events.PostCook(craftingRecipe, item, consumed_items, player);
+                }
+                
                 ////////////////////////////////////
             }
 

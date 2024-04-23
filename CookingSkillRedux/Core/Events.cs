@@ -60,7 +60,7 @@ namespace CookingSkill.Core
 
         private static void BetterCraftingPerformCraftEvent(IGlobalPerformCraftEvent @event)
         {
-            if (@event.Recipe is not null && @event.Recipe.CraftingRecipe.isCookingRecipe)
+            if (@event.Recipe.CraftingRecipe is not null && @event.Recipe.CraftingRecipe.isCookingRecipe)
             {
                 @event.Item = PreCook(@event.Recipe.CraftingRecipe, @event.Item, true);
                 @event.Complete();
@@ -71,7 +71,7 @@ namespace CookingSkill.Core
 
         private static void BetterCraftingPostCraftEvent(IPostCraftEvent @event)
         {
-            if (@event.Recipe.CraftingRecipe.isCookingRecipe)
+            if (@event.Recipe.CraftingRecipe is not null && @event.Recipe.CraftingRecipe.isCookingRecipe)
             {
                 //it's easier for me to use a dictionary to not override item stack sized
                 Dictionary<Item, int> consumed_items_dict = new Dictionary<Item, int>();
@@ -404,10 +404,8 @@ namespace CookingSkill.Core
         {
             ModEntry.Instance.Monitor.Log($"Starting PreCook for {item.DisplayName}", LogLevel.Trace);
 
-            //Make sure the recipe is not null
-            //Check to see if the recipe is a cooking recipe
             //Make sure the item coming out of the cooking recipe is an object
-            if (recipe is not null && recipe.isCookingRecipe && item is StardewValley.Object obj)
+            if (item is StardewValley.Object obj)
             {
 
                 float levelValue = Utilities.GetLevelValue(Game1.player);
@@ -444,10 +442,6 @@ namespace CookingSkill.Core
         public static Item PostCook(CraftingRecipe recipe, Item item, Dictionary<Item, int> consumed_items, Farmer who, bool betterCrafting = false)
         {
 
-            //Make sure the recipe is not null
-            //Check to see if the recipe is a cooking recipe
-            //Make sure the item coming out of the cooking recipe is an object
-
             if (betterCrafting)
             {
                 item = Utilities.BetterCraftingTempItem;
@@ -455,7 +449,8 @@ namespace CookingSkill.Core
                 
             }
 
-            if (recipe is not null && item is StardewValley.Object obj)
+            //Make sure the item coming out of the cooking recipe is an object
+            if (item is StardewValley.Object obj)
             {
                 ModEntry.Instance.Monitor.Log($"Starting PostCook for {item.DisplayName}", LogLevel.Trace);
                 //Make sure I am selecting the right items for debug purposes
@@ -545,7 +540,12 @@ namespace CookingSkill.Core
                 //If the player has the right profession, they get an extra number of crafts from crafting the item.
                 if (who.HasCustomProfession(Cooking_Skill.Cooking10a1) && who.couldInventoryAcceptThisItem(item))
                 {
-                    if (Game1.random.NextDouble() < (Utilities.GetLevelValue(who) + Utilities.GetLevelValue(who)))
+                    //The chance to get an extra item is double their level chance
+                    //This is to encourage people cooking while having buffs that effect cooking.
+                    //So at level 10, your chance for a double craft is 60%.
+                    //The player would need level 17 to have a 100% chance at double crafting items
+                    float doubleLevelChance = Utilities.GetLevelValue(who) + Utilities.GetLevelValue(who);
+                    if (Game1.random.NextDouble() < doubleLevelChance)
                     {
                         item.Stack += recipe.numberProducedPerCraft;
                     }
