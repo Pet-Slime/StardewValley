@@ -9,11 +9,9 @@ using StardewValley.Menus;
 using StardewValley;
 using StardewValley.Locations;
 using System.Diagnostics;
+using StardewValley.Buffs;
 
 namespace SpookySkill.Core
 {
-    class HarmonyPatches
-    {
 
-    }
 }

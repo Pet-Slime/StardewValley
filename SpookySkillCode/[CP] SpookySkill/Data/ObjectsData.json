@@ -11,8 +11,8 @@
             "Entries": {
                 "moonslime.Spooky.scary_brazier": {
                     "Name": "Scary Brazier",
-                    "DisplayName": "{{i18n:moonslime.Archaeology.scary_brazier.name}}",
-                    "Description": "{{i18n:moonslime.Archaeology.scary_brazier.description}}",
+                    "DisplayName": "{{i18n:moonslime.Spooky.scary_brazier.name}}",
+                    "Description": "{{i18n:moonslime.Spooky.scary_brazier.description}}",
                     "Price": 50,
                     "CanBePlacedOutdoors": true,
                     "CanBePlacedIndoors": true,
@@ -27,8 +27,8 @@
                 },
                 "moonslime.Spooky.dark_brazier": {
                     "Name": "Dark Brazier",
-                    "DisplayName": "{{i18n:moonslime.Archaeology.dark_brazier.name}}",
-                    "Description": "{{i18n:moonslime.Archaeology.dark_brazier.description}}",
+                    "DisplayName": "{{i18n:moonslime.Spooky.dark_brazier.name}}",
+                    "Description": "{{i18n:moonslime.Spooky.dark_brazier.description}}",
                     "Price": 50,
                     "CanBePlacedOutdoors": true,
                     "CanBePlacedIndoors": true,
@@ -49,8 +49,8 @@
             "Entries": {
                 "moonslime.Spooky.strobberies": {
                     "Name": "Strobberies",
-                    "DisplayName": "{{i18n:moonslime.Cooking.strobberies.name}}",
-                    "Description": "{{i18n:moonslime.Cooking.strobberies.description}}",
+                    "DisplayName": "{{i18n:moonslime.Spooky.strobberies.name}}",
+                    "Description": "{{i18n:moonslime.Spooky.strobberies.description}}",
                     "Type": "Cooking",
                     "Category": -7,
                     "Price": 500,
@@ -98,8 +98,8 @@
                 },
                 "moonslime.Spooky.candy_corn": {
                     "Name": "Candy Corn",
-                    "DisplayName": "{{i18n:moonslime.Cooking.candy_corn.name}}",
-                    "Description": "{{i18n:moonslime.Cooking.candy_corn.description}}",
+                    "DisplayName": "{{i18n:moonslime.Spooky.candy_corn.name}}",
+                    "Description": "{{i18n:moonslime.Spooky.candy_corn.description}}",
                     "Type": "Cooking",
                     "Category": -7,
                     "Price": 500,
@@ -147,8 +147,8 @@
                 },
                 "moonslime.Spooky.carrot_cake": {
                     "Name": "Carrot Cake",
-                    "DisplayName": "{{i18n:moonslime.Cooking.carrot_cake.name}}",
-                    "Description": "{{i18n:moonslime.Cooking.carrot_cake.description}}",
+                    "DisplayName": "{{i18n:moonslime.Spooky.carrot_cake.name}}",
+                    "Description": "{{i18n:moonslime.Spooky.carrot_cake.description}}",
                     "Type": "Cooking",
                     "Category": -7,
                     "Price": 500,

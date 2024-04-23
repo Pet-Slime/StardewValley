@@ -186,13 +186,12 @@ namespace SpookySkill.Core
                 float profession = (player.HasCustomProfession(Proffession10a1) ? 8 : 2);
 
 
-                BirbCore.Attributes.Log.Warn("Spooky: Check");
-                BirbCore.Attributes.Log.Warn("NPC name is: "+ NPC.Name);
-                BirbCore.Attributes.Log.Warn("is NPC villager?: " + NPC.IsVillager.ToString());
-                BirbCore.Attributes.Log.Warn("Spooky: to NPC Distance: "+ Distance.ToString());
-                BirbCore.Attributes.Log.Warn("Spooky distance value: "+ profession.ToString());
-                BirbCore.Attributes.Log.Warn("Spooky distance check: " + (Distance > profession).ToString());
-                BirbCore.Attributes.Log.Warn("Spooky has talked check: " + player.hasPlayerTalkedToNPC(NPC.Name).ToString());
+                BirbCore.Attributes.Log.Trace("Scaring/Thieving: Button pressed, going to go through the list...");
+                BirbCore.Attributes.Log.Trace("NPC name is: "+ NPC.Name);
+                BirbCore.Attributes.Log.Trace("is NPC villager?: " + NPC.IsVillager.ToString());
+                BirbCore.Attributes.Log.Trace("NPC Distance: "+ Distance.ToString());
+                BirbCore.Attributes.Log.Trace("distance value: "+ profession.ToString());
+                BirbCore.Attributes.Log.Trace("distance check: " + (Distance > profession).ToString());
 
                 //Check to see if they are a villager
                 if (NPC.IsVillager &&
@@ -466,8 +465,6 @@ namespace SpookySkill.Core
 
         public static void Monster_CreateLoot(Monster npc, Farmer player, string spookLevel)
         {
-
-
             var list = npc.objectsToDrop;
 
             var finalList = new List<string>();
@@ -481,7 +478,11 @@ namespace SpookySkill.Core
                 }
             }
 
-            string item = finalList[Math.Max(1, Game1.random.Next(finalList.Count))];
+            int randomValue = Math.Max(0, Game1.random.Next(finalList.Count));
+
+            string item = finalList[randomValue];
+
+            Log.Warn("Attempting to steal: " + ItemRegistry.GetData(item).DisplayName);
 
             int diceRoll = Game1.random.Next(100);
             int spookyRoll = (Utilities.GetLevel(player) * 2) + diceRoll;
