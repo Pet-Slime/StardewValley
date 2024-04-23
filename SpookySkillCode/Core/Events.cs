@@ -154,7 +154,7 @@ namespace SpookySkill.Core
         [SEvent.ButtonReleased]
         private static void ButtonReleased(object sender, ButtonReleasedEventArgs e)
         {
-            if (e.Button != ModEntry.Config.Key_Cast || !Game1.player.IsLocalPlayer)
+            if (e.Button != ModEntry.Config.Key_Cast || !Game1.player.IsLocalPlayer || Game1.eventUp)
                 return;
 
             Farmer player = Game1.player;
@@ -478,7 +478,7 @@ namespace SpookySkill.Core
                 }
             }
 
-            int randomValue = Math.Max(0, Game1.random.Next(finalList.Count));
+            int randomValue = Math.Max(0, Game1.random.Next(finalList.Count - 1));
 
             string item = finalList[randomValue];
 
