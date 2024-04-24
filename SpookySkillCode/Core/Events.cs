@@ -14,6 +14,7 @@ using StardewValley.Monsters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using xTile.Dimensions;
 using Log = BirbCore.Attributes.Log;
 
@@ -291,12 +292,16 @@ namespace SpookySkill.Core
             {
                 soundID = "wind";
             }
+            spookLevel = "level_4";
 
             bool jump = spookLevel == "level_3" || spookLevel == "level_4";
             player.currentLocation.playSound(soundID);
-            if (jump) monsterNPC.jump();
+            if (jump && !ModEntry.Config.DeScary)
+            {
+                Monster_Knockback(monsterNPC, 3f, player);
+            }
 
-
+            
 
             Monster_CreateLoot(monsterNPC, player, spookLevel);
 
@@ -309,6 +314,14 @@ namespace SpookySkill.Core
             int exp = ((int)(CalculateExpSpookLevel(spookLevel) * 0.33));
 
             Utilities.AddEXP(player, CalculateExpSpookLevel(spookLevel));
+        }
+
+        public static void Monster_Knockback(Monster monster, float knockBackModifier, Farmer who)
+        {
+            Microsoft.Xna.Framework.Rectangle boundingBox = monster.GetBoundingBox();
+            who.currentLocation.damageMonster(boundingBox, 0, 0, false, knockBackModifier, 100, 0f, 1f, triggerMonsterInvincibleTimer: false,  who);
+            monster.stunTime.Value += 200;
+
         }
 
         public static void Villager_SPOOKY(NPC npc, Farmer player)
@@ -333,6 +346,8 @@ namespace SpookySkill.Core
             }
             ///Get the spook level
             string spookLevel = GetSpookLevel(spookyRoll);
+
+            
 
             ///If the player has the zombie profession, they have a 50% chance of ignoring friendship lost
             bool zombieCharm = player.HasCustomProfession(Proffession5b) && Game1.random.NextDouble() < 0.5;
@@ -465,103 +480,111 @@ namespace SpookySkill.Core
 
         public static void Monster_CreateLoot(Monster npc, Farmer player, string spookLevel)
         {
-            var list = npc.objectsToDrop;
-            ///Add stone to the list so that there is always something on the list.
+            var lootList = new List<string>();
 
-            var finalList = new List<string>();
-
-            foreach (string thing in list)
+            // Define thresholds for different spook levels
+            Dictionary<string, int> spookThresholds = new Dictionary<string, int>
             {
-                if (thing != null && !thing.StartsWith('-') && ItemRegistry.GetData(thing) != null)
-                {
-                    finalList.Add(thing);
-                    finalList.Shuffle(Game1.random);
-                }
+                { "level_0", 100 },
+                { "level_1", 66 },
+                { "level_2", 33 },
+                { "level_3", 0 },
+                { "level_4", 0 } 
+            };
+
+            //Get the player level
+            int playerLevel = Utilities.GetLevel(player);
+
+            // Loot generation based on player level and profession
+            if (playerLevel >= 3)
+            {
+                AddLootFromList(lootList, Game1.NPCGiftTastes["Universal_Neutral"]);
             }
 
+            if (playerLevel >= 7)
+            {
+                AddLootFromList(lootList, Game1.NPCGiftTastes["Universal_Like"]);
+            }
+
+            if (player.HasCustomProfession(Proffession10b1))
+            {
+                AddLootFromList(lootList, Game1.NPCGiftTastes["Universal_Love"]);
+                lootList.AddRange(new List<string> { "516", "517", "518", "519", "520", "521", "522", "523", "524", "525", "526", "528", "529", "530", "531", "532", "533", "534" });
+            }
+
+            lootList.AddRange(npc.objectsToDrop);
+
+            // Filter out invalid items and select a random valid item
+            var validItems = lootList.Where(item => !string.IsNullOrEmpty(item) && !item.StartsWith('-') && ItemRegistry.GetData(item) != null).ToList();
+            lootList.Clear();
+            string selectedItem = validItems.RandomChoose(Game1.random, "766");
 
 
-            string item = finalList.RandomChoose(Game1.random, "766");
+            // Log the selected item
+            Log.Warn("Attempting to steal: " + ItemRegistry.GetData(selectedItem).DisplayName);
 
+            // Calculate spooky roll
+            int spookyRoll = playerLevel + playerLevel + Game1.random.Next(100);
 
-
-            Log.Warn("Attempting to steal: " + ItemRegistry.GetData(item).DisplayName);
-
-            int diceRoll = Game1.random.Next(100);
-            int spookyRoll = (Utilities.GetLevel(player) * 2) + diceRoll;
-
+            // Apply profession bonus
             if (player.HasCustomProfession(Proffession10b2))
             {
                 spookyRoll += 10;
             }
 
-            switch (spookLevel)
+            // Determine loot drop based on spook level
+            if (spookyRoll > spookThresholds[spookLevel])
             {
-                case "level_0":
-                    if (spookyRoll > 100)
-                    {
-                        Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
-                    }
-                    SetCooldown(player, 5);
-                    break;
-                case "level_1":
-                    if (spookyRoll > 66)
-                    {
-                        Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
-                    }
-                    SetCooldown(player, 4);
-                    break;
-                case "level_2":
-                    if (spookyRoll > 33)
-                    {
-                        Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
-                    }
-                    SetCooldown(player, 3);
-                    break;
-                case "level_3":
-                    if (spookyRoll > 0)
-                    {
-                        Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
-                    }
-                    SetCooldown(player, 2);
-                    break;
-                case "level_4":
+                if (spookLevel == "level_4")
+                {
                     int howMany = spookyRoll / 10;
-                    Game1.createMultipleObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, howMany, player.UniqueMultiplayerID, npc.currentLocation);
-                    SetCooldown(player, 1);
-                    break;
+                    Game1.createMultipleObjectDebris(selectedItem, npc.TilePoint.X, npc.TilePoint.Y, howMany, player.UniqueMultiplayerID, npc.currentLocation);
+                }
+                else
+                {
+                    Game1.createObjectDebris(selectedItem, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
+                }
+
+                // Set cooldown based on spook level
+                SetCooldown(player, 5 - Array.IndexOf(spookThresholds.Keys.ToArray(), spookLevel));
             }
+
+            // Display HUD message based on game configuration
             string line = ModEntry.Config.DeScary ? "moonslime.Spooky.Cooldown.Thieving.apply" : "moonslime.Spooky.Cooldown.Scaring.apply";
             Game1.addHUDMessage(HUDMessage.ForCornerTextbox(ModEntry.Instance.I18N.Get(line)));
-            return;
+        }
+
+        // Method to add items to loot list from a given list of items
+        private static void AddLootFromList(List<string> lootList, string itemList)
+        {
+            lootList.AddRange(ArgUtility.SplitBySpace(itemList));
+            lootList.Shuffle(Game1.random);
         }
 
         public static void CreateLoot(NPC npc, Farmer player, string spookLevel)
         {
-            var list = GetItemList(npc, player);
-
+            var lootList = GetItemList(npc, player);
             var finalList = new List<string>();
 
-            foreach (string thing in list)
+            foreach (string lootItem in lootList)
             {
-                if (thing != null && !thing.StartsWith('-') && ItemRegistry.GetData(thing) != null)
+                if (lootItem != null && !lootItem.StartsWith('-') && ItemRegistry.GetData(lootItem) != null)
                 {
-                    finalList.Add(thing);
-                    finalList.Shuffle(Game1.random);
+                    finalList.Add(lootItem);
                 }
             }
+            lootList.Clear();
 
+            finalList.Shuffle(Game1.random);
 
-            ///if the NPC is mayor Lewis, add his shorts to the list.
+            // Add Mayor Lewis' shorts to the list if the NPC is Lewis or Marnie
             if (npc.Name == "Lewis" || npc.Name == "Marnie")
             {
                 finalList.Add("789");
-                finalList.Shuffle(Game1.random);
             }
 
-            
-            string item = finalList.RandomChoose(Game1.random, "216");
-
+            // Select a random item from the final list
+            string item = finalList.Count > 0 ? finalList[Game1.random.Next(finalList.Count)] : null;
 
             int diceRoll = Game1.random.Next(100);
             int spookyRoll = (Utilities.GetLevel(player) * 2) + diceRoll;
@@ -571,47 +594,39 @@ namespace SpookySkill.Core
                 spookyRoll += 10;
             }
 
-            switch (spookLevel)
+            // Determine the cooldown duration based on spook level
+            int cooldownDuration = 5 - (spookLevel switch
             {
-                case "level_0":
-                    if (spookyRoll > 100)
-                    {
-                        Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
-                    }
-                    SetCooldown(player, 5);
-                    break;
-                case "level_1":
-                    if (spookyRoll > 66)
-                    {
-                        Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
-                    }
-                    SetCooldown(player, 4);
-                    break;
-                case "level_2":
-                    if (spookyRoll > 33)
-                    {
-                        Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
-                    }
-                    SetCooldown(player, 3);
-                    break;
-                case "level_3":
-                    if (spookyRoll > 0)
-                    {
-                        Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
-                    }
-                    SetCooldown(player, 2);
-                    break;
-                case "level_4":
+                "level_1" => 1,
+                "level_2" => 2,
+                "level_3" => 3,
+                "level_4" => 4,
+                _ => 0 // Default case for "level_0" or unrecognized spook levels
+            });
+
+            // Create object debris based on spooky roll
+            if (spookyRoll > 100 - (33 * cooldownDuration))
+            {
+                if (spookLevel == "level_4")
+                {
                     int howMany = spookyRoll / 10;
                     Game1.createMultipleObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, howMany, player.UniqueMultiplayerID, npc.currentLocation);
-                    SetCooldown(player, 1);
-                    break;
-
+                }
+                else
+                {
+                    Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
+                }
             }
-            string line = ModEntry.Config.DeScary ? "moonslime.Spooky.Cooldown.Thieving.apply" : "moonslime.Spooky.Cooldown.Scaring.apply";
-            Game1.addHUDMessage(HUDMessage.ForCornerTextbox(ModEntry.Instance.I18N.Get(line)));
-            player.modDataForSerialization.TryGetValue(Boo, out string value_1);
-            Log.Warn("Spooky skill cooldown is now set to: " + value_1);
+
+            SetCooldown(player, cooldownDuration);
+
+            string message = ModEntry.Config.DeScary ? "moonslime.Spooky.Cooldown.Thieving.apply" : "moonslime.Spooky.Cooldown.Scaring.apply";
+            Game1.addHUDMessage(HUDMessage.ForCornerTextbox(ModEntry.Instance.I18N.Get(message)));
+
+            if (player.modDataForSerialization.TryGetValue(Boo, out string value))
+            {
+                Log.Warn("Spooky skill cooldown is now set to: " + value);
+            }
         }
 
         public static List<string> GetItemList(NPC npc, Farmer player)
