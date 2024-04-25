@@ -175,6 +175,52 @@
                     "ContextTags": null,
                     "CustomFields": null
                 },
+				"moonslime.Archaeology.glass_fence": {
+                    "Name": "Glass Fence",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.glass_fence.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.glass_fence.description}}",
+                    "Type": "Crafting",
+                    "Category": 0,
+                    "Price": 10,
+                    "Texture": "Mods/moonslime.ArchaeologySkill/textures",
+                    "SpriteIndex": 3,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_brown"
+                    ],
+                    "CustomFields": null
+                },
+				"moonslime.Archaeology.bone_fence": {
+                    "Name": "Bone Fence",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.bone_fence.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.bone_fence.description}}",
+                    "Type": "Crafting",
+                    "Category": 0,
+                    "Price": 10,
+                    "Texture": "Mods/moonslime.ArchaeologySkill/textures",
+                    "SpriteIndex": 4,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_brown"
+                    ],
+                    "CustomFields": null
+                },
                 "moonslime.Archaeology.skill_book": {
                     "Name": "Digging Like Worms",
                     "DisplayName": "{{i18n:moonslime.Archaeology.skill_book.name}}",

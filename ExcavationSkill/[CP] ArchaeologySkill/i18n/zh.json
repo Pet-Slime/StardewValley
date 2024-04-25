@@ -30,6 +30,9 @@
 
     "moonslime.Archaeology.glass_fence.name": "玻璃围栏",
     "moonslime.Archaeology.glass_fence.description": "晶莹剔透玻璃围栏。",
+	
+    "moonslime.Archaeology.bone_fence.name": "Bone Fence",
+    "moonslime.Archaeology.bone_fence.description": "A creepy fence made up of bone.",
 
     "moonslime.Archaeology.rusty_scrap.name": "生锈碎块",
     "moonslime.Archaeology.rusty_scrap.description": "从研磨机上得到的生锈的碎块。",

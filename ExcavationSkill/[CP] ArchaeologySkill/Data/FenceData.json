@@ -5,22 +5,37 @@
             "Target": "Data/Fences",
             "Entries": {
                 "moonslime.Archaeology.glass_fence": {
-                    "Health": 100,
-					"itemId": "moonslime.Archaeology.glass_fence",
-                    "RepairHealthAdjustmentMinimum": -5,
-                    "RepairHealthAdjustmentMaximum": 5,
-                    "Texture": "Paths\\H_Archeology_Fences",
-                    "PlacementSound": "hammer",
-                    "RemovalSound": "hammer",
-                    "RemovalToolIds": [],
-                    "RemovalToolTypes": [
-                        "StardewValley.Tools.Pickaxe"
-                    ],
-                    "RemovalDebrisType": 12,
-                    "HeldObjectDrawOffset": "0, -20",
-                    "LeftEndHeldObjectDrawX": -1,
-                    "RightEndHeldObjectDrawX": 0
-                }
+				"Health": 28,
+				"RepairHealthAdjustmentMinimum": -5.0,
+				"RepairHealthAdjustmentMaximum": 5.0,
+				"Texture": "Paths\\H_Archeology_Fence_Glass",
+				"PlacementSound": "axe",
+				"RemovalSound": "axchop",
+				"RemovalToolIds": [],
+				"RemovalToolTypes": [
+					"StardewValley.Tools.Axe"
+				],
+				"RemovalDebrisType": 12,
+				"HeldObjectDrawOffset": "0, -20",
+				"LeftEndHeldObjectDrawX": -1.0,
+				"RightEndHeldObjectDrawX": 0.0
+				},
+				"moonslime.Archaeology.bone_fence": {
+				"Health": 28,
+				"RepairHealthAdjustmentMinimum": -5.0,
+				"RepairHealthAdjustmentMaximum": 5.0,
+				"Texture": "Paths\\H_Archeology_Fence_Bone",
+				"PlacementSound": "axe",
+				"RemovalSound": "axchop",
+				"RemovalToolIds": [],
+				"RemovalToolTypes": [
+					"StardewValley.Tools.Axe"
+				],
+				"RemovalDebrisType": 12,
+				"HeldObjectDrawOffset": "0, -20",
+				"LeftEndHeldObjectDrawX": -1.0,
+				"RightEndHeldObjectDrawX": 0.0
+				}
             }
         }
     ]
