@@ -18,6 +18,20 @@ using static BirbCore.Attributes.SMod;
 namespace ArchaeologySkill.Core
 {
 
+    [HarmonyPatch(typeof(StardewValley.Object), "_PopulateContextTags")]
+    class PopulateContextTags_patch
+    {
+        [HarmonyLib.HarmonyPostfix]
+        public static void Postfix(StardewValley.Object __instance, ref HashSet<string> tags)
+        {
+            if (__instance.Type == "Arch")
+            {
+                tags.Add("type_Arch");
+            }
+        }
+    }
+
+
     [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.checkForBuriedItem))]
     class CheckForBuriedItem_Base_patch
     {

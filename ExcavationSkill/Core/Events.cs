@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using ArchaeologySkill.Objects.Water_Shifter;
+using ArchaeologySkill.Objects.Restoration_Table;
 using BirbCore.Attributes;
 using Microsoft.Xna.Framework.Graphics;
 using MoonShared.APIs;
@@ -28,10 +29,12 @@ namespace ArchaeologySkill.Core
         [SEvent.GameLaunchedLate]
         private static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
-
+            
             var sc = ModEntry.Instance.Helper.ModRegistry.GetApi<ISpaceCoreApi>("spacechase0.SpaceCore");
             sc.RegisterSerializerType(typeof(WaterShifter));
+            sc.RegisterSerializerType(typeof(RestorationTable));
             ArchaeologySkill.Objects.Water_Shifter.Patches.Patch(ModEntry.Instance.Helper);
+            ArchaeologySkill.Objects.Restoration_Table.Patches.Patch(ModEntry.Instance.Helper);
 
             ModEntry.ItemDefinitions = ModEntry.Assets.ItemDefinitions;
 
