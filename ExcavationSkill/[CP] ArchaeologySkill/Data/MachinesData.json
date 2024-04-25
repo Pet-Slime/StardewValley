@@ -611,7 +611,7 @@
                                 {
                                     "Id": "ItemPlacedInMachine",
                                     "Trigger": "ItemPlacedInMachine",
-                                    "RequiredItemId": "(O)113",
+                                    "RequiredItemId": "(O)105",
                                     "RequiredCount": 1
                                 }
                             ],
@@ -632,7 +632,7 @@
                                 {
                                     "Id": "ItemPlacedInMachine",
                                     "Trigger": "ItemPlacedInMachine",
-                                    "RequiredItemId": "(O)114",
+                                    "RequiredItemId": "(O)113",
                                     "RequiredCount": 1
                                 }
                             ],
@@ -1741,7 +1741,7 @@
                                 {
                                     "Id": "ItemPlacedInMachine",
                                     "Trigger": "ItemPlacedInMachine",
-                                    "RequiredItemId": "(O)113",
+                                    "RequiredItemId": "(O)105",
                                     "RequiredCount": 1
                                 }
                             ],
