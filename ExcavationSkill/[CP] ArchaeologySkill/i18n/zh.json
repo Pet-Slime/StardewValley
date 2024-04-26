@@ -4,6 +4,9 @@
     "moonslime.Archaeology.water_shifter.name": "水筛",
     "moonslime.Archaeology.water_shifter.description": "把它放在水中，系上纤维，第二天检查它是否有任何东西。\n在河流、湖泊和海洋中工作。",
 
+    "moonslime.Archaeology.restoration_table.name": "Restoration Table",
+    "moonslime.Archaeology.restoration_table.description": "A table to study, clean up, and restore an artifact's quality.",
+	
     "moonslime.Archaeology.glass_path.name": "玻璃小径",
     "moonslime.Archaeology.glass_path.description": "放在地上修建小路，也可以装饰地板。",
 

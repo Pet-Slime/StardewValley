@@ -82,7 +82,18 @@
 					"torch_item"
 					],
 					"CustomFields": null
-                }
+                },
+				"moonslime.Archaeology.restoration_table": {
+                    "Name": "Restoration Table",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.restoration_table.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.restoration_table.description}}",
+					"Price": 0,
+					"Fragility": 0,
+					"CanBePlacedOutdoors": true,
+					"CanBePlacedIndoors": true,
+                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
+                    "SpriteIndex": 14
+                },
             }
         },
         {

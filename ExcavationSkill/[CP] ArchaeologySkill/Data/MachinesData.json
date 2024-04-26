@@ -4,6 +4,77 @@
             "Action": "EditData",
             "Target": "Data/Machines",
             "Entries": {
+                "(BC)moonslime.Archaeology.restoration_table": {
+                    "HasInput": false,
+                    "HasOutput": false,
+                    "InteractMethod": null,
+                    "OutputRules": [
+                        {
+                            "Id": "fossil_item",
+                            "Triggers": [
+                                {
+                                    "Id": "ItemPlacedInMachine",
+                                    "Trigger": "ItemPlacedInMachine",
+                                    "RequiredItemId": null,
+                                    "RequiredTags": [
+                                        "type_Arch"
+                                    ],
+                                    "RequiredCount": 1,
+                                    "Condition": null
+                                }
+                            ],
+                            "UseFirstValidOutput": false,
+                            "OutputItem": [
+                                {
+                                    "CustomData": {
+                                        "AgingMultiplier": "8"
+                                    },
+                                    "OutputMethod": "ArchaeologySkill.Objects.Restoration_Table.RestorationTable, ArchaeologySkillCode: OutputCask",
+                                    "CopyColor": false,
+                                    "CopyPrice": false,
+                                    "CopyQuality": false,
+                                    "PreserveType": null,
+                                    "PreserveId": null,
+                                    "IncrementMachineParentSheetIndex": 0,
+                                    "PriceModifiers": null,
+                                    "PriceModifierMode": "Stack",
+                                    "Condition": null,
+                                    "Id": "Default",
+                                    "ItemId": null,
+                                    "RandomItemId": null,
+                                    "MaxItems": null,
+                                    "MinStack": -1,
+                                    "MaxStack": -1,
+                                    "Quality": -1,
+                                    "ObjectInternalName": null,
+                                    "ObjectDisplayName": null,
+                                    "ToolUpgradeLevel": -1,
+                                    "IsRecipe": false,
+                                    "StackModifiers": null,
+                                    "StackModifierMode": "Stack",
+                                    "QualityModifiers": null,
+                                    "QualityModifierMode": "Stack",
+                                    "ModData": null,
+                                    "PerItemCondition": null
+                                }
+                            ],
+                            "MinutesUntilReady": -1,
+                            "DaysUntilReady": -1,
+                            "InvalidCountMessage": null,
+                            "RecalculateOnCollect": false
+                        }
+                    ],
+                    "AdditionalConsumedItems": null,
+                    "WobbleWhileWorking": false,
+                    "ShowNextIndexWhileWorking": true,
+                    "ShowNextIndexWhenReady": true,
+                    "PreventTimePass": null,
+                    "ReadyTimeModifiers": null,
+                    "ReadyTimeModifierMode": "Stack",
+                    "InvalidItemMessage": null,
+                    "InvalidItemMessageCondition": null,
+                    "InvalidCountMessage": null
+                },
                 "(BC)moonslime.Archaeology.ancient_battery": {
                     "OutputRules": [
                         {
@@ -32,12 +103,12 @@
                         {
                             "ItemId": "(O)350",
                             "RequiredCount": 1,
-							"InvalidCountMessage": "{{i18n: moonslime.Archaeology.ancient_battery.need_item}}"
+                            "InvalidCountMessage": "{{i18n: moonslime.Archaeology.ancient_battery.need_item}}"
                         }
                     ],
                     "WobbleWhileWorking": true,
-					"ShowNextIndexWhileWorking": true,
-					"ShowNextIndexWhenReady": true,
+                    "ShowNextIndexWhileWorking": true,
+                    "ShowNextIndexWhenReady": true,
                     "LoadEffects": [
                         {
                             "Id": "Default",
@@ -408,7 +479,7 @@
                         {
                             "ItemId": "(O)382",
                             "RequiredCount": 1,
-							"InvalidCountMessage": "{{i18n: moonslime.Archaeology.grinder.need_item}}"
+                            "InvalidCountMessage": "{{i18n: moonslime.Archaeology.grinder.need_item}}"
                         }
                     ],
                     "WobbleWhileWorking": true,
@@ -1513,7 +1584,7 @@
                         {
                             "ItemId": "(O)moonslime.Archaeology.w_display",
                             "RequiredCount": 1,
-							"InvalidCountMessage": "{{i18n: moonslime.Archaeology.preservation_chamber.need_item}}"
+                            "InvalidCountMessage": "{{i18n: moonslime.Archaeology.preservation_chamber.need_item}}"
                         }
                     ],
                     "WobbleWhileWorking": true,
@@ -2643,7 +2714,7 @@
                         {
                             "ItemId": "(O)moonslime.Archaeology.h_display",
                             "RequiredCount": 1,
-							"InvalidCountMessage": "{{i18n: moonslime.Archaeology.h_preservation_chamber.need_item}}"
+                            "InvalidCountMessage": "{{i18n: moonslime.Archaeology.h_preservation_chamber.need_item}}"
                         }
                     ],
                     "WobbleWhileWorking": true,

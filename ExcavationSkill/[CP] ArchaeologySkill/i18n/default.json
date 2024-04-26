@@ -4,6 +4,9 @@
     "moonslime.Archaeology.water_shifter.name": "Water Sifter",
     "moonslime.Archaeology.water_shifter.description": "Place it in the water, string it with fiber, and check the next day to see it has anything. \nWorks in streams, lakes, and the ocean.",
 
+    "moonslime.Archaeology.restoration_table.name": "Restoration Table",
+    "moonslime.Archaeology.restoration_table.description": "A table to study, clean up, and restore an artifact's quality.",
+
     "moonslime.Archaeology.glass_path.name": "Glass Path",
     "moonslime.Archaeology.glass_path.description": "Place on the ground to create paths or to spruce up your floors.",
 

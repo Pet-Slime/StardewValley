@@ -1,5 +1,4 @@
 using BirbCore.Attributes;
-using HarmonyLib;
 using Microsoft.Xna.Framework;
 using MoonShared;
 using SpaceCore;
@@ -7,17 +6,11 @@ using SpaceCore.Interface;
 using SpookySkillCode.Objects;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.BellsAndWhistles;
 using StardewValley.Extensions;
-using StardewValley.GameData.Objects;
-using StardewValley.ItemTypeDefinitions;
 using StardewValley.Monsters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using xTile.Dimensions;
-using static SpaceCore.Skills;
 using Log = BirbCore.Attributes.Log;
 
 namespace SpookySkill.Core
@@ -94,6 +87,7 @@ namespace SpookySkill.Core
                 return;
 
             var farmer = Game1.getFarmer(Game1.player.UniqueMultiplayerID);
+
             if (!farmer.modDataForSerialization.TryGetValue(Boo, out string value))
                 return;
 
@@ -110,10 +104,11 @@ namespace SpookySkill.Core
             }
         }
 
+
         [SEvent.ButtonReleased]
         private static void ButtonReleased(object sender, ButtonReleasedEventArgs e)
         {
-            if (e.Button != ModEntry.Config.Key_Cast || !Game1.player.IsLocalPlayer)
+            if (e.Button != ModEntry.Config.Key_Cast || !Game1.player.IsLocalPlayer || Game1.eventUp)
                 return;
 
             Farmer player = Game1.player;
@@ -256,6 +251,9 @@ namespace SpookySkill.Core
                 diceRoll += 10;
             }
 
+            // Calculate light levels
+            diceRoll += NightTimeAdjustment(diceRoll, player);
+
             // Set the spookyLevel string to 0 for now...
             string spookLevel = "level_0";
 
@@ -310,8 +308,6 @@ namespace SpookySkill.Core
             Utilities.AddEXP(player, exp);
         }
 
-
-
         public static void Villager_SPOOKY(NPC npc, Farmer player)
         {
             // Get the random dice roll from 0 to 99
@@ -331,6 +327,9 @@ namespace SpookySkill.Core
                 diceRoll += 10;
             }
 
+            // Calculate light levels
+            diceRoll += NightTimeAdjustment(diceRoll, player);
+
             // Set the spook level string to the default value
             string spookLevel = "level_0";
 
@@ -347,8 +346,9 @@ namespace SpookySkill.Core
             if (ModEntry.Config.DeScary)
             {
                 soundID = "wind";
+                Log.Trace($"Scaring/Thieving: Dice roll with bonuses is... {diceRoll}");
                 spookLevel = GetSpookLevel(diceRoll);
-
+                Log.Trace($"Scaring/Thieving: Level of Success is... {spookLevel}");
                 #region Player Skill Feedback
 
                 // This section is to give feedback to the player
@@ -366,8 +366,12 @@ namespace SpookySkill.Core
                 // Fall adjustment for the spooky roll
                 diceRoll = FallAdjustment(diceRoll);
 
+                Log.Trace($"Scaring/Thieving: Dice roll with bonuses is... {diceRoll}");
+
+                // Get the spook level
                 spookLevel = GetSpookLevel(diceRoll);
 
+                Log.Trace($"Scaring/Thieving: Level of Success is... {spookLevel}");
                 // People are moer in the mood to get scared during the fall
                 friendshipLost = FallAdjustment(friendshipLost);
 
@@ -434,18 +438,38 @@ namespace SpookySkill.Core
             Utilities.AddEXP(player, CalculateExpSpookLevel(spookLevel));
         }
 
+
+        public static int NightTimeAdjustment(int value, Farmer who)
+        {
+            if (who.currentLocation.IsOutdoors )
+            {
+                if (Game1.isDarkOut(who.currentLocation))
+                {
+                    value += 5;
+                } else
+                {
+                    value -= 5;
+                }
+            }
+
+            return value;
+        }
+
+
+
+
         private static int FallAdjustment(int value)
         {
             // People are more in the mood to get scared during the fall
             // You are also more scary in the fall
             if (Game1.currentSeason == "fall")
             {
-                value += 5;
+                value += 10;
                 // People are moer in the mood to get scared on Spirit's Eve
                 // You are also more scary on Spirit's Eve
                 if (Game1.dayOfMonth == 27)
                 {
-                    value += 5;
+                    value += 10;
                 }
             }
             return value;
@@ -699,7 +723,7 @@ namespace SpookySkill.Core
             if (spookyLevel <= 24) return "level_0";
             if (spookyLevel <= 55) return "level_1";
             if (spookyLevel <= 90) return "level_2";
-            if (spookyLevel <= 100) return "level_3";
+            if (spookyLevel <= 110) return "level_3";
             return "level_4";
         }
 
@@ -707,18 +731,19 @@ namespace SpookySkill.Core
         private static int CalculateFriendshipChangeDirectional(string facingSide, bool zombieCharm)
         {
             int friendshipLost = 0;
-            if (facingSide == "side") friendshipLost += zombieCharm ? 0 : -4;
-            if (facingSide == "front") friendshipLost += zombieCharm ? 0 : -8;
-            if (facingSide == "back") friendshipLost += zombieCharm ? 0 : -2; ///the player feels guilty about it so they still loose friendship even if hidden from the NPC
+            if (facingSide == "side") friendshipLost += zombieCharm ? 0 : -6;
+            if (facingSide == "front") friendshipLost += zombieCharm ? 0 : -12;
+            if (facingSide == "back") friendshipLost += zombieCharm ? 0 : -3; ///the player feels guilty about it so they still loose friendship even if hidden from the NPC
             return friendshipLost;
         }
 
         // Method to calculate the change of friendship based the spook level
         private static int CalculateFriendshipSpookLevel(int friendshipLost, string facingSide, bool zombieCharm)
         {
-            if (facingSide == "level_0") friendshipLost += zombieCharm ? 0 : -8;
-            if (facingSide == "level_1") friendshipLost += zombieCharm ? 0 : -4;
-            if (facingSide == "level_2") friendshipLost += zombieCharm ? 0 : -2;
+            if (facingSide == "level_0") friendshipLost += zombieCharm ? 0 : -16;
+            if (facingSide == "level_1") friendshipLost += zombieCharm ? 0 : -8;
+            if (facingSide == "level_2") friendshipLost += zombieCharm ? 0 : -4;
+            if (facingSide == "level_3") friendshipLost += zombieCharm ? 0 : -2;
             return friendshipLost;
         }
 
