@@ -15,31 +15,12 @@ namespace LuckSkill
         {
             var farmer = Game1.getFarmer(who.UniqueMultiplayerID);
             SpaceCore.Skills.AddExperience(farmer, "moonslime.Luck", amount);
-            MasteryEXPCheck(farmer, amount);
         }
 
         public static int GetLevel(StardewValley.Farmer who)
         {
             var player = Game1.getFarmer(who.UniqueMultiplayerID);
             return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Luck");
-        }
-
-        public static void MasteryEXPCheck(Farmer who, int howMuch)
-        {
-            if (who.Level >= 25)
-            {
-                int currentMasteryLevel = MasteryTrackerMenu.getCurrentMasteryLevel();
-                Game1.stats.Increment("MasteryExp", howMuch);
-                if (MasteryTrackerMenu.getCurrentMasteryLevel() > currentMasteryLevel)
-                {
-                    Game1.showGlobalMessage(Game1.content.LoadString("Strings\\1_6_Strings:Mastery_newlevel"));
-                    Game1.playSound("newArtifact");
-                }
-            }
-            else
-            {
-                Game1.stats.Set("MasteryExp", 0);
-            }
         }
     }
 }

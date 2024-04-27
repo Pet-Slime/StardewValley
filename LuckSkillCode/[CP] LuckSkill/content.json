@@ -2,6 +2,10 @@
     "Format": "2.0.0",
     "Changes": [
         {
+            "Action": "Include",
+            "FromFile": "Data/ObjectsData.json, Data/CraftingData.json, Data/MachinesData.json"
+        },
+        {
             "LogName": "Buff Luck Icon",
             "Action": "EditImage",
             "Target": "TileSheets/BuffsIcons",

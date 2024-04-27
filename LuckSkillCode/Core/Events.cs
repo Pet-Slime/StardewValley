@@ -61,32 +61,33 @@ namespace LuckSkill.Core
                 return;
 
             Farmer farmer = Game1.getFarmer(Game1.player.UniqueMultiplayerID);
-            Utilities.AddEXP(farmer, ((int)(farmer.team.sharedDailyLuck.Value * 750)));
+            int exp = (int)(farmer.team.sharedDailyLuck.Value * ModEntry.Config.DailyLuckExpBonus);
+            Utilities.AddEXP(farmer, exp);
 
             if (farmer.HasCustomProfession(Luck_Skill.Luck5a))
             {
                 farmer.team.sharedDailyLuck.Value += 0.01;
+
+                //The player can only ever have profession 10a2 if they have profession 5a
+                if (farmer.HasCustomProfession(Luck_Skill.Luck10a2))
+                {
+                    if (farmer.team.sharedDailyLuck.Value < 0)
+                        farmer.team.sharedDailyLuck.Value = 0;
+                }
             }
+
             if (farmer.HasCustomProfession(Luck_Skill.Luck10a1))
             {
                 Random r = new Random((int)(Game1.uniqueIDForThisGame + Game1.stats.DaysPlayed * 3));
                 if (r.NextDouble() <= 0.20)
                 {
-                    farmer.team.sharedDailyLuck.Value = 0.12;
+                    farmer.team.sharedDailyLuck.Value = Math.Max(farmer.team.sharedDailyLuck.Value, 0.12);
                 }
             }
-            if (farmer.HasCustomProfession(Luck_Skill.Luck10a2))
-            {
-                if (farmer.team.sharedDailyLuck.Value < 0)
-                    farmer.team.sharedDailyLuck.Value = 0;
-            }
+
             if (farmer.HasCustomProfession(Luck_Skill.Luck5b) && Game1.questOfTheDay == null)
             {
-                if (Utility.isFestivalDay(Game1.dayOfMonth, Game1.season) || Utility.isFestivalDay(Game1.dayOfMonth + 1, Game1.season))
-                {
-                    // Vanilla code doesn't put quests on these days.
-                }
-                else
+                if (!(Utility.isFestivalDay(Game1.dayOfMonth, Game1.season) || Utility.isFestivalDay(Game1.dayOfMonth + 1, Game1.season)))
                 {
                     Quest quest = null;
                     for (uint i = 1; i < 3 && quest == null; ++i)
@@ -101,67 +102,43 @@ namespace LuckSkill.Core
                     }
                 }
             }
+
             LuckSkill(farmer);
         }
 
         private static Quest GetQuestOfTheDay(uint seedEnhancer = 0)
         {
             if (Game1.stats.DaysPlayed <= 1)
-            {
                 return null;
-            }
 
-            double num = Utility.CreateDaySaveRandom(100.0, Game1.stats.DaysPlayed * 777, seedEnhancer * 99999).NextDouble();
+            double num = Utility.CreateDaySaveRandom(100.0, Game1.stats.DaysPlayed * 777, seedEnhancer * 999).NextDouble();
+
             if (num < 0.08)
-            {
                 return new ResourceCollectionQuest();
-            }
 
             if (num < 0.2 && MineShaft.lowestLevelReached > 0 && Game1.stats.DaysPlayed > 5)
-            {
                 return new SlayMonsterQuest();
-            }
-
-            if (num < 0.5)
-            {
-                return null;
-            }
 
             if (num < 0.6)
-            {
-                return new FishingQuest();
-            }
+                return new ItemDeliveryQuest();
 
             if (num < 0.66 && Game1.shortDayNameFromDayOfSeason(Game1.dayOfMonth).Equals("Mon"))
             {
-                bool flag = false;
                 foreach (Farmer allFarmer in Game1.getAllFarmers())
                 {
                     foreach (Quest item in allFarmer.questLog)
                     {
                         if (item is SocializeQuest)
-                        {
-                            flag = true;
-                            break;
-                        }
-                    }
-
-                    if (flag)
-                    {
-                        break;
+                            return new ItemDeliveryQuest();
                     }
                 }
-
-                if (!flag)
-                {
-                    return new SocializeQuest();
-                }
-
-                return new ItemDeliveryQuest();
+                return new SocializeQuest();
             }
 
             return new ItemDeliveryQuest();
         }
+
+
 
         private static void ChangeFarmEvent(object sender, EventArgsChooseNightlyFarmEvent args)
         {
@@ -190,42 +167,45 @@ namespace LuckSkill.Core
         private static FarmEvent PickFarmEvent(int seedEnhancer)
         {
             Random random = new Random((int)Game1.stats.DaysPlayed + (int)Game1.uniqueIDForThisGame / 2 + seedEnhancer);
-            if (Game1.weddingToday)
+
+            if (Game1.weddingToday || Game1.getOnlineFarmers().Any(farmer => farmer.GetSpouseFriendship()?.IsMarried() ?? false))
                 return null;
-            foreach (Farmer onlineFarmer in Game1.getOnlineFarmers())
-            {
-                Friendship spouseFriendship = onlineFarmer.GetSpouseFriendship();
-                if (spouseFriendship != null && spouseFriendship.IsMarried() && spouseFriendship.WeddingDate == Game1.Date)
-                    return null;
-            }
+
             if (Game1.stats.DaysPlayed == 31U)
                 return new SoundInTheNightEvent(4);
-            if (Game1.player.mailForTomorrow.Contains("jojaPantry%&NL&%") || Game1.player.mailForTomorrow.Contains("jojaPantry"))
-                return new WorldChangeEvent(0);
-            if (Game1.player.mailForTomorrow.Contains("ccPantry%&NL&%") || Game1.player.mailForTomorrow.Contains("ccPantry"))
-                return new WorldChangeEvent(1);
-            if (Game1.player.mailForTomorrow.Contains("jojaVault%&NL&%") || Game1.player.mailForTomorrow.Contains("jojaVault"))
-                return new WorldChangeEvent(6);
-            if (Game1.player.mailForTomorrow.Contains("ccVault%&NL&%") || Game1.player.mailForTomorrow.Contains("ccVault"))
-                return new WorldChangeEvent(7);
-            if (Game1.player.mailForTomorrow.Contains("jojaBoilerRoom%&NL&%") || Game1.player.mailForTomorrow.Contains("jojaBoilerRoom"))
-                return new WorldChangeEvent(2);
-            if (Game1.player.mailForTomorrow.Contains("ccBoilerRoom%&NL&%") || Game1.player.mailForTomorrow.Contains("ccBoilerRoom"))
-                return new WorldChangeEvent(3);
-            if (Game1.player.mailForTomorrow.Contains("jojaCraftsRoom%&NL&%") || Game1.player.mailForTomorrow.Contains("jojaCraftsRoom"))
-                return new WorldChangeEvent(4);
-            if (Game1.player.mailForTomorrow.Contains("ccCraftsRoom%&NL&%") || Game1.player.mailForTomorrow.Contains("ccCraftsRoom"))
-                return new WorldChangeEvent(5);
-            if (Game1.player.mailForTomorrow.Contains("jojaFishTank%&NL&%") || Game1.player.mailForTomorrow.Contains("jojaFishTank"))
-                return new WorldChangeEvent(8);
-            if (Game1.player.mailForTomorrow.Contains("ccFishTank%&NL&%") || Game1.player.mailForTomorrow.Contains("ccFishTank"))
-                return new WorldChangeEvent(9);
-            if (Game1.player.mailForTomorrow.Contains("ccMovieTheaterJoja%&NL&%") || Game1.player.mailForTomorrow.Contains("jojaMovieTheater"))
-                return new WorldChangeEvent(10);
-            if (Game1.player.mailForTomorrow.Contains("ccMovieTheater%&NL&%") || Game1.player.mailForTomorrow.Contains("ccMovieTheater"))
-                return new WorldChangeEvent(11);
+
+            var mailForTomorrow = Game1.player.mailForTomorrow;
+            switch (mailForTomorrow)
+            {
+                case var mail when mail.Contains("jojaPantry"):
+                    return new WorldChangeEvent(0);
+                case var mail when mail.Contains("ccPantry"):
+                    return new WorldChangeEvent(1);
+                case var mail when mail.Contains("jojaVault"):
+                    return new WorldChangeEvent(6);
+                case var mail when mail.Contains("ccVault"):
+                    return new WorldChangeEvent(7);
+                case var mail when mail.Contains("jojaBoilerRoom"):
+                    return new WorldChangeEvent(2);
+                case var mail when mail.Contains("ccBoilerRoom"):
+                    return new WorldChangeEvent(3);
+                case var mail when mail.Contains("jojaCraftsRoom"):
+                    return new WorldChangeEvent(4);
+                case var mail when mail.Contains("ccCraftsRoom"):
+                    return new WorldChangeEvent(5);
+                case var mail when mail.Contains("jojaFishTank"):
+                    return new WorldChangeEvent(8);
+                case var mail when mail.Contains("ccFishTank"):
+                    return new WorldChangeEvent(9);
+                case var mail when mail.Contains("ccMovieTheaterJoja"):
+                    return new WorldChangeEvent(10);
+                case var mail when mail.Contains("ccMovieTheater"):
+                    return new WorldChangeEvent(11);
+            }
+
             if (Game1.MasterPlayer.eventsSeen.Contains("191393") && (Game1.isRaining || Game1.isLightning) && (!Game1.MasterPlayer.mailReceived.Contains("abandonedJojaMartAccessible") && !Game1.MasterPlayer.mailReceived.Contains("ccMovieTheater")))
                 return new WorldChangeEvent(12);
+
             if (random.NextDouble() < 0.01 && !Game1.currentSeason.Equals("winter"))
                 return new FairyEvent();
             if (random.NextDouble() < 0.01)
@@ -236,35 +216,34 @@ namespace LuckSkill.Core
                 return new SoundInTheNightEvent(0);
             if (random.NextDouble() < 0.01)
                 return new SoundInTheNightEvent(3);
+
             return null;
         }
 
         [SEvent.DayEnding]
         private void OnDayEnding(object sender, DayEndingEventArgs args)
         {
-
             if (!Game1.player.IsLocalPlayer)
                 return;
+
             var farmer = Game1.getFarmer(Game1.player.UniqueMultiplayerID);
 
-            LuckSkill(farmer);
-            if (farmer.HasCustomProfession(Luck_Skill.Luck10b2))
+            if (!farmer.HasCustomProfession(Luck_Skill.Luck10b2))
+                return;
+
+            Random random = new Random((int)(Game1.uniqueIDForThisGame + Game1.stats.DaysPlayed));
+            int rolls = 0;
+
+            foreach (var data in farmer.friendshipData.Values)
             {
-                int rolls = 0;
-                foreach (string friendKey in farmer.friendshipData.Keys)
-                {
-                    var data = farmer.friendshipData[friendKey];
-                    if (data.GiftsToday > 0)
-                        rolls++;
-                }
+                if (data.GiftsToday > 0)
+                    rolls++;
+            }
 
-                Random r = new Random((int)(Game1.uniqueIDForThisGame + Game1.stats.DaysPlayed));
-                while (rolls-- > 0)
+            while (rolls-- > 0)
+            {
+                if (random.NextDouble() <= 0.15)
                 {
-                    if (r.NextDouble() > 0.15)
-                        continue;
-                    rolls = 0;
-
                     void AdvanceCrops()
                     {
                         List<GameLocation> locs = new List<GameLocation>();
@@ -310,7 +289,7 @@ namespace LuckSkill.Core
                                 }
                             }
                         }
-                        
+
                         Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("JunimoRewards_GrowCrops"));
                     }
 
@@ -346,13 +325,14 @@ namespace LuckSkill.Core
                         Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("JunimoRewards_GrowGrass"));
                     }
 
-                    if (r.Next() <= 0.05 && Game1.player.addItemToInventoryBool(new StardewValley.Object(StardewValley.Object.prismaticShardID, 1)))
+                    if (random.NextDouble() <= 0.05 && Game1.player.addItemToInventoryBool(new StardewValley.Object(StardewValley.Object.prismaticShardID, 1)))
                     {
                         Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("JunimoRewards_PrismaticShard"));
                         continue;
                     }
 
-                    var animalHouses = new List<AnimalHouse>();
+                    List<Action> choices = new List<Action> { AdvanceCrops, AdvanceCrops, AdvanceCrops };
+
                     foreach (var loc in Game1.locations)
                     {
                         if (loc.IsBuildableLocation())
@@ -362,6 +342,7 @@ namespace LuckSkill.Core
                                 if (building.indoors.Value is AnimalHouse ah)
                                 {
                                     bool foundAnimalWithRoomForGrowth = false;
+
                                     foreach (var animal in ah.Animals.Values)
                                     {
                                         if (animal.friendshipTowardFarmer.Value < 1000)
@@ -370,50 +351,42 @@ namespace LuckSkill.Core
                                             break;
                                         }
                                     }
+
                                     if (foundAnimalWithRoomForGrowth)
-                                        animalHouses.Add(ah);
+                                        choices.Add(() => AdvanceBarn(ah));
                                 }
                             }
                         }
                     }
 
-                    List<Action> choices = new() { AdvanceCrops, AdvanceCrops, AdvanceCrops };
-                    foreach (var ah in animalHouses)
-                    {
-                        choices.Add(() => AdvanceBarn(ah));
-                    }
                     choices.Add(GrassAndFences);
-
-                    choices[r.Next(choices.Count)]();
+                    choices[random.Next(choices.Count)]();
+                    break;
                 }
             }
         }
 
 
-        private static void LuckSkill(Farmer who)
+
+        private static void LuckSkill(Farmer farmer)
         {
-            Farmer farmer = Game1.getFarmer(who.UniqueMultiplayerID);
             if (farmer != null && farmer.IsLocalPlayer)
             {
-                if (!farmer.modDataForSerialization.ContainsKey("moonslime.LuckSkill.skillValue"))
+                if (farmer.modDataForSerialization.TryGetValue("moonslime.LuckSkill.skillValue", out string storedSkillValue))
                 {
-                    farmer.modDataForSerialization.TryAdd("moonslime.LuckSkill.skillValue", Utilities.GetLevel(farmer).ToString());
+                    int storedSkillLevel = int.Parse(storedSkillValue);
+                    int currentSkillLevel = Utilities.GetLevel(farmer);
+
+                    if (currentSkillLevel != storedSkillLevel)
+                    {
+                        farmer.luckLevel.Value -= storedSkillLevel;
+                        farmer.luckLevel.Value += currentSkillLevel;
+                        farmer.modDataForSerialization["moonslime.LuckSkill.skillValue"] = currentSkillLevel.ToString();
+                    }
                 }
                 else
                 {
-                    farmer.modDataForSerialization.TryGetValue("moonslime.LuckSkill.skillValue", out string value_1);
-                    int storedskillLevel = int.Parse(value_1);
-
-                    int currnentSkillLevel = Utilities.GetLevel(Game1.player);
-
-                    if (currnentSkillLevel != storedskillLevel)
-                    {
-                        farmer.luckLevel.Value -= storedskillLevel;
-                        farmer.luckLevel.Value += currnentSkillLevel;
-                        farmer.modDataForSerialization.Remove("moonslime.LuckSkill.skillValue");
-                        farmer.modDataForSerialization.TryAdd("moonslime.LuckSkill.skillValue", currnentSkillLevel.ToString());
-
-                    }
+                    farmer.modDataForSerialization["moonslime.LuckSkill.skillValue"] = Utilities.GetLevel(farmer).ToString();
                 }
             }
         }

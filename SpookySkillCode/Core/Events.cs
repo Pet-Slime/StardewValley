@@ -97,7 +97,7 @@ namespace SpookySkill.Core
             if (storedCooldown != 0) { SetCooldown(farmer, 0); }
         }
 
-            [SEvent.TimeChanged]
+        [SEvent.TimeChanged]
         private static void TimeChanged(object sender, TimeChangedEventArgs e)
         {
             if (!Game1.player.IsLocalPlayer)
