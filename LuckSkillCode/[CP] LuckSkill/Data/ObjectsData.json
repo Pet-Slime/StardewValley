@@ -14,7 +14,7 @@
                     "DisplayName": "{{i18n:moonslime.Luck.slots_copper.name}}",
                     "Description": "{{i18n:moonslime.Luck.slots_copper.description}}",
                     "Price": 1350,
-                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
+                    "Texture": "Mods/moonslime.LuckSkill/textures",
                     "SpriteIndex": 0
                 },
                 "moonslime.Luck.slots_gold": {
@@ -22,7 +22,7 @@
                     "DisplayName": "{{i18n:moonslime.Luck.slots_gold.name}}",
                     "Description": "{{i18n:moonslime.Luck.slots_gold.description}}",
                     "Price": 7000,
-                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
+                    "Texture": "Mods/moonslime.LuckSkill/textures",
                     "SpriteIndex": 3
                 },
                 "moonslime.Luck.slots_iridium": {
@@ -30,15 +30,15 @@
                     "DisplayName": "{{i18n:moonslime.Luck.slots_iridium.name}}",
                     "Description": "{{i18n:moonslime.Luck.slots_iridium.description}}",
                     "Price": 30000,
-                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
+                    "Texture": "Mods/moonslime.LuckSkill/textures",
                     "SpriteIndex": 6
                 },
                 "moonslime.Luck.slots_radioactive": {
-                    "Name": "Radioative Slot Mahcine",
+                    "Name": "Radioative Slot Machine",
                     "DisplayName": "{{i18n:moonslime.Luck.slots_radioactive.name}}",
                     "Description": "{{i18n:moonslime.Luck.slots_radioactive.description}}",
                     "Price": 98000,
-                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
+                    "Texture": "Mods/moonslime.LuckSkill/textures",
                     "SpriteIndex": 9
                 }
             }
