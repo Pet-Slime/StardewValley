@@ -8,6 +8,9 @@ namespace SpookySkill
 {
     internal class Utilities
     {
+
+        const string Boo = "moonslime.Spooky";
+
         public static bool IsBetween(int x, int low, int high)
         {
             return low <= x && x <= high;
@@ -16,32 +19,13 @@ namespace SpookySkill
         public static void AddEXP(StardewValley.Farmer who, int amount)
         {
             var farmer = Game1.getFarmer(who.UniqueMultiplayerID);
-            SpaceCore.Skills.AddExperience(farmer, "moonslime.Spooky", amount);
-            MasteryEXPCheck(farmer, amount);
+            SpaceCore.Skills.AddExperience(farmer, Boo, amount);
         }
 
         public static int GetLevel(StardewValley.Farmer who)
         {
             var player = Game1.getFarmer(who.UniqueMultiplayerID);
-            return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Archaeology") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Archaeology");
-        }
-
-        public static void MasteryEXPCheck(Farmer who, int howMuch)
-        {
-            if (who.Level >= 25)
-            {
-                int currentMasteryLevel = MasteryTrackerMenu.getCurrentMasteryLevel();
-                Game1.stats.Increment("MasteryExp", howMuch);
-                if (MasteryTrackerMenu.getCurrentMasteryLevel() > currentMasteryLevel)
-                {
-                    Game1.showGlobalMessage(Game1.content.LoadString("Strings\\1_6_Strings:Mastery_newlevel"));
-                    Game1.playSound("newArtifact");
-                }
-            }
-            else
-            {
-                Game1.stats.Set("MasteryExp", 0);
-            }
+            return SpaceCore.Skills.GetSkillLevel(player, Boo) + SpaceCore.Skills.GetSkillBuffLevel(player, Boo);
         }
     }
 }

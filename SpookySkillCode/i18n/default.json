@@ -43,8 +43,52 @@
     "moonslime.Spooky.Cooldown.Thieving.on_cooldown": "You can not steal right now.",
     "moonslime.Spooky.Cooldown.Scaring.on_cooldown": "You can not scare right now.",
 
-    "moonslime.Spooky.Cooldown.Thieving.off_cooldown": "You can attempt to steal again.",
-    "moonslime.Spooky.Cooldown.Scaring.off_cooldown": "You can attempt to scare again.",
+
+    "moonslime.Spooky.Cooldown.Thieving.on_cooldown.10": "You can not steal right for another 10 minutes.",
+    "moonslime.Spooky.Cooldown.Scaring.on_cooldown.10": "You can not scare right for another 10 minutes.",
+
+    "moonslime.Spooky.Cooldown.Thieving.on_cooldown.20": "You can not steal right for another 20 minutes.",
+    "moonslime.Spooky.Cooldown.Scaring.on_cooldown.20": "You can not scare right for another 20 minutes.",
+
+    "moonslime.Spooky.Cooldown.Thieving.on_cooldown.30": "You can not steal right for another 30 minutes.",
+    "moonslime.Spooky.Cooldown.Scaring.on_cooldown.30": "You can not scare right for another 30 minutes.",
+
+    "moonslime.Spooky.Cooldown.Thieving.on_cooldown.40": "You can not steal right for another 40 minutes.",
+    "moonslime.Spooky.Cooldown.Scaring.on_cooldown.40": "You can not scare right for another 40 minutes.",
+
+    "moonslime.Spooky.Cooldown.Thieving.on_cooldown.50": "You can not steal right for another 50 minutes.",
+    "moonslime.Spooky.Cooldown.Scaring.on_cooldown.50": "You can not scare right for another 50 minutes.",
+
+    "moonslime.Spooky.Cooldown.Thieving.on_cooldown.60": "You can not steal right for another 60 minutes.",
+    "moonslime.Spooky.Cooldown.Scaring.on_cooldown.60": "You can not scare right for another 60 minutes.",
+
+    "moonslime.Spooky.Cooldown.Thieving.on_cooldown.70": "You can not steal right for another 70 minutes.",
+    "moonslime.Spooky.Cooldown.Scaring.on_cooldown.70": "You can not scare right for another 70 minutes.",
+
+    "moonslime.Spooky.Cooldown.Thieving.on_cooldown.80": "You can not steal right for another 80 minutes.",
+    "moonslime.Spooky.Cooldown.Scaring.on_cooldown.80": "You can not scare right for another 80 minutes.",
+
+    "moonslime.Spooky.Cooldown.Thieving.on_cooldown.90": "You can not steal right for another 90 minutes.",
+    "moonslime.Spooky.Cooldown.Scaring.on_cooldown.90": "You can not scare right for another 90 minutes.",
+
+    "moonslime.Spooky.Cooldown.Thieving.on_cooldown.100": "You can not steal right for another 100 minutes.",
+    "moonslime.Spooky.Cooldown.Scaring.on_cooldown.100": "You can not scare right for another 100 minutes.",
+
+    "moonslime.Spooky.Cooldown.Thieving.on_cooldown.110": "You can not steal right for another 110 minutes.",
+    "moonslime.Spooky.Cooldown.Scaring.on_cooldown.110": "You can not scare right for another 110 minutes.",
+
+    "moonslime.Spooky.Cooldown.Thieving.on_cooldown.120": "You can not steal right for another 120 minutes.",
+    "moonslime.Spooky.Cooldown.Scaring.on_cooldown.120": "You can not scare right for another 120 minutes.",
+
+    "moonslime.Spooky.Cooldown.Thieving.on_cooldown.130": "You can not steal right for another 130 minutes.",
+    "moonslime.Spooky.Cooldown.Scaring.on_cooldown.130": "You can not scare right for another 130 minutes.",
+
+    "moonslime.Spooky.Cooldown.Thieving.on_cooldown.140": "You can not steal right for another 140 minutes.",
+    "moonslime.Spooky.Cooldown.Scaring.on_cooldown.140": "You can not scare right for another 140 minutes.",
+
+
+    "moonslime.Spooky.Cooldown.Thieving.off_cooldown": "You can now steal again.",
+    "moonslime.Spooky.Cooldown.Scaring.off_cooldown": "You can now scare again.",
 
 
     "config.DeScary": "Remove the Spooky",

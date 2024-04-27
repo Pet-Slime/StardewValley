@@ -80,7 +80,24 @@ namespace SpookySkill.Core
             }
         }
 
-        [SEvent.TimeChanged]
+
+        // Set the scare / stealing cooldown to 0 at the end of the day
+        [SEvent.DayEnding]
+        private static void DayEnding(object sender, DayEndingEventArgs e)
+        {
+            if (!Game1.player.IsLocalPlayer)
+                return;
+
+            var farmer = Game1.getFarmer(Game1.player.UniqueMultiplayerID);
+
+            if (!farmer.modDataForSerialization.TryGetValue(Boo, out string value))
+                return;
+
+            int storedCooldown = int.Parse(value);
+            if (storedCooldown != 0) { SetCooldown(farmer, 0); }
+        }
+
+            [SEvent.TimeChanged]
         private static void TimeChanged(object sender, TimeChangedEventArgs e)
         {
             if (!Game1.player.IsLocalPlayer)
@@ -122,7 +139,8 @@ namespace SpookySkill.Core
             if (storedCooldown != 0)
             {
                 player.performPlayerEmote("sad");
-                string line = ModEntry.Config.DeScary ? "moonslime.Spooky.Cooldown.Thieving.on_cooldown" : "moonslime.Spooky.Cooldown.Scaring.on_cooldown";
+                int timeLeft = storedCooldown * 10;
+                string line = ModEntry.Config.DeScary ? ($"moonslime.Spooky.Cooldown.Thieving.on_cooldown.{timeLeft}") : ($"moonslime.Spooky.Cooldown.Scaring.on_cooldown.{timeLeft}");
                 Game1.addHUDMessage(HUDMessage.ForCornerTextbox(ModEntry.Instance.I18N.Get(line)));
                 return;
             }
@@ -242,17 +260,22 @@ namespace SpookySkill.Core
 
             // Get the random dice roll from 0 to 99
             int diceRoll = Game1.random.Next(100);
+            Log.Warn($"initial dice roll: {diceRoll}");
             // Get how spooky the player is.
             // this is the player's spooky level * 2 + the dice roll.
             diceRoll += (Utilities.GetLevel(player) * 2);
+            Log.Warn($"dice roll after level addition: {diceRoll}");
             // Add 10 if the player has the ghoul profession
             if (player.HasCustomProfession(Proffession10b2))
             {
                 diceRoll += 10;
             }
 
+            Log.Warn($"dice roll after ghoul profession addition: {diceRoll}");
             // Calculate light levels
-            diceRoll += NightTimeAdjustment(diceRoll, player);
+            diceRoll = NightTimeAdjustment(diceRoll, player);
+
+            Log.Warn($"dice roll after night time addition: {diceRoll}");
 
             // Set the spookyLevel string to 0 for now...
             string spookLevel = "level_0";
@@ -271,6 +294,7 @@ namespace SpookySkill.Core
                 // If the player has the skill set to Scaring, then we ...
                 // ... Add the fall adjustment to the dice roll
                 diceRoll = FallAdjustment(diceRoll);
+                Log.Warn($"dice roll after fall adjustment addition: {diceRoll}");
                 // ... Get the spooky level now
                 spookLevel = GetSpookLevel(diceRoll);
 
@@ -282,12 +306,14 @@ namespace SpookySkill.Core
                 }
             }
 
+            Log.Warn($"Scaring/Stealing vs monster, Dice roll is {diceRoll}, and spook level is {spookLevel}");
+
             // We play an emote and sound as feedback for the skill to the player that it is functioning
             player.performPlayerEmote("exclamation");
             player.currentLocation.playSound(soundID);
 
             // Create the loot the monster will drop
-            Monster_CreateLoot(monsterNPC, player, spookLevel);
+            Monster_CreateLoot(monsterNPC, player, spookLevel, diceRoll);
 
             // If the player has profession 10a2, then we heal the player 25% of their health and stamina.
             if (player.HasCustomProfession(Proffession10a2))
@@ -312,24 +338,30 @@ namespace SpookySkill.Core
         {
             // Get the random dice roll from 0 to 99
             int diceRoll = Game1.random.Next(100);
+
+            Log.Warn($"Initial dice roll: {diceRoll}");
             // Get how spooky the player is.
             // this is the player's spooky level * 2 + the dice roll.
-            diceRoll += (Utilities.GetLevel(player) * 2);
+            diceRoll = diceRoll + Utilities.GetLevel(player) + Utilities.GetLevel(player);
+            Log.Warn($"dice roll after level addition: {diceRoll}");
             // Get the direction the player is facing vs the direction the NPC is facing.
             // Like if the player and NPC are facing each other, is the player facing the side, or the NPC's back
             string facingSide = GetFacingSide(npc, player);
             // Get the spook level adjustment based on if the player is facing the NPC's back, sides, or front
             diceRoll = CalculateSpookyDirectionChange(diceRoll, facingSide, player.HasCustomProfession(Proffession5a));
 
+            Log.Warn($"dice roll after direction addition: {diceRoll}");
             // Add 10 if the player has the ghoul profession
             if (player.HasCustomProfession(Proffession10b2))
             {
                 diceRoll += 10;
             }
 
+            Log.Warn($"dice roll after ghoul profession addition: {diceRoll}");
             // Calculate light levels
-            diceRoll += NightTimeAdjustment(diceRoll, player);
+            diceRoll = NightTimeAdjustment(diceRoll, player);
 
+            Log.Warn($"dice roll after night time addition: {diceRoll}");
             // Set the spook level string to the default value
             string spookLevel = "level_0";
 
@@ -346,9 +378,7 @@ namespace SpookySkill.Core
             if (ModEntry.Config.DeScary)
             {
                 soundID = "wind";
-                Log.Trace($"Scaring/Thieving: Dice roll with bonuses is... {diceRoll}");
                 spookLevel = GetSpookLevel(diceRoll);
-                Log.Trace($"Scaring/Thieving: Level of Success is... {spookLevel}");
                 #region Player Skill Feedback
 
                 // This section is to give feedback to the player
@@ -365,13 +395,12 @@ namespace SpookySkill.Core
             {
                 // Fall adjustment for the spooky roll
                 diceRoll = FallAdjustment(diceRoll);
+                Log.Warn($"dice roll after fall adjustment time addition: {diceRoll}");
 
-                Log.Trace($"Scaring/Thieving: Dice roll with bonuses is... {diceRoll}");
 
                 // Get the spook level
                 spookLevel = GetSpookLevel(diceRoll);
 
-                Log.Trace($"Scaring/Thieving: Level of Success is... {spookLevel}");
                 // People are moer in the mood to get scared during the fall
                 friendshipLost = FallAdjustment(friendshipLost);
 
@@ -407,6 +436,15 @@ namespace SpookySkill.Core
 
             #endregion
 
+
+            Log.Warn($"Scaring/Stealing vs villager, final Dice roll is {diceRoll}, and spook level is {spookLevel}");
+
+            // adjust friendship lost based on if it's day or night if the player is outside.
+            // acting in broad daylight increases the lost of friendship
+            // while acting at night lowers the friendship lost
+            friendshipLost += NightTimeAdjustment(friendshipLost, player);
+
+
             // Adjust friendship lost based on spook level
             friendshipLost = CalculateFriendshipSpookLevel(friendshipLost, spookLevel, zombieCharm);
 
@@ -418,7 +456,7 @@ namespace SpookySkill.Core
             friendship.Points += friendshipLost;
 
             // Calculate if the villager is going to drop loot or not
-            Villager_CreateLoot(npc, player, spookLevel);
+            Villager_CreateLoot(npc, player, spookLevel, diceRoll);
 
             // If the player has profession 10a2, then we heal the player 25% of their health and stamina.
             if (player.HasCustomProfession(Proffession10a2))
@@ -441,22 +479,22 @@ namespace SpookySkill.Core
 
         public static int NightTimeAdjustment(int value, Farmer who)
         {
-            if (who.currentLocation.IsOutdoors )
+            // Does the location count as an outdoor location?
+            if (who.currentLocation.IsOutdoors)
             {
+                // Is it dark outside?
                 if (Game1.isDarkOut(who.currentLocation))
                 {
+                    // If yes, add 5 to the value
                     value += 5;
                 } else
                 {
-                    value -= 5;
+                    // If not, subtract 5 to the value
+                    value +=  -5;
                 }
             }
-
             return value;
         }
-
-
-
 
         private static int FallAdjustment(int value)
         {
@@ -483,18 +521,18 @@ namespace SpookySkill.Core
 
         }
 
-        public static void Monster_CreateLoot(Monster npc, Farmer player, string spookLevel)
+        public static void Monster_CreateLoot(Monster npc, Farmer player, string spookLevel, int diceRoll)
         {
             var lootList = new List<string>();
 
             // Define thresholds for different spook levels
-            Dictionary<string, int> spookThresholds = new Dictionary<string, int>
+            Dictionary<string, int> spookThresholds = new()
             {
-                { "level_0", 100 },
-                { "level_1", 66 },
-                { "level_2", 33 },
-                { "level_3", 0 },
-                { "level_4", 0 } 
+                { "level_0", 4 },
+                { "level_1", 3 },
+                { "level_2", 2 },
+                { "level_3", 1 },
+                { "level_4", 0 }
             };
 
             //Get the player level
@@ -524,39 +562,34 @@ namespace SpookySkill.Core
             lootList.Clear();
             string selectedItem = validItems.RandomChoose(Game1.random, "766");
 
-
-            // Log the selected item
-            Log.Warn("Attempting to steal: " + ItemRegistry.GetData(selectedItem).DisplayName);
-
-            // Calculate spooky roll
-            int diceRoll = playerLevel + playerLevel + Game1.random.Next(100);
-
-            // Apply profession bonus
-            if (player.HasCustomProfession(Proffession10b2))
-            {
-                diceRoll += 10;
-            }
+            //Reroll the dice as to give a player who even got a low level scare, a chance for loot
+            diceRoll = Game1.random.Next(100) + playerLevel + playerLevel + (player.HasCustomPrestigeProfession(Proffession10a2) ? 10 : 0);
 
             // Determine loot drop based on spook level
-            if (diceRoll > spookThresholds[spookLevel])
+            if (diceRoll > 120 - (24 * (5 - spookThresholds[spookLevel])))
             {
                 if (spookLevel == "level_4")
                 {
-                    int howMany = diceRoll / 10;
+                    int howMany = diceRoll / 30;
                     Game1.createMultipleObjectDebris(selectedItem, npc.TilePoint.X, npc.TilePoint.Y, howMany, player.UniqueMultiplayerID, npc.currentLocation);
                 }
                 else
                 {
                     Game1.createObjectDebris(selectedItem, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
                 }
+            }
 
-                // Set cooldown based on spook level
-                SetCooldown(player, 5 - Array.IndexOf(spookThresholds.Keys.ToArray(), spookLevel));
+            // Set cooldown based on spook level
+            int cooldown = 5 - Array.IndexOf(spookThresholds.Keys.ToArray(), spookLevel);
+            SetCooldown(player, cooldown + cooldown);
+            if (player.modDataForSerialization.TryGetValue(Boo, out string value))
+            {
+                Log.Warn("Spooky skill cooldown is now set to: " + value);
             }
         }
 
 
-        public static void Villager_CreateLoot(NPC npc, Farmer player, string spookLevel)
+        public static void Villager_CreateLoot(NPC npc, Farmer player, string spookLevel, int diceRoll)
         {
             // Generate a list of items based off the NPC's likes, neutrals, and loves
             var lootList = GetItemList(npc, player);
@@ -589,33 +622,28 @@ namespace SpookySkill.Core
             // If there is somehow nothing on the final list, return bread
             string item = finalList.Count > 0 ? finalList[Game1.random.Next(finalList.Count)] : "216";
 
-            // Make a dice roll
-            int diceRoll = Game1.random.Next(100);
-
-            // Add twice the player's level to the dice roll
-            diceRoll += (Utilities.GetLevel(player) * 2);
-
-            if (player.HasCustomProfession(Proffession10b2))
+            // Define thresholds for different spook levels
+            Dictionary<string, int> spookThresholds = new()
             {
-                diceRoll += 10;
-            }
+                { "level_0", 4 },
+                { "level_1", 3 },
+                { "level_2", 2 },
+                { "level_3", 1 },
+                { "level_4", 0 }
+            };
 
-            // Determine the cooldown duration based on spook level
-            int cooldownDuration = 5 - (spookLevel switch
-            {
-                "level_1" => 1,
-                "level_2" => 2,
-                "level_3" => 3,
-                "level_4" => 4,
-                _ => 0 // Default case for "level_0" or unrecognized spook levels
-            });
+            //Get the player level
+            int playerLevel = Utilities.GetLevel(player);
 
-            // Create object debris based on spooky roll
-            if (diceRoll > 100 - (33 * cooldownDuration))
+            //Reroll the dice as to give a player who even got a low level scare, a chance for loot
+            diceRoll = Game1.random.Next(100) + playerLevel + playerLevel + (player.HasCustomPrestigeProfession(Proffession10a2) ? 10 : 0);
+
+            // Determine loot drop based on spook level
+            if (diceRoll > 120 - (24 * (5 - spookThresholds[spookLevel])))
             {
                 if (spookLevel == "level_4")
                 {
-                    int howMany = diceRoll / 10;
+                    int howMany = diceRoll / 25;
                     Game1.createMultipleObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, howMany, player.UniqueMultiplayerID, npc.currentLocation);
                 }
                 else
@@ -623,8 +651,11 @@ namespace SpookySkill.Core
                     Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
                 }
             }
-            // We set the cooldown here when we scare villages. It is based on the 
-            SetCooldown(player, cooldownDuration);
+
+
+            // Set cooldown based on spook level
+            int cooldown = 5 - Array.IndexOf(spookThresholds.Keys.ToArray(), spookLevel);
+            SetCooldown(player, cooldown + cooldown);
 
 
             if (player.modDataForSerialization.TryGetValue(Boo, out string value))
@@ -720,10 +751,10 @@ namespace SpookySkill.Core
         // Method to calculate the spook level
         private static string GetSpookLevel(int spookyLevel)
         {
-            if (spookyLevel <= 24) return "level_0";
-            if (spookyLevel <= 55) return "level_1";
-            if (spookyLevel <= 90) return "level_2";
-            if (spookyLevel <= 110) return "level_3";
+            if (spookyLevel <= 27) return "level_0";
+            if (spookyLevel <= 54) return "level_1";
+            if (spookyLevel <= 81) return "level_2";
+            if (spookyLevel <= 108) return "level_3";
             return "level_4";
         }
 
@@ -731,8 +762,8 @@ namespace SpookySkill.Core
         private static int CalculateFriendshipChangeDirectional(string facingSide, bool zombieCharm)
         {
             int friendshipLost = 0;
-            if (facingSide == "side") friendshipLost += zombieCharm ? 0 : -6;
             if (facingSide == "front") friendshipLost += zombieCharm ? 0 : -12;
+            if (facingSide == "side") friendshipLost += zombieCharm ? 0 : -6;
             if (facingSide == "back") friendshipLost += zombieCharm ? 0 : -3; ///the player feels guilty about it so they still loose friendship even if hidden from the NPC
             return friendshipLost;
         }
