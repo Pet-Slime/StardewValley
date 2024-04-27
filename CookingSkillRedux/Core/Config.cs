@@ -15,7 +15,7 @@ namespace CookingSkill
         public float ExperienceFromEdibility { get; set; } = 0.50f;
 
 
-        [SConfig.Option(1, 4000, 11)]
+        [SConfig.Option(1, 4000, 1)]
         public int BonusExpLimit { get; set; } = 11;
     }
 }
