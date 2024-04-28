@@ -1,7 +1,7 @@
 ﻿{
 
     "moonslime.Luck.slots_copper.name": "铜老虎机",
-    "moonslime.Luck.slots_copper.description": "插入5块铜锭和一个电池组，可以取回5-20个随机基础材料。",
+    "moonslime.Luck.slots_copper.description": "插入5块铜锭和一个电池组，可以取回5-20个随机建造此机器的材料。",
 
     "moonslime.Luck.slots_gold.name": "金老虎机",
     "moonslime.Luck.slots_gold.description": "插入5块金锭和一个电池组， 可以得到5个随机的矿井物品。",
