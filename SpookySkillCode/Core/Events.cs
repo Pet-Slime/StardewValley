@@ -574,11 +574,13 @@ namespace SpookySkill.Core
             lootList.Clear();
             string selectedItem = validItems.RandomChoose(Game1.random, "766");
 
+            int luckLevel = (int)((player.DailyLuck * 100) + (player.LuckLevel / 2));
+
             //Reroll the dice as to give a player who even got a low level scare, a chance for loot
-            diceRoll = Game1.random.Next(100) + playerLevel + playerLevel + (player.HasCustomPrestigeProfession(Proffession10a2) ? 10 : 0);
+            diceRoll = Game1.random.Next(100) + playerLevel + playerLevel + (player.HasCustomPrestigeProfession(Proffession10a2) ? 10 : 0) + luckLevel;
 
             // Determine loot drop based on spook level
-            if (diceRoll > 120 - (24 * (5 - spookThresholds[spookLevel])))
+            if (diceRoll > 120 - ((24 - spookThresholds[spookLevel]) * (5 - spookThresholds[spookLevel])))
             {
                 if (spookLevel == "level_4")
                 {
@@ -637,11 +639,11 @@ namespace SpookySkill.Core
             // Define thresholds for different spook levels
             Dictionary<string, int> spookThresholds = new()
             {
-                { "level_0", 5 },
-                { "level_1", 4 },
-                { "level_2", 3 },
-                { "level_3", 2 },
-                { "level_4", 1 }
+                { "level_0", 4 },
+                { "level_1", 3 },
+                { "level_2", 2 },
+                { "level_3", 1 },
+                { "level_4", 0 }
             };
 
             //Get the player level
@@ -652,7 +654,7 @@ namespace SpookySkill.Core
             diceRoll = Game1.random.Next(100) + playerLevel + playerLevel + (player.HasCustomPrestigeProfession(Proffession10a2) ? 10 : 0) + luckLevel;
 
             // Determine loot drop based on spook level
-            if (diceRoll > 120 - (24 * (5 - spookThresholds[spookLevel])))
+            if (diceRoll > 120 - ((24 - spookThresholds[spookLevel]) * (5 - spookThresholds[spookLevel])))
             {
                 if (spookLevel == "level_4")
                 {
