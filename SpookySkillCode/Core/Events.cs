@@ -145,6 +145,7 @@ namespace SpookySkill.Core
                 return;
             }
 
+
             GameLocation location = player.currentLocation;
             Vector2 playerTile = player.Tile;
             List<NPC> npcsInRange = [];
@@ -263,8 +264,13 @@ namespace SpookySkill.Core
             Log.Warn($"initial dice roll: {diceRoll}");
             // Get how spooky the player is.
             // this is the player's spooky level * 2 + the dice roll.
-            diceRoll += (Utilities.GetLevel(player) * 2);
+            diceRoll += (Utilities.GetLevel(player) + Utilities.GetLevel(player));
             Log.Warn($"dice roll after level addition: {diceRoll}");
+
+            // Add in the player luck to the roll
+            diceRoll += ((int)(player.DailyLuck * 100) + player.LuckLevel);
+            Log.Warn($"dice roll after luck addition: {diceRoll}");
+
             // Add 10 if the player has the ghoul profession
             if (player.HasCustomProfession(Proffession10b2))
             {
@@ -342,8 +348,14 @@ namespace SpookySkill.Core
             Log.Warn($"Initial dice roll: {diceRoll}");
             // Get how spooky the player is.
             // this is the player's spooky level * 2 + the dice roll.
-            diceRoll = diceRoll + Utilities.GetLevel(player) + Utilities.GetLevel(player);
+            diceRoll += Utilities.GetLevel(player) + Utilities.GetLevel(player);
             Log.Warn($"dice roll after level addition: {diceRoll}");
+
+
+            // Add in the player luck to the roll
+            diceRoll += ((int)(player.DailyLuck * 100) + player.LuckLevel);
+            Log.Warn($"dice roll after luck addition: {diceRoll}");
+
             // Get the direction the player is facing vs the direction the NPC is facing.
             // Like if the player and NPC are facing each other, is the player facing the side, or the NPC's back
             string facingSide = GetFacingSide(npc, player);
@@ -625,18 +637,19 @@ namespace SpookySkill.Core
             // Define thresholds for different spook levels
             Dictionary<string, int> spookThresholds = new()
             {
-                { "level_0", 4 },
-                { "level_1", 3 },
-                { "level_2", 2 },
-                { "level_3", 1 },
-                { "level_4", 0 }
+                { "level_0", 5 },
+                { "level_1", 4 },
+                { "level_2", 3 },
+                { "level_3", 2 },
+                { "level_4", 1 }
             };
 
             //Get the player level
             int playerLevel = Utilities.GetLevel(player);
+            int luckLevel = (int)((player.DailyLuck * 100) + (player.LuckLevel / 2));
 
             //Reroll the dice as to give a player who even got a low level scare, a chance for loot
-            diceRoll = Game1.random.Next(100) + playerLevel + playerLevel + (player.HasCustomPrestigeProfession(Proffession10a2) ? 10 : 0);
+            diceRoll = Game1.random.Next(100) + playerLevel + playerLevel + (player.HasCustomPrestigeProfession(Proffession10a2) ? 10 : 0) + luckLevel;
 
             // Determine loot drop based on spook level
             if (diceRoll > 120 - (24 * (5 - spookThresholds[spookLevel])))
@@ -801,13 +814,13 @@ namespace SpookySkill.Core
                           (playerDirection == 2 && npcDirection == 3) ||
                           (playerDirection == 3 && npcDirection == 0) ||
                           (playerDirection == 3 && npcDirection == 2);
-            bool isBack = (playerDirection == 0 && npcDirection == 2) ||
+            bool isFront = (playerDirection == 0 && npcDirection == 2) ||
                           (playerDirection == 1 && npcDirection == 3) ||
                           (playerDirection == 2 && npcDirection == 0) ||
                           (playerDirection == 3 && npcDirection == 1);
             if (isSide) return "side";
-            if (isBack) return "back";
-            return "front";
+            if (isFront) return "front";
+            return "back";
         }
 
 
