@@ -251,7 +251,7 @@ namespace CookingSkill.Core
     class MillItemConversion_patch
     {
         [HarmonyLib.HarmonyPrefix]
-        private static bool Prefix(
+        public static bool Prefix(
         StardewValley.Buildings.Building __instance, BuildingItemConversion conversion, ItemQueryContext itemQueryContext)
         {
             if(__instance.buildingType.Value != "Mill") {

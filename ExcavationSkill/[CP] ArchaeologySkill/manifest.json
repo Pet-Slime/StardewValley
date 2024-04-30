@@ -12,17 +12,21 @@
         {
             "UniqueID": "moonslime.ArchaeologySkill"
         },
-		{
+        {
             "UniqueID": "Rafseazz.RSVCP",
-			"IsRequired": false
+            "IsRequired": false
         },
-		{
+        {
             "UniqueID": "FlashShifter.StardewValleyExpandedCP",
-			"IsRequired": false
+            "IsRequired": false
         },
-		{
+        {
             "UniqueID": "Lumisteria.MtVapius",
-			"IsRequired": false
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "leclair.cloudyskies",
+            "IsRequired": false
         }
     ]
 }

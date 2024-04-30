@@ -468,7 +468,7 @@ namespace SpookySkill.Core
             friendship.Points += friendshipLost;
 
             // Calculate if the villager is going to drop loot or not
-            Villager_CreateLoot(npc, player, spookLevel, diceRoll);
+            Villager_CreateLoot(npc, player, spookLevel);
 
             // If the player has profession 10a2, then we heal the player 25% of their health and stamina.
             if (player.HasCustomProfession(Proffession10a2))
@@ -603,7 +603,7 @@ namespace SpookySkill.Core
         }
 
 
-        public static void Villager_CreateLoot(NPC npc, Farmer player, string spookLevel, int diceRoll)
+        public static void Villager_CreateLoot(NPC npc, Farmer player, string spookLevel)
         {
             // Generate a list of items based off the NPC's likes, neutrals, and loves
             var lootList = GetItemList(npc, player);
@@ -637,28 +637,28 @@ namespace SpookySkill.Core
             string item = finalList.Count > 0 ? finalList[Game1.random.Next(finalList.Count)] : "216";
 
             // Define thresholds for different spook levels
-            Dictionary<string, int> spookThresholds = new()
+            Dictionary<string, double> spookThresholds = new()
             {
-                { "level_0", 4 },
-                { "level_1", 3 },
-                { "level_2", 2 },
-                { "level_3", 1 },
-                { "level_4", 0 }
+                { "level_0", 4.0 },
+                { "level_1", 3.25 },
+                { "level_2", 2.5 },
+                { "level_3", 1.75 },
+                { "level_4", 1.0 }
             };
 
             //Get the player level
             int playerLevel = Utilities.GetLevel(player);
-            int luckLevel = (int)((player.DailyLuck * 100) + (player.LuckLevel / 2));
+            double luckLevel = (player.DailyLuck * 100) + (player.LuckLevel / 2);
 
             //Reroll the dice as to give a player who even got a low level scare, a chance for loot
-            diceRoll = Game1.random.Next(100) + playerLevel + playerLevel + (player.HasCustomPrestigeProfession(Proffession10a2) ? 10 : 0) + luckLevel;
+            double diceRoll = Game1.random.Next(100) + playerLevel + playerLevel + (player.HasCustomPrestigeProfession(Proffession10a2) ? 10 : 0) + luckLevel;
 
             // Determine loot drop based on spook level
             if (diceRoll > 120 - ((24 - spookThresholds[spookLevel]) * (5 - spookThresholds[spookLevel])))
             {
                 if (spookLevel == "level_4")
                 {
-                    int howMany = diceRoll / 25;
+                    int howMany = (int)(diceRoll / 25);
                     Game1.createMultipleObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, howMany, player.UniqueMultiplayerID, npc.currentLocation);
                 }
                 else
