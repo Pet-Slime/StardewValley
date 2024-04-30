@@ -1,6 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <Import Project="$(SolutionDir)\MoonShared\MoonShared.projitems" Label="Shared" />
-    <Import Project="$(SolutionDir)\MoonSharedSpaceCore\MoonSharedSpaceCore.projitems" Label="Shared" />
 
     <!--common project properties-->
     <PropertyGroup>

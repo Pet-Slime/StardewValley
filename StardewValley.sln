@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicSkillCode", "MagicSkil
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpookySkillCode", "SpookySkillCode\SpookySkillCode.csproj", "{2D854387-8148-4ACF-8EF1-BFB3A5EC6716}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpControl", "ExpControl\ExpControl.csproj", "{AEB84F1F-25D1-41DB-8D54-B7A364776F8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpControl", "ExpControl\ExpControl.csproj", "{AEB84F1F-25D1-41DB-8D54-B7A364776F8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,6 +78,8 @@ Global
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{03ce7db8-dbca-4eed-8878-83bdda475241}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{03ce7db8-dbca-4eed-8878-83bdda475241}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{19cedb88-a912-48da-b35d-fce2509e70e6}*SharedItemsImports = 13
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{1e50c395-2be4-4f79-b919-02ed7ba9fd42}*SharedItemsImports = 5
+		MoonShared\MoonShared.projitems*{1e50c395-2be4-4f79-b919-02ed7ba9fd42}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{2d854387-8148-4acf-8ef1-bfb3a5ec6716}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{2d854387-8148-4acf-8ef1-bfb3a5ec6716}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
@@ -85,7 +87,6 @@ Global
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{582e2861-2bf8-4704-8f5e-1ab9bae2b572}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{582e2861-2bf8-4704-8f5e-1ab9bae2b572}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{8f13906d-7e88-45b4-abbc-617437970163}*SharedItemsImports = 13
-		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{aeb84f1f-25d1-41db-8d54-b7a364776f8b}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{aeb84f1f-25d1-41db-8d54-b7a364776f8b}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{b4835048-a339-456f-b0ed-64cfe03c4c29}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{b4835048-a339-456f-b0ed-64cfe03c4c29}*SharedItemsImports = 5

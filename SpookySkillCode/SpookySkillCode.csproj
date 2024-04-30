@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="..\common.targets" />
+    <Import Project="$(SolutionDir)\MoonSharedSpaceCore\MoonSharedSpaceCore.projitems" Label="Shared" />
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
