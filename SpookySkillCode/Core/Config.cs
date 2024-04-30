@@ -29,19 +29,19 @@ namespace SpookySkill
 
 
         [SConfig.Option(0, 100, 14)]
-        public int ExpLevel1 { get; set; } = 14;
+        public int ExpLevel1 { get; set; } = 8;
 
 
         [SConfig.Option(0, 100, 28)]
-        public int ExpLevel2 { get; set; } = 28;
+        public int ExpLevel2 { get; set; } = 16;
 
 
         [SConfig.Option(0, 100, 42)]
-        public int ExpLevel3 { get; set; } = 42;
+        public int ExpLevel3 { get; set; } = 24;
 
 
         [SConfig.Option(0, 100, 56)]
-        public int ExpLevel4 { get; set; } = 56;
+        public int ExpLevel4 { get; set; } = 32;
 
     }
 }

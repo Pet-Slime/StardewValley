@@ -145,6 +145,7 @@ namespace SpookySkill.Core
                 return;
             }
 
+
             GameLocation location = player.currentLocation;
             Vector2 playerTile = player.Tile;
             List<NPC> npcsInRange = [];
@@ -263,8 +264,13 @@ namespace SpookySkill.Core
             Log.Warn($"initial dice roll: {diceRoll}");
             // Get how spooky the player is.
             // this is the player's spooky level * 2 + the dice roll.
-            diceRoll += (Utilities.GetLevel(player) * 2);
+            diceRoll += (Utilities.GetLevel(player) + Utilities.GetLevel(player));
             Log.Warn($"dice roll after level addition: {diceRoll}");
+
+            // Add in the player luck to the roll
+            diceRoll += ((int)(player.DailyLuck * 100) + player.LuckLevel);
+            Log.Warn($"dice roll after luck addition: {diceRoll}");
+
             // Add 10 if the player has the ghoul profession
             if (player.HasCustomProfession(Proffession10b2))
             {
@@ -342,8 +348,14 @@ namespace SpookySkill.Core
             Log.Warn($"Initial dice roll: {diceRoll}");
             // Get how spooky the player is.
             // this is the player's spooky level * 2 + the dice roll.
-            diceRoll = diceRoll + Utilities.GetLevel(player) + Utilities.GetLevel(player);
+            diceRoll += Utilities.GetLevel(player) + Utilities.GetLevel(player);
             Log.Warn($"dice roll after level addition: {diceRoll}");
+
+
+            // Add in the player luck to the roll
+            diceRoll += ((int)(player.DailyLuck * 100) + player.LuckLevel);
+            Log.Warn($"dice roll after luck addition: {diceRoll}");
+
             // Get the direction the player is facing vs the direction the NPC is facing.
             // Like if the player and NPC are facing each other, is the player facing the side, or the NPC's back
             string facingSide = GetFacingSide(npc, player);
@@ -456,7 +468,7 @@ namespace SpookySkill.Core
             friendship.Points += friendshipLost;
 
             // Calculate if the villager is going to drop loot or not
-            Villager_CreateLoot(npc, player, spookLevel, diceRoll);
+            Villager_CreateLoot(npc, player, spookLevel);
 
             // If the player has profession 10a2, then we heal the player 25% of their health and stamina.
             if (player.HasCustomProfession(Proffession10a2))
@@ -562,11 +574,13 @@ namespace SpookySkill.Core
             lootList.Clear();
             string selectedItem = validItems.RandomChoose(Game1.random, "766");
 
+            int luckLevel = (int)((player.DailyLuck * 100) + (player.LuckLevel / 2));
+
             //Reroll the dice as to give a player who even got a low level scare, a chance for loot
-            diceRoll = Game1.random.Next(100) + playerLevel + playerLevel + (player.HasCustomPrestigeProfession(Proffession10a2) ? 10 : 0);
+            diceRoll = Game1.random.Next(100) + playerLevel + playerLevel + (player.HasCustomPrestigeProfession(Proffession10a2) ? 10 : 0) + luckLevel;
 
             // Determine loot drop based on spook level
-            if (diceRoll > 120 - (24 * (5 - spookThresholds[spookLevel])))
+            if (diceRoll > 120 - ((24 - spookThresholds[spookLevel]) * (5 - spookThresholds[spookLevel])))
             {
                 if (spookLevel == "level_4")
                 {
@@ -589,7 +603,7 @@ namespace SpookySkill.Core
         }
 
 
-        public static void Villager_CreateLoot(NPC npc, Farmer player, string spookLevel, int diceRoll)
+        public static void Villager_CreateLoot(NPC npc, Farmer player, string spookLevel)
         {
             // Generate a list of items based off the NPC's likes, neutrals, and loves
             var lootList = GetItemList(npc, player);
@@ -623,27 +637,28 @@ namespace SpookySkill.Core
             string item = finalList.Count > 0 ? finalList[Game1.random.Next(finalList.Count)] : "216";
 
             // Define thresholds for different spook levels
-            Dictionary<string, int> spookThresholds = new()
+            Dictionary<string, double> spookThresholds = new()
             {
-                { "level_0", 4 },
-                { "level_1", 3 },
-                { "level_2", 2 },
-                { "level_3", 1 },
-                { "level_4", 0 }
+                { "level_0", 4.0 },
+                { "level_1", 3.25 },
+                { "level_2", 2.5 },
+                { "level_3", 1.75 },
+                { "level_4", 1.0 }
             };
 
             //Get the player level
             int playerLevel = Utilities.GetLevel(player);
+            double luckLevel = (player.DailyLuck * 100) + (player.LuckLevel / 2);
 
             //Reroll the dice as to give a player who even got a low level scare, a chance for loot
-            diceRoll = Game1.random.Next(100) + playerLevel + playerLevel + (player.HasCustomPrestigeProfession(Proffession10a2) ? 10 : 0);
+            double diceRoll = Game1.random.Next(100) + playerLevel + playerLevel + (player.HasCustomPrestigeProfession(Proffession10a2) ? 10 : 0) + luckLevel;
 
             // Determine loot drop based on spook level
-            if (diceRoll > 120 - (24 * (5 - spookThresholds[spookLevel])))
+            if (diceRoll > 120 - ((24 - spookThresholds[spookLevel]) * (5 - spookThresholds[spookLevel])))
             {
                 if (spookLevel == "level_4")
                 {
-                    int howMany = diceRoll / 25;
+                    int howMany = (int)(diceRoll / 25);
                     Game1.createMultipleObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, howMany, player.UniqueMultiplayerID, npc.currentLocation);
                 }
                 else
@@ -801,13 +816,13 @@ namespace SpookySkill.Core
                           (playerDirection == 2 && npcDirection == 3) ||
                           (playerDirection == 3 && npcDirection == 0) ||
                           (playerDirection == 3 && npcDirection == 2);
-            bool isBack = (playerDirection == 0 && npcDirection == 2) ||
+            bool isFront = (playerDirection == 0 && npcDirection == 2) ||
                           (playerDirection == 1 && npcDirection == 3) ||
                           (playerDirection == 2 && npcDirection == 0) ||
                           (playerDirection == 3 && npcDirection == 1);
             if (isSide) return "side";
-            if (isBack) return "back";
-            return "front";
+            if (isFront) return "front";
+            return "back";
         }
 
 

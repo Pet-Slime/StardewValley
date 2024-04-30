@@ -14,6 +14,7 @@ using StardewValley.Buffs;
 using StardewValley.Extensions;
 using StardewValley.GameData.Objects;
 using StardewValley.Inventories;
+using StardewValley.Menus;
 using static BirbCore.Attributes.SMod;
 
 namespace CookingSkill.Core
@@ -430,7 +431,7 @@ namespace CookingSkill.Core
                 {
                     Utilities.BetterCraftingTempItem = item;
                     ModEntry.Instance.Monitor.Log($"Successfully finished with better crafting, returning null and stashing item for postcraft.", LogLevel.Trace);
-                    return null;
+                    return item;
                 }
             }
             else
@@ -460,6 +461,7 @@ namespace CookingSkill.Core
                 {
                     string items_string = string.Join(",", consumed_items.Select(kvp => $"{kvp.Key.DisplayName} of quality {kvp.Key.Quality}: {kvp.Value}"));
                     ModEntry.Instance.Monitor.Log($"In PostCook for recipe {items_string}", LogLevel.Trace);
+
                 }
 
                 //Get the exp value, based off the general exp you get from cooking (Default:2)
@@ -487,7 +489,7 @@ namespace CookingSkill.Core
                     Game1.showGlobalMessage(ModEntry.Instance.I18n.Get("moonslime.Cooking.no_more_bonus_exp"));
                 }
 
-                //Give the player exp. Make sure to floor the value. Don't want no decimels.
+                //Give the player exp. Make sure to floor the value. Don't want decimels.
                 ModEntry.Instance.Monitor.Log($"Adding to player {who.Name} exp of amount {exp}", LogLevel.Trace);
                 Utilities.AddEXP(who, (int)(Math.Floor(exp)));
 
@@ -496,6 +498,7 @@ namespace CookingSkill.Core
 
                 //determining quality
                 bool QI_seasoning = item.Quality == 2;
+
                 double ingredients_quality_RMS = 0; //using RMS as mean
                 double total_items = 0;
                 foreach (var consumed in consumed_items)
@@ -560,21 +563,21 @@ namespace CookingSkill.Core
                     {
                         ModEntry.Instance.Monitor.Log($"Adding item to directly to inventory instead of to hand, adding {item.DisplayName} with size {item.Stack}", LogLevel.Trace);
                         who.addItemToInventory(item);
-
                         //register dish as cooked and make the necessary checks
                         who.checkForQuestComplete(null, -1, -1, item, null, 2);
                         who.cookedRecipe(item.ItemId);
                         Game1.stats.checkForCookingAchievements();
-
-
-
                         return null;
                     }
                     else
                     {
-                        ModEntry.Instance.Monitor.Log($"Inventory full - returning item to helditem, will be dropped if helditem is full, adding {item.DisplayName} with size {item.Stack}", LogLevel.Trace);
-                        //Placed either in held item or dropped it on the ground.
-                        return item;
+                        ModEntry.Instance.Monitor.Log($"Dropping item to ground, adding {item.DisplayName} with size {item.Stack}", LogLevel.Trace);
+                        who.currentLocation.debris.Add(new Debris(item, who.Position));
+                        //register dish as cooked and make the necessary checks
+                        who.checkForQuestComplete(null, -1, -1, item, null, 2);
+                        who.cookedRecipe(item.ItemId);
+                        Game1.stats.checkForCookingAchievements();
+                        return null;
                     }
                 }
 
@@ -585,6 +588,24 @@ namespace CookingSkill.Core
             }
             //Return the object
             return item;
+        }
+
+
+
+        public static IList<Item> GetContainerContents(List<IInventory> _materialContainers)
+        {
+            if (_materialContainers == null)
+            {
+                return null;
+            }
+
+            List<Item> list = new List<Item>();
+            foreach (IInventory materialContainer in _materialContainers)
+            {
+                list.AddRange(materialContainer);
+            }
+
+            return list;
         }
 
 
