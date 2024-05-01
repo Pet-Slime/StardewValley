@@ -14,6 +14,7 @@ using StardewValley.Buffs;
 using StardewValley.Extensions;
 using StardewValley.GameData.Objects;
 using StardewValley.Inventories;
+using StardewValley.Locations;
 using StardewValley.Menus;
 using static BirbCore.Attributes.SMod;
 
@@ -221,17 +222,21 @@ namespace CookingSkill.Core
             StardewValley.Farmer who = sender as StardewValley.Farmer;
             if (who == null) return;
 
-            //Get the farmer's unique ID, and again check for an ull player (cause I am parinoid)
+            // Get the farmer's unique ID, and again check for an null player (cause I am parinoid)
             // If they don't have any professions related to food buffs, return so the rest of the code does not get ran.
             var player = Game1.getFarmer(who.UniqueMultiplayerID);
             if (player == null || !player.HasCustomProfession(Cooking_Skill.Cooking5b)) return;
 
-            //Get the food item the player is going to eat. Make sure it doesnt return as a null item.
-            StardewValley.Object food = player.itemToEat as StardewValley.Object;
-            if (food == null) return;
+            // Make sure the item isn't null
+            if (ItemRegistry.GetData(player.itemToEat.ItemId) == null) return;
 
-            //Get the food's ObjectData and make sure it isn't null
-            if (!Game1.objectData.TryGetValue(food.ItemId, out ObjectData data) || data == null) return;
+
+            if (player.itemToEat is not StardewValley.Object { Category: StardewValley.Object.CookingCategory } food || !Game1.objectData.TryGetValue(food.ItemId, out ObjectData data))
+                return;
+
+            // Make sure the food's Object data is not null
+            if (data == null) return;
+
 
             //For each buff in the object data, let's go through it.
             foreach (var buffData in data.Buffs)
@@ -241,7 +246,7 @@ namespace CookingSkill.Core
                 {
                     Buff matchingBuff = null;
                     string id = string.IsNullOrWhiteSpace(buffData.BuffId) ? (data.IsDrink ? "drink" : "food") : buffData.BuffId;
-                    foreach (Buff buff in food.GetFoodOrDrinkBuffs())
+                    foreach (Buff buff in player.itemToEat.GetFoodOrDrinkBuffs())
                     {
                         matchingBuff = buff;
                     }
@@ -292,7 +297,7 @@ namespace CookingSkill.Core
                 }
                 else
                 {
-                    foreach (Buff buff in food.GetFoodOrDrinkBuffs())
+                    foreach (Buff buff in player.itemToEat.GetFoodOrDrinkBuffs())
                     {
                         if (player.hasBuff(buff.id))
                         {
