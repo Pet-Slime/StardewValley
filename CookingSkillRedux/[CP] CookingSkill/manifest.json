@@ -7,22 +7,24 @@
     "ContentPackFor": {
         "UniqueID": "Pathoschild.ContentPatcher"
     },
-    "UpdateKeys": [],
+    "UpdateKeys": [
+        "Nexus:-1"
+    ],
     "Dependencies": [
         {
             "UniqueID": "moonslime.CookingSkill"
         },
-		{
+        {
             "UniqueID": "Rafseazz.RSVCP",
-			"IsRequired": false
+            "IsRequired": false
         },
-		{
+        {
             "UniqueID": "FlashShifter.StardewValleyExpandedCP",
-			"IsRequired": false
+            "IsRequired": false
         },
-		{
+        {
             "UniqueID": "Lumisteria.MtVapius",
-			"IsRequired": false
+            "IsRequired": false
         }
     ]
 }
