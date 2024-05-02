@@ -609,7 +609,7 @@ namespace SpookySkill.Core
 
             decimal finalroll = diceRoll * diceBonus;
 
-            decimal lootChance = 120 - ((22 - spookThresholds[spookLevel]) * (5 - spookThresholds[spookLevel]));
+            decimal lootChance = 120 - ((20 - spookThresholds[spookLevel]) * (5 - spookThresholds[spookLevel]));
 
             Log.Warn($"Scaring/Stealing loot, Loot Dice roll is {finalroll}, spook level is {spookLevel}, and loot chance is {lootChance}");
 
