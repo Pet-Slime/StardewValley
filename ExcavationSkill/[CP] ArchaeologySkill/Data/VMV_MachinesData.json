@@ -677,7 +677,8 @@
                                     "Id": "moonslime.Archaeology.w_amphibian_fossil",
                                     "ItemId": "(O)moonslime.Archaeology.w_amphibian_fossil",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -698,7 +699,8 @@
                                     "Id": "moonslime.Archaeology.w_anchor",
                                     "ItemId": "(O)moonslime.Archaeology.w_anchor",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -719,7 +721,8 @@
                                     "Id": "moonslime.Archaeology.w_ancient_doll",
                                     "ItemId": "(O)moonslime.Archaeology.w_ancient_doll",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -740,7 +743,8 @@
                                     "Id": "moonslime.Archaeology.w_ancient_drum",
                                     "ItemId": "(O)moonslime.Archaeology.w_ancient_drum",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -761,7 +765,8 @@
                                     "Id": "moonslime.Archaeology.w_ancient_seed",
                                     "ItemId": "(O)moonslime.Archaeology.w_ancient_seed",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -782,7 +787,8 @@
                                     "Id": "moonslime.Archaeology.w_ancient_sword",
                                     "ItemId": "(O)moonslime.Archaeology.w_ancient_sword",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -803,7 +809,8 @@
                                     "Id": "moonslime.Archaeology.w_arrowhead",
                                     "ItemId": "(O)moonslime.Archaeology.w_arrowhead",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -824,7 +831,8 @@
                                     "Id": "moonslime.Archaeology.w_bone_flute",
                                     "ItemId": "(O)moonslime.Archaeology.w_bone_flute",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -845,7 +853,8 @@
                                     "Id": "moonslime.Archaeology.w_chewing_stick",
                                     "ItemId": "(O)moonslime.Archaeology.w_chewing_stick",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -866,7 +875,8 @@
                                     "Id": "moonslime.Archaeology.w_chicken_statue",
                                     "ItemId": "(O)moonslime.Archaeology.w_chicken_statue",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -887,7 +897,8 @@
                                     "Id": "moonslime.Archaeology.w_chipped_amphora",
                                     "ItemId": "(O)moonslime.Archaeology.w_chipped_amphora",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -908,7 +919,8 @@
                                     "Id": "moonslime.Archaeology.w_dinosaur_egg",
                                     "ItemId": "(O)moonslime.Archaeology.w_dinosaur_egg",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -929,7 +941,8 @@
                                     "Id": "moonslime.Archaeology.w_dried_starfish",
                                     "ItemId": "(O)moonslime.Archaeology.w_dried_starfish",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -950,7 +963,8 @@
                                     "Id": "moonslime.Archaeology.w_dwarf_gadget",
                                     "ItemId": "(O)moonslime.Archaeology.w_dwarf_gadget",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -971,7 +985,8 @@
                                     "Id": "moonslime.Archaeology.w_dwarf_scroll_i",
                                     "ItemId": "(O)moonslime.Archaeology.w_dwarf_scroll_i",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -992,7 +1007,8 @@
                                     "Id": "moonslime.Archaeology.w_dwarf_scroll_ii",
                                     "ItemId": "(O)moonslime.Archaeology.w_dwarf_scroll_ii",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1013,7 +1029,8 @@
                                     "Id": "moonslime.Archaeology.w_dwarf_scroll_iii",
                                     "ItemId": "(O)moonslime.Archaeology.w_dwarf_scroll_iii",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1034,7 +1051,8 @@
                                     "Id": "moonslime.Archaeology.w_dwarf_scroll_iv",
                                     "ItemId": "(O)moonslime.Archaeology.w_dwarf_scroll_iv",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1055,7 +1073,8 @@
                                     "Id": "moonslime.Archaeology.w_dwarvish_helm",
                                     "ItemId": "(O)moonslime.Archaeology.w_dwarvish_helm",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1076,7 +1095,8 @@
                                     "Id": "moonslime.Archaeology.w_elvish_jewelry",
                                     "ItemId": "(O)moonslime.Archaeology.w_elvish_jewelry",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1097,7 +1117,8 @@
                                     "Id": "moonslime.Archaeology.w_fossilized_leg",
                                     "ItemId": "(O)moonslime.Archaeology.w_fossilized_leg",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1118,7 +1139,8 @@
                                     "Id": "moonslime.Archaeology.w_fossilized_ribs",
                                     "ItemId": "(O)moonslime.Archaeology.w_fossilized_ribs",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1139,7 +1161,8 @@
                                     "Id": "moonslime.Archaeology.w_fossilized_skull",
                                     "ItemId": "(O)moonslime.Archaeology.w_fossilized_skull",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1160,7 +1183,8 @@
                                     "Id": "moonslime.Archaeology.w_fossilized_spine",
                                     "ItemId": "(O)moonslime.Archaeology.w_fossilized_spine",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1181,7 +1205,8 @@
                                     "Id": "moonslime.Archaeology.w_fossilized_tail",
                                     "ItemId": "(O)moonslime.Archaeology.w_fossilized_tail",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1202,7 +1227,8 @@
                                     "Id": "moonslime.Archaeology.w_glass_shards",
                                     "ItemId": "(O)moonslime.Archaeology.w_glass_shards",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1223,7 +1249,8 @@
                                     "Id": "moonslime.Archaeology.w_golden_mask",
                                     "ItemId": "(O)moonslime.Archaeology.w_golden_mask",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1244,7 +1271,8 @@
                                     "Id": "moonslime.Archaeology.w_golden_relic",
                                     "ItemId": "(O)moonslime.Archaeology.w_golden_relic",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1265,7 +1293,8 @@
                                     "Id": "moonslime.Archaeology.w_mummified_bat",
                                     "ItemId": "(O)moonslime.Archaeology.w_mummified_bat",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1286,7 +1315,8 @@
                                     "Id": "moonslime.Archaeology.w_mummified_frog",
                                     "ItemId": "(O)moonslime.Archaeology.w_mummified_frog",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1307,7 +1337,8 @@
                                     "Id": "moonslime.Archaeology.w_nautilus_fossil",
                                     "ItemId": "(O)moonslime.Archaeology.w_nautilus_fossil",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1328,7 +1359,8 @@
                                     "Id": "moonslime.Archaeology.w_ornamental_fan",
                                     "ItemId": "(O)moonslime.Archaeology.w_ornamental_fan",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1349,7 +1381,8 @@
                                     "Id": "moonslime.Archaeology.w_palm_fossil",
                                     "ItemId": "(O)moonslime.Archaeology.w_palm_fossil",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1370,7 +1403,8 @@
                                     "Id": "moonslime.Archaeology.w_prehistoric_handaxe",
                                     "ItemId": "(O)moonslime.Archaeology.w_prehistoric_handaxe",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1391,7 +1425,8 @@
                                     "Id": "moonslime.Archaeology.w_prehistoric_rib",
                                     "ItemId": "(O)moonslime.Archaeology.w_prehistoric_rib",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1412,7 +1447,8 @@
                                     "Id": "moonslime.Archaeology.w_prehistoric_scapula",
                                     "ItemId": "(O)moonslime.Archaeology.w_prehistoric_scapula",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1433,7 +1469,8 @@
                                     "Id": "moonslime.Archaeology.w_prehistoric_skull",
                                     "ItemId": "(O)moonslime.Archaeology.w_prehistoric_skull",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1454,7 +1491,8 @@
                                     "Id": "moonslime.Archaeology.w_prehistoric_tibia",
                                     "ItemId": "(O)moonslime.Archaeology.w_prehistoric_tibia",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1475,7 +1513,8 @@
                                     "Id": "moonslime.Archaeology.w_prehistoric_tool",
                                     "ItemId": "(O)moonslime.Archaeology.w_prehistoric_tool",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1496,7 +1535,8 @@
                                     "Id": "moonslime.Archaeology.w_prehistoric_vertebra",
                                     "ItemId": "(O)moonslime.Archaeology.w_prehistoric_vertebra",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1517,7 +1557,8 @@
                                     "Id": "moonslime.Archaeology.w_rare_disc",
                                     "ItemId": "(O)moonslime.Archaeology.w_rare_disc",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1538,7 +1579,8 @@
                                     "Id": "moonslime.Archaeology.w_rusty_cog",
                                     "ItemId": "(O)moonslime.Archaeology.w_rusty_cog",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1559,7 +1601,8 @@
                                     "Id": "moonslime.Archaeology.w_rusty_spoon",
                                     "ItemId": "(O)moonslime.Archaeology.w_rusty_spoon",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1580,7 +1623,8 @@
                                     "Id": "moonslime.Archaeology.w_rusty_spur",
                                     "ItemId": "(O)moonslime.Archaeology.w_rusty_spur",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1601,7 +1645,8 @@
                                     "Id": "moonslime.Archaeology.w_skeletal_hand",
                                     "ItemId": "(O)moonslime.Archaeology.w_skeletal_hand",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1622,7 +1667,8 @@
                                     "Id": "moonslime.Archaeology.w_skeletal_tail",
                                     "ItemId": "(O)moonslime.Archaeology.w_skeletal_tail",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1643,7 +1689,8 @@
                                     "Id": "moonslime.Archaeology.w_snake_skull",
                                     "ItemId": "(O)moonslime.Archaeology.w_snake_skull",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1664,7 +1711,8 @@
                                     "Id": "moonslime.Archaeology.w_snake_vertebrae",
                                     "ItemId": "(O)moonslime.Archaeology.w_snake_vertebrae",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1685,7 +1733,8 @@
                                     "Id": "moonslime.Archaeology.w_strange_doll_green",
                                     "ItemId": "(O)moonslime.Archaeology.w_strange_doll_green",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1706,7 +1755,8 @@
                                     "Id": "moonslime.Archaeology.w_strange_doll_yellow",
                                     "ItemId": "(O)moonslime.Archaeology.w_strange_doll_yellow",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1727,7 +1777,8 @@
                                     "Id": "moonslime.Archaeology.w_trilobite",
                                     "ItemId": "(O)moonslime.Archaeology.w_trilobite",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1748,7 +1799,8 @@
                                     "Id": "moonslime.Archaeology.w_fossilized_starfish",
                                     "ItemId": "(O)moonslime.Archaeology.w_fossilized_starfish",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1769,7 +1821,8 @@
                                     "Id": "moonslime.Archaeology.w_fossilised_moth",
                                     "ItemId": "(O)moonslime.Archaeology.w_fossilised_moth",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1790,7 +1843,8 @@
                                     "Id": "moonslime.Archaeology.w_fossilised_fern",
                                     "ItemId": "(O)moonslime.Archaeology.w_fossilised_fern",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1811,7 +1865,8 @@
                                     "Id": "moonslime.Archaeology.w_fossilised_fish",
                                     "ItemId": "(O)moonslime.Archaeology.w_fossilised_fish",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1832,7 +1887,8 @@
                                     "Id": "moonslime.Archaeology.w_fossilised_ammonites",
                                     "ItemId": "(O)moonslime.Archaeology.w_fossilised_ammonites",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1853,7 +1909,8 @@
                                     "Id": "moonslime.Archaeology.w_giant_tusk",
                                     "ItemId": "(O)moonslime.Archaeology.w_giant_tusk",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1874,7 +1931,8 @@
                                     "Id": "moonslime.Archaeology.w_broken_watch",
                                     "ItemId": "(O)moonslime.Archaeology.w_broken_watch",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1895,7 +1953,8 @@
                                     "Id": "moonslime.Archaeology.w_broken_tea_cup",
                                     "ItemId": "(O)moonslime.Archaeology.w_broken_tea_cup",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1916,7 +1975,8 @@
                                     "Id": "moonslime.Archaeology.w_efficient_cog",
                                     "ItemId": "(O)moonslime.Archaeology.w_efficient_cog",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1937,7 +1997,8 @@
                                     "Id": "moonslime.Archaeology.w_dwarvish_device",
                                     "ItemId": "(O)moonslime.Archaeology.w_dwarvish_device",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1958,7 +2019,8 @@
                                     "Id": "moonslime.Archaeology.w_rusty_chest",
                                     "ItemId": "(O)moonslime.Archaeology.w_rusty_chest",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -1979,7 +2041,8 @@
                                     "Id": "moonslime.Archaeology.w_petrified_flower",
                                     "ItemId": "(O)moonslime.Archaeology.w_petrified_flower",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2000,7 +2063,8 @@
                                     "Id": "moonslime.Archaeology.w_railroad_nail",
                                     "ItemId": "(O)moonslime.Archaeology.w_railroad_nail",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2021,7 +2085,8 @@
                                     "Id": "moonslime.Archaeology.w_dahu_statuette",
                                     "ItemId": "(O)moonslime.Archaeology.w_dahu_statuette",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2042,7 +2107,8 @@
                                     "Id": "moonslime.Archaeology.w_faience_plate",
                                     "ItemId": "(O)moonslime.Archaeology.w_faience_plate",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2063,7 +2129,8 @@
                                     "Id": "moonslime.Archaeology.w_copper_fibula",
                                     "ItemId": "(O)moonslime.Archaeology.w_copper_fibula",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2084,7 +2151,8 @@
                                     "Id": "moonslime.Archaeology.w_glassb_bowl",
                                     "ItemId": "(O)moonslime.Archaeology.w_glassb_bowl",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2105,7 +2173,8 @@
                                     "Id": "moonslime.Archaeology.w_fragment_mask",
                                     "ItemId": "(O)moonslime.Archaeology.w_fragment_mask",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2126,7 +2195,8 @@
                                     "Id": "moonslime.Archaeology.w_old_miner_lamp",
                                     "ItemId": "(O)moonslime.Archaeology.w_old_miner_lamp",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2147,7 +2217,8 @@
                                     "Id": "moonslime.Archaeology.w_rusty_ring",
                                     "ItemId": "(O)moonslime.Archaeology.w_rusty_ring",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2168,7 +2239,8 @@
                                     "Id": "moonslime.Archaeology.w_stained_glass",
                                     "ItemId": "(O)moonslime.Archaeology.w_stained_glass",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2189,7 +2261,8 @@
                                     "Id": "moonslime.Archaeology.w_blue_cameo",
                                     "ItemId": "(O)moonslime.Archaeology.w_blue_cameo",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2210,7 +2283,8 @@
                                     "Id": "moonslime.Archaeology.w_broken_sundial",
                                     "ItemId": "(O)moonslime.Archaeology.w_broken_sundial",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2231,7 +2305,8 @@
                                     "Id": "moonslime.Archaeology.w_old_shield",
                                     "ItemId": "(O)moonslime.Archaeology.w_old_shield",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2252,7 +2327,8 @@
                                     "Id": "moonslime.Archaeology.w_fragment_of_fossil_I",
                                     "ItemId": "(O)moonslime.Archaeology.w_fragment_of_fossil_I",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2273,7 +2349,8 @@
                                     "Id": "moonslime.Archaeology.w_fragment_of_fossil_II",
                                     "ItemId": "(O)moonslime.Archaeology.w_fragment_of_fossil_II",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2294,7 +2371,8 @@
                                     "Id": "moonslime.Archaeology.w_fragment_of_fossil_III",
                                     "ItemId": "(O)moonslime.Archaeology.w_fragment_of_fossil_III",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2315,7 +2393,8 @@
                                     "Id": "moonslime.Archaeology.w_rare_stamp",
                                     "ItemId": "(O)moonslime.Archaeology.w_rare_stamp",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2336,7 +2415,8 @@
                                     "Id": "moonslime.Archaeology.w_medallion",
                                     "ItemId": "(O)moonslime.Archaeology.w_medallion",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2357,7 +2437,8 @@
                                     "Id": "moonslime.Archaeology.w_cyanotype",
                                     "ItemId": "(O)moonslime.Archaeology.w_cyanotype",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2382,7 +2463,8 @@
                                     "Id": "moonslime.Archaeology.h_amphibian_fossil",
                                     "ItemId": "(O)moonslime.Archaeology.h_amphibian_fossil",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2403,7 +2485,8 @@
                                     "Id": "moonslime.Archaeology.h_anchor",
                                     "ItemId": "(O)moonslime.Archaeology.h_anchor",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2424,7 +2507,8 @@
                                     "Id": "moonslime.Archaeology.h_ancient_doll",
                                     "ItemId": "(O)moonslime.Archaeology.h_ancient_doll",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2445,7 +2529,8 @@
                                     "Id": "moonslime.Archaeology.h_ancient_drum",
                                     "ItemId": "(O)moonslime.Archaeology.h_ancient_drum",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2466,7 +2551,8 @@
                                     "Id": "moonslime.Archaeology.h_ancient_seed",
                                     "ItemId": "(O)moonslime.Archaeology.h_ancient_seed",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2487,7 +2573,8 @@
                                     "Id": "moonslime.Archaeology.h_ancient_sword",
                                     "ItemId": "(O)moonslime.Archaeology.h_ancient_sword",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2508,7 +2595,8 @@
                                     "Id": "moonslime.Archaeology.h_arrowhead",
                                     "ItemId": "(O)moonslime.Archaeology.h_arrowhead",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2529,7 +2617,8 @@
                                     "Id": "moonslime.Archaeology.h_bone_flute",
                                     "ItemId": "(O)moonslime.Archaeology.h_bone_flute",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2550,7 +2639,8 @@
                                     "Id": "moonslime.Archaeology.h_chewing_stick",
                                     "ItemId": "(O)moonslime.Archaeology.h_chewing_stick",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2571,7 +2661,8 @@
                                     "Id": "moonslime.Archaeology.h_chicken_statue",
                                     "ItemId": "(O)moonslime.Archaeology.h_chicken_statue",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2592,7 +2683,8 @@
                                     "Id": "moonslime.Archaeology.h_chipped_amphora",
                                     "ItemId": "(O)moonslime.Archaeology.h_chipped_amphora",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2613,7 +2705,8 @@
                                     "Id": "moonslime.Archaeology.h_dinosaur_egg",
                                     "ItemId": "(O)moonslime.Archaeology.h_dinosaur_egg",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2634,7 +2727,8 @@
                                     "Id": "moonslime.Archaeology.h_dried_starfish",
                                     "ItemId": "(O)moonslime.Archaeology.h_dried_starfish",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2655,7 +2749,8 @@
                                     "Id": "moonslime.Archaeology.h_dwarf_gadget",
                                     "ItemId": "(O)moonslime.Archaeology.h_dwarf_gadget",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2676,7 +2771,8 @@
                                     "Id": "moonslime.Archaeology.h_dwarf_scroll_i",
                                     "ItemId": "(O)moonslime.Archaeology.h_dwarf_scroll_i",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2697,7 +2793,8 @@
                                     "Id": "moonslime.Archaeology.h_dwarf_scroll_ii",
                                     "ItemId": "(O)moonslime.Archaeology.h_dwarf_scroll_ii",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2718,7 +2815,8 @@
                                     "Id": "moonslime.Archaeology.h_dwarf_scroll_iii",
                                     "ItemId": "(O)moonslime.Archaeology.h_dwarf_scroll_iii",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2739,7 +2837,8 @@
                                     "Id": "moonslime.Archaeology.h_dwarf_scroll_iv",
                                     "ItemId": "(O)moonslime.Archaeology.h_dwarf_scroll_iv",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2760,7 +2859,8 @@
                                     "Id": "moonslime.Archaeology.h_dwarvish_helm",
                                     "ItemId": "(O)moonslime.Archaeology.h_dwarvish_helm",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2781,7 +2881,8 @@
                                     "Id": "moonslime.Archaeology.h_elvish_jewelry",
                                     "ItemId": "(O)moonslime.Archaeology.h_elvish_jewelry",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2802,7 +2903,8 @@
                                     "Id": "moonslime.Archaeology.h_fossilized_leg",
                                     "ItemId": "(O)moonslime.Archaeology.h_fossilized_leg",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2823,7 +2925,8 @@
                                     "Id": "moonslime.Archaeology.h_fossilized_ribs",
                                     "ItemId": "(O)moonslime.Archaeology.h_fossilized_ribs",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2844,7 +2947,8 @@
                                     "Id": "moonslime.Archaeology.h_fossilized_skull",
                                     "ItemId": "(O)moonslime.Archaeology.h_fossilized_skull",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2865,7 +2969,8 @@
                                     "Id": "moonslime.Archaeology.h_fossilized_spine",
                                     "ItemId": "(O)moonslime.Archaeology.h_fossilized_spine",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2886,7 +2991,8 @@
                                     "Id": "moonslime.Archaeology.h_fossilized_tail",
                                     "ItemId": "(O)moonslime.Archaeology.h_fossilized_tail",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2907,7 +3013,8 @@
                                     "Id": "moonslime.Archaeology.h_glass_shards",
                                     "ItemId": "(O)moonslime.Archaeology.h_glass_shards",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2928,7 +3035,8 @@
                                     "Id": "moonslime.Archaeology.h_golden_mask",
                                     "ItemId": "(O)moonslime.Archaeology.h_golden_mask",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2949,7 +3057,8 @@
                                     "Id": "moonslime.Archaeology.h_golden_relic",
                                     "ItemId": "(O)moonslime.Archaeology.h_golden_relic",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2970,7 +3079,8 @@
                                     "Id": "moonslime.Archaeology.h_mummified_bat",
                                     "ItemId": "(O)moonslime.Archaeology.h_mummified_bat",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -2991,7 +3101,8 @@
                                     "Id": "moonslime.Archaeology.h_mummified_frog",
                                     "ItemId": "(O)moonslime.Archaeology.h_mummified_frog",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3012,7 +3123,8 @@
                                     "Id": "moonslime.Archaeology.h_nautilus_fossil",
                                     "ItemId": "(O)moonslime.Archaeology.h_nautilus_fossil",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3033,7 +3145,8 @@
                                     "Id": "moonslime.Archaeology.h_ornamental_fan",
                                     "ItemId": "(O)moonslime.Archaeology.h_ornamental_fan",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3054,7 +3167,8 @@
                                     "Id": "moonslime.Archaeology.h_palm_fossil",
                                     "ItemId": "(O)moonslime.Archaeology.h_palm_fossil",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3075,7 +3189,8 @@
                                     "Id": "moonslime.Archaeology.h_prehistoric_handaxe",
                                     "ItemId": "(O)moonslime.Archaeology.h_prehistoric_handaxe",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3096,7 +3211,8 @@
                                     "Id": "moonslime.Archaeology.h_prehistoric_rib",
                                     "ItemId": "(O)moonslime.Archaeology.h_prehistoric_rib",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3117,7 +3233,8 @@
                                     "Id": "moonslime.Archaeology.h_prehistoric_scapula",
                                     "ItemId": "(O)moonslime.Archaeology.h_prehistoric_scapula",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3138,7 +3255,8 @@
                                     "Id": "moonslime.Archaeology.h_prehistoric_skull",
                                     "ItemId": "(O)moonslime.Archaeology.h_prehistoric_skull",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3159,7 +3277,8 @@
                                     "Id": "moonslime.Archaeology.h_prehistoric_tibia",
                                     "ItemId": "(O)moonslime.Archaeology.h_prehistoric_tibia",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3180,7 +3299,8 @@
                                     "Id": "moonslime.Archaeology.h_prehistoric_tool",
                                     "ItemId": "(O)moonslime.Archaeology.h_prehistoric_tool",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3201,7 +3321,8 @@
                                     "Id": "moonslime.Archaeology.h_prehistoric_vertebra",
                                     "ItemId": "(O)moonslime.Archaeology.h_prehistoric_vertebra",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3222,7 +3343,8 @@
                                     "Id": "moonslime.Archaeology.h_rare_disc",
                                     "ItemId": "(O)moonslime.Archaeology.h_rare_disc",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3243,7 +3365,8 @@
                                     "Id": "moonslime.Archaeology.h_rusty_cog",
                                     "ItemId": "(O)moonslime.Archaeology.h_rusty_cog",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3264,7 +3387,8 @@
                                     "Id": "moonslime.Archaeology.h_rusty_spoon",
                                     "ItemId": "(O)moonslime.Archaeology.h_rusty_spoon",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3285,7 +3409,8 @@
                                     "Id": "moonslime.Archaeology.h_rusty_spur",
                                     "ItemId": "(O)moonslime.Archaeology.h_rusty_spur",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3306,7 +3431,8 @@
                                     "Id": "moonslime.Archaeology.h_skeletal_hand",
                                     "ItemId": "(O)moonslime.Archaeology.h_skeletal_hand",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3327,7 +3453,8 @@
                                     "Id": "moonslime.Archaeology.h_skeletal_tail",
                                     "ItemId": "(O)moonslime.Archaeology.h_skeletal_tail",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3348,7 +3475,8 @@
                                     "Id": "moonslime.Archaeology.h_snake_skull",
                                     "ItemId": "(O)moonslime.Archaeology.h_snake_skull",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3369,7 +3497,8 @@
                                     "Id": "moonslime.Archaeology.h_snake_vertebrae",
                                     "ItemId": "(O)moonslime.Archaeology.h_snake_vertebrae",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3390,7 +3519,8 @@
                                     "Id": "moonslime.Archaeology.h_strange_doll_green",
                                     "ItemId": "(O)moonslime.Archaeology.h_strange_doll_green",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3411,7 +3541,8 @@
                                     "Id": "moonslime.Archaeology.h_strange_doll_yellow",
                                     "ItemId": "(O)moonslime.Archaeology.h_strange_doll_yellow",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3432,7 +3563,8 @@
                                     "Id": "moonslime.Archaeology.h_trilobite",
                                     "ItemId": "(O)moonslime.Archaeology.h_trilobite",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3453,7 +3585,8 @@
                                     "Id": "moonslime.Archaeology.h_fossilized_starfish",
                                     "ItemId": "(O)moonslime.Archaeology.h_fossilized_starfish",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3474,7 +3607,8 @@
                                     "Id": "moonslime.Archaeology.h_fossilised_moth",
                                     "ItemId": "(O)moonslime.Archaeology.h_fossilised_moth",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3495,7 +3629,8 @@
                                     "Id": "moonslime.Archaeology.h_fossilised_fern",
                                     "ItemId": "(O)moonslime.Archaeology.h_fossilised_fern",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3516,7 +3651,8 @@
                                     "Id": "moonslime.Archaeology.h_fossilised_fish",
                                     "ItemId": "(O)moonslime.Archaeology.h_fossilised_fish",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3537,7 +3673,8 @@
                                     "Id": "moonslime.Archaeology.h_fossilised_ammonites",
                                     "ItemId": "(O)moonslime.Archaeology.h_fossilised_ammonites",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3558,7 +3695,8 @@
                                     "Id": "moonslime.Archaeology.h_giant_tusk",
                                     "ItemId": "(O)moonslime.Archaeology.h_giant_tusk",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3579,7 +3717,8 @@
                                     "Id": "moonslime.Archaeology.h_broken_watch",
                                     "ItemId": "(O)moonslime.Archaeology.h_broken_watch",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3600,7 +3739,8 @@
                                     "Id": "moonslime.Archaeology.h_broken_tea_cup",
                                     "ItemId": "(O)moonslime.Archaeology.h_broken_tea_cup",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3621,7 +3761,8 @@
                                     "Id": "moonslime.Archaeology.h_efficient_cog",
                                     "ItemId": "(O)moonslime.Archaeology.h_efficient_cog",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3642,7 +3783,8 @@
                                     "Id": "moonslime.Archaeology.h_dwarvish_device",
                                     "ItemId": "(O)moonslime.Archaeology.h_dwarvish_device",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3663,7 +3805,8 @@
                                     "Id": "moonslime.Archaeology.h_rusty_chest",
                                     "ItemId": "(O)moonslime.Archaeology.h_rusty_chest",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3684,7 +3827,8 @@
                                     "Id": "moonslime.Archaeology.h_petrified_flower",
                                     "ItemId": "(O)moonslime.Archaeology.h_petrified_flower",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3705,7 +3849,8 @@
                                     "Id": "moonslime.Archaeology.h_railroad_nail",
                                     "ItemId": "(O)moonslime.Archaeology.h_railroad_nail",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3726,7 +3871,8 @@
                                     "Id": "moonslime.Archaeology.h_dahu_statuette",
                                     "ItemId": "(O)moonslime.Archaeology.h_dahu_statuette",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3747,7 +3893,8 @@
                                     "Id": "moonslime.Archaeology.h_faience_plate",
                                     "ItemId": "(O)moonslime.Archaeology.h_faience_plate",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3768,7 +3915,8 @@
                                     "Id": "moonslime.Archaeology.h_copper_fibula",
                                     "ItemId": "(O)moonslime.Archaeology.h_copper_fibula",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3789,7 +3937,8 @@
                                     "Id": "moonslime.Archaeology.h_glassb_bowl",
                                     "ItemId": "(O)moonslime.Archaeology.h_glassb_bowl",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3810,7 +3959,8 @@
                                     "Id": "moonslime.Archaeology.h_fragment_mask",
                                     "ItemId": "(O)moonslime.Archaeology.h_fragment_mask",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3831,7 +3981,8 @@
                                     "Id": "moonslime.Archaeology.h_old_miner_lamp",
                                     "ItemId": "(O)moonslime.Archaeology.h_old_miner_lamp",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3852,7 +4003,8 @@
                                     "Id": "moonslime.Archaeology.h_rusty_ring",
                                     "ItemId": "(O)moonslime.Archaeology.h_rusty_ring",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3873,7 +4025,8 @@
                                     "Id": "moonslime.Archaeology.h_stained_glass",
                                     "ItemId": "(O)moonslime.Archaeology.h_stained_glass",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3894,7 +4047,8 @@
                                     "Id": "moonslime.Archaeology.h_blue_cameo",
                                     "ItemId": "(O)moonslime.Archaeology.h_blue_cameo",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3915,7 +4069,8 @@
                                     "Id": "moonslime.Archaeology.h_broken_sundial",
                                     "ItemId": "(O)moonslime.Archaeology.h_broken_sundial",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3936,7 +4091,8 @@
                                     "Id": "moonslime.Archaeology.h_old_shield",
                                     "ItemId": "(O)moonslime.Archaeology.h_old_shield",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3957,7 +4113,8 @@
                                     "Id": "moonslime.Archaeology.h_fragment_of_fossil_I",
                                     "ItemId": "(O)moonslime.Archaeology.h_fragment_of_fossil_I",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3978,7 +4135,8 @@
                                     "Id": "moonslime.Archaeology.h_fragment_of_fossil_II",
                                     "ItemId": "(O)moonslime.Archaeology.h_fragment_of_fossil_II",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -3999,7 +4157,8 @@
                                     "Id": "moonslime.Archaeology.h_fragment_of_fossil_III",
                                     "ItemId": "(O)moonslime.Archaeology.h_fragment_of_fossil_III",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -4020,7 +4179,8 @@
                                     "Id": "moonslime.Archaeology.h_rare_stamp",
                                     "ItemId": "(O)moonslime.Archaeology.h_rare_stamp",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -4041,7 +4201,8 @@
                                     "Id": "moonslime.Archaeology.h_medallion",
                                     "ItemId": "(O)moonslime.Archaeology.h_medallion",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
@@ -4062,7 +4223,8 @@
                                     "Id": "moonslime.Archaeology.h_cyanotype",
                                     "ItemId": "(O)moonslime.Archaeology.h_cyanotype",
                                     "MinStack": 1,
-                                    "MaxStack": 1
+                                    "MaxStack": 1,
+                                    "CopyQuality": true
                                 }
                             ],
                             "MinutesUntilReady": 720
