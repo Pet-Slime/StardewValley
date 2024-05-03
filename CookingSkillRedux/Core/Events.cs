@@ -222,96 +222,96 @@ namespace CookingSkill.Core
             StardewValley.Farmer who = sender as StardewValley.Farmer;
             if (who == null) return;
 
-            // Get the farmer's unique ID, and again check for an null player (cause I am parinoid)
+            //Get the farmer's unique ID, and again check for an ull player (cause I am parinoid)
             // If they don't have any professions related to food buffs, return so the rest of the code does not get ran.
             var player = Game1.getFarmer(who.UniqueMultiplayerID);
             if (player == null || !player.HasCustomProfession(Cooking_Skill.Cooking5b)) return;
 
-            // Make sure the item isn't null
-            if (ItemRegistry.GetData(player.itemToEat.ItemId) == null) return;
+            //Get the food item the player is going to eat. Make sure it doesnt return as a null item.
+            StardewValley.Object food = player.itemToEat as StardewValley.Object;
+            if (food == null) return;
 
+            //Get the food's ObjectData and make sure it isn't null
+            if (!Game1.objectData.TryGetValue(food.ItemId, out ObjectData data) || data == null) return;
 
-            if (player.itemToEat is not StardewValley.Object { Category: StardewValley.Object.CookingCategory } food || !Game1.objectData.TryGetValue(food.ItemId, out ObjectData data))
-                return;
-
-            // Make sure the food's Object data is not null
-            if (data == null) return;
-
-
-            //For each buff in the object data, let's go through it.
-            foreach (var buffData in data.Buffs)
+            if (data.Buffs != null)
             {
-                //If there are any spaceCore buffs on the food, run this code to increase those buffs. If there are not, run the other code.
-                if (buffData.CustomFields != null && buffData.CustomFields.Any(b => b.Key.StartsWith("spacechase.SpaceCore.SkillBuff.")))
+                //For each buff in the object data, let's go through it.
+                foreach (var buffData in data.Buffs)
                 {
-                    Buff matchingBuff = null;
-                    string id = string.IsNullOrWhiteSpace(buffData.BuffId) ? (data.IsDrink ? "drink" : "food") : buffData.BuffId;
-                    foreach (Buff buff in player.itemToEat.GetFoodOrDrinkBuffs())
+                    //If there are any spaceCore buffs on the food, run this code to increase those buffs. If there are not, run the other code.
+                    if (buffData.CustomFields != null && buffData.CustomFields.Any(b => b.Key.StartsWith("spacechase.SpaceCore.SkillBuff.")))
                     {
-                        matchingBuff = buff;
-                    }
-                    if (matchingBuff != null)
-                    {
-                        var newSkillBuff = new Skills.SkillBuff(matchingBuff, id, buffData.CustomFields);
-                        if (player.hasBuff(newSkillBuff.id))
+                        Buff matchingBuff = null;
+                        string id = string.IsNullOrWhiteSpace(buffData.BuffId) ? (data.IsDrink ? "drink" : "food") : buffData.BuffId;
+                        foreach (Buff buff in food.GetFoodOrDrinkBuffs())
                         {
-                            player.buffs.Remove(newSkillBuff.id);
-                            newSkillBuff.millisecondsDuration = (int)(Utilities.GetLevelValue(player) * newSkillBuff.millisecondsDuration);
-                            if (player.HasCustomProfession(Cooking_Skill.Cooking10b1))
+                            matchingBuff = buff;
+                        }
+                        if (matchingBuff != null)
+                        {
+                            var newSkillBuff = new Skills.SkillBuff(matchingBuff, id, buffData.CustomFields);
+                            if (player.hasBuff(newSkillBuff.id))
                             {
-                                ApplyAttributeBuff(newSkillBuff.effects, 1f);
-                                newSkillBuff.SkillLevelIncreases = newSkillBuff.SkillLevelIncreases.ToDictionary(kv => kv.Key, kv => kv.Value + 1);
+                                player.buffs.Remove(newSkillBuff.id);
+                                newSkillBuff.millisecondsDuration = (int)(Utilities.GetLevelValue(player) * newSkillBuff.millisecondsDuration);
+                                if (player.HasCustomProfession(Cooking_Skill.Cooking10b1))
+                                {
+                                    ApplyAttributeBuff(newSkillBuff.effects, 1f);
+                                    newSkillBuff.SkillLevelIncreases = newSkillBuff.SkillLevelIncreases.ToDictionary(kv => kv.Key, kv => kv.Value + 1);
+                                }
+                                player.buffs.Apply(newSkillBuff);
                             }
-                            player.buffs.Apply(newSkillBuff);
+                        }
+                        //For Food or drink with only custom buffs, matchingBuff will always return null.
+                        //So we need to make our own food buff.
+                        //With blackjack, and buffs.
+                        else
+                        {
+
+                            float durationMultiplier = ((food.Quality != 0) ? 1.5f : 1f);
+                            matchingBuff = new(
+                                id: buffData.BuffId,
+                                source: food.Name,
+                                displaySource: food.DisplayName,
+                                iconSheetIndex: buffData.IconSpriteIndex,
+                                duration: (int)((float)buffData.Duration * durationMultiplier) * Game1.realMilliSecondsPerGameMinute
+                            );
+
+
+                            var newSkillBuff = new Skills.SkillBuff(matchingBuff, id, buffData.CustomFields);
+                            if (player.hasBuff(newSkillBuff.id))
+                            {
+                                player.buffs.Remove(newSkillBuff.id);
+                                newSkillBuff.millisecondsDuration = (int)(Utilities.GetLevelValue(player) * newSkillBuff.millisecondsDuration);
+                                if (player.HasCustomProfession(Cooking_Skill.Cooking10b1))
+                                {
+                                    ApplyAttributeBuff(newSkillBuff.effects, 1f);
+                                    newSkillBuff.SkillLevelIncreases = newSkillBuff.SkillLevelIncreases.ToDictionary(kv => kv.Key, kv => kv.Value + 1);
+                                }
+                                player.buffs.Apply(newSkillBuff);
+                            }
                         }
                     }
-                    //For Food or drink with only custom buffs, matchingBuff will always return null.
-                    //So we need to make our own food buff.
-                    //With blackjack, and buffs.
                     else
                     {
-
-                        float durationMultiplier = ((food.Quality != 0) ? 1.5f : 1f);
-                        matchingBuff = new(
-                            id: buffData.BuffId,
-                            source: food.Name,
-                            displaySource: food.DisplayName,
-                            iconSheetIndex: buffData.IconSpriteIndex,
-                            duration: (int)((float)buffData.Duration * durationMultiplier) * Game1.realMilliSecondsPerGameMinute
-                        );
-
-
-                        var newSkillBuff = new Skills.SkillBuff(matchingBuff, id, buffData.CustomFields);
-                        if (player.hasBuff(newSkillBuff.id))
+                        foreach (Buff buff in food.GetFoodOrDrinkBuffs())
                         {
-                            player.buffs.Remove(newSkillBuff.id);
-                            newSkillBuff.millisecondsDuration = (int)(Utilities.GetLevelValue(player) * newSkillBuff.millisecondsDuration);
-                            if (player.HasCustomProfession(Cooking_Skill.Cooking10b1))
+                            if (player.hasBuff(buff.id))
                             {
-                                ApplyAttributeBuff(newSkillBuff.effects, 1f);
-                                newSkillBuff.SkillLevelIncreases = newSkillBuff.SkillLevelIncreases.ToDictionary(kv => kv.Key, kv => kv.Value + 1);
+                                player.buffs.Remove(buff.id);
+                                buff.millisecondsDuration = (int)(Utilities.GetLevelValue(player) * buff.millisecondsDuration);
+                                if (player.HasCustomProfession(Cooking_Skill.Cooking10b1))
+                                {
+                                    ApplyAttributeBuff(buff.effects, 1f);
+                                }
+                                player.buffs.Apply(buff);
                             }
-                            player.buffs.Apply(newSkillBuff);
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (Buff buff in player.itemToEat.GetFoodOrDrinkBuffs())
-                    {
-                        if (player.hasBuff(buff.id))
-                        {
-                            player.buffs.Remove(buff.id);
-                            buff.millisecondsDuration = (int)(Utilities.GetLevelValue(player) * buff.millisecondsDuration);
-                            if (player.HasCustomProfession(Cooking_Skill.Cooking10b1))
-                            {
-                                ApplyAttributeBuff(buff.effects, 1f);
-                            }
-                            player.buffs.Apply(buff);
                         }
                     }
                 }
             }
+            
 
             // If the player has the right profession, give them an extra buff
             if (player.HasCustomProfession(Cooking_Skill.Cooking10b2))
