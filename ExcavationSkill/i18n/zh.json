@@ -18,6 +18,18 @@
     "config.ExperienceFromWaterShifter": "水筛经验增益",
     "config.ExperienceFromWaterShifter.tooltip": "收获水筛时获得的经验收益。",
 
+    "config.ExperienceFromResearchTable": "Research Table exp gain",
+    "config.ExperienceFromResearchTable.tooltip": "This config does nothing at the moment.",
+
+    "config.ExperienceFromAncientBattery": "Ancient Battery exp gain",
+    "config.ExperienceFromAncientBattery.tooltip": "Archaeology exp gained from harvesting from an ancient battery",
+
+    "config.ExperienceFromPreservationChamber": "Preservation Chamber exp gain",
+    "config.ExperienceFromPreservationChamber.tooltip": "Archaeology exp gained from harvesting from a preservation chamber",
+
+    "config.ExperienceFromHPreservationChamber": "Hardwood Preservation Chamber exp gain",
+    "config.ExperienceFromHPreservationChamber.tooltip": "Archaeology exp gained from harvesting from a hardwood preservation chamber",
+
     "moonslime.Archaeology.skill_book.levelup": "你学会了一些考古知识。",
 
     "moonslime.Archaeology.water_shifter.name": "水筛",
