@@ -97,7 +97,7 @@ namespace ArchaeologySkill.Core
         [SEvent.StatChanged("moonslime.ArchaeologySkill.Restoration_Table")]
         private void StatChanged_Restoration_Table(object sender, SEvent.StatChanged.EventArgs e)
         {
-            Utilities.AddEXP(Game1.player, ModEntry.Config.ExperienceFromResearchTable);
+///            Utilities.AddEXP(Game1.player, ModEntry.Config.ExperienceFromResearchTable);
         }
 
         [SEvent.StatChanged("moonslime.ArchaeologySkill.Ancient_Battery")]

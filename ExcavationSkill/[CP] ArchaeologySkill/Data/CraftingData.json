@@ -6,6 +6,7 @@
             "Entries": {
                 "moonslime.Archaeology.preservation_chamber": "388 15 334 1 725 10//moonslime.Archaeology.preservation_chamber/true/moonslime.Archaeology 1",
                 "moonslime.Archaeology.w_display": "388 25/Field/moonslime.Archaeology.w_display/false/moonslime.Archaeology 1",
+                "moonslime.Archaeology.restoration_table": "388 25 338 1 335 1/Field/moonslime.Archaeology.restoration_table/true/moonslime.Archaeology 1",
                 "moonslime.Archaeology.grinder": "112 4 335 5 787 1//moonslime.Archaeology.grinder/true/moonslime.Archaeology 2",
                 "moonslime.Archaeology.rust_path": "moonslime.Archaeology.rusty_scrap 2/Field/moonslime.Archaeology.rust_path 3/false/moonslime.Archaeology 2",
                 "moonslime.Archaeology.glass_path": "118 2/Field/moonslime.Archaeology.glass_path 3/false/moonslime.Archaeology 3",

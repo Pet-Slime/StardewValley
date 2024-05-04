@@ -62,7 +62,8 @@ namespace ArchaeologySkill.Objects.Restoration_Table
                 heldObject.Value = null;
                 readyForHarvest.Value = false;
                 minutesUntilReady.Value = -1;
-                
+
+
                 return false;
             }
 
@@ -199,6 +200,13 @@ namespace ArchaeologySkill.Objects.Restoration_Table
 
         public override void draw(SpriteBatch spriteBatch, int x, int y, float alpha = 1f)
         {
+            if (heldObject.Value == null)
+            {
+                showNextIndex.Value = false;
+            } else
+            {
+                showNextIndex.Value = true;
+            }
             base.draw(spriteBatch, x, y, alpha);
             if (heldObject.Value?.Quality > 0)
             {
