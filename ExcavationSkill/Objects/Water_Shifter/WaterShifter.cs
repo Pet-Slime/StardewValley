@@ -6,11 +6,13 @@ using Netcode;
 using SpaceCore;
 using StardewValley;
 using StardewValley.Extensions;
+using StardewValley.GameData.Objects;
 using StardewValley.ItemTypeDefinitions;
 using StardewValley.Locations;
 using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 using xTile.Dimensions;
 using Object = StardewValley.Object;
@@ -328,21 +330,20 @@ namespace ArchaeologySkill.Objects.Water_Shifter
 
         public override void DayUpdate()
         {
-            var player = Game1.getFarmer( owner.Value);
+            var player = Game1.getFarmer(owner.Value);
             //Player Can get artifacts from the shift if they have the Trowler Profession
-            bool flag = player != null && player.HasCustomProfession(Archaeology_Skill.Archaeology5b);
-            bool flag2 = player != null && player.HasCustomProfession(Archaeology_Skill.Archaeology10b1);
+            bool flag = player != null && player.HasCustomProfession(Archaeology_Skill.Archaeology10b1);
 
             //If there is no fiber in the shifter, return and don't do anything.
             //If there is already an item in the shifter, return an don't do anything
-            if (!( bait.Value != null) ||  heldObject.Value != null)
+            if (!(bait.Value != null) || heldObject.Value != null)
             {
                 return;
             }
 
             TileIndexToShow = 4;
-             readyForHarvest.Value = true;
-            Random random = new Random((int)Game1.stats.DaysPlayed + (int)Game1.uniqueIDForThisGame / 2 + (int) TileLocation.X * 1000 + (int) TileLocation.Y);
+            readyForHarvest.Value = true;
+            Random random = Game1.random;
 
             //Generate the list of loot
             List<string> list =
@@ -351,31 +352,35 @@ namespace ArchaeologySkill.Objects.Water_Shifter
                 .. ModEntry.WaterSifterLootTable,
             ];
 
-            //If flag is true, add in the bonus loot table to the list
-            if (flag)
+            if (heldObject.Value == null)
             {
-                foreach (string item in ModEntry.BonusLootTable)
+                //If flag is true, add in the artifact loot table to the list
+                if (flag)
                 {
-                    list.Add(item);
+                    //Check each object in the object data list
+                    foreach (var SVobject in Game1.objectData)
+                    {
+                        //Make sure the object is not an error item and then check to see if said item has the Arch type...
+                        if (ItemRegistry.GetData(SVobject.Key) != null && SVobject.Value.Type == "Arch")
+                        {
+                            //... then add it to the list
+                            list.Add(SVobject.Key);
+                        }
+                    }
                 }
-            }
 
-            //If flag2 is true, add in the artifact loot table to the list
-            if (flag2)
-            {
-                foreach (string item in ModEntry.ArtifactLootTable)
+
+
+                //Shuffle the list so it's in a random order!
+                list.Shuffle(random);
+
+                //Choose a random item from the list. If the list somehow ended up empty (it shouldn't but just in case), give coal to the player.
+                string item = list.RandomChoose(random, "382");
+                if (item != null && Game1.objectData.TryGetValue(item, out ObjectData data) && data != null && data.Type != null)
                 {
-                    list.Add(item);
+                    int randomQuality = data.Type == "Arch" ? random.Choose(1) : random.Choose(1, 2, 3, 4, 5);
+                    heldObject.Value = new Object(item, randomQuality);
                 }
-            }
-
-
-            //Shuffle the list so it's in a random order!
-            list.Shuffle(random);
-
-            if ( heldObject.Value == null)
-            {
-                heldObject.Value = new Object(list[random.Next(list.Count)], 1);
             }
         }
 

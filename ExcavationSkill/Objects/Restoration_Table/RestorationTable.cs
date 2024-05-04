@@ -19,7 +19,7 @@ namespace ArchaeologySkill.Objects.Restoration_Table
     [XmlType("Mods_moonslime.Archaeology.restoration_table")]
     public class RestorationTable : Object
     {
-        public const int defaultDaysToMature = 56;
+        public const int defaultDaysToMature = 7;
 
         [XmlElement("agingRate")]
         public readonly NetFloat agingRate = new NetFloat();
@@ -143,7 +143,7 @@ namespace ArchaeologySkill.Objects.Restoration_Table
                 Utility.addSprinklesToLocation(Location, (int)tileLocation.X, (int)tileLocation.Y, 1, 2, 400, 40, Color.White);
                 Game1.playSound("yoba");
                 daysToMature.Value = GetDaysForQuality(GetNextQuality(heldObject.Value.Quality));
-                checkForMaturity();
+                CheckForMaturity();
             }
 
             return true;
@@ -156,7 +156,7 @@ namespace ArchaeologySkill.Objects.Restoration_Table
             {
                 minutesUntilReady.Value = 999999;
                 daysToMature.Value -= agingRate.Value;
-                checkForMaturity();
+                CheckForMaturity();
             }
         }
 
@@ -164,10 +164,10 @@ namespace ArchaeologySkill.Objects.Restoration_Table
         {
             return quality switch
             {
-                4 => 0f,
-                2 => 28f,
-                1 => 42f,
-                _ => 56f,
+                4 => 1f,
+                2 => 3f,
+                1 => 5f,
+                _ => 7f,
             };
         }
 
@@ -185,7 +185,7 @@ namespace ArchaeologySkill.Objects.Restoration_Table
             }
         }
 
-        public void checkForMaturity()
+        public void CheckForMaturity()
         {
             if (daysToMature.Value <= GetDaysForQuality(GetNextQuality(heldObject.Value.Quality)))
             {
@@ -202,7 +202,7 @@ namespace ArchaeologySkill.Objects.Restoration_Table
             base.draw(spriteBatch, x, y, alpha);
             if (heldObject.Value?.Quality > 0)
             {
-                Vector2 vector = MinutesUntilReady > 0 ? new Vector2(Math.Abs(scale.X - 5f), Math.Abs(scale.Y - 5f)) : Vector2.Zero;
+                Vector2 vector = MinutesUntilReady > 0 ? Vector2.Zero : Vector2.Zero;
                 vector *= 4f;
                 Vector2 vector2 = Game1.GlobalToLocal(Game1.viewport, new Vector2(x * 64, y * 64 - 64));
                 Rectangle destinationRectangle = new Rectangle((int)(vector2.X + 32f - 8f - vector.X / 2f) + (shakeTimer > 0 ? Game1.random.Next(-1, 2) : 0), (int)(vector2.Y + 64f + 8f - vector.Y / 2f) + (shakeTimer > 0 ? Game1.random.Next(-1, 2) : 0), (int)(16f + vector.X), (int)(16f + vector.Y / 2f));

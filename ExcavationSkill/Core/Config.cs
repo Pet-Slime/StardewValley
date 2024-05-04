@@ -23,5 +23,21 @@ namespace ArchaeologySkill
 
         [SConfig.Option(0, 100, 1)]
         public int ExperienceFromWaterShifter { get; set; } = 2;
+
+
+
+        [SConfig.Option(0, 100, 1)]
+        public int ExperienceFromResearchTable { get; set; } = 10;
+
+        [SConfig.Option(0, 100, 1)]
+        public int ExperienceFromAncientBattery { get; set; } = 10;
+
+
+        [SConfig.Option(0, 100, 1)]
+        public int ExperienceFromPreservationChamber { get; set; } = 10;
+
+
+        [SConfig.Option(0, 100, 1)]
+        public int ExperienceFromHPreservationChamber { get; set; } = 20;
     }
 }

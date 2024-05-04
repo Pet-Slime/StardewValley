@@ -94,6 +94,29 @@ namespace ArchaeologySkill.Core
             }
         }
 
+        [SEvent.StatChanged("moonslime.ArchaeologySkill.Restoration_Table")]
+        private void StatChanged_Restoration_Table(object sender, SEvent.StatChanged.EventArgs e)
+        {
+            Utilities.AddEXP(Game1.player, ModEntry.Config.ExperienceFromResearchTable);
+        }
+
+        [SEvent.StatChanged("moonslime.ArchaeologySkill.Ancient_Battery")]
+        private void StatChanged_ancient_battery(object sender, SEvent.StatChanged.EventArgs e)
+        {
+            Utilities.AddEXP(Game1.player, ModEntry.Config.ExperienceFromAncientBattery);
+        }
+
+        [SEvent.StatChanged("moonslime.ArchaeologySkill.preservation_chamber")]
+        private void StatChanged_preservation_chamber(object sender, SEvent.StatChanged.EventArgs e)
+        {
+            Utilities.AddEXP(Game1.player, ModEntry.Config.ExperienceFromPreservationChamber);
+        }
+
+        [SEvent.StatChanged("moonslime.ArchaeologySkill.h_preservation_chamber")]
+        private void StatChanged_h_preservation_chamber(object sender, SEvent.StatChanged.EventArgs e)
+        {
+            Utilities.AddEXP(Game1.player, ModEntry.Config.ExperienceFromHPreservationChamber);
+        }
 
 
         [SEvent.SaveLoaded]

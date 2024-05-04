@@ -27,7 +27,7 @@
                             "OutputItem": [
                                 {
                                     "CustomData": {
-                                        "AgingMultiplier": "8"
+                                        "AgingMultiplier": "1"
                                     },
                                     "OutputMethod": "ArchaeologySkill.Objects.Restoration_Table.RestorationTable, ArchaeologySkillCode: OutputCask",
                                     "CopyColor": false,
@@ -73,7 +73,12 @@
                     "ReadyTimeModifierMode": "Stack",
                     "InvalidItemMessage": null,
                     "InvalidItemMessageCondition": null,
-                    "InvalidCountMessage": null
+                    "InvalidCountMessage": null,
+                    "StatsToIncrementWhenLoaded": [
+                        {
+                            "StatName": "moonslime.ArchaeologySkill.Restoration_Table"
+                        }
+                    ]
                 },
                 "(BC)moonslime.Archaeology.ancient_battery": {
                     "OutputRules": [
@@ -126,6 +131,11 @@
                             "Interval": 100,
                             "Frames": null,
                             "ShakeDuration": -1
+                        }
+                    ],
+                    "StatsToIncrementWhenLoaded": [
+                        {
+                            "StatName": "moonslime.ArchaeologySkill.Ancient_Battery"
                         }
                     ]
                 },
@@ -503,6 +513,11 @@
                             "Frames": null,
                             "ShakeDuration": -1,
                             "TemporarySprites": null
+                        }
+                    ],
+                    "StatsToIncrementWhenLoaded": [
+                        {
+                            "StatName": "moonslime.ArchaeologySkill.Grinder"
                         }
                     ]
                 },
@@ -1685,6 +1700,11 @@
                                 }
                             ]
                         }
+                    ],
+                    "StatsToIncrementWhenLoaded": [
+                        {
+                            "StatName": "moonslime.ArchaeologySkill.Preservation_Chamber"
+                        }
                     ]
                 },
                 "(BC)moonslime.Archaeology.h_preservation_chamber": {
@@ -2865,6 +2885,11 @@
                                     "Color": "#bfbf00bf"
                                 }
                             ]
+                        }
+                    ],
+                    "StatsToIncrementWhenLoaded": [
+                        {
+                            "StatName": "moonslime.ArchaeologySkill.H_Preservation_Chamber"
                         }
                     ]
                 }
