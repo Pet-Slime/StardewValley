@@ -65,6 +65,8 @@ namespace ArchaeologySkill.Core
                 Log.Trace("Archaeology: I do see XP display, Registering API.");
                 ModEntry.XpAPI = ModEntry.Instance.Helper.ModRegistry.GetApi<IXPDisplayApi>("Shockah.XPDisplay");
             }
+
+            
         }
 
         [SEvent.DayStarted]
@@ -122,6 +124,7 @@ namespace ArchaeologySkill.Core
         [SEvent.SaveLoaded]
         private void SaveLoaded(object sender, SaveLoadedEventArgs e)
         {
+
             if (ModEntry.XpAPI is not null)
             {
                 Log.Trace("Archaeology: XP display found, Marking Hoe and Pan as Skill tools");

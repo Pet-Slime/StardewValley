@@ -13,6 +13,7 @@ using StardewValley.Enchantments;
 using StardewValley.Extensions;
 using StardewValley.GameData.Locations;
 using StardewValley.Locations;
+using StardewValley.Network;
 using StardewValley.Tools;
 using static BirbCore.Attributes.SMod;
 namespace ArchaeologySkill.Core
@@ -518,10 +519,10 @@ namespace ArchaeologySkill.Core
         private static bool Prefix(
         StardewValley.Locations.VolcanoDungeon __instance, SpriteBatch b)
         {
-            if (__instance.level?.Get() > 15)
+            if (__instance.level?.Get() > 10)
             {
                 Color color_Red = SpriteText.color_Red;
-                string s = (__instance.level?.Get() - 30).Value.ToString() ?? "";
+                string s = (__instance.level?.Get() - 10).Value.ToString() ?? "";
                 Microsoft.Xna.Framework.Rectangle titleSafeArea = Game1.game1.GraphicsDevice.Viewport.GetTitleSafeArea();
                 SpriteText.drawString(b, s, titleSafeArea.Left + 16, titleSafeArea.Top + 16, 999999, -1, 999999, 1f, 1f, junimoText: false, 2, "", color_Red);
                 return false; // don't run original code
@@ -530,6 +531,47 @@ namespace ArchaeologySkill.Core
             return true; // run original code
         }
     }
+
+    [HarmonyPatch(typeof(VolcanoDungeon), nameof(VolcanoDungeon.CreateEntrance))]
+    class VolcanoDungeonCreateEntrence_patch
+    {
+        [HarmonyLib.HarmonyPrefix]
+        private static bool Prefix(
+        StardewValley.Locations.VolcanoDungeon __instance)
+        {
+            if (__instance.level?.Get() == 11)
+            {
+                //Clear the warps of the current floor so they don't exist anymore.
+                __instance.warps.Clear();
+                __instance.ApplyToColor(new Color(255, 0, 0), delegate (int x, int y)
+                {
+                    if (!__instance.endPosition.HasValue)
+                    {
+                        __instance.endPosition = new Point(x, y);
+                    }
+
+                    if (__instance.level.Value == 9)
+                    {
+                        __instance.warps.Add(new Warp(x, y - 2, "Caldera", 21, 39, flipFarmer: false));
+                    }
+                    else
+                    {
+                        __instance.warps.Add(new Warp(x, y - 2, GetLevelName(__instance.level.Value + 1), x - __instance.endPosition.Value.X, 1, flipFarmer: false));
+                    }
+                });
+                return false; // don't run original code
+            }
+
+            return true; // run original code
+        }
+
+        public static string GetLevelName(int level)
+        {
+            return "VolcanoDungeon" + level;
+        }
+    }
+
+
 
     [HarmonyPatch(typeof(StardewValley.Object), nameof(StardewValley.Object.performUseAction))]
     class VolcanoWarpTotem_patch
@@ -647,7 +689,7 @@ namespace ArchaeologySkill.Core
 
         private static void Volcano_totemWarpForReal()
         {
-            Game1.warpFarmer("VolcanoDungeon" + 31, 0, 1, false);
+            Game1.warpFarmer("VolcanoDungeon" + 11, 0, 1, false);
 
 
             Game1.changeMusicTrack("VolcanoMines");
