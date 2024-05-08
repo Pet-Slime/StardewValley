@@ -18,17 +18,17 @@
     "config.ExperienceFromWaterShifter": "水筛经验增益",
     "config.ExperienceFromWaterShifter.tooltip": "收获水筛时获得的经验收益。",
 
-    "config.ExperienceFromResearchTable": "Research Table exp gain",
-    "config.ExperienceFromResearchTable.tooltip": "This config does nothing at the moment.",
+    "config.ExperienceFromResearchTable": "复原工作台经验增益",
+    "config.ExperienceFromResearchTable.tooltip": "此设置目前不生效。",
 
-    "config.ExperienceFromAncientBattery": "Ancient Battery exp gain",
-    "config.ExperienceFromAncientBattery.tooltip": "Archaeology exp gained from harvesting from an ancient battery",
+    "config.ExperienceFromAncientBattery": "电池古法生产站经验增益",
+    "config.ExperienceFromAncientBattery.tooltip": "从电池古法生产站中收获的经验收益。",
 
-    "config.ExperienceFromPreservationChamber": "Preservation Chamber exp gain",
-    "config.ExperienceFromPreservationChamber.tooltip": "Archaeology exp gained from harvesting from a preservation chamber",
+    "config.ExperienceFromPreservationChamber": "收藏室经验增益",
+    "config.ExperienceFromPreservationChamber.tooltip": "从收藏室中收获的经验收益。",
 
-    "config.ExperienceFromHPreservationChamber": "Hardwood Preservation Chamber exp gain",
-    "config.ExperienceFromHPreservationChamber.tooltip": "Archaeology exp gained from harvesting from a hardwood preservation chamber",
+    "config.ExperienceFromHPreservationChamber": "硬木收藏室经验增益",
+    "config.ExperienceFromHPreservationChamber.tooltip": "从硬木收藏室中收获的经验收益。",
 
     "moonslime.Archaeology.skill_book.levelup": "你学会了一些考古知识。",
 
