@@ -48,7 +48,7 @@ namespace SpookySkillCode.Core
             // The mines is a dark place, calculate light levels there
             if (location is MineShaft mines && mines.isLightingDark.Value == true)
             {
-                Log.Warn("Return true on Mines");
+                Log.Trace("Return true on Mines");
                 startingBonus -= GetLightBonus(Game1.currentLightSources, who, startingBonus, -1);
                 return valueChange += startingBonus;
             }
@@ -56,7 +56,7 @@ namespace SpookySkillCode.Core
             // Calculate light in the volcano dungeon
             if (location is VolcanoDungeon)
             {
-                Log.Warn("Return true on Volcano");
+                Log.Trace("Return true on Volcano");
                 startingBonus -= GetLightBonus(Game1.currentLightSources, who, startingBonus, -1);
                 return valueChange += startingBonus;
             }
@@ -64,7 +64,7 @@ namespace SpookySkillCode.Core
             // Try to calculate indoor places. if the place is meant to be bright, it will have a color of white, black, or the default
             if (RBGTest(location))
             {
-                Log.Warn("Return true on RBGTest");
+                Log.Trace("Return true on RBGTest");
                 startingBonus -= GetLightBonus(Game1.currentLightSources, who, startingBonus, -2);
                 return valueChange += startingBonus;
             }
@@ -72,7 +72,7 @@ namespace SpookySkillCode.Core
             // See if it's dark out
             if (Game1.isDarkOut(location))
             {
-                Log.Warn("Return true on is dark");
+                Log.Trace("Return true on is dark");
                 startingBonus -= GetLightBonus(Game1.currentLightSources, who, startingBonus, -2);
                 return valueChange += startingBonus;
             }
@@ -90,9 +90,9 @@ namespace SpookySkillCode.Core
                 var lightVector = new Vector2(test.position.X, test.position.Y);
                 bool inTheLight = IsInLight(lightVector, (int)(test.radius.Value * 64f * 4f), who);
 
-                Log.Warn(" ");
-                Log.Warn($"is the player in a light source: {inTheLight} ");
-                Log.Warn(" ");
+                Log.Trace(" ");
+                Log.Trace($"is the player in a light source: {inTheLight} ");
+                Log.Trace(" ");
                 bonus -= inTheLight ? hurtValue : 0;
             }
             return bonus;

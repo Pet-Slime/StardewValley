@@ -4,7 +4,7 @@
     "skill.perk_bonus": "Chance to get {{rarity}} bonus digging drops",
 
     "config.AlternativeSkillPageIcon": "Alternative Skill Icon Page",
-    "config.AlternativeSkillPageIcon.tooltip": "Requires restart, change the page icon from a brush and rock to a shovel.",
+    "config.AlternativeSkillPageIcon.tooltip": "Requires restart. Change the page icon from a chef hat, to the original pot, or to silverware.",
 
     "config.ExperienceFromArtifactSpots": "Artifact spot experience gain",
     "config.ExperienceFromArtifactSpots.tooltip": "Archaeology exp gained from digging specifically in an artifact spot.",

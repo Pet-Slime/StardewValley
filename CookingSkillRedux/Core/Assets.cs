@@ -9,8 +9,14 @@ namespace CookingSkill
         [SAsset.Asset("assets/cookingiconA.png")]
         public Texture2D IconA { get; set; }
 
-        [SAsset.Asset("assets/cookingiconB.png")]
-        public Texture2D IconB { get; set; }
+        [SAsset.Asset("assets/cookingiconB_0.png")]
+        public Texture2D IconB_0 { get; set; }
+
+        [SAsset.Asset("assets/cookingiconB_1.png")]
+        public Texture2D IconB_1 { get; set; }
+
+        [SAsset.Asset("assets/cookingiconB_2.png")]
+        public Texture2D IconB_2 { get; set; }
 
         [SAsset.Asset("assets/cooking5a.png")]
         public Texture2D Cooking5a { get; set; }

@@ -20,6 +20,7 @@ namespace SpookySkill.Core
     internal class Events
     {
         public const string Boo = "moonslime.Spooky.Cooldown";
+        public const string BadLuck = "moonslime.Spooky.BadLuck";
         public static SpookyProfession Proffession5a =>  Spooky_Skill.Spooky5a;
         public static SpookyProfession Proffession5b =>  Spooky_Skill.Spooky5b;
         public static SpookyProfession Proffession10a1 =>  Spooky_Skill.Spooky10a1;
@@ -156,7 +157,7 @@ namespace SpookySkill.Core
             {
 
                 float Distance = Vector2.Distance(NPC.Tile, playerTile);
-                float profession = (player.HasCustomProfession(Proffession10a1) ? 8 : 2);
+                float profession = (player.HasCustomProfession(Proffession10a1) ? 5 : 1);
 
 
                 BirbCore.Attributes.Log.Trace("Scaring/Thieving: Button pressed, going to go through the list...");
@@ -262,25 +263,29 @@ namespace SpookySkill.Core
             // Get the random dice roll from 0 to 99
             decimal diceRoll = Game1.random.Next(100);
             decimal diceBonus = 1;
-            Log.Warn($"Initial dice roll: {diceRoll}");
-            Log.Warn($"Initial dice bonus: {diceBonus}");
+            Log.Trace($"Initial dice roll: {diceRoll}");
+            Log.Trace($"Initial dice bonus: {diceBonus}");
 
             // Get how spooky the player is.
             // this is the player's spooky level * 2 + the dice roll.
             diceBonus = CalculateSpookyPlayerLevel(diceBonus, player);
-            Log.Warn($"dice bonus after level addition: {diceBonus}");
+            Log.Trace($"dice bonus after level addition: {diceBonus}");
 
             // Add in the player luck to the roll
             diceBonus = CalculateSpookyLuckLevel(diceBonus, player);
-            Log.Warn($"dice bonus after luck addition: {diceBonus}");
+            Log.Trace($"dice bonus after luck addition: {diceBonus}");
 
             // Add 10 if the player has the ghoul profession
             diceBonus = CalculateSpookyProfessionBonus(diceBonus, player);
-            Log.Warn($"dice bonus after ghoul profession addition: {diceBonus}");
+            Log.Trace($"dice bonus after ghoul profession addition: {diceBonus}");
 
             // Calculate light levels
             diceBonus = CalculateSpookyNightTimeAdjustment(diceBonus, player);
-            Log.Warn($"dice roll after night time addition: {diceRoll}");
+            Log.Trace($"dice roll after night time addition: {diceRoll}");
+
+            // Calculate weather bonus
+            diceBonus = CalculateSpookyWeatherAdjustment(diceBonus, player);
+            Log.Trace($"dice bonus after rainy weather addition: {diceBonus}");
 
             // Set the spookyLevel string to 0 for now...
             string spookLevel = "level_0";
@@ -293,9 +298,9 @@ namespace SpookySkill.Core
                 // ... Get the spooky level and calulate it here and
                 // ... Set the sound ID to just a swish of the wind
 
-                Log.Warn($"Final dice bonus is: {diceBonus}");
+                Log.Trace($"Final dice bonus is: {diceBonus}");
                 decimal finalRoll = diceRoll * diceBonus;
-                Log.Warn($"Final dice roll is: {finalRoll}");
+                Log.Trace($"Final dice roll is: {finalRoll}");
                 spookLevel = GetSpookLevel(finalRoll);
                 soundID = "wind";
 
@@ -303,11 +308,11 @@ namespace SpookySkill.Core
             {
                 // Fall adjustment for the spooky roll
                 diceBonus = CalculateSpookyFallAdjustment(diceBonus);
-                Log.Warn($"dice bonus after fall adjustment time addition: {diceBonus}");
+                Log.Trace($"dice bonus after fall adjustment time addition: {diceBonus}");
 
-                Log.Warn($"Final dice bonus is: {diceBonus}");
+                Log.Trace($"Final dice bonus is: {diceBonus}");
                 decimal finalRoll = diceRoll * diceBonus;
-                Log.Warn($"Final dice roll is: {finalRoll}");
+                Log.Trace($"Final dice roll is: {finalRoll}");
                 // Get the spook level
                 spookLevel = GetSpookLevel(finalRoll);
 
@@ -319,7 +324,7 @@ namespace SpookySkill.Core
                 }
             }
 
-            Log.Warn($"Scaring/Stealing vs monster, Dice roll is {diceRoll}, and spook level is {spookLevel}");
+            Log.Trace($"Scaring/Stealing vs monster, Dice roll is {diceRoll}, and spook level is {spookLevel}");
 
             // We play an emote and sound as feedback for the skill to the player that it is functioning
             player.performPlayerEmote("exclamation");
@@ -352,34 +357,38 @@ namespace SpookySkill.Core
             // Get the random dice roll from 0 to 99
             decimal diceRoll = Game1.random.Next(100);
             decimal diceBonus = 1;
-            Log.Warn($"Initial dice roll: {diceRoll}");
-            Log.Warn($"Initial dice bonus: {diceBonus}");
+            Log.Trace($"Initial dice roll: {diceRoll}");
+            Log.Trace($"Initial dice bonus: {diceBonus}");
 
             // Get how spooky the player is.
             // this is the player's spooky level * 2 + the dice roll.
             diceBonus = CalculateSpookyPlayerLevel(diceBonus, player);
-            Log.Warn($"dice bonus after level addition: {diceBonus}");
+            Log.Trace($"dice bonus after level addition: {diceBonus}");
 
 
             // Add in the player luck to the roll
             diceBonus = CalculateSpookyLuckLevel(diceBonus, player);
-            Log.Warn($"dice bonus after luck addition: {diceBonus}");
+            Log.Trace($"dice bonus after luck addition: {diceBonus}");
 
             // Get the direction the player is facing vs the direction the NPC is facing.
             // Like if the player and NPC are facing each other, is the player facing the side, or the NPC's back
             string facingSide = GetFacingSide(npc, player);
             // Get the spook level adjustment based on if the player is facing the NPC's back, sides, or front
             diceBonus = CalculateSpookyDirectionChange(diceBonus, facingSide, player.HasCustomProfession(Proffession5a));
-            Log.Warn($"dice bonus after direction addition: {diceBonus}");
+            Log.Trace($"dice bonus after direction addition: {diceBonus}");
 
             // Add 10 if the player has the ghoul profession
             diceBonus = CalculateSpookyProfessionBonus(diceBonus, player);
-            Log.Warn($"dice bonus after ghoul profession addition: {diceBonus}");
+            Log.Trace($"dice bonus after ghoul profession addition: {diceBonus}");
 
             // Calculate light levels
             diceBonus = CalculateSpookyNightTimeAdjustment(diceBonus, player);
+            Log.Trace($"dice bonus after night time addition: {diceBonus}");
 
-            Log.Warn($"dice bonus after night time addition: {diceBonus}");
+            // Calculate weather bonus
+            diceBonus = CalculateSpookyWeatherAdjustment(diceBonus, player);
+            Log.Trace($"dice bonus after rainy weather addition: {diceBonus}");
+
             // Set the spook level string to the default value
             string spookLevel = "level_0";
 
@@ -397,9 +406,9 @@ namespace SpookySkill.Core
             {
                 soundID = "wind";
 
-                Log.Warn($"Final dice bonus is: {diceBonus}");
+                Log.Trace($"Final dice bonus is: {diceBonus}");
                 decimal finalRoll = diceRoll * diceBonus;
-                Log.Warn($"Final dice roll is: {finalRoll}");
+                Log.Trace($"Final dice roll is: {finalRoll}");
                 spookLevel = GetSpookLevel(finalRoll);
 
                 #region Player Skill Feedback
@@ -409,7 +418,6 @@ namespace SpookySkill.Core
                 // Make the villager jump if the player 
                 // Make the NPC jump if they are scared enough
                 bool jump = spookLevel == "level_0" || spookLevel == "level_1";
-                if (jump) npc.Halt();
                 if (jump) npc.jump();
                 #endregion
             }
@@ -418,11 +426,11 @@ namespace SpookySkill.Core
             {
                 // Fall adjustment for the spooky roll
                 diceBonus = CalculateSpookyFallAdjustment(diceBonus);
-                Log.Warn($"dice bonus after fall adjustment time addition: {diceBonus}");
+                Log.Trace($"dice bonus after fall adjustment time addition: {diceBonus}");
 
-                Log.Warn($"Final dice bonus is: {diceBonus}");
+                Log.Trace($"Final dice bonus is: {diceBonus}");
                 decimal finalRoll = diceRoll * diceBonus;
-                Log.Warn($"Final dice roll is: {finalRoll}");
+                Log.Trace($"Final dice roll is: {finalRoll}");
                 // Get the spook level
                 spookLevel = GetSpookLevel(finalRoll);
 
@@ -462,7 +470,7 @@ namespace SpookySkill.Core
             #endregion
 
 
-            Log.Warn($"Scaring/Stealing vs villager, final Dice roll is {diceRoll}, and spook level is {spookLevel}");
+            Log.Trace($"Scaring/Stealing vs villager, final Dice roll is {diceRoll}, and spook level is {spookLevel}");
 
             // adjust friendship lost based on if it's day or night if the player is outside.
             // acting in broad daylight increases the lost of friendship
@@ -594,24 +602,28 @@ namespace SpookySkill.Core
 
             //Get the player level
             decimal diceBonus = 1;
-            Log.Warn($"Scaring/Stealing loot, Loot dice bonus is: {diceBonus}");
+            Log.Trace($"Scaring/Stealing loot, Loot dice bonus is: {diceBonus}");
             diceBonus = CalculateSpookyPlayerLevel(diceBonus, player);
-            Log.Warn($"Loot dice bonus is: {diceBonus} after player level");
+            Log.Trace($"Loot dice bonus is: {diceBonus} after player level");
             diceBonus = CalculateSpookyLuckLevel(diceBonus, player);
-            Log.Warn($"Loot dice bonus is: {diceBonus} after player luck");
+            Log.Trace($"Loot dice bonus is: {diceBonus} after player luck");
             diceBonus = CalculateSpookyProfessionBonus(diceBonus, player);
-            Log.Warn($"Loot dice bonus is: {diceBonus} after player profession");
+            Log.Trace($"Loot dice bonus is: {diceBonus} after player profession");
             diceBonus = CalculateSpookyNightTimeAdjustment(diceBonus, player);
-            Log.Warn($"Loot dice bonus is: {diceBonus} after night time bonus");
+            Log.Trace($"Loot dice bonus is: {diceBonus} after night time bonus");
+            diceBonus = CalculateSpookyWeatherAdjustment(diceBonus, player);
+            Log.Trace($"Loot dice bonus is: {diceBonus} after weather bonus");
+            diceBonus = CalculateBadLuckProtection(diceBonus, player);
+            Log.Trace($"Loot dice bonus is: {diceBonus} after bad luck protection");
 
             decimal diceRoll = Game1.random.Next(100);
-            Log.Warn($"Loot dice roll is {diceRoll}");
+            Log.Trace($"Loot dice roll is {diceRoll}");
 
             decimal finalroll = diceRoll * diceBonus;
 
             decimal lootChance = 120 - ((20 - spookThresholds[spookLevel]) * (5 - spookThresholds[spookLevel]));
 
-            Log.Warn($"Scaring/Stealing loot, Loot Dice roll is {finalroll}, spook level is {spookLevel}, and loot chance is {lootChance}");
+            Log.Trace($"Scaring/Stealing loot, Loot Dice roll is {finalroll}, spook level is {spookLevel}, and loot chance is {lootChance}");
 
 
             // Determine loot drop based on spook level
@@ -626,6 +638,46 @@ namespace SpookySkill.Core
                 {
                     Game1.createObjectDebris(item, npc.TilePoint.X, npc.TilePoint.Y, npc.currentLocation);
                 }
+
+                decimal ZeroBadLuckProtection = 0.0m;
+                // We reset their badluck protection since they got loot
+                if (player.modDataForSerialization.ContainsKey(BadLuck))
+                {
+                    player.modDataForSerialization[BadLuck] = ZeroBadLuckProtection.ToString();
+                } else
+                {
+                    //We set the modData value to what we want it to be
+                    player.modDataForSerialization.TryAdd(BadLuck, ZeroBadLuckProtection.ToString());
+                }
+
+            }
+            //If they don't get a drop, we add the bad luck protection to it.
+            else
+            {
+                Dictionary<string, decimal> badLuckValues = new()
+                    {
+                        { "level_0", 0.01m },
+                        { "level_1", 0.02m },
+                        { "level_2", 0.03m },
+                        { "level_3", 0.04m },
+                        { "level_4", 0.05m }
+                    };
+                //Check to see if they have the mod Data already and get that value
+                if (player.modDataForSerialization.TryGetValue(BadLuck, out string storedBadLuckString))
+                {
+                    //Change the value into an int
+                    decimal storedBadLuckValue = decimal.Parse(storedBadLuckString);
+
+                    storedBadLuckValue += badLuckValues[spookLevel];
+
+                    player.modDataForSerialization[BadLuck] = storedBadLuckValue.ToString();
+                }
+                //If there is no modData value for our key...
+                else
+                {
+                    //We set the modData value to what we want it to be
+                    player.modDataForSerialization.TryAdd(BadLuck, badLuckValues[spookLevel].ToString());
+                }
             }
 
             // Set cooldown based on spook level
@@ -634,7 +686,7 @@ namespace SpookySkill.Core
 
             if (player.modDataForSerialization.TryGetValue(Boo, out string value))
             {
-                Log.Warn("Spooky skill cooldown is now set to: " + value);
+                Log.Trace("Spooky skill cooldown is now set to: " + value);
             }
         }
 
@@ -655,7 +707,7 @@ namespace SpookySkill.Core
                     AddLootFromList(lootList, Game1.NPCGiftTastes["Universal_Like"]);
                 }
             }
-            if (Game1.year != 1 || player.HasCustomProfession(Proffession10b1))
+            if (player.HasCustomProfession(Proffession10b1))
             {
                 AddLootFromList(lootList, Game1.NPCGiftTastes["Universal_Love"]);
             }
@@ -834,6 +886,17 @@ namespace SpookySkill.Core
             return value += newValue;
         }
 
+        public static decimal CalculateSpookyWeatherAdjustment(decimal value, Farmer who)
+        {
+            decimal newValue = 0;
+            // Does the location count as an outdoor location?
+            if (who.currentLocation.IsRainingHere() || who.currentLocation.IsGreenRainingHere())
+            {
+                newValue += 0.05m;
+            }
+            return value += newValue;
+        }
+
         private static decimal CalculateSpookyFallAdjustment(decimal value)
         {
             decimal newValue = 0;
@@ -857,9 +920,9 @@ namespace SpookySkill.Core
             // People are more in the mood to get scared during the fall
             // You are also more scary in the fall
             int playerLevel = Utilities.GetLevel(who);
-            Log.Warn($"Player level is: {playerLevel}");
+            Log.Trace($"Player level is: {playerLevel}");
             decimal newValue = (decimal)((playerLevel + playerLevel) * 0.01);
-            Log.Warn($"Player level bonus is: {newValue}");
+            Log.Trace($"Player level bonus is: {newValue}");
             return value += newValue;
         }
 
@@ -868,6 +931,16 @@ namespace SpookySkill.Core
             // People are more in the mood to get scared during the fall
             // You are also more scary in the fall
             decimal newValue = (decimal)(who.DailyLuck + (who.LuckLevel * 0.01));
+            return value += newValue;
+        }
+
+        private static decimal CalculateBadLuckProtection(decimal value, Farmer who)
+        {
+            decimal newValue = 0;
+            if (who.modDataForSerialization.TryGetValue(BadLuck, out string storedBadLuckString))
+            {
+                newValue = decimal.Parse(storedBadLuckString);
+            }
             return value += newValue;
         }
 

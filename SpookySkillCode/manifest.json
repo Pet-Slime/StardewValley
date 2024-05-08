@@ -1,13 +1,13 @@
 ﻿{
     "Name": "Scaring / Thieving Skill",
     "Author": "moonslime",
-    "Version": "0.5.0",
+    "Version": "1.0.0",
     "Description": "Scare(or steal from) NPCs, get items",
     "UniqueID": "moonslime.SpookySkill",
     "EntryDll": "SpookySkillCode.dll",
     "MinimumApiVersion": "4.0.0",
     "UpdateKeys": [
-        "Nexus:-1"
+        "Nexus:23791"
     ],
     "Dependencies": [
         {
@@ -22,18 +22,6 @@
         },
         {
             "UniqueID": "spacechase0.GenericModConfigMenu",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "Shockah.XPDisplay",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "spacechase0.JsonAssets",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "spacechase0.DynamicGameAssets",
             "IsRequired": false
         },
         {

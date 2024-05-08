@@ -7,6 +7,10 @@ namespace CookingSkill
     public class Config
     {
 
+        [SConfig.Option(0, 2, 1)]
+        public int AlternativeSkillPageIcon { get; set; } = 0;
+
+
         [SConfig.Option(0, 100, 1)]
         public int ExperienceFromCooking { get; set; } = 2;
 

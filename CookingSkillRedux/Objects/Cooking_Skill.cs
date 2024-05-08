@@ -22,7 +22,20 @@ namespace CookingSkill
         public Cooking_Skill() : base("moonslime.Cooking")
         {
             this.Icon = ModEntry.Assets.IconA;
-            this.SkillsPageIcon = ModEntry.Assets.IconB;
+
+            switch (ModEntry.Config.AlternativeSkillPageIcon)
+            {
+                case 0:
+                    this.SkillsPageIcon = ModEntry.Assets.IconB_0;
+                    break;
+                case 1:
+                    this.SkillsPageIcon = ModEntry.Assets.IconB_1;
+                    break;
+                case 2:
+                    this.SkillsPageIcon = ModEntry.Assets.IconB_2;
+                    break;
+            }
+
             this.ExperienceBarColor = new Microsoft.Xna.Framework.Color(196, 76, 255);
 
             this.ExperienceCurve = new[] { 100, 380, 770, 1300, 2150, 3300, 4000, 6900, 10000, 15000 };
