@@ -197,7 +197,7 @@ namespace SpookySkill.Core
                 }
 
                 Monster monsterNPC = (Monster)NPC;
-
+                profession = (player.HasCustomProfession(Proffession10a1) ? 6 : 2);
                 if (monsterNPC.IsMonster &&
                     !monsterNPC.CanSocialize && // Just in case someone got the idea of making a friendly monster a monster class instead of an NPC class
                     !monsterNPC.IsInvisible && // If we cant see the monster, we can't scare or steal from it
