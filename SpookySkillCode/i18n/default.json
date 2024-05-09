@@ -96,6 +96,9 @@
     "config.ThiefIcon": "Thief skillpage Icon",
     "config.ThiefIcon.tooltip": "Changes the icon of the thief skill on the skill page. \nTHIS REQUIRES A RESTART TO WORK. \n This option only works if Descary is set to true.",
 
+    "config.MonstersOnly": "Monsters Only",
+    "config.MonstersOnly.tooltip": "When this is set to true, you can never Scare / Steal from villagers.",
+
     "config.Key_Cast": "The keybinding to scare/steal",
     "config.Key_Cast.tooltip": "Press this key to scare/steal NPCs when near them.",
 

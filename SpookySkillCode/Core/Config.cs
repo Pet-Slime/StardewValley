@@ -19,6 +19,9 @@ namespace SpookySkill
         public int ThiefIcon { get; set; } = 1;
 
         [SConfig.Option()]
+        public bool MonstersOnly { get; set; } = false;
+
+        [SConfig.Option()]
         public SButton Key_Cast { get; set; } = SButton.B;
 
         [SConfig.Option(0.0f, 50f, 1.0f)]

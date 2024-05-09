@@ -167,8 +167,10 @@ namespace SpookySkill.Core
                 BirbCore.Attributes.Log.Trace("distance value: "+ profession.ToString());
                 BirbCore.Attributes.Log.Trace("distance check: " + (Distance > profession).ToString());
 
-                //Check to see if they are a villager
-                if (NPC.IsVillager &&
+                //Check to see if the config is set to only scare monsters
+                if (!ModEntry.Config.MonstersOnly &&
+                    //Check to see if they are a villager
+                    NPC.IsVillager &&
                     //Check to see if they are in range of the player
                     //8 tiles if they have banshee, 2 if not
                     Distance <= profession &&
