@@ -32,7 +32,10 @@
 
     "moonslime.Cooking.Profession10b2.buff": "Refined Taste",
 
-    "moonslime.Cooking.skill_book.levelup": "You have gained some knowledge in Cooking!"
+    "moonslime.Cooking.skill_book.levelup": "You have gained some knowledge in Cooking!",
+
+
+    "moonslime.Cooking.soda.code_name": "Soda"
 
 
 }

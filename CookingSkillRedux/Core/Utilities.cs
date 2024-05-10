@@ -15,12 +15,19 @@ namespace CookingSkill
             SpaceCore.Skills.AddExperience(Game1.getFarmer(who.UniqueMultiplayerID), "moonslime.Cooking", amount);
         }
 
-        public static float GetLevelValue(StardewValley.Farmer who)
+        public static float GetLevelValue(StardewValley.Farmer who, bool additive = false)
         {
             var player = Game1.getFarmer(who.UniqueMultiplayerID);
             float level = SpaceCore.Skills.GetSkillLevel(player, "moonslime.Cooking") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Cooking");
-            float sendback = (level * 0.03f) + 1f;
-            return sendback;
+            if (additive)
+            {
+                float sendback = (level * 0.03f);
+                return sendback;
+            } else
+            {
+                float sendback = (level * 0.03f) + 1f;
+                return sendback;
+            }
         }
 
 

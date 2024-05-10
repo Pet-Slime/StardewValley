@@ -8,6 +8,18 @@
 
     "moonslime.Cooking.green_stew.name": "녹색 스튜",
     "moonslime.Cooking.green_stew.description": "조금의 유황과 감자가 가미된 우아한 녹색 스튜입니다.",
+  
+    "moonslime.Cooking.soda.name": "Cola",
+    "moonslime.Cooking.soda.description": "A sweet drink made mainly from syrup.",
+	
+    "moonslime.Cooking.soda_Mystic.name": "Mystic Cola",
+    "moonslime.Cooking.soda_Mystic.description": "A sweet drink with a hint of magic.",
+	
+    "moonslime.Cooking.oven.name": "Oven",
+    "moonslime.Cooking.oven.description": "WIP",
+
+    "moonslime.Cooking.soda_machine.name": "Cola Machine",
+    "moonslime.Cooking.soda_machine.description": "A machine that can produce Colas from fruit and syrup by adding water and fizz. Or just pure syrup.",
 
     "moonslime.Cooking.green_smoothy.name": "그린 스무디",
     "moonslime.Cooking.green_smoothy.description": "힘쎄고 건강한 음료!",

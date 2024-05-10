@@ -7,6 +7,28 @@
         },
         {
             "Action": "EditData",
+            "Target": "Data/BigCraftables",
+            "Entries": {
+                "moonslime.Cooking.oven": {
+                    "Name": "Oven",
+                    "DisplayName": "{{i18n:moonslime.Cooking.Oven.name}}",
+                    "Description": "{{i18n:moonslime.Cooking.Oven.description}}",
+                    "Price": 50,
+                    "Texture": "Mods/moonslime.CookingSkill/textures",
+                    "SpriteIndex": 15
+                },
+                "moonslime.Cooking.soda_machine": {
+                    "Name": "Soda Machine",
+                    "DisplayName": "{{i18n:moonslime.Cooking.soda_machine.name}}",
+                    "Description": "{{i18n:moonslime.Cooking.soda_machine.description}}",
+                    "Price": 50,
+                    "Texture": "Mods/moonslime.CookingSkill/textures",
+                    "SpriteIndex": 16
+                }
+            }
+        },
+        {
+            "Action": "EditData",
             "Target": "Data/Objects",
             "Entries": {
                 "moonslime.Cooking.pie_crust": {
@@ -41,8 +63,7 @@
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -89,8 +110,7 @@
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -186,8 +206,7 @@
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -283,8 +302,7 @@
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -331,8 +349,7 @@
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -379,8 +396,7 @@
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -427,8 +443,7 @@
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -574,8 +589,7 @@
                                 "Defense": 3,
                                 "Attack": 3
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -622,8 +636,7 @@
                                 "Defense": 5,
                                 "Attack": 5
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -768,8 +781,7 @@
                                 "Defense": 0,
                                 "Attack": 2
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -866,8 +878,7 @@
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -1011,8 +1022,7 @@
                                 "Defense": 2,
                                 "Attack": 2
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -1058,8 +1068,7 @@
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -1106,8 +1115,7 @@
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -1154,8 +1162,7 @@
                                 "Defense": 0,
                                 "Attack": 2
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -1228,8 +1235,7 @@
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -1276,8 +1282,7 @@
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {
-                            }
+                            "CustomFields": {}
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -1338,6 +1343,104 @@
                         "color_red",
                         "food_party",
                         "food_seafood"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Cooking.soda": {
+                    "Name": "Soda",
+                    "DisplayName": "{{i18n:moonslime.Cooking.soda.name}}",
+                    "Description": "{{i18n:moonslime.Cooking.soda.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 25,
+                    "Texture": "Mods/moonslime.CookingSkill/textures",
+                    "SpriteIndex": 28,
+                    "Edibility": 1,
+                    "IsDrink": true,
+                    "Buffs": [
+                        {
+                            "Id": "Drink",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 30,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 0,
+                                "MiningLevel": 0,
+                                "LuckLevel": 0,
+                                "ForagingLevel": 0,
+                                "MaxStamina": 0,
+                                "MagneticRadius": 0,
+                                "Speed": 1,
+                                "Defense": 0,
+                                "Attack": 0
+                            },
+                            "CustomFields": {
+                            }
+                        }
+                    ],
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_dark_brown",
+                        "drink_item",
+                        "use_reverse_name_for_sorting"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Cooking.soda_Mystic": {
+                    "Name": "Mystic Soda",
+                    "DisplayName": "{{i18n:moonslime.Cooking.soda_Mystic.name}}",
+                    "Description": "{{i18n:moonslime.Cooking.soda_Mystic.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 75,
+                    "Texture": "Mods/moonslime.CookingSkill/textures",
+                    "SpriteIndex": 33,
+                    "Edibility": 5,
+                    "IsDrink": true,
+                    "Buffs": [
+                        {
+                            "Id": "Drink",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 3000,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 0,
+                                "MiningLevel": 0,
+                                "LuckLevel": 0,
+                                "ForagingLevel": 0,
+                                "MaxStamina": 0,
+                                "MagneticRadius": 0,
+                                "Speed": 2,
+                                "Defense": 0,
+                                "Attack": 0
+                            },
+                            "CustomFields": {
+                            }
+                        }
+                    ],
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_cyan",
+                        "drink_item",
+                        "use_reverse_name_for_sorting"
                     ],
                     "CustomFields": null
                 }

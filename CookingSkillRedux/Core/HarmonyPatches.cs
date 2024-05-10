@@ -26,6 +26,10 @@ using StardewValley.Tools;
 using Object = StardewValley.Object;
 using System.Linq;
 using Microsoft.VisualBasic;
+using StardewValley.GameData.Machines;
+using StardewValley.ItemTypeDefinitions;
+using System.Collections;
+using StardewValley.GameData.Objects;
 
 namespace CookingSkill.Core
 {
@@ -242,6 +246,53 @@ namespace CookingSkill.Core
             {
                 __result = false;
                 return;
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(StardewValley.Object), nameof(Object.OutputMachine))]
+    class CreateFlavoredSoda_patch
+    {
+        [HarmonyLib.HarmonyPostfix]
+        private static void Postfix(
+        StardewValley.Object __instance, MachineData machine, MachineOutputRule outputRule, Item inputItem, Farmer who, GameLocation location, bool probe)
+        {
+            if (__instance.QualifiedItemId.Equals("(BC)moonslime.Cooking.soda_machine") &&
+                __instance.heldObject.Value != null &&
+                inputItem is Object item2 && item2 is not null &&
+                item2.HasContextTag("category_fruits"))
+            {
+                Object output = __instance.heldObject.Value;
+                Color color = ItemContextTagManager.GetColorFromTags(item2) ?? Color.Brown;
+                ColoredObject soda = new ColoredObject("(O)moonslime.Cooking.soda", output.Stack, color)
+                {
+                    Quality = inputItem.Quality
+                };
+
+
+                if (item2?.ItemId is not null)
+                {
+                    soda.displayNameFormat = "%PRESERVED_DISPLAY_NAME %DISPLAY_NAME";
+                    soda.preservedParentSheetIndex.Value = item2.ItemId;
+                    soda.Price = 25;
+                    double value = (item2.Price + 200.0) / soda.Price;
+                    soda.Stack = ((int)Math.Ceiling(value));
+                    soda.Edibility = item2.Edibility / soda.Stack;
+                    if (who.HasCustomProfession(Cooking_Skill.Cooking10a1))
+                    {
+                        float doubleLevelChance = Utilities.GetLevelValue(who, true) + Utilities.GetLevelValue(who, true);
+                        if (Game1.random.NextDouble() < doubleLevelChance)
+                        {
+                            soda.Stack += soda.Stack;
+                        }
+                    }
+                    if (item2?.Name is not null)
+                    {
+                        soda.Name = $"{soda.QualifiedItemId}_{item2.Name}";
+                    }
+                }
+                __instance.heldObject.Value = soda;
+
             }
         }
     }

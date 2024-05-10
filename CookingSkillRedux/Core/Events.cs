@@ -554,7 +554,7 @@ namespace CookingSkill.Core
                     //This is to encourage people cooking while having buffs that effect cooking.
                     //So at level 10, your chance for a double craft is 60%.
                     //The player would need level 17 to have a 100% chance at double crafting items
-                    float doubleLevelChance = Utilities.GetLevelValue(who) + Utilities.GetLevelValue(who);
+                    float doubleLevelChance = Utilities.GetLevelValue(who, true) + Utilities.GetLevelValue(who, true);
                     if (Game1.random.NextDouble() < doubleLevelChance)
                     {
                         item.Stack += recipe.numberProducedPerCraft;

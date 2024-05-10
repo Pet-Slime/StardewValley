@@ -62,13 +62,23 @@ namespace LuckSkill.Core
 
             Farmer farmer = Game1.getFarmer(Game1.player.UniqueMultiplayerID);
             int exp = (int)(farmer.team.sharedDailyLuck.Value * ModEntry.Config.DailyLuckExpBonus);
-            Utilities.AddEXP(farmer, exp);
+            Utilities.AddEXP(farmer, Math.Max(0, exp));
 
             if (farmer.HasCustomProfession(Luck_Skill.Luck5a))
             {
                 farmer.team.sharedDailyLuck.Value += 0.01;
 
-                //The player can only ever have profession 10a2 if they have profession 5a
+                //The player can only ever have profession 10a1 if they have profession 5a. 
+                if (farmer.HasCustomProfession(Luck_Skill.Luck10a1))
+                {
+                    Random r = new Random((int)(Game1.uniqueIDForThisGame + Game1.stats.DaysPlayed * 3));
+                    if (r.NextDouble() <= 0.20)
+                    {
+                        farmer.team.sharedDailyLuck.Value = Math.Max(farmer.team.sharedDailyLuck.Value, 0.12);
+                    }
+                }
+
+                //The player can only ever have profession 10a2 if they have profession 5a. So we do this check in here.
                 if (farmer.HasCustomProfession(Luck_Skill.Luck10a2))
                 {
                     if (farmer.team.sharedDailyLuck.Value < 0)
@@ -76,14 +86,7 @@ namespace LuckSkill.Core
                 }
             }
 
-            if (farmer.HasCustomProfession(Luck_Skill.Luck10a1))
-            {
-                Random r = new Random((int)(Game1.uniqueIDForThisGame + Game1.stats.DaysPlayed * 3));
-                if (r.NextDouble() <= 0.20)
-                {
-                    farmer.team.sharedDailyLuck.Value = Math.Max(farmer.team.sharedDailyLuck.Value, 0.12);
-                }
-            }
+
 
             if (farmer.HasCustomProfession(Luck_Skill.Luck5b) && Game1.questOfTheDay == null)
             {

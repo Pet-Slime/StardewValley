@@ -12,6 +12,5 @@ namespace LuckSkill
     {
         [SConfig.Option(0, 4000, 1)]
         public int DailyLuckExpBonus { get; set; } = 750;
-
     }
 }
