@@ -1,4 +1,4 @@
-{
+﻿{
     "Changes": [
         {
             "Action": "Load",
@@ -14,12 +14,6 @@
             "Action": "Load",
             "Target": "Paths/H_Archeology_Fence_Bone",
             "FromFile": "Paths/H_Archeology_Fence_bone.png"
-        },
-        {
-            "Action": "EditImage",
-            "PatchMode": "Overlay",
-            "Target": "Maps/springobjects",
-            "FromFile": "Paths/objects.png"
         }
     ]
 }
