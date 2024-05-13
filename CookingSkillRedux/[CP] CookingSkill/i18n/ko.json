@@ -1,4 +1,5 @@
 ﻿{
+    
 
     "config.Enable_Vanilla_Food_Changes.name": "모드 활성화",
     "config.Enable_Vanilla_Food_Changes.description": "이 옵션을 선택 해제시, 파이 크러스트가 요구되는 파이 레시피 변경을 제외한 대부분의 바닐라의 음식 변경이 꺼집니다.",
@@ -9,17 +10,17 @@
     "moonslime.Cooking.green_stew.name": "녹색 스튜",
     "moonslime.Cooking.green_stew.description": "조금의 유황과 감자가 가미된 우아한 녹색 스튜입니다.",
   
-    "moonslime.Cooking.soda.name": "Cola",
-    "moonslime.Cooking.soda.description": "A sweet drink made mainly from syrup.",
+    "moonslime.Cooking.soda.name": "콜라",
+    "moonslime.Cooking.soda.description": "시럽을 주성분으로 만들 달콤한 음료",
 	
-    "moonslime.Cooking.soda_Mystic.name": "Mystic Cola",
-    "moonslime.Cooking.soda_Mystic.description": "A sweet drink with a hint of magic.",
+    "moonslime.Cooking.soda_Mystic.name": "신비한 콜라",
+    "moonslime.Cooking.soda_Mystic.description": "약간의 마법으로 만들어진 달콤한 음료",
 	
-    "moonslime.Cooking.oven.name": "Oven",
-    "moonslime.Cooking.oven.description": "WIP",
+    "moonslime.Cooking.oven.name": "오븐",
+    "moonslime.Cooking.oven.description": "작성중 (WIP)",
 
-    "moonslime.Cooking.soda_machine.name": "Cola Machine",
-    "moonslime.Cooking.soda_machine.description": "A machine that can produce Colas from fruit and syrup by adding water and fizz. Or just pure syrup.",
+    "moonslime.Cooking.soda_machine.name": "콜라 기계 Cola Machine",
+    "moonslime.Cooking.soda_machine.description": "과일과 시럽에 물과 탄산을 첨가하여 콜라를 만들 수 있는 기계. 시럽만으로도 만들 수 있습니다..",
 
     "moonslime.Cooking.green_smoothy.name": "그린 스무디",
     "moonslime.Cooking.green_smoothy.description": "힘쎄고 건강한 음료!",
