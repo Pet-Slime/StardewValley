@@ -1,0 +1,9 @@
+﻿{
+    "Format": "2.0.0",
+    "Changes": [
+        {
+            "Action": "Include",
+            "FromFile": "Data/StringsData.json",
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+﻿{
+    "Name": "Buff Professions",
+    "Author": "moonslime",
+    "Version": "1.0.0",
+    "Description": "Buff some of the weaker professions in the game",
+    "UniqueID": "moonslime.BuffProfessions",
+    "EntryDll": "BuffProfessions.dll",
+    "MinimumApiVersion": "4.0.0",
+    "UpdateKeys": [
+        "Nexus:-1"
+    ],
+    "Dependencies": [
+        {
+            "UniqueID": "drbirbdev.BirbCore",
+            "MinimumVersion": "1.0.3"
+        }
+    ]
+}

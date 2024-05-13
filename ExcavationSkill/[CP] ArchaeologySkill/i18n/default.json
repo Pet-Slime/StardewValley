@@ -45,7 +45,7 @@
     "moonslime.Archaeology.grinder.need_item": "This station needs coal to function.",
 
     "moonslime.Archaeology.ancient_battery.name": "Ancient Battery Production Station",
-    "moonslime.Archaeology.ancient_battery.description": "Using knowledge gained from studing artifacts, you can make battery packs the old fashion way! Use juice, clay, and time to make them at this station.",
+    "moonslime.Archaeology.ancient_battery.description": "Using knowledge gained from studing artifacts, you can make battery packs the old fashion way! Use juice, copper, and time to make them at this station.",
     "moonslime.Archaeology.ancient_battery.need_item": "This station needs copper and juice to function.",
 
     "moonslime.Archaeology.preservation_chamber.name": "Preservation Chamber",

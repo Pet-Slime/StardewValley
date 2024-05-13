@@ -12,7 +12,10 @@ namespace CookingSkill
 
         public static void AddEXP(StardewValley.Farmer who, int amount)
         {
-            SpaceCore.Skills.AddExperience(Game1.getFarmer(who.UniqueMultiplayerID), "moonslime.Cooking", amount);
+            if (amount > 0)
+            {
+                SpaceCore.Skills.AddExperience(Game1.getFarmer(who.UniqueMultiplayerID), "moonslime.Cooking", amount);
+            }
         }
 
         public static float GetLevelValue(StardewValley.Farmer who, bool additive = false)

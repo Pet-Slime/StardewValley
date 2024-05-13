@@ -1,0 +1,16 @@
+﻿{
+    "Name": "[CP] Buff Professions",
+    "Author": "moonslime",
+    "Version": "1.0.1",
+    "Description": "Archaeology Skill Content Patcher",
+    "UniqueID": "moonslime.BuffProfessions.CP",
+    "ContentPackFor": {
+        "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    "UpdateKeys": [],
+    "Dependencies": [
+        {
+            "UniqueID": "moonslime.BuffProfessions"
+        }
+    ]
+}
