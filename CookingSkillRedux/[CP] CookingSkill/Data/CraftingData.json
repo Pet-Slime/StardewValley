@@ -30,7 +30,7 @@
             "Target": "Data/CookingRecipes",
             "Entries": {
                 "moonslime.Cooking.green_stew": "MossSoup 1 192 3 457 1/1 10/moonslime.Cooking.green_stew/s Foraging 3/",
-                "moonslime.Cooking.green_smoothy": "MossSoup 1 -3 4/1 10/moonslime.Cooking.green_smoothy/s Foraging 9/",
+                "moonslime.Cooking.green_smoothy": "MossSoup 1 250 4/1 10/moonslime.Cooking.green_smoothy/s Foraging 9/",
                 "moonslime.Cooking.pie_crust": "246 1 -6 1 245 1//moonslime.Cooking.pie_crust/moonslime.Cooking 1/",
                 "moonslime.Cooking.rice": "423 3//moonslime.Cooking.rice/moonslime.Cooking 1/",
                 "moonslime.Cooking.banana_field_snack": "403 1 91 1//moonslime.Cooking.banana_field_snack/moonslime.Cooking 1/",

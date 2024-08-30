@@ -210,11 +210,11 @@ namespace ArchaeologySkill.Objects.Restoration_Table
             base.draw(spriteBatch, x, y, alpha);
             if (heldObject.Value?.Quality > 0)
             {
-                Vector2 vector = MinutesUntilReady > 0 ? Vector2.Zero : Vector2.Zero;
+                Vector2 vector = ((base.MinutesUntilReady > 0) ? new Vector2(Math.Abs(scale.X - 5f), Math.Abs(scale.Y - 5f)) : Vector2.Zero);
                 vector *= 4f;
                 Vector2 vector2 = Game1.GlobalToLocal(Game1.viewport, new Vector2(x * 64, y * 64 - 64));
-                Rectangle destinationRectangle = new Rectangle((int)(vector2.X + 32f - 8f - vector.X / 2f) + (shakeTimer > 0 ? Game1.random.Next(-1, 2) : 0), (int)(vector2.Y + 64f + 8f - vector.Y / 2f) + (shakeTimer > 0 ? Game1.random.Next(-1, 2) : 0), (int)(16f + vector.X), (int)(16f + vector.Y / 2f));
-                spriteBatch.Draw(Game1.mouseCursors, destinationRectangle, heldObject.Value.Quality < 4 ? new Rectangle(338 + (heldObject.Value.Quality - 1) * 8, 400, 8, 8) : new Rectangle(346, 392, 8, 8), Color.White * 0.95f, 0f, Vector2.Zero, SpriteEffects.None, (y + 1) * 64 / 10000f);
+                Rectangle destinationRectangle = new Rectangle((int)(vector2.X + 32f - 8f - vector.X / 2f) + ((shakeTimer > 0) ? Game1.random.Next(-1, 2) : 0), (int)(vector2.Y + 64f + 8f - vector.Y / 2f) + ((shakeTimer > 0) ? Game1.random.Next(-1, 2) : 0), (int)(16f + vector.X), (int)(16f + vector.Y / 2f));
+                spriteBatch.Draw(Game1.mouseCursors, destinationRectangle, (heldObject.Value.Quality < 4) ? new Rectangle(338 + (heldObject.Value.Quality - 1) * 8, 400, 8, 8) : new Rectangle(346, 392, 8, 8), Color.White * 0.95f, 0f, Vector2.Zero, SpriteEffects.None, (float)((y + 1) * 64) / 10000f);
             }
         }
     }

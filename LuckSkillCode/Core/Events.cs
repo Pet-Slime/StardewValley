@@ -39,7 +39,7 @@ namespace LuckSkill.Core
         private static void TimeChanged(object sender, TimeChangedEventArgs e)
         {
             LuckSkill(Game1.player);
-            Log.Warn("Luck: Player luck level is: " + Game1.player.LuckLevel.ToString());
+            Log.Trace("Luck: Player luck level is: " + Game1.player.LuckLevel.ToString());
         }
 
         [SEvent.SaveCreated]

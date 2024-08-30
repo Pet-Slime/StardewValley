@@ -65,7 +65,7 @@
                         }
                     ],
                     "AdditionalConsumedItems": null,
-                    "WobbleWhileWorking": false,
+                    "WobbleWhileWorking": true,
                     "ShowNextIndexWhileWorking": true,
                     "ShowNextIndexWhenReady": true,
                     "PreventTimePass": null,
@@ -1913,7 +1913,7 @@
                                 {
                                     "Id": "ItemPlacedInMachine",
                                     "Trigger": "ItemPlacedInMachine",
-                                    "RequiredItemId": "(O)114",
+                                    "RequiredItemId": "(O)113",
                                     "RequiredCount": 1
                                 }
                             ],
