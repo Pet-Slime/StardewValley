@@ -63,7 +63,7 @@ namespace CookingSkill.Core
         private static void BetterCraftingPerformCraftEvent(IGlobalPerformCraftEvent @event)
         {
             if ((@event.Recipe.CraftingRecipe is not null && @event.Recipe.CraftingRecipe.isCookingRecipe) ||
-                    (@event.Recipe.Name is not null && CraftingRecipe.cookingRecipes.TryGetValue(@event.Recipe.Name, out var vanillaCookingRecipe)))
+                    (@event.Recipe.Name is not null && CraftingRecipe.cookingRecipes.ContainsKey(@event.Recipe.Name)))
             {
                 @event.Item = PreCook(@event.Recipe.CraftingRecipe ?? new CraftingRecipe(@event.Recipe.Name, true), @event.Item, true);
                 @event.Complete();
@@ -76,7 +76,7 @@ namespace CookingSkill.Core
         {
             // SpaceCore override recipes don't have CraftingRecipe set. In this case compare against vanilla cooking recipes
             if ((@event.Recipe.CraftingRecipe is not null && @event.Recipe.CraftingRecipe.isCookingRecipe) ||
-                    (@event.Recipe.Name is not null && CraftingRecipe.cookingRecipes.TryGetValue(@event.Recipe.Name, out var vanillaCookingRecipe)))
+                    (@event.Recipe.Name is not null && CraftingRecipe.cookingRecipes.ContainsKey(@event.Recipe.Name)))
             {
                 //it's easier for me to use a dictionary to not override item stack sized
                 Dictionary<Item, int> consumed_items_dict = new Dictionary<Item, int>();
