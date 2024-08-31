@@ -62,9 +62,10 @@ namespace CookingSkill.Core
 
         private static void BetterCraftingPerformCraftEvent(IGlobalPerformCraftEvent @event)
         {
-            if (@event.Recipe.CraftingRecipe is not null && @event.Recipe.CraftingRecipe.isCookingRecipe)
+            if ((@event.Recipe.CraftingRecipe is not null && @event.Recipe.CraftingRecipe.isCookingRecipe) ||
+                    (@event.Recipe.Name is not null && CraftingRecipe.cookingRecipes.TryGetValue(@event.Recipe.Name, out var vanillaCookingRecipe)))
             {
-                @event.Item = PreCook(@event.Recipe.CraftingRecipe, @event.Item, true);
+                @event.Item = PreCook(@event.Recipe.CraftingRecipe ?? new CraftingRecipe(@event.Recipe.Name, true), @event.Item, true);
                 @event.Complete();
             }
             @event.Complete();
@@ -73,7 +74,9 @@ namespace CookingSkill.Core
 
         private static void BetterCraftingPostCraftEvent(IPostCraftEvent @event)
         {
-            if (@event.Recipe.CraftingRecipe is not null && @event.Recipe.CraftingRecipe.isCookingRecipe)
+            // SpaceCore override recipes don't have CraftingRecipe set. In this case compare against vanilla cooking recipes
+            if ((@event.Recipe.CraftingRecipe is not null && @event.Recipe.CraftingRecipe.isCookingRecipe) ||
+                    (@event.Recipe.Name is not null && CraftingRecipe.cookingRecipes.TryGetValue(@event.Recipe.Name, out var vanillaCookingRecipe)))
             {
                 //it's easier for me to use a dictionary to not override item stack sized
                 Dictionary<Item, int> consumed_items_dict = new Dictionary<Item, int>();
@@ -82,9 +85,9 @@ namespace CookingSkill.Core
                     consumed_items_dict.Add(consumed, consumed.Stack);
                 }
 
-                @event.Item = PostCook(@event.Recipe.CraftingRecipe, @event.Item, consumed_items_dict, @event.Player, true);
+                @event.Item = PostCook(@event.Recipe.CraftingRecipe ?? new CraftingRecipe(@event.Recipe.Name, true), @event.Item, consumed_items_dict, @event.Player, true);
             }
-            
+
         }
 
         [SEvent.MenuChanged]
@@ -311,7 +314,7 @@ namespace CookingSkill.Core
                     }
                 }
             }
-            
+
 
             // If the player has the right profession, give them an extra buff
             if (player.HasCustomProfession(Cooking_Skill.Cooking10b2))
@@ -454,7 +457,7 @@ namespace CookingSkill.Core
             {
                 item = Utilities.BetterCraftingTempItem;
                 ModEntry.Instance.Monitor.Log($"Using better crafting - retrived stashed item: {item.DisplayName}", LogLevel.Trace);
-                
+
             }
 
             //Make sure the item coming out of the cooking recipe is an object
