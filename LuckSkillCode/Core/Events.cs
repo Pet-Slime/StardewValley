@@ -293,7 +293,7 @@ namespace LuckSkill.Core
                             }
                         }
 
-                        Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("JunimoRewards_GrowCrops"));
+                        Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("junimo-rewards.grow-crops"));
                     }
 
                     void AdvanceBarn(AnimalHouse house)
@@ -303,7 +303,7 @@ namespace LuckSkill.Core
                             animal.friendshipTowardFarmer.Value = Math.Min(1000, animal.friendshipTowardFarmer.Value + 100);
                         }
 
-                        Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("JunimoRewards_AnimalFriendship"));
+                        Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("junimo-rewards.animal-friendship"));
                     }
 
                     void GrassAndFences()
@@ -325,12 +325,12 @@ namespace LuckSkill.Core
                             }
                         }
 
-                        Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("JunimoRewards_GrowGrass"));
+                        Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("junimo-rewards.grow-grass"));
                     }
 
                     if (random.NextDouble() <= 0.05 && Game1.player.addItemToInventoryBool(new StardewValley.Object(StardewValley.Object.prismaticShardID, 1)))
                     {
-                        Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("JunimoRewards_PrismaticShard"));
+                        Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("junimo-rewards.prismatic-shard"));
                         continue;
                     }
 
