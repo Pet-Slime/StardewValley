@@ -43,7 +43,7 @@
                     "Texture": "Mods/moonslime.ArchaeologySkill/machines",
                     "SpriteIndex": 6
                 },
-				"moonslime.Archaeology.ancient_battery": {
+                "moonslime.Archaeology.ancient_battery": {
                     "Name": "Ancient Battery",
                     "DisplayName": "{{i18n:moonslime.Archaeology.ancient_battery.name}}",
                     "Description": "{{i18n:moonslime.Archaeology.ancient_battery.description}}",
@@ -56,73 +56,66 @@
                     "DisplayName": "{{i18n:moonslime.Archaeology.glass_brazier.name}}",
                     "Description": "{{i18n:moonslime.Archaeology.glass_brazier.description}}",
                     "Price": 50,
-					"CanBePlacedOutdoors": true,
-					"CanBePlacedIndoors": true,
-					"IsLamp": false,
+                    "CanBePlacedOutdoors": true,
+                    "CanBePlacedIndoors": true,
+                    "IsLamp": false,
                     "Texture": "Mods/moonslime.ArchaeologySkill/machines",
-					"SpriteIndex": 12,
-					"ContextTags": [
-					"light_source",
-					"torch_item"
-					],
-					"CustomFields": null
+                    "SpriteIndex": 12,
+                    "ContextTags": [
+                        "light_source",
+                        "torch_item"
+                    ],
+                    "CustomFields": null
                 },
                 "moonslime.Archaeology.rusty_brazier": {
                     "Name": "Rusty Brazier",
                     "DisplayName": "{{i18n:moonslime.Archaeology.rusty_brazier.name}}",
                     "Description": "{{i18n:moonslime.Archaeology.rusty_brazier.description}}",
                     "Price": 50,
-					"CanBePlacedOutdoors": true,
-					"CanBePlacedIndoors": true,
-					"IsLamp": false,
+                    "CanBePlacedOutdoors": true,
+                    "CanBePlacedIndoors": true,
+                    "IsLamp": false,
                     "Texture": "Mods/moonslime.ArchaeologySkill/machines",
-					"SpriteIndex": 13,
-					"ContextTags": [
-					"light_source",
-					"torch_item"
-					],
-					"CustomFields": null
+                    "SpriteIndex": 13,
+                    "ContextTags": [
+                        "light_source",
+                        "torch_item"
+                    ],
+                    "CustomFields": null
                 },
-				"moonslime.Archaeology.restoration_table": {
+                "moonslime.Archaeology.restoration_table": {
                     "Name": "Restoration Table",
                     "DisplayName": "{{i18n:moonslime.Archaeology.restoration_table.name}}",
                     "Description": "{{i18n:moonslime.Archaeology.restoration_table.description}}",
-					"Price": 0,
-					"Fragility": 0,
-					"CanBePlacedOutdoors": true,
-					"CanBePlacedIndoors": true,
+                    "Price": 0,
+                    "Fragility": 0,
+                    "CanBePlacedOutdoors": true,
+                    "CanBePlacedIndoors": true,
                     "Texture": "Mods/moonslime.ArchaeologySkill/machines",
                     "SpriteIndex": 14
                 },
+                "moonslime.Archaeology.water_shifter": {
+                    "Name": "Water Shifter",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.water_shifter.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.water_shifter.description}}",
+                    "Price": 0,
+                    "Fragility": 0,
+                    "CanBePlacedOutdoors": true,
+                    "CanBePlacedIndoors": true,
+                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
+                    "SpriteIndex": 17,
+                    "ContextTags": [
+                        "custom_crab_pot_item",
+                        "draw_water_overlay",
+                        "prevent_remove_when_processing"
+                    ]
+                }
             }
         },
         {
             "Action": "EditData",
             "Target": "Data/Objects",
             "Entries": {
-                "moonslime.Archaeology.water_shifter": {
-                    "Name": "Water Shifter",
-                    "DisplayName": "{{i18n:moonslime.Archaeology.water_shifter.name}}",
-                    "Description": "{{i18n:moonslime.Archaeology.water_shifter.description}}",
-                    "Type": "Crafting",
-                    "Category": 0,
-                    "Price": 10,
-                    "Texture": "Mods/moonslime.ArchaeologySkill/water_shifter",
-                    "SpriteIndex": 0,
-                    "Edibility": -300,
-                    "IsDrink": false,
-                    "Buffs": null,
-                    "GeodeDropsDefaultItems": false,
-                    "GeodeDrops": null,
-                    "ArtifactSpotChances": null,
-                    "ExcludeFromFishingCollection": true,
-                    "ExcludeFromShippingCollection": true,
-                    "ExcludeFromRandomSale": false,
-                    "ContextTags": [
-                        "color_brown"
-                    ],
-                    "CustomFields": null
-                },
                 "moonslime.Archaeology.glass_path": {
                     "Name": "Glass Path",
                     "DisplayName": "{{i18n:moonslime.Archaeology.glass_path.name}}",
@@ -186,7 +179,7 @@
                     "ContextTags": null,
                     "CustomFields": null
                 },
-				"moonslime.Archaeology.glass_fence": {
+                "moonslime.Archaeology.glass_fence": {
                     "Name": "Glass Fence",
                     "DisplayName": "{{i18n:moonslime.Archaeology.glass_fence.name}}",
                     "Description": "{{i18n:moonslime.Archaeology.glass_fence.description}}",
@@ -209,7 +202,7 @@
                     ],
                     "CustomFields": null
                 },
-				"moonslime.Archaeology.bone_fence": {
+                "moonslime.Archaeology.bone_fence": {
                     "Name": "Bone Fence",
                     "DisplayName": "{{i18n:moonslime.Archaeology.bone_fence.name}}",
                     "Description": "{{i18n:moonslime.Archaeology.bone_fence.description}}",

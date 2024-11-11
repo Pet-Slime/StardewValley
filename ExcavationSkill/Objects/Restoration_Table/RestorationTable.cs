@@ -19,7 +19,7 @@ namespace ArchaeologySkill.Objects.Restoration_Table
     [XmlType("Mods_moonslime.Archaeology.restoration_table")]
     public class RestorationTable : Object
     {
-        public const int defaultDaysToMature = 7;
+        public const int DefaultDaysToMature = 7;
 
         [XmlElement("agingRate")]
         public readonly NetFloat agingRate = new NetFloat();
@@ -70,7 +70,7 @@ namespace ArchaeologySkill.Objects.Restoration_Table
             return base.performToolAction(t);
         }
 
-        public static Item OutputCask(Object machine, Item inputItem, bool probe, MachineItemOutput outputData, out int? overrideMinutesUntilReady)
+        public static Item OutputCask(Object machine, Item inputItem, bool probe, MachineItemOutput outputData, Farmer player, out int? overrideMinutesUntilReady)
         {
             overrideMinutesUntilReady = null;
             if (!(machine is RestorationTable cask))
@@ -102,7 +102,28 @@ namespace ArchaeologySkill.Objects.Restoration_Table
                 {
                     cask.agingRate.Value = result;
                     cask.daysToMature.Value = cask.GetDaysForQuality(@object.Quality);
-                    overrideMinutesUntilReady = @object.Quality >= 4 ? 1 : 999999;
+
+                    int defaultTime = 10080;
+                    switch (@object.Quality) {
+                        case 0:
+                            defaultTime = 10080;
+                            break;
+                        case 1:
+                            defaultTime = 7200;
+                            break;
+                        case 2:
+                            defaultTime = 4320;
+                            break;
+                        case 3:
+                            defaultTime = 4320;
+                            break;
+                        case 4:
+                            defaultTime = 1;
+                            break;
+                        default:
+                            break;
+                    }
+                    overrideMinutesUntilReady = defaultTime;
                     return @object;
                 }
 
@@ -155,7 +176,6 @@ namespace ArchaeologySkill.Objects.Restoration_Table
             base.DayUpdate();
             if (heldObject.Value != null)
             {
-                minutesUntilReady.Value = 999999;
                 daysToMature.Value -= agingRate.Value;
                 CheckForMaturity();
             }
@@ -193,7 +213,7 @@ namespace ArchaeologySkill.Objects.Restoration_Table
                 heldObject.Value.Quality = GetNextQuality(heldObject.Value.Quality);
                 if (heldObject.Value.Quality == 4)
                 {
-                    minutesUntilReady.Value = 1;
+                    minutesUntilReady.Value = -1;
                 }
             }
         }

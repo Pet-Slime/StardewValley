@@ -11,6 +11,10 @@ namespace ArchaeologySkill
         public int AlternativeSkillPageIcon { get; set; } = 1;
 
 
+        [SConfig.Option(0f, 5f, 0.1f)]
+        public float DisplaySellPrice { get; set; } = 1f;
+
+
 
         [SConfig.Option(0, 100, 1)]
         public int ExperienceFromArtifactSpots { get; set; } = 20;

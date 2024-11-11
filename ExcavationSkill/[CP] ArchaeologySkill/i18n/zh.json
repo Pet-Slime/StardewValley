@@ -1,12 +1,12 @@
-{
+﻿{
     "moonslime.Archaeology.item_catagory": "展示古物",
-   
+
     "moonslime.Archaeology.water_shifter.name": "水筛",
     "moonslime.Archaeology.water_shifter.description": "把它放在水中，系上纤维，第二天检查它是否有任何东西。\n在河流、湖泊和海洋中工作。",
 
     "moonslime.Archaeology.restoration_table.name": "复原工作台",
     "moonslime.Archaeology.restoration_table.description": "一个用于研究、清理和恢复古物品质的工作台。",
-	
+
     "moonslime.Archaeology.glass_path.name": "玻璃小径",
     "moonslime.Archaeology.glass_path.description": "放在地上修建小路，也可以装饰地板。",
 
@@ -33,7 +33,7 @@
 
     "moonslime.Archaeology.glass_fence.name": "玻璃围栏",
     "moonslime.Archaeology.glass_fence.description": "晶莹剔透玻璃围栏。",
-	
+
     "moonslime.Archaeology.bone_fence.name": "骨头围栏",
     "moonslime.Archaeology.bone_fence.description": "一个由骨头组成的令人毛骨悚然的围栏。",
 
@@ -46,7 +46,7 @@
 
     "moonslime.Archaeology.ancient_battery.name": "电池古法生产站",
     "moonslime.Archaeology.ancient_battery.description": "利用你从古物中获得的知识，你可以用古老的方式制作电池组。在这个工作站用果汁、铜还有时间来制作电池组。",
-    "moonslime.Archaeology.ancient_battery.need_item": "这个生产站需铜和果汁才能运行。",
+    "moonslime.Archaeology.ancient_battery.need_item": "This station needs copper and vinegar to function.",
 
     "moonslime.Archaeology.preservation_chamber.name": "收藏室",
     "moonslime.Archaeology.preservation_chamber.description": "在这里放一个木展台和一件古物去制作一件木展台展品。",
@@ -58,7 +58,7 @@
 
     "moonslime.Archaeology.glass_brazier.name": "玻璃火炬",
     "moonslime.Archaeology.glass_brazier.description": "提供适度的光。",
-	
+
     "moonslime.Archaeology.rusty_brazier.name": "锈火炬",
     "moonslime.Archaeology.rusty_brazier.description": "提供适度的光。",
 
@@ -271,7 +271,7 @@
     "moonslime.Archaeology.w_snake_skull.description": "在木展台上的蛇头骨。",
     "moonslime.Archaeology.w_snake_vertebrae.name": "木展台: 蛇脊椎骨",
     "moonslime.Archaeology.w_snake_vertebrae.description": "在木展台上的蛇脊椎骨。",
-    
+
     "moonslime.Archaeology.h_fossilized_starfish.name": "硬木展台：海星化石",
     "moonslime.Archaeology.h_fossilized_starfish.description": "在硬木展台上的海星化石。",
     "moonslime.Archaeology.h_fossilised_moth.name": "硬木展台：蛾化石",

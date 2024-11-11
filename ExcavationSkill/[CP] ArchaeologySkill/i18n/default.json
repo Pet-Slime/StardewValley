@@ -33,7 +33,7 @@
 
     "moonslime.Archaeology.glass_fence.name": "Glass Fence",
     "moonslime.Archaeology.glass_fence.description": "A crystal clear fence.",
-	
+
     "moonslime.Archaeology.bone_fence.name": "Bone Fence",
     "moonslime.Archaeology.bone_fence.description": "A creepy fence made up of bone.",
 
@@ -46,7 +46,7 @@
 
     "moonslime.Archaeology.ancient_battery.name": "Ancient Battery Production Station",
     "moonslime.Archaeology.ancient_battery.description": "Using knowledge gained from studing artifacts, you can make battery packs the old fashion way! Use juice, copper, and time to make them at this station.",
-    "moonslime.Archaeology.ancient_battery.need_item": "This station needs copper and juice to function.",
+    "moonslime.Archaeology.ancient_battery.need_item": "This station needs copper and vinegar to function.",
 
     "moonslime.Archaeology.preservation_chamber.name": "Preservation Chamber",
     "moonslime.Archaeology.preservation_chamber.description": "Put a wooden display and an artifact on here to make an artifact on a wooden display.",
@@ -55,10 +55,10 @@
     "moonslime.Archaeology.h_preservation_chamber.name": "Hardwood Preservation Chamber",
     "moonslime.Archaeology.h_preservation_chamber.description": "Put a hardwood display and an artifact on here to make an artifact ona hardwood display.",
     "moonslime.Archaeology.h_preservation_chamber.need_item": "This station needs a hardwood display and an artifact to function",
-	
+
     "moonslime.Archaeology.glass_brazier.name": "Glass Brazier",
     "moonslime.Archaeology.glass_brazier.description": "Provides a moderate amount of light.",
-	
+
     "moonslime.Archaeology.rusty_brazier.name": "Rusty Brazier",
     "moonslime.Archaeology.rusty_brazier.description": "Provides a moderate amount of light.",
 

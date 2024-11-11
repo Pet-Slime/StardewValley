@@ -19,6 +19,8 @@ using static BirbCore.Attributes.SMod;
 using static SpaceCore.Skills;
 using Object = StardewValley.Object;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
+using Newtonsoft.Json.Linq;
+using StardewValley.GameData.Locations;
 
 namespace ArchaeologySkill.Core
 {
@@ -33,13 +35,12 @@ namespace ArchaeologySkill.Core
             var sc = ModEntry.Instance.Helper.ModRegistry.GetApi<ISpaceCoreApi>("spacechase0.SpaceCore");
             sc.RegisterSerializerType(typeof(WaterShifter));
             sc.RegisterSerializerType(typeof(RestorationTable));
-            ArchaeologySkill.Objects.Water_Shifter.Patches.Patch(ModEntry.Instance.Helper);
             ArchaeologySkill.Objects.Restoration_Table.Patches.Patch(ModEntry.Instance.Helper);
 
             ModEntry.ItemDefinitions = ModEntry.Assets.ItemDefinitions;
 
 
-            Log.Trace("Archaeology: Trying to Register skill.");
+            Log.Warn("Archaeology: Trying to Register skill.");
             SpaceCore.Skills.RegisterSkill(new Archaeology_Skill());
 
             foreach (string entry in ModEntry.ItemDefinitions["extra_loot_table"])
@@ -52,10 +53,16 @@ namespace ArchaeologySkill.Core
                 Log.Trace("Archaeology: Adding " + entry + " to the water shifter loot table");
                 ModEntry.WaterSifterLootTable.Add(entry);
             }
-            foreach (string entry in ModEntry.ItemDefinitions["artifact_loot_table"])
+            foreach (var entry in Game1.objectData)
             {
-                Log.Trace("Archaeology: Adding " + entry + " to the artifact loot table");
-                ModEntry.ArtifactLootTable.Add(entry);
+                if (Game1.objectData.TryGetValue(entry.Key, out var value))
+                {
+                    if (value.Type == "Arch")
+                    {
+                        Log.Trace("Archaeology: Adding " + entry.Key + " to the artifact loot table");
+                        ModEntry.ArtifactLootTable.Add(entry.Key);
+                    };
+                }
             }
 
 
@@ -80,7 +87,7 @@ namespace ArchaeologySkill.Core
                 foreach (Farmer farmer in Game1.getOnlineFarmers())
                 {
                     Log.Trace("Archaeology: Does a player have Pioneer Profession?");
-                    var player = Game1.getFarmer(farmer.UniqueMultiplayerID);
+                    var player = Game1.GetPlayer(farmer.UniqueMultiplayerID);
                     if (player.isActive() && player.HasCustomProfession(Archaeology_Skill.Archaeology5a))
                     {
                         Log.Trace("Archaeology: They do have Pioneer profession, spawn extra artifact spots.");
@@ -118,6 +125,12 @@ namespace ArchaeologySkill.Core
         private void StatChanged_h_preservation_chamber(object sender, SEvent.StatChanged.EventArgs e)
         {
             Utilities.AddEXP(Game1.player, ModEntry.Config.ExperienceFromHPreservationChamber);
+        }
+
+        [SEvent.StatChanged("moonslime.ArchaeologySkill.water_shifter")]
+        private void StatChanged_water_shifter(object sender, SEvent.StatChanged.EventArgs e)
+        {
+            Utilities.AddEXP(Game1.player, ModEntry.Config.ExperienceFromWaterShifter);
         }
 
 

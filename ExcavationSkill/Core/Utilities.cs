@@ -28,7 +28,8 @@ namespace ArchaeologySkill
         /// <param name="exactItem">What bonus item if it passes the checks do you want to give the player</param>
         public static void ApplyArchaeologySkill(Farmer who, int EXP, bool bonusLoot = false, int xLocation = 0, int yLocation = 0, bool panning = false, string exactItem = "")
         {
-            var farmer = Game1.getFarmer(who.UniqueMultiplayerID);
+            var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
+            if (farmer == null ) { return; };
 
             //Give the player EXP
             BirbCore.Attributes.Log.Trace("Archaeology Skll: Adding EXP to the player");
@@ -50,7 +51,7 @@ namespace ArchaeologySkill
             if (!panning)
             {
                 BirbCore.Attributes.Log.Trace("Archaeology Skll: Does the player get bonus loot?");
-                double doubleLootChance = GetLevel(farmer) * 0.05;
+                double doubleLootChance = GetLevel(farmer) * 5.05;
                 double diceRoll = Game1.random.NextDouble();
                 bool didTheyWin = (diceRoll < doubleLootChance);
                 BirbCore.Attributes.Log.Trace("Archaeology Skll: The dice roll is... " + diceRoll.ToString() + ". The player's chance is... " + doubleLootChance.ToString() + ". ");
@@ -64,6 +65,10 @@ namespace ArchaeologySkill
                 {
                     BirbCore.Attributes.Log.Trace("Archaeology Skill: They do not get bonus loot!");
                 }
+                if (diceRoll < 0.05)
+                {
+                    Game1.createMultipleObjectDebris("moonslime.Archaeology.skill_book", xLocation, yLocation, 1, farmer.UniqueMultiplayerID);
+                }
             }
         }
 
@@ -71,7 +76,7 @@ namespace ArchaeologySkill
         public static bool ApplySpeedBoost(Farmer who)
         {
             //Get the player
-            var player = Game1.getFarmer(who.UniqueMultiplayerID);
+            var player = Game1.GetPlayer(who.UniqueMultiplayerID);
             //check to see the player who is doing the request is the same one as this player. 
             if (player != Game1.player)
                 return false;
@@ -108,12 +113,12 @@ namespace ArchaeologySkill
 
         public static void AddEXP(StardewValley.Farmer who, int amount)
         {
-            SpaceCore.Skills.AddExperience(Game1.getFarmer(who.UniqueMultiplayerID), "moonslime.Archaeology", amount);
+            SpaceCore.Skills.AddExperience(Game1.GetPlayer(who.UniqueMultiplayerID), "moonslime.Archaeology", amount);
         }
 
         public static int GetLevel(StardewValley.Farmer who)
         {
-            var player = Game1.getFarmer(who.UniqueMultiplayerID);
+            var player = Game1.GetPlayer(who.UniqueMultiplayerID);
             return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Archaeology") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Archaeology");
         }
 

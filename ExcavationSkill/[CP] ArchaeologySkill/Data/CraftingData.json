@@ -19,7 +19,7 @@
                 "moonslime.Archaeology.ancient_battery": "390 40 330 10 335 5//moonslime.Archaeology.ancient_battery/true/moonslime.Archaeology 7",
                 "moonslime.Archaeology.glass_fence": "118 2/Field/moonslime.Archaeology.glass_fence 3/false/moonslime.Archaeology 7",
                 "moonslime.Archaeology.lucky_ring": "104 1 446 5 562 1/Field/859/false/moonslime.Archaeology 8",
-                "moonslime.Archaeology.water_shifter": "334 4 771 8//moonslime.Archaeology.water_shifter/false/moonslime.Archaeology 8",
+                "moonslime.Archaeology.water_shifter": "334 4 771 8//moonslime.Archaeology.water_shifter/true/moonslime.Archaeology 8",
                 "moonslime.Archaeology.bone_fence": "881 2/Field/moonslime.Archaeology.bone_fence 3/false/moonslime.Archaeology 8",
                 "moonslime.Archaeology.totem_volcano_warp": "848 5 122 1 108 1//moonslime.Archaeology.totem_volcano_warp/false/moonslime.Archaeology 9"
             }

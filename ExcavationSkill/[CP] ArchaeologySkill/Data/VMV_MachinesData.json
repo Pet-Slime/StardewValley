@@ -1327,7 +1327,7 @@
                                 {
                                     "Id": "ItemPlacedInMachine",
                                     "Trigger": "ItemPlacedInMachine",
-                                    "RequiredItemId": "(O)392",
+                                    "RequiredItemId": "(O)586",
                                     "RequiredCount": 1
                                 }
                             ],
@@ -3113,7 +3113,7 @@
                                 {
                                     "Id": "ItemPlacedInMachine",
                                     "Trigger": "ItemPlacedInMachine",
-                                    "RequiredItemId": "(O)392",
+                                    "RequiredItemId": "(O)586",
                                     "RequiredCount": 1
                                 }
                             ],
