@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using MoonShared;
 using StardewValley;
 using System.Linq;
+using BirbCore.Attributes;
+using xTile.Dimensions;
+using StardewValley.Locations;
 
 namespace CookingSkill
 {
@@ -14,13 +17,17 @@ namespace CookingSkill
         {
             if (amount > 0)
             {
-                SpaceCore.Skills.AddExperience(Game1.getFarmer(who.UniqueMultiplayerID), "moonslime.Cooking", amount);
+                SpaceCore.Skills.AddExperience(Game1.GetPlayer(who.UniqueMultiplayerID), "moonslime.Cooking", amount);
+                if (Game1.random.NextDouble() < 0.05)
+                {
+                    Game1.createMultipleObjectDebris("moonslime.Cooking.skill_book", who.TilePoint.X, who.TilePoint.Y, 1, who.UniqueMultiplayerID);
+                }
             }
         }
 
         public static float GetLevelValue(StardewValley.Farmer who, bool additive = false)
         {
-            var player = Game1.getFarmer(who.UniqueMultiplayerID);
+            var player = Game1.GetPlayer(who.UniqueMultiplayerID);
             float level = SpaceCore.Skills.GetSkillLevel(player, "moonslime.Cooking") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Cooking");
             if (additive)
             {
@@ -36,7 +43,7 @@ namespace CookingSkill
 
         public static int GetLevel(StardewValley.Farmer who)
         {
-            var player = Game1.getFarmer(who.UniqueMultiplayerID);
+            var player = Game1.GetPlayer(who.UniqueMultiplayerID);
             return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Cooking") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Cooking");
         }
     }

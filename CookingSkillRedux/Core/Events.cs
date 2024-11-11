@@ -16,6 +16,7 @@ using StardewValley.GameData.Objects;
 using StardewValley.Inventories;
 using StardewValley.Locations;
 using StardewValley.Menus;
+using StardewValley.Quests;
 using static BirbCore.Attributes.SMod;
 
 namespace CookingSkill.Core
@@ -227,7 +228,7 @@ namespace CookingSkill.Core
 
             //Get the farmer's unique ID, and again check for an ull player (cause I am parinoid)
             // If they don't have any professions related to food buffs, return so the rest of the code does not get ran.
-            var player = Game1.getFarmer(who.UniqueMultiplayerID);
+            var player = Game1.GetPlayer(who.UniqueMultiplayerID);
             if (player == null || !player.HasCustomProfession(Cooking_Skill.Cooking5b)) return;
 
             //Get the food item the player is going to eat. Make sure it doesnt return as a null item.
@@ -572,7 +573,7 @@ namespace CookingSkill.Core
                         ModEntry.Instance.Monitor.Log($"Adding item to directly to inventory instead of to hand, adding {item.DisplayName} with size {item.Stack}", LogLevel.Trace);
                         who.addItemToInventory(item);
                         //register dish as cooked and make the necessary checks
-                        who.checkForQuestComplete(null, -1, -1, item, null, 2);
+                        Game1.player.NotifyQuests(quest => quest.OnRecipeCrafted(recipe, obj));
                         who.cookedRecipe(item.ItemId);
                         Game1.stats.checkForCookingAchievements();
                         return null;
@@ -582,7 +583,7 @@ namespace CookingSkill.Core
                         ModEntry.Instance.Monitor.Log($"Dropping item to ground, adding {item.DisplayName} with size {item.Stack}", LogLevel.Trace);
                         who.currentLocation.debris.Add(new Debris(item, who.Position));
                         //register dish as cooked and make the necessary checks
-                        who.checkForQuestComplete(null, -1, -1, item, null, 2);
+                        Game1.player.NotifyQuests(quest => quest.OnRecipeCrafted(recipe, obj));
                         who.cookedRecipe(item.ItemId);
                         Game1.stats.checkForCookingAchievements();
                         return null;

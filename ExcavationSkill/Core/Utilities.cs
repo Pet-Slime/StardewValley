@@ -65,7 +65,7 @@ namespace ArchaeologySkill
                 {
                     BirbCore.Attributes.Log.Trace("Archaeology Skill: They do not get bonus loot!");
                 }
-                if (diceRoll < 0.05)
+                if (Game1.random.NextDouble() < 0.05)
                 {
                     Game1.createMultipleObjectDebris("moonslime.Archaeology.skill_book", xLocation, yLocation, 1, farmer.UniqueMultiplayerID);
                 }

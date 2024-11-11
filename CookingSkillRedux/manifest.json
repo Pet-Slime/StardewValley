@@ -1,11 +1,11 @@
 ﻿{
     "Name": "Yet Another Cooking Skill",
     "Author": "moonslime",
-    "Version": "1.7.7",
+    "Version": "1.8.0",
     "Description": "A remix built from the ground, for players must cook!",
     "UniqueID": "moonslime.CookingSkill",
     "EntryDll": "CookingSkillCode.dll",
-    "MinimumApiVersion": "4.0.0",
+    "MinimumApiVersion": "4.1.6",
     "UpdateKeys": [
         "Nexus:22681"
     ],
@@ -40,7 +40,7 @@
         },
         {
             "UniqueID": "spacechase0.SpaceCore",
-            "MinimumVersion": "1.25.2"
+            "MinimumVersion": "1.26.2"
         }
     ]
 }

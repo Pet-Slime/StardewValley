@@ -1,4 +1,4 @@
-{
+﻿{
 
 
     "config.Enable_Vanilla_Food_Changes.name": "MODを有効にする",
@@ -21,6 +21,7 @@
 
     "moonslime.Cooking.soda_machine.name": "ソーダメーカー",
     "moonslime.Cooking.soda_machine.description": "水と炭酸を加えることで、くだものやメープルシロップからソーダを作ることができる機械。",
+    "moonslime.Cooking.syrup.need_item": "Need Maple Syrup to craft Colas.",
 
     "moonslime.Cooking.green_smoothy.name": "グリーンスムージー",
     "moonslime.Cooking.green_smoothy.description": "健康的で美味しい飲み物。",

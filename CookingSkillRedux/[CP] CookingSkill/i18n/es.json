@@ -12,15 +12,16 @@
 
     "moonslime.Cooking.soda.name": "Cola",
     "moonslime.Cooking.soda.description": "Una bebida dulce hecha principalmente de jarabe.",
-    
+
     "moonslime.Cooking.soda_Mystic.name": "Cola mística",
     "moonslime.Cooking.soda_Mystic.description": "Una bebida dulce con un toque de magia.",
-    
+
     "moonslime.Cooking.oven.name": "Horno",
     "moonslime.Cooking.oven.description": "WIP",
 
     "moonslime.Cooking.soda_machine.name": "Máquina de cola",
     "moonslime.Cooking.soda_machine.description": "Una máquina que puede producir colas a partir de frutas y jarabe agregando agua y gas. O simplemente jarabe puro.",
+    "moonslime.Cooking.syrup.need_item": "Need Maple Syrup to craft Colas.",
 
     "moonslime.Cooking.green_smoothy.name": "Batido verde",
     "moonslime.Cooking.green_smoothy.description": "¡Una bebida genial y saludable!",

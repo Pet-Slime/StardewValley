@@ -30,6 +30,7 @@ using StardewValley.GameData.Machines;
 using StardewValley.ItemTypeDefinitions;
 using System.Collections;
 using StardewValley.GameData.Objects;
+using StardewValley.Quests;
 
 namespace CookingSkill.Core
 {
@@ -48,7 +49,7 @@ namespace CookingSkill.Core
             ModEntry.Instance.Monitor.Log("YACS Starting click crafting recipe prefix - should not happen if bettercrafting is instaleld", LogLevel.Trace);
             CraftingRecipe craftingRecipe = __instance.pagesOfCraftingRecipes[__instance.currentCraftingPage][c];
             Item item = craftingRecipe.createItem();
-            var player = Game1.getFarmer(Game1.player.UniqueMultiplayerID);
+            var player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
             List<KeyValuePair<string, int>> list = null;
             if (___cooking && item.Quality == 0)
             {
@@ -129,7 +130,7 @@ namespace CookingSkill.Core
                 }
             }
 
-            player.checkForQuestComplete(null, -1, -1, item, null, 2);
+            Game1.player.NotifyQuests((Quest quest) => quest.OnRecipeCrafted(craftingRecipe, item));
             if (!___cooking && player.craftingRecipes.ContainsKey(craftingRecipe.name))
             {
                 player.craftingRecipes[craftingRecipe.name] += craftingRecipe.numberProducedPerCraft;

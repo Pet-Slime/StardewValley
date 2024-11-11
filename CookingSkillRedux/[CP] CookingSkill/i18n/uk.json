@@ -1,4 +1,4 @@
-{
+﻿{
 
 
     "config.Enable_Vanilla_Food_Changes.name": "Увімкнути мод",
@@ -21,6 +21,7 @@
 
     "moonslime.Cooking.soda_machine.name": "Кола-машина",
     "moonslime.Cooking.soda_machine.description": "Машина, що виготовляє колу з фруктів та сиропу додаючи воду та газ. Або із чистого сиропу.",
+    "moonslime.Cooking.syrup.need_item": "Need Maple Syrup to craft Colas.",
 
     "moonslime.Cooking.green_smoothy.name": "Смузі із зелені",
     "moonslime.Cooking.green_smoothy.description": "Чудовий корисний напій!",

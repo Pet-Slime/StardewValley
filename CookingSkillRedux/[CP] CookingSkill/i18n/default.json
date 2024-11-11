@@ -21,6 +21,7 @@
 
     "moonslime.Cooking.soda_machine.name": "Cola Machine",
     "moonslime.Cooking.soda_machine.description": "A machine that can produce Colas from fruit and syrup by adding water and fizz. Or just pure syrup.",
+    "moonslime.Cooking.syrup.need_item": "Need Maple Syrup to craft Colas.",
 
     "moonslime.Cooking.green_smoothy.name": "Green Smoothy",
     "moonslime.Cooking.green_smoothy.description": "A great and healthy drink!.",
