@@ -89,7 +89,7 @@ namespace SpookySkill.Core
             if (!Game1.player.IsLocalPlayer)
                 return;
 
-            var farmer = Game1.getFarmer(Game1.player.UniqueMultiplayerID);
+            var farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
 
             if (!farmer.modDataForSerialization.TryGetValue(Boo, out string value))
                 return;
@@ -104,7 +104,7 @@ namespace SpookySkill.Core
             if (!Game1.player.IsLocalPlayer)
                 return;
 
-            var farmer = Game1.getFarmer(Game1.player.UniqueMultiplayerID);
+            var farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
 
             if (!farmer.modDataForSerialization.TryGetValue(Boo, out string value))
                 return;
@@ -991,7 +991,7 @@ namespace SpookySkill.Core
                 const string scaryMessageKey = "moonslime.Spooky.Cooldown.Scaring.apply";
                 const string stealingMessageKey = "moonslime.Spooky.Cooldown.Thieving.apply";
                 string coolDownAsString = cooldown.ToString();
-                Farmer player = Game1.getFarmer(who.UniqueMultiplayerID);
+                Farmer player = Game1.GetPlayer(who.UniqueMultiplayerID);
 
                 //Check to see if they have the mod Data already and get that value
                 if (player.modDataForSerialization.TryGetValue(Boo, out string storedCooldownString))

@@ -1,19 +1,15 @@
 ﻿{
-    "Name": "Scaring / Thieving Skill",
+    "Name": "BookSkill",
     "Author": "moonslime",
-    "Version": "1.2.0",
-    "Description": "Scare(or steal from) NPCs, get items",
-    "UniqueID": "moonslime.SpookySkill",
-    "EntryDll": "SpookySkillCode.dll",
+    "Version": "0.3.0",
+    "Description": "Become a master of the Books!",
+    "UniqueID": "moonslime.BookSkill",
+    "EntryDll": "BookSkillCode.dll",
     "MinimumApiVersion": "4.1.6",
     "UpdateKeys": [
-        "Nexus:23791"
+        -1
     ],
     "Dependencies": [
-        {
-            "UniqueID": "DaLion.Overhaul",
-            "IsRequired": false
-        },
         {
             "UniqueID": "drbirbdev.BirbCore"
         },

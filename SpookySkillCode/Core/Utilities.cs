@@ -18,13 +18,13 @@ namespace SpookySkill
 
         public static void AddEXP(StardewValley.Farmer who, int amount)
         {
-            var farmer = Game1.getFarmer(who.UniqueMultiplayerID);
+            var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
             SpaceCore.Skills.AddExperience(farmer, Boo, amount);
         }
 
         public static int GetLevel(StardewValley.Farmer who)
         {
-            var player = Game1.getFarmer(who.UniqueMultiplayerID);
+            var player = Game1.GetPlayer(who.UniqueMultiplayerID);
             return SpaceCore.Skills.GetSkillLevel(player, Boo) + SpaceCore.Skills.GetSkillBuffLevel(player, Boo);
         }
     }

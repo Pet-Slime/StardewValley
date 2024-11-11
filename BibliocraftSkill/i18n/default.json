@@ -1,0 +1,18 @@
+﻿{
+    "skill.name": "Bibliocraft",
+    "skill.perk": "+{{bonus}}% exp from reading books.",
+    "skill.perk_bonus": "+{{bonus}}% exp from reading books.",
+
+    "Book5a.name": "Bookworm",
+    "Book5a.desc": "Reading a book gives you a random buff. Duration is based off level. Reading again does not refresh the buff.",
+    "Book5b.name": "Page Finder",
+    "Book5b.desc": "While doing various activities, have a chance (affected by level) to get book making supplies.",
+    "Book10a1.name": "Page Master",
+    "Book10a1.desc": "Reading a book causes (level/2) explosions around you! While reading, you are immune to damage.",
+    "Book10a2.name": "Seasoned Reader",
+    "Book10a2.desc": "Reading a book causes all crops (level/2) tiles around you to instantly grow.",
+    "Book10b1.name": "Typesetter",
+    "Book10b1.desc": "Increase Book making machine productions that you own.",
+    "Book10b2.name": "Book Seller",
+    "Book10b2.desc": "Increase profits gained from selling books."
+}
