@@ -1,13 +1,13 @@
 ﻿{
-    "Name": "Scaring / Thieving Skill",
+    "Name": "ArchaeologySkill",
     "Author": "moonslime",
-    "Version": "1.2.1",
-    "Description": "Scare(or steal from) NPCs, get items",
-    "UniqueID": "moonslime.SpookySkill",
-    "EntryDll": "SpookySkill.dll",
+    "Version": "2.11.1",
+    "Description": "Adds a skill related to digging and panning.",
+    "UniqueID": "moonslime.ArchaeologySkill",
+    "EntryDll": "ArchaeologySkill.dll",
     "MinimumApiVersion": "4.1.7",
     "UpdateKeys": [
-        "Nexus:23791"
+        "Nexus:22199"
     ],
     "Dependencies": [
         {
@@ -23,6 +23,18 @@
         },
         {
             "UniqueID": "spacechase0.GenericModConfigMenu",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "Shockah.XPDisplay",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "spacechase0.JsonAssets",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "spacechase0.DynamicGameAssets",
             "IsRequired": false
         },
         {

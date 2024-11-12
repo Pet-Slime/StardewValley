@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using BirbCore.Attributes;
 
-namespace CookingSkill
+namespace CookingSkillRedux
 {
     [SAsset(Priority = 0)]
     public class Assets

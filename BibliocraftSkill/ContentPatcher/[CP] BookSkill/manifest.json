@@ -1,0 +1,32 @@
+﻿{
+    "Name": "[CP] Bibliocraft Skill",
+    "Author": "moonslime",
+    "Version": "1.0.0",
+    "Description": "Bibliocraft Skill Content Patcher",
+    "UniqueID": "moonslime.BibliocraftSkill.CP",
+    "ContentPackFor": {
+        "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    "UpdateKeys": [],
+    "Dependencies": [
+        {
+            "UniqueID": "moonslime.BibliocraftSkill"
+        },
+        {
+            "UniqueID": "Rafseazz.RSVCP",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "FlashShifter.StardewValleyExpandedCP",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "Lumisteria.MtVapius",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "leclair.cloudyskies",
+            "IsRequired": false
+        }
+    ]
+}

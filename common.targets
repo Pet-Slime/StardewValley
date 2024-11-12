@@ -5,7 +5,13 @@
     <PropertyGroup>
         <Authors>moonslime</Authors>
         <UniqueId>$(Authors).$(AssemblyName)</UniqueId>
+        <MinimumApiVersion_Behavior>UpdateFull</MinimumApiVersion_Behavior>
+        <MinimumGameVersion_Behavior>UpdateFull</MinimumGameVersion_Behavior>
         <EntryDll>$(AssemblyName)</EntryDll>
+        <BaseManifest>new</BaseManifest>
+        <Dependencies_AlwaysIncludeRequire>true</Dependencies_AlwaysIncludeRequire>
+        <Dependencies_VersionBehavior>Error</Dependencies_VersionBehavior>
+        <ManifestComment>false</ManifestComment>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
         <TargetFramework>net6.0</TargetFramework>
@@ -33,5 +39,37 @@
 			<Private>false</Private>
 		</Reference>
 	</ItemGroup>
+
+    <PropertyGroup>
+        <GameModsPath>$(GamePath)Mods\$(AssemblyName)</GameModsPath>
+        <EnableModZip>false</EnableModZip>
+    </PropertyGroup>
+
+    <Target Name="DeployPack" AfterTargets="Build">
+        <Message Text="Running DeployPack target..." />
+        <ItemGroup>
+            <_ContentPatcherFiles Include="$(ProjectDir)ContentPatcher/**/*" />
+        </ItemGroup>
+
+        <Copy SourceFiles="@(_ContentPatcherFiles)" DestinationFiles="@(_ContentPatcherFiles->'$(GameModsPath)/%(RecursiveDir)%(Filename)%(Extension)')" />
+    </Target>
+
+    <Target Name="ZipPack" AfterTargets="DeployPack">
+        <Message Text="Running ZipPack target..." />
+        <ItemGroup>
+            <_ModFiles Include="$(GameModsPath)/**/*" />
+            <_FilesToDelete Include="$(GamePath)temp/$(AssemblyName)/$(AssemblyName)/$(AssemblyName)/config.json" />
+        </ItemGroup>
+
+        <Copy SourceFiles="@(_ModFiles)" DestinationFiles="@(_ModFiles->'$(GamePath)temp/$(AssemblyName)/$(AssemblyName)/%(RecursiveDir)%(Filename)%(Extension)')" />
+        <Delete Files="@(_FilesToDelete)" />
+        <!-- Use ZipDirectory after build. -->
+        <ZipDirectory DestinationFile="$(ModZipPath)/$(AssemblyName) $(Version).zip" SourceDirectory="$(GamePath)temp/$(AssemblyName)" Overwrite="True" />
+        <RemoveDir Directories="$(GamePath)temp" />
+    </Target>
+
+    <ItemGroup>
+        <SMAPIDependency Include="Pathoschild.ContentPatcher" Required="true" />
+    </ItemGroup>
 
 </Project>

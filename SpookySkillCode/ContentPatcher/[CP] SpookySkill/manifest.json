@@ -1,0 +1,18 @@
+﻿{
+    "Name": "[CP] Spooky Skill",
+    "Author": "moonslime",
+    "Version": "1.2.1",
+    "Description": "Spooky Skill Content Patcher",
+    "UniqueID": "moonslime.SpookySkill.CP",
+    "ContentPackFor": {
+        "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    "UpdateKeys": [
+        "Nexus:-1"
+    ],
+    "Dependencies": [
+        {
+            "UniqueID": "moonslime.SpookySkill"
+        }
+    ]
+}

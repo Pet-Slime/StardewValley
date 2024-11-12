@@ -1,10 +1,10 @@
 using StardewModdingAPI;
 using IJsonAssetsApi = MoonShared.APIs.IJsonAssetsApi;
 using BirbCore.Attributes;
-using CookingSkill.Core;
+using CookingSkillRedux.Core;
 using MoonShared.APIs;
 
-namespace CookingSkill
+namespace CookingSkillRedux
 {
     public class ModEntry : Mod
     {

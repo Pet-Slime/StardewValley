@@ -1,17 +1,18 @@
 ﻿{
     "Name": "LuckSkill",
     "Author": "moonslime",
-    "Version": "1.3.0",
+    "Version": "1.3.1",
     "Description": "A Spacecore version of the luck skill",
     "UniqueID": "moonslime.LuckSkill",
-    "EntryDll": "LuckSkillCode.dll",
-    "MinimumApiVersion": "4.1.6",
+    "EntryDll": "LuckSkill.dll",
+    "MinimumApiVersion": "4.1.7",
     "UpdateKeys": [
-        "GitHub:Pet-Slime/StardewValley"
+        "Nexus:22681"
     ],
     "Dependencies": [
         {
-            "UniqueID": "drbirbdev.BirbCore"
+            "UniqueID": "drbirbdev.BirbCore",
+            "MinimumVersion": "1.1.0"
         },
         {
             "UniqueID": "Pathoschild.ContentPatcher"

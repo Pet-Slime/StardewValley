@@ -9,7 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_root", "_root", "{7BB5EFE4
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
-		common-contentpatcher.targets = common-contentpatcher.targets
 		common.targets = common.targets
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
@@ -17,25 +16,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_root", "_root", "{7BB5EFE4
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MoonSharedSpaceCore", "MoonSharedSpaceCore\MoonSharedSpaceCore.shproj", "{19CEDB88-A912-48DA-B35D-FCE2509E70E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookingSkillCode", "CookingSkillRedux\CookingSkillCode.csproj", "{B4835048-A339-456F-B0ED-64CFE03C4C29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookingSkillRedux", "CookingSkillRedux\CookingSkillRedux.csproj", "{B4835048-A339-456F-B0ED-64CFE03C4C29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchaeologySkillCode", "ExcavationSkill\ArchaeologySkillCode.csproj", "{56651B71-984E-463C-BD0C-027917E96089}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchaeologySkill", "ArchaeologySkill\ArchaeologySkill.csproj", "{56651B71-984E-463C-BD0C-027917E96089}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShovelToolUpgrades", "ShovelToolUpgrades\ShovelToolUpgrades.csproj", "{CA7454A3-0D10-4F64-876E-A62C6423860B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuckSkillCode", "LuckSkillCode\LuckSkillCode.csproj", "{582E2861-2BF8-4704-8F5E-1AB9BAE2B572}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuckSkill", "LuckSkillCode\LuckSkill.csproj", "{582E2861-2BF8-4704-8F5E-1AB9BAE2B572}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManaBar", "ManaAPI\ManaBar.csproj", "{1E50C395-2BE4-4F79-B919-02ED7BA9FD42}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicSkillCode", "MagicSkillCode\MagicSkillCode.csproj", "{03CE7DB8-DBCA-4EED-8878-83BDDA475241}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpookySkillCode", "SpookySkillCode\SpookySkillCode.csproj", "{2D854387-8148-4ACF-8EF1-BFB3A5EC6716}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpookySkill", "SpookySkillCode\SpookySkill.csproj", "{2D854387-8148-4ACF-8EF1-BFB3A5EC6716}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpControl", "ExpControl\ExpControl.csproj", "{AEB84F1F-25D1-41DB-8D54-B7A364776F8B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuffProfessions", "BuffProfessions\BuffProfessions.csproj", "{F4336B68-283A-4775-92AC-E327548D3D0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "zBuffProfessions", "BuffProfessions\zBuffProfessions.csproj", "{F4336B68-283A-4775-92AC-E327548D3D0D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookSkillCode", "BibliocraftSkill\BookSkillCode.csproj", "{5BC19468-1D91-43E6-94E5-9E8FC7CF29ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibliocraftSkill", "BibliocraftSkill\BibliocraftSkill.csproj", "{5BC19468-1D91-43E6-94E5-9E8FC7CF29ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,11 +86,15 @@ Global
 		SolutionGuid = {2CC4FC86-39C6-4152-8058-FE3B146896A6}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{03ce7db8-dbca-4eed-8878-83bdda475241}*SharedItemsImports = 5
-		MoonShared\MoonShared.projitems*{03ce7db8-dbca-4eed-8878-83bdda475241}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{19cedb88-a912-48da-b35d-fce2509e70e6}*SharedItemsImports = 13
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{1e50c395-2be4-4f79-b919-02ed7ba9fd42}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{1e50c395-2be4-4f79-b919-02ed7ba9fd42}*SharedItemsImports = 5
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{2d854387-8148-4acf-8ef1-bfb3a5ec6716}*SharedItemsImports = 5
+		MoonShared\MoonShared.projitems*{2d854387-8148-4acf-8ef1-bfb3a5ec6716}*SharedItemsImports = 5
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
+		MoonShared\MoonShared.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{582e2861-2bf8-4704-8f5e-1ab9bae2b572}*SharedItemsImports = 5
+		MoonShared\MoonShared.projitems*{582e2861-2bf8-4704-8f5e-1ab9bae2b572}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{5bc19468-1d91-43e6-94e5-9e8fc7cf29ed}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{5bc19468-1d91-43e6-94e5-9e8fc7cf29ed}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{8f13906d-7e88-45b4-abbc-617437970163}*SharedItemsImports = 13

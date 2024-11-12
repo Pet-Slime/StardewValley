@@ -16,7 +16,7 @@ using StardewValley.Network;
 using StardewValley.Tools;
 using static BirbCore.Attributes.SMod;
 
-namespace BookSkillCode
+namespace BibliocraftSkill
 {
 
     [HarmonyPatch(typeof(StardewValley.Object), "readBook")]

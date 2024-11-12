@@ -1,0 +1,108 @@
+﻿{
+
+
+    "config.Enable_Vanilla_Food_Changes.name": "Habilitar este mod",
+    "config.Enable_Vanilla_Food_Changes.description": "Desmarcar esto desactivará la mayoría de los cambios en la comida vainilla. Digo la mayoría porque los cambios en la receta de la tarta para requerir masa de tarta permanecerán.",
+
+    "config.Enable_Cookout_Kit_Changes.name": "Cambios en el kit de asado",
+    "config.Enable_Cookout_Kit_Changes.description": "Desmarcar esto mantendrá el kit de asado como una receta de forraje de nivel 3 en lugar de una receta de cocina de nivel 0.",
+
+    "moonslime.Cooking.green_stew.name": "Estofado verde",
+    "moonslime.Cooking.green_stew.description": "Un estofado delicado con un toque de azufre y patata.",
+
+    "moonslime.Cooking.soda.name": "Cola",
+    "moonslime.Cooking.soda.description": "Una bebida dulce hecha principalmente de jarabe.",
+
+    "moonslime.Cooking.soda_Mystic.name": "Cola mística",
+    "moonslime.Cooking.soda_Mystic.description": "Una bebida dulce con un toque de magia.",
+
+    "moonslime.Cooking.oven.name": "Horno",
+    "moonslime.Cooking.oven.description": "WIP",
+
+    "moonslime.Cooking.soda_machine.name": "Máquina de cola",
+    "moonslime.Cooking.soda_machine.description": "Una máquina que puede producir colas a partir de frutas y jarabe agregando agua y gas. O simplemente jarabe puro.",
+    "moonslime.Cooking.syrup.need_item": "Need Maple Syrup to craft Colas.",
+
+    "moonslime.Cooking.green_smoothy.name": "Batido verde",
+    "moonslime.Cooking.green_smoothy.description": "¡Una bebida genial y saludable!",
+
+    "moonslime.Cooking.anchovy_pizza.name": "Pizza de anchoas",
+    "moonslime.Cooking.anchovy_pizza.description": "Algunos dicen que es más sabrosa, otros dicen que es peor.",
+
+    "moonslime.Cooking.wizards_brew.name": "Brebaje de mago",
+    "moonslime.Cooking.wizards_brew.description": "No se hace en la cima de una montaña con un grupo de búhos.",
+
+    "moonslime.Cooking.pie_crust.name": "Masa de tarta",
+    "moonslime.Cooking.pie_crust.description": "Una base común utilizada para hacer tartas.",
+
+    "moonslime.Cooking.rice.name": "Arroz al vapor",
+    "moonslime.Cooking.rice.description": "Una buena manera de darte un impulso. Fácil y efectivo.",
+
+    "moonslime.Cooking.banana_field_snack.name": "Snack de campo con chips de plátanos",
+    "moonslime.Cooking.banana_field_snack.description": "Un snack de campo que también tiene plátanos secos.",
+
+    "moonslime.Cooking.strawberry_pie.name": "Tarta de fresa",
+    "moonslime.Cooking.strawberry_pie.description": "Un gran regalo para la primavera.",
+
+    "moonslime.Cooking.mushroom_rice.name": "Arroz con champiñones",
+    "moonslime.Cooking.mushroom_rice.description": "Arroz al vapor con champiñones fritos.",
+
+    "moonslime.Cooking.spring_onion_soup.name": "Sopa de cebolla de primavera",
+    "moonslime.Cooking.spring_onion_soup.description": "Te dará un impulso de energía.",
+
+    "moonslime.Cooking.fries.name": "Papas fritas con ketchup",
+    "moonslime.Cooking.fries.description": "Papas fritas con ketchup para mojar.",
+
+    "moonslime.Cooking.caramel_miner_treat.name": "Manjar de minero bañado en caramelo",
+    "moonslime.Cooking.caramel_miner_treat.description": "Un poco de dulce extra nunca hizo daño a nadie.",
+
+    "moonslime.Cooking.fishers_breakfast.name": "Desayuno del pescador",
+    "moonslime.Cooking.fishers_breakfast.description": "Qué manera de comenzar el día; Pescado, hash y verduras.",
+
+    "moonslime.Cooking.cream_pie.name": "Tarta de crema",
+    "moonslime.Cooking.cream_pie.description": "No aplicar en la cara.",
+
+    "moonslime.Cooking.ramen.name": "Ramen",
+    "moonslime.Cooking.ramen.description": "Los fideos se deslizan bien.",
+
+    "moonslime.Cooking.tomato_soup.name": "Sopa de tomate",
+    "moonslime.Cooking.tomato_soup.description": "No intentes conseguirla en una tienda de ropa.",
+
+    "moonslime.Cooking.egg_burrito.name": "Burrito de huevo",
+    "moonslime.Cooking.egg_burrito.description": "Desayuno para llevar.",
+
+    "moonslime.Cooking.oeuf.name": "Oeuf a la coque",
+    "moonslime.Cooking.oeuf.description": "Con un poco de pan al lado, ¡el pequeño pedestal para el huevo es tan lindo!",
+
+    "moonslime.Cooking.egg_ramen.name": "Ramen de huevo",
+    "moonslime.Cooking.egg_ramen.description": "Ramen más sabroso al agregar huevo.",
+
+    "moonslime.Cooking.fish_pie.name": "Tarta de pescado",
+    "moonslime.Cooking.fish_pie.description": "Solo superada por la tarta de carne.",
+
+    "moonslime.Cooking.eggnog.name": "Ponche de huevo",
+    "moonslime.Cooking.eggnog.description": "Se sirve principalmente durante el Festival de Invierno.",
+
+    "moonslime.Cooking.apple_pie.name": "Tarta de manzana",
+    "moonslime.Cooking.apple_pie.description": "Una de las mejores tartas de otoño para hacer, solo detrás de la tarta de calabaza.",
+
+    "moonslime.Cooking.egg_sandwhich.name": "Sándwich de huevo",
+    "moonslime.Cooking.egg_sandwhich.description": "Mhmmmm, sándwich.",
+
+    "moonslime.Cooking.tomatoe_cheese_omelet.name": "Omelette de tomate con queso",
+    "moonslime.Cooking.tomatoe_cheese_omelet.description": "Un omelette esponjoso doblado sobre queso con rodajas de tomate encima.",
+
+    "moonslime.Cooking.nigiri.name": "Sashimi de anguila",
+    "moonslime.Cooking.nigiri.description": "Anguila cortada y cocida, rociada con salsa.",
+
+    "moonslime.Cooking.seafoam_icecream.name": "Helado de espuma de mar",
+    "moonslime.Cooking.seafoam_icecream.description": "Un gran placer para disfrutar mientras te sientas en el muelle viendo la puesta de sol.",
+
+    "moonslime.Cooking.wizard_casserole.name": "Cazuela de mago",
+    "moonslime.Cooking.wizard_casserole.description": "Comida de magos, para magos, por magos.",
+
+    "moonslime.Cooking.skill_book.name": "El gran libro de cocina",
+    "moonslime.Cooking.skill_book.description": "Un libro grueso sobre varias técnicas de cocina."
+
+
+}

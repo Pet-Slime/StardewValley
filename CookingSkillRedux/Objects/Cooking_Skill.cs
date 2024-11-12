@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using SpaceCore;
 using StardewValley;
 
-namespace CookingSkill
+namespace CookingSkillRedux
 {
     public class Cooking_Skill : SpaceCore.Skills.Skill
     {

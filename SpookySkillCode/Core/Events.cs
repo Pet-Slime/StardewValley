@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using MoonShared;
 using SpaceCore;
 using SpaceCore.Interface;
-using SpookySkillCode.Objects;
+using SpookySkill.Objects;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Extensions;

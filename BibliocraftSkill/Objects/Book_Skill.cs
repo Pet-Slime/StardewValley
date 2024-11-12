@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using MoonShared;
 using StardewModdingAPI;
 
-namespace BookSkill
+namespace BibliocraftSkill
 {
     public class Book_Skill : SpaceCore.Skills.Skill
     {

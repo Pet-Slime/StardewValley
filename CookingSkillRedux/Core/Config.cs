@@ -1,7 +1,7 @@
 using BirbCore.Attributes;
 using MoonShared.Config;
 
-namespace CookingSkill
+namespace CookingSkillRedux
 {
     [SConfig]
     public class Config

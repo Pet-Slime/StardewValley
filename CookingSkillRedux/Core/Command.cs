@@ -2,7 +2,7 @@ using MoonShared.Command;
 using StardewValley;
 using StardewValley.Tools;
 
-namespace CookingSkill
+namespace CookingSkillRedux
 {
     [CommandClass]
     public class Command

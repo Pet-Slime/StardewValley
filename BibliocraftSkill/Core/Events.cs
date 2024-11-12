@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BirbCore.Attributes;
-using BookSkill;
+using BibliocraftSkill;
 using MoonShared.APIs;
 using Netcode;
 using SpaceCore;
@@ -19,7 +19,7 @@ using StardewValley.Objects;
 using StardewValley.Quests;
 using StardewValley.TerrainFeatures;
 
-namespace BookSkillCode.Core
+namespace BibliocraftSkill.Core
 {
     [SEvent]
     internal class Events

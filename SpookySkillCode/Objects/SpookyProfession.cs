@@ -7,7 +7,7 @@ using StardewValley;
 using MoonShared;
 using SpookySkill;
 
-namespace SpookySkillCode.Objects
+namespace SpookySkill.Objects
 {
     public class SpookyProfession : Skills.Skill.Profession
     {

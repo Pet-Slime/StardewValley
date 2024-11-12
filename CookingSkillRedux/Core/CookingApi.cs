@@ -7,7 +7,7 @@ using StardewValley.Objects;
 using StardewValley;
 using StardewModdingAPI;
 
-namespace CookingSkill.Core
+namespace CookingSkillRedux.Core
 {
     public interface ICookingApi
     {
@@ -34,12 +34,12 @@ namespace CookingSkill.Core
     {
         public Item PreCook(CraftingRecipe recipe, Item item, bool betterCrafting = false)
         {
-            return CookingSkill.Core.Events.PreCook(recipe, item, betterCrafting);
+            return CookingSkillRedux.Core.Events.PreCook(recipe, item, betterCrafting);
         }
 
         public Item PostCook(CraftingRecipe recipe, Item heldItem, Dictionary<Item,int> consumedItems, Farmer who, bool betterCrafting = false)
         {
-            return CookingSkill.Core.Events.PostCook(recipe, heldItem, consumedItems, who, betterCrafting);
+            return CookingSkillRedux.Core.Events.PostCook(recipe, heldItem, consumedItems, who, betterCrafting);
         }
     }
 }

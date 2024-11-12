@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using MoonShared;
-using SpookySkillCode.Objects;
+using SpookySkill.Objects;
 using StardewModdingAPI;
 using StardewValley;
 

@@ -19,7 +19,7 @@ using StardewValley.Menus;
 using StardewValley.Quests;
 using static BirbCore.Attributes.SMod;
 
-namespace CookingSkill.Core
+namespace CookingSkillRedux.Core
 {
     [SEvent]
     public class Events

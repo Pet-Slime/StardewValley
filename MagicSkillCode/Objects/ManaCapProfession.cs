@@ -24,6 +24,12 @@ namespace MagicSkillCode.Objects
         {
             Game1.player.SetMaxMana(Game1.player.GetMaxMana() + 500);
         }
+
+        public override void UndoImmediateProfessionPerk()
+        {
+            Game1.player.SetMaxMana(Game1.player.GetMaxMana() - 500);
+            base.UndoImmediateProfessionPerk();
+        }
     }
 }
 

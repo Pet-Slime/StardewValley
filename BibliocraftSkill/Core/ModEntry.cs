@@ -7,7 +7,7 @@ using BirbCore.Attributes;
 using MoonShared.APIs;
 using StardewModdingAPI;
 
-namespace BookSkill
+namespace BibliocraftSkill
 {
     public class ModEntry : Mod
     {

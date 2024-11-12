@@ -32,7 +32,7 @@ using System.Collections;
 using StardewValley.GameData.Objects;
 using StardewValley.Quests;
 
-namespace CookingSkill.Core
+namespace CookingSkillRedux.Core
 {
 
     [HarmonyPatch(typeof(CraftingPage), "clickCraftingRecipe")]
@@ -78,8 +78,8 @@ namespace CookingSkill.Core
                 if (craftingRecipe is not null && craftingRecipe.isCookingRecipe)
                 {
                     var consumed_items = FigureOutItems(craftingRecipe, __instance._materialContainers);
-                    CookingSkill.Core.Events.PreCook(craftingRecipe, item);
-                    CookingSkill.Core.Events.PostCook(craftingRecipe, item, consumed_items, player);
+                    Events.PreCook(craftingRecipe, item);
+                    Events.PostCook(craftingRecipe, item, consumed_items, player);
                 }
                 
                 ////////////////////////////////////

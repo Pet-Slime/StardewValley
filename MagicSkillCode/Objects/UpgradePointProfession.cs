@@ -19,5 +19,10 @@ namespace MagicSkillCode.Objects
         {
             Game1.player.GetSpellBook().UseSpellPoints(-2);
         }
+
+        public override void UndoImmediateProfessionPerk()
+        {
+            Game1.player.GetSpellBook().UseSpellPoints(2);
+        }
     }
 }

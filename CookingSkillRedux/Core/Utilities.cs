@@ -7,7 +7,7 @@ using BirbCore.Attributes;
 using xTile.Dimensions;
 using StardewValley.Locations;
 
-namespace CookingSkill
+namespace CookingSkillRedux
 {
     internal class Utilities
     {

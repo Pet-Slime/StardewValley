@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using BirbCore.Attributes;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BookSkill
+namespace BibliocraftSkill
 {
     [SAsset(Priority = 0)]
     public class Assets
