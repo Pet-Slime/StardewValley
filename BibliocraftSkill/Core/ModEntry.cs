@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BirbCore.Attributes;
 using MoonShared.APIs;
 using StardewModdingAPI;
+using StardewValley;
 
 namespace BibliocraftSkill
 {

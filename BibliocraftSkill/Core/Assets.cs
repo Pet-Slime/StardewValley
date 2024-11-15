@@ -29,5 +29,10 @@ namespace BibliocraftSkill
         public Texture2D Book10b1 { get; set; }
         [SAsset.Asset("assets/Book10b2.png")]
         public Texture2D Book10b2 { get; set; }
+
+
+        [SAsset.Asset("assets/bookworm_buff.png")]
+        public Texture2D Bookworm_buff { get; set; }
+
     }
 }

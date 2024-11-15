@@ -60,7 +60,7 @@ namespace LuckSkill.Core
             if (!Game1.player.IsLocalPlayer)
                 return;
 
-            Farmer farmer = Game1.getFarmer(Game1.player.UniqueMultiplayerID);
+            Farmer farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
             int exp = (int)(farmer.team.sharedDailyLuck.Value * ModEntry.Config.DailyLuckExpBonus);
             Utilities.AddEXP(farmer, Math.Max(0, exp));
 
@@ -229,7 +229,7 @@ namespace LuckSkill.Core
             if (!Game1.player.IsLocalPlayer)
                 return;
 
-            var farmer = Game1.getFarmer(Game1.player.UniqueMultiplayerID);
+            var farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
 
             if (!farmer.HasCustomProfession(Luck_Skill.Luck10b2))
                 return;

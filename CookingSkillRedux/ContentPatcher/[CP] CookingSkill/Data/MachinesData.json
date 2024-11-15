@@ -222,96 +222,52 @@
                 "(BC)moonslime.Cooking.oven": {
                     "OutputRules": [
                         {
-                            "Id": "Radio_bar_insert",
+                            "Id": "Default",
                             "Triggers": [
                                 {
                                     "Id": "ItemPlacedInMachine",
                                     "Trigger": "ItemPlacedInMachine",
-                                    "RequiredItemId": "(O)910",
-                                    "RequiredCount": 5
+                                    "RequiredItemId": "(O)246",
+                                    "RequiredCount": 2
                                 }
                             ],
                             "UseFirstValidOutput": true,
                             "OutputItem": [
                                 {
-                                    "Id": "Prismatic Shard",
-                                    "Condition": "RANDOM 0.1",
-                                    "ItemId": "(O)74",
-                                    "MinStack": 1,
-                                    "MaxStack": 1
-                                },
-                                {
-                                    "Id": "Pearl",
-                                    "Condition": "RANDOM 0.1",
-                                    "ItemId": "(O)797",
-                                    "MinStack": 1,
-                                    "MaxStack": 1
-                                },
-                                {
-                                    "Id": "Golden Pumpkin",
-                                    "Condition": "RANDOM 0.1",
-                                    "ItemId": "(O)373",
-                                    "MinStack": 1,
-                                    "MaxStack": 1
-                                },
-                                {
-                                    "Id": "Rabbit's Foot",
-                                    "Condition": "RANDOM 0.1",
-                                    "ItemId": "(O)446",
-                                    "MinStack": 1,
-                                    "MaxStack": 1
-                                },
-                                {
-                                    "Id": "Radioactive Bar",
-                                    "Condition": "RANDOM 0.1",
-                                    "ItemId": "(O)910",
-                                    "MinStack": 5,
-                                    "MaxStack": 20
-                                },
-                                {
-                                    "Id": "Dragon Tooth",
-                                    "Condition": "RANDOM 0.1",
-                                    "ItemId": "(O)852",
-                                    "MinStack": 1,
-                                    "MaxStack": 1
-                                },
-                                {
-                                    "Id": "Magic Rock Candy",
-                                    "Condition": "RANDOM 0.1",
-                                    "ItemId": "(O)279",
-                                    "MinStack": 1,
-                                    "MaxStack": 5
-                                },
-                                {
-                                    "Id": "Cinder Shards",
-                                    "Condition": "RANDOM 0.1",
-                                    "ItemId": "(O)848",
-                                    "MinStack": 1,
-                                    "MaxStack": 5
-                                },
-                                {
-                                    "Id": "Ancient Fruit",
-                                    "Condition": "RANDOM 0.1",
-                                    "ItemId": "(O)454",
-                                    "MinStack": 1,
-                                    "MaxStack": 5
-                                },
-                                {
-                                    "Id": "Radioactive Ore",
-                                    "ItemId": "(O)909",
-                                    "MinStack": 5,
-                                    "MaxStack": 20
+                                    "CustomData": null,
+                                    "OutputMethod": null,
+                                    "CopyColor": false,
+                                    "CopyPrice": false,
+                                    "CopyQuality": true,
+                                    "PreserveType": null,
+                                    "PreserveId": null,
+                                    "IncrementMachineParentSheetIndex": 0,
+                                    "PriceModifiers": null,
+                                    "PriceModifierMode": "Stack",
+                                    "Condition": null,
+                                    "Id": "Default",
+                                    "ItemId": "(O)moonslime.Cooking.yeast",
+                                    "RandomItemId": null,
+                                    "MaxItems": null,
+                                    "MinStack": 4,
+                                    "MaxStack": 8,
+                                    "Quality": -1,
+                                    "ObjectInternalName": null,
+                                    "ObjectDisplayName": null,
+                                    "ToolUpgradeLevel": -1,
+                                    "IsRecipe": false,
+                                    "StackModifiers": null,
+                                    "StackModifierMode": "Stack",
+                                    "QualityModifiers": null,
+                                    "QualityModifierMode": "Stack",
+                                    "ModData": null,
+                                    "PerItemCondition": null
                                 }
                             ],
-                            "MinutesUntilReady": 360
+                            "MinutesUntilReady": 1200
                         }
                     ],
                     "AdditionalConsumedItems": [
-                        {
-                            "ItemId": "(O)787",
-                            "RequiredCount": 1,
-                            "InvalidCountMessage": "{{i18n: moonslime.Luck.battery.need_item}}"
-                        }
                     ],
                     "WobbleWhileWorking": true,
                     "ShowNextIndexWhileWorking": true,
@@ -324,14 +280,50 @@
                                 {
                                     "Id": "clank",
                                     "Delay": 0
+                                },
+                                {
+                                    "Id": "bubbles",
+                                    "Delay": 0
                                 }
                             ],
                             "Interval": 100,
                             "Frames": null,
-                            "ShakeDuration": -1
+                            "ShakeDuration": -1,
+                            "TemporarySprites": [
+                                {
+                                    "Id": "Default",
+                                    "Condition": null,
+                                    "Texture": "TileSheets\\animations",
+                                    "SourceRect": {
+                                        "X": 256,
+                                        "Y": 1856,
+                                        "Width": 64,
+                                        "Height": 128
+                                    },
+                                    "Interval": 80,
+                                    "Frames": 6,
+                                    "Loops": 999999,
+                                    "PositionOffset": "0, -32",
+                                    "Flicker": false,
+                                    "Flip": false,
+                                    "SortOffset": 0,
+                                    "AlphaFade": 0.005,
+                                    "Scale": 0.25,
+                                    "ScaleChange": 0,
+                                    "Rotation": 0,
+                                    "RotationChange": 0,
+                                    "Color": "#bfbf00bf"
+                                }
+                            ]
+                        }
+                    ],
+                    "StatsToIncrementWhenLoaded": [
+                        {
+                            "StatName": "moonslime.CookingSkill.Oven"
                         }
                     ]
                 }
+
             }
         }
     ]

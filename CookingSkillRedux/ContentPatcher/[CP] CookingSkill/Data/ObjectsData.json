@@ -10,9 +10,9 @@
             "Target": "Data/BigCraftables",
             "Entries": {
                 "moonslime.Cooking.oven": {
-                    "Name": "Oven",
-                    "DisplayName": "{{i18n:moonslime.Cooking.Oven.name}}",
-                    "Description": "{{i18n:moonslime.Cooking.Oven.description}}",
+                    "Name": "Yeast Cultivator",
+                    "DisplayName": "{{i18n:moonslime.Cooking.oven.name}}",
+                    "Description": "{{i18n:moonslime.Cooking.oven.description}}",
                     "Price": 50,
                     "Texture": "Mods/moonslime.CookingSkill/textures",
                     "SpriteIndex": 15
@@ -23,7 +23,7 @@
                     "Description": "{{i18n:moonslime.Cooking.soda_machine.description}}",
                     "Price": 50,
                     "Texture": "Mods/moonslime.CookingSkill/textures",
-                    "SpriteIndex": 16
+                    "SpriteIndex": 17
                 }
             }
         },
@@ -1350,8 +1350,8 @@
                     "Name": "Soda",
                     "DisplayName": "{{i18n:moonslime.Cooking.soda.name}}",
                     "Description": "{{i18n:moonslime.Cooking.soda.description}}",
-					"Type": "Basic",
-					"Category": -26,
+                    "Type": "Basic",
+                    "Category": -26,
                     "Price": 25,
                     "Texture": "Mods/moonslime.CookingSkill/textures",
                     "SpriteIndex": 28,
@@ -1399,10 +1399,10 @@
                     "Name": "Mystic Soda",
                     "DisplayName": "{{i18n:moonslime.Cooking.soda_Mystic.name}}",
                     "Description": "{{i18n:moonslime.Cooking.soda_Mystic.description}}",
-					"Type": "Basic",
-					"Category": -26,
+                    "Type": "Basic",
+                    "Category": -26,
                     "Texture": "Mods/moonslime.CookingSkill/textures",
-                    "SpriteIndex": 33,
+                    "SpriteIndex": 34,
                     "Edibility": 5,
                     "IsDrink": true,
                     "Buffs": [
@@ -1440,6 +1440,31 @@
                         "color_cyan",
                         "drink_item",
                         "use_reverse_name_for_sorting"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Cooking.yeast": {
+                    "Name": "Yeast",
+                    "DisplayName": "{{i18n:moonslime.Cooking.yeast.name}}",
+                    "Description": "{{i18n:moonslime.Cooking.yeast.description}}",
+                    "Type": "Basic",
+                    "Category": 0,
+                    "Texture": "Mods/moonslime.CookingSkill/textures",
+                    "SpriteIndex": 39,
+                    "ColorOverlayFromNextIndex": false,
+                    "Edibility": 5,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "CanBeGivenAsGift": true,
+                    "CanBeTrashed": true,
+                    "ExcludeFromFishingCollection": false,
+                    "ExcludeFromShippingCollection": false,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_white"
                     ],
                     "CustomFields": null
                 }

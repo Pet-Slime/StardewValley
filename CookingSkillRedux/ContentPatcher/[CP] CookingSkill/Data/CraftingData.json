@@ -14,7 +14,8 @@
             "Action": "EditData",
             "Target": "Data/CraftingRecipes",
             "Entries": {
-                "moonslime.Cooking.soda_machine": "388 20 335 5 112 2//moonslime.Cooking.soda_machine/true/moonslime.Cooking 6"
+                "moonslime.Cooking.soda_machine": "388 20 335 5 112 2//moonslime.Cooking.soda_machine/true/moonslime.Cooking 6",
+                "moonslime.Cooking.oven": "388 20 335 5 112 2//moonslime.Cooking.oven/true/moonslime.Cooking 9"
             }
         },
         {
@@ -22,7 +23,8 @@
             "Target": "Data/CookingRecipes",
             "Entries": {
                 "Pumpkin Pie": "276 1 moonslime.Cooking.pie_crust 2/1 10/608 2/l 100/",
-                "Rhubarb Pie": "252 1 moonslime.Cooking.pie_crust 1/2 4/222/f Marnie 7/"
+                "Rhubarb Pie": "252 1 moonslime.Cooking.pie_crust 1/2 4/222/f Marnie 7/",
+                "Bread": "246 2/50 2/216/l 11/"
             }
         },
         {

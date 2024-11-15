@@ -16,8 +16,8 @@
     "moonslime.Cooking.soda_Mystic.name": "Mystic Cola",
     "moonslime.Cooking.soda_Mystic.description": "A sweet drink with a hint of magic.",
 
-    "moonslime.Cooking.oven.name": "Oven",
-    "moonslime.Cooking.oven.description": "WIP",
+    "moonslime.Cooking.oven.name": "Yeast Incubator",
+    "moonslime.Cooking.oven.description": "Put in yeast and flour to get out more yeast!",
 
     "moonslime.Cooking.soda_machine.name": "Cola Machine",
     "moonslime.Cooking.soda_machine.description": "A machine that can produce Colas from fruit and syrup by adding water and fizz. Or just pure syrup.",
@@ -102,7 +102,10 @@
     "moonslime.Cooking.wizard_casserole.description": "A food by wizards, for wizards, made by thankful wizards.",
 
     "moonslime.Cooking.skill_book.name": "The Big Book for Cooking",
-    "moonslime.Cooking.skill_book.description": "A thick book about various Cooking technique. "
+    "moonslime.Cooking.skill_book.description": "A thick book about various Cooking technique. ",
+
+    "moonslime.Cooking.yeast.name": "Yeast",
+    "moonslime.Cooking.yeast.description": "An ingredient needed to make bread rise."
 
 
 }
