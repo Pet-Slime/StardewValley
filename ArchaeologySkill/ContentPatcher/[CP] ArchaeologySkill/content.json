@@ -18,6 +18,13 @@
                 "HasMod |contains=Lumisteria.MtVapius": true
             },
             "FromFile": "Data/VMV_ObjectsData.json, Data/VMV_MachinesData.json, Data/VMV_ObjectCatagories.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=FlashShifter.StardewValleyExpandedCP": true
+            },
+            "FromFile": "Data/SVE_ObjectsData.json, Data/SVE_MachinesData.json, Data/SVE_ObjectCatagories.json"
         }
     ]
 }

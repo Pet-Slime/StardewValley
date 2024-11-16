@@ -14,8 +14,7 @@
             "Action": "EditData",
             "Target": "Data/CraftingRecipes",
             "Entries": {
-                "moonslime.Cooking.soda_machine": "388 20 335 5 112 2//moonslime.Cooking.soda_machine/true/moonslime.Cooking 6",
-                "moonslime.Cooking.oven": "388 20 335 5 112 2//moonslime.Cooking.oven/true/moonslime.Cooking 9"
+                "moonslime.Cooking.soda_machine": "388 20 335 5 112 2//moonslime.Cooking.soda_machine/true/moonslime.Cooking 6"
             }
         },
         {
