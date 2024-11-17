@@ -1,0 +1,63 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.BibliocraftSkill/textures",
+            "FromFile": "Assets/sprites.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/machines",
+            "FromFile": "Assets/machines.png"
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/BigCraftables",
+            "Entries": {
+                "moonslime.BibliocraftSkill.Letterpress_Workstation": {
+                    "Name": "Letterpress Workstation",
+                    "DisplayName": "{{i18n:moonslime.BibliocraftSkill.Letterpress_Workstation.name}}",
+                    "Description": "{{i18n:moonslime.BibliocraftSkill.Letterpress_Workstation.description}}",
+                    "Price": 50,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/machines",
+                    "SpriteIndex": 0
+                },
+				"moonslime.BibliocraftSkill.Letterpress_Inking_Station": {
+                    "Name": "Letterpress Inking Station",
+                    "DisplayName": "{{i18n:moonslime.BibliocraftSkill.Letterpress_Inking_Station.name}}",
+                    "Description": "{{i18n:moonslime.BibliocraftSkill.Letterpress_Inking_Station.description}}",
+                    "Price": 50,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/machines",
+                    "SpriteIndex": 0
+                }
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "Entries": {
+                "moonslime.Archaeology.glass_path": {
+                    "Name": "Glass Path",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.glass_path.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.glass_path.description}}",
+                    "Type": "Crafting",
+                    "Category": -24,
+                    "Price": 1,
+                    "Texture": "Mods/moonslime.ArchaeologySkill/textures",
+                    "SpriteIndex": 0,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": null,
+                    "CustomFields": null
+                }
+            }
+        }
+    ]
+}
