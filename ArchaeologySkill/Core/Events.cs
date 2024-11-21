@@ -40,7 +40,7 @@ namespace ArchaeologySkill.Core
             ModEntry.ItemDefinitions = ModEntry.Assets.ItemDefinitions;
 
 
-            Log.Warn("Archaeology: Trying to Register skill.");
+            Log.Trace("Archaeology: Trying to Register skill.");
             SpaceCore.Skills.RegisterSkill(new Archaeology_Skill());
 
             foreach (string entry in ModEntry.ItemDefinitions["extra_loot_table"])
