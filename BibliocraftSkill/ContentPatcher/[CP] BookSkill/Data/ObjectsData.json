@@ -7,7 +7,7 @@
         },
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.ArchaeologySkill/machines",
+            "Target": "Mods/moonslime.BibliocraftSkill/machines",
             "FromFile": "Assets/machines.png"
         },
         {

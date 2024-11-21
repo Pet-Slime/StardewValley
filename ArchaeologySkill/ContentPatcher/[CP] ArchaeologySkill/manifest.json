@@ -7,7 +7,9 @@
     "ContentPackFor": {
         "UniqueID": "Pathoschild.ContentPatcher"
     },
-    "UpdateKeys": [],
+    "UpdateKeys": [
+        "Nexus:-1"
+    ],
     "Dependencies": [
         {
             "UniqueID": "moonslime.ArchaeologySkill"

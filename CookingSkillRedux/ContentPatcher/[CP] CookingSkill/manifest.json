@@ -3,7 +3,7 @@
     "Author": "moonslime",
     "Version": "1.8.2",
     "Description": "YACS Content Patcher",
-    "UniqueID": "moonslime.CookingSkillRedux.CP",
+    "UniqueID": "moonslime.CookingSkill.CP",
     "ContentPackFor": {
         "UniqueID": "Pathoschild.ContentPatcher"
     },
@@ -12,7 +12,7 @@
     ],
     "Dependencies": [
         {
-            "UniqueID": "moonslime.CookingSkillRedux"
+            "UniqueID": "moonslime.CookingSkill"
         },
         {
             "UniqueID": "Rafseazz.RSVCP",
