@@ -7,6 +7,10 @@
     "config.Enable_Cookout_Kit_Changes.name": "Cookout kit Changes",
     "config.Enable_Cookout_Kit_Changes.description": "Unchecking this will keep the cookout kit as a level 3 foraging recipe instead of a level 0 Cooking recipe.",
 
+
+    "config.Use_LoC_Levels.name": "Use Love of Cooking Levels",
+    "config.Use_LoC_Levels.description": "Checking this (requires restart) will make YACS use LoC levels instead of YACS levels",
+
     "moonslime.Cooking.green_stew.name": "Green Stew",
     "moonslime.Cooking.green_stew.description": "A delicate stew with a hint of sulfur and potato.",
 

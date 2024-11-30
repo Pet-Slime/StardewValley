@@ -9,12 +9,30 @@
         "Enable_Cookout_Kit_Changes": {
             "AllowValues": "true,false",
             "Default": "true"
+        },
+        "Use_LoC_Levels": {
+            "AllowValues": "true,false",
+            "Default": "false"
         }
     },
     "Changes": [
         {
             "Action": "Include",
-            "FromFile": "Data/ObjectsData.json, Data/CraftingData.json, Data/MachinesData.json, GiftTastes/gift-tastes.json"
+            "FromFile": "Data/ObjectsData.json, Data/MachinesData.json, GiftTastes/gift-tastes.json",
+        },
+        {
+            "Action": "Include",
+            "FromFile": "Data/CraftingData.json",
+            "When": {
+                "Use_LoC_Levels": false
+            }
+        },
+        {
+            "Action": "Include",
+            "FromFile": "Data/CraftingData_Love.json",
+            "When": {
+                "Use_LoC_Levels": true
+            }
         },
         {
             "Action": "Include",

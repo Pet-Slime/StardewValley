@@ -66,6 +66,10 @@ namespace CookingSkillRedux
 
         public override string GetName()
         {
+            if (ModEntry.LoveOfCookingLoaded)
+            {
+                return ModEntry.Instance.I18n.Get("skill.name_2");
+            }
             return ModEntry.Instance.I18n.Get("skill.name");
         }
 

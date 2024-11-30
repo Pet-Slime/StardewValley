@@ -50,6 +50,10 @@ Global
 		{56651B71-984E-463C-BD0C-027917E96089}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56651B71-984E-463C-BD0C-027917E96089}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56651B71-984E-463C-BD0C-027917E96089}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA7454A3-0D10-4F64-876E-A62C6423860B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA7454A3-0D10-4F64-876E-A62C6423860B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA7454A3-0D10-4F64-876E-A62C6423860B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA7454A3-0D10-4F64-876E-A62C6423860B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{582E2861-2BF8-4704-8F5E-1AB9BAE2B572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{582E2861-2BF8-4704-8F5E-1AB9BAE2B572}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{582E2861-2BF8-4704-8F5E-1AB9BAE2B572}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -89,14 +93,8 @@ Global
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{19cedb88-a912-48da-b35d-fce2509e70e6}*SharedItemsImports = 13
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{1e50c395-2be4-4f79-b919-02ed7ba9fd42}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{1e50c395-2be4-4f79-b919-02ed7ba9fd42}*SharedItemsImports = 5
-		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{2d854387-8148-4acf-8ef1-bfb3a5ec6716}*SharedItemsImports = 5
-		MoonShared\MoonShared.projitems*{2d854387-8148-4acf-8ef1-bfb3a5ec6716}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
-		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{582e2861-2bf8-4704-8f5e-1ab9bae2b572}*SharedItemsImports = 5
-		MoonShared\MoonShared.projitems*{582e2861-2bf8-4704-8f5e-1ab9bae2b572}*SharedItemsImports = 5
-		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{5bc19468-1d91-43e6-94e5-9e8fc7cf29ed}*SharedItemsImports = 5
-		MoonShared\MoonShared.projitems*{5bc19468-1d91-43e6-94e5-9e8fc7cf29ed}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{8f13906d-7e88-45b4-abbc-617437970163}*SharedItemsImports = 13
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{b4835048-a339-456f-b0ed-64cfe03c4c29}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{b4835048-a339-456f-b0ed-64cfe03c4c29}*SharedItemsImports = 5

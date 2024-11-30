@@ -15,6 +15,7 @@ namespace CookingSkillRedux
 
         internal static bool JALoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("spacechase0.JsonAssets");
         internal static bool BCLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("leclair.bettercrafting");
+        internal static bool LoveOfCookingLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("blueberry.LoveOfCooking");
 
         internal static IJsonAssetsApi JsonAssets;
         internal static IBetterCrafting BetterCrafting;
