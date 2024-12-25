@@ -1,0 +1,23 @@
+﻿{
+    "skill.name": "Glück",
+    "skill.perk": "Höhere Chance für gute Events, niedrigere Chance für schlechte Events.",
+    "skill.perk_bonus": "Höhere Chance für gute Events, niedrigere Chance für schlechte Events.",
+
+    "Luck5a.name": "Glücksspieler",
+    "Luck5a.desc": "Besseres tägliches Glück.",
+    "Luck5b.name": "Assistent",
+    "Luck5b.desc": "Tägliche Aufgaben kommen dreimal so häufig vor.",
+    "Luck10a1.name": "Glückspilz",
+    "Luck10a1.desc": "20% Chance maximales Glück für den Tag zu haben.",
+    "Luck10a2.name": "Wahrsager",
+    "Luck10a2.desc": "Du hast niemals Pech.",
+    "Luck10b1.name": "Sternschnuppe",
+    "Luck10b1.desc": "Nachtevents passieren doppelt so häufig.",
+    "Luck10b2.name": "Spirituell begabt",
+    "Luck10b2.desc": "Geschenke machen Junimos glücklich. Sie könnten deiner Farm helfen.\n(15% Chance für irgendeine Form der Hilfe auf deiner Farm.)",
+
+    "junimo-rewards.animal-friendship": "Die Junimos haben einige deiner Tiere zutraulicher gemacht!",
+    "junimo-rewards.grow-crops": "Die Junimos haben deine Pflanzen wachsen lassen!",
+    "junimo-rewards.grow-grass": "Die Junimos haben Weide gepflanzt und deine Zäune repariert!",
+    "junimo-rewards.prismatic-shard": "Die Junimos haben dir eine prismatische Scherbe gebracht!"
+}
