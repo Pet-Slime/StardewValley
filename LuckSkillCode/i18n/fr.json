@@ -1,0 +1,23 @@
+{
+    "skill.name": "Chance",
+    "skill.perk": "Plus de chances d'avoir de bons événements, moins de chances d'avoir de mauvais événements.",
+    "skill.perk_bonus": "Plus de chances d'avoir de bons événements, moins de chances d'avoir de mauvais événements.",
+
+    "Luck5a.name": "Joueur",
+    "Luck5a.desc": "Meilleure chance au quotidien.",
+    "Luck5b.name": "Assistant",
+    "Luck5b.desc": "Les quêtes quotidiennes se produisent trois fois plus souvent.",
+    "Luck10a1.name": "Chanceux",
+    "Luck10a1.desc": "20% chance d'avoir une chance quotidienne maximale.",
+    "Luck10a2.name": "Diseur de bonne aventure",
+    "Luck10a2.desc": "N'ayez jamais de malchance.",
+    "Luck10b1.name": "Étoile filante",
+    "Luck10b1.desc": "Les événements nocturnes se produisent deux fois plus souvent.",
+    "Luck10b2.name": "Enfant spirituel",
+    "Luck10b2.desc": "Offrir des cadeaux rend les junimos heureux. Ils pourraient aider votre ferme.\n(15% chance d'obtenir une certaine forme d'avancement agricole.)",
+
+    "junimo-rewards.animal-friendship": "Les junimos ont rendu certains de vos animaux plus affectueux !",
+    "junimo-rewards.grow-crops": "Les junimos ont fait progresser vos récoltes !",
+    "junimo-rewards.grow-grass": "Les junimos ont fait pousser votre gazon et réparé vos clôtures !",
+    "junimo-rewards.prismatic-shard": "Les Junimos vous ont offert un éclat prismatique !"
+}
