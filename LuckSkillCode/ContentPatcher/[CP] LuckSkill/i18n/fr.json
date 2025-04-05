@@ -1,0 +1,15 @@
+{
+
+    "moonslime.Luck.slots_copper.name": "Machine à sous en cuivre",
+    "moonslime.Luck.slots_copper.description": "Insérez cinq barres de cuivre et une pile pour récupérer cinq à vingt matériaux de construction aléatoires.",
+
+    "moonslime.Luck.slots_gold.name": "Machine à sous en or",
+    "moonslime.Luck.slots_gold.description": "Insérez cinq lingots d'or et une pile pour obtenir un à cinq objets aléatoires provenant des mines.",
+
+    "moonslime.Luck.slots_iridium.name": "Machine à sous Iridium",
+    "moonslime.Luck.slots_iridium.description": "Insérez cinq barres d'iridium et une pile pour obtenir une pierre précieuse aléatoire.",
+
+    "moonslime.Luck.slots_radioactive.name": "Machine à sous radioactive",
+    "moonslime.Luck.slots_radioactive.description": "Insérez cinq barres radioactives et une pile pour récupérer un objet aléatoire que les gens adoreront."
+
+}
