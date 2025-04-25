@@ -6,15 +6,15 @@
         <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    </ItemGroup>
+    	<ItemGroup>
+	  <Reference Include="BirbCore">
+	    <HintPath>E:\SteamLibrary\steamapps\common\Stardew Valley\Mods\BirbCore\BirbCore.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	</ItemGroup>
 
     <ItemGroup>
-        <Reference Include="BirbCore">
-            <HintPath>S:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\Mods\BirbCore\BirbCore.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>

@@ -8,12 +8,12 @@
 
 	<ItemGroup>
 	  <Reference Include="BetterCrafting">
-	    <HintPath>S:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\Mods\BetterCrafting\BetterCrafting.dll</HintPath>
+	    <HintPath>E:\SteamLibrary\steamapps\common\Stardew Valley\Mods\BetterCrafting\BetterCrafting.dll</HintPath>
 	    <Private>False</Private>
 	    <EmbedInteropTypes>False</EmbedInteropTypes>
 	  </Reference>
 	  <Reference Include="BirbCore">
-	    <HintPath>S:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\Mods\BirbCore\BirbCore.dll</HintPath>
+	    <HintPath>E:\SteamLibrary\steamapps\common\Stardew Valley\Mods\BirbCore\BirbCore.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	</ItemGroup>

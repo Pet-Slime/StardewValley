@@ -1,7 +1,7 @@
 ﻿{
     "Name": "[CP] Archaeology Skill",
     "Author": "moonslime",
-    "Version": "2.12.1",
+    "Version": "2.13.0",
     "Description": "Archaeology Skill Content Patcher",
     "UniqueID": "moonslime.ArchaeologySkill.CP",
     "ContentPackFor": {

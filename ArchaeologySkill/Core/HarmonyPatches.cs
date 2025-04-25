@@ -109,7 +109,7 @@ namespace ArchaeologySkill.Core
         {
             BirbCore.Attributes.Log.Trace("Archaeology skill: check for buried treasure: Island");
             BirbCore.Attributes.Log.Trace(__instance.IsBuriedNutLocation(new Point(xLocation, yLocation)).ToString());
-            if (__instance.IsBuriedNutLocation(new Point(xLocation, yLocation)))
+            if (who != null && __instance.IsBuriedNutLocation(new Point(xLocation, yLocation)))
             {
                 BirbCore.Attributes.Log.Trace("Has the team collected said nut?");
                 BirbCore.Attributes.Log.Trace(Game1.player.team.collectedNutTracker.Contains("Buried_" + __instance.Name + "_" + xLocation + "_" + yLocation).ToString());
@@ -245,20 +245,25 @@ namespace ArchaeologySkill.Core
         private static void After_Profession_Extra_Loot(
         GameLocation __instance, int xLocation, int yLocation, Farmer who)
         {
-            var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
-            string item = ModEntry.ArtifactLootTable.RandomChoose(Game1.random, "390");
-            Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots,false, xLocation, yLocation, exactItem: item);
-            //Does The player have the Antiquarian Profession?
-            BirbCore.Attributes.Log.Trace("Archaeology skill: Checking to see if the player has Antiquarian");
-            if (Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology10a1))
+            if (who != null)
             {
+                var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
+                string item = ModEntry.ArtifactLootTable.RandomChoose(Game1.random, "390");
+                xLocation = farmer.TilePoint.X;
+                yLocation = farmer.TilePoint.Y;
+                Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: item);
+                //Does The player have the Antiquarian Profession?
+                BirbCore.Attributes.Log.Trace("Archaeology skill: Checking to see if the player has Antiquarian");
+                if (Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology10a1))
+                {
 
-                BirbCore.Attributes.Log.Trace("Archaeology skill: Player has Antiquarian");
-                Random random = Utility.CreateDaySaveRandom(xLocation * 2000, yLocation, Game1.netWorldState.Value.TreasureTotemsUsed * 777);
-                Vector2 vector = new Vector2(xLocation * 64, yLocation * 64);
-                item = ModEntry.ArtifactLootTable.RandomChoose(Game1.random, "390");
-                Item finalItem = ItemRegistry.Create(item);
-                Game1.createItemDebris(finalItem, farmer.Tile, Game1.random.Next(4), __instance);
+                    BirbCore.Attributes.Log.Trace("Archaeology skill: Player has Antiquarian");
+                    Random random = Utility.CreateDaySaveRandom(xLocation * 2000, yLocation, Game1.netWorldState.Value.TreasureTotemsUsed * 777);
+                    Vector2 vector = new Vector2(xLocation * 64, yLocation * 64);
+                    item = ModEntry.ArtifactLootTable.RandomChoose(Game1.random, "390");
+                    Item finalItem = ItemRegistry.Create(item);
+                    Game1.createItemDebris(finalItem, farmer.Tile, Game1.random.Next(4), __instance);
+                }
             }
         }
     }
@@ -272,7 +277,9 @@ namespace ArchaeologySkill.Core
         Pan __instance, List<Item> __result, GameLocation location, Farmer who)
         {
 
+
             var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
+            if (farmer == null) { return; };
             //Add EXP for the player Panning and check for the gold rush profession
             Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromPanSpots, panning: true);
 
@@ -347,7 +354,7 @@ namespace ArchaeologySkill.Core
     class GetPriceAfterMultipliers_Patch
     {
         [HarmonyLib.HarmonyPostfix]
-        private static void Postfix(
+        private static void IncereaseCosts(
         StardewValley.Object __instance, ref float __result, float startPrice, long specificPlayerID)
         {
             // Set the sale multiplier to 1
@@ -399,6 +406,7 @@ namespace ArchaeologySkill.Core
             //Take the result, and then multiply it by the sales multiplier, along with the config to control display pricing
             __result *= (saleMultiplier * ModEntry.Config.DisplaySellPrice);
         }
+        
     }
 
     [HarmonyPatch(typeof(VolcanoDungeon), nameof(VolcanoDungeon.drawAboveAlwaysFrontLayer))]

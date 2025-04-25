@@ -73,7 +73,7 @@
                                 {
                                     "Id": "ItemPlacedInMachine",
                                     "Trigger": "ItemPlacedInMachine",
-                                    "RequiredItemId": "(O)724",
+                                    "RequiredItemId": "(O)245",
                                     "RequiredCount": 0
                                 }
                             ],

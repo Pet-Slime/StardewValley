@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <GameModsPath>$(GamePath)Mods\$(AssemblyName)</GameModsPath>
+        <GameModsPath>$(GamePath)\Mods\$(AssemblyName)</GameModsPath>
         <EnableModZip>false</EnableModZip>
     </PropertyGroup>
 

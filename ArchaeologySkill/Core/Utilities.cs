@@ -31,6 +31,8 @@ namespace ArchaeologySkill
             var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
             if (farmer == null ) { return; };
 
+            xLocation = farmer.TilePoint.X;
+            yLocation = farmer.TilePoint.Y;
             //Give the player EXP
             BirbCore.Attributes.Log.Trace("Archaeology Skll: Adding EXP to the player");
 
