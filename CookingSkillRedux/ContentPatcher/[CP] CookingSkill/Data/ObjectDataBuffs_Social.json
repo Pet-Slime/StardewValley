@@ -4,61 +4,64 @@
             "Action": "EditData",
             "Target": "Data/Objects",
             "Fields": {
-                "194": {
-                    "Price": 72,
+                "moonslime.Cooking.strawberry_pie": {
                     "Buffs": [
                         {
                             "Id": "Food",
                             "BuffId": null,
                             "IconTexture": null,
                             "IconSpriteIndex": 0,
-                            "Duration": 240,
+                            "Duration": 480,
                             "IsDebuff": false,
                             "GlowColor": null,
                             "CustomAttributes": {
-                                "FarmingLevel": 0,
+                                "FarmingLevel": 1,
                                 "FishingLevel": 0,
                                 "MiningLevel": 0,
-                                "LuckLevel": 0,
+                                "LuckLevel": 3,
                                 "ForagingLevel": 0,
-                                "MaxStamina": 16,
+                                "MaxStamina": 0,
                                 "MagneticRadius": 0,
                                 "Speed": 0,
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {}
+                            "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.drbirbdev.Socializing": "1"
+                            }
                         }
                     ]
                 },
-                "195": {
-                    "Price": 200,
+                "moonslime.Cooking.cream_pie": {
                     "Buffs": [
                         {
                             "Id": "Food",
                             "BuffId": null,
                             "IconTexture": null,
                             "IconSpriteIndex": 0,
-                            "Duration": 240,
+                            "Duration": 480,
                             "IsDebuff": false,
                             "GlowColor": null,
                             "CustomAttributes": {
-                                "FarmingLevel": 0,
+                                "FarmingLevel": 3,
                                 "FishingLevel": 0,
                                 "MiningLevel": 0,
                                 "LuckLevel": 0,
                                 "ForagingLevel": 0,
-                                "MaxStamina": 32,
+                                "MaxStamina": 0,
                                 "MagneticRadius": 0,
                                 "Speed": 0,
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {}
+                            "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.drbirbdev.Socializing": "1"
+                            }
                         }
                     ]
                 },
-                "213": {
+
+                "moonslime.Cooking.ramen": {
                     "Buffs": [
                         {
                             "Id": "Food",
@@ -70,7 +73,65 @@
                             "GlowColor": null,
                             "CustomAttributes": {
                                 "FarmingLevel": 0,
-                                "FishingLevel": 5,
+                                "FishingLevel": 0,
+                                "MiningLevel": 0,
+                                "LuckLevel": 1,
+                                "ForagingLevel": 0,
+                                "MaxStamina": 0,
+                                "MagneticRadius": 0,
+                                "Speed": 0,
+                                "Defense": 3,
+                                "Attack": 0
+                            },
+                            "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.drbirbdev.Socializing": "2"
+                            }
+                        }
+                    ]
+                },
+
+                "moonslime.Cooking.egg_ramen": {
+                    "Buffs": [
+                        {
+                            "Id": "Food",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 580,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 0,
+                                "MiningLevel": 0,
+                                "LuckLevel": 1,
+                                "ForagingLevel": 0,
+                                "MaxStamina": 0,
+                                "MagneticRadius": 0,
+                                "Speed": 0,
+                                "Defense": 4,
+                                "Attack": 0
+                            },
+                            "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.drbirbdev.Socializing": "4"
+                            }
+                        }
+                    ]
+                },
+
+                "moonslime.Cooking.anchovy_pizza": {
+                    "Buffs": [
+                        {
+                            "Id": "Food",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 480,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 3,
                                 "MiningLevel": 0,
                                 "LuckLevel": 0,
                                 "ForagingLevel": 0,
@@ -80,62 +141,9 @@
                                 "Defense": 0,
                                 "Attack": 0
                             },
-                            "CustomFields": {}
-                        }
-                    ]
-                },
-                "456": {
-                    "Buffs": [
-                        {
-                            "Id": "Food",
-                            "BuffId": null,
-                            "IconTexture": null,
-                            "IconSpriteIndex": 0,
-                            "Duration": 60,
-                            "IsDebuff": false,
-                            "GlowColor": null,
-                            "CustomAttributes": {
-                                "FarmingLevel": 0,
-                                "FishingLevel": 5,
-                                "MiningLevel": 0,
-                                "LuckLevel": 0,
-                                "ForagingLevel": 0,
-                                "MaxStamina": 0,
-                                "MagneticRadius": 0,
-                                "Speed": 1,
-                                "Defense": 0,
-                                "Attack": 0
-                            },
-                            "CustomFields": {}
-                        }
-                    ]
-                },
-                "608": {
-                    "Price": 420
-                },
-                "651": {
-                    "Buffs": [
-                        {
-                            "Id": "Food",
-                            "BuffId": null,
-                            "IconTexture": null,
-                            "IconSpriteIndex": 0,
-                            "Duration": 280,
-                            "IsDebuff": false,
-                            "GlowColor": null,
-                            "CustomAttributes": {
-                                "FarmingLevel": 0,
-                                "FishingLevel": 5,
-                                "MiningLevel": 0,
-                                "LuckLevel": 0,
-                                "ForagingLevel": 0,
-                                "MaxStamina": 0,
-                                "MagneticRadius": 0,
-                                "Speed": 0,
-                                "Defense": 3,
-                                "Attack": 0
-                            },
-                            "CustomFields": {}
+                            "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.drbirbdev.Socializing": "2"
+                            }
                         }
                     ]
                 }

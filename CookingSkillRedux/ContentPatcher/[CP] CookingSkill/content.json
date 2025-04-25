@@ -9,30 +9,12 @@
         "Enable_Cookout_Kit_Changes": {
             "AllowValues": "true,false",
             "Default": "true"
-        },
-        "Use_LoC_Levels": {
-            "AllowValues": "true,false",
-            "Default": "false"
         }
     },
     "Changes": [
         {
             "Action": "Include",
-            "FromFile": "Data/ObjectsData.json, Data/MachinesData.json, GiftTastes/gift-tastes.json",
-        },
-        {
-            "Action": "Include",
-            "FromFile": "Data/CraftingData.json",
-            "When": {
-                "Use_LoC_Levels": false
-            }
-        },
-        {
-            "Action": "Include",
-            "FromFile": "Data/CraftingData_Love.json",
-            "When": {
-                "Use_LoC_Levels": true
-            }
+            "FromFile": "Data/ObjectsData.json, Data/MachinesData.json, GiftTastes/gift-tastes.json"
         },
         {
             "Action": "Include",
@@ -40,7 +22,43 @@
                 "Enable_Vanilla_Food_Changes": true
             },
             "FromFile": "Data/Vanilla_ObjectsData.json"
-
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=moonslime.ArchaeologySkill": true
+            },
+            "FromFile": "Data/ObjectDataBuffs_Archaeology.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=drbirbdev.BinningSkill": true
+            },
+            "FromFile": "Data/ObjectDataBuffs_Binning.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=drbirbdev.SocializingSkill": true
+            },
+            "FromFile": "Data/ObjectDataBuffs_Social.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "Enable_Vanilla_Food_Changes": true,
+                "HasMod |contains=drbirbdev.SocializingSkill": true
+            },
+            "FromFile": "Data/Vanilla_ObjectDataBuffs_Social.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "Enable_Vanilla_Food_Changes": true,
+                "HasMod |contains=moonslime.ArchaeologySkill": true
+            },
+            "FromFile": "Data/Vanilla_ObjectDataBuffs_Archaeology.json"
         }
     ]
 }

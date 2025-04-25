@@ -25,6 +25,18 @@
         {
             "UniqueID": "Lumisteria.MtVapius",
             "IsRequired": false
+        },
+        {
+            "UniqueID": "moonslime.ArchaeologySkill",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "drbirbdev.BinningSkill",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "drbirbdev.SocializingSkill",
+            "IsRequired": false
         }
     ]
 }
