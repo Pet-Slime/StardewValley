@@ -1,0 +1,208 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "spacechase0.SpaceCore/ObjectExtensionData",
+            "Entries": {
+                "moonslime.Archaeology.h_SBVCP_MushroomStatue": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.h_SBVCP_AncientStaff": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.h_SBVCP_SilverMask": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.h_SBVCP_LapisNecklace": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.h_SBVCP_WickedVase": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.h_SBVCP_GoldenCoins": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.h_SBVCP_ChippedJug": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.h_SBVCP_DwarfKeyI": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.h_SBVCP_DwarfKeyII": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.h_SBVCP_DwarfKeyIII": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.h_SBVCP_DwarfKeyIV": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.w_SBVCP_MushroomStatue": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.w_SBVCP_AncientStaff": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.w_SBVCP_SilverMask": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.w_SBVCP_LapisNecklace": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.w_SBVCP_WickedVase": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.w_SBVCP_GoldenCoins": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.w_SBVCP_ChippedJug": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.w_SBVCP_DwarfKeyI": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.w_SBVCP_DwarfKeyII": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.w_SBVCP_DwarfKeyIII": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                },
+                "moonslime.Archaeology.w_SBVCP_DwarfKeyIV": {
+                    "CategoryTextOverride": "{{i18n:moonslime.Archaeology.item_catagory}}",
+                    "CategoryColorOverride": {
+                        "R": 116,
+                        "G": 25,
+                        "B": 98,
+                        "A": 255
+                    }
+                }
+            }
+        }
+    ]
+}

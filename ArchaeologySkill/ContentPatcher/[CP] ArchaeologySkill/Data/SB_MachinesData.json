@@ -1,0 +1,581 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/Machines",
+            "TargetField": [
+                "(BC)moonslime.Archaeology.grinder",
+                "OutputRules"
+            ],
+            "Entries": {
+                "SilverMask_to_Ruby": {
+                    "Id": "SilverMask_to_Ruby",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_SilverMask",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "Ruby",
+                            "ItemId": "(O)64",
+                            "MinStack": 3,
+                            "MaxStack": 7
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "LapisNecklace_to_Gold": {
+                    "Id": "LapisNecklace_to_Gold",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_LapisNecklace",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "Gold ore",
+                            "ItemId": "(O)384",
+                            "MinStack": 1,
+                            "MaxStack": 3
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "GoldenCoin_to_Gold": {
+                    "Id": "GoldenCoin_to_Gold",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_GoldenCoins",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "Gold ore",
+                            "ItemId": "(O)384",
+                            "MinStack": 1,
+                            "MaxStack": 3
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                }
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Machines",
+            "TargetField": [
+                "(BC)moonslime.Archaeology.preservation_chamber",
+                "OutputRules"
+            ],
+            "Entries": {
+                "moonslime.Archaeology.w_SBVCP_MushroomStatue": {
+                    "Id": "moonslime.Archaeology.w_SBVCP_MushroomStatue",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_MushroomStatue",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.w_SBVCP_MushroomStatue",
+                            "ItemId": "(O)moonslime.Archaeology.w_SBVCP_MushroomStatue",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.w_SBVCP_AncientStaff": {
+                    "Id": "moonslime.Archaeology.w_SBVCP_AncientStaff",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_AncientStaff",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.w_SBVCP_AncientStaff",
+                            "ItemId": "(O)moonslime.Archaeology.w_SBVCP_AncientStaff",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.w_SBVCP_SilverMask": {
+                    "Id": "moonslime.Archaeology.w_SBVCP_SilverMask",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_SilverMask",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.w_SBVCP_SilverMask",
+                            "ItemId": "(O)moonslime.Archaeology.w_SBVCP_SilverMask",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.w_SBVCP_LapisNecklace": {
+                    "Id": "moonslime.Archaeology.w_SBVCP_LapisNecklace",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_LapisNecklace",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.w_SBVCP_LapisNecklace",
+                            "ItemId": "(O)moonslime.Archaeology.w_SBVCP_LapisNecklace",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.w_SBVCP_WickedVase": {
+                    "Id": "moonslime.Archaeology.w_SBVCP_WickedVase",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_WickedVase",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.w_SBVCP_WickedVase",
+                            "ItemId": "(O)moonslime.Archaeology.w_SBVCP_WickedVase",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.w_SBVCP_GoldenCoins": {
+                    "Id": "moonslime.Archaeology.w_SBVCP_GoldenCoins",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_GoldenCoins",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.w_SBVCP_GoldenCoins",
+                            "ItemId": "(O)moonslime.Archaeology.w_SBVCP_GoldenCoins",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.w_SBVCP_ChippedJug": {
+                    "Id": "moonslime.Archaeology.w_SBVCP_ChippedJug",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_ChippedJug",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.w_SBVCP_ChippedJug",
+                            "ItemId": "(O)moonslime.Archaeology.w_SBVCP_ChippedJug",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.w_SBVCP_DwarfKeyI": {
+                    "Id": "moonslime.Archaeology.w_SBVCP_DwarfKeyI",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_DwarfKeyI",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.w_SBVCP_DwarfKeyI",
+                            "ItemId": "(O)moonslime.Archaeology.w_SBVCP_DwarfKeyI",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.w_SBVCP_DwarfKeyII": {
+                    "Id": "moonslime.Archaeology.w_SBVCP_DwarfKeyII",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_DwarfKeyII",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.w_SBVCP_DwarfKeyII",
+                            "ItemId": "(O)moonslime.Archaeology.w_SBVCP_DwarfKeyII",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.w_SBVCP_DwarfKeyIII": {
+                    "Id": "moonslime.Archaeology.w_SBVCP_DwarfKeyIII",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_DwarfKeyIII",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.w_SBVCP_DwarfKeyIII",
+                            "ItemId": "(O)moonslime.Archaeology.w_SBVCP_DwarfKeyIII",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.w_SBVCP_DwarfKeyIV": {
+                    "Id": "moonslime.Archaeology.w_SBVCP_DwarfKeyIV",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_DwarfKeyIV",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.w_SBVCP_DwarfKeyIV",
+                            "ItemId": "(O)moonslime.Archaeology.w_SBVCP_DwarfKeyIV",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                }
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Machines",
+            "TargetField": [
+                "(BC)moonslime.Archaeology.h_preservation_chamber",
+                "OutputRules"
+            ],
+            "Entries": {
+                "moonslime.Archaeology.h_SBVCP_MushroomStatue": {
+                    "Id": "moonslime.Archaeology.h_SBVCP_MushroomStatue",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_MushroomStatue",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.h_SBVCP_MushroomStatue",
+                            "ItemId": "(O)moonslime.Archaeology.h_SBVCP_MushroomStatue",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.h_SBVCP_AncientStaff": {
+                    "Id": "moonslime.Archaeology.h_SBVCP_AncientStaff",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_AncientStaff",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.h_SBVCP_AncientStaff",
+                            "ItemId": "(O)moonslime.Archaeology.h_SBVCP_AncientStaff",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.h_SBVCP_SilverMask": {
+                    "Id": "moonslime.Archaeology.h_SBVCP_SilverMask",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_SilverMask",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.h_SBVCP_SilverMask",
+                            "ItemId": "(O)moonslime.Archaeology.h_SBVCP_SilverMask",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.h_SBVCP_LapisNecklace": {
+                    "Id": "moonslime.Archaeology.h_SBVCP_LapisNecklace",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_LapisNecklace",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.h_SBVCP_LapisNecklace",
+                            "ItemId": "(O)moonslime.Archaeology.h_SBVCP_LapisNecklace",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.h_SBVCP_WickedVase": {
+                    "Id": "moonslime.Archaeology.h_SBVCP_WickedVase",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_WickedVase",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.h_SBVCP_WickedVase",
+                            "ItemId": "(O)moonslime.Archaeology.h_SBVCP_WickedVase",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.h_SBVCP_GoldenCoins": {
+                    "Id": "moonslime.Archaeology.h_SBVCP_GoldenCoins",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_GoldenCoins",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.h_SBVCP_GoldenCoins",
+                            "ItemId": "(O)moonslime.Archaeology.h_SBVCP_GoldenCoins",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.h_SBVCP_ChippedJug": {
+                    "Id": "moonslime.Archaeology.h_SBVCP_ChippedJug",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_ChippedJug",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.h_SBVCP_ChippedJug",
+                            "ItemId": "(O)moonslime.Archaeology.h_SBVCP_ChippedJug",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.h_SBVCP_DwarfKeyI": {
+                    "Id": "moonslime.Archaeology.h_SBVCP_DwarfKeyI",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_DwarfKeyI",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.h_SBVCP_DwarfKeyI",
+                            "ItemId": "(O)moonslime.Archaeology.h_SBVCP_DwarfKeyI",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.h_SBVCP_DwarfKeyII": {
+                    "Id": "moonslime.Archaeology.h_SBVCP_DwarfKeyII",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_DwarfKeyII",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.h_SBVCP_DwarfKeyII",
+                            "ItemId": "(O)moonslime.Archaeology.h_SBVCP_DwarfKeyII",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.h_SBVCP_DwarfKeyIII": {
+                    "Id": "moonslime.Archaeology.h_SBVCP_DwarfKeyIII",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_DwarfKeyIII",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.h_SBVCP_DwarfKeyIII",
+                            "ItemId": "(O)moonslime.Archaeology.h_SBVCP_DwarfKeyIII",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                },
+                "moonslime.Archaeology.h_SBVCP_DwarfKeyIV": {
+                    "Id": "moonslime.Archaeology.h_SBVCP_DwarfKeyIV",
+                    "Triggers": [
+                        {
+                            "Id": "ItemPlacedInMachine",
+                            "Trigger": "ItemPlacedInMachine",
+                            "RequiredItemId": "(O)skellady.SBVCP_DwarfKeyIV",
+                            "RequiredCount": 1
+                        }
+                    ],
+                    "UseFirstValidOutput": true,
+                    "OutputItem": [
+                        {
+                            "Id": "moonslime.Archaeology.h_SBVCP_DwarfKeyIV",
+                            "ItemId": "(O)moonslime.Archaeology.h_SBVCP_DwarfKeyIV",
+                            "MinStack": 1,
+                            "MaxStack": 1,
+                            "CopyQuality": true
+                        }
+                    ],
+                    "MinutesUntilReady": 720
+                }
+            }
+        }
+    ]
+}

@@ -25,6 +25,13 @@
                 "HasMod |contains=FlashShifter.StardewValleyExpandedCP": true
             },
             "FromFile": "Data/SVE_ObjectsData.json, Data/SVE_MachinesData.json, Data/SVE_ObjectCatagories.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=skellady.SBVCP": true
+            },
+            "FromFile": "Data/SB_ObjectsData.json, Data/SB_MachinesData.json, Data/SB_ObjectCatagories.json"
         }
     ]
 }
