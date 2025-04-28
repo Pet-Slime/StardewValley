@@ -587,7 +587,7 @@
                     "Price": 1000,
                     "Texture": "Mods/moonslime.CookingSkill/textures",
                     "SpriteIndex": 12,
-                    "Edibility": 5,
+                    "Edibility": -60,
                     "IsDrink": true,
                     "Buffs": [
                         {
@@ -595,7 +595,7 @@
                             "BuffId": null,
                             "IconTexture": null,
                             "IconSpriteIndex": 0,
-                            "Duration": 60,
+                            "Duration": 72,
                             "IsDebuff": false,
                             "GlowColor": null,
                             "CustomAttributes": {
@@ -610,7 +610,8 @@
                                 "Defense": 5,
                                 "Attack": 5
                             },
-                            "CustomFields": {}
+                            "CustomFields": {
+                            }
                         }
                     ],
                     "GeodeDropsDefaultItems": false,
@@ -970,7 +971,7 @@
                     "Price": 1000,
                     "Texture": "Mods/moonslime.CookingSkill/textures",
                     "SpriteIndex": 20,
-                    "Edibility": 200,
+                    "Edibility": -60,
                     "IsDrink": false,
                     "Buffs": [
                         {
@@ -978,22 +979,23 @@
                             "BuffId": null,
                             "IconTexture": null,
                             "IconSpriteIndex": 0,
-                            "Duration": 60,
+                            "Duration": 87,
                             "IsDebuff": false,
                             "GlowColor": null,
                             "CustomAttributes": {
-                                "FarmingLevel": 2,
-                                "FishingLevel": 2,
-                                "MiningLevel": 2,
-                                "LuckLevel": 2,
-                                "ForagingLevel": 2,
-                                "MaxStamina": 2,
-                                "MagneticRadius": 2,
-                                "Speed": 2,
-                                "Defense": 2,
-                                "Attack": 2
+                                "FarmingLevel": 5,
+                                "FishingLevel": 5,
+                                "MiningLevel": 5,
+                                "LuckLevel": 5,
+                                "ForagingLevel": 5,
+                                "MaxStamina": 32,
+                                "MagneticRadius": 32,
+                                "Speed": 5,
+                                "Defense": 5,
+                                "Attack": 5
                             },
-                            "CustomFields": {}
+                            "CustomFields": {
+                            }
                         }
                     ],
                     "GeodeDropsDefaultItems": false,

@@ -11,6 +11,7 @@ using StardewValley.BellsAndWhistles;
 using BirbCore.Attributes;
 using Object = StardewValley.Object;
 using ArchaeologySkill.Objects.Water_Shifter;
+using StardewValley.Menus;
 
 namespace ArchaeologySkill
 {
@@ -37,7 +38,6 @@ namespace ArchaeologySkill
             BirbCore.Attributes.Log.Trace("Archaeology Skll: Adding EXP to the player");
 
             AddEXP(farmer, EXP);
-
             //If the player has the gold rush profession, give them a speed buff
             BirbCore.Attributes.Log.Trace("Archaeology Skll: Does the player have gold rusher?");
             if (farmer.HasCustomProfession(Archaeology_Skill.Archaeology10b2))
