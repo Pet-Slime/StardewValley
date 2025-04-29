@@ -24,7 +24,12 @@
 	  <Reference Include="StardewModdingAPI">
 	    <HintPath>S:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\StardewModdingAPI.dll</HintPath>
 	  </Reference>
+        <Reference Include="SpaceCore">
+            <HintPath>$(GamePath)\Mods\SpaceCore\SpaceCore.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
 	</ItemGroup>
+
 
 	<ItemGroup>
 	  <PackageReference Update="Pathoschild.Stardew.ModBuildConfig" Version="4.3.2" />

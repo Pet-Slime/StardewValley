@@ -16,6 +16,10 @@
 	    <HintPath>E:\SteamLibrary\steamapps\common\Stardew Valley\Mods\BirbCore\BirbCore.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
+        <Reference Include="SpaceCore">
+            <HintPath>$(GamePath)\Mods\SpaceCore\SpaceCore.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
 	</ItemGroup>
 
 	<ItemGroup>

@@ -33,12 +33,7 @@
         <ModZipPath>$(SolutionDir)\_releases\$(Configuration)</ModZipPath>
     </PropertyGroup>
 
-    <ItemGroup>
-		<Reference Include="SpaceCore">
-			<HintPath>$(GamePath)\Mods\SpaceCore\SpaceCore.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-	</ItemGroup>
+
 
     <PropertyGroup>
         <GameModsPath>$(GamePath)\Mods\$(AssemblyName)</GameModsPath>

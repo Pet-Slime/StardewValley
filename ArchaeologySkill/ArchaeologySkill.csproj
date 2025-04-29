@@ -12,6 +12,12 @@
 	    <Private>False</Private>
 	  </Reference>
 	</ItemGroup>
+    <ItemGroup>
+        <Reference Include="SpaceCore">
+            <HintPath>$(GamePath)\Mods\SpaceCore\SpaceCore.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

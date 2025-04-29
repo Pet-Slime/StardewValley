@@ -8,6 +8,7 @@ using StardewValley;
 using SpaceCore.Interface;
 using StardewModdingAPI.Events;
 using StardewModdingAPI;
+using BirbCore.Attributes;
 
 namespace ArchaeologySkill
 {
@@ -41,8 +42,9 @@ namespace ArchaeologySkill
                 Archaeology10b1 = new KeyedProfession(this, "Archaeology10b1", ModEntry.Assets.Archaeology10b1, ModEntry.Instance.I18N),
                 Archaeology10b2 = new KeyedProfession(this, "Archaeology10b2", ModEntry.Assets.Archaeology10b2, ModEntry.Instance.I18N)
             );
+            string test = this.Id;
 
-
+            BirbCore.Attributes.Log.Warn( test.ToUpper() );
         }
 
         private void AddProfessions(KeyedProfession lvl5A, KeyedProfession lvl5B, KeyedProfession lvl10A1, KeyedProfession lvl10A2, KeyedProfession lvl10B1, KeyedProfession lvl10B2)

@@ -10,16 +10,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Reference Include="BirbCore">
-	    <HintPath>S:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\Mods\BirbCore\BirbCore.dll</HintPath>
-	    <Private>False</Private>
-	    <EmbedInteropTypes>False</EmbedInteropTypes>
-	  </Reference>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <PackageReference Update="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
 	</ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="BirbCore">
+            <HintPath>E:\SteamLibrary\steamapps\common\Stardew Valley\Mods\BirbCore\BirbCore.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+    </ItemGroup>
 
 
 </Project>
