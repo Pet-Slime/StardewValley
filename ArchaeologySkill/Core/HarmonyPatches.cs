@@ -1,23 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using ArchaeologySkill.Objects.Water_Shifter;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MoonShared;
-using Newtonsoft.Json.Linq;
 using SpaceCore;
 using StardewValley;
 using StardewValley.BellsAndWhistles;
-using StardewValley.Characters;
 using StardewValley.Enchantments;
 using StardewValley.Extensions;
 using StardewValley.GameData.Locations;
 using StardewValley.Locations;
-using StardewValley.Network;
 using StardewValley.Tools;
-using static BirbCore.Attributes.SMod;
 
 namespace ArchaeologySkill.Core
 {
@@ -91,11 +86,8 @@ namespace ArchaeologySkill.Core
                 Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: "(O)330");
                 return false;
             }
-
             __result = "";
             return false;
-
-
         }
 
     }
@@ -354,10 +346,12 @@ namespace ArchaeologySkill.Core
     class GetPriceAfterMultipliers_Patch
     {
         [HarmonyLib.HarmonyPostfix]
+#pragma warning disable IDE0051 // Remove unused private members
         private static void IncereaseCosts(
+#pragma warning restore IDE0051 // Remove unused private members
         StardewValley.Object __instance, ref float __result, float startPrice, long specificPlayerID)
         {
-            // Set the sale multiplier to 1
+            //Set the sale multiplier to 1
             float saleMultiplier = 1f;
             try
             {
@@ -394,8 +388,10 @@ namespace ArchaeologySkill.Core
                         // If they have the read the treasure book, increase the sale multiplier by 3
                         if (farmer.stats.Get("Book_Artifact") != 0)
                         {
-                            saleMultiplier += 3f;
+                            saleMultiplier += 2f;
                         }
+
+                        saleMultiplier *= ModEntry.Config.DisplaySellPrice;
                     }
                 }
             }
@@ -404,9 +400,8 @@ namespace ArchaeologySkill.Core
                 BirbCore.Attributes.Log.Error($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             }
             //Take the result, and then multiply it by the sales multiplier, along with the config to control display pricing
-            __result *= (saleMultiplier * ModEntry.Config.DisplaySellPrice);
+            __result *= saleMultiplier;
         }
-        
     }
 
     [HarmonyPatch(typeof(VolcanoDungeon), nameof(VolcanoDungeon.drawAboveAlwaysFrontLayer))]
@@ -461,7 +456,6 @@ namespace ArchaeologySkill.Core
 
             return true; // run original code
         }
-
         public static string GetLevelName(int level)
         {
             return "VolcanoDungeon" + level;
@@ -598,6 +592,4 @@ namespace ArchaeologySkill.Core
             Game1.displayFarmer = true;
         }
     }
-
-
 }
