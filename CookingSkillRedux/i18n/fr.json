@@ -1,5 +1,6 @@
 {
     "skill.name": "Cuisine",
+    "skill.name_2": "Culinaire",
     "skill.perk": "+{{bonus}}% comestibilité pour les nourritures cuisinées maison.",
     "skill.perk_bonus": "+{{bonus}}% comestibilité pour les nourritures cuisinées maison.",
 
