@@ -7,6 +7,10 @@
     "config.Enable_Cookout_Kit_Changes.name": "Changement sur les kits de barbecue",
     "config.Enable_Cookout_Kit_Changes.description": "Désactiver ceci gardera les kits de barbecue comme une recette de récolte 3 à la place d’une recette de Cuisine 0.",
 
+
+    "config.Use_LoC_Levels.name": "Progression de Love of Cooking",
+    "config.Use_LoC_Levels.description": "Activer ceci permettera à YBCS d’utiliser les niveaux de LoC au lieu de ceux de YACS. Nécessite un redémarrage.",
+
     "moonslime.Cooking.green_stew.name": "Ragoût vert",
     "moonslime.Cooking.green_stew.description": "Un ragoût délicat avec un soupçon de soufre et de patate.",
 
