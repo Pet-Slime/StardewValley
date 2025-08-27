@@ -110,7 +110,7 @@ namespace SpookySkill.Core
                 return;
 
             int storedCooldown = int.Parse(value);
-            if (storedCooldown == 0)
+            if (storedCooldown <= 0)
                 return;
 
             SetCooldown(farmer, storedCooldown - 1);
@@ -682,9 +682,18 @@ namespace SpookySkill.Core
                 }
             }
 
-            // Set cooldown based on spook level
-            int cooldown = 5 - Array.IndexOf(spookThresholds.Keys.ToArray(), spookLevel);
-            SetCooldown(player, cooldown + cooldown);
+            
+            if (ModEntry.Config.ShortCoolDown == true)
+            {
+                // Set cooldown to 1 so the player can't spam the skill
+                SetCooldown(player, 1);
+
+            } else
+            {
+                // Set cooldown based on spook level
+                int cooldown = 5 - Array.IndexOf(spookThresholds.Keys.ToArray(), spookLevel);
+                SetCooldown(player, cooldown + cooldown);
+            }
 
             if (player.modDataForSerialization.TryGetValue(Boo, out string value))
             {

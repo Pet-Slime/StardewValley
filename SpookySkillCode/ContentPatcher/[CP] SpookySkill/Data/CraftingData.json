@@ -8,9 +8,9 @@
                 "moonslime.spooky.magnet_ring_l_1": "335 1 573 5//519/false/moonslime.Spooky 4",
                 "moonslime.spooky.magnet_ring_l_2": "518 1 573 4//519/false/moonslime.Spooky 4",
                 "moonslime.Spooky.dark_floor": "567 1 382 1 388 1//moonslime.Spooky.dark_floor 3/false/moonslime.Spooky 8",
-                "moonslime.spooky.scary_brazier": "334 10 382 388 1//moonslime.Spooky.scary_brazier/true/moonslime.Spooky 8",
+                "moonslime.spooky.scary_brazier": "334 10 382 1//moonslime.Spooky.scary_brazier/true/moonslime.Spooky 8",
                 "moonslime.spooky.dark_brazier": "567 1 382 1 388 1 390 10//moonslime.Spooky.dark_brazier/true/moonslime.Spooky 8",
-                "moonslime.Spooky.burglar_ring": "548 1 335 1//526/false/moonslime.Spooky 9",
+                "moonslime.Spooky.burglar_ring": "548 1 335 1//526/false/moonslime.Spooky 9"
             }
         },
         {

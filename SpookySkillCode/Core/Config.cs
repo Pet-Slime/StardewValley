@@ -24,6 +24,10 @@ namespace SpookySkill
         [SConfig.Option()]
         public SButton Key_Cast { get; set; } = SButton.B;
 
+
+        [SConfig.Option()]
+        public bool ShortCoolDown { get; set; } = false;
+
         [SConfig.Option(0.0f, 50f, 1.0f)]
         public float ExpMod { get; set; } = 1f;
 

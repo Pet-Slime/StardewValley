@@ -5,7 +5,7 @@
     "Description": "A Spacecore version of the luck skill",
     "UniqueID": "moonslime.LuckSkill",
     "EntryDll": "LuckSkill.dll",
-    "MinimumApiVersion": "4.1.7",
+    "MinimumApiVersion": "4.3.2",
     "UpdateKeys": [
         "Nexus:28103"
     ],

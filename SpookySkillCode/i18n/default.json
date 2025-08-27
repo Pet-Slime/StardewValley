@@ -102,6 +102,9 @@
     "config.Key_Cast": "The keybinding to scare/steal",
     "config.Key_Cast.tooltip": "Press this key to scare/steal NPCs when near them.",
 
+    "config.ShortCoolDown": "Short Cooldown",
+    "config.ShortCoolDown.tooltip": "This makes it so Scaring/Thieving only ever has a cooldown of 10 minutes instead of a variable cooldown",
+
     "config.ExpMod": "Global EXP mod",
     "config.ExpMod.tooltip": "This will change how much exp all other options are multiplied by",
 
