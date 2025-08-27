@@ -8,7 +8,7 @@
 
     	<ItemGroup>
 	  <Reference Include="BirbCore">
-	    <HintPath>E:\SteamLibrary\steamapps\common\Stardew Valley\Mods\BirbCore\BirbCore.dll</HintPath>
+	    <HintPath>$(GamePath)\Mods\BirbCore\BirbCore.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	</ItemGroup>
