@@ -1741,15 +1741,6 @@
                     "WobbleWhileWorking": true,
                     "ShowNextIndexWhileWorking": true,
                     "ShowNextIndexWhenReady": true,
-                    "ReadyTimeModifiers": [
-                        {
-                            "Id": "Coopmaster",
-                            "Condition": "PLAYER_MOONSLIME.ARCHAEOLOGY_LEVEL Current 2",
-                            "Modification": "Multiply",
-                            "Amount": 0.5,
-                            "RandomAmount": null
-                        }
-                    ],
                     "LoadEffects": [
                         {
                             "Id": "Default",
@@ -2936,15 +2927,6 @@
                     "WobbleWhileWorking": true,
                     "ShowNextIndexWhileWorking": true,
                     "ShowNextIndexWhenReady": true,
-                    "ReadyTimeModifiers": [
-                        {
-                            "Id": "Coopmaster",
-                            "Condition": "PLAYER_FISHING_LEVEL Current 2",
-                            "Modification": "Multiply",
-                            "Amount": 0.5,
-                            "RandomAmount": null
-                        }
-                    ],
                     "LoadEffects": [
                         {
                             "Id": "Default",

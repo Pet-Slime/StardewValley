@@ -24,6 +24,8 @@ using StardewValley.Objects.Trinkets;
 using StardewValley.GameData.GarbageCans;
 using StardewValley.Internal;
 using StardewValley.Tools;
+using MoonShared.Patching;
+using System.Reflection.Emit;
 
 namespace BibliocraftSkill
 {
@@ -409,14 +411,46 @@ namespace BibliocraftSkill
         }
     }
 
-    //Goal of the patch is to increase monster drops at a low chance if you have the monster compendium
-    [HarmonyPatch(typeof(GameLocation), "monsterDrop")]
+    //Goal of this patch is to increase the crabpot bonus rate when harvesting by hand
+    [HarmonyPatch(typeof(StardewValley.Objects.CrabPot), "checkForAction")]
     class Blank_patch
     {
-        [HarmonyLib.HarmonyPostfix]
+        [HarmonyLib.HarmonyTranspiler]
         public static void Postfix()
         {
+            static IEnumerable<CodeInstruction> CrabPot_checkForAction_Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                CodeMatcher matcher = new(instructions);
+                // Old: NextDouble() < 0.25
+                // New: NextDouble() < 0.25 + Patcher.GetExtraCrabPotDoublePercentage(who)
+                // up to you to implement Patcher.GetExtraCrabPotDoublePercentage(who) returns a float
+                //
+                matcher
+                  .MatchEndForward(
+                    new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(Random), nameof(Random.NextDouble))),
+                    new CodeMatch(OpCodes.Ldc_R8, 0.25)
+                    )
+                  .ThrowIfNotMatch($"Could not find entry point for {nameof(CrabPot_checkForAction_Transpiler)}");
+                matcher
+                  .Advance(1)
+                  .InsertAndAdvance(
+                new CodeInstruction(OpCodes.Ldarg_1),
+                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Blank_patch), nameof(Blank_patch.GetExtraCrabPotDoublePercentage))),
+                new CodeInstruction(OpCodes.Add)
+                      );
+                return matcher.InstructionEnumeration();
+            }
+        }
 
+        private static object GetExtraCrabPotDoublePercentage(Farmer who)
+        {
+            if (Utilities.GetLevel(who, true) >=4)
+            {
+                return 0.25;
+            } else
+            {
+                return 0;
+            }
         }
     }
 

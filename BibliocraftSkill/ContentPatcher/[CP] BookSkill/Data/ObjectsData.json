@@ -31,33 +31,6 @@
                     "SpriteIndex": 0
                 }
             }
-        },
-        {
-            "Action": "EditData",
-            "Target": "Data/Objects",
-            "Entries": {
-                "moonslime.Archaeology.glass_path": {
-                    "Name": "Glass Path",
-                    "DisplayName": "{{i18n:moonslime.Archaeology.glass_path.name}}",
-                    "Description": "{{i18n:moonslime.Archaeology.glass_path.description}}",
-                    "Type": "Crafting",
-                    "Category": -24,
-                    "Price": 1,
-                    "Texture": "Mods/moonslime.ArchaeologySkill/textures",
-                    "SpriteIndex": 0,
-                    "Edibility": -300,
-                    "IsDrink": false,
-                    "Buffs": null,
-                    "GeodeDropsDefaultItems": false,
-                    "GeodeDrops": null,
-                    "ArtifactSpotChances": null,
-                    "ExcludeFromFishingCollection": true,
-                    "ExcludeFromShippingCollection": true,
-                    "ExcludeFromRandomSale": false,
-                    "ContextTags": null,
-                    "CustomFields": null
-                }
-            }
         }
     ]
 }

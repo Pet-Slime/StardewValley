@@ -44,7 +44,6 @@ namespace ArchaeologySkill
             );
             string test = this.Id;
 
-            BirbCore.Attributes.Log.Warn( test.ToUpper() );
         }
 
         private void AddProfessions(KeyedProfession lvl5A, KeyedProfession lvl5B, KeyedProfession lvl10A1, KeyedProfession lvl10A2, KeyedProfession lvl10B1, KeyedProfession lvl10B2)
