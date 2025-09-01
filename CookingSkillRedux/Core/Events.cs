@@ -63,12 +63,16 @@ namespace CookingSkillRedux.Core
 
         private static void BetterCraftingPerformCraftEvent(IGlobalPerformCraftEvent @event)
         {
-            if ((@event.Recipe.CraftingRecipe is not null && @event.Recipe.CraftingRecipe.isCookingRecipe) ||
-                    (@event.Recipe.Name is not null && CraftingRecipe.cookingRecipes.ContainsKey(@event.Recipe.Name)))
+            if (@event.Item is not null)
             {
-                @event.Item = PreCook(@event.Recipe.CraftingRecipe ?? new CraftingRecipe(@event.Recipe.Name, true), @event.Item, true);
-                @event.Complete();
+                if ((@event.Recipe.CraftingRecipe is not null && @event.Recipe.CraftingRecipe.isCookingRecipe) ||
+                                    (@event.Recipe.Name is not null && CraftingRecipe.cookingRecipes.ContainsKey(@event.Recipe.Name)))
+                {
+                    @event.Item = PreCook(@event.Recipe.CraftingRecipe ?? new CraftingRecipe(@event.Recipe.Name, true), @event.Item, true);
+                    @event.Complete();
+                }
             }
+            
             @event.Complete();
 
         }

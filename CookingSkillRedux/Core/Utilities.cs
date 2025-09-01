@@ -20,7 +20,7 @@ namespace CookingSkillRedux
                 SpaceCore.Skills.AddExperience(Game1.GetPlayer(who.UniqueMultiplayerID), "moonslime.Cooking", amount);
                 if (Game1.random.NextDouble() < 0.02)
                 {
-                    if (Game1.random.NextDouble() < 0.02)
+                    if (Game1.random.NextDouble() < 0.015)
                     {
                         Game1.createMultipleObjectDebris("moonslime.Cooking.skill_book", who.TilePoint.X, who.TilePoint.Y, 1, who.UniqueMultiplayerID);
                     }
