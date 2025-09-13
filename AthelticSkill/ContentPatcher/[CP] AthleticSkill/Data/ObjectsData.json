@@ -1,0 +1,138 @@
+﻿{
+    "Changes": [
+		{
+			"Action": "Load",
+			"Target": "Mods/moonslime.AthleticSkill/textures",
+			"FromFile": "Assets/sprites.png"
+		},
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "Entries": {
+                "moonslime.Athletic.egg_drink": {
+                    "Name": "Egg Shake",
+                    "DisplayName": "{{i18n:moonslime.Athletic.egg_drink.name}}",
+                    "Description": "{{i18n:moonslime.Athletic.egg_drink.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 500,
+                    "Texture": "Mods/moonslime.AthleticSkill/textures",
+                    "SpriteIndex": 1,
+                    "Edibility": 50,
+                    "IsDrink": false,
+                    "Buffs": [
+                        {
+                            "Id": "Drink",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 280,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 0,
+                                "MiningLevel": 1,
+                                "LuckLevel": 0,
+                                "ForagingLevel": 0,
+                                "MaxStamina": 64,
+                                "MagneticRadius": 0,
+                                "Speed": 0,
+                                "Defense": 0,
+                                "Attack": 0
+                            },
+                            "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Athletic": "2"
+                            }
+                        }
+                    ],
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_yellow",
+                        "food_sweet"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Athletic.beans_and_rice": {
+                    "Name": "Beans and Rice",
+                    "DisplayName": "{{i18n:moonslime.Athletic.beans_and_rice.name}}",
+                    "Description": "{{i18n:moonslime.Athletic.beans_and_rice.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 500,
+                    "Texture": "Mods/moonslime.AthleticSkill/textures",
+                    "SpriteIndex": 2,
+                    "Edibility": 50,
+                    "IsDrink": false,
+                    "Buffs": [
+                        {
+                            "Id": "Food",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 780,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 0,
+                                "MiningLevel": 0,
+                                "LuckLevel": 0,
+                                "ForagingLevel": 0,
+                                "MaxStamina": 0,
+                                "MagneticRadius": 64,
+                                "Speed": 0,
+                                "Defense": 0,
+                                "Attack": 0
+                            },
+                            "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Athletic": "3"
+                            }
+                        }
+                    ],
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_brown",
+                        "food_sweet"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Athletic.skill_book": {
+                    "Name": "How to Improve Yourself!",
+                    "DisplayName": "{{i18n:moonslime.Athletic.skill_book.name}}",
+                    "Description": "{{i18n:moonslime.Athletic.skill_book.description}}",
+                    "Type": "asdf",
+                    "Category": -103,
+                    "Price": 500,
+                    "Texture": "Mods/moonslime.AthleticSkill/textures",
+                    "SpriteIndex": 3,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "moonslime.Athletic",
+                        "color_dark_blue",
+                        "book_item"
+                    ],
+                    "CustomFields": null
+                }
+            }
+        }
+    ]
+}

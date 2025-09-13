@@ -12,7 +12,14 @@
     "Dependencies": [
         {
             "UniqueID": "drbirbdev.BirbCore",
-            "MinimumVersion": "1.0.3"
+            "MinimumVersion": "1.1.0"
+        },
+        {
+            "UniqueID": "Pathoschild.ContentPatcher"
+        },
+        {
+            "UniqueID": "spacechase0.SpaceCore",
+            "MinimumVersion": "1.26.2"
         }
     ]
 }

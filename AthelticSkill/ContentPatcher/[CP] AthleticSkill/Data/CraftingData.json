@@ -1,0 +1,15 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/CraftingRecipes",
+            "Entries": {
+                "Warp Totem: Farm": "688 1 709 1 340 1 771 10/Field/688 2/false/moonslime.Athletic 2/",
+                "Warp Totem: Mountain": "689 1 709 1 335 1 390 10/Field/689 2/false/moonslime.Athletic 3/",
+                "Warp Totem: Beach": "690 1 709 1 393 1 771 5/Field/690 2/false/moonslime.Athletic 4/",
+                "Warp Totem: Desert": "261 1 709 1 88 1 386 2/Field/261 2/false/moonslime.Athletic 8/",
+                "Warp Totem: Island": "886 1 709 3 829 1/Field/886 2/false/moonslime.Athletic 9/"
+            }
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+﻿{
+    "Name": "[CP] Athletic Skill",
+    "Author": "moonslime",
+    "Version": "1.0.0",
+    "Description": "Athletic Skill Content Patcher",
+    "UniqueID": "moonslime.AthleticSkill.CP",
+    "ContentPackFor": {
+        "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    "UpdateKeys": [
+        "Nexus:-1"
+    ],
+    "Dependencies": [
+        {
+            "UniqueID": "moonslime.AthleticSkill"
+        }
+    ]
+}

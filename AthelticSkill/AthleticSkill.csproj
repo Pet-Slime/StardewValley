@@ -27,5 +27,9 @@
         <PackageReference Update="Pathoschild.Stardew.ModBuildConfig" Version="4.3.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="ContentPatcher\" />
+    </ItemGroup>
+
 
 </Project>
