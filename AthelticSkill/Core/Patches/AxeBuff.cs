@@ -14,18 +14,19 @@ using StardewValley.Tools;
 using static BirbCore.Attributes.SMod;
 using xTile.Dimensions;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using SpaceCore;
 
-namespace BuffProfessions.Core
+namespace AthleticSkill.Core.Patches
 {
-    [HarmonyPatch(typeof(StardewValley.Tools.Axe), nameof(StardewValley.Tools.Axe.beginUsing))]
+    [HarmonyPatch(typeof(Axe), nameof(Axe.beginUsing))]
     public class AxeBeginUsing_patch
     {
-        [HarmonyLib.HarmonyPrefix]
+        [HarmonyPrefix]
         private static bool Prefix(Axe __instance, GameLocation location, int x, int y, Farmer who)
         {
             // Copied from Stardewvalley.Tool
 
-            if (who.professions.Contains(14) && __instance.UpgradeLevel > 0)
+            if (who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
             {
                 who.Halt();
                 __instance.Update(who.FacingDirection, 0, who);
@@ -58,13 +59,13 @@ namespace BuffProfessions.Core
         }
     }
 
-    [HarmonyPatch(typeof(StardewValley.Tools.Axe), nameof(StardewValley.Tools.Axe.DoFunction))]
+    [HarmonyPatch(typeof(Axe), nameof(Axe.DoFunction))]
     public class AxeFunction_patch
     {
-        [HarmonyLib.HarmonyPrefix]
+        [HarmonyPrefix]
         private static bool Prefix(Axe __instance, GameLocation location, int x, int y, int power, Farmer who)
         {
-            if (who.professions.Contains(14) && __instance.UpgradeLevel > 0)
+            if (who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
             {
                 LumberjackBuff(__instance, location, x, y, power, who);
                 return false; // don't run original logic
@@ -80,7 +81,7 @@ namespace BuffProfessions.Core
             Game1.recentMultiplayerRandom = Utility.CreateRandom((short)Game1.random.Next(-32768, 32768));
             if (!tool.IsEfficient)
             {
-                who.Stamina -= (float)(2 * power) - (float)who.ForagingLevel * 0.1f;
+                who.Stamina -= 2 * power - who.ForagingLevel * 0.1f;
             }
 
             power = who.toolPower.Value;
@@ -307,9 +308,9 @@ namespace BuffProfessions.Core
             if (power >= 6)
             {
                 list.Clear();
-                for (int i = (int)vector.X - 2; (float)i <= vector.X + 2f; i++)
+                for (int i = (int)vector.X - 2; i <= vector.X + 2f; i++)
                 {
-                    for (int j = (int)vector.Y - 2; (float)j <= vector.Y + 2f; j++)
+                    for (int j = (int)vector.Y - 2; j <= vector.Y + 2f; j++)
                     {
                         list.Add(new Vector2(i, j));
                     }

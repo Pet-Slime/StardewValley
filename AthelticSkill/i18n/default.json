@@ -1,0 +1,34 @@
+﻿{
+    "skill.name": "Athletics",
+    "skill.perk": "{{bonus}} to the energy cost of sprinting.",
+    "skill.perk_bonus": "Reduce the energy cost of sprinting",
+
+    "config.Key_Cast": "Sprint Key",
+    "config.Key_Cast.tooltip": "The key needed to toggle/hold for sprint.",
+
+    "config.ToggleSprint": "Toggle sprint",
+    "config.ToggleSprint.tooltip": "Change sprinting to be a toggle or a hold.",
+
+    "config.MinimumEnergyToSprint": "Minimum energy required to sprint.",
+    "config.MinimumEnergyToSprint.tooltip": "Change the minimum required amount of energy that is needed to sprint.",
+
+    "moonslime.Athletics.sprinting.displayName": "Sprinting",
+    "moonslime.Athletics.sprinting.description": "Faster movement at the cost of energy!",
+
+    "moonslime.Athletics.sprinting.displayName_Gridball": "Charging",
+    "moonslime.Athletics.sprinting.description_Gridball": "Faster movement while damaging foes!",
+
+    "Athletic5a.name": "Bodybuilder",
+    "Athletic5a.desc": "Regenerate health based on athletics level.",
+    "Athletic5b.name": "Runner",
+    "Athletic5b.desc": "Regenerate energy based on athletics level'",
+    "Athletic10a1.name": "Strongman",
+    "Athletic10a1.desc": "Allows the charging of Axes and Pickaxes.",
+    "Athletic10a2.name": "Gridball Linebacker",
+    "Athletic10a2.desc": "While sprinting, increase defense and reflect some damage back to the attacker based on athletics level.",
+    "Athletic10b1.name": "Acrobat",
+    "Athletic10b1.desc": "Gives a small chance to dodge damage based on athletics and luck level",
+    "Athletic10b2.name": "Marathoner",
+    "Athletic10b2.desc": "Increase sprinting speed and cut sprinting stamina use."
+
+}

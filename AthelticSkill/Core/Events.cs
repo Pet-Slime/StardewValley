@@ -1,14 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BirbCore.Attributes;
-using Microsoft.Xna.Framework.Graphics;
-using MoonShared;
+using SpaceCore;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Buffs;
 using Log = BirbCore.Attributes.Log;
@@ -56,69 +51,124 @@ namespace AthleticSkill.Core
 
         public bool CanSprint(Farmer player)
         {
-            if (player.isRidingHorse())
+            // Early exit for simple blockers
+            if (player.isRidingHorse()) return false;
+            if (player.exhausted.Value) return false;
+            if (!player.isMoving()) return false;
+            if (!Context.IsPlayerFree) return false;
+
+            // Must have sprint flag in modData
+            if (!player.modData.TryGetValue(SpringtingOn, out string areTheySprinting)
+                || areTheySprinting != "true")
                 return false;
 
-            if (player.exhausted.Value)
-                return false;
-
-            if (!player.isMoving())
-                return false;
-
-            return player.Stamina >= ModEntry.Config.MinimumEnergyToSprint;
+            return player.Stamina > ModEntry.Config.MinimumEnergyToSprint;
         }
 
         private void ApplySprintBuff(Farmer player)
         {
-            if (CanSprint(player))
-            {
-                // Create the buff
-                Buff _sprintBuff = new(
-                    id: "Athletics:sprinting",
-                    displayName: ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.displayName"),
-                    description: ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description"),
-                    iconTexture: ModEntry.Assets.IconA,
-                    iconSheetIndex: 0,
-                    duration: 1000, 
-                    effects: new BuffEffects()
-                    {
-                        Speed = { 2 }
-                    }
-                );
 
-                Buff buff = Game1.buffsDisplay.GetSortedBuffs().Where(x => x.id == "Athletics:sprinting").FirstOrDefault();
-                if (buff is not null)
+            // Create the buff
+            Buff sprinting = new(
+                id: "Athletics:sprinting",
+                displayName: player.HasCustomProfession(Athletic_Skill.Athletic10a2) ? ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.displayName_Gridball") : ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.displayName"),
+                description: player.HasCustomProfession(Athletic_Skill.Athletic10a2) ? ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description_Gridball") : ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description"),
+                iconTexture: player.HasCustomProfession(Athletic_Skill.Athletic10a2) ? ModEntry.Assets.IconA : ModEntry.Assets.IconA,
+                iconSheetIndex: 0,
+                duration: 300,
+                effects: new BuffEffects()
                 {
-                    buff.millisecondsDuration = 1000;
+                    //If the player has the marathoner profession, increase speed amount, else it is 1
+                    Speed = { player.HasCustomProfession(Athletic_Skill.Athletic10b2) ? 2 : 1 },
+                    //If the player has the Linebacker profession, increase defense, else it is 0
+                    Defense = { player.HasCustomProfession(Athletic_Skill.Athletic10a2) ? (Utilities.GetLevel(player)) : 0 }
                 }
-                else
-                {
-                    _sprintBuff.millisecondsDuration = 1000;
-                    player.applyBuff(_sprintBuff);
-                }
+            );
+
+            // Check to see if they have the sprinting buff
+            Buff buff = Game1.buffsDisplay.GetSortedBuffs().Where(x => x.id == "Athletics:sprinting").FirstOrDefault();
+            
+            if (buff is not null) // If they do just increase the duration
+            {
+                buff.millisecondsDuration = 300;
+            }
+            else // if they don't, apply the buff
+            {
+                player.applyBuff(sprinting);
             }
         }
 
-        [SEvent.OneSecondUpdateTicked]
-        private void OnUpdateTicked(object sender, OneSecondUpdateTickedEventArgs e)
+        [SEvent.UpdateTicked]
+        private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-            if (!Context.IsWorldReady)
+            //Only run this code every 10 ticks, and when the player is actually in the world
+            if (!e.IsMultipleOf(10) || !Context.IsWorldReady)
                 return;
 
+            //Get the player
             Farmer player = Game1.player;
 
-            if (player.modData.TryGetValue(SpringtingOn, out string areTheySprinting) && areTheySprinting == "true")
-                ApplySprintBuff(player);
-
-            if (!player.hasBuff("Athletics:sprinting") || !player.isMoving() || !Context.IsPlayerFree || Game1.isFestival())
+            //If the player isn't in a sprintable enviorment, dont run the rest of the code
+            if (!CanSprint(player))
                 return;
 
-            float energyDrainPerSecond = 20f;
+            //Apply the sprint buff
+            ApplySprintBuff(player);
 
-            energyDrainPerSecond += Math.Max(20 - Utilities.GetLevel(player), 1);
+            //figure out stamina drain based on current atheltic's level
+            float energyDrainPerSecond = Math.Max(25 - Utilities.GetLevel(player), 1);
 
-            player.Stamina -= energyDrainPerSecond / 60;
+            if (player.HasCustomProfession(Athletic_Skill.Athletic10b2))
+            {
+                energyDrainPerSecond /= 2;
+            }
+
+            //Adjust player stamina
+            player.stamina -= energyDrainPerSecond / 10;
         }
 
+        [SEvent.OneSecondUpdateTicked]
+        private void OnOneSecondUpdateTicked_exp(object sender, OneSecondUpdateTickedEventArgs e)
+        {
+            //Only run this code every 2 seconds, and when the player is actually in the world
+            if (!e.IsMultipleOf(120) || !Context.IsWorldReady)
+                return;
+
+            //Get the player
+            Farmer player = Game1.player;
+
+            //If the player has the sprinting buff, add exp!
+            if (player.hasBuff("Athletics:sprinting"))
+                Utilities.AddEXP(player, ModEntry.Config.ExpWhileSprinting);
+
+        }
+
+        [SEvent.OneSecondUpdateTicked]
+        private void OnOneSecondUpdateTicked_professions(object sender, OneSecondUpdateTickedEventArgs e)
+        {
+            //Only run this code every 5 seconds, and when the player is actually in the world
+            if (!e.IsMultipleOf(300) || !Context.IsWorldReady)
+                return;
+
+            //Get the player
+            Farmer player = Game1.player;
+
+            //Figure out how much to restore based on athletic's level
+            int amount = ((int)Math.Floor(Utilities.GetLevel(player) * 0.5));
+
+            //If they have the Bodybuilder profession, restore HP
+            if (player.HasCustomProfession(Athletic_Skill.Athletic5a))
+                Restore(player.health, player.maxHealth, amount);
+
+            //If they have the Runner profession, restore energy
+            if (player.HasCustomProfession(Athletic_Skill.Athletic5b))
+                Restore(((int)Math.Floor(player.stamina)), player.MaxStamina, amount);
+        }
+
+        private void Restore(int current, int max, int amount)
+        {
+            if (current < max)
+                current = Math.Min(current + amount, max);
+        }
     }
 }

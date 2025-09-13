@@ -14,18 +14,19 @@ using StardewValley.Tools;
 using static BirbCore.Attributes.SMod;
 using xTile.Dimensions;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using SpaceCore;
 
-namespace BuffProfessions.Core
+namespace AthleticSkill.Core.Patches
 {
-    [HarmonyPatch(typeof(StardewValley.Tools.Pickaxe), nameof(StardewValley.Tools.Pickaxe.beginUsing))]
+    [HarmonyPatch(typeof(Pickaxe), nameof(Pickaxe.beginUsing))]
     public class PickAxeBeginUsing_patch
     {
-        [HarmonyLib.HarmonyPrefix]
+        [HarmonyPrefix]
         private static bool Prefix(Pickaxe __instance, GameLocation location, int x, int y, Farmer who)
         {
             // Copied from Stardewvalley.Tool
 
-            if (who.professions.Contains(21) && __instance.UpgradeLevel > 0)
+            if (who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
             {
                 BirbCore.Attributes.Log.Warn($"The power of the {__instance.DisplayName} is {who.toolPower.Value}");
                 who.Halt();
@@ -59,18 +60,18 @@ namespace BuffProfessions.Core
         }
     }
 
-    [HarmonyPatch(typeof(StardewValley.Farmer), nameof(StardewValley.Farmer.toolPowerIncrease))]
+    [HarmonyPatch(typeof(Farmer), nameof(Farmer.toolPowerIncrease))]
     public class FarmerToolPower_patch
     {
 
         private static int ToolPitchAccumulator;
 
-        [HarmonyLib.HarmonyPrefix]
+        [HarmonyPrefix]
         private static bool Prefix(Farmer __instance)
         {
             // Copied from Stardewvalley.Tool
             var who = __instance;
-            if (who.professions.Contains(21) && who.CurrentTool is Pickaxe)
+            if (who.HasCustomProfession(Athletic_Skill.Athletic10a1) && who.CurrentTool is Pickaxe)
             {
 
                 if (who.toolPower.Value == 0)
@@ -81,7 +82,7 @@ namespace BuffProfessions.Core
                 who.toolPower.Value++;
 
                 Color color = Color.White;
-                int num = ((who.FacingDirection == 0) ? 4 : ((who.FacingDirection == 2) ? 2 : 0));
+                int num = who.FacingDirection == 0 ? 4 : who.FacingDirection == 2 ? 2 : 0;
                 switch (who.toolPower.Value)
                 {
                     case 1:
@@ -108,13 +109,13 @@ namespace BuffProfessions.Core
                         break;
                 }
 
-                int num2 = ((who.FacingDirection == 1) ? 40 : ((who.FacingDirection == 3) ? (-40) : ((who.FacingDirection == 2) ? 32 : 0)));
+                int num2 = who.FacingDirection == 1 ? 40 : who.FacingDirection == 3 ? -40 : who.FacingDirection == 2 ? 32 : 0;
                 int num3 = 192;
 
                 int y = who.StandingPixel.Y;
-                Game1.currentLocation.temporarySprites.Add(new TemporaryAnimatedSprite(21, who.Position - new Vector2(num2, num3), color, 8, flipped: false, 70f, 0, 64, (float)y / 10000f + 0.005f, 128));
-                Game1.currentLocation.temporarySprites.Add(new TemporaryAnimatedSprite("TileSheets\\animations", new Microsoft.Xna.Framework.Rectangle(192, 1152, 64, 64), 50f, 4, 0, who.Position - new Vector2((who.FacingDirection != 1) ? (-64) : 0, 128f), flicker: false, who.FacingDirection == 1, (float)y / 10000f, 0.01f, Color.White, 1f, 0f, 0f, 0f));
-                int value = Utility.CreateRandom(Game1.dayOfMonth, (double)who.Position.X * 1000.0, who.Position.Y).Next(12, 16) * 100 + who.toolPower.Value * 100;
+                Game1.currentLocation.temporarySprites.Add(new TemporaryAnimatedSprite(21, who.Position - new Vector2(num2, num3), color, 8, flipped: false, 70f, 0, 64, y / 10000f + 0.005f, 128));
+                Game1.currentLocation.temporarySprites.Add(new TemporaryAnimatedSprite("TileSheets\\animations", new Rectangle(192, 1152, 64, 64), 50f, 4, 0, who.Position - new Vector2(who.FacingDirection != 1 ? -64 : 0, 128f), flicker: false, who.FacingDirection == 1, y / 10000f, 0.01f, Color.White, 1f, 0f, 0f, 0f));
+                int value = Utility.CreateRandom(Game1.dayOfMonth, who.Position.X * 1000.0, who.Position.Y).Next(12, 16) * 100 + who.toolPower.Value * 100;
                 Game1.playSound("toolCharge", value);
 
                 return false;
@@ -123,7 +124,7 @@ namespace BuffProfessions.Core
         }
     }
 
-    [HarmonyPatch(typeof(StardewValley.Tools.Pickaxe), nameof(StardewValley.Tools.Pickaxe.DoFunction))]
+    [HarmonyPatch(typeof(Pickaxe), nameof(Pickaxe.DoFunction))]
     public class PickAxeFunction_patch
     {
 
@@ -132,10 +133,10 @@ namespace BuffProfessions.Core
         private static int hitsToBoulder;
 
 
-        [HarmonyLib.HarmonyPrefix]
+        [HarmonyPrefix]
         private static bool Prefix(Pickaxe __instance, GameLocation location, int x, int y, int power, Farmer who)
         {
-            if (who.professions.Contains(21) && __instance.UpgradeLevel > 0)
+            if (who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
             {
                 ProspectorBuff(__instance, location, x, y, power, who);
                 return false; // don't run original logic
@@ -151,7 +152,7 @@ namespace BuffProfessions.Core
             Game1.recentMultiplayerRandom = Utility.CreateRandom((short)Game1.random.Next(-32768, 32768));
             if (!tool.IsEfficient)
             {
-                who.Stamina -= (float)(2 * power) - (float)who.ForagingLevel * 0.1f;
+                who.Stamina -= 2 * power - who.ForagingLevel * 0.1f;
             }
 
             Utility.clampToTile(new Vector2(x, y));
@@ -221,10 +222,10 @@ namespace BuffProfessions.Core
                             }
                         }
 
-                        TemporaryAnimatedSprite temporaryAnimatedSprite = ((ItemRegistry.GetDataOrErrorItem(value.QualifiedItemId).TextureName == "Maps\\springobjects" && value.ParentSheetIndex < 200 && !Game1.objectData.ContainsKey((value.ParentSheetIndex + 1).ToString()) && value.QualifiedItemId != "(O)25") ? new TemporaryAnimatedSprite(value.ParentSheetIndex + 1, 300f, 1, 2, new Vector2(x - x % 64, y - y % 64), flicker: true, value.flipped.Value)
+                        TemporaryAnimatedSprite temporaryAnimatedSprite = ItemRegistry.GetDataOrErrorItem(value.QualifiedItemId).TextureName == "Maps\\springobjects" && value.ParentSheetIndex < 200 && !Game1.objectData.ContainsKey((value.ParentSheetIndex + 1).ToString()) && value.QualifiedItemId != "(O)25" ? new TemporaryAnimatedSprite(value.ParentSheetIndex + 1, 300f, 1, 2, new Vector2(x - x % 64, y - y % 64), flicker: true, value.flipped.Value)
                         {
                             alphaFade = 0.01f
-                        } : new TemporaryAnimatedSprite(47, new Vector2(num * 64, num2 * 64), Color.Gray, 10, flipped: false, 80f));
+                        } : new TemporaryAnimatedSprite(47, new Vector2(num * 64, num2 * 64), Color.Gray, 10, flipped: false, 80f);
                         Game1.Multiplayer.broadcastSprites(location, temporaryAnimatedSprite);
                         Game1.createRadialDebris(location, 14, num, num2, Game1.random.Next(2, 5), resource: false);
                         Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(46, new Vector2(num * 64, num2 * 64), Color.White, 10, flipped: false, 80f)
@@ -306,7 +307,7 @@ namespace BuffProfessions.Core
                     else if (value.performToolAction(tool))
                     {
                         value.performRemoveAction();
-                        if (value.Type == "Crafting" && (int)value.fragility.Value != 2)
+                        if (value.Type == "Crafting" && value.fragility.Value != 2)
                         {
                             Game1.currentLocation.debris.Add(new Debris(value.QualifiedItemId, who.GetToolLocation(), Utility.PointToVector2(who.StandingPixel)));
                         }
@@ -501,9 +502,9 @@ namespace BuffProfessions.Core
             if (power >= 6)
             {
                 list.Clear();
-                for (int i = (int)vector.X - 2; (float)i <= vector.X + 2f; i++)
+                for (int i = (int)vector.X - 2; i <= vector.X + 2f; i++)
                 {
-                    for (int j = (int)vector.Y - 2; (float)j <= vector.Y + 2f; j++)
+                    for (int j = (int)vector.Y - 2; j <= vector.Y + 2f; j++)
                     {
                         list.Add(new Vector2(i, j));
                     }

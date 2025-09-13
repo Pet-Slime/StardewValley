@@ -95,10 +95,10 @@ Global
 		MoonShared\MoonShared.projitems*{2d854387-8148-4acf-8ef1-bfb3a5ec6716}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{41ed1fc1-a8cc-4001-be74-8e92474c490a}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{41ed1fc1-a8cc-4001-be74-8e92474c490a}*SharedItemsImports = 5
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
+		MoonShared\MoonShared.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{582e2861-2bf8-4704-8f5e-1ab9bae2b572}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{582e2861-2bf8-4704-8f5e-1ab9bae2b572}*SharedItemsImports = 5
-		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{5bc19468-1d91-43e6-94e5-9e8fc7cf29ed}*SharedItemsImports = 5
-		MoonShared\MoonShared.projitems*{5bc19468-1d91-43e6-94e5-9e8fc7cf29ed}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{8f13906d-7e88-45b4-abbc-617437970163}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

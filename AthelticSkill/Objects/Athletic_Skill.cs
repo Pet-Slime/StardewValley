@@ -57,14 +57,14 @@ namespace AthleticSkill
         {
             List<string> result = new()
             {
-                ModEntry.Instance.I18N.Get("skill.perk", new { bonus = 5 })
+                ModEntry.Instance.I18N.Get("skill.perk", new { bonus = -1 })
             };
             return result;
         }
 
         public override string GetSkillPageHoverText(int level)
         {
-            return ModEntry.Instance.I18N.Get("skill.perk", new { bonus = 5 * level });
+            return ModEntry.Instance.I18N.Get("skill.perk", new { bonus = -1 * level });
         }
 
 

@@ -18,7 +18,10 @@ namespace AthleticSkill
         [SConfig.Option()]
         public bool ToggleSprint { get; set; } = false;
 
-        [SConfig.Option(1, 30, 1)]
-        public int MinimumEnergyToSprint { get; set; } = 5;
+        [SConfig.Option(6, 100, 1)]
+        public int MinimumEnergyToSprint { get; set; } = 20;
+
+        [SConfig.Option(1, 100, 1)]
+        public int ExpWhileSprinting { get; set; } = 2;
     }
 }
