@@ -221,7 +221,7 @@ namespace BuffProfessions.Core
                             }
                         }
 
-                        TemporaryAnimatedSprite temporaryAnimatedSprite = ((ItemRegistry.GetDataOrErrorItem(value.QualifiedItemId).TextureName == "Maps\\springobjects" && value.ParentSheetIndex < 200 && !Game1.objectData.ContainsKey((value.ParentSheetIndex + 1).ToString()) && value.QualifiedItemId != "(O)25") ? new TemporaryAnimatedSprite(value.ParentSheetIndex + 1, 300f, 1, 2, new Vector2(x - x % 64, y - y % 64), flicker: true, value.flipped)
+                        TemporaryAnimatedSprite temporaryAnimatedSprite = ((ItemRegistry.GetDataOrErrorItem(value.QualifiedItemId).TextureName == "Maps\\springobjects" && value.ParentSheetIndex < 200 && !Game1.objectData.ContainsKey((value.ParentSheetIndex + 1).ToString()) && value.QualifiedItemId != "(O)25") ? new TemporaryAnimatedSprite(value.ParentSheetIndex + 1, 300f, 1, 2, new Vector2(x - x % 64, y - y % 64), flicker: true, value.flipped.Value)
                         {
                             alphaFade = 0.01f
                         } : new TemporaryAnimatedSprite(47, new Vector2(num * 64, num2 * 64), Color.Gray, 10, flipped: false, 80f));
@@ -306,7 +306,7 @@ namespace BuffProfessions.Core
                     else if (value.performToolAction(tool))
                     {
                         value.performRemoveAction();
-                        if (value.Type == "Crafting" && (int)value.fragility != 2)
+                        if (value.Type == "Crafting" && (int)value.fragility.Value != 2)
                         {
                             Game1.currentLocation.debris.Add(new Debris(value.QualifiedItemId, who.GetToolLocation(), Utility.PointToVector2(who.StandingPixel)));
                         }
