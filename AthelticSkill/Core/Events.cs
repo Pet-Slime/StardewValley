@@ -18,7 +18,7 @@ namespace AthleticSkill.Core
         [SEvent.GameLaunchedLate]
         private static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
-            BirbCore.Attributes.Log.Warn("Athletics: Trying to Register skill.");
+            BirbCore.Attributes.Log.Trace("Athletics: Trying to Register skill.");
             SpaceCore.Skills.RegisterSkill(new Athletic_Skill());
         }
 
@@ -38,7 +38,7 @@ namespace AthleticSkill.Core
                 bool isSprinting = !modData.TryGetValue(SpringtingOn, out string value) || value == "false";
                 modData[SpringtingOn] = isSprinting ? "true" : "false";
 
-                Log.Warn($"Sprint toggled: {modData[SpringtingOn]}");
+                Log.Trace($"Sprint toggled: {modData[SpringtingOn]}");
                 return;
             }
 
@@ -102,7 +102,7 @@ namespace AthleticSkill.Core
         private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
             //Only run this code every 10 ticks, and when the player is actually in the world
-            if (!e.IsMultipleOf(10) || !Context.IsWorldReady)
+            if (!e.IsMultipleOf(10) || !Context.IsWorldReady || !Context.CanPlayerMove)
                 return;
 
             //Get the player
@@ -141,34 +141,38 @@ namespace AthleticSkill.Core
             if (player.hasBuff("Athletics:sprinting"))
                 Utilities.AddEXP(player, ModEntry.Config.ExpWhileSprinting);
 
+
         }
 
         [SEvent.OneSecondUpdateTicked]
         private void OnOneSecondUpdateTicked_professions(object sender, OneSecondUpdateTickedEventArgs e)
         {
             //Only run this code every 5 seconds, and when the player is actually in the world
-            if (!e.IsMultipleOf(300) || !Context.IsWorldReady)
+            if (!e.IsMultipleOf(300) || !Context.IsWorldReady || !Context.CanPlayerMove)
                 return;
 
             //Get the player
             Farmer player = Game1.player;
+
 
             //Figure out how much to restore based on athletic's level
             int amount = ((int)Math.Floor(Utilities.GetLevel(player) * 0.5));
 
             //If they have the Bodybuilder profession, restore HP
             if (player.HasCustomProfession(Athletic_Skill.Athletic5a))
-                Restore(player.health, player.maxHealth, amount);
+                player.health = Restore(player.health, player.maxHealth, amount);
 
             //If they have the Runner profession, restore energy
             if (player.HasCustomProfession(Athletic_Skill.Athletic5b))
-                Restore(((int)Math.Floor(player.stamina)), player.MaxStamina, amount);
+                player.stamina = Restore(((int)Math.Floor(player.stamina)), player.MaxStamina, amount);
         }
 
-        private void Restore(int current, int max, int amount)
+        private int Restore(int current, int max, int amount)
         {
             if (current < max)
                 current = Math.Min(current + amount, max);
+
+            return current;
         }
     }
 }
