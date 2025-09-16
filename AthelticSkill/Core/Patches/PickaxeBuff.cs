@@ -15,6 +15,7 @@ using static BirbCore.Attributes.SMod;
 using xTile.Dimensions;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using SpaceCore;
+using BirbCore.Attributes;
 
 namespace AthleticSkill.Core.Patches
 {
@@ -127,11 +128,9 @@ namespace AthleticSkill.Core.Patches
     [HarmonyPatch(typeof(Pickaxe), nameof(Pickaxe.DoFunction))]
     public class PickAxeFunction_patch
     {
-
-        private static int boulderTileX;
-        private static int boulderTileY;
-        private static int hitsToBoulder;
-
+        private static int BoulderTileX;
+        private static int BoulderTileY;
+        private static int HitsToBoulder;
 
         [HarmonyPrefix]
         private static bool Prefix(Pickaxe __instance, GameLocation location, int x, int y, int power, Farmer who)
@@ -139,380 +138,194 @@ namespace AthleticSkill.Core.Patches
             if (who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
             {
                 ProspectorBuff(__instance, location, x, y, power, who);
-                return false; // don't run original logic
+                return false; // skip original logic
             }
             return true;
         }
 
 
-
-        public static void ProspectorBuff(Pickaxe tool, GameLocation location, int x, int y, int power, Farmer who)
+        //Instead of just copy pasting the original block of code
+        //Break it up into multiple smaller methods to make it easier to read and mantaine
+        public static void ProspectorBuff(Pickaxe tool, GameLocation location, int originalX, int originalY, int power, Farmer who)
         {
             tool.lastUser = who;
-            Game1.recentMultiplayerRandom = Utility.CreateRandom((short)Game1.random.Next(-32768, 32768));
-            if (!tool.IsEfficient)
-            {
-                who.Stamina -= 2 * power - who.ForagingLevel * 0.1f;
-            }
+            Game1.recentMultiplayerRandom = Utility.CreateRandom((short)Game1.random.Next(short.MinValue, short.MaxValue));
 
-            Utility.clampToTile(new Vector2(x, y));
-            BirbCore.Attributes.Log.Warn($"The power of the {tool.DisplayName} is {who.toolPower.Value}");
+            // Apply stamina drain
+            if (!tool.IsEfficient)
+                who.Stamina -= (float)(2 * power) - (float)who.MiningLevel * 0.1f;
+
             power = who.toolPower.Value;
             who.stopJittering();
-            Vector2 originSpot = new Vector2(x / 64, y / 64);
-            List<Vector2> list = TilesAffected(originSpot, power, who);
-
-            foreach (Vector2 item in list)
+            Vector2 originTile = new Vector2(originalX / 64, originalY / 64);
+            foreach (Vector2 tile in Utilities.TilesAffected(originTile, power, who))
             {
-                int num = (int)item.X;
-                int num2 = (int)item.Y;
-                Vector2 vector = new Vector2(num, num2);
-                if (location.performToolAction(tool, num, num2))
+                //do the original pickaxe fuctions with each tile in the selected area
+                ProcessTile(tool, location, tile, originalX, originalY, power, who);
+            }
+        }
+
+        private static void ProcessTile(Pickaxe tool, GameLocation location, Vector2 tile, int originalX, int originalY, int power, Farmer who)
+        {
+            int tileX = (int)tile.X;
+            int tileY = (int)tile.Y;
+
+            if (location.performToolAction(tool, tileX, tileY))
+                return;
+
+            if (!location.Objects.TryGetValue(tile, out var obj))
+            {
+                HandleEmptyTile(tool, location, tile, who, originalX, originalY);
+                return;
+            }
+
+            if (obj.IsBreakableStone())
+                HandleStone(tool, location, tile, obj, who);
+            else if (obj.Name.Contains("Boulder"))
+                HandleBoulder(tool, location, tile, obj, power, who);
+            else if (obj.performToolAction(tool))
+                HandleGenericObject(location, tile, obj, who);
+            else
+                HandleWoodHit(location, tile);
+        }
+
+        private static void HandleEmptyTile(Pickaxe tool, GameLocation location, Vector2 tile, Farmer who, int originalX, int originalY)
+        {
+            location.playSound("woodyHit", tile);
+
+            if (location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") != null)
+            {
+                Game1.Multiplayer.broadcastSprites(location,
+                    new TemporaryAnimatedSprite(12, tile * 64f, Color.White, 8, false, 80f)
+                    { alphaFade = 0.015f });
+            }
+
+            // Terrain features
+            if (location.terrainFeatures.TryGetValue(tile, out var tf) && tf.performToolAction(tool, 0, tile))
+                location.terrainFeatures.Remove(tile);
+        }
+
+        private static void HandleStone(Pickaxe tool, GameLocation location, Vector2 tile, StardewValley.Object obj, Farmer who)
+        {
+            location.playSound("hammer", tile);
+
+            if (obj.MinutesUntilReady > 0)
+            {
+                int damage = Math.Max(1, tool.UpgradeLevel + 1) + tool.additionalPower.Value;
+                obj.MinutesUntilReady -= damage;
+                obj.shakeTimer = 200;
+
+                if (obj.MinutesUntilReady > 0)
                 {
+                    Game1.createRadialDebris(Game1.currentLocation, 14, (int)tile.X, (int)tile.Y, Game1.random.Next(2, 5), false);
                     return;
                 }
+            }
 
-                location.Objects.TryGetValue(vector, out var value);
-                if (value == null)
-                {
-                    if (who.FacingDirection == 0 || who.FacingDirection == 2)
-                    {
-                        num = (x - 8) / 64;
-                        location.Objects.TryGetValue(new Vector2(num, num2), out value);
-                        if (value == null)
-                        {
-                            num = (x + 8) / 64;
-                            location.Objects.TryGetValue(new Vector2(num, num2), out value);
-                        }
-                    }
-                    else
-                    {
-                        num2 = (y + 8) / 64;
-                        location.Objects.TryGetValue(new Vector2(num, num2), out value);
-                        if (value == null)
-                        {
-                            num2 = (y - 8) / 64;
-                            location.Objects.TryGetValue(new Vector2(num, num2), out value);
-                        }
-                    }
+            // Handle break effects
+            SpawnStoneBreakSprites(location, tile, obj);
+            location.OnStoneDestroyed(obj.ItemId, (int)tile.X, (int)tile.Y, who);
 
-                    x = num * 64;
-                    y = num2 * 64;
-                    if (location.terrainFeatures.TryGetValue(vector, out var value2) && value2.performToolAction(tool, 0, vector))
-                    {
-                        location.terrainFeatures.Remove(vector);
-                    }
-                }
+            if (who?.stats.Get("Book_Diamonds") != 0 && Game1.random.NextDouble() < 0.0066)
+            {
+                Game1.createObjectDebris("(O)72", (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID, location);
+                if (who.professions.Contains(19) && Game1.random.NextBool())
+                    Game1.createObjectDebris("(O)72", (int)tile.X, (int)tile.Y, who.UniqueMultiplayerID, location);
+            }
 
-                vector = new Vector2(num, num2);
-                if (value != null)
-                {
-                    if (value.IsBreakableStone())
-                    {
-                        location.playSound("hammer", vector);
-                        if (value.MinutesUntilReady > 0)
-                        {
-                            int num3 = Math.Max(1, tool.UpgradeLevel + 1) + tool.additionalPower.Value;
-                            value.minutesUntilReady.Value -= num3;
-                            value.shakeTimer = 200;
-                            if (value.MinutesUntilReady > 0)
-                            {
-                                Game1.createRadialDebris(Game1.currentLocation, 14, num, num2, Game1.random.Next(2, 5), resource: false);
-                                return;
-                            }
-                        }
-
-                        TemporaryAnimatedSprite temporaryAnimatedSprite = ItemRegistry.GetDataOrErrorItem(value.QualifiedItemId).TextureName == "Maps\\springobjects" && value.ParentSheetIndex < 200 && !Game1.objectData.ContainsKey((value.ParentSheetIndex + 1).ToString()) && value.QualifiedItemId != "(O)25" ? new TemporaryAnimatedSprite(value.ParentSheetIndex + 1, 300f, 1, 2, new Vector2(x - x % 64, y - y % 64), flicker: true, value.flipped.Value)
-                        {
-                            alphaFade = 0.01f
-                        } : new TemporaryAnimatedSprite(47, new Vector2(num * 64, num2 * 64), Color.Gray, 10, flipped: false, 80f);
-                        Game1.Multiplayer.broadcastSprites(location, temporaryAnimatedSprite);
-                        Game1.createRadialDebris(location, 14, num, num2, Game1.random.Next(2, 5), resource: false);
-                        Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(46, new Vector2(num * 64, num2 * 64), Color.White, 10, flipped: false, 80f)
-                        {
-                            motion = new Vector2(0f, -0.6f),
-                            acceleration = new Vector2(0f, 0.002f),
-                            alphaFade = 0.015f
-                        });
-                        location.OnStoneDestroyed(value.ItemId, num, num2, who);
-                        if (who != null && who.stats.Get("Book_Diamonds") != 0 && Game1.random.NextDouble() < 0.0066)
-                        {
-                            Game1.createObjectDebris("(O)72", num, num2, who.UniqueMultiplayerID, location);
-                            if (who.professions.Contains(19) && Game1.random.NextBool())
-                            {
-                                Game1.createObjectDebris("(O)72", num, num2, who.UniqueMultiplayerID, location);
-                            }
-                        }
-
-                        if (value.MinutesUntilReady <= 0)
-                        {
-                            value.performRemoveAction();
-                            location.Objects.Remove(new Vector2(num, num2));
-                            location.playSound("stoneCrack", vector);
-                            Game1.stats.RocksCrushed++;
-                        }
-                    }
-                    else if (value.Name.Contains("Boulder"))
-                    {
-                        location.playSound("hammer", vector);
-                        if (tool.UpgradeLevel < 2)
-                        {
-                            Game1.drawObjectDialogue(Game1.parseText(Game1.content.LoadString("Strings\\StringsFromCSFiles:Pickaxe.cs.14194")));
-                            return;
-                        }
-
-                        if (num == boulderTileX && num2 == boulderTileY)
-                        {
-                            hitsToBoulder += power + 1;
-                            value.shakeTimer = 190;
-                        }
-                        else
-                        {
-                            hitsToBoulder = 0;
-                            boulderTileX = num;
-                            boulderTileY = num2;
-                        }
-
-                        if (hitsToBoulder >= 4)
-                        {
-                            location.removeObject(vector, showDestroyedObject: false);
-                            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(5, new Vector2(64f * vector.X - 32f, 64f * (vector.Y - 1f)), Color.Gray, 8, Game1.random.NextBool(), 50f)
-                            {
-                                delayBeforeAnimationStart = 0
-                            });
-                            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(5, new Vector2(64f * vector.X + 32f, 64f * (vector.Y - 1f)), Color.Gray, 8, Game1.random.NextBool(), 50f)
-                            {
-                                delayBeforeAnimationStart = 200
-                            });
-                            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(5, new Vector2(64f * vector.X, 64f * (vector.Y - 1f) - 32f), Color.Gray, 8, Game1.random.NextBool(), 50f)
-                            {
-                                delayBeforeAnimationStart = 400
-                            });
-                            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(5, new Vector2(64f * vector.X, 64f * vector.Y - 32f), Color.Gray, 8, Game1.random.NextBool(), 50f)
-                            {
-                                delayBeforeAnimationStart = 600
-                            });
-                            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(25, new Vector2(64f * vector.X, 64f * vector.Y), Color.White, 8, Game1.random.NextBool(), 50f, 0, -1, -1f, 128));
-                            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(25, new Vector2(64f * vector.X + 32f, 64f * vector.Y), Color.White, 8, Game1.random.NextBool(), 50f, 0, -1, -1f, 128)
-                            {
-                                delayBeforeAnimationStart = 250
-                            });
-                            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(25, new Vector2(64f * vector.X - 32f, 64f * vector.Y), Color.White, 8, Game1.random.NextBool(), 50f, 0, -1, -1f, 128)
-                            {
-                                delayBeforeAnimationStart = 500
-                            });
-                            location.playSound("boulderBreak", vector);
-                        }
-                    }
-                    else if (value.performToolAction(tool))
-                    {
-                        value.performRemoveAction();
-                        if (value.Type == "Crafting" && value.fragility.Value != 2)
-                        {
-                            Game1.currentLocation.debris.Add(new Debris(value.QualifiedItemId, who.GetToolLocation(), Utility.PointToVector2(who.StandingPixel)));
-                        }
-
-                        Game1.currentLocation.Objects.Remove(vector);
-                    }
-                }
-                else
-                {
-                    location.playSound("woodyHit", vector);
-                    if (location.doesTileHaveProperty(num, num2, "Diggable", "Back") != null)
-                    {
-                        Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(12, new Vector2(num * 64, num2 * 64), Color.White, 8, flipped: false, 80f)
-                        {
-                            alphaFade = 0.015f
-                        });
-                    }
-                }
+            if (obj.MinutesUntilReady <= 0)
+            {
+                obj.performRemoveAction();
+                location.Objects.Remove(tile);
+                location.playSound("stoneCrack", tile);
+                Game1.stats.RocksCrushed++;
             }
         }
 
-        public static List<Vector2> TilesAffected(Vector2 tileLocation, int power, Farmer who)
+        //Need to rework this logic eventually so the player can instantly destroy a boulder if it's with in like 4 tiles of the charge attack
+        private static void HandleBoulder(Pickaxe tool, GameLocation location, Vector2 tile, StardewValley.Object obj, int power, Farmer who)
         {
-            power++;
-            List<Vector2> list = new List<Vector2>();
-            list.Add(tileLocation);
-            Vector2 vector = Vector2.Zero;
-            switch (who.FacingDirection)
+            location.playSound("hammer", tile);
+
+            if (tool.UpgradeLevel < 2)
             {
-                case 0:
-                    if (power >= 6)
-                    {
-                        vector = new Vector2(tileLocation.X, tileLocation.Y - 2f);
-                        break;
-                    }
-
-                    if (power >= 2)
-                    {
-                        list.Add(tileLocation + new Vector2(0f, -1f));
-                        list.Add(tileLocation + new Vector2(0f, -2f));
-                    }
-
-                    if (power >= 3)
-                    {
-                        list.Add(tileLocation + new Vector2(0f, -3f));
-                        list.Add(tileLocation + new Vector2(0f, -4f));
-                    }
-
-                    if (power >= 4)
-                    {
-                        list.RemoveAt(list.Count - 1);
-                        list.RemoveAt(list.Count - 1);
-                        list.Add(tileLocation + new Vector2(1f, -2f));
-                        list.Add(tileLocation + new Vector2(1f, -1f));
-                        list.Add(tileLocation + new Vector2(1f, 0f));
-                        list.Add(tileLocation + new Vector2(-1f, -2f));
-                        list.Add(tileLocation + new Vector2(-1f, -1f));
-                        list.Add(tileLocation + new Vector2(-1f, 0f));
-                    }
-
-                    if (power >= 5)
-                    {
-                        for (int num3 = list.Count - 1; num3 >= 0; num3--)
-                        {
-                            list.Add(list[num3] + new Vector2(0f, -3f));
-                        }
-                    }
-
-                    break;
-                case 1:
-                    if (power >= 6)
-                    {
-                        vector = new Vector2(tileLocation.X + 2f, tileLocation.Y);
-                        break;
-                    }
-
-                    if (power >= 2)
-                    {
-                        list.Add(tileLocation + new Vector2(1f, 0f));
-                        list.Add(tileLocation + new Vector2(2f, 0f));
-                    }
-
-                    if (power >= 3)
-                    {
-                        list.Add(tileLocation + new Vector2(3f, 0f));
-                        list.Add(tileLocation + new Vector2(4f, 0f));
-                    }
-
-                    if (power >= 4)
-                    {
-                        list.RemoveAt(list.Count - 1);
-                        list.RemoveAt(list.Count - 1);
-                        list.Add(tileLocation + new Vector2(0f, -1f));
-                        list.Add(tileLocation + new Vector2(1f, -1f));
-                        list.Add(tileLocation + new Vector2(2f, -1f));
-                        list.Add(tileLocation + new Vector2(0f, 1f));
-                        list.Add(tileLocation + new Vector2(1f, 1f));
-                        list.Add(tileLocation + new Vector2(2f, 1f));
-                    }
-
-                    if (power >= 5)
-                    {
-                        for (int num2 = list.Count - 1; num2 >= 0; num2--)
-                        {
-                            list.Add(list[num2] + new Vector2(3f, 0f));
-                        }
-                    }
-
-                    break;
-                case 2:
-                    if (power >= 6)
-                    {
-                        vector = new Vector2(tileLocation.X, tileLocation.Y + 2f);
-                        break;
-                    }
-
-                    if (power >= 2)
-                    {
-                        list.Add(tileLocation + new Vector2(0f, 1f));
-                        list.Add(tileLocation + new Vector2(0f, 2f));
-                    }
-
-                    if (power >= 3)
-                    {
-                        list.Add(tileLocation + new Vector2(0f, 3f));
-                        list.Add(tileLocation + new Vector2(0f, 4f));
-                    }
-
-                    if (power >= 4)
-                    {
-                        list.RemoveAt(list.Count - 1);
-                        list.RemoveAt(list.Count - 1);
-                        list.Add(tileLocation + new Vector2(1f, 2f));
-                        list.Add(tileLocation + new Vector2(1f, 1f));
-                        list.Add(tileLocation + new Vector2(1f, 0f));
-                        list.Add(tileLocation + new Vector2(-1f, 2f));
-                        list.Add(tileLocation + new Vector2(-1f, 1f));
-                        list.Add(tileLocation + new Vector2(-1f, 0f));
-                    }
-
-                    if (power >= 5)
-                    {
-                        for (int num4 = list.Count - 1; num4 >= 0; num4--)
-                        {
-                            list.Add(list[num4] + new Vector2(0f, 3f));
-                        }
-                    }
-
-                    break;
-                case 3:
-                    if (power >= 6)
-                    {
-                        vector = new Vector2(tileLocation.X - 2f, tileLocation.Y);
-                        break;
-                    }
-
-                    if (power >= 2)
-                    {
-                        list.Add(tileLocation + new Vector2(-1f, 0f));
-                        list.Add(tileLocation + new Vector2(-2f, 0f));
-                    }
-
-                    if (power >= 3)
-                    {
-                        list.Add(tileLocation + new Vector2(-3f, 0f));
-                        list.Add(tileLocation + new Vector2(-4f, 0f));
-                    }
-
-                    if (power >= 4)
-                    {
-                        list.RemoveAt(list.Count - 1);
-                        list.RemoveAt(list.Count - 1);
-                        list.Add(tileLocation + new Vector2(0f, -1f));
-                        list.Add(tileLocation + new Vector2(-1f, -1f));
-                        list.Add(tileLocation + new Vector2(-2f, -1f));
-                        list.Add(tileLocation + new Vector2(0f, 1f));
-                        list.Add(tileLocation + new Vector2(-1f, 1f));
-                        list.Add(tileLocation + new Vector2(-2f, 1f));
-                    }
-
-                    if (power >= 5)
-                    {
-                        for (int num = list.Count - 1; num >= 0; num--)
-                        {
-                            list.Add(list[num] + new Vector2(-3f, 0f));
-                        }
-                    }
-
-                    break;
+                Game1.drawObjectDialogue(Game1.parseText(Game1.content.LoadString("Strings\\StringsFromCSFiles:Pickaxe.cs.14194")));
+                return;
             }
 
-            if (power >= 6)
+
+            if ((int)tile.X == BoulderTileX && (int)tile.Y == BoulderTileY)
             {
-                list.Clear();
-                for (int i = (int)vector.X - 2; i <= vector.X + 2f; i++)
-                {
-                    for (int j = (int)vector.Y - 2; j <= vector.Y + 2f; j++)
-                    {
-                        list.Add(new Vector2(i, j));
-                    }
-                }
+                HitsToBoulder += power + 1;
+                obj.shakeTimer = 190;
+            }
+            else
+            {
+                HitsToBoulder = 0;
+                BoulderTileX = (int)tile.X;
+                BoulderTileY = (int)tile.Y;
             }
 
-            return list;
+            if (HitsToBoulder >= 4)
+            {
+                location.removeObject(tile, false);
+                SpawnBoulderBreakSprites(location, tile);
+                location.playSound("boulderBreak", tile);
+            }
         }
+
+        private static void HandleGenericObject(GameLocation location, Vector2 tile, StardewValley.Object obj, Farmer who)
+        {
+            obj.performRemoveAction();
+
+            if (obj.Type == "Crafting" && obj.Fragility != 2)
+            {
+                Game1.currentLocation.debris.Add(new Debris(obj.QualifiedItemId, who.GetToolLocation(), Utility.PointToVector2(who.StandingPixel)));
+            }
+
+            Game1.currentLocation.Objects.Remove(tile);
+        }
+
+        private static void HandleWoodHit(GameLocation location, Vector2 tile)
+        {
+            location.playSound("woodyHit", tile);
+        }
+
+        private static void SpawnStoneBreakSprites(GameLocation location, Vector2 tile, StardewValley.Object obj)
+        {
+            // Extracted sprite/debris code here for readability
+            TemporaryAnimatedSprite sprite =
+                ItemRegistry.GetDataOrErrorItem(obj.QualifiedItemId).TextureName == "Maps\\springobjects"
+                && obj.ParentSheetIndex < 200
+                && !Game1.objectData.ContainsKey((obj.ParentSheetIndex + 1).ToString())
+                && obj.QualifiedItemId != "(O)25"
+                ? new TemporaryAnimatedSprite(obj.ParentSheetIndex + 1, 300f, 1, 2,
+                    new Vector2((int)tile.X * 64, (int)tile.Y * 64), true, obj.Flipped)
+                { alphaFade = 0.01f }
+                : new TemporaryAnimatedSprite(47, tile * 64f, Color.Gray, 10, false, 80f);
+
+            Game1.Multiplayer.broadcastSprites(location, sprite);
+            Game1.createRadialDebris(location, 14, (int)tile.X, (int)tile.Y, Game1.random.Next(2, 5), false);
+            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(46, tile * 64f, Color.White, 10, false, 80f)
+            {
+                motion = new Vector2(0f, -0.6f),
+                acceleration = new Vector2(0f, 0.002f),
+                alphaFade = 0.015f
+            });
+        }
+
+        private static void SpawnBoulderBreakSprites(GameLocation location, Vector2 tile)
+        {
+            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(5, new Vector2(64f * tile.X - 32f, 64f * (tile.Y - 1f)), Color.Gray, 8, Game1.random.NextBool(), 50f));
+            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(5, new Vector2(64f * tile.X + 32f, 64f * (tile.Y - 1f)), Color.Gray, 8, Game1.random.NextBool(), 50f) { delayBeforeAnimationStart = 200 });
+            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(5, new Vector2(64f * tile.X, 64f * (tile.Y - 1f) - 32f), Color.Gray, 8, Game1.random.NextBool(), 50f) { delayBeforeAnimationStart = 400 });
+            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(5, new Vector2(64f * tile.X, 64f * tile.Y - 32f), Color.Gray, 8, Game1.random.NextBool(), 50f) { delayBeforeAnimationStart = 600 });
+
+            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(25, tile * 64f, Color.White, 8, Game1.random.NextBool(), 50f, 0, -1, -1f, 128));
+            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(25, new Vector2(64f * tile.X + 32f, 64f * tile.Y), Color.White, 8, Game1.random.NextBool(), 50f, 0, -1, -1f, 128) { delayBeforeAnimationStart = 250 });
+            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(25, new Vector2(64f * tile.X - 32f, 64f * tile.Y), Color.White, 8, Game1.random.NextBool(), 50f, 0, -1, -1f, 128) { delayBeforeAnimationStart = 500 });
+        }
+
     }
 
 }

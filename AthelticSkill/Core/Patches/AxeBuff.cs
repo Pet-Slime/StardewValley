@@ -15,6 +15,7 @@ using static BirbCore.Attributes.SMod;
 using xTile.Dimensions;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using SpaceCore;
+using xTile.Tiles;
 
 namespace AthleticSkill.Core.Patches
 {
@@ -68,256 +69,96 @@ namespace AthleticSkill.Core.Patches
             if (who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
             {
                 LumberjackBuff(__instance, location, x, y, power, who);
-                return false; // don't run original logic
+                return false; // Skip original
             }
             return true;
         }
 
-
-
-        public static void LumberjackBuff(Axe tool, GameLocation location, int x, int y, int power, Farmer who)
+        //Instead of just copy pasting the original block of code
+        //Break it up into multiple smaller methods to make it easier to read and mantaine
+        private static void LumberjackBuff(Axe tool, GameLocation location, int originalX, int originalY, int power, Farmer who)
         {
             tool.lastUser = who;
-            Game1.recentMultiplayerRandom = Utility.CreateRandom((short)Game1.random.Next(-32768, 32768));
+            Game1.recentMultiplayerRandom = Utility.CreateRandom((short)Game1.random.Next(short.MinValue, short.MaxValue));
+
+            // Apply stamina drain
             if (!tool.IsEfficient)
-            {
-                who.Stamina -= 2 * power - who.ForagingLevel * 0.1f;
-            }
+                who.Stamina -= (2 * power) - who.ForagingLevel * 0.1f;
 
             power = who.toolPower.Value;
             who.stopJittering();
-            Vector2 vector = new Vector2(x / 64, y / 64);
-            List<Vector2> list = TilesAffected(vector, power, who);
-
-            foreach (Vector2 item in list)
+            Vector2 originTile = new(originalX / 64, originalY / 64);
+            foreach (Vector2 tile in Utilities.TilesAffected(originTile, power, who))
             {
-                int num = (int)item.X;
-                int num2 = (int)item.Y;
-                Rectangle value = new Rectangle(num * 64, num2 * 64, 64, 64);
-                if (location.Map.RequireLayer("Buildings").Tiles[num, num2] != null && location.Map.RequireLayer("Buildings").Tiles[num, num2].TileIndexProperties.ContainsKey("TreeStump"))
+                int tileX = (int)tile.X;
+                int tileY = (int)tile.Y;
+                Rectangle tileBox = new(tileX * 64, tileY * 64, 64, 64);
+
+                if (IsTreeStump(location, tileX, tileY))
                 {
                     Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\StringsFromCSFiles:Axe.cs.14023"));
                     continue;
                 }
 
+                // Temporarily buff tool power
                 tool.UpgradeLevel += tool.additionalPower.Value;
-                location.performToolAction(tool, num, num2);
-                if (location.terrainFeatures.TryGetValue(item, out var value2) && value2.performToolAction(tool, 0, item))
-                {
-                    location.terrainFeatures.Remove(item);
-                }
 
-                if (location.largeTerrainFeatures != null)
-                {
-                    for (int num3 = location.largeTerrainFeatures.Count - 1; num3 >= 0; num3--)
-                    {
-                        LargeTerrainFeature largeTerrainFeature = location.largeTerrainFeatures[num3];
-                        if (largeTerrainFeature.getBoundingBox().Intersects(value) && largeTerrainFeature.performToolAction(tool, 0, item))
-                        {
-                            location.largeTerrainFeatures.RemoveAt(num3);
-                        }
-                    }
-                }
+                location.performToolAction(tool, tileX, tileY);
 
-                Vector2 key = new Vector2(num, num2);
-                if (location.Objects.TryGetValue(key, out var value3) && value3.Type != null && value3.performToolAction(tool))
-                {
-                    if (value3.Type == "Crafting" && value3.Fragility != 2)
-                    {
-                        location.debris.Add(new Debris(value3.QualifiedItemId, who.GetToolLocation(), Utility.PointToVector2(who.StandingPixel)));
-                    }
+                HandleTerrainFeatures(location, tile, tool);
+                HandleLargeTerrainFeatures(location, tileBox, tile, tool);
+                HandleObjects(location, tile, who, tool);
 
-                    value3.performRemoveAction();
-                    location.Objects.Remove(key);
-                }
-
+                // Revert tool power
                 tool.UpgradeLevel -= tool.additionalPower.Value;
             }
         }
 
-        public static List<Vector2> TilesAffected(Vector2 tileLocation, int power, Farmer who)
+        private static bool IsTreeStump(GameLocation location, int tileX, int tileY)
         {
-            power++;
-            List<Vector2> list = new List<Vector2>();
-            list.Add(tileLocation);
-            Vector2 vector = Vector2.Zero;
-            switch (who.FacingDirection)
+            var tile = location.Map.RequireLayer("Buildings").Tiles[tileX, tileY];
+            return tile?.TileIndexProperties.ContainsKey("TreeStump") == true;
+        }
+
+        private static void HandleTerrainFeatures(GameLocation location, Vector2 tile, Tool tool)
+        {
+            if (location.terrainFeatures.TryGetValue(tile, out var feature) && feature.performToolAction(tool, 0, tile))
             {
-                case 0:
-                    if (power >= 6)
-                    {
-                        vector = new Vector2(tileLocation.X, tileLocation.Y - 2f);
-                        break;
-                    }
-
-                    if (power >= 2)
-                    {
-                        list.Add(tileLocation + new Vector2(0f, -1f));
-                        list.Add(tileLocation + new Vector2(0f, -2f));
-                    }
-
-                    if (power >= 3)
-                    {
-                        list.Add(tileLocation + new Vector2(0f, -3f));
-                        list.Add(tileLocation + new Vector2(0f, -4f));
-                    }
-
-                    if (power >= 4)
-                    {
-                        list.RemoveAt(list.Count - 1);
-                        list.RemoveAt(list.Count - 1);
-                        list.Add(tileLocation + new Vector2(1f, -2f));
-                        list.Add(tileLocation + new Vector2(1f, -1f));
-                        list.Add(tileLocation + new Vector2(1f, 0f));
-                        list.Add(tileLocation + new Vector2(-1f, -2f));
-                        list.Add(tileLocation + new Vector2(-1f, -1f));
-                        list.Add(tileLocation + new Vector2(-1f, 0f));
-                    }
-
-                    if (power >= 5)
-                    {
-                        for (int num3 = list.Count - 1; num3 >= 0; num3--)
-                        {
-                            list.Add(list[num3] + new Vector2(0f, -3f));
-                        }
-                    }
-
-                    break;
-                case 1:
-                    if (power >= 6)
-                    {
-                        vector = new Vector2(tileLocation.X + 2f, tileLocation.Y);
-                        break;
-                    }
-
-                    if (power >= 2)
-                    {
-                        list.Add(tileLocation + new Vector2(1f, 0f));
-                        list.Add(tileLocation + new Vector2(2f, 0f));
-                    }
-
-                    if (power >= 3)
-                    {
-                        list.Add(tileLocation + new Vector2(3f, 0f));
-                        list.Add(tileLocation + new Vector2(4f, 0f));
-                    }
-
-                    if (power >= 4)
-                    {
-                        list.RemoveAt(list.Count - 1);
-                        list.RemoveAt(list.Count - 1);
-                        list.Add(tileLocation + new Vector2(0f, -1f));
-                        list.Add(tileLocation + new Vector2(1f, -1f));
-                        list.Add(tileLocation + new Vector2(2f, -1f));
-                        list.Add(tileLocation + new Vector2(0f, 1f));
-                        list.Add(tileLocation + new Vector2(1f, 1f));
-                        list.Add(tileLocation + new Vector2(2f, 1f));
-                    }
-
-                    if (power >= 5)
-                    {
-                        for (int num2 = list.Count - 1; num2 >= 0; num2--)
-                        {
-                            list.Add(list[num2] + new Vector2(3f, 0f));
-                        }
-                    }
-
-                    break;
-                case 2:
-                    if (power >= 6)
-                    {
-                        vector = new Vector2(tileLocation.X, tileLocation.Y + 2f);
-                        break;
-                    }
-
-                    if (power >= 2)
-                    {
-                        list.Add(tileLocation + new Vector2(0f, 1f));
-                        list.Add(tileLocation + new Vector2(0f, 2f));
-                    }
-
-                    if (power >= 3)
-                    {
-                        list.Add(tileLocation + new Vector2(0f, 3f));
-                        list.Add(tileLocation + new Vector2(0f, 4f));
-                    }
-
-                    if (power >= 4)
-                    {
-                        list.RemoveAt(list.Count - 1);
-                        list.RemoveAt(list.Count - 1);
-                        list.Add(tileLocation + new Vector2(1f, 2f));
-                        list.Add(tileLocation + new Vector2(1f, 1f));
-                        list.Add(tileLocation + new Vector2(1f, 0f));
-                        list.Add(tileLocation + new Vector2(-1f, 2f));
-                        list.Add(tileLocation + new Vector2(-1f, 1f));
-                        list.Add(tileLocation + new Vector2(-1f, 0f));
-                    }
-
-                    if (power >= 5)
-                    {
-                        for (int num4 = list.Count - 1; num4 >= 0; num4--)
-                        {
-                            list.Add(list[num4] + new Vector2(0f, 3f));
-                        }
-                    }
-
-                    break;
-                case 3:
-                    if (power >= 6)
-                    {
-                        vector = new Vector2(tileLocation.X - 2f, tileLocation.Y);
-                        break;
-                    }
-
-                    if (power >= 2)
-                    {
-                        list.Add(tileLocation + new Vector2(-1f, 0f));
-                        list.Add(tileLocation + new Vector2(-2f, 0f));
-                    }
-
-                    if (power >= 3)
-                    {
-                        list.Add(tileLocation + new Vector2(-3f, 0f));
-                        list.Add(tileLocation + new Vector2(-4f, 0f));
-                    }
-
-                    if (power >= 4)
-                    {
-                        list.RemoveAt(list.Count - 1);
-                        list.RemoveAt(list.Count - 1);
-                        list.Add(tileLocation + new Vector2(0f, -1f));
-                        list.Add(tileLocation + new Vector2(-1f, -1f));
-                        list.Add(tileLocation + new Vector2(-2f, -1f));
-                        list.Add(tileLocation + new Vector2(0f, 1f));
-                        list.Add(tileLocation + new Vector2(-1f, 1f));
-                        list.Add(tileLocation + new Vector2(-2f, 1f));
-                    }
-
-                    if (power >= 5)
-                    {
-                        for (int num = list.Count - 1; num >= 0; num--)
-                        {
-                            list.Add(list[num] + new Vector2(-3f, 0f));
-                        }
-                    }
-
-                    break;
+                location.terrainFeatures.Remove(tile);
             }
+        }
 
-            if (power >= 6)
+        private static void HandleLargeTerrainFeatures(GameLocation location, Rectangle tileBox, Vector2 pos, Tool tool)
+        {
+            if (location.largeTerrainFeatures is { Count: > 0 })
             {
-                list.Clear();
-                for (int i = (int)vector.X - 2; i <= vector.X + 2f; i++)
+                for (int i = location.largeTerrainFeatures.Count - 1; i >= 0; i--)
                 {
-                    for (int j = (int)vector.Y - 2; j <= vector.Y + 2f; j++)
+                    var feature = location.largeTerrainFeatures[i];
+                    if (feature.getBoundingBox().Intersects(tileBox) && feature.performToolAction(tool, 0, pos))
                     {
-                        list.Add(new Vector2(i, j));
+                        location.largeTerrainFeatures.RemoveAt(i);
                     }
                 }
             }
+        }
 
-            return list;
+        private static void HandleObjects(GameLocation location, Vector2 pos, Farmer who, Tool tool)
+        {
+            if (location.Objects.TryGetValue(pos, out var obj) && obj.Type != null && obj.performToolAction(tool))
+            {
+                if (obj.Type == "Crafting" && obj.Fragility != 2)
+                {
+                    location.debris.Add(new Debris(
+                        obj.QualifiedItemId,
+                        who.GetToolLocation(),
+                        Utility.PointToVector2(who.StandingPixel)
+                    ));
+                }
+
+                obj.performRemoveAction();
+                location.Objects.Remove(pos);
+            }
         }
     }
 
