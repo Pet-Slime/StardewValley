@@ -49,6 +49,39 @@ namespace AthleticSkill.Core
             }
         }
 
+
+
+
+
+        [SEvent.UpdateTicked]
+        private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
+        {
+            //Only run this code every 10 ticks, and when the player is actually in the world
+            if (!e.IsMultipleOf(10) || !Context.IsWorldReady || !Context.CanPlayerMove)
+                return;
+
+            //Get the player
+            Farmer player = Game1.player;
+
+            //If the player isn't in a sprintable enviorment, dont run the rest of the code
+            if (!CanSprint(player))
+                return;
+
+            //Apply the sprint buff
+            ApplySprintBuff(player);
+
+            //figure out stamina drain based on current atheltic's level
+            float energyDrainPerSecond = Math.Max(25 - Utilities.GetLevel(player), 1);
+
+            if (player.HasCustomProfession(Athletic_Skill.Athletic10b2))
+            {
+                energyDrainPerSecond /= 2;
+            }
+
+            //Adjust player stamina
+            player.stamina -= energyDrainPerSecond / 10;
+        }
+
         public bool CanSprint(Farmer player)
         {
             // Early exit for simple blockers
@@ -87,7 +120,7 @@ namespace AthleticSkill.Core
 
             // Check to see if they have the sprinting buff
             Buff buff = Game1.buffsDisplay.GetSortedBuffs().Where(x => x.id == "Athletics:sprinting").FirstOrDefault();
-            
+
             if (buff is not null) // If they do just increase the duration
             {
                 buff.millisecondsDuration = 300;
@@ -96,35 +129,6 @@ namespace AthleticSkill.Core
             {
                 player.applyBuff(sprinting);
             }
-        }
-
-        [SEvent.UpdateTicked]
-        private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
-        {
-            //Only run this code every 10 ticks, and when the player is actually in the world
-            if (!e.IsMultipleOf(10) || !Context.IsWorldReady || !Context.CanPlayerMove)
-                return;
-
-            //Get the player
-            Farmer player = Game1.player;
-
-            //If the player isn't in a sprintable enviorment, dont run the rest of the code
-            if (!CanSprint(player))
-                return;
-
-            //Apply the sprint buff
-            ApplySprintBuff(player);
-
-            //figure out stamina drain based on current atheltic's level
-            float energyDrainPerSecond = Math.Max(25 - Utilities.GetLevel(player), 1);
-
-            if (player.HasCustomProfession(Athletic_Skill.Athletic10b2))
-            {
-                energyDrainPerSecond /= 2;
-            }
-
-            //Adjust player stamina
-            player.stamina -= energyDrainPerSecond / 10;
         }
 
         [SEvent.OneSecondUpdateTicked]
