@@ -14,6 +14,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Extensions;
 using StardewValley.GameData.Objects;
+using StardewValley.Locations;
 using StardewValley.Menus;
 using static System.Net.Mime.MediaTypeNames;
 using static SpaceCore.Skills;
@@ -31,38 +32,27 @@ namespace ArchaeologySkill.Core
             int step = 0;
             yield return codeInstructions[0];
 
-            Log.Alert(codeInstructions.Count.ToString());
             for (int i = 1; i < codeInstructions.Count; i++)
             {
                 
-                if (i == 23)
+                if (i == 23 || i == 93 || i == 153)
                 {
                     yield return new CodeInstruction(OpCodes.Ldarg_S, 1);
                     yield return new CodeInstruction(OpCodes.Ldarg_S, 2);
                     yield return new CodeInstruction(OpCodes.Ldarg_S, 5);
-                    yield return CodeInstruction.Call(typeof(CheckForBuriedItem_Base_patch), nameof(ArchaeologySkillCheck_1));
-                }
 
-                if (i == 93)
-                {
-                    yield return new CodeInstruction(OpCodes.Ldarg_S, 1);
-                    yield return new CodeInstruction(OpCodes.Ldarg_S, 2);
-                    yield return new CodeInstruction(OpCodes.Ldarg_S, 5);
-                    yield return CodeInstruction.Call(typeof(CheckForBuriedItem_Base_patch), nameof(ArchaeologySkillCheck_2));
-                }
-
-                if (i == 153)
-                {
-                    yield return new CodeInstruction(OpCodes.Ldarg_S, 1);
-                    yield return new CodeInstruction(OpCodes.Ldarg_S, 2);
-                    yield return new CodeInstruction(OpCodes.Ldarg_S, 5);
-                    yield return CodeInstruction.Call(typeof(CheckForBuriedItem_Base_patch), nameof(ArchaeologySkillCheck_3));
-                }
-
-                if (codeInstructions[i].opcode == OpCodes.Ret)
-                {
-                    Log.Alert(i.ToString());
-                    Log.Alert(codeInstructions[i].opcode.ToString());
+                    switch (i)
+                    {
+                        case 23:
+                            yield return CodeInstruction.Call(typeof(CheckForBuriedItem_Base_patch), nameof(ArchaeologySkillCheck_1));
+                            break;
+                        case 93:
+                            yield return CodeInstruction.Call(typeof(CheckForBuriedItem_Base_patch), nameof(ArchaeologySkillCheck_2));
+                            break;
+                        case 153:
+                            yield return CodeInstruction.Call(typeof(CheckForBuriedItem_Base_patch), nameof(ArchaeologySkillCheck_3));
+                            break;
+                    }
                 }
                 yield return codeInstructions[i];
             }
@@ -84,6 +74,38 @@ namespace ArchaeologySkill.Core
         private static void ArchaeologySkillCheck_3(int xLocation, int yLocation, Farmer farmer)
         {
             Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: "(O)330");
+            return;
+        }
+    }
+
+    [HarmonyPatch(typeof(MineShaft), nameof(MineShaft.checkForBuriedItem))]
+    class CheckForBuriedItem_Mineshaft_patch
+    {
+        [HarmonyLib.HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> Transpile_MineShaft_checkForBuriedItems(IEnumerable<CodeInstruction> instructions)
+        {
+            List<CodeInstruction> codeInstructions = new List<CodeInstruction>(instructions);
+            yield return codeInstructions[0];
+
+            for (int i = 1; i < codeInstructions.Count; i++)
+            {
+                if (i == 200)
+                {
+                    yield return new CodeInstruction(OpCodes.Ldarg_S, 1);
+                    yield return new CodeInstruction(OpCodes.Ldarg_S, 2);
+                    yield return new CodeInstruction(OpCodes.Ldarg_S, 5);
+                    yield return new CodeInstruction(OpCodes.Ldloc_0);
+                    yield return CodeInstruction.Call(typeof(CheckForBuriedItem_Mineshaft_patch), nameof(ArchaeologySkillCheck_4));
+                    yield return new CodeInstruction(OpCodes.Ldstr, "");
+                }
+                yield return codeInstructions[i];
+            }
+        }
+
+
+        private static void ArchaeologySkillCheck_4(int xLocation, int yLocation, Farmer farmer, string item)
+        {
+            Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: item);
             return;
         }
     }
