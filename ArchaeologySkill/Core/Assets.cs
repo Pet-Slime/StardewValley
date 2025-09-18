@@ -63,6 +63,8 @@ namespace ArchaeologySkill
         public Texture2D Water_shifter { get; set; }
 
 
+        [SAsset.Asset("assets/ArchaeologyPanningArrow.png")]
+        public Texture2D PanningArrow { get; set; }
 
 
         [SAsset.Asset("assets/totem_volcano_warp.png", AssetLoadPriority.Medium)]

@@ -6,6 +6,8 @@ namespace ArchaeologySkill
     [SConfig]
     public class Config
     {
+        [SConfig.Option()]
+        public bool LargerPanningArrow { get; set; } = false;
 
         [SConfig.Option(1, 2, 1)]
         public int AlternativeSkillPageIcon { get; set; } = 1;

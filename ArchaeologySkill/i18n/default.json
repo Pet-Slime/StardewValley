@@ -3,6 +3,10 @@
     "skill.perk": "+{{bonus}}% chance of bonus item from digging",
     "skill.perk_bonus": "Chance to get {{rarity}} bonus digging drops",
 
+
+    "config.LargerPanningArrow": "Larger Panning Arrow",
+    "config.LargerPanningArrow.tooltip": "Makes the arrow tracker for panning spots from the Dowser skill larger",
+
     "config.AlternativeSkillPageIcon": "Alternative Skill Icon Page",
     "config.AlternativeSkillPageIcon.tooltip": "Requires restart. Change the page icon from brush and rock to a shovel.",
 
@@ -39,7 +43,7 @@
     "Archaeology5a.name": "Pioneer",
     "Archaeology5a.desc": "Extra chances of artifact spots spawning.",
     "Archaeology5b.name": "Dowser",
-    "Archaeology5b.desc": "Extra chances of panning spots spawning.",
+    "Archaeology5b.desc": "Extra chances of panning spots spawning and can track them!",
     "Archaeology10a1.name": "Antiquarian",
     "Archaeology10a1.desc": "Be able to find additional Artifacts while digging.",
     "Archaeology10a2.name": "Curator",

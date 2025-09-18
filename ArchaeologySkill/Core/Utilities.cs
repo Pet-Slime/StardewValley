@@ -54,7 +54,7 @@ namespace ArchaeologySkill
             if (!panning)
             {
                 BirbCore.Attributes.Log.Trace("Archaeology Skll: Does the player get bonus loot?");
-                double doubleLootChance = GetLevel(farmer) * 0.05 +5;
+                double doubleLootChance = GetLevel(farmer) * 0.05 ;
                 double diceRoll = Game1.random.NextDouble();
                 bool didTheyWin = (diceRoll < doubleLootChance);
                 BirbCore.Attributes.Log.Trace("Archaeology Skll: The dice roll is... " + diceRoll.ToString() + ". The player's chance is... " + doubleLootChance.ToString() + ". ");

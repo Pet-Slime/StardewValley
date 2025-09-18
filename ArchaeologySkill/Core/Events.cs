@@ -21,6 +21,7 @@ using Object = StardewValley.Object;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 using Newtonsoft.Json.Linq;
 using StardewValley.GameData.Locations;
+using StardewValley.Objects;
 
 namespace ArchaeologySkill.Core
 {

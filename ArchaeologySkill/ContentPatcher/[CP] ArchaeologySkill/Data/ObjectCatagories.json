@@ -4,7 +4,7 @@
             "Action": "EditData",
             "Target": "spacechase0.SpaceCore/ObjectExtensionData",
             "Entries": {
-                "moonslime.Archaeology.totem_volcano_warp": { // The object ID
+                "moonslime.Archaeology.totem_volcano_warp": {
                     "TotemWarp": {
                         "Location": "VolcanoDungeon11",
                         "Position": "0, 1"

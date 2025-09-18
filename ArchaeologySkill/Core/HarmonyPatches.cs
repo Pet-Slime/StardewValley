@@ -5,6 +5,7 @@ using Force.DeepCloner;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MoonShared;
 using SpaceCore;
 using StardewValley;
@@ -434,6 +435,84 @@ namespace ArchaeologySkill.Core
             }
         }
     }
+
+    [HarmonyPatch(typeof(StardewValley.Game1), "drawHUD")]
+    class DrawHUD_patch
+    {
+        [HarmonyLib.HarmonyPostfix]
+        private static void Postfix(
+        StardewValley.Game1 __instance)
+        {
+            if (Game1.player == null || //make sure the player is not null
+                !Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology5b) || //Make sure they have the start of the panning path
+                !Game1.player.currentLocation.IsOutdoors) // make sure the location is outside
+            {
+                return;
+            }
+
+            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+            GameLocation currentLocation = player.currentLocation;
+
+            
+
+            if (!currentLocation.orePanPoint.Equals(Point.Zero))
+            {
+                Vector2 position2 = default(Vector2);
+                float num6 = 0f;
+                if (currentLocation.orePanPoint.X * 64 > Game1.viewport.MaxCorner.X - 64)
+                {
+                    position2.X = Game1.graphics.GraphicsDevice.Viewport.Bounds.Right - 8;
+                    num6 = MathF.PI / 2f;
+                }
+                else if (currentLocation.orePanPoint.X * 64 < Game1.viewport.X)
+                {
+                    position2.X = 8f;
+                    num6 = -MathF.PI / 2f;
+                }
+                else
+                {
+                    position2.X = currentLocation.orePanPoint.X * 64 - Game1.viewport.X;
+                }
+
+                if (currentLocation.orePanPoint.Y * 64 > Game1.viewport.MaxCorner.Y - 64)
+                {
+                    position2.Y = Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom - 8;
+                    num6 = MathF.PI;
+                }
+                else if (currentLocation.orePanPoint.Y * 64 < Game1.viewport.Y)
+                {
+                    position2.Y = 8f;
+                }
+                else
+                {
+                    position2.Y = currentLocation.orePanPoint.Y * 64 - Game1.viewport.Y;
+                }
+
+                if (position2.X == 8f && position2.Y == 8f)
+                {
+                    num6 += MathF.PI / 4f;
+                }
+
+                if (position2.X == 8f && position2.Y == (float)(Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom - 8))
+                {
+                    num6 += MathF.PI / 4f;
+                }
+
+                if (position2.X == (float)(Game1.graphics.GraphicsDevice.Viewport.Bounds.Right - 8) && position2.Y == 8f)
+                {
+                    num6 -= MathF.PI / 4f;
+                }
+
+                if (position2.X == (float)(Game1.graphics.GraphicsDevice.Viewport.Bounds.Right - 8) && position2.Y == (float)(Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom - 8))
+                {
+                    num6 -= MathF.PI / 4f;
+                }
+                var rectangle = ModEntry.Config.LargerPanningArrow ? new Microsoft.Xna.Framework.Rectangle(0, 0, 11, 12) : new Microsoft.Xna.Framework.Rectangle(3, 0, 6, 4);
+                Game1.spriteBatch.Draw(ModEntry.Assets.PanningArrow, position2, rectangle, Color.WhiteSmoke, num6, new Vector2(2f, 2f), 4f, SpriteEffects.None, 1f);
+            }
+        }
+    }
+
 
     [HarmonyPatch(typeof(VolcanoDungeon), nameof(VolcanoDungeon.CreateEntrance))]
     class VolcanoDungeonCreateEntrence_patch
