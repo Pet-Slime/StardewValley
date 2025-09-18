@@ -40,6 +40,8 @@ namespace ArchaeologySkill
         public static readonly IList<string> BonusLootTable = [];
         public static readonly IList<string> ArtifactLootTable = [];
         public static readonly IList<string> WaterSifterLootTable = [];
+        public static readonly IList<string> BonusLootTable_GI = [];
+        public static readonly IList<string> WaterSifterLootTable_GI = [];
 
 
 

@@ -29,13 +29,11 @@ namespace ArchaeologySkill.Core
         private static IEnumerable<CodeInstruction> Transpile_GameLocation_checkForBuriedItems(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> codeInstructions = new List<CodeInstruction>(instructions);
-            int step = 0;
             yield return codeInstructions[0];
-
             for (int i = 1; i < codeInstructions.Count; i++)
             {
                 
-                if (i == 23 || i == 93 || i == 153)
+                if (i == 23  || i == 74 || i == 137)
                 {
                     yield return new CodeInstruction(OpCodes.Ldarg_S, 1);
                     yield return new CodeInstruction(OpCodes.Ldarg_S, 2);
@@ -46,10 +44,10 @@ namespace ArchaeologySkill.Core
                         case 23:
                             yield return CodeInstruction.Call(typeof(CheckForBuriedItem_Base_patch), nameof(ArchaeologySkillCheck_1));
                             break;
-                        case 93:
+                        case 74:
                             yield return CodeInstruction.Call(typeof(CheckForBuriedItem_Base_patch), nameof(ArchaeologySkillCheck_2));
                             break;
-                        case 153:
+                        case 137:
                             yield return CodeInstruction.Call(typeof(CheckForBuriedItem_Base_patch), nameof(ArchaeologySkillCheck_3));
                             break;
                     }
@@ -61,22 +59,26 @@ namespace ArchaeologySkill.Core
 
         private static void ArchaeologySkillCheck_1(int xLocation, int yLocation, Farmer farmer)
         {
+            Log.Alert("Archaeology testing 1");
             Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation);
             return;
         }
 
         private static void ArchaeologySkillCheck_2(int xLocation, int yLocation, Farmer farmer)
         {
+            Log.Alert("Archaeology testing 2");
             Random r = Utility.CreateDaySaveRandom((double)(xLocation * 2000), (double)(yLocation * 77), Game1.stats.DirtHoed);
             Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: r.Choose("(O)412", "(O)416"));
             return;
         }
         private static void ArchaeologySkillCheck_3(int xLocation, int yLocation, Farmer farmer)
         {
+            Log.Alert("Archaeology testing 3");
             Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: "(O)330");
             return;
         }
     }
+
 
     [HarmonyPatch(typeof(MineShaft), nameof(MineShaft.checkForBuriedItem))]
     class CheckForBuriedItem_Mineshaft_patch
@@ -86,10 +88,9 @@ namespace ArchaeologySkill.Core
         {
             List<CodeInstruction> codeInstructions = new List<CodeInstruction>(instructions);
             yield return codeInstructions[0];
-
             for (int i = 1; i < codeInstructions.Count; i++)
             {
-                if (i == 200)
+                if (i == 171)
                 {
                     yield return new CodeInstruction(OpCodes.Ldarg_S, 1);
                     yield return new CodeInstruction(OpCodes.Ldarg_S, 2);
@@ -104,8 +105,11 @@ namespace ArchaeologySkill.Core
 
         private static void ArchaeologySkillCheck_4(int xLocation, int yLocation, Farmer farmer, string item)
         {
+            Log.Alert("Archaeology testing 4");
             Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: item);
             return;
         }
     }
+
+
 }

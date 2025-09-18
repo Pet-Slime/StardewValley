@@ -53,6 +53,16 @@ namespace ArchaeologySkill.Core
                 Log.Trace("Archaeology: Adding " + entry + " to the water shifter loot table");
                 ModEntry.WaterSifterLootTable.Add(entry);
             }
+            foreach (string entry in ModEntry.ItemDefinitions["extra_loot_table_GI"])
+            {
+                Log.Trace("Archaeology: Adding " + entry + " to the bonus loot table");
+                ModEntry.BonusLootTable_GI.Add(entry);
+            }
+            foreach (string entry in ModEntry.ItemDefinitions["waterShifter_loot_table_GI"])
+            {
+                Log.Trace("Archaeology: Adding " + entry + " to the water shifter loot table");
+                ModEntry.WaterSifterLootTable_GI.Add(entry);
+            }
             foreach (var entry in Game1.objectData)
             {
                 if (Game1.objectData.TryGetValue(entry.Key, out var value))

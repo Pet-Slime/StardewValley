@@ -12,6 +12,7 @@ using BirbCore.Attributes;
 using Object = StardewValley.Object;
 using ArchaeologySkill.Objects.Water_Shifter;
 using StardewValley.Menus;
+using Force.DeepCloner;
 
 namespace ArchaeologySkill
 {
@@ -53,15 +54,30 @@ namespace ArchaeologySkill
             if (!panning)
             {
                 BirbCore.Attributes.Log.Trace("Archaeology Skll: Does the player get bonus loot?");
-                double doubleLootChance = GetLevel(farmer) * 0.05;
+                double doubleLootChance = GetLevel(farmer) * 0.05 +5;
                 double diceRoll = Game1.random.NextDouble();
                 bool didTheyWin = (diceRoll < doubleLootChance);
                 BirbCore.Attributes.Log.Trace("Archaeology Skll: The dice roll is... " + diceRoll.ToString() + ". The player's chance is... " + doubleLootChance.ToString() + ". ");
                 if (didTheyWin || bonusLoot)
                 {
                     BirbCore.Attributes.Log.Trace("Archaeology Skill: They do get bonus loot!");
-                    //Set the object ID they get to item ID
-                    string objectID = exactItem != "" ? exactItem : ModEntry.BonusLootTable.RandomChoose(Game1.random, "390");
+                    string objectID;
+
+                    if (!string.IsNullOrEmpty(exactItem))
+                    {
+                        objectID = exactItem;
+                    }
+                    else
+                    {
+                        List<string> newBonusLootTable = new List<string>(ModEntry.BonusLootTable);
+
+                        if (farmer.mailReceived.Contains("willyBoatFixed"))
+                            newBonusLootTable.AddRange(ModEntry.BonusLootTable_GI);
+
+                        newBonusLootTable.Shuffle(Game1.random);
+
+                        objectID = newBonusLootTable.RandomChoose(Game1.random, "390");
+                    }
                     Game1.createMultipleObjectDebris(objectID, xLocation, yLocation, 1, farmer.UniqueMultiplayerID);
                 }
                 else

@@ -271,7 +271,8 @@
                     "ContextTags": [
                         "moonslime_volcano_warp",
                         "not_placeable",
-                        "color_dark_red"
+                        "color_dark_red",
+                        "totem_item"
                     ],
                     "CustomFields": null
                 },

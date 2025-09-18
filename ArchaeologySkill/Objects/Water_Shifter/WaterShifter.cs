@@ -89,6 +89,8 @@ namespace ArchaeologySkill.Objects.Water_Shifter
             var who = Game1.GetPlayer(machine.owner.Value);
             //Player Can get artifacts from the shift if they have the Trowler Profession
             bool flag = who != null && who.HasCustomProfession(Archaeology_Skill.Archaeology10b1);
+            //Player Can get artifacts from the shift if they have the Trowler Profession
+            bool flag2 = who != null && who.mailReceived.Contains("willyBoatFixed");
 
             //Generate the list of loot
             List<string> list =
@@ -97,20 +99,18 @@ namespace ArchaeologySkill.Objects.Water_Shifter
                 .. ModEntry.WaterSifterLootTable,
             ];
 
+            //If flag is true, add in the Ginger island loot table to the list
+            if (flag2)
+            {
+            }
+
             //If flag is true, add in the artifact loot table to the list
             if (flag)
             {
-                //Check each object in the object data list
-                foreach (var SVobject in Game1.objectData)
-                {
-                    //Make sure the object is not an error item and then check to see if said item has the Arch type...
-                    if (ItemRegistry.GetData(SVobject.Key) != null && SVobject.Value.Type == "Arch")
-                    {
-                        //... then add it to the list
-                        list.Add(SVobject.Key);
-                    }
-                }
+                list.AddRange(ModEntry.ArtifactLootTable);
             }
+
+            
             //Shuffle the list so it's in a random order!
             Random random = Game1.random;
             list.Shuffle(random);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Force.DeepCloner;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -301,7 +302,13 @@ namespace ArchaeologySkill.Core
 
                 BirbCore.Attributes.Log.Trace("Archaeology skill: Dowser skill adding additional loot to panning");
                 random = new Random(xLocation * (int)who.DailyLuck * 2000 + yLocation + (int)Game1.uniqueIDForThisGame / 2 + (int)Game1.stats.DaysPlayed);
-                string item = ModEntry.BonusLootTable.RandomChoose(random, "390");
+                List<string> newBonusLootTable = new List<string>(ModEntry.BonusLootTable);
+                if (farmer.mailReceived.Contains("willyBoatFixed"))
+                {
+                    newBonusLootTable.AddRange(ModEntry.BonusLootTable_GI);
+                    newBonusLootTable.Shuffle(random);
+                }
+                string item = newBonusLootTable.RandomChoose(random, "390");
                 __result.Add(new StardewValley.Object(item, 1));
             }
         }
@@ -413,20 +420,18 @@ namespace ArchaeologySkill.Core
     [HarmonyPatch(typeof(VolcanoDungeon), nameof(VolcanoDungeon.drawAboveAlwaysFrontLayer))]
     class VolcanoDungeonLevel_patch
     {
-        [HarmonyLib.HarmonyPrefix]
-        private static bool Prefix(
+        [HarmonyLib.HarmonyPostfix]
+        private static void Postfix(
         StardewValley.Locations.VolcanoDungeon __instance, SpriteBatch b)
         {
-            if (__instance.level?.Get() > 10)
+            if (!Game1.game1.takingMapScreenshot && __instance.level?.Get() > 10)
             {
                 Color color_Red = SpriteText.color_Red;
-                string s = (__instance.level?.Get() - 10).Value.ToString() ?? "";
+                string s = "∞" + (__instance.level?.Get() - 10).Value.ToString() ?? "";
                 Microsoft.Xna.Framework.Rectangle titleSafeArea = Game1.game1.GraphicsDevice.Viewport.GetTitleSafeArea();
                 SpriteText.drawString(b, s, titleSafeArea.Left + 16, titleSafeArea.Top + 16, 999999, -1, 999999, 1f, 1f, junimoText: false, 2, "", color_Red);
-                return false; // don't run original code
+                
             }
-
-            return true; // run original code
         }
     }
 
@@ -470,132 +475,4 @@ namespace ArchaeologySkill.Core
 
 
 
-    [HarmonyPatch(typeof(StardewValley.Object), nameof(StardewValley.Object.performUseAction))]
-    class VolcanoWarpTotem_patch
-    {
-        [HarmonyLib.HarmonyPostfix]
-        private static void Moonslime_Volcano_Warp(
-        StardewValley.Object __instance, ref bool __result, GameLocation location)
-        {
-            if (__instance.HasContextTag("moonslime_volcano_warp"))
-            {
-                var farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
-                if (farmer == null) { return; }
-
-                farmer.jitterStrength = 1f;
-                Color glowColor = Color.Red;
-                location.playSound("warrior");
-                farmer.faceDirection(2);
-                farmer.CanMove = false;
-                farmer.temporarilyInvincible = true;
-                farmer.temporaryInvincibilityTimer = -4000;
-                Game1.changeMusicTrack("silence");
-                farmer.FarmerSprite.animateOnce(new FarmerSprite.AnimationFrame[2]
-                {
-                                new FarmerSprite.AnimationFrame(57, 2000, secondaryArm: false, flip: false),
-                                new FarmerSprite.AnimationFrame((short)farmer.FarmerSprite.CurrentFrame, 0, secondaryArm: false, flip: false, Volcano_totemWarp, behaviorAtEndOfFrame: true)
-                });
-
-                TemporaryAnimatedSprite temporaryAnimatedSprite = new TemporaryAnimatedSprite(0, 9999f, 1, 999, Game1.player.Position + new Vector2(0f, -96f), flicker: false, flipped: false, verticalFlipped: false, 0f)
-                {
-                    motion = new Vector2(0f, -1f),
-                    scaleChange = 0.01f,
-                    alpha = 1f,
-                    alphaFade = 0.0075f,
-                    shakeIntensity = 1f,
-                    initialPosition = Game1.player.Position + new Vector2(0f, -96f),
-                    xPeriodic = true,
-                    xPeriodicLoopTime = 1000f,
-                    xPeriodicRange = 4f,
-                    layerDepth = 1f
-                };
-                temporaryAnimatedSprite.CopyAppearanceFromItemId(__instance.ItemId);
-                Game1.Multiplayer.broadcastSprites(location, temporaryAnimatedSprite);
-                temporaryAnimatedSprite = new TemporaryAnimatedSprite(0, 9999f, 1, 999, Game1.player.Position + new Vector2(-64f, -96f), flicker: false, flipped: false, verticalFlipped: false, 0f)
-                {
-                    motion = new Vector2(0f, -0.5f),
-                    scaleChange = 0.005f,
-                    scale = 0.5f,
-                    alpha = 1f,
-                    alphaFade = 0.0075f,
-                    shakeIntensity = 1f,
-                    delayBeforeAnimationStart = 10,
-                    initialPosition = Game1.player.Position + new Vector2(-64f, -96f),
-                    xPeriodic = true,
-                    xPeriodicLoopTime = 1000f,
-                    xPeriodicRange = 4f,
-                    layerDepth = 0.9999f
-                };
-                temporaryAnimatedSprite.CopyAppearanceFromItemId(__instance.ItemId);
-                Game1.Multiplayer.broadcastSprites(location, temporaryAnimatedSprite);
-                temporaryAnimatedSprite = new TemporaryAnimatedSprite(0, 9999f, 1, 999, Game1.player.Position + new Vector2(64f, -96f), flicker: false, flipped: false, verticalFlipped: false, 0f)
-                {
-                    motion = new Vector2(0f, -0.5f),
-                    scaleChange = 0.005f,
-                    scale = 0.5f,
-                    alpha = 1f,
-                    alphaFade = 0.0075f,
-                    delayBeforeAnimationStart = 20,
-                    shakeIntensity = 1f,
-                    initialPosition = Game1.player.Position + new Vector2(64f, -96f),
-                    xPeriodic = true,
-                    xPeriodicLoopTime = 1000f,
-                    xPeriodicRange = 4f,
-                    layerDepth = 0.9988f
-                };
-                temporaryAnimatedSprite.CopyAppearanceFromItemId(__instance.ItemId);
-                Game1.Multiplayer.broadcastSprites(location, temporaryAnimatedSprite);
-                Game1.screenGlowOnce(glowColor, hold: false);
-                Utility.addSprinklesToLocation(location, Game1.player.TilePoint.X, Game1.player.TilePoint.Y, 16, 16, 1300, 20, Color.White, null, motionTowardCenter: true);
-                __result = true;
-            }
-        }
-
-        public static void Volcano_totemWarp(Farmer who)
-        {
-
-            var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
-
-            GameLocation currentLocation = farmer.currentLocation;
-            for (int i = 0; i < 12; i++)
-            {
-                Game1.Multiplayer.broadcastSprites(currentLocation, new TemporaryAnimatedSprite(354, Game1.random.Next(25, 75), 6, 1, new Vector2(Game1.random.Next((int)who.Position.X - 256, (int)who.Position.X + 192), Game1.random.Next((int)who.Position.Y - 256, (int)who.Position.Y + 192)), flicker: false, Game1.random.NextBool()));
-            }
-
-            who.playNearbySoundAll("wand");
-            Game1.displayFarmer = false;
-            farmer.temporarilyInvincible = true;
-            farmer.temporaryInvincibilityTimer = -2000;
-            farmer.freezePause = 1000;
-            Game1.flashAlpha = 1f;
-            DelayedAction.fadeAfterDelay(Volcano_totemWarpForReal, 1000);
-            Microsoft.Xna.Framework.Rectangle rectangle = who.GetBoundingBox();
-            new Microsoft.Xna.Framework.Rectangle(rectangle.X, rectangle.Y, 64, 64).Inflate(192, 192);
-            int num = 0;
-            Point tilePoint = who.TilePoint;
-            for (int num2 = tilePoint.X + 8; num2 >= tilePoint.X - 8; num2--)
-            {
-                Game1.Multiplayer.broadcastSprites(currentLocation, new TemporaryAnimatedSprite(6, new Vector2(num2, tilePoint.Y) * 64f, Color.White, 8, flipped: false, 50f)
-                {
-                    layerDepth = 1f,
-                    delayBeforeAnimationStart = num * 25,
-                    motion = new Vector2(-0.25f, 0f)
-                });
-                num++;
-            }
-        }
-
-        private static void Volcano_totemWarpForReal()
-        {
-            Game1.warpFarmer("VolcanoDungeon" + 11, 0, 1, false);
-
-
-            Game1.changeMusicTrack("VolcanoMines");
-            Game1.fadeToBlackAlpha = 0.99f;
-            Game1.screenGlow = false;
-            Game1.player.temporarilyInvincible = false;
-            Game1.player.temporaryInvincibilityTimer = 0;
-            Game1.displayFarmer = true;
-        }
-    }
 }

@@ -1,5 +1,20 @@
-{
+﻿{
     "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "spacechase0.SpaceCore/ObjectExtensionData",
+            "Entries": {
+                "moonslime.Archaeology.totem_volcano_warp": { // The object ID
+                    "TotemWarp": {
+                        "Location": "VolcanoDungeon11",
+                        "Position": "0, 1"
+                    }
+                }
+            },
+            "When": {
+                "HasMod": "spacechase0.SpaceCore"
+            }
+        },
         {
             "Action": "EditData",
             "Target": "spacechase0.SpaceCore/ObjectExtensionData",
