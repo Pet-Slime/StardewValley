@@ -96,7 +96,6 @@ namespace ArchaeologySkill.Core
                     yield return new CodeInstruction(OpCodes.Ldarg_S, 5);
                     yield return new CodeInstruction(OpCodes.Ldloc_0);
                     yield return CodeInstruction.Call(typeof(CheckForBuriedItem_Mineshaft_patch), nameof(ArchaeologySkillCheck_4));
-                    yield return new CodeInstruction(OpCodes.Ldstr, "");
                 }
                 yield return codeInstructions[i];
             }
