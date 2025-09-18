@@ -1,7 +1,10 @@
-{
+﻿{
     "skill.name": "Archéologie",
     "skill.perk": "+{{bonus}}% chance d’un objet bonus en creusant",
     "skill.perk_bonus": "Chance d’obtenir {{rarity}} bonus en creusant",
+
+    "config.LargerPanningArrow": "Larger Panning Arrow",
+    "config.LargerPanningArrow.tooltip": "Makes the arrow tracker for panning spots from the Dowser skill larger",
 
     "config.AlternativeSkillPageIcon": "Icône de compétence alternative",
     "config.AlternativeSkillPageIcon.tooltip": "Nécessite un redémarrage, change l’icône de brosse et pierre à une pelle.",
