@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using MoonShared.APIs;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
+using Log = BirbCore.Attributes.Log;
 
 namespace MoonShared.Config
 {

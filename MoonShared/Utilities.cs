@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
+using Log = BirbCore.Attributes.Log;
 
 namespace MoonShared
 {

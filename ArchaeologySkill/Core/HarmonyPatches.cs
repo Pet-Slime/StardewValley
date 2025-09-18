@@ -13,6 +13,7 @@ using StardewValley.Extensions;
 using StardewValley.GameData.Locations;
 using StardewValley.Locations;
 using StardewValley.Tools;
+using Log = BirbCore.Attributes.Log;
 
 namespace ArchaeologySkill.Core
 {
@@ -31,66 +32,68 @@ namespace ArchaeologySkill.Core
     }
 
 
-    [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.checkForBuriedItem))]
-    class CheckForBuriedItem_Base_patch
-    {
-        [HarmonyLib.HarmonyPrefix]
-        private static bool Prefix(
-        GameLocation __instance, string __result, int xLocation, int yLocation, bool explosion, bool detectOnly, Farmer who)
-        {
-            BirbCore.Attributes.Log.Trace("Archaeology skill check for buried treasure, general");
-            var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
-
-            Random random = Utility.CreateDaySaveRandom(xLocation * 2000, yLocation * 77, Game1.stats.DirtHoed);
-            string text = ModEntry.Instance.Helper.Reflection.GetMethod(__instance, "HandleTreasureTileProperty").Invoke<string>(xLocation, yLocation, detectOnly);
-            if (text != null)
-            {
-                __result = text;
-                Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation);
-                return false;
-            }
-
-            bool flag = who?.CurrentTool is Hoe && who.CurrentTool.hasEnchantmentOfType<GenerousEnchantment>();
-            float num = 0.5f;
-            if (!__instance.IsFarm && (bool)__instance.IsOutdoors && __instance.GetSeason() == Season.Winter && random.NextDouble() < 0.08 && !explosion && !detectOnly && !(__instance is Desert))
-            {
-                string item = random.Choose("(O)412", "(O)416");
-                Game1.createObjectDebris(item, xLocation, yLocation);
-                if (flag && random.NextDouble() < (double)num)
-                {
-                    Game1.createObjectDebris(random.Choose("(O)412", "(O)416"), xLocation, yLocation);
-                }
-
-                __result = "";
-                Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: item);
-                return false;
-            }
-
-            LocationData data = __instance.GetData();
-            if ((bool)__instance.IsOutdoors && random.NextBool(data?.ChanceForClay ?? 0.03) && !explosion)
-            {
-                if (detectOnly)
-                {
-                    __instance.map.RequireLayer("Back").Tiles[xLocation, yLocation].Properties.Add("Treasure", "Item (O)330");
-                    __result = "Item";
-                    return false;
-                }
-
-                Game1.createObjectDebris("(O)330", xLocation, yLocation);
-                if (flag && random.NextDouble() < (double)num)
-                {
-                    Game1.createObjectDebris("(O)330", xLocation, yLocation);
-                }
-
-                __result = "";
-                Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: "(O)330");
-                return false;
-            }
-            __result = "";
-            return false;
-        }
-
-    }
+//    [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.checkForBuriedItem))]
+//    class CheckForBuriedItem_Base_patch
+//    {
+//        [HarmonyLib.HarmonyPrefix]
+//        private static bool Prefix(
+//        GameLocation __instance, string __result, int xLocation, int yLocation, bool explosion, bool detectOnly, Farmer who)
+//        {
+//            BirbCore.Attributes.Log.Trace("Archaeology skill check for buried treasure, general");
+//            var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
+//
+//            Random random = Utility.CreateDaySaveRandom(xLocation * 2000, yLocation * 77, Game1.stats.DirtHoed);
+//            string text = ModEntry.Instance.Helper.Reflection.GetMethod(__instance, "HandleTreasureTileProperty").Invoke<string>(xLocation, yLocation, detectOnly);
+//            if (text != null)
+//            {
+//                __result = text;
+//                Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation);
+//                return false;
+//            }
+//
+//            bool flag = who?.CurrentTool is Hoe && who.CurrentTool.hasEnchantmentOfType<GenerousEnchantment>();
+//            float num = 0.5f;
+//            if (!__instance.IsFarm && (bool)__instance.IsOutdoors && __instance.GetSeason() == Season.Winter && random.NextDouble() < 0.08 && !explosion && !detectOnly && !(__instance is Desert))
+//            {
+//                string item = random.Choose("(O)412", "(O)416");
+//                Game1.createObjectDebris(item, xLocation, yLocation);
+//                if (flag && random.NextDouble() < (double)num)
+//                {
+//                    Game1.createObjectDebris(random.Choose("(O)412", "(O)416"), xLocation, yLocation);
+//                }
+//
+//                __result = "";
+//                Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: item);
+//                return false;
+//            }
+//
+//            LocationData data = __instance.GetData();
+//            if ((bool)__instance.IsOutdoors && random.NextBool(data?.ChanceForClay ?? 0.03) && !explosion)
+//            {
+//                __result = "";
+//                return false;
+//            }
+//
+//            if (detectOnly)
+//            {
+//                __instance.map.RequireLayer("Back").Tiles[xLocation, yLocation].Properties.Add("Treasure", "Item (O)330");
+//                __result = "Item";
+//                return false;
+//            }
+//
+//            Game1.createObjectDebris("(O)330", xLocation, yLocation);
+//            if (flag && random.NextDouble() < (double)num)
+//            {
+//                Game1.createObjectDebris("(O)330", xLocation, yLocation);
+//            }
+//
+//            __result = "";
+//            Log.Alert("testers 4");
+//            Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: "(O)330");
+//            return false;
+//        }
+//
+//    }
 
     [HarmonyPatch(typeof(IslandLocation), nameof(IslandLocation.checkForBuriedItem))]
     class CheckForBuriedItem_IslandLocation_patch

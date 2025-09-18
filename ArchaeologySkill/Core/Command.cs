@@ -5,6 +5,7 @@ using MoonShared;
 using MoonShared.Command;
 using StardewValley;
 using StardewValley.Tools;
+using Log = BirbCore.Attributes.Log;
 
 namespace ArchaeologySkill
 {

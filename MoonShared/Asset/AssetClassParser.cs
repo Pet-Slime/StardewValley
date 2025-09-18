@@ -4,6 +4,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
+using Log = BirbCore.Attributes.Log;
 
 namespace MoonShared.Asset
 {
