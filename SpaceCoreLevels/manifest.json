@@ -1,0 +1,62 @@
+﻿{
+    "Name": "Total Level Affected by Spacecore Skill",
+    "Author": "moonslime",
+    "Version": "1.0.0",
+    "Description": "Makes the game harder by making the Farmer level affected by space core skill levels.",
+    "UniqueID": "moonslime.SpaceCoreLevels",
+    "EntryDll": "SpaceCoreLevels.dll",
+    "MinimumApiVersion": "4.3.2",
+    "UpdateKeys": [
+        "Nexus:-1"
+    ],
+    "Dependencies": [
+        {
+            "UniqueID": "drbirbdev.BirbCore",
+            "MinimumVersion": "1.1.0"
+        },
+        {
+            "UniqueID": "spacechase0.SpaceCore",
+            "MinimumVersion": "1.26.2"
+        },
+        {
+            "UniqueID": "moonslime.ArchaeologySkill",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "moonslime.BibliocraftSkill",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "moonslime.AthleticSkill",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "moonslime.CookingSkill",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "moonslime.SpookySkill",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "drbirbdev.BinningSkill",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "drbirbdev.SocializingSkill",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "drbirbdev.SlimingSkill",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "blueberry.LoveOfCooking",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "Achtuur.StardewTravelSkill",
+            "IsRequired": false
+        }
+    ]
+}
