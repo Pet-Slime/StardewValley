@@ -23,7 +23,8 @@ namespace SpaceCoreLevels.Core
         public static void Postfix(Farmer __instance, ref int __result)
         {
             // Get custom skills (or empty array if none installed)
-            string[] customSkills = Skills.GetSkillList() ?? Array.Empty<string>();
+            // Only count skills that are visible on the skill page!
+            string[] customSkills = Skills.GetSkillList().Where(s => Skills.GetSkill(s).ShouldShowOnSkillsPage).ToArray() ?? Array.Empty<string>();
             int customSkillCount = customSkills.Length;
 
             // Compute divisor (normalize total skill levels to a level 30 scale)
