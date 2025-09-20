@@ -27,7 +27,7 @@ namespace AthleticSkill.Core.Patches
         {
             // Copied from Stardewvalley.Tool
 
-            if (who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
+            if (!ModEntry.IsWoLLoaded && who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
             {
                 who.Halt();
                 __instance.Update(who.FacingDirection, 0, who);
@@ -66,7 +66,7 @@ namespace AthleticSkill.Core.Patches
         [HarmonyPrefix]
         private static bool Prefix(Axe __instance, GameLocation location, int x, int y, int power, Farmer who)
         {
-            if (who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
+            if (!ModEntry.IsWoLLoaded && who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
             {
                 LumberjackBuff(__instance, location, x, y, power, who);
                 return false; // Skip original
@@ -74,8 +74,8 @@ namespace AthleticSkill.Core.Patches
             return true;
         }
 
-        //Instead of just copy pasting the original block of code
-        //Break it up into multiple smaller methods to make it easier to read and mantaine
+        // Instead of just copy pasting the original block of code
+        // Break it up into multiple smaller methods to make it easier to read and mantaine
         private static void LumberjackBuff(Axe tool, GameLocation location, int originalX, int originalY, int power, Farmer who)
         {
             tool.lastUser = who;

@@ -18,6 +18,7 @@ namespace AthleticSkill
 
         internal ITranslationHelper I18N => this.Helper.Translation;
 
+        internal static bool IsWoLLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("DaLion.Professions");
 
         public override void Entry(IModHelper helper)
         {

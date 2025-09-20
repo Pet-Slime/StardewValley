@@ -18,12 +18,16 @@
     "moonslime.Athletics.sprinting.displayName_Gridball": "Charging",
     "moonslime.Athletics.sprinting.description_Gridball": "Faster movement while damaging foes!",
 
+
+    "moonslime.Athletics.GeodeOpen.InventoryFull": "You have no space to add the item you get from cracking this Geode to your inventory.",
+
     "Athletic5a.name": "Bodybuilder",
     "Athletic5a.desc": "Regenerate health based on athletics level.",
     "Athletic5b.name": "Runner",
     "Athletic5b.desc": "Regenerate energy based on athletics level'",
     "Athletic10a1.name": "Strong${man^woman^person}$",
     "Athletic10a1.desc": "Allows the charging of Axes and Pickaxes.",
+    "Athletic10a1.WoL.desc": "Allows cracking open normal geodes with right click when holding them.",
     "Athletic10a2.name": "Gridball Linebacker",
     "Athletic10a2.desc": "While sprinting, increase defense and reflect some damage back to the attacker based on athletics level.",
     "Athletic10b1.name": "Acrobat",

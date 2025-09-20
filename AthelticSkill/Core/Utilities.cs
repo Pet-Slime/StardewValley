@@ -20,8 +20,8 @@ namespace AthleticSkill
 
         public static int GetLevel(StardewValley.Farmer who)
         {
-            var player = Game1.GetPlayer(who.UniqueMultiplayerID);
-            return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Athletic") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Athletic");
+            var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
+            return SpaceCore.Skills.GetSkillLevel(farmer, "moonslime.Athletic") + SpaceCore.Skills.GetSkillBuffLevel(farmer, "moonslime.Athletic");
         }
 
         public static List<Vector2> TilesAffected(Vector2 tileLocation, int power, Farmer who)

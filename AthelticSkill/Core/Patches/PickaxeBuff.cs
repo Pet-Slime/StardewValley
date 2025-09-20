@@ -72,7 +72,7 @@ namespace AthleticSkill.Core.Patches
         {
             // Copied from Stardewvalley.Tool
             var who = __instance;
-            if (who.HasCustomProfession(Athletic_Skill.Athletic10a1) && who.CurrentTool is Pickaxe)
+            if (!ModEntry.IsWoLLoaded && who.HasCustomProfession(Athletic_Skill.Athletic10a1) && who.CurrentTool is Pickaxe)
             {
 
                 if (who.toolPower.Value == 0)
@@ -135,7 +135,7 @@ namespace AthleticSkill.Core.Patches
         [HarmonyPrefix]
         private static bool Prefix(Pickaxe __instance, GameLocation location, int x, int y, int power, Farmer who)
         {
-            if (who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
+            if (!ModEntry.IsWoLLoaded && who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
             {
                 ProspectorBuff(__instance, location, x, y, power, who);
                 return false; // skip original logic

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AthleticSkill.Objects;
 using MoonShared;
 using StardewModdingAPI;
 
@@ -8,7 +9,7 @@ namespace AthleticSkill
     {
         public static KeyedProfession Athletic5a;
         public static KeyedProfession Athletic5b;
-        public static KeyedProfession Athletic10a1;
+        public static StrongProfession Athletic10a1;
         public static KeyedProfession Athletic10a2;
         public static KeyedProfession Athletic10b1;
         public static KeyedProfession Athletic10b2;
@@ -24,16 +25,14 @@ namespace AthleticSkill
             this.AddProfessions(
                 Athletic5a = new KeyedProfession(this, "Athletic5a", ModEntry.Assets.Athletic5a, ModEntry.Instance.I18N),
                 Athletic5b = new KeyedProfession(this, "Athletic5b", ModEntry.Assets.Athletic5b, ModEntry.Instance.I18N),
-                Athletic10a1 = new KeyedProfession(this, "Athletic10a1", ModEntry.Assets.Athletic10a1, ModEntry.Instance.I18N),
+                Athletic10a1 = new StrongProfession(this, "Athletic10a1", ModEntry.Assets.Athletic10a1, ModEntry.Instance.I18N),
                 Athletic10a2 = new KeyedProfession(this, "Athletic10a2", ModEntry.Assets.Athletic10a2, ModEntry.Instance.I18N),
                 Athletic10b1 = new KeyedProfession(this, "Athletic10b1", ModEntry.Assets.Athletic10b1, ModEntry.Instance.I18N),
                 Athletic10b2 = new KeyedProfession(this, "Athletic10b2", ModEntry.Assets.Athletic10b2, ModEntry.Instance.I18N)
             );
-
-
         }
 
-        private void AddProfessions(KeyedProfession lvl5A, KeyedProfession lvl5B, KeyedProfession lvl10A1, KeyedProfession lvl10A2, KeyedProfession lvl10B1, KeyedProfession lvl10B2)
+        private void AddProfessions(KeyedProfession lvl5A, KeyedProfession lvl5B, StrongProfession lvl10A1, KeyedProfession lvl10A2, KeyedProfession lvl10B1, KeyedProfession lvl10B2)
         {
             this.Professions.Add(lvl5A);
             this.Professions.Add(lvl5B);
