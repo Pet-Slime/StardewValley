@@ -42,7 +42,7 @@
                                 "Attack": 0
                             },
                             "CustomFields": {
-                                "spacechase.SpaceCore.SkillBuff.moonslime.Athletic": "1"
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Athletic": "2"
                             }
                         }
                     ],
@@ -91,7 +91,7 @@
                                 "Attack": 0
                             },
                             "CustomFields": {
-                                "spacechase.SpaceCore.SkillBuff.moonslime.Athletic": "2"
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Athletic": "1"
                             }
                         }
                     ],

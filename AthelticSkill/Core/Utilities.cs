@@ -12,16 +12,26 @@ namespace AthleticSkill
 {
     internal class Utilities
     {
+
+        private const string AthleticSkillId = "moonslime.Athletic";
+
         public static void AddEXP(StardewValley.Farmer who, int amount)
         {
             var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
             SpaceCore.Skills.AddExperience(farmer, "moonslime.Athletic", amount);
         }
 
-        public static int GetLevel(StardewValley.Farmer who)
+        public static int GetLevel(StardewValley.Farmer who, bool original = false, bool buff = false)
         {
             var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
-            return SpaceCore.Skills.GetSkillLevel(farmer, "moonslime.Athletic") + SpaceCore.Skills.GetSkillBuffLevel(farmer, "moonslime.Athletic");
+            int baseLevel = SpaceCore.Skills.GetSkillLevel(farmer, AthleticSkillId);
+
+            if (original) return baseLevel;
+
+            int buffLevel = SpaceCore.Skills.GetSkillBuffLevel(farmer, AthleticSkillId);
+            if (buff) return buffLevel;
+
+            return baseLevel + buffLevel;
         }
 
         public static List<Vector2> TilesAffected(Vector2 tileLocation, int power, Farmer who)

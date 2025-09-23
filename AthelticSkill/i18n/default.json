@@ -9,6 +9,15 @@
     "config.ToggleSprint": "Toggle sprint",
     "config.ToggleSprint.tooltip": "Change sprinting to be a toggle or a hold.",
 
+    "config.ExpFromSprinting": "Exp from Sprinting",
+    "config.ExpFromSprinting.tooltip": "Exp gained while sprinting",
+
+    "config.ExpFromToolUse": "Exp from Light Tools",
+    "config.ExpFromToolUse.tooltip": "Exp from tools that drain stamina marked as light (Default: all tools except axes and pickaxes)",
+
+    "config.ExpFromAxUse": "Exp from Heavy Tools",
+    "config.ExpFromAxUse.tooltip": "Exp from tools that drain stamina marked as heavy (Default: axes and pickaxes)",
+
     "config.MinimumEnergyToSprint": "Minimum energy required to sprint.",
     "config.MinimumEnergyToSprint.tooltip": "Change the minimum required amount of energy that is needed to sprint.",
 

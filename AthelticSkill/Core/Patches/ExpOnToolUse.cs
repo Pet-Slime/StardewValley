@@ -10,78 +10,45 @@ using BirbCore.Attributes;
 
 namespace AthleticSkill.Core.Patches
 {
-    [HarmonyPatch(typeof(Axe), nameof(Axe.DoFunction))]
-    public class Axe_exp_patch
+
+    [HarmonyPatch(typeof(StardewValley.Item), "_PopulateContextTags")]
+    class PopulateContextTags_patch
     {
         [HarmonyPostfix]
-        private static void Postfix(Farmer who)
+        public static void Postfix(StardewValley.Item __instance, ref HashSet<string> tags)
         {
-            Utilities.AddEXP(who, ModEntry.Config.ExpFromStaminaDrain);
+            switch (__instance)
+            {
+                case Pickaxe:
+                case Axe:
+                    tags.Add("moonslime.Athletics.heavy_tool");
+                    break;
+
+                case FishingRod:
+                case Hoe:
+                case MilkPail:
+                case Shears:
+                case WateringCan:
+                    tags.Add("moonslime.Athletics.light_tool");
+                    break;
+            }
         }
     }
 
-    [HarmonyPatch(typeof(FishingRod), nameof(FishingRod.DoFunction))]
-    public class FishingRod_exp_patch
+    [HarmonyPatch(typeof(Tool), nameof(Tool.DoFunction))]
+    public class Tool_exp_patch
     {
         [HarmonyPostfix]
-        private static void Postfix(Farmer who)
+        private static void Postfix(Tool __instance, Farmer who)
         {
-            Utilities.AddEXP(who, ModEntry.Config.ExpFromStaminaDrain);
+            if (__instance.HasContextTag("moonslime.Athletics.light_tool"))
+            {
+                Utilities.AddEXP(who, ModEntry.Config.ExpFromAxUse);
+            }
+            else if (__instance.HasContextTag("moonslime.Athletics.heavy_tool"))
+            {
+                Utilities.AddEXP(who, ModEntry.Config.ExpFromToolUse);
+            }
         }
     }
-
-    [HarmonyPatch(typeof(Hoe), nameof(Hoe.DoFunction))]
-    public class Hoe_exp_patch
-    {
-        [HarmonyPostfix]
-        private static void Postfix(Farmer who)
-        {
-            Utilities.AddEXP(who, ModEntry.Config.ExpFromStaminaDrain);
-        }
-    }
-
-    [HarmonyPatch(typeof(MilkPail), nameof(MilkPail.DoFunction))]
-    public class MilkPail_exp_patch
-    {
-        [HarmonyPostfix]
-        private static void Postfix(Farmer who)
-        {
-            Utilities.AddEXP(who, ModEntry.Config.ExpFromStaminaDrain);
-        }
-    }
-
-
-    [HarmonyPatch(typeof(Pickaxe), nameof(Pickaxe.DoFunction))]
-    public class Pickaxe_exp_patch
-    {
-        [HarmonyPostfix]
-        private static void Postfix(Farmer who)
-        {
-            Utilities.AddEXP(who, ModEntry.Config.ExpFromStaminaDrain);
-        }
-    }
-
-    [HarmonyPatch(typeof(Shears), nameof(Shears.DoFunction))]
-    public class Shears_exp_patch
-    {
-        [HarmonyPostfix]
-        private static void Postfix(Farmer who)
-        {
-            Utilities.AddEXP(who, ModEntry.Config.ExpFromStaminaDrain);
-        }
-    }
-
-    [HarmonyPatch(typeof(WateringCan), nameof(WateringCan.DoFunction))]
-    public class WateringCan_exp_patch
-    {
-        [HarmonyPostfix]
-        private static void Postfix(Farmer who)
-        {
-            Utilities.AddEXP(who, ModEntry.Config.ExpFromStaminaDrain);
-        }
-    }
-
-
-
-
 }

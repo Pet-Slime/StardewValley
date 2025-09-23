@@ -16,6 +16,8 @@ namespace AthleticSkill.Core
     {
         private static string SpringtingOn = "moonslime.AthelticSkill.sprinting";
 
+
+
         [SEvent.GameLaunchedLate]
         private static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
@@ -32,7 +34,7 @@ namespace AthleticSkill.Core
         }
 
         [SEvent.ButtonsChanged]
-        private void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
+        public void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
         {
             if (!Context.IsWorldReady || !Context.CanPlayerMove)
                 return;
@@ -57,15 +59,19 @@ namespace AthleticSkill.Core
             }
         }
 
-
-
+        // These are here instead of at the top of the class since the following methods use these
+        private const uint TimeChecker = 15;
+        private const float BaseDrain = 20f;
+        private const float ProfBonus = 5f;          // flat bonus for profession
+        private const float MinDrain = 1f;           // lower cap
+        private const float StaminaDivisor = 0.0375f;  // tick rate adjustment. This number is TimeChecker/400
 
 
         [SEvent.UpdateTicked]
-        private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
+        public void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-            // Only run this code every 10 ticks, and when the player is actually in the world
-            if (!e.IsMultipleOf(10) || !Context.IsWorldReady || !Context.CanPlayerMove)
+            // Only run this code every X ticks, and when the player is actually in the world
+            if (!e.IsMultipleOf(TimeChecker) || !Context.IsWorldReady || !Context.CanPlayerMove)
                 return;
 
             // Get the player
@@ -78,23 +84,18 @@ namespace AthleticSkill.Core
             // Apply the sprint buff
             ApplySprintBuff(farmer);
 
-            float baseDrain = 25;
+            float levelModifier = Utilities.GetLevel(farmer) + (farmer.HasCustomProfession(Athletic_Skill.Athletic10b2) ? ProfBonus : 0f);
 
-            float levelModifier = Utilities.GetLevel(farmer) * 2.5F;
+            float newDrain = BaseDrain * (BaseDrain / (BaseDrain + levelModifier));
 
-            float newDrain = baseDrain * (baseDrain / (baseDrain + levelModifier));
-
-            // Figure out stamina drain based on current atheltic's level
-            float energyDrainPerSecond = Math.Max(newDrain, 1);
-
-            if (farmer.HasCustomProfession(Athletic_Skill.Athletic10b2))
-            {
-                energyDrainPerSecond *= 0.5f;
-            }
+            float energyDrainPerSecond = Math.Max(newDrain, MinDrain);
 
             // Adjust player stamina
-            // We are checking every 10th of a second, so drain only a 10th of the energy drain per second
-            farmer.stamina -= energyDrainPerSecond * 0.1F;
+            farmer.stamina -= energyDrainPerSecond * StaminaDivisor;
+
+            if (e.IsMultipleOf(TimeChecker*6))
+               Utilities.AddEXP(farmer, ModEntry.Config.ExpFromSprinting);
+
         }
 
         public static bool CanSprint(Farmer farmer)
@@ -113,7 +114,7 @@ namespace AthleticSkill.Core
             return farmer.Stamina > ModEntry.Config.MinimumEnergyToSprint;
         }
 
-        private static void ApplySprintBuff(Farmer farmer)
+        public static void ApplySprintBuff(Farmer farmer)
         {
 
             // Create the buff
@@ -123,7 +124,7 @@ namespace AthleticSkill.Core
                 description: farmer.HasCustomProfession(Athletic_Skill.Athletic10a2) ? ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description_Gridball") : ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description"),
                 iconTexture: farmer.HasCustomProfession(Athletic_Skill.Athletic10a2) ? ModEntry.Assets.IconA : ModEntry.Assets.IconA,
                 iconSheetIndex: 0,
-                duration: 300,
+                duration: ((int)(TimeChecker*20)),
                 effects: new BuffEffects()
                 {
                     //If the player has the marathoner profession, increase speed amount, else it is 1
@@ -138,7 +139,7 @@ namespace AthleticSkill.Core
 
             if (buff is not null) // If they do just increase the duration
             {
-                buff.millisecondsDuration = 300;
+                buff.millisecondsDuration = ((int)(TimeChecker * 20));
             }
             else // if they don't, apply the buff
             {
@@ -146,24 +147,10 @@ namespace AthleticSkill.Core
             }
         }
 
-        [SEvent.OneSecondUpdateTicked]
-        private void OnOneSecondUpdateTicked_aexp(object sender, OneSecondUpdateTickedEventArgs e)
-        {
-            // Only run this code every 2 seconds, and when the player is actually in the world
-            if (!e.IsMultipleOf(120) || !Context.IsWorldReady)
-                return;
 
-            // Get the player
-            Farmer farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
-
-            // If the player has the sprinting buff, add exp!
-            if (farmer.hasBuff("Athletics:sprinting"))
-                Utilities.AddEXP(farmer, ModEntry.Config.ExpFromStaminaDrain);
-
-        }
 
         [SEvent.OneSecondUpdateTicked]
-        private void OnOneSecondUpdateTicked_professions(object sender, OneSecondUpdateTickedEventArgs e)
+        public void OnOneSecondUpdateTicked_professions(object sender, OneSecondUpdateTickedEventArgs e)
         {
             // Only run this code every 5 seconds, and when the player is actually in the world
             if (!e.IsMultipleOf(300) || !Context.IsWorldReady || !Context.CanPlayerMove)
@@ -185,7 +172,7 @@ namespace AthleticSkill.Core
                 farmer.stamina = Restore(((int)Math.Floor(farmer.stamina)), farmer.MaxStamina, amount);
         }
 
-        private static int Restore(int current, int max, int amount)
+        public static int Restore(int current, int max, int amount)
         {
             if (current < max)
                 current = Math.Min(current + amount, max);

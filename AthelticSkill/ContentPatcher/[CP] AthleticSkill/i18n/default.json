@@ -3,8 +3,8 @@
     "moonslime.Athletic.egg_drink.name": "Raw Egg Shake",
     "moonslime.Athletic.egg_drink.description": "Used to bulk up!",
 
-    "Athletic.broccoli_and_cheese.name": "Broccoli and Cheese",
-    "Athletic.broccoli_and_cheese.description": "A useful meal to help build energy and bulk up."
+    "moonslime.Athletic.broccoli_and_cheese.name": "Broccoli and Cheese",
+    "moonslime.Athletic.broccoli_and_cheese.description": "A useful meal to help build energy and bulk up."
 
 
 }

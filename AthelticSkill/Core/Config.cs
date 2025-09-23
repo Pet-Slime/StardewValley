@@ -22,6 +22,12 @@ namespace AthleticSkill
         public int MinimumEnergyToSprint { get; set; } = 20;
 
         [SConfig.Option(1, 100, 1)]
-        public int ExpFromStaminaDrain { get; set; } = 1;
+        public int ExpFromSprinting{ get; set; } = 1;
+
+        [SConfig.Option(1, 100, 1)]
+        public int ExpFromToolUse { get; set; } = 2;
+
+        [SConfig.Option(1, 100, 1)]
+        public int ExpFromAxUse { get; set; } = 3;
     }
 }
