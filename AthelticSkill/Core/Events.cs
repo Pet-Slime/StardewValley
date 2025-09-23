@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using BirbCore.Attributes;
+using Netcode;
 using SpaceCore;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -20,9 +21,15 @@ namespace AthleticSkill.Core
         {
             BirbCore.Attributes.Log.Trace("Athletics: Trying to Register skill.");
             SpaceCore.Skills.RegisterSkill(new Athletic_Skill());
+
+//            var field = ModEntry.Instance.Helper.Reflection.GetField<NetFloat>(Game1.player, "netStamina");
+//            field.GetValue().fieldChangeEvent += (field, oldValue, newValue) => OnStaminaUse(oldValue, newValue);
         }
 
-
+        private static void OnStaminaUse(float oldValue, float newValue)
+        {
+            //Legacy code area in case I want to plug in again
+        }
 
         [SEvent.ButtonsChanged]
         private void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
@@ -71,19 +78,26 @@ namespace AthleticSkill.Core
             // Apply the sprint buff
             ApplySprintBuff(farmer);
 
+            float baseDrain = 25;
+
+            float levelModifier = Utilities.GetLevel(farmer) * 2.5F;
+
+            float newDrain = baseDrain * (baseDrain / (baseDrain + levelModifier));
+
             // Figure out stamina drain based on current atheltic's level
-            float energyDrainPerSecond = Math.Max(25 - Utilities.GetLevel(farmer), 1);
+            float energyDrainPerSecond = Math.Max(newDrain, 1);
 
             if (farmer.HasCustomProfession(Athletic_Skill.Athletic10b2))
             {
-                energyDrainPerSecond /= 2;
+                energyDrainPerSecond *= 0.5f;
             }
 
-            //Adjust player stamina
-            farmer.stamina -= energyDrainPerSecond / 10;
+            // Adjust player stamina
+            // We are checking every 10th of a second, so drain only a 10th of the energy drain per second
+            farmer.stamina -= energyDrainPerSecond * 0.1F;
         }
 
-        public bool CanSprint(Farmer farmer)
+        public static bool CanSprint(Farmer farmer)
         {
             // Early exit for simple blockers
             if (farmer.isRidingHorse()) return false;
@@ -99,7 +113,7 @@ namespace AthleticSkill.Core
             return farmer.Stamina > ModEntry.Config.MinimumEnergyToSprint;
         }
 
-        private void ApplySprintBuff(Farmer farmer)
+        private static void ApplySprintBuff(Farmer farmer)
         {
 
             // Create the buff
@@ -133,19 +147,18 @@ namespace AthleticSkill.Core
         }
 
         [SEvent.OneSecondUpdateTicked]
-        private void OnOneSecondUpdateTicked_exp(object sender, OneSecondUpdateTickedEventArgs e)
+        private void OnOneSecondUpdateTicked_aexp(object sender, OneSecondUpdateTickedEventArgs e)
         {
-            //Only run this code every 2 seconds, and when the player is actually in the world
+            // Only run this code every 2 seconds, and when the player is actually in the world
             if (!e.IsMultipleOf(120) || !Context.IsWorldReady)
                 return;
 
-            //Get the player
+            // Get the player
             Farmer farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
 
-            //If the player has the sprinting buff, add exp!
+            // If the player has the sprinting buff, add exp!
             if (farmer.hasBuff("Athletics:sprinting"))
-                Utilities.AddEXP(farmer, ModEntry.Config.ExpWhileSprinting);
-
+                Utilities.AddEXP(farmer, ModEntry.Config.ExpFromStaminaDrain);
 
         }
 
@@ -172,7 +185,7 @@ namespace AthleticSkill.Core
                 farmer.stamina = Restore(((int)Math.Floor(farmer.stamina)), farmer.MaxStamina, amount);
         }
 
-        private int Restore(int current, int max, int amount)
+        private static int Restore(int current, int max, int amount)
         {
             if (current < max)
                 current = Math.Min(current + amount, max);
