@@ -15,34 +15,34 @@
                     "Description": "{{i18n:moonslime.Athletic.egg_drink.description}}",
                     "Type": "Cooking",
                     "Category": -7,
-                    "Price": 500,
+                    "Price": 222,
                     "Texture": "Mods/moonslime.AthleticSkill/textures",
                     "SpriteIndex": 1,
-                    "Edibility": 50,
-                    "IsDrink": false,
+                    "Edibility": 35,
+                    "IsDrink": true,
                     "Buffs": [
                         {
                             "Id": "Drink",
                             "BuffId": null,
                             "IconTexture": null,
                             "IconSpriteIndex": 0,
-                            "Duration": 280,
+                            "Duration": 180,
                             "IsDebuff": false,
                             "GlowColor": null,
                             "CustomAttributes": {
                                 "FarmingLevel": 0,
                                 "FishingLevel": 0,
-                                "MiningLevel": 1,
+                                "MiningLevel": 0,
                                 "LuckLevel": 0,
                                 "ForagingLevel": 0,
-                                "MaxStamina": 64,
+                                "MaxStamina": 32,
                                 "MagneticRadius": 0,
                                 "Speed": 0,
                                 "Defense": 0,
                                 "Attack": 0
                             },
                             "CustomFields": {
-                                "spacechase.SpaceCore.SkillBuff.moonslime.Athletic": "2"
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Athletic": "1"
                             }
                         }
                     ],
@@ -58,16 +58,16 @@
                     ],
                     "CustomFields": null
                 },
-                "moonslime.Athletic.beans_and_rice": {
-                    "Name": "Beans and Rice",
-                    "DisplayName": "{{i18n:moonslime.Athletic.beans_and_rice.name}}",
-                    "Description": "{{i18n:moonslime.Athletic.beans_and_rice.description}}",
+                "moonslime.Athletic.broccoli_and_cheese": {
+                    "Name": "Broccoli and Cheese",
+                    "DisplayName": "{{i18n:moonslime.Athletic.broccoli_and_cheese.name}}",
+                    "Description": "{{i18n:moonslime.Athletic.broccoli_and_cheese.description}}",
                     "Type": "Cooking",
                     "Category": -7,
-                    "Price": 500,
+                    "Price": 837,
                     "Texture": "Mods/moonslime.AthleticSkill/textures",
                     "SpriteIndex": 2,
-                    "Edibility": 50,
+                    "Edibility": 218,
                     "IsDrink": false,
                     "Buffs": [
                         {
@@ -75,7 +75,7 @@
                             "BuffId": null,
                             "IconTexture": null,
                             "IconSpriteIndex": 0,
-                            "Duration": 780,
+                            "Duration": 380,
                             "IsDebuff": false,
                             "GlowColor": null,
                             "CustomAttributes": {
@@ -84,14 +84,14 @@
                                 "MiningLevel": 0,
                                 "LuckLevel": 0,
                                 "ForagingLevel": 0,
-                                "MaxStamina": 0,
-                                "MagneticRadius": 64,
+                                "MaxStamina": 64,
+                                "MagneticRadius": 0,
                                 "Speed": 0,
                                 "Defense": 0,
                                 "Attack": 0
                             },
                             "CustomFields": {
-                                "spacechase.SpaceCore.SkillBuff.moonslime.Athletic": "3"
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Athletic": "2"
                             }
                         }
                     ],

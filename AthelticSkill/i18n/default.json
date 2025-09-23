@@ -1,6 +1,6 @@
 ﻿{
     "skill.name": "Athletics",
-    "skill.perk": "{{bonus}} to the energy cost of sprinting.",
+    "skill.perk": "+{{bonus}} Sprint Efficiency",
     "skill.perk_bonus": "Reduce the energy cost of sprinting",
 
     "config.Key_Cast": "Sprint Key",
