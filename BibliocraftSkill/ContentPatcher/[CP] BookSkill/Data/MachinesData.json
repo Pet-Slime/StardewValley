@@ -145,7 +145,6 @@
                                         "selph.ExtraMachineConfig.CopyColor": "true"
                                     },
                                     "OutputMethod": null,
-                                    "CopyColor": true,
                                     "CopyPrice": true,
                                     "CopyQuality": true,
                                     "PreserveType": null,
@@ -260,7 +259,6 @@
                                         "selph.ExtraMachineConfig.CopyColor": "true",
                                         "selph.ExtraMachineConfig.AutomaticProduceCount": "5"
                                     },
-                                    "CopyColor": true,
                                     "CopyPrice": true,
                                     "CopyQuality": true,
                                     "PriceModifierMode": "Stack",
@@ -535,9 +533,13 @@
                             "OutputItem": [
                                 {
                                     "CustomData": {
+                                        "selph.ExtraMachineConfig.IsCustomCask": "true",
+                                        "selph.ExtraMachineConfig.CaskWorksAnywhere": "true",
+                                        "selph.ExtraMachineConfig.CaskStarLocationX": "0",
+                                        "selph.ExtraMachineConfig.CaskStarLocationY": "0",
                                         "AgingMultiplier": "1"
                                     },
-                                    "OutputMethod": "BibliocraftSkill.Objects.Book_Restoration_Table.BookRestorationTable, BibliocraftSkill: OutputCask",
+                                    "OutputMethod": "StardewValley.Objects.Cask, Stardew Valley: OutputCask",
                                     "CopyColor": false,
                                     "CopyPrice": false,
                                     "CopyQuality": false,
@@ -556,6 +558,7 @@
                                     "Quality": -1,
                                     "ObjectInternalName": null,
                                     "ObjectDisplayName": null,
+                                    "ObjectColor": null,
                                     "ToolUpgradeLevel": -1,
                                     "IsRecipe": false,
                                     "StackModifiers": null,

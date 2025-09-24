@@ -21,7 +21,7 @@
 
     "moonslime.BibliocraftSkill.Printing_Press.name": "Printing Press",
     "moonslime.BibliocraftSkill.Printing_Press.description": "A station that can produce a lot of uncovered books.",
-    "moonslime.BibliocraftSkill.Printing_Press.need_item": "999 Book Paper is needed.",
+    "moonslime.BibliocraftSkill.Printing_Press.need_item": "Limestone is needed to mix in with the puple to get paper!",
 
     "moonslime.BibliocraftSkill.Binding_station.name": "Binding station",
     "moonslime.BibliocraftSkill.Binding_station.description": "The final step to making a book!",

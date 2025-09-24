@@ -28,9 +28,9 @@ namespace BibliocraftSkill.Core
         [SEvent.GameLaunchedLate]
         private static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
-            var sc = ModEntry.Instance.Helper.ModRegistry.GetApi<ISpaceCoreApi>("spacechase0.SpaceCore");
-            sc.RegisterSerializerType(typeof(BookRestorationTable));
-            BibliocraftSkill.Objects.Book_Restoration_Table.Patches.Patch(ModEntry.Instance.Helper);
+         //   var sc = ModEntry.Instance.Helper.ModRegistry.GetApi<ISpaceCoreApi>("spacechase0.SpaceCore");
+         //   sc.RegisterSerializerType(typeof(BookRestorationTable));
+         //   BibliocraftSkill.Objects.Book_Restoration_Table.Patches.Patch(ModEntry.Instance.Helper);
 
             Log.Trace("Bibliocraft: Trying to Register skill.");
             SpaceCore.Skills.RegisterSkill(new Book_Skill());
