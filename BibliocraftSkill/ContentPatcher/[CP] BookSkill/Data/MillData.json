@@ -1,0 +1,80 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/Buildings",
+            "TargetField": [
+                "Mill",
+                "ItemConversions"
+            ],
+            "Entries": {
+                "moonSlime.Bibliocraft.WoodPulp": {
+                    "Id": "moonSlime.Bibliocraft.WoodPulp",
+                    "RequiredTags": [
+                        "id_o_388"
+                    ],
+                    "RequiredCount": 1,
+                    "MaxDailyConversions": -1,
+                    "SourceChest": "Input",
+                    "DestinationChest": "Output",
+                    "ProducedItems": [
+                        {
+                            "Condition": null,
+                            "Id": "(O)moonslime.Bibliocraft.woodpulp",
+                            "ItemId": "(O)moonslime.Bibliocraft.woodpulp",
+                            "RandomItemId": null,
+                            "MaxItems": null,
+                            "MinStack": 10,
+                            "MaxStack": -1,
+                            "Quality": -1,
+                            "ObjectInternalName": null,
+                            "ObjectDisplayName": null,
+                            "ObjectColor": null,
+                            "ToolUpgradeLevel": -1,
+                            "IsRecipe": false,
+                            "StackModifiers": null,
+                            "StackModifierMode": "Stack",
+                            "QualityModifiers": null,
+                            "QualityModifierMode": "Stack",
+                            "ModData": null,
+                            "PerItemCondition": null
+                        }
+                    ]
+                },
+                "moonSlime.Bibliocraft.Hard_WoodPulp": {
+                    "Id": "moonSlime.Bibliocraft.WoodPulp",
+                    "RequiredTags": [
+                        "id_o_709"
+                    ],
+                    "RequiredCount": 1,
+                    "MaxDailyConversions": -1,
+                    "SourceChest": "Input",
+                    "DestinationChest": "Output",
+                    "ProducedItems": [
+                        {
+                            "Condition": null,
+                            "Id": "(O)moonslime.Bibliocraft.hardwoodpulp",
+                            "ItemId": "(O)moonslime.Bibliocraft.hardwoodpulp",
+                            "RandomItemId": null,
+                            "MaxItems": null,
+                            "MinStack": 10,
+                            "MaxStack": -1,
+                            "Quality": -1,
+                            "ObjectInternalName": null,
+                            "ObjectDisplayName": null,
+                            "ObjectColor": null,
+                            "ToolUpgradeLevel": -1,
+                            "IsRecipe": false,
+                            "StackModifiers": null,
+                            "StackModifierMode": "Stack",
+                            "QualityModifiers": null,
+                            "QualityModifierMode": "Stack",
+                            "ModData": null,
+                            "PerItemCondition": null
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

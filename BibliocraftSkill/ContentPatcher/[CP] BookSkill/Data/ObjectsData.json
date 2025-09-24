@@ -22,13 +22,326 @@
                     "Texture": "Mods/moonslime.BibliocraftSkill/machines",
                     "SpriteIndex": 0
                 },
-				"moonslime.BibliocraftSkill.Letterpress_Inking_Station": {
+                "moonslime.BibliocraftSkill.Letterpress_Inking_Station": {
                     "Name": "Letterpress Inking Station",
                     "DisplayName": "{{i18n:moonslime.BibliocraftSkill.Letterpress_Inking_Station.name}}",
                     "Description": "{{i18n:moonslime.BibliocraftSkill.Letterpress_Inking_Station.description}}",
                     "Price": 50,
                     "Texture": "Mods/moonslime.BibliocraftSkill/machines",
-                    "SpriteIndex": 0
+                    "SpriteIndex": 3
+                },
+                "moonslime.BibliocraftSkill.Book_Donations": {
+                    "Name": "Book Donations",
+                    "DisplayName": "{{i18n:moonslime.BibliocraftSkill.Book_Donations.name}}",
+                    "Description": "{{i18n:moonslime.BibliocraftSkill.Book_Donations.description}}",
+                    "Price": 50,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/machines",
+                    "SpriteIndex": 6
+                },
+                "moonslime.BibliocraftSkill.Book_Restoration": {
+                    "Name": "Book Restoration Table",
+                    "DisplayName": "{{i18n:moonslime.BibliocraftSkill.Book_Restoration.name}}",
+                    "Description": "{{i18n:moonslime.BibliocraftSkill.Book_Restoration.description}}",
+                    "Price": 50,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/machines",
+                    "SpriteIndex": 8
+                },
+                "moonslime.BibliocraftSkill.Paper_Press": {
+                    "Name": "Paper Press",
+                    "DisplayName": "{{i18n:moonslime.BibliocraftSkill.Paper_Press.name}}",
+                    "Description": "{{i18n:moonslime.BibliocraftSkill.Paper_Press.description}}",
+                    "Price": 50,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/machines",
+                    "SpriteIndex": 10
+                },
+                "moonslime.BibliocraftSkill.Printing_Press": {
+                    "Name": "Printing Press",
+                    "DisplayName": "{{i18n:moonslime.BibliocraftSkill.Printing_Press.name}}",
+                    "Description": "{{i18n:moonslime.BibliocraftSkill.Printing_Press.description}}",
+                    "Price": 50,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/machines",
+                    "SpriteIndex": 12
+                },
+                "moonslime.BibliocraftSkill.Binding_station": {
+                    "Name": "Binding Station",
+                    "DisplayName": "{{i18n:moonslime.BibliocraftSkill.Binding_station.name}}",
+                    "Description": "{{i18n:moonslime.BibliocraftSkill.Binding_station.description}}",
+                    "Price": 50,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/machines",
+                    "SpriteIndex": 15
+                }
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "Entries": {
+                "moonslime.Bibliocraft.letterpress": {
+                    "Name": "Letterpress",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letterpress.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letterpress.description}}",
+                    "Type": "Crafting",
+                    "Category": 0,
+                    "Price": 1,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/textures",
+                    "SpriteIndex": 0,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "not_placeable",
+                        "moonslime.Bibliocraft.letterpress"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Bibliocraft.letterpress_inked": {
+                    "Name": "Inked Letterpress",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letterpress_inked.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letterpress_inked.description}}",
+                    "Type": "Crafting",
+                    "Category": 0,
+                    "Price": 1,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/textures",
+                    "SpriteIndex": 1,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "not_placeable",
+                        "moonslime.Bibliocraft.letterpress_inked"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Bibliocraft.paper": {
+                    "Name": "Book Paper",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.paper.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.paper.description}}",
+                    "Type": "Crafting",
+                    "Category": 0,
+                    "Price": 1,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/textures",
+                    "SpriteIndex": 2,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "not_placeable",
+                        "moonslime.Bibliocraft.paper"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Bibliocraft.manuscript": {
+                    "Name": "Unbound Copy",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.manuscript.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.manuscript.description}}",
+                    "Type": "Crafting",
+                    "Category": 0,
+                    "Price": 1,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/textures",
+                    "SpriteIndex": 3,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "not_placeable",
+                        "moonslime.Bibliocraft.manuscript"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Bibliocraft.book_cover": {
+                    "Name": "Unbound Copy",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.book_cover.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.book_cover.description}}",
+                    "Type": "Crafting",
+                    "Category": 0,
+                    "Price": 1,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/textures",
+                    "SpriteIndex": 4,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "not_placeable",
+                        "moonslime.Bibliocraft.book_cover"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Bibliocraft.woodpulp": {
+                    "Name": "Wood Pulp",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.woodpulp.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.woodpulp.description}}",
+                    "Type": "Crafting",
+                    "Category": 0,
+                    "Price": 1,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/textures",
+                    "SpriteIndex": 5,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "not_placeable",
+                        "moonslime.Bibliocraft.woodpulp"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Bibliocraft.hardwoodpulp": {
+                    "Name": "Hardwood Pulp",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.hardwoodpulp.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.hardwoodpulp.description}}",
+                    "Type": "Crafting",
+                    "Category": 0,
+                    "Price": 1,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/textures",
+                    "SpriteIndex": 6,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "not_placeable",
+                        "moonslime.Bibliocraft.hardwoodpulp"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Bibliocraft.potato_chips": {
+                    "Name": "Comfort Food",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.potato_chips.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.potato_chips.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 60,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/textures",
+                    "SpriteIndex": 8,
+                    "Edibility": 20,
+                    "IsDrink": false,
+                    "Buffs": [
+                        {
+                            "Id": "Food",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 480,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 0,
+                                "MiningLevel": 0,
+                                "LuckLevel": 0,
+                                "ForagingLevel": 0,
+                                "MaxStamina": 0,
+                                "MagneticRadius": 16,
+                                "Speed": 0,
+                                "Defense": 0,
+                                "Attack": 0
+                            },
+                            "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Bibliocraft": "2"
+                            }
+                        }
+                    ],
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_yellow",
+                        "food_sweet"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Bibliocraft.ginger_tea": {
+                    "Name": "Ginger Tea",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.ginger_tea.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.ginger_tea.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 400,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/textures",
+                    "SpriteIndex": 7,
+                    "Edibility": 30,
+                    "IsDrink": true,
+                    "Buffs": [
+                        {
+                            "Id": "Drink",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 480,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 0,
+                                "MiningLevel": 0,
+                                "LuckLevel": 1,
+                                "ForagingLevel": 0,
+                                "MaxStamina": 30,
+                                "MagneticRadius": 0,
+                                "Speed": 0.5,
+                                "Defense": 0,
+                                "Attack": 0,
+                                "Immunity": 1.0
+                            },
+                            "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Bibliocraft": "1"
+                            }
+                        }
+                    ],
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_green",
+                        "food_sweet"
+                    ],
+                    "CustomFields": null
                 }
             }
         }

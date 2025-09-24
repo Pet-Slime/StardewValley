@@ -14,7 +14,7 @@ namespace BibliocraftSkill
         public static KeyedProfession Book10b2;
         public readonly IModHelper _modHelper;
 
-        public Book_Skill() : base("moonslime.Biblocraft")
+        public Book_Skill() : base("moonslime.Bibliocraft")
         {
             this.Icon = ModEntry.Assets.IconA;
             this.SkillsPageIcon = ModEntry.Assets.IconB;

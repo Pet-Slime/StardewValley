@@ -23,6 +23,10 @@
         {
             "UniqueID": "spacechase0.SpaceCore",
             "MinimumVersion": "1.26.2"
+        },
+        {
+            "UniqueID": "selph.ExtraMachineConfig",
+            "MinimumVersion": "1.17.4"
         }
     ]
 }

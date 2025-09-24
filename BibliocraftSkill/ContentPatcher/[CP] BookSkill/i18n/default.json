@@ -1,0 +1,60 @@
+﻿{
+
+
+    "moonslime.BibliocraftSkill.Letterpress_Workstation.name": "Letterpress Workstation",
+    "moonslime.BibliocraftSkill.Letterpress_Workstation.description": "A station that you can turn a book into a letter press.",
+    "moonslime.BibliocraftSkill.Letterpress_Workstation.need_item": "Copper bar is needed.",
+
+    "moonslime.BibliocraftSkill.Letterpress_Inking_Station.name": "Letterpress Inkstation",
+    "moonslime.BibliocraftSkill.Letterpress_Inking_Station.description": "A station to ink letterpresses.",
+    "moonslime.BibliocraftSkill.Letterpress_Inking_Station.need_item": "Squid Ink is needed.",
+
+    "moonslime.BibliocraftSkill.Book_Donations.name": "Public Book Library",
+    "moonslime.BibliocraftSkill.Book_Donations.description": "Stick around town to randomly find books stored in here.",
+
+    "moonslime.BibliocraftSkill.Book_Restoration.name": "Rebacking Table",
+    "moonslime.BibliocraftSkill.Book_Restoration.description": "Place a book on this table to reback it over time, improving its quality.",
+
+    "moonslime.BibliocraftSkill.Paper_Press.name": "Paper Press",
+    "moonslime.BibliocraftSkill.Paper_Press.description": "This machine combines wood pulp and limestone to create paper or book covers.",
+    "moonslime.BibliocraftSkill.Paper_Press.need_item": "Limestone is needed.",
+
+    "moonslime.BibliocraftSkill.Printing_Press.name": "Printing Press",
+    "moonslime.BibliocraftSkill.Printing_Press.description": "A station that can produce a lot of uncovered books.",
+    "moonslime.BibliocraftSkill.Printing_Press.need_item": "999 Book Paper is needed.",
+
+    "moonslime.BibliocraftSkill.Binding_station.name": "Binding station",
+    "moonslime.BibliocraftSkill.Binding_station.description": "The final step to making a book!",
+    "moonslime.BibliocraftSkill.Binding_station.need_item": "Two book covers is needed.",
+
+    "moonslime.Bibliocraft.letterpress.name": "Letterpress",
+    "moonslime.Bibliocraft.letterpress.description": "A copy of a book, that needs to be inked.",
+
+    "moonslime.Bibliocraft.letterpress_inked.name": "Inked Letterpress",
+    "moonslime.Bibliocraft.letterpress_inked.description": "A letterpress that has been inked.",
+
+    "moonslime.Bibliocraft.paper.name": "Book Paper",
+    "moonslime.Bibliocraft.paper.description": "Paper made for books!",
+
+    "moonslime.Bibliocraft.manuscript.name": "Unbound Copy",
+    "moonslime.Bibliocraft.manuscript.description": "An unbound copy of a book.",
+
+    "moonslime.Bibliocraft.book_cover.name": "Book Cover Half",
+    "moonslime.Bibliocraft.book_cover.description": "Half of a blank book cover, used to bind books with.",
+
+    "moonslime.Bibliocraft.woodpulp.name": "Wood Pulp",
+    "moonslime.Bibliocraft.woodpulp.description": "Wood grounded up in the mill. Can be used with limestone to make book paper at a paper press.",
+
+    "moonslime.Bibliocraft.hardwoodpulp.name": "Hardwood Pulp",
+    "moonslime.Bibliocraft.hardwoodpulp.description": "Hardwood grounded up in the mill. Can be used with limestone to make book covers at a paper press.",
+
+    "moonslime.Bibliocraft.potato_chips.name": "Chips",
+    "moonslime.Bibliocraft.potato_chips.description": "Potatoes cut thinly and then fried in oil. A good snack while reading, just make sure to get no grease on the books!",
+
+    "moonslime.Bibliocraft.ginger_tea.name": "Ginger Tea",
+    "moonslime.Bibliocraft.ginger_tea.description": "Tea made with ginger. A good drink to have on a cold winter day whipe wrapped in a blanket."
+
+
+
+
+}

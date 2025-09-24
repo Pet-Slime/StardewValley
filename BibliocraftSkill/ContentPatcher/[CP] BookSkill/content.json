@@ -1,6 +1,9 @@
 ﻿{
     "Format": "2.4.0",
     "Changes": [
-
+        {
+            "Action": "Include",
+            "FromFile": "Data/ObjectsData.json, Data/MillData.json, Data/MachinesData.json"
+        }
     ]
 }

@@ -12,7 +12,8 @@
     ],
     "Dependencies": [
         {
-            "UniqueID": "moonslime.BibliocraftSkill"
+            "UniqueID": "moonslime.BibliocraftSkill",
+            "IsRequired": true
         },
         {
             "UniqueID": "Rafseazz.RSVCP",

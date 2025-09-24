@@ -389,7 +389,7 @@ namespace BibliocraftSkill
         [HarmonyLib.HarmonyPostfix]
         public static void Postfix(GameLocation location, int x, int y, int power, Farmer who)
         {
-            if (who != null && who.stats.Get("Book_Diamonds") != 0 && Game1.random.NextDouble() < 0.0066 && Utilities.GetLevel(who, true) >= 8)
+            if (who != null && who.stats.Get("Book_Diamonds") != 0 && Utilities.GetLevel(who, true) >= 8 && Game1.random.NextDouble() < 0.0066 && Utilities.GetLevel(who, true) >= 8)
             {
                 Utility.clampToTile(new Vector2(x, y));
                 int num = x / 64;
@@ -444,7 +444,7 @@ namespace BibliocraftSkill
 
         private static object GetExtraCrabPotDoublePercentage(Farmer who)
         {
-            if (Utilities.GetLevel(who, true) >=4)
+            if (Utilities.GetLevel(who, true) >=8)
             {
                 return 0.25;
             } else

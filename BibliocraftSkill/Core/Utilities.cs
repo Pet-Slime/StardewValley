@@ -12,7 +12,7 @@ namespace BibliocraftSkill
 
         public static void AddEXP(StardewValley.Farmer who, int amount)
         {
-            SpaceCore.Skills.AddExperience(Game1.GetPlayer(who.UniqueMultiplayerID), "moonslime.Biblocraft", amount);
+            SpaceCore.Skills.AddExperience(Game1.GetPlayer(who.UniqueMultiplayerID), "moonslime.Bibliocraft", amount);
         }
 
         public static int GetLevel(StardewValley.Farmer who, bool baseLevelOnly = false)
@@ -20,10 +20,10 @@ namespace BibliocraftSkill
             var player = Game1.GetPlayer(who.UniqueMultiplayerID);
             if (baseLevelOnly)
             {
-                return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Biblocraft");
+                return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Bibliocraft");
             } else
             {
-                return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Biblocraft") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Biblocraft");
+                return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Bibliocraft") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Bibliocraft");
             }
 
         }
