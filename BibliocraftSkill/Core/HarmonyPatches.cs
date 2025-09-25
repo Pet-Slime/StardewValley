@@ -497,7 +497,7 @@ namespace BibliocraftSkill
                         friendship.GiftsToday++;
                         friendship.GiftsThisWeek++;
                         friendship.LastGiftDate = new WorldDate(Game1.Date);
-                        friendship.Points += 500;
+                        friendship.Points += 65;
 
                         farmer.removeFirstOfThisItemFromInventory(heldItem.ItemId);
                         Game1.drawObjectDialogue(ModEntry.Instance.I18N.Get("moonslime.Bibliocraft.sent_mail") + $" {NPC.displayName}");
