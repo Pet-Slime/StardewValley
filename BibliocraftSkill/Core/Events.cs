@@ -33,16 +33,16 @@ namespace BibliocraftSkill.Core
             SpaceCore.Skills.RegisterSkill(new Book_Skill());
 
 
-            foreach (string SkillID in Skills.GetSkillList()) {
-
-                Skill test = GetSkill(SkillID);
-                foreach (Skills.Skill.Profession prof in test.Professions)
-                {
-                    Log.Alert($"Profession name is: {prof.Id}");
-                    Log.Alert($"Profession number is: {prof.GetVanillaId()}");
-                }
-
-            }
+//            foreach (string SkillID in Skills.GetSkillList()) {
+//
+//                Skill test = GetSkill(SkillID);
+//                foreach (Skills.Skill.Profession prof in test.Professions)
+//                {
+//                    Log.Alert($"Profession name is: {prof.Id}");
+//                    Log.Alert($"Profession number is: {prof.GetVanillaId()}");
+//                }
+//
+//            }
 
         }
 

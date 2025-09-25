@@ -442,14 +442,14 @@
                                 {
                                     "Id": "Paper",
                                     "ItemId": "(O)moonslime.Bibliocraft.paper",
-                                    "MinStack": 1,
-                                    "MaxStack": 3,
+                                    "MinStack": 50,
+                                    "MaxStack": 150,
                                     "CustomData": {
-                                        "selph.ExtraMachineConfig.AutomaticProduceCount": "50"
+                                        "selph.ExtraMachineConfig.AutomaticProduceCount": "3"
                                     }
                                 }
                             ],
-                            "MinutesUntilReady": 300
+                            "MinutesUntilReady": 1250
                         },
                         {
                             "Id": "Hardwood_Pulp_Insert",
@@ -469,14 +469,14 @@
                                 {
                                     "Id": "Bookcover",
                                     "ItemId": "(O)moonslime.Bibliocraft.book_cover",
-                                    "MinStack": 1,
-                                    "MaxStack": 3,
+                                    "MinStack": 10,
+                                    "MaxStack": 20,
                                     "CustomData": {
-                                        "selph.ExtraMachineConfig.AutomaticProduceCount": "50"
+                                        "selph.ExtraMachineConfig.AutomaticProduceCount": "3"
                                     }
                                 }
                             ],
-                            "MinutesUntilReady": 150
+                            "MinutesUntilReady": 1250
                         }
                     ],
                     "AdditionalConsumedItems": [
