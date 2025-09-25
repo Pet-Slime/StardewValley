@@ -428,14 +428,14 @@
                             "Id": "Wood_Pulp_Insert",
                             "Triggers": [
                                 {
-                                    "Id": "OutputCollected",
+                                    "Id": "OutputCollected1",
                                     "Trigger": "OutputCollected"
                                 },
                                 {
-                                    "Id": "ItemPlacedInMachine",
+                                    "Id": "ItemPlacedInMachine1",
                                     "Trigger": "ItemPlacedInMachine",
                                     "RequiredItemId": "(O)moonslime.Bibliocraft.woodpulp",
-                                    "RequiredCount": 999
+                                    "RequiredCount": 500
                                 }
                             ],
                             "OutputItem": [
@@ -445,7 +445,7 @@
                                     "MinStack": 1,
                                     "MaxStack": 3,
                                     "CustomData": {
-                                        "selph.ExtraMachineConfig.AutomaticProduceCount": "100"
+                                        "selph.ExtraMachineConfig.AutomaticProduceCount": "50"
                                     }
                                 }
                             ],
@@ -455,14 +455,14 @@
                             "Id": "Hardwood_Pulp_Insert",
                             "Triggers": [
                                 {
-                                    "Id": "OutputCollected",
+                                    "Id": "OutputCollected2",
                                     "Trigger": "OutputCollected"
                                 },
                                 {
-                                    "Id": "ItemPlacedInMachine",
+                                    "Id": "ItemPlacedInMachine2",
                                     "Trigger": "ItemPlacedInMachine",
                                     "RequiredItemId": "(O)moonslime.Bibliocraft.hardwoodpulp",
-                                    "RequiredCount": 999
+                                    "RequiredCount": 500
                                 }
                             ],
                             "OutputItem": [
@@ -472,11 +472,11 @@
                                     "MinStack": 1,
                                     "MaxStack": 3,
                                     "CustomData": {
-                                        "selph.ExtraMachineConfig.AutomaticProduceCount": "100"
+                                        "selph.ExtraMachineConfig.AutomaticProduceCount": "50"
                                     }
                                 }
                             ],
-                            "MinutesUntilReady": 300
+                            "MinutesUntilReady": 150
                         }
                     ],
                     "AdditionalConsumedItems": [

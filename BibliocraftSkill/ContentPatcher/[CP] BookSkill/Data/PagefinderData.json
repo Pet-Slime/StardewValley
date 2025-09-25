@@ -51,7 +51,7 @@
         {
             "Action": "EditData",
             "Target": "Data/Machines",
-            "TargetField": [ "(BC)moonslime.BibliocraftSkill.Paper_Press", "OutputRules", "Wood_Pulp_Insert", "OutputItem", "Default" ],
+            "TargetField": [ "(BC)moonslime.BibliocraftSkill.Paper_Press", "OutputRules", "Wood_Pulp_Insert", "OutputItem", "Paper" ],
             "Entries": {
                 "MinStack": "2",
                 "MaxStack": "6"
@@ -63,7 +63,7 @@
         {
             "Action": "EditData",
             "Target": "Data/Machines",
-            "TargetField": [ "(BC)moonslime.BibliocraftSkill.Paper_Press", "OutputRules", "Hardwood_Pulp_Insert", "OutputItem", "Default" ],
+            "TargetField": [ "(BC)moonslime.BibliocraftSkill.Paper_Press", "OutputRules", "Hardwood_Pulp_Insert", "OutputItem", "Bookcover" ],
             "Entries": {
                 "MinStack": "2",
                 "MaxStack": "6"

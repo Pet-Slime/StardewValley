@@ -49,7 +49,7 @@
             "Target": "Data/Machines",
             "TargetField": [ "(BC)moonslime.BibliocraftSkill.Paper_Press", "OutputRules", "Wood_Pulp_Insert" ],
             "Entries": {
-                "MinutesUntilReady": 150
+                "MinutesUntilReady": 75
             },
             "When": {
                 "HasProfession": "{{TypeSetter}}"
@@ -60,7 +60,7 @@
             "Target": "Data/Machines",
             "TargetField": [ "(BC)moonslime.BibliocraftSkill.Paper_Press", "OutputRules", "Hardwood_Pulp_Insert" ],
             "Entries": {
-                "MinutesUntilReady": 150
+                "MinutesUntilReady": 75
             },
             "When": {
                 "HasProfession": "{{TypeSetter}}"
