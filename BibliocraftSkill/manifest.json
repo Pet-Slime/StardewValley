@@ -11,6 +11,11 @@
     ],
     "Dependencies": [
         {
+            "UniqueID": "leclair.bettercrafting",
+            "MinimumVersion": "2.18.0",
+            "IsRequired": true
+        },
+        {
             "UniqueID": "drbirbdev.BirbCore"
         },
         {

@@ -1,9 +1,19 @@
 ﻿{
     "Format": "2.4.0",
+    "DynamicTokens": [
+        {
+            "Name": "TypeSetter",
+            "Value": "-211368981"
+        },
+        {
+            "Name": "Pagefinder",
+            "Value": "-373316868"
+        }
+    ],
     "Changes": [
         {
             "Action": "Include",
-            "FromFile": "Data/ObjectsData.json, Data/MillData.json, Data/MachinesData.json"
+            "FromFile": "Data/ObjectsData.json, Data/MillData.json, Data/MachinesData.json, Data/CraftingData.json, Data/StationData.json,, Data/PagefinderData.json, Data/TypeSetterData.json"
         }
     ]
 }

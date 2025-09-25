@@ -4,7 +4,16 @@
             "Action": "EditData",
             "Target": "Data/CraftingRecipes",
             "Entries": {
+                "moonslime.BibliocraftSkill.Letterpress_Workstation": "388 20//moonslime.BibliocraftSkill.Letterpress_Workstation/true/moonslime.Bibliocraft 1",
+                "moonslime.BibliocraftSkill.Letterpress_Inking_Station": "388 15 335 5//moonslime.BibliocraftSkill.Letterpress_Inking_Station/true/moonslime.Bibliocraft 1",
+                "moonslime.BibliocraftSkill.Paper_Press": "388 15 335 5//moonslime.BibliocraftSkill.Paper_Press/true/moonslime.Bibliocraft 2",
+                "moonslime.BibliocraftSkill.Pen_Pal_Desk": "388 20 444 1//moonslime.BibliocraftSkill.Pen_Pal_Desk/true/moonslime.Bibliocraft 3",
+                "moonslime.BibliocraftSkill.Printing_Press": "388 15 335 5//moonslime.BibliocraftSkill.Printing_Press/true/moonslime.Bibliocraft 6",
+                "moonslime.BibliocraftSkill.Binding_station": "388 15 335 1 428 2//moonslime.BibliocraftSkill.Binding_station/true/moonslime.Bibliocraft 6",
+                "moonslime.BibliocraftSkill.Book_Restoration": "388 15 428 1 444 1//moonslime.BibliocraftSkill.Book_Restoration/true/moonslime.Bibliocraft 7",
+                "moonslime.BibliocraftSkill.Book_Donations": "388 15 335 1//moonslime.BibliocraftSkill.Book_Donations/true/moonslime.Bibliocraft 9",
 
+                "moonslime.Bibliocraft.letter_robin": "388 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_robin/false/default/"
             }
         },
         {

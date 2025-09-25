@@ -1,0 +1,70 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/Machines",
+            "TargetField": [ "(BC)moonslime.BibliocraftSkill.Letterpress_Workstation", "OutputRules", "Making_a_Letterpress" ],
+            "Entries": {
+                "MinutesUntilReady": 300
+            },
+            "When": {
+                "HasProfession": "{{TypeSetter}}"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Machines",
+            "TargetField": [ "(BC)moonslime.BibliocraftSkill.Letterpress_Inking_Station", "OutputRules", "Inking_a_Letterpress" ],
+            "Entries": {
+                "MinutesUntilReady": 300
+            },
+            "When": {
+                "HasProfession": "{{TypeSetter}}"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Machines",
+            "TargetField": [ "(BC)moonslime.BibliocraftSkill.Printing_Press", "OutputRules", "Printing_Pages" ],
+            "Entries": {
+                "MinutesUntilReady": 300
+            },
+            "When": {
+                "HasProfession": "{{TypeSetter}}"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Machines",
+            "TargetField": [ "(BC)moonslime.BibliocraftSkill.Binding_station", "OutputRules", "Binding_Book" ],
+            "Entries": {
+                "MinutesUntilReady": 300
+            },
+            "When": {
+                "HasProfession": "{{TypeSetter}}"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Machines",
+            "TargetField": [ "(BC)moonslime.BibliocraftSkill.Paper_Press", "OutputRules", "Wood_Pulp_Insert" ],
+            "Entries": {
+                "MinutesUntilReady": 150
+            },
+            "When": {
+                "HasProfession": "{{TypeSetter}}"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Machines",
+            "TargetField": [ "(BC)moonslime.BibliocraftSkill.Paper_Press", "OutputRules", "Hardwood_Pulp_Insert" ],
+            "Entries": {
+                "MinutesUntilReady": 150
+            },
+            "When": {
+                "HasProfession": "{{TypeSetter}}"
+            }
+        }
+    ]
+}

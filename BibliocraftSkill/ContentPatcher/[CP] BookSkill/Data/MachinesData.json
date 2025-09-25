@@ -45,8 +45,8 @@
                                     "ItemId": "(O)moonslime.Bibliocraft.letterpress",
                                     "RandomItemId": null,
                                     "MaxItems": null,
-                                    "MinStack": -1,
-                                    "MaxStack": -1,
+                                    "MinStack": 1,
+                                    "MaxStack": 1,
                                     "Quality": -1,
                                     "ObjectInternalName": "(O)moonslime.Bibliocraft.letterpress_{0}",
                                     "ObjectDisplayName": "[LocalizedText Strings/Objects:{{ModId}}_Flavor %PRESERVED_DISPLAY_NAME %DISPLAY_NAME]",
@@ -60,7 +60,7 @@
                                     "PerItemCondition": null
                                 }
                             ],
-                            "MinutesUntilReady": 10
+                            "MinutesUntilReady": 600
                         }
                     ],
                     "AdditionalConsumedItems": [
@@ -154,11 +154,8 @@
                                     "Condition": null,
                                     "Id": "Default",
                                     "ItemId": "(O)moonslime.Bibliocraft.letterpress_inked",
-                                    "RandomItemId": null,
-                                    "MaxItems": null,
-                                    "MinStack": -1,
-                                    "MaxStack": -1,
-                                    "Quality": -1,
+                                    "MinStack": 1,
+                                    "MaxStack": 1,
                                     "ObjectInternalName": "(O)moonslime.Bibliocraft.letterpress_inked_{0}",
                                     "ObjectDisplayName": "[LocalizedText Strings/Objects:{{ModId}}_Flavor %PRESERVED_DISPLAY_NAME %DISPLAY_NAME]",
                                     "ToolUpgradeLevel": -1,
@@ -171,7 +168,7 @@
                                     "PerItemCondition": null
                                 }
                             ],
-                            "MinutesUntilReady": 10
+                            "MinutesUntilReady": 600
                         }
                     ],
                     "AdditionalConsumedItems": [
@@ -268,7 +265,7 @@
                                     "ObjectDisplayName": "[LocalizedText Strings/Objects:{{ModId}}_Flavor %PRESERVED_DISPLAY_NAME %DISPLAY_NAME]"
                                 }
                             ],
-                            "MinutesUntilReady": 10
+                            "MinutesUntilReady": 600
                         }
                     ],
                     "AdditionalConsumedItems": [
@@ -352,7 +349,7 @@
                                     "CopyQuality": true
                                 }
                             ],
-                            "MinutesUntilReady": 10,
+                            "MinutesUntilReady": 600,
                             "DaysUntilReady": -1,
                             "InvalidCountMessage": null,
                             "RecalculateOnCollect": false
@@ -452,7 +449,7 @@
                                     }
                                 }
                             ],
-                            "MinutesUntilReady": 10
+                            "MinutesUntilReady": 300
                         },
                         {
                             "Id": "Hardwood_Pulp_Insert",
@@ -479,7 +476,7 @@
                                     }
                                 }
                             ],
-                            "MinutesUntilReady": 10
+                            "MinutesUntilReady": 300
                         }
                     ],
                     "AdditionalConsumedItems": [
@@ -514,9 +511,15 @@
                     ]
                 },
                 "(BC)moonslime.BibliocraftSkill.Book_Restoration": {
+                    "CustomFields": {
+                        "selph.ExtraMachineConfig.IsCustomCask": "true",
+                        "selph.ExtraMachineConfig.CaskWorksAnywhere": "true",
+                        "selph.ExtraMachineConfig.CaskStarLocationX": "3",
+                        "selph.ExtraMachineConfig.CaskStarLocationY": "13"
+                    },
                     "OutputRules": [
                         {
-                            "Id": "fossil_item",
+                            "Id": "rebind_book",
                             "Triggers": [
                                 {
                                     "Id": "ItemPlacedInMachine",
@@ -525,19 +528,18 @@
                                     "RequiredTags": [
                                         "book_item"
                                     ],
-                                    "RequiredCount": 1,
-                                    "Condition": null
+                                    "RequiredCount": 1
                                 }
                             ],
                             "UseFirstValidOutput": false,
                             "OutputItem": [
                                 {
                                     "CustomData": {
-                                        "selph.ExtraMachineConfig.IsCustomCask": "true",
-                                        "selph.ExtraMachineConfig.CaskWorksAnywhere": "true",
-                                        "selph.ExtraMachineConfig.CaskStarLocationX": "0",
-                                        "selph.ExtraMachineConfig.CaskStarLocationY": "0",
-                                        "AgingMultiplier": "1"
+                                        "selph.ExtraMachineConfig.RequirementId.1": "(O)771",
+                                        "selph.ExtraMachineConfig.RequirementCount.1": "8",
+                                        "selph.ExtraMachineConfig.RequirementId.2": "(O)moonslime.Bibliocraft.book_cover",
+                                        "selph.ExtraMachineConfig.RequirementCount.2": "2",
+                                        "AgingMultiplier": "10"
                                     },
                                     "OutputMethod": "StardewValley.Objects.Cask, Stardew Valley: OutputCask",
                                     "CopyColor": false,
@@ -583,7 +585,7 @@
                         }
                     ],
                     "WobbleWhileWorking": true,
-                    "ShowNextIndexWhileWorking": false,
+                    "ShowNextIndexWhileWorking": true,
                     "ShowNextIndexWhenReady": false,
                     "LoadEffects": [
                         {

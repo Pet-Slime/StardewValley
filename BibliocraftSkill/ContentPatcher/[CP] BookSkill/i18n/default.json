@@ -5,6 +5,9 @@
     "moonslime.BibliocraftSkill.Letterpress_Workstation.description": "A station that you can turn a book into a letter press.",
     "moonslime.BibliocraftSkill.Letterpress_Workstation.need_item": "Copper bar is needed.",
 
+    "moonslime.BibliocraftSkill.Pen_Pal_Desk.name": "Pen Pal Writing Desk",
+    "moonslime.BibliocraftSkill.Pen_Pal_Desk.description": "A desk that lets you write letters to fellow villagers",
+
     "moonslime.BibliocraftSkill.Letterpress_Inking_Station.name": "Letterpress Inkstation",
     "moonslime.BibliocraftSkill.Letterpress_Inking_Station.description": "A station to ink letterpresses.",
     "moonslime.BibliocraftSkill.Letterpress_Inking_Station.need_item": "Squid Ink is needed.",
@@ -52,7 +55,10 @@
     "moonslime.Bibliocraft.potato_chips.description": "Potatoes cut thinly and then fried in oil. A good snack while reading, just make sure to get no grease on the books!",
 
     "moonslime.Bibliocraft.ginger_tea.name": "Ginger Tea",
-    "moonslime.Bibliocraft.ginger_tea.description": "Tea made with ginger. A good drink to have on a cold winter day whipe wrapped in a blanket."
+    "moonslime.Bibliocraft.ginger_tea.description": "Tea made with ginger. A good drink to have on a cold winter day whipe wrapped in a blanket.",
+
+    "moonslime.Bibliocraft.letter_robin.name": "Written Letter: To Robin",
+    "moonslime.Bibliocraft.letter_robin.description": "A letter you wrote to Robin!"
 
 
 

@@ -26,6 +26,10 @@ using StardewValley.Internal;
 using StardewValley.Tools;
 using MoonShared.Patching;
 using System.Reflection.Emit;
+using StardewValley.Locations;
+using StardewValley.GameData.Characters;
+using xTile.Layers;
+using System.Reflection;
 
 namespace BibliocraftSkill
 {
@@ -43,7 +47,6 @@ namespace BibliocraftSkill
         public static KeyedProfession Prof_BookSeller => Book_Skill.Book10b2;
 
 
-
         [HarmonyLib.HarmonyPostfix]
         public static void Postfix(Object __instance, ref GameLocation location)
         {
@@ -52,7 +55,7 @@ namespace BibliocraftSkill
             int playerBookLevel = Utilities.GetLevel(who);
             string itemID = __instance.ItemId;
 
-            Utilities.AddEXP(who, 50);
+            Utilities.AddEXP(who, ModEntry.Config.ExperienceFromReading);
 
 
             // If the player went down the bookworm profession path,
@@ -60,7 +63,7 @@ namespace BibliocraftSkill
             {
 
                 // Define constants for attribute types and max values
-                const int NumAttributes = 10;
+                const int NumAttributes = 16;
                 const int MaxAttributeValue = 5;
                 const int MaxStaminaMultiplier = 16;
                 const int BuffDurationMultiplier = (6000 * 10);
@@ -97,7 +100,13 @@ namespace BibliocraftSkill
                         MagneticRadius = { 0 },
                         Defense = { 0 },
                         Attack = { 0 },
-                        Speed = { 0 }
+                        Speed = { 0 },
+                        AttackMultiplier = { 0 },
+                        Immunity = { 0 },
+                        KnockbackMultiplier = { 0 },
+                        WeaponSpeedMultiplier = { 0 },
+                        CriticalChanceMultiplier = { 0 },
+                        CriticalPowerMultiplier = { 0 }
                     };
 
 
@@ -114,6 +123,12 @@ namespace BibliocraftSkill
                         case 8: randomEffect.Defense.Value = attributeLevel; break;
                         case 9: randomEffect.Attack.Value = attributeLevel; break;
                         case 10: randomEffect.Speed.Value = attributeLevel; break;
+                        case 11: randomEffect.AttackMultiplier.Value = attributeLevel; break;
+                        case 12: randomEffect.Immunity.Value = attributeLevel; break;
+                        case 13: randomEffect.KnockbackMultiplier.Value = attributeLevel; break;
+                        case 14: randomEffect.WeaponSpeedMultiplier.Value = attributeLevel; break;
+                        case 15: randomEffect.CriticalChanceMultiplier.Value = attributeLevel; break;
+                        case 16: randomEffect.CriticalPowerMultiplier.Value = attributeLevel; break;
                     }
 
                     //Apply the effects to the buff
@@ -128,10 +143,10 @@ namespace BibliocraftSkill
                 {
                     // use the explode feature!
                     location.explode(who.Tile, //location
-                        (int)(playerBookLevel * 0.5), // radius
+                        (int)(playerBookLevel * 0.2), // radius
                         who, // who did the explosion
                         false, // it does not damage players
-                        Game1.random.Choose(26, 27, 28, 29, 30, 31, 32, 33, 34), // the damage it deals
+                        Game1.random.Choose(34, 35, 36, 37, 38, 39, 40, 41, 42), // the damage it deals
                         true); // It does not destroy objects
 
                     location.playSound("wind");
@@ -140,7 +155,7 @@ namespace BibliocraftSkill
                 if (who.HasCustomProfession(Prof_SeasonedReader))
                 {
                     //get a list of the tiles affected
-                    List<Vector2> list = TilesAffected(who.Tile, (int)(playerBookLevel * 0.3), who);
+                    List<Vector2> list = TilesAffected(who.Tile, (int)(playerBookLevel * 0.2), who);
 
                     // check each tile for the crops
                     foreach (var entry in location.terrainFeatures.Pairs.ToList())
@@ -454,4 +469,112 @@ namespace BibliocraftSkill
         }
     }
 
+    //Goal is to let the player send letters through the mail!
+    [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.mailbox))]
+    class Mailbox_patch
+    {
+        [HarmonyLib.HarmonyPrefix]
+        public static bool Prefix(GameLocation __instance)
+        {
+            if (Game1.mailbox.Count == 0)
+            {
+                Farmer farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+                var heldItem = farmer.ActiveItem;
+                if (heldItem != null && heldItem.HasContextTag("moonslime.Bibliocraft.mail"))
+                {
+                    NPC NPC = Game1.getCharacterFromName(heldItem.Name, true, false);
+
+                    if (NPC != null && //Make sure the NPC is not Null
+                    NPC.CanReceiveGifts() &&
+                    //Make sure the player has friendship data with them
+                    farmer.friendshipData.ContainsKey(NPC.Name) &&
+                    //Check to make sure the player has not given them two gifts this week
+                    farmer.friendshipData[NPC.Name].GiftsThisWeek < 2 &&
+                    //Check to make sure the player has not given them a gift today
+                    farmer.friendshipData[NPC.Name].GiftsToday < 1)
+                    {
+                        Friendship friendship = farmer.friendshipData[NPC.Name];
+                        friendship.GiftsToday++;
+                        friendship.GiftsThisWeek++;
+                        friendship.LastGiftDate = new WorldDate(Game1.Date);
+                        friendship.Points += 500;
+
+                        farmer.removeFirstOfThisItemFromInventory(heldItem.ItemId);
+                        Game1.drawObjectDialogue(ModEntry.Instance.I18N.Get("moonslime.Bibliocraft.sent_mail") + $" {NPC.displayName}");
+
+                        Utilities.AddEXP(farmer, ModEntry.Config.ExperienceFromMailing);
+
+                        //don't run normal mailbox code
+                        return false;
+                    } else
+                    {
+                        Game1.drawObjectDialogue(ModEntry.Instance.I18N.Get("moonslime.Bibliocraft.can_not_sent_mail"));
+                        return false;
+                    }
+
+                }
+            }
+            return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(StardewValley.Object), "getPriceAfterMultipliers")]
+    class GetPriceAfterMultipliers_Patch
+    {
+
+        [HarmonyLib.HarmonyPostfix]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
+        private static void IncereaseCosts(
+        StardewValley.Object __instance, ref float __result, float startPrice, long specificPlayerID)
+        {
+            //Set the sale multiplier to 1
+            float saleMultiplier = 1f;
+            try
+            {
+                //For each farmer....
+                foreach (var farmer in Game1.getAllFarmers())
+                {
+                    // If they use seperate wallets, get the seperate wallet
+                    if (Game1.player.useSeparateWallets)
+                    {
+                        if (specificPlayerID == -1)
+                        {
+                            if (farmer.UniqueMultiplayerID != Game1.player.UniqueMultiplayerID || !farmer.isActive())
+                            {
+                                continue;
+                            }
+                        }
+                        else if (farmer.UniqueMultiplayerID != specificPlayerID)
+                        {
+                            continue;
+                        }
+                    }
+                    else if (!farmer.isActive())
+                    {
+                        continue;
+                    }
+                    // Look to see if the item has the context tag
+                    if (__instance.HasContextTag("book_item"))
+                    {
+                        // If they have the right profession, increase the selling multipler by 1
+                        if (farmer.HasCustomProfession(Book_Skill.Book10b2))
+                        {
+                            saleMultiplier += 1f;
+                        }
+                    }
+                    
+                    if (Utilities.GetLevel(farmer, true) >= 8 && farmer.stats.Get("Book_Artifact") != 0 && __instance.Type != null && __instance.Type.Equals("Arch"))
+                    {
+                        saleMultiplier += 1f;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                BirbCore.Attributes.Log.Error($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
+            }
+            //Take the result, and then multiply it by the sales multiplier, along with the config to control display pricing
+            __result *= saleMultiplier;
+        }
+    }
 }

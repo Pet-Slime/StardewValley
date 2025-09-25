@@ -18,7 +18,8 @@ using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.Quests;
 using StardewValley.TerrainFeatures;
-using BibliocraftSkill.Objects.Book_Restoration_Table;
+using StardewValley.Constants;
+using static SpaceCore.Skills;
 
 namespace BibliocraftSkill.Core
 {
@@ -28,14 +29,27 @@ namespace BibliocraftSkill.Core
         [SEvent.GameLaunchedLate]
         private static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
-         //   var sc = ModEntry.Instance.Helper.ModRegistry.GetApi<ISpaceCoreApi>("spacechase0.SpaceCore");
-         //   sc.RegisterSerializerType(typeof(BookRestorationTable));
-         //   BibliocraftSkill.Objects.Book_Restoration_Table.Patches.Patch(ModEntry.Instance.Helper);
-
             Log.Trace("Bibliocraft: Trying to Register skill.");
             SpaceCore.Skills.RegisterSkill(new Book_Skill());
 
 
+            foreach (string SkillID in Skills.GetSkillList()) {
+
+                Skill test = GetSkill(SkillID);
+                foreach (Skills.Skill.Profession prof in test.Professions)
+                {
+                    Log.Alert($"Profession name is: {prof.Id}");
+                    Log.Alert($"Profession number is: {prof.GetVanillaId()}");
+                }
+
+            }
+
+        }
+
+        [SEvent.StatChanged("moonslime.BibliocraftSkill.Machines")]
+        private void StatChanged_BookMachinesCheck(object sender, SEvent.StatChanged.EventArgs e)
+        {
+            Utilities.AddEXP(Game1.player, ModEntry.Config.ExperienceFromBookMachines);
         }
     }
 }
