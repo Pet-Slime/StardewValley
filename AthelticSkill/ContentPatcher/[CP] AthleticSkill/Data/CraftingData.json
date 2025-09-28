@@ -4,11 +4,11 @@
             "Action": "EditData",
             "Target": "Data/CraftingRecipes",
             "Entries": {
-                "Warp Totem: Farm": "688 1 709 1 340 1 771 10/Field/688 2/false/moonslime.Athletic 2/",
-                "Warp Totem: Mountain": "689 1 709 1 335 1 390 10/Field/689 2/false/moonslime.Athletic 3/",
-                "Warp Totem: Beach": "690 1 709 1 393 1 771 5/Field/690 2/false/moonslime.Athletic 4/",
-                "Warp Totem: Desert": "261 1 709 1 88 1 386 2/Field/261 2/false/moonslime.Athletic 7/",
-                "Warp Totem: Island": "886 1 709 3 829 1/Field/886 2/false/moonslime.Athletic 8/"
+                "moonslime.Athletic.warp_totem:_farm": "688 1 709 1 340 1 771 10/Field/688 2/false/moonslime.Athletic 2/",
+                "moonslime.Athletic.warp_totem:_mountain": "689 1 709 1 335 1 390 10/Field/689 2/false/moonslime.Athletic 3/",
+                "moonslime.Athletic.warp_totem:_beach": "690 1 709 1 393 1 771 5/Field/690 2/false/moonslime.Athletic 4/",
+                "moonslime.Athletic.warp_totem:_desert": "261 1 709 1 88 1 386 2/Field/261 2/false/moonslime.Athletic 7/",
+                "moonslime.Athletic.warp_totem:_island": "886 1 709 3 829 1/Field/886 2/false/moonslime.Athletic 8/"
             }
         },
         {
@@ -17,7 +17,7 @@
             "Entries": {
                 "moonslime.Athletic.egg_drink": "-5 3//moonslime.Athletic.egg_drink/moonslime.Athletic 1/",
                 "moonslime.Athletic.broccoli_and_cheese": "Broccoli 3 424 2//moonslime.Athletic.broccoli_and_cheese/moonslime.Athletic 6/",
-                "Muscle Remedy": "-5 1 -4 1 -75 1 638 3//351/moonslime.Athletic 9/"
+                "moonslime.Athletic.muscle_remedy": "-5 1 -4 1 -75 1 638 3//351/moonslime.Athletic 9/"
             }
         }
     ]
