@@ -58,7 +58,7 @@
                     "Description": "{{i18n:moonslime.Spooky.strobberies.description}}",
                     "Type": "Cooking",
                     "Category": -7,
-                    "Price": 500,
+                    "Price": 270,
                     "Texture": "Mods/moonslime.SpookySkill/Objects",
                     "SpriteIndex": 0,
                     "Edibility": 50,
@@ -110,7 +110,7 @@
                     "Price": 500,
                     "Texture": "Mods/moonslime.SpookySkill/Objects",
                     "SpriteIndex": 1,
-                    "Edibility": 50,
+                    "Edibility": 30,
                     "IsDrink": false,
                     "Buffs": [
                         {
@@ -118,7 +118,7 @@
                             "BuffId": null,
                             "IconTexture": null,
                             "IconSpriteIndex": 0,
-                            "Duration": 280,
+                            "Duration": 100,
                             "IsDebuff": false,
                             "GlowColor": null,
                             "CustomAttributes": {
@@ -156,10 +156,10 @@
                     "Description": "{{i18n:moonslime.Spooky.carrot_cake.description}}",
                     "Type": "Cooking",
                     "Category": -7,
-                    "Price": 500,
+                    "Price": 350,
                     "Texture": "Mods/moonslime.SpookySkill/Objects",
                     "SpriteIndex": 2,
-                    "Edibility": 50,
+                    "Edibility": 120,
                     "IsDrink": false,
                     "Buffs": [
                         {
