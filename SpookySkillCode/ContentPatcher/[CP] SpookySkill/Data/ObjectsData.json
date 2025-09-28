@@ -107,7 +107,7 @@
                     "Description": "{{i18n:moonslime.Spooky.candy_corn.description}}",
                     "Type": "Cooking",
                     "Category": -7,
-                    "Price": 500,
+                    "Price": 125,
                     "Texture": "Mods/moonslime.SpookySkill/Objects",
                     "SpriteIndex": 1,
                     "Edibility": 30,
