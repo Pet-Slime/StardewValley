@@ -34,11 +34,31 @@ using System.Reflection;
 namespace BibliocraftSkill
 {
 
+    [HarmonyPatch(typeof(StardewValley.Object), nameof(StardewValley.Object.performUseAction))]
+    class OpenGeode_Patch
+    {
+        [HarmonyPrefix]
+        private static void Prefix(StardewValley.Object __instance)
+        {
+            if (__instance.HasContextTag("book_item"))
+            {
+                var who = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+                if (__instance.HasContextTag("mt_vapius_book"))
+                {
+                    Utilities.AddEXP(who, ModEntry.Config.ExperienceFromVapiusReading);
+                } else
+                {
+                    Utilities.AddEXP(who, ModEntry.Config.ExperienceFromReading);
+                }
+            }
+        }
+
+    }
+
+
     [HarmonyPatch(typeof(Object), "readBook")]
     class ReadBookPostfix_patch
     {
-
-
         public static KeyedProfession Prof_BookWorm => Book_Skill.Book5a;
         public static KeyedProfession Prof_PageFinder => Book_Skill.Book5b;
         public static KeyedProfession Prof_PageMaster => Book_Skill.Book10a1;
@@ -54,8 +74,6 @@ namespace BibliocraftSkill
             var who = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
             int playerBookLevel = Utilities.GetLevel(who);
             string itemID = __instance.ItemId;
-
-            Utilities.AddEXP(who, ModEntry.Config.ExperienceFromReading);
 
 
             // If the player went down the bookworm profession path,

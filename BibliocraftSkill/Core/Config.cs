@@ -16,6 +16,10 @@ namespace BibliocraftSkill
 
 
         [SConfig.Option(0, 100, 5)]
+        public int ExperienceFromVapiusReading { get; set; } = 25;
+
+
+        [SConfig.Option(0, 100, 5)]
         public int ExperienceFromBookMachines { get; set; } = 15;
 
         [SConfig.Option(0, 100, 5)]

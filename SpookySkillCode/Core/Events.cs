@@ -4,6 +4,7 @@ using MoonShared;
 using SpaceCore;
 using SpaceCore.Interface;
 using SpookySkill.Objects;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Extensions;
@@ -126,7 +127,7 @@ namespace SpookySkill.Core
         [SEvent.ButtonReleased]
         private static void ButtonReleased(object sender, ButtonReleasedEventArgs e)
         {
-            if (e.Button != ModEntry.Config.Key_Cast || !Game1.player.IsLocalPlayer || Game1.eventUp)
+            if (e.Button != ModEntry.Config.Key_Cast || !Game1.player.IsLocalPlayer || Game1.eventUp || !Context.CanPlayerMove)
                 return;
 
             Farmer player = Game1.player;
