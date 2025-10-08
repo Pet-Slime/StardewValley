@@ -25,9 +25,9 @@ namespace AthleticSkill
         public int ExpFromSprinting{ get; set; } = 1;
 
         [SConfig.Option(1, 100, 1)]
-        public int ExpFromToolUse { get; set; } = 2;
+        public int ExpFromToolUse { get; set; } = 1;
 
         [SConfig.Option(1, 100, 1)]
-        public int ExpFromAxUse { get; set; } = 3;
+        public int ExpFromAxUse { get; set; } = 1;
     }
 }
