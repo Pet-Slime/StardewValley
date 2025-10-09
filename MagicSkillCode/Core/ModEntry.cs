@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using BirbCore.Attributes;
 using MagicSkillCode.API;
 using MagicSkillCode.Framework;
-using SpaceShared.APIs;
+using MoonShared.APIs;
 using StardewModdingAPI;
 using StardewValley;
 

@@ -47,5 +47,12 @@ namespace ManaBar
         {
             ModDataManager.SetMaxMana(player, Math.Max(0, newCap));
         }
+
+        /// <summary>Set's the player's mana to their current max.</summary>
+        /// <param name="player">The player to check.</param>
+        public static void SetManaToMax(this Farmer player)
+        {
+             ModDataManager.SetCurrentMana(player, player.GetMaxMana());
+        }
     }
 }

@@ -11,6 +11,7 @@ using System.Numerics;
 using System.Runtime.Intrinsics;
 using xTile.Layers;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
+using BirbCore.Attributes;
 
 namespace ManaBar
 {
@@ -52,7 +53,7 @@ namespace ManaBar
             set => manaFg = value;
         }
 
-        private IApi Api;
+        private IManaBarApi Api;
 
         /// <summary>Handles migrating legacy data for a save file.</summary>
         private LegacyDataMigrator LegacyDataMigrator;
@@ -72,7 +73,6 @@ namespace ManaBar
         public override void Entry(IModHelper helper)
         {
             Instance = this;
-            Log.Monitor = this.Monitor;
             Config = helper.ReadConfig<ModConfig>();
             this.LegacyDataMigrator = new(helper.Data, this.Monitor);
 

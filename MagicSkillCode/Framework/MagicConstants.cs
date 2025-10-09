@@ -13,6 +13,6 @@ namespace MagicSkillCode.Framework
         public static int LearnedMagicEventId { get; } = 90001;
 
         /// <summary>The number of mana points gained per magic level.</summary>
-        public static int ManaPointsPerLevel { get; } = 100;
+        public static int ManaPointsPerLevel { get; } = 5;
     }
 }

@@ -16,6 +16,9 @@ using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Network;
 using Log = BirbCore.Attributes.Log;
+using HarmonyLib;
+using MoonShared;
+
 
 namespace MagicSkillCode.Framework
 {
@@ -31,6 +34,8 @@ namespace MagicSkillCode.Framework
         private static IInputHelper InputHelper;
         private static bool CastPressed;
         private static float CarryoverManaRegen;
+        private static Toolbar? GetToolbar()
+    => Game1.onScreenMenus.OfType<Toolbar>().FirstOrDefault();
 
         /// <summary>The active effects, spells, or projectiles which should be updated or drawn.</summary>
         private static readonly IList<IActiveEffect> ActiveEffects = new List<IActiveEffect>();
@@ -46,6 +51,9 @@ namespace MagicSkillCode.Framework
         public static Magic_Skill Skill = new Magic_Skill();
         public static EventHandler<AnalyzeEventArgs> OnAnalyzeCast;
         public const string MsgCast = "spacechase0.Magic.Cast";
+
+        private static readonly Lazy<Func<Toolbar, List<ClickableComponent>>> ToolbarButtonsGetter = new(() => AccessTools.DeclaredField(typeof(Toolbar), "buttons").EmitInstanceGetter<Toolbar, List<ClickableComponent>>());
+
 
         /// <summary>Whether the current player learned magic.</summary>
         public static bool LearnedMagic => Game1.player?.eventsSeen?.Contains(MagicConstants.LearnedMagicEventId.ToString()) == true;
@@ -105,14 +113,13 @@ namespace MagicSkillCode.Framework
             SpellBook spellBook = player.GetSpellBook();
 
             // fix mana pool
+            int expectedPoints = magicLevel * MagicConstants.ManaPointsPerLevel + 100;
+            if (player.HasCustomProfession(Magic_Skill.Magic10b2))
             {
-                int expectedPoints = magicLevel * MagicConstants.ManaPointsPerLevel;
-                if (player.GetMaxMana() < expectedPoints)
-                {
-                    player.SetMaxMana(expectedPoints);
-                    player.AddMana(expectedPoints);
-                }
+                expectedPoints += 100;
             }
+            player.SetMaxMana(expectedPoints);
+            player.SetManaToMax();
 
             // fix spell bars
             if (spellBook.Prepared.Count < MagicConstants.SpellBarCount)
@@ -135,7 +142,7 @@ namespace MagicSkillCode.Framework
         *********/
         private static void OnNetworkCast(IncomingMessage msg)
         {
-            Farmer player = Game1.getFarmer(msg.FarmerID);
+            Farmer player = Game1.GetPlayer(msg.FarmerID);
             if (player == null)
                 return;
 
@@ -178,20 +185,32 @@ namespace MagicSkillCode.Framework
 
             SpriteBatch b = e.SpriteBatch;
 
-            Vector2 manaPos = new Vector2(20, Game1.uiViewport.Height - 56 * 4 - 20);
 
             bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Magic_Skill.Magic10a2);
 
             int spotYAffector = -1;
             if (hasFifthSpellSlot)
                 spotYAffector = 0;
+
+            var toolbar = GetToolbar();
+            if (toolbar is null)
+                return;
+
+            var buttons = ToolbarButtonsGetter.Value(toolbar);
+            int toolbarMinX = buttons.Select(b => b.bounds.X).Min();
+            int toolbarMaxX = buttons.Select(b => b.bounds.X).Max();
+            int toolbarMinY = buttons.Select(b => b.bounds.Y).Min();
+            Rectangle toolbarBounds = new(toolbarMinX, toolbarMinY, toolbarMaxX - toolbarMinX + 64, 64);
+            var viewportBounds = Game1.graphics.GraphicsDevice.Viewport.Bounds;
+            bool drawBarAboveToolbar = toolbarBounds.Center.Y >= viewportBounds.Center.Y;
+
             Point[] spots =
             {
-                new((int)manaPos.X + Magic.ManaBg.Width * 4 + 20 + 60 * 0, Game1.uiViewport.Height - 20 - 50 - 60 * ( 4 + spotYAffector )),
-                new((int)manaPos.X + Magic.ManaBg.Width * 4 + 20 + 60 * 0, Game1.uiViewport.Height - 20 - 50 - 60 * ( 3 + spotYAffector )),
-                new((int)manaPos.X + Magic.ManaBg.Width * 4 + 20 + 60 * 0, Game1.uiViewport.Height - 20 - 50 - 60 * ( 2 + spotYAffector )),
-                new((int)manaPos.X + Magic.ManaBg.Width * 4 + 20 + 60 * 0, Game1.uiViewport.Height - 20 - 50 - 60 * ( 1 + spotYAffector )),
-                new((int)manaPos.X + Magic.ManaBg.Width * 4 + 20 + 60 * 0, Game1.uiViewport.Height - 20 - 50 - 60 * ( 0 + spotYAffector ))
+                new((int)toolbarBounds.Center.X + 20 + 60 * ( 0 + spotYAffector ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
+                new((int)toolbarBounds.Center.X + 20 + 60 * ( 1 + spotYAffector ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
+                new((int)toolbarBounds.Center.X + 20 + 60 * ( 2 + spotYAffector ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
+                new((int)toolbarBounds.Center.X + 20 + 60 * ( 3 + spotYAffector ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
+                new((int)toolbarBounds.Center.X + 20 + 60 * ( 4 + spotYAffector ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24)
             };
 
             // read spell info
@@ -204,13 +223,6 @@ namespace MagicSkillCode.Framework
             for (int i = 0; i < (hasFifthSpellSlot ? 5 : 4); ++i)
                 b.Draw(Magic.SpellBg, new Rectangle(spots[i].X, spots[i].Y, 50, 50), Color.White);
 
-            // render spell bar count
-            string prepStr = (spellBook.SelectedPrepared + 1) + "/" + spellBook.Prepared.Count;
-            b.DrawString(Game1.dialogueFont, prepStr, new Vector2(spots[Game1.down].X + 25 + 2, spots[Game1.up].Y - 35 + 0), Color.Black, 0, new Vector2(Game1.dialogueFont.MeasureString(prepStr).X / 2, 0), 0.6f, SpriteEffects.None, 0);
-            b.DrawString(Game1.dialogueFont, prepStr, new Vector2(spots[Game1.down].X + 25 - 2, spots[Game1.up].Y - 35 + 0), Color.Black, 0, new Vector2(Game1.dialogueFont.MeasureString(prepStr).X / 2, 0), 0.6f, SpriteEffects.None, 0);
-            b.DrawString(Game1.dialogueFont, prepStr, new Vector2(spots[Game1.down].X + 25 + 0, spots[Game1.up].Y - 35 + 2), Color.Black, 0, new Vector2(Game1.dialogueFont.MeasureString(prepStr).X / 2, 0), 0.6f, SpriteEffects.None, 0);
-            b.DrawString(Game1.dialogueFont, prepStr, new Vector2(spots[Game1.down].X + 25 + 0, spots[Game1.up].Y - 35 - 2), Color.Black, 0, new Vector2(Game1.dialogueFont.MeasureString(prepStr).X / 2, 0), 0.6f, SpriteEffects.None, 0);
-            b.DrawString(Game1.dialogueFont, prepStr, new Vector2(spots[Game1.down].X + 25, spots[Game1.up].Y - 35), Color.White, 0, new Vector2(Game1.dialogueFont.MeasureString(prepStr).X / 2, 0), 0.6f, SpriteEffects.None, 0);
 
             // render spell bar
             string hoveredText = null;

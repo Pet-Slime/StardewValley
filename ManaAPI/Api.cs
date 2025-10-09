@@ -7,16 +7,16 @@ using StardewValley;
 
 namespace ManaBar
 {
-    public interface IApi
+    public interface IManaBarApi
     {
         int GetMana(Farmer farmer);
         void AddMana(Farmer farmer, int amt);
-
         int GetMaxMana(Farmer farmer);
         void SetMaxMana(Farmer farmer, int newMaxMana);
+        void SetManaToMax(Farmer farmer);
     }
 
-    public class Api : IApi
+    public class Api : IManaBarApi
     {
         public const int BaseMaxMana = 100;
 
@@ -38,6 +38,11 @@ namespace ManaBar
         public void SetMaxMana(Farmer farmer, int newMaxMana)
         {
             farmer.SetMaxMana(newMaxMana);
+        }
+
+        public void SetManaToMax(Farmer farmer)
+        {
+            farmer.SetManaToMax();
         }
     }
 }

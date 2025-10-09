@@ -40,7 +40,7 @@ namespace MagicSkillCode.Framework.Spells
                 _ => 4
             };
 
-            player.currentLocation.sharedLights.Add(this.GetUnusedLightSourceId(player.currentLocation), new LightSource(1, Game1.player.position.Value, power));
+            player.currentLocation.sharedLights.Add(this.GetUnusedLightSourceId(player.currentLocation), new LightSource(this.GetUnusedLightSourceId(player.currentLocation), 1, Game1.player.position.Value, power));
             player.AddCustomSkillExperience(Magic.Skill, level);
 
             return null;
@@ -50,11 +50,11 @@ namespace MagicSkillCode.Framework.Spells
         /*********
         ** Private methods
         *********/
-        private int GetUnusedLightSourceId(GameLocation location)
+        private string GetUnusedLightSourceId(GameLocation location)
         {
             while (true)
             {
-                int id = (int)this.GetNewId();
+                string id = this.GetNewId().ToString();
                 if (!location.hasLightSource(id))
                     return id;
             }

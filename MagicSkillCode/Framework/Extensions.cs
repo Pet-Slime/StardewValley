@@ -30,6 +30,11 @@ namespace MagicSkillCode.Framework
             ModEntry.Mana.SetMaxMana(player, newCap);
         }
 
+        public static void SetManaToMax(this Farmer player)
+        {
+            ModEntry.Mana.SetManaToMax(player);
+        }
+
         /// <summary>Get a self-updating cached view of the player's magic metadata.</summary>
         public static SpellBook GetSpellBook(this Farmer player)
         {

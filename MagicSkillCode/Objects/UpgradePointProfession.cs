@@ -18,11 +18,15 @@ namespace MagicSkillCode.Objects
         public override void DoImmediateProfessionPerk()
         {
             Game1.player.GetSpellBook().UseSpellPoints(-2);
+            Game1.player.SetManaToMax();
+            base.DoImmediateProfessionPerk();
         }
 
         public override void UndoImmediateProfessionPerk()
         {
             Game1.player.GetSpellBook().UseSpellPoints(2);
+            Game1.player.SetManaToMax();
+            base.DoImmediateProfessionPerk();
         }
     }
 }
