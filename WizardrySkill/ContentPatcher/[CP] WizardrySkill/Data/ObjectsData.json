@@ -1,0 +1,84 @@
+﻿{
+    "Changes": [
+		{
+			"Action": "Load",
+			"Target": "Mods/moonslime.WizardrySkill/textures",
+			"FromFile": "Assets/sprites.png"
+		},
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "Entries": {
+                "moonslime.Wizardry.HudIcon": {
+                    "Name": "Placeholder Item",
+                    "DisplayName": "{{i18n:moonslime.Wizardry.placeholder_item.name}}",
+                    "Description": "{{i18n:moonslime.Wizardry.placeholder_item.description}}",
+                    "Type": "Basic",
+                    "Category": 0,
+                    "Price": 1,
+                    "Texture": "Mods/moonslime.WizardrySkill/textures",
+                    "SpriteIndex": 0,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "not_placeable",
+                    ],
+                    "CustomFields": null
+                },
+				"moonslime.Wizardry.Travel_Core": {
+                    "Name": "Placeholder Item",
+                    "DisplayName": "{{i18n:moonslime.Wizardry.Travel_Core.name}}",
+                    "Description": "{{i18n:moonslime.Wizardry.Travel_Core.description}}",
+                    "Type": "Basic",
+                    "Category": 2,
+                    "Price": 100,
+                    "Texture": "Mods/moonslime.WizardrySkill/textures",
+                    "SpriteIndex": 2,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                    ],
+                    "CustomFields": null
+                },
+				"moonslime.Wizardry.Magic_Elixir": {
+                    "Name": "Magic Elixir",
+                    "DisplayName": "{{i18n:moonslime.Wizardry.Magic_Elixir.name}}",
+                    "Description": "{{i18n:moonslime.Wizardry.Magic_Elixir.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 1000,
+                    "Texture": "Mods/moonslime.WizardrySkill/textures",
+                    "SpriteIndex": 1,
+                    "Edibility": 80,
+                    "IsDrink": true,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "not_placeable",
+					"moonslime.Wizardry.mana_potion"
+                    ],
+                    "CustomFields": null
+                }
+            }
+        }
+    ]
+}
