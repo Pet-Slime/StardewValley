@@ -33,7 +33,7 @@ namespace MagicSkillCode.Framework
         private static Texture2D ManaFg;
         private static IInputHelper InputHelper;
         private static bool CastPressed;
-        private static float CarryoverManaRegen;
+        private static double CarryoverManaRegen;
         private static Toolbar? GetToolbar()
     => Game1.onScreenMenus.OfType<Toolbar>().FirstOrDefault();
 
@@ -108,6 +108,8 @@ namespace MagicSkillCode.Framework
             if (!Magic.LearnedMagic && overrideMagicLevel is not > 0)
                 return;
 
+            Log.Alert("magic testers");
+
             // get magic info
             int magicLevel = overrideMagicLevel ?? player.GetCustomSkillLevel("moonslime.Magic");
             SpellBook spellBook = player.GetSpellBook();
@@ -120,6 +122,10 @@ namespace MagicSkillCode.Framework
             }
             player.SetMaxMana(expectedPoints);
             player.SetManaToMax();
+            if (((int)(player.Stamina)) != player.MaxStamina)
+            {
+                player.AddMana((int)(player.GetMaxMana()*-0.5));
+            }
 
             // fix spell bars
             if (spellBook.Prepared.Count < MagicConstants.SpellBarCount)
@@ -326,11 +332,12 @@ namespace MagicSkillCode.Framework
 
         private static void OnTimeChanged(object sender, TimeChangedEventArgs e)
         {
-            float manaRegen = (Game1.player.GetCustomSkillLevel(Magic.Skill) + 1) / 2 + Magic.CarryoverManaRegen; // start at +1 mana at level 1
+            int level = Game1.player.GetCustomSkillLevel(Magic.Skill);
+            double manaRegen = (level + 1) / 2 + Magic.CarryoverManaRegen; // start at +1 mana at level 1
             if (Game1.player.HasCustomProfession(Magic_Skill.Magic10b1))
-                manaRegen *= 3;
-            else if (Game1.player.HasCustomProfession(Magic_Skill.Magic5b))
-                manaRegen *= 2;
+                manaRegen += level * 0.5;
+            if (Game1.player.HasCustomProfession(Magic_Skill.Magic5b))
+                manaRegen += level * 1;
 
             Game1.player.AddMana((int)manaRegen);
             Magic.CarryoverManaRegen = manaRegen - (int)manaRegen;

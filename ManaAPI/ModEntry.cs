@@ -104,13 +104,13 @@ namespace ManaBar
         [EventPriority(EventPriority.Low)]
         public static void OnRenderedHud(object sender, RenderingHudEventArgs e)
         {
-
             // Skip if not applicable.
-            if (Game1.activeClickableMenu != null || Game1.eventUp)
+            if (Game1.activeClickableMenu != null || Game1.eventUp || !Context.IsPlayerFree)
                 return;
 
+            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
             // Begin rendering, if mana is available and rendering is enabled.
-            if (Game1.player.GetMaxMana() > 0 && Config.RenderManaBar)
+            if (player.GetMaxMana() > 0 && Config.RenderManaBar)
                 BeginDrawManaBar(e.SpriteBatch);
             SetBarsPosition();
         }
@@ -314,15 +314,17 @@ namespace ManaBar
 
         private static double GetManaRatio()
         {
-            double currentMana = Game1.player.GetCurrentMana() * 1.0;
-            double maxMana = Game1.player.GetMaxMana() * 1.0;
+            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+            double currentMana = player.GetCurrentMana() * 1.0;
+            double maxMana = player.GetMaxMana() * 1.0;
 
             return currentMana / maxMana;
         }
 
         private static double GetManaOvercharge()
         {
-            double maxMana = Game1.player.GetMaxMana();
+            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+            double maxMana = player.GetMaxMana();
             double overchargeValue = maxMana / ManaBar.Api.BaseMaxMana;
 
             // This will prevent bar to grow limitless and exceed monitor area.
@@ -331,12 +333,14 @@ namespace ManaBar
 
         private static void HandleAddManaCommand(string[] args)
         {
-            Game1.player.AddMana(int.Parse(args[0]));
+            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+            player.AddMana(int.Parse(args[0]));
         }
 
         private static void HandleSetMaxManaCommand(string[] args)
         {
-            Game1.player.SetMaxMana(int.Parse(args[0]));
+            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+            player.SetMaxMana(int.Parse(args[0]));
         }
 
         /// <inheritdoc cref="IGameLoopEvents.DayStarted"/>
@@ -344,14 +348,15 @@ namespace ManaBar
         /// <param name="e">The event arguments.</param>
         private static void OnDayStarted(object sender, DayStartedEventArgs e)
         {
+            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
             ///Give the player only half mana if they passed out from the night before
-            if (((int)(Game1.player.Stamina)) != Game1.player.MaxStamina)
+            if (((int)(player.Stamina)) != player.MaxStamina)
             {
-                int manaToRestore = (int)(Game1.player.GetMaxMana() * 0.5);
-                Game1.player.AddMana(manaToRestore);
+                int manaToRestore = (int)(player.GetMaxMana() * 0.5);
+                player.AddMana(manaToRestore);
             } else
             {
-                Game1.player.AddMana(Game1.player.GetMaxMana());
+                player.SetManaToMax();
             }
         }
 

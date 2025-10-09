@@ -63,8 +63,9 @@ namespace MagicSkillCode.Core
         [SEvent.DayStarted]
         private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
+            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
             // fix player's magic info if needed
-            Framework.Magic.FixMagicIfNeeded(Game1.player);
+            Framework.Magic.FixMagicIfNeeded(player);
         }
 
         [SEvent.Saving]

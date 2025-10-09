@@ -18,8 +18,8 @@
 
     // Skill info
     "skill.name": "Wizardry",
-    "skill.perk": "Higher chance for good events, lower chance of bad events.",
-    "skill.perk_bonus": "Higher chance for good events, lower chance of bad events.",
+    "skill.perk": "+{{bonus}} Mana",
+    "skill.perk_bonus": "+{{bonus}} Mana",
 
     "Magic5a.name": "Student",
     "Magic5a.desc": "+2 spell upgrade points",
@@ -32,7 +32,7 @@
     "Magic10b1.name": "Enchanter",
     "Magic10b1.desc": "+1 mana regen per level",
     "Magic10b2.name": "Sage",
-    "Magic10b2.desc": "+500 max mana",
+    "Magic10b2.desc": "+100 max mana",
 
 
     /*********
