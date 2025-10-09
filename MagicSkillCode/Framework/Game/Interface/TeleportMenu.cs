@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MagicSkillCode.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceCore;
@@ -81,7 +82,7 @@ namespace MagicSkillCode.Framework.Game.Interface
                 Game1.playSound("wand");
                 Game1.warpFarmer(this.WarpTo, (int)cloud.Tile.X, (int)cloud.Tile.Y, false);
                 Game1.player.Items.ReduceId("Travel_Core", 1);
-                Game1.player.AddCustomSkillExperience(Magic.Skill, 25);
+                Utilities.AddEXP(Game1.player, 25);
             }
 
             if (this.DragScroll)

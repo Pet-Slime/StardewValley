@@ -69,7 +69,7 @@ namespace MagicSkillCode.Framework.Spells
                         loc.temporarySprites.Add(new TemporaryAnimatedSprite(6, new Vector2(tileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.White, 8, Game1.random.NextDouble() < 0.5, Vector2.Distance(tile, target) * 30f));
                         loc.checkForBuriedItem(tileX, tileY, false, false, player);
                         player.AddMana(-3);
-                        player.AddCustomSkillExperience(Magic.Skill, 2);
+                        Utilities.AddEXP(player, 2);
                     }
                 }
             }

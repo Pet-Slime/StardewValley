@@ -79,7 +79,7 @@ namespace MagicSkillCode.Framework.Spells.Effects
                         {
                             // TODO: Use location damage method for xp and quest progress
                             mob.takeDamage((this.Level + 1) * 5 * (this.Player.CombatLevel + 1), 0, 0, false, 0, this.Player);
-                            this.Player.AddCustomSkillExperience(Magic.Skill, 3);
+                            Utilities.AddEXP(this.Player, 3);
                         }
                     }
                 }

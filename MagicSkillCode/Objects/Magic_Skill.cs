@@ -62,14 +62,15 @@ namespace MagicSkillCode.Objects
         {
             List<string> result = new()
             {
-                ModEntry.Instance.I18N.Get("skill.perk", new { bonus = 5 })
+                ModEntry.Instance.I18N.Get("skill.perk1", new { bonus = 5 }),
+                ModEntry.Instance.I18N.Get("skill.perk2", new { bonus = 1 })
             };
             return result;
         }
 
         public override string GetSkillPageHoverText(int level)
         {
-            return ModEntry.Instance.I18N.Get("skill.perk", new { bonus = 5 * level });
+            return ModEntry.Instance.I18N.Get("skill.perk_bonus1", new { bonus = 5 * level }) + "\n" + ModEntry.Instance.I18N.Get("skill.perk_bonus2", new { bonus = 1 * level });
         }
     }
 }

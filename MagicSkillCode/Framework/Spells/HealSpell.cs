@@ -32,7 +32,7 @@ namespace MagicSkillCode.Framework.Spells
                 player.health = player.maxHealth;
             player.currentLocation.debris.Add(new Debris(health, new Vector2(Game1.player.StandingPixel.X + 8, Game1.player.StandingPixel.Y), Color.Green, 1f, Game1.player));
             player.LocalSound("healSound");
-            player.AddCustomSkillExperience(Magic.Skill, health / 2);
+            Utilities.AddEXP(player, health / 2);
 
             return null;
         }

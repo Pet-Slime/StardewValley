@@ -1,0 +1,18 @@
+﻿{
+    "Name": "[CP] Magic Skill",
+    "Author": "moonslime",
+    "Version": "1.0.0",
+    "Description": "Magic Skill Content Patcher",
+    "UniqueID": "moonslime.MagicSkill.CP",
+    "ContentPackFor": {
+        "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    "UpdateKeys": [
+        "Nexus:-1"
+    ],
+    "Dependencies": [
+        {
+            "UniqueID": "moonslime.MagicSkill"
+        }
+    ]
+}

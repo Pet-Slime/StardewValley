@@ -1,4 +1,5 @@
 using System;
+using MagicSkillCode.Core;
 using MagicSkillCode.Framework.Spells;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -88,7 +89,7 @@ namespace MagicSkillCode.Framework.Game
 
             bool didDmg = loc.damageMonster(npc.GetBoundingBox(), this.Damage.Value, this.Damage.Value + 1, false, this.Source);
             if (this.Source != null && didDmg)
-                this.Source.AddCustomSkillExperience(Magic.Skill, this.Damage.Value / ((this.theOneWhoFiredMe.Get(loc) as Farmer).CombatLevel + 1));
+                Utilities.AddEXP(this.Source, this.Damage.Value / ((this.theOneWhoFiredMe.Get(loc) as Farmer).CombatLevel + 1));
             this.Disappear(loc);
         }
 

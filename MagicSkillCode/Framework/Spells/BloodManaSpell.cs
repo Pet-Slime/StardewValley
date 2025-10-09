@@ -42,11 +42,6 @@ namespace MagicSkillCode.Framework.Spells
             player.AddMana(mana);
             player.currentLocation.debris.Add(new Debris(mana, new Vector2(player.StandingPixel.X + 8, player.StandingPixel.Y), Color.Blue, 1f, player));
             player.LocalSound("powerup");
-            /*
-            player.AddCustomSkillExperience(Magic.Skill,-mana);
-            if (player.GetCustomSkillExperience(Magic.Skill) < 0)
-                player.AddCustomSkillExperience(Magic.Skill,-player.getMagicExp());
-            */
 
             return null;
         }

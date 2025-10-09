@@ -18,8 +18,10 @@
 
     // Skill info
     "skill.name": "Wizardry",
-    "skill.perk": "+{{bonus}} Mana",
-    "skill.perk_bonus": "+{{bonus}} Mana",
+    "skill.perk1": "+{{bonus}} Mana",
+    "skill.perk_bonus1": "+{{bonus}} Mana",
+    "skill.perk2": "+{{bonus}} Mana Regen",
+    "skill.perk_bonus2": "+{{bonus}} Mana Regen",
 
     "Magic5a.name": "Student",
     "Magic5a.desc": "+2 spell upgrade points",

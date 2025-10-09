@@ -7,6 +7,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="[CP] MagicSkill\**" />
+	  <EmbeddedResource Remove="[CP] MagicSkill\**" />
+	  <None Remove="[CP] MagicSkill\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	  <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" Version="2.0.0" />
 	</ItemGroup>
@@ -31,7 +37,6 @@
 	<ItemGroup>
 	  <Folder Include="assets\" />
 	  <Folder Include="i18n\" />
-	  <Folder Include="[CP] MagicSkill\" />
 	</ItemGroup>
 
 

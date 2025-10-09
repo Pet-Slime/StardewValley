@@ -49,7 +49,7 @@ namespace MagicSkillCode.Framework.Spells
                 }
             ));
 
-            player.AddCustomSkillExperience(Magic.Skill, 5);
+            Utilities.AddEXP(player, 5);
             return null;
         }
     }

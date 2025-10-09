@@ -186,7 +186,7 @@ namespace MagicSkillCode.Framework
         /// <param name="e">The event arguments.</param>
         private static void OnRenderedHud(object sender, RenderedHudEventArgs e)
         {
-            if (Game1.activeClickableMenu != null || Game1.eventUp || !Magic.LearnedMagic)
+            if (Game1.activeClickableMenu != null || Game1.eventUp || !Magic.LearnedMagic || !Context.IsPlayerFree)
                 return;
 
             SpriteBatch b = e.SpriteBatch;
@@ -378,8 +378,7 @@ namespace MagicSkillCode.Framework
                 Game1.displayHUD = false;
                 Game1.player.CanMove = false;
                 Game1.player.showNotCarrying();
-
-                Game1.player.AddCustomSkillExperience(Magic.Skill, Magic.Skill.ExperienceCurve[0]);
+                Core.Utilities.AddEXP(Game1.player, Magic.Skill.ExperienceCurve[0]);
                 Magic.FixMagicIfNeeded(Game1.player, overrideMagicLevel: 1); // let player start using MagicSkillCode immediately
                 Game1.player.eventsSeen.Add(MagicConstants.LearnedMagicEventId.ToString());
             }

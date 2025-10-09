@@ -40,7 +40,7 @@ namespace MagicSkillCode.Framework.Spells
                     if (Vector2.Distance(mob.position.Value, new Vector2(targetX, targetY)) <= rad)
                     {
                         tendrils.Add(new Tendril(mob, new Vector2(targetX, targetY), rad, dur));
-                        player.AddCustomSkillExperience(Magic.Skill, 3);
+                        Utilities.AddEXP(player, 3);
                     }
                 }
             }

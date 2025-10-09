@@ -51,7 +51,7 @@ namespace MagicSkillCode.Framework.Spells
         /// <summary>Get the spell's translated description.</summary>
         public virtual string GetTranslatedDescription()
         {
-            return ModEntry.Instance.I18N.Get($"spell.{this.FullId}.name");
+            return ModEntry.Instance.I18N.Get($"spell.{this.FullId}.desc");
         }
 
         /// <summary>Get a translated tooltip to show for the spell.</summary>

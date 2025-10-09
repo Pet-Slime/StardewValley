@@ -43,7 +43,7 @@ namespace MagicSkillCode.Framework.Spells
 
             Game1.enterMine(target);
 
-            player.AddCustomSkillExperience(Magic.Skill, 5);
+            Utilities.AddEXP(player, 5);
             return null;
         }
     }

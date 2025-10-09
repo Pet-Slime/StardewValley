@@ -29,7 +29,7 @@ namespace MagicSkillCode.Framework.Spells
             player.position.Y = targetY - player.GetBoundingBox().Height / 2;
             player.LocalSound("powerup");
             ;
-            player.AddCustomSkillExperience(Magic.Skill.Id, 4);
+            Utilities.AddEXP(player, 4);
 
             return null;
         }

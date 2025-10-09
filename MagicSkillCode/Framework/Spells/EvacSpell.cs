@@ -34,7 +34,7 @@ namespace MagicSkillCode.Framework.Spells
         {
             player.position.X = EvacSpell.EnterX;
             player.position.Y = EvacSpell.EnterY;
-            player.AddCustomSkillExperience(Magic.Skill, 5);
+            Utilities.AddEXP(player, 5);
             return null;
         }
 

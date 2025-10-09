@@ -26,7 +26,7 @@ namespace MagicSkillCode.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            player.AddCustomSkillExperience(Magic.Skill, 25);
+            Utilities.AddEXP(player, 25);
             return new SpiritEffect(player);
         }
     }

@@ -1,0 +1,37 @@
+﻿{
+    "Changes": [
+		{
+			"Action": "Load",
+			"Target": "Mods/moonslime.MagicSkill/textures",
+			"FromFile": "Assets/sprites.png"
+		},
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "Entries": {
+                "moonslime.Magic.HudIcon": {
+                    "Name": "Placeholder Item",
+                    "DisplayName": "{{i18n:moonslime.Magic.placeholder_item.name}}",
+                    "Description": "{{i18n:moonslime.Magic.placeholder_item.description}}",
+                    "Type": "Basic",
+                    "Category": 0,
+                    "Price": 1,
+                    "Texture": "Mods/moonslime.MagicSkill/textures",
+                    "SpriteIndex": 0,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                    ],
+                    "CustomFields": null
+                }
+            }
+        }
+    ]
+}

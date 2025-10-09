@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BirbCore.Attributes;
+using StardewValley;
 
 namespace MagicSkillCode.Core
 {
@@ -57,6 +58,11 @@ namespace MagicSkillCode.Core
                     Log.Error($"Exception while handling event {name}:\n{e}");
                 }
             }
+        }
+
+        public static void AddEXP(StardewValley.Farmer who, int amount)
+        {
+            SpaceCore.Skills.AddExperience(Game1.GetPlayer(who.UniqueMultiplayerID), "moonslime.Magic", amount);
         }
     }
 }

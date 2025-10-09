@@ -37,7 +37,7 @@ namespace MagicSkillCode.Framework.Spells
             friendshipData.Points = Math.Max(0, friendshipData.Points - 250);
             player.team.sharedDailyLuck.Value = 0.12;
             player.LocalSound("death");
-            player.AddCustomSkillExperience(Magic.Skill, 50);
+            Utilities.AddEXP(player, 50);
 
             return null;
         }

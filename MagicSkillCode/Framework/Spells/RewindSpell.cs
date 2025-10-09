@@ -32,7 +32,7 @@ namespace MagicSkillCode.Framework.Spells
         {
             player.Items.ReduceId("336", 1);
             Game1.timeOfDay -= 200;
-            player.AddCustomSkillExperience(Magic.Skill, 25);
+            Utilities.AddEXP(player, 25);
             return null;
         }
     }

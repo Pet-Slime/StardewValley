@@ -71,7 +71,7 @@ namespace MagicSkillCode.Framework.Spells
                         if (!loc.objects.ContainsKey(tile))
                         {
                             player.AddMana(-3);
-                            player.AddCustomSkillExperience(Magic.Skill, 1);
+                            Utilities.AddEXP(player, 10);
                         }
                     }
 
@@ -87,7 +87,7 @@ namespace MagicSkillCode.Framework.Spells
                             if (feature.performToolAction(axe, 0, tile) || feature is Grass || (feature is Tree && feature.performToolAction(axe, 0, tile)))
                             {
                                 if (feature is Tree)
-                                    player.AddCustomSkillExperience(Magic.Skill, 5);
+                                    Utilities.AddEXP(player, 5);
                                 loc.terrainFeatures.Remove(tile);
                             }
                             if (feature is Grass && loc is Farm farm)
@@ -119,7 +119,7 @@ namespace MagicSkillCode.Framework.Spells
                                     if (rc.performToolAction(axe, 1, tile) || rc.performToolAction(pickaxe, 1, tile))
                                     {
                                         clumps.Remove(rc);
-                                        player.AddCustomSkillExperience(Magic.Skill, 10);
+                                        Utilities.AddEXP(player, 10);
                                     }
                                     break;
                                 }

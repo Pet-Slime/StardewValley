@@ -11,6 +11,7 @@ using StardewValley.Tools;
 using MagicSkillCode.Core;
 using SObject = StardewValley.Object;
 using BirbCore.Attributes;
+using static SpaceCore.Skills;
 
 namespace MagicSkillCode.Framework.Spells
 {
@@ -156,7 +157,11 @@ namespace MagicSkillCode.Framework.Spells
 
                 Log.Debug($"Player learnt spell: {spell}");
                 spellBook.LearnSpell(spell, 0, true);
-                Game1.addHUDMessage(new HUDMessage(I18n.Spell_Learn(spellName: SpellManager.Get(spell).GetTranslatedName())));
+                var item = ItemRegistry.Create("moonslime.Magic.HudIcon");
+                var message = new HUDMessage(I18n.Spell_Learn(spellName: SpellManager.Get(spell).GetTranslatedName()));
+                message.messageSubject = item;
+
+                Game1.addHUDMessage(message);
             }
 
             // learn hidden spell if players knows all of the other spells for a school
@@ -194,7 +199,12 @@ namespace MagicSkillCode.Framework.Spells
                     {
                         Log.Debug("Player learnt ancient spell: " + ancientSpell);
                         spellBook.LearnSpell(ancientSpell, 0, true);
-                        Game1.addHUDMessage(new HUDMessage(I18n.Spell_Learn_Ancient(spellName: ancientSpell.GetTranslatedName())));
+
+                        var item = ItemRegistry.Create("moonslime.Magic.HudIcon");
+                        var message = new HUDMessage(I18n.Spell_Learn_Ancient(spellName: ancientSpell.GetTranslatedName()));
+                        message.messageSubject = item;
+
+                        Game1.addHUDMessage(message);
                     }
                 }
 
@@ -203,8 +213,18 @@ namespace MagicSkillCode.Framework.Spells
                 {
                     Log.Debug("Player learnt ancient spell: " + rewindSpell);
                     spellBook.LearnSpell(rewindSpell, 0, true);
-                    Game1.addHUDMessage(new HUDMessage(I18n.Spell_Learn_Ancient(spellName: rewindSpell.GetTranslatedName())));
+
+                    var item = ItemRegistry.Create("moonslime.Magic.HudIcon");
+                    var message = new HUDMessage(I18n.Spell_Learn_Ancient(spellName: rewindSpell.GetTranslatedName()));
+                    message.messageSubject = item;
+
+                    Game1.addHUDMessage(message);
                 }
+            }
+
+            if (learnedAny == false)
+            {
+                Game1.playSound("clank");
             }
 
             // raise event
