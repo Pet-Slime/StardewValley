@@ -188,9 +188,7 @@ namespace MagicSkillCode.Framework
 
             bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Magic_Skill.Magic10a2);
 
-            int spotYAffector = -1;
-            if (hasFifthSpellSlot)
-                spotYAffector = 0;
+
 
             var toolbar = GetToolbar();
             if (toolbar is null)
@@ -206,11 +204,11 @@ namespace MagicSkillCode.Framework
 
             Point[] spots =
             {
-                new((int)toolbarBounds.Center.X + 20 + 60 * ( 0 + spotYAffector ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
-                new((int)toolbarBounds.Center.X + 20 + 60 * ( 1 + spotYAffector ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
-                new((int)toolbarBounds.Center.X + 20 + 60 * ( 2 + spotYAffector ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
-                new((int)toolbarBounds.Center.X + 20 + 60 * ( 3 + spotYAffector ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
-                new((int)toolbarBounds.Center.X + 20 + 60 * ( 4 + spotYAffector ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24)
+                new((int)toolbarBounds.Left + 60 * ( 0 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
+                new((int)toolbarBounds.Left + 60 * ( 1 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
+                new((int)toolbarBounds.Left + 60 * ( 2 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
+                new((int)toolbarBounds.Left + 60 * ( 3 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
+                new((int)toolbarBounds.Left + 60 * ( 4 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24)
             };
 
             // read spell info
