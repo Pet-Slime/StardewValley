@@ -1,0 +1,33 @@
+﻿{
+    "Name": "Thieving Skill",
+    "Author": "moonslime",
+    "Version": "1.0.0",
+    "Description": "Steal from NPCs, get items",
+    "UniqueID": "moonslime.ThievingSkill",
+    "EntryDll": "ThievingSkill.dll",
+    "MinimumApiVersion": "4.3.2",
+    "UpdateKeys": [
+        "Nexus:23791"
+    ],
+    "Dependencies": [
+        {
+            "UniqueID": "DaLion.Overhaul",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "drbirbdev.BirbCore",
+            "MinimumVersion": "1.1.0"
+        },
+        {
+            "UniqueID": "Pathoschild.ContentPatcher"
+        },
+        {
+            "UniqueID": "spacechase0.GenericModConfigMenu",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "spacechase0.SpaceCore",
+            "MinimumVersion": "1.26.2"
+        }
+    ]
+}

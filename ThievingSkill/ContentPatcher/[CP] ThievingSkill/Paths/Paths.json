@@ -1,0 +1,9 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "Load",
+            "Target": "Paths/H_Spooky_Paths",
+            "FromFile": "Paths/H_{{season}}_Spooky_Paths.png"
+        }
+    ]
+}

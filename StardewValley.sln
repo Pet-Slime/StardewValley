@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AthleticSkill", "AthelticSk
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceCoreLevels", "SpaceCoreLevels\SpaceCoreLevels.csproj", "{13042638-04C2-4506-96E5-21078C541DBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThievingSkill", "ThievingSkill\ThievingSkill.csproj", "{0B376C56-5E16-4B9D-803C-8C91B8B38E95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,10 @@ Global
 		{13042638-04C2-4506-96E5-21078C541DBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13042638-04C2-4506-96E5-21078C541DBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13042638-04C2-4506-96E5-21078C541DBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B376C56-5E16-4B9D-803C-8C91B8B38E95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B376C56-5E16-4B9D-803C-8C91B8B38E95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B376C56-5E16-4B9D-803C-8C91B8B38E95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B376C56-5E16-4B9D-803C-8C91B8B38E95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,9 +102,9 @@ Global
 		SolutionGuid = {2CC4FC86-39C6-4152-8058-FE3B146896A6}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{0b376c56-5e16-4b9d-803c-8c91b8b38e95}*SharedItemsImports = 5
+		MoonShared\MoonShared.projitems*{0b376c56-5e16-4b9d-803c-8c91b8b38e95}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{19cedb88-a912-48da-b35d-fce2509e70e6}*SharedItemsImports = 13
-		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{41ed1fc1-a8cc-4001-be74-8e92474c490a}*SharedItemsImports = 5
-		MoonShared\MoonShared.projitems*{41ed1fc1-a8cc-4001-be74-8e92474c490a}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{582e2861-2bf8-4704-8f5e-1ab9bae2b572}*SharedItemsImports = 5

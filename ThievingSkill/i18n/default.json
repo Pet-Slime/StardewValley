@@ -1,0 +1,137 @@
+﻿{
+
+    "skill.Thieving.name": "Thieving",
+    "skill.Thieving.perk": "+{{bonus}}% bonus to your steal chance.",
+    "skill.Thieving.perk.level_3": "Chance to get Universal Neutrals when stealing.",
+    "skill.Thieving.perk.level_6": "Chance to get Universal Likes when stealing.",
+    "skill.Thieving.perk_bonus": "+{{bonus}}% bonus to your steal chance.",
+
+    "Thieving5a.name": "Pickpocket",
+    "Thieving5a.desc": "Direction does not affect steal chance",
+    "Thieving5b.name": "Robin Hood",
+    "Thieving5b.desc": "Chance to not loose friendship when stealing",
+    "Thieving10a1.name": "Highwayman",
+    "Thieving10a1.desc": "Can steal from multiple people around you at once.",
+    "Thieving10a2.name": "Mugger",
+    "Thieving10a2.desc": "Gain Life and Stamina when you steal",
+    "Thieving10b1.name": "Phantom",
+    "Thieving10b1.desc": "Chance to get better items from stealing",
+    "Thieving10b2.name": "Rogue",
+    "Thieving10b2.desc": "Higher chance of stealing",
+
+    "moonslime.Thieving.Cooldown.apply": "You can't steal for a bit after your last attempt.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown": "You can not steal right now.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown.10": "You can not steal right for another 10 minutes.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown.20": "You can not steal right for another 20 minutes.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown.30": "You can not steal right for another 30 minutes.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown.40": "You can not steal right for another 40 minutes.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown.50": "You can not steal right for another 50 minutes.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown.60": "You can not steal right for another 60 minutes.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown.70": "You can not steal right for another 70 minutes.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown.80": "You can not steal right for another 80 minutes.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown.90": "You can not steal right for another 90 minutes.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown.100": "You can not steal right for another 100 minutes.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown.110": "You can not steal right for another 110 minutes.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown.120": "You can not steal right for another 120 minutes.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown.130": "You can not steal right for another 130 minutes.",
+
+    "moonslime.Thieving.Cooldown.on_cooldown.140": "You can not steal right for another 140 minutes.",
+
+
+    "moonslime.Thieving.Cooldown.off_cooldown": "You can now steal again.",
+
+    "config.ThiefIcon": "Thief skillpage Icon",
+    "config.ThiefIcon.tooltip": "Changes the icon of the thief skill on the skill page. \nTHIS REQUIRES A RESTART TO WORK.",
+
+    "config.MonstersOnly": "Monsters Only",
+    "config.MonstersOnly.tooltip": "When this is set to true, you can never Steal from villagers.",
+
+    "config.Key_Cast": "The keybinding to steal",
+    "config.Key_Cast.tooltip": "Press this key to steal NPCs when near them.",
+
+    "config.ShortCoolDown": "Short Cooldown",
+    "config.ShortCoolDown.tooltip": "This makes it so Scaring/Thieving only ever has a cooldown of 10 minutes instead of a variable cooldown",
+
+    "config.ExpMod": "Global EXP mod",
+    "config.ExpMod.tooltip": "This will change how much exp all other options are multiplied by",
+
+    "config.ExpFromFail": "Exp From failing",
+    "config.ExpFromFail.tooltip": "If you fail at Scaring/Stealing, you will get this much exp.",
+
+    "config.ExpLevel1": "Exp from Tier 1 success",
+    "config.ExpLevel1.tooltip": "How much exp you get at a tier 1 success",
+
+    "config.ExpLevel2": "Exp from Tier 2 success",
+    "config.ExpLevel2.tooltip": "How much exp you get at a tier 2 success",
+
+    "config.ExpLevel3": "Exp from Tier 3 success",
+    "config.ExpLevel3.tooltip": "How much exp you get at a tier 3 success",
+
+    "config.ExpLevel4": "Exp from Tier 4 success",
+    "config.ExpLevel4.tooltip": "How much exp you get at a tier 4 success",
+
+
+
+    "moonslime.Thieving.Stolen.default.level_0": "STOP THIEF!",
+    "moonslime.Thieving.Stolen.default.level_1": "Ah..Why?",
+    "moonslime.Thieving.Stolen.default.level_2": "Huh?",
+    "moonslime.Thieving.Stolen.default.level_3": "...?",
+    "moonslime.Thieving.Stolen.default.level_4": "...",
+
+    "moonslime.Thieving.Stolen.Pierre.level_0": "THIEF!?! STOP!",
+    "moonslime.Thieving.Stolen.Pierre.level_1": "Get your hands away!",
+    "moonslime.Thieving.Stolen.Pierre.level_2": "mhm?",
+    "moonslime.Thieving.Stolen.Pierre.level_3": "...?",
+    "moonslime.Thieving.Stolen.Pierre.level_4": "...",
+
+    "moonslime.Thieving.Stolen.DustyNPC.level_0": "*woof woof*",
+    "moonslime.Thieving.Stolen.DustyNPC.level_1": "*growls*",
+    "moonslime.Thieving.Stolen.DustyNPC.level_2": "!?!?",
+    "moonslime.Thieving.Stolen.DustyNPC.level_3": "..?",
+    "moonslime.Thieving.Stolen.DustyNPC.level_4": "...",
+
+    "moonslime.Thieving.Stolen.Torts.level_0": "!!!!!",
+    "moonslime.Thieving.Stolen.Torts.level_1": "!?!?!",
+    "moonslime.Thieving.Stolen.Torts.level_2": "..?",
+    "moonslime.Thieving.Stolen.Torts.level_3": "...",
+    "moonslime.Thieving.Stolen.Torts.level_4": ". . .",
+
+    "moonslime.Thieving.Stolen.MisterGinger.level_0": "Hisses",
+    "moonslime.Thieving.Stolen.MisterGinger.level_1": "Mrrrk!",
+    "moonslime.Thieving.Stolen.MisterGinger.level_2": "Meep!",
+    "moonslime.Thieving.Stolen.MisterGinger.level_3": "Mirrup?",
+    "moonslime.Thieving.Stolen.MisterGinger.level_4": "Mrrrreooww?",
+
+    "moonslime.Thieving.Stolen.FC.Boxy.level_0": "Hisses",
+    "moonslime.Thieving.Stolen.FC.Boxy.level_1": "Mrrrk!",
+    "moonslime.Thieving.Stolen.FC.Boxy.level_2": "Mow wow wow!",
+    "moonslime.Thieving.Stolen.FC.Boxy.level_3": "Mrrp?",
+    "moonslime.Thieving.Stolen.FC.Boxy.level_4": "Mew?",
+
+    "moonslime.Thieving.Stolen.JortsCat.level_0": "Hisses",
+    "moonslime.Thieving.Stolen.JortsCat.level_1": "Mrrrk!",
+    "moonslime.Thieving.Stolen.JortsCat.level_2": "Mow wow wow!",
+    "moonslime.Thieving.Stolen.JortsCat.level_3": "Mrrp?",
+    "moonslime.Thieving.Stolen.JortsCat.level_4": "Mew?",
+
+    "moonslime.Thieving.Stolen.JeanCat.level_0": "Hisses",
+    "moonslime.Thieving.Stolen.JeanCat.level_1": "Mrrrk!",
+    "moonslime.Thieving.Stolen.JeanCat.level_2": "Mow wow wow!",
+    "moonslime.Thieving.Stolen.JeanCat.level_3": "Mrrp?",
+    "moonslime.Thieving.Stolen.JeanCat.level_4": "Mew?"
+
+}
