@@ -28,11 +28,11 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
-                        "not_placeable",
+                        "not_placeable"
                     ],
                     "CustomFields": null
                 },
-				"moonslime.Wizardry.Travel_Core": {
+                "moonslime.Wizardry.Travel_Core": {
                     "Name": "Placeholder Item",
                     "DisplayName": "{{i18n:moonslime.Wizardry.Travel_Core.name}}",
                     "Description": "{{i18n:moonslime.Wizardry.Travel_Core.description}}",
@@ -54,7 +54,7 @@
                     ],
                     "CustomFields": null
                 },
-				"moonslime.Wizardry.Magic_Elixir": {
+                "moonslime.Wizardry.Magic_Elixir": {
                     "Name": "Magic Elixir",
                     "DisplayName": "{{i18n:moonslime.Wizardry.Magic_Elixir.name}}",
                     "Description": "{{i18n:moonslime.Wizardry.Magic_Elixir.description}}",
@@ -74,7 +74,31 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "not_placeable",
-					"moonslime.Wizardry.mana_potion"
+                        "moonslime.Wizardry.mana_potion_full"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Wizardry.Magic_Potion": {
+                    "Name": "Magic Potion",
+                    "DisplayName": "{{i18n:moonslime.Wizardry.Magic_Potion.name}}",
+                    "Description": "{{i18n:moonslime.Wizardry.Magic_Potion.description}}",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 500,
+                    "Texture": "Mods/moonslime.WizardrySkill/textures",
+                    "SpriteIndex": 3,
+                    "Edibility": 40,
+                    "IsDrink": true,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "not_placeable",
+                        "moonslime.Wizardry.mana_potion_half"
                     ],
                     "CustomFields": null
                 }

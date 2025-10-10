@@ -1,10 +1,16 @@
 ﻿{
 
-    "moonslime.Athletic.egg_drink.name": "Raw Egg Shake",
-    "moonslime.Athletic.egg_drink.description": "Used to bulk up!",
+    "moonslime.Wizardry.placeholder_item.name": "Sparkles",
+    "moonslime.Wizardry.placeholder_item.description": "You shouldn't be seeing this.'",
 
-    "moonslime.Athletic.broccoli_and_cheese.name": "Broccoli and Cheese",
-    "moonslime.Athletic.broccoli_and_cheese.description": "A useful meal to help build energy and bulk up."
+    "moonslime.Wizardry.Travel_Core.name": "Travel Core",
+    "moonslime.Wizardry.Travel_Core.description": "An item mages use sometimes to travel around.",
+
+    "moonslime.Wizardry.Magic_Elixir.name": "Mana Elixir",
+    "moonslime.Wizardry.Magic_Elixir.description": "Restores health and all mana.",
+
+    "moonslime.Wizardry.Magic_Potion.name": "Mana Potion",
+    "moonslime.Wizardry.Magic_Potion.description": "Restores health and some mana."
 
 
 }

@@ -25,15 +25,15 @@
 
     "Magic5a.name": "Student",
     "Magic5a.desc": "+2 spell upgrade points",
-    "Magic5b.name": "Spiritualist",
+    "Magic5b.name": "Acolyte",
     "Magic5b.desc": "+0.5 mana regen per level",
-    "Magic10a1.name": "Philosopher",
+    "Magic10a1.name": "Adept",
     "Magic10a1.desc": "+2 spell upgrade points",
     "Magic10a2.name": "Scholar",
     "Magic10a2.desc": "Adds a fifth spell per spell set.",
-    "Magic10b1.name": "Enchanter",
+    "Magic10b1.name": "Spiritualist",
     "Magic10b1.desc": "+1 mana regen per level",
-    "Magic10b2.name": "Sage",
+    "Magic10b2.name": "Mystic",
     "Magic10b2.desc": "+100 max mana",
 
 
