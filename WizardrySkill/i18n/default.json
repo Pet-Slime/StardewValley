@@ -125,9 +125,9 @@
     "spell.life:evac.desc": "Teleport to where you entered the area.",
 
     "spell.elemental:fireball.name": "Fireball",
-    "spell.elemental:fireball.desc": "Shoot a devastating ball of fire at your enemies.\nHigher levels improve damage and speed.",
+    "spell.elemental:fireball.desc": "Shoot a ball of fire that explodes against enemies.\nHigher levels improve damage.",
     "spell.elemental:frostbolt.name": "Frostbolt",
-    "spell.elemental:frostbolt.desc": "Shoot a piercing bolt of ice at your enemies.\nHigher levels improve damage and speed.",
+    "spell.elemental:frostbolt.desc": "Shoot a ball of snow that freezes monsters.\nHigher levels improve damage.",
     "spell.elemental:descend.name": "Descend",
     "spell.elemental:descend.desc": "Descend in the mines.\nHigher levels increase the floors passed, with no additional mana cost.",
     "spell.elemental:teleport.name": "Teleport",
