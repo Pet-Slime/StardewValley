@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Text;
 using WizardrySkill.Core;
 using WizardrySkill.Framework.Schools;
 using WizardrySkill.Framework.Spells;
@@ -14,15 +15,24 @@ namespace WizardrySkill.Framework.Game.Interface
     public class MagicMenu : IClickableMenu
     {
         /*********
-        ** Fields
+        ** Layout constants
         *********/
         private const int WindowWidth = 800;
         private const int WindowHeight = 600;
+
+        private const int Padding = 12;
+
         private const int SchoolIconSize = 32;
         private const int SpellIconSize = 64;
         private const int SelIconSize = 192;
         private const int HotbarIconSize = 48;
 
+        private const int SchoolFrameSize = SchoolIconSize + 24;
+        private const int HotbarFrameSize = HotbarIconSize + 24;
+
+        /*********
+        ** State
+        *********/
         private School SelectedSchool;
         private Spell SelectedSpell;
         private PreparedSpell Dragging;
@@ -30,303 +40,335 @@ namespace WizardrySkill.Framework.Game.Interface
         private bool JustLeftClicked;
         private bool JustRightClicked;
 
-
         /*********
         ** Public methods
         *********/
         public MagicMenu()
-            : base((Game1.viewport.Size.Width - MagicMenu.WindowWidth) / 2, (Game1.viewport.Size.Height - MagicMenu.WindowHeight) / 2, MagicMenu.WindowWidth, MagicMenu.WindowHeight, true)
+            : base((Game1.viewport.Size.Width - WindowWidth) / 2, (Game1.viewport.Size.Height - WindowHeight) / 2, WindowWidth, WindowHeight, true)
         {
-            this.SelectDefaultSchool();
+            SelectDefaultSchool();
         }
 
-        /// <inheritdoc />
         public override bool overrideSnappyMenuCursorMovementBan()
         {
             return true;
         }
 
-        /// <inheritdoc />
         public override void draw(SpriteBatch b)
         {
-            // get info
+            // gather state
             SpellBook spellBook = Game1.player.GetSpellBook();
             bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Wizard_Skill.Magic10a2);
-            int hotbarHeight = 12 + 48 * (hasFifthSpellSlot ? 5 : 4) + 12 * (hasFifthSpellSlot ? 4 : 3) + 12;
-            int gap = (MagicMenu.WindowHeight - hotbarHeight * 2) / 3 + (hasFifthSpellSlot ? 25 : 0);
             string hoverText = null;
 
-            // draw main window
-            IClickableMenu.drawTextureBox(b, this.xPositionOnScreen, this.yPositionOnScreen, MagicMenu.WindowWidth, MagicMenu.WindowHeight, Color.White);
-            IClickableMenu.drawTextureBox(b, this.xPositionOnScreen, this.yPositionOnScreen, MagicMenu.WindowWidth / 2, MagicMenu.WindowHeight, Color.White);
+            // draw sections
+            DrawBackground(b);
+            DrawSchoolIcons(b, spellBook, ref hoverText);
+            DrawSpellGrid(b, spellBook, ref hoverText);
+            DrawSelectedSpellInfo(b, spellBook, ref hoverText);
+            DrawSpellHotbars(b, spellBook, hasFifthSpellSlot, ref hoverText);
 
-            // draw school icons
-            {
-                int x = this.xPositionOnScreen - MagicMenu.SchoolIconSize - 12;
-                int y = this.yPositionOnScreen;
-                foreach (string schoolId in School.GetSchoolList())
-                {
-                    School school = School.GetSchool(schoolId);
-                    bool knowsSchool = spellBook.KnowsSchool(school);
+            // dragged spell visuals
+            DrawDraggedSpell(b);
 
-                    float alpha = knowsSchool ? 1f : 0.2f;
-                    Rectangle iconBounds = new(x + 12, y + 12, MagicMenu.SchoolIconSize, MagicMenu.SchoolIconSize);
+            // final housekeeping
+            if (!string.IsNullOrEmpty(hoverText))
+                drawHoverText(b, hoverText, Game1.smallFont);
 
-                    IClickableMenu.drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60), x, y, MagicMenu.SchoolIconSize + 24, MagicMenu.SchoolIconSize + 24, (this.SelectedSchool == school ? Color.Green : Color.White), 1f, false);
-                    b.Draw(school.Icon, iconBounds, Color.White * alpha);
+            base.draw(b);
+            this.drawMouse(b);
 
-                    if (iconBounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY()))
-                    {
-                        if (knowsSchool)
-                        {
-                            hoverText = school.DisplayName;
-
-                            if (this.JustLeftClicked)
-                            {
-                                this.SelectSchool(schoolId, spellBook);
-                                this.JustLeftClicked = false;
-                            }
-                        }
-                        else
-                            hoverText = "???";
-                    }
-
-                    y += MagicMenu.SchoolIconSize + 12;
-                }
-            }
-
-            // draw spell icon area
-            if (this.SelectedSchool != null)
-            {
-                Spell[][] spells = this.SelectedSchool.GetAllSpellTiers().ToArray();
-
-                int sy = spells.Length + 1;
-                for (int t = 0; t < spells.Length; ++t)
-                {
-                    Spell[] spellGroup = spells[t];
-                    if (spellGroup == null)
-                        continue;
-
-                    int y = this.yPositionOnScreen + (MagicMenu.WindowHeight - 24) / sy * (t + 1);
-                    int sx = spellGroup.Length + 1;
-                    for (int s = 0; s < spellGroup.Length; ++s)
-                    {
-                        Spell spell = spellGroup[s];
-                        if (spell == null || !spellBook.KnowsSpell(spell, 0))
-                            continue;
-
-                        int x = this.xPositionOnScreen + (MagicMenu.WindowWidth / 2 - 24) / sx * (s + 1);
-                        Rectangle iconBounds = new Rectangle(x - MagicMenu.SpellIconSize / 2, y - MagicMenu.SpellIconSize / 2, MagicMenu.SpellIconSize, MagicMenu.SpellIconSize);
-
-                        if (iconBounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY()))
-                        {
-                            hoverText = spell.GetTooltip();
-
-                            if (this.JustLeftClicked)
-                            {
-                                this.SelectedSpell = spell;
-                                this.JustLeftClicked = false;
-                            }
-                        }
-
-                        if (spell == this.SelectedSpell)
-                        {
-                            IClickableMenu.drawTextureBox(b, x - MagicMenu.SpellIconSize / 2 - 12, y - MagicMenu.SpellIconSize / 2 - 12, MagicMenu.SpellIconSize + 24, MagicMenu.SpellIconSize + 24, Color.Green);
-                        }
-
-                        Texture2D icon = spell.Icons[spell.Icons.Length - 1];
-                        b.Draw(icon, iconBounds, Color.White);
-                    }
-                }
-            }
-
-            // draw selected spell area
-            if (this.SelectedSpell != null)
-            {
-                // draw title
-                string title = this.SelectedSpell.GetTranslatedName();
-                b.DrawString(Game1.dialogueFont, title, new Vector2(this.xPositionOnScreen + MagicMenu.WindowWidth / 2 + (MagicMenu.WindowWidth / 2 - Game1.dialogueFont.MeasureString(title).X) / 2, this.yPositionOnScreen + 30), Color.Black);
-
-                // draw icon
-                var icon = this.SelectedSpell.Icons[this.SelectedSpell.Icons.Length - 1];
-                b.Draw(icon, new Rectangle(this.xPositionOnScreen + MagicMenu.WindowWidth / 2 + (MagicMenu.WindowWidth / 2 - MagicMenu.SelIconSize) / 2, this.yPositionOnScreen + 85, MagicMenu.SelIconSize, MagicMenu.SelIconSize), Color.White);
-
-                // draw description
-                string desc = this.WrapText(this.SelectedSpell.GetTranslatedDescription(), (int)((MagicMenu.WindowWidth / 2) / 0.75f));
-                b.DrawString(Game1.dialogueFont, desc, new Vector2(this.xPositionOnScreen + MagicMenu.WindowWidth / 2 + 12, this.yPositionOnScreen + 280), Color.Black, 0, Vector2.Zero, 0.75f, SpriteEffects.None, 0);
-
-                // draw level icons
-                int sx = this.SelectedSpell.Icons.Length + 1;
-                for (int i = 0; i < this.SelectedSpell.Icons.Length; ++i)
-                {
-                    // get icon position
-                    int x = this.xPositionOnScreen + MagicMenu.WindowWidth / 2 + (MagicMenu.WindowWidth / 2) / sx * (i + 1);
-                    int y = this.yPositionOnScreen + MagicMenu.WindowHeight - 12 - MagicMenu.SpellIconSize - 32 - 40;
-                    var bounds = new Rectangle(x - MagicMenu.SpellIconSize / 2, y, MagicMenu.SpellIconSize, MagicMenu.SpellIconSize);
-                    bool isHovered = bounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY());
-
-                    // get state
-                    bool isKnown = spellBook.KnowsSpell(this.SelectedSpell, i);
-                    bool hasPreviousLevels = isKnown || i == 0 || spellBook.KnowsSpell(this.SelectedSpell, i - 1);
-
-                    // get border color
-                    Color stateCol;
-                    if (isKnown)
-                    {
-                        if (isHovered)
-                            hoverText = I18n.Tooltip_Spell_Known(spell: I18n.Tooltip_Spell_NameAndLevel(title, level: i + 1));
-                        stateCol = Color.Green;
-                    }
-                    else if (hasPreviousLevels)
-                    {
-                        if (isHovered)
-                        {
-                            hoverText = spellBook.FreePoints > 0
-                                ? I18n.Tooltip_Spell_CanLearn(spell: I18n.Tooltip_Spell_NameAndLevel(title, level: i + 1))
-                                : I18n.Tooltip_Spell_NeedFreePoints(spell: I18n.Tooltip_Spell_NameAndLevel(title, level: i + 1));
-                        }
-                        stateCol = Color.White;
-                    }
-                    else
-                    {
-                        if (isHovered)
-                            hoverText = I18n.Tooltip_Spell_NeedPreviousLevels();
-                        stateCol = Color.Gray;
-                    }
-
-                    // draw border
-                    if (isKnown)
-                    {
-                        IClickableMenu.drawTextureBox(b, bounds.Left - 12, bounds.Top - 12, bounds.Width + 24, bounds.Height + 24, Color.Green);
-                    }
-
-                    // draw icon
-                    float alpha = hasPreviousLevels ? 1f : 0.5f;
-                    b.Draw(this.SelectedSpell.Icons[i], bounds, Color.White * alpha);
-
-                    // handle click
-                    if (isHovered && (this.JustLeftClicked || this.JustRightClicked))
-                    {
-                        if (this.JustLeftClicked && isKnown)
-                        {
-                            this.Dragging = new PreparedSpell(this.SelectedSpell.FullId, i);
-                            this.JustLeftClicked = false;
-                        }
-                        else if (hasPreviousLevels)
-                        {
-                            if (this.JustLeftClicked && spellBook.FreePoints > 0)
-                                spellBook.Mutate(_ => spellBook.LearnSpell(this.SelectedSpell, i));
-                            else if (this.JustRightClicked && i != 0)
-                                spellBook.Mutate(_ => spellBook.ForgetSpell(this.SelectedSpell, i));
-                        }
-                    }
-                }
-
-                // draw free points count
-                b.DrawString(Game1.dialogueFont, $"Free points: {spellBook.FreePoints}", new Vector2(this.xPositionOnScreen + MagicMenu.WindowWidth / 2 + 12 + 24, this.yPositionOnScreen + MagicMenu.WindowHeight - 12 - 32 - 20), Color.Black);
-            }
-
-            // draw spell bars
-            {
-                int y = this.yPositionOnScreen + gap + 12 + (hasFifthSpellSlot ? -32 : 0);
-                foreach (var spellBar in spellBook.Prepared)
-                {
-                    for (int i = 0; i < (hasFifthSpellSlot ? 5 : 4); ++i)
-                    {
-                        PreparedSpell prep = spellBar.GetSlot(i);
-                        Rectangle bounds = new(this.xPositionOnScreen + MagicMenu.WindowWidth + 12, y, MagicMenu.HotbarIconSize, MagicMenu.HotbarIconSize);
-                        bool isHovered = bounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY());
-
-                        if (isHovered)
-                        {
-                            if (this.JustRightClicked)
-                                spellBook.Mutate(_ => spellBar.SetSlot(i, prep = null));
-                            else if (this.JustLeftClicked)
-                            {
-                                spellBook.Mutate(_ => spellBar.SetSlot(i, prep = this.Dragging));
-                                this.Dragging = null;
-                                this.JustLeftClicked = false;
-                            }
-                        }
-
-                        IClickableMenu.drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60), bounds.X - 12, y - 12, MagicMenu.HotbarIconSize + 24, MagicMenu.HotbarIconSize + 24, Color.White, 1f, false);
-
-                        if (prep != null)
-                        {
-                            Spell spell = SpellManager.Get(prep.SpellId);
-
-                            Texture2D[] icons = spell?.Icons;
-                            if (icons?.Length > prep.Level && icons[prep.Level] != null)
-                            {
-                                Texture2D icon = icons[prep.Level];
-                                b.Draw(icon, bounds, Color.White);
-                            }
-
-                            if (isHovered)
-                                hoverText = spell.GetTooltip(level: prep.Level);
-                        }
-                        y += MagicMenu.HotbarIconSize + 12;
-                    }
-                    y += gap + 12;
-                }
-            }
-
-            // reset dragging
+            // reset click flags (preserve logic from original)
             if (this.JustLeftClicked)
             {
+                // If the player left-clicked and didn't drop onto a hotbar, cancel dragging
                 this.Dragging = null;
                 this.JustLeftClicked = false;
             }
             this.JustRightClicked = false;
-
-            // draw base menu
-            base.draw(b);
-
-            // draw dragged spell
-            if (this.Dragging != null)
-            {
-                Spell spell = SpellManager.Get(this.Dragging.SpellId);
-                Texture2D[] icons = spell?.Icons;
-                if (icons != null && icons.Length > this.Dragging.Level && icons[this.Dragging.Level] != null)
-                {
-                    Texture2D icon = icons[this.Dragging.Level];
-
-                    b.Draw(icon, new Rectangle(Game1.getOldMouseX(), Game1.getOldMouseY(), MagicMenu.HotbarIconSize, MagicMenu.HotbarIconSize), Color.White);
-                }
-            }
-
-            // draw hover text
-            if (hoverText != null)
-                drawHoverText(b, hoverText, Game1.smallFont);
-
-            // draw cursor
-            this.drawMouse(b);
         }
 
-        /// <inheritdoc />
         public override void receiveLeftClick(int x, int y, bool playSound = true)
         {
             base.receiveLeftClick(x, y, playSound);
             this.JustLeftClicked = true;
         }
 
-        /// <inheritdoc />
         public override void receiveRightClick(int x, int y, bool playSound = true)
         {
             this.JustRightClicked = true;
         }
 
+        /*********
+        ** Drawing helpers
+        *********/
+        private void DrawBackground(SpriteBatch b)
+        {
+            IClickableMenu.drawTextureBox(b, this.xPositionOnScreen, this.yPositionOnScreen, WindowWidth, WindowHeight, Color.White);
+            // left half background
+            IClickableMenu.drawTextureBox(b, this.xPositionOnScreen, this.yPositionOnScreen, WindowWidth / 2, WindowHeight, Color.White);
+        }
+
+        private void DrawSchoolIcons(SpriteBatch b, SpellBook spellBook, ref string hoverText)
+        {
+            int x = this.xPositionOnScreen - SchoolIconSize - Padding;
+            int y = this.yPositionOnScreen;
+
+            foreach (string schoolId in School.GetSchoolList())
+            {
+                School school = School.GetSchool(schoolId);
+                bool knowsSchool = spellBook.KnowsSchool(school);
+
+                float alpha = knowsSchool ? 1f : 0.2f;
+                Rectangle iconBounds = new Rectangle(x + Padding, y + Padding, SchoolIconSize, SchoolIconSize);
+
+                // draw frame
+                Color frameColor = (this.SelectedSchool == school) ? Color.Green : Color.White;
+                IClickableMenu.drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60),
+                    x, y, SchoolFrameSize, SchoolFrameSize, frameColor, 1f, false);
+
+                // draw icon (semi transparent if unknown)
+                b.Draw(school.Icon, iconBounds, Color.White * alpha);
+
+                // hover + click handling
+                if (iconBounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY()))
+                {
+                    hoverText = knowsSchool ? school.DisplayName : "???";
+
+                    if (this.JustLeftClicked && knowsSchool)
+                    {
+                        SelectSchool(schoolId, spellBook);
+                        this.JustLeftClicked = false;
+                    }
+                }
+
+                y += SchoolIconSize + Padding;
+            }
+        }
+
+        private void DrawSpellGrid(SpriteBatch b, SpellBook spellBook, ref string hoverText)
+        {
+            if (this.SelectedSchool == null)
+                return;
+
+            Spell[][] tiers = this.SelectedSchool.GetAllSpellTiers().ToArray();
+            int rows = tiers.Length + 1;
+
+            for (int t = 0; t < tiers.Length; ++t)
+            {
+                Spell[] tier = tiers[t];
+                if (tier == null)
+                    continue;
+
+                int y = this.yPositionOnScreen + (WindowHeight - 24) / rows * (t + 1);
+                int cols = tier.Length + 1;
+
+                for (int s = 0; s < tier.Length; ++s)
+                {
+                    Spell spell = tier[s];
+                    if (spell == null || !spellBook.KnowsSpell(spell, 0))
+                        continue;
+
+                    int x = this.xPositionOnScreen + (WindowWidth / 2 - 24) / cols * (s + 1);
+                    Rectangle iconBounds = new Rectangle(x - SpellIconSize / 2, y - SpellIconSize / 2, SpellIconSize, SpellIconSize);
+
+                    // hover
+                    if (iconBounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY()))
+                    {
+                        hoverText = spell.GetTooltip();
+
+                        if (this.JustLeftClicked)
+                        {
+                            this.SelectedSpell = spell;
+                            this.JustLeftClicked = false;
+                        }
+                    }
+
+                    // selection frame
+                    if (spell == this.SelectedSpell)
+                    {
+                        IClickableMenu.drawTextureBox(b, iconBounds.Left - 12, iconBounds.Top - 12, iconBounds.Width + 24, iconBounds.Height + 24, Color.Green);
+                    }
+
+                    // draw icon (use highest-level icon available)
+                    Texture2D icon = spell.Icons[spell.Icons.Length - 1];
+                    b.Draw(icon, iconBounds, Color.White);
+                }
+            }
+        }
+
+        private void DrawSelectedSpellInfo(SpriteBatch b, SpellBook spellBook, ref string hoverText)
+        {
+            if (this.SelectedSpell == null)
+                return;
+
+            // Title
+            string title = this.SelectedSpell.GetTranslatedName();
+            Vector2 titlePos = new Vector2(this.xPositionOnScreen + WindowWidth / 2 + (WindowWidth / 2 - Game1.dialogueFont.MeasureString(title).X) / 2, this.yPositionOnScreen + 30);
+            b.DrawString(Game1.dialogueFont, title, titlePos, Color.Black);
+
+            // Big icon
+            var icon = this.SelectedSpell.Icons[this.SelectedSpell.Icons.Length - 1];
+            Rectangle bigIconRect = new Rectangle(this.xPositionOnScreen + WindowWidth / 2 + (WindowWidth / 2 - SelIconSize) / 2, this.yPositionOnScreen + 85, SelIconSize, SelIconSize);
+            b.Draw(icon, bigIconRect, Color.White);
+
+            // Description (wrapped)
+            string desc = WrapText(this.SelectedSpell.GetTranslatedDescription(), (int)((WindowWidth / 2) / 0.75f));
+            Vector2 descPos = new Vector2(this.xPositionOnScreen + WindowWidth / 2 + 12, this.yPositionOnScreen + 280);
+            b.DrawString(Game1.dialogueFont, desc, descPos, Color.Black, 0, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
+
+            // Level icons (tiers/levels of spell)
+            int sx = this.SelectedSpell.Icons.Length + 1;
+            for (int i = 0; i < this.SelectedSpell.Icons.Length; ++i)
+            {
+                int x = this.xPositionOnScreen + WindowWidth / 2 + (WindowWidth / 2) / sx * (i + 1);
+                int y = this.yPositionOnScreen + WindowHeight - 12 - SpellIconSize - 32 - 40;
+                Rectangle bounds = new Rectangle(x - SpellIconSize / 2, y, SpellIconSize, SpellIconSize);
+                bool isHovered = bounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY());
+
+                bool isKnown = spellBook.KnowsSpell(this.SelectedSpell, i);
+                bool hasPreviousLevels = isKnown || i == 0 || spellBook.KnowsSpell(this.SelectedSpell, i - 1);
+
+                Color stateCol;
+                if (isKnown)
+                {
+                    if (isHovered)
+                        hoverText = I18n.Tooltip_Spell_Known(spell: I18n.Tooltip_Spell_NameAndLevel(title, level: i + 1));
+                    stateCol = Color.Green;
+                }
+                else if (hasPreviousLevels)
+                {
+                    if (isHovered)
+                        hoverText = spellBook.FreePoints > 0
+                            ? I18n.Tooltip_Spell_CanLearn(spell: I18n.Tooltip_Spell_NameAndLevel(title, level: i + 1))
+                            : I18n.Tooltip_Spell_NeedFreePoints(spell: I18n.Tooltip_Spell_NameAndLevel(title, level: i + 1));
+                    stateCol = Color.White;
+                }
+                else
+                {
+                    if (isHovered)
+                        hoverText = I18n.Tooltip_Spell_NeedPreviousLevels();
+                    stateCol = Color.Gray;
+                }
+
+                if (isKnown)
+                {
+                    IClickableMenu.drawTextureBox(b, bounds.Left - 12, bounds.Top - 12, bounds.Width + 24, bounds.Height + 24, Color.Green);
+                }
+
+                float alpha = hasPreviousLevels ? 1f : 0.5f;
+                b.Draw(this.SelectedSpell.Icons[i], bounds, Color.White * alpha);
+
+                // click handling (learn/forget/start drag)
+                if (isHovered && (this.JustLeftClicked || this.JustRightClicked))
+                {
+                    if (this.JustLeftClicked && isKnown)
+                    {
+                        // begin dragging this known level
+                        this.Dragging = new PreparedSpell(this.SelectedSpell.FullId, i);
+                        this.JustLeftClicked = false;
+                    }
+                    else if (hasPreviousLevels)
+                    {
+                        if (this.JustLeftClicked && spellBook.FreePoints > 0)
+                        {
+                            spellBook.Mutate(_ => spellBook.LearnSpell(this.SelectedSpell, i));
+                            this.JustLeftClicked = false;
+                        }
+                        else if (this.JustRightClicked && i != 0)
+                        {
+                            spellBook.Mutate(_ => spellBook.ForgetSpell(this.SelectedSpell, i));
+                            this.JustRightClicked = false;
+                        }
+                    }
+                }
+            }
+
+            // free points text
+            b.DrawString(Game1.dialogueFont, $"Free points: {spellBook.FreePoints}", new Vector2(this.xPositionOnScreen + WindowWidth / 2 + 12 + 24, this.yPositionOnScreen + WindowHeight - 12 - 32 - 20), Color.Black);
+        }
+
+        private void DrawSpellHotbars(SpriteBatch b, SpellBook spellBook, bool hasFifthSlot, ref string hoverText)
+        {
+            // calculate layout
+            int hotbarCount = hasFifthSlot ? 5 : 4;
+            int hotbarHeight = 12 + HotbarIconSize * hotbarCount + 12 * (hotbarCount - 1) + 12;
+            int gap = (WindowHeight - hotbarHeight * 2) / 3 + (hasFifthSlot ? 25 : 0);
+
+            int y = this.yPositionOnScreen + gap + 12 + (hasFifthSlot ? -32 : 0);
+            foreach (var spellBar in spellBook.Prepared)
+            {
+                for (int i = 0; i < hotbarCount; ++i)
+                {
+                    PreparedSpell prep = spellBar.GetSlot(i);
+                    Rectangle bounds = new Rectangle(this.xPositionOnScreen + WindowWidth + 12, y, HotbarIconSize, HotbarIconSize);
+                    bool isHovered = bounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY());
+
+                    // right click clears slot
+                    if (isHovered && this.JustRightClicked)
+                    {
+                        spellBook.Mutate(_ => spellBar.SetSlot(i, null));
+                        this.JustRightClicked = false;
+                    }
+
+                    // left click drop (set slot to dragging)
+                    if (isHovered && (this.JustLeftClicked))
+                    {
+                        spellBook.Mutate(_ => spellBar.SetSlot(i, this.Dragging));
+                        this.Dragging = null;
+                        this.JustLeftClicked = false;
+                    }
+
+                    // draw frame
+                    IClickableMenu.drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60),
+                        bounds.X - 12, y - 12, HotbarFrameSize, HotbarFrameSize, Color.White, 1f, false);
+
+                    if (prep != null)
+                    {
+                        Spell spell = SpellManager.Get(prep.SpellId);
+                        Texture2D[] icons = spell?.Icons;
+                        if (icons?.Length > prep.Level && icons[prep.Level] != null)
+                        {
+                            Texture2D icon = icons[prep.Level];
+                            b.Draw(icon, bounds, Color.White);
+                        }
+
+                        if (isHovered)
+                            hoverText = spell.GetTooltip(level: prep.Level);
+                    }
+
+                    y += HotbarIconSize + 12;
+                }
+
+                y += gap + 12;
+            }
+        }
+
+        private void DrawDraggedSpell(SpriteBatch b)
+        {
+            if (this.Dragging == null)
+                return;
+
+            Spell spell = SpellManager.Get(this.Dragging.SpellId);
+            Texture2D[] icons = spell?.Icons;
+            if (icons != null && icons.Length > this.Dragging.Level && icons[this.Dragging.Level] != null)
+            {
+                Texture2D icon = icons[this.Dragging.Level];
+                Rectangle drawRect = new Rectangle(Game1.getOldMouseX(), Game1.getOldMouseY(), HotbarIconSize, HotbarIconSize);
+                b.Draw(icon, drawRect, Color.White);
+            }
+        }
 
         /*********
-        ** Private methods
+        ** Private methods (logic)
         *********/
         /// <summary>Set the selected school to the first one the player knows spells for.</summary>
         private void SelectDefaultSchool()
         {
             SpellBook spellBook = Game1.player.GetSpellBook();
-            School school = School.GetSchoolList().Select(School.GetSchool).FirstOrDefault(spellBook.KnowsSchool);
-            if (school != null)
-                this.SelectSchool(School.GetSchoolList().First(), spellBook);
+            string firstKnownId = School.GetSchoolList().FirstOrDefault(id => spellBook.KnowsSchool(School.GetSchool(id)));
+            if (firstKnownId != null)
+                SelectSchool(firstKnownId, spellBook);
         }
 
         /// <summary>Set the selected school for which to show spells.</summary>
@@ -334,9 +376,18 @@ namespace WizardrySkill.Framework.Game.Interface
         private void SelectSchool(string id, SpellBook spellbook)
         {
             var school = School.GetSchool(id);
-
             this.SelectedSchool = school;
-            this.SelectedSpell = school.GetAllSpellTiers().SelectMany(p => p).FirstOrDefault(id => spellbook.KnowsSpell(id, 0));
+
+            if (school != null)
+            {
+                this.SelectedSpell = school.GetAllSpellTiers()
+                    .SelectMany(p => p ?? new Spell[0])
+                    .FirstOrDefault(s => s != null && spellbook.KnowsSpell(s, 0));
+            }
+            else
+            {
+                this.SelectedSpell = null;
+            }
         }
 
         // https://gist.github.com/Sankra/5585584
@@ -349,7 +400,7 @@ namespace WizardrySkill.Framework.Game.Interface
             }
 
             string[] words = text.Split(' ', '\n');
-            var wrappedText = new System.Text.StringBuilder();
+            var wrappedText = new StringBuilder();
             float lineWidth = 0f;
             float spaceWidth = Game1.dialogueFont.MeasureString(" ").X;
             foreach (string word in words)
