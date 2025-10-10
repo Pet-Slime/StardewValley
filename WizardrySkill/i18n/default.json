@@ -82,8 +82,8 @@
 
     "spell.arcane:analyze.name": "Analyze",
     "spell.arcane:analyze.desc": "Examine an item for magical inspiration.",
-    "spell.arcane:magicmissle.name": "Magic Missile",
-    "spell.arcane:magicmissle.desc": "A somewhat weak but seeking projectile.",
+    "spell.arcane:magicmissle.name": "Magic Arrow",
+    "spell.arcane:magicmissle.desc": "A somewhat weak but piercing projectile.",
     "spell.arcane:disenchant.name": "Disenchant",
     "spell.arcane:disenchant.desc": "Lower the quality of an item.\nSale price difference between old and new quality is refunded into wallet.",
     "spell.arcane:enchant.name": "Enchant",
@@ -157,16 +157,6 @@
 
     "spell.nature:magnetic_force.name": "Magnetic Barrier",
     "spell.nature:magnetic_force.desc": "A magnetic shield. \n Protect one self while attracting items.",
-
-
-    /*********
-    ** Items
-    *********/
-    "objects.mana-potion.name": "Magic Elixir",
-    "objects.mana-potion.description": "Restores health and mana.",
-
-    "objects.travel-core.name": "Travel Core",
-    "objects.travel-core.description": "Catalyst.",
 
 
     /*********

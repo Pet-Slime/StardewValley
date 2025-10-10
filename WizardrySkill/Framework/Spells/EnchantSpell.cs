@@ -44,6 +44,10 @@ namespace WizardrySkill.Framework.Spells
             if (!this.DoesDisenchant && obj.Quality == 4 || this.DoesDisenchant && obj.Quality == 0)
                 return null;
 
+            // skip if out of mana
+            if (player.GetCurrentMana() <= 3 * obj.Stack)
+                return null;
+
             var one = (StardewValley.Object)obj.getOne();
             int oldPrice = one.sellToStorePrice();
             if (!this.DoesDisenchant)
@@ -74,9 +78,7 @@ namespace WizardrySkill.Framework.Spells
             if (!this.DoesDisenchant && diff * obj.Stack > Game1.player.Money)
                 return null;
 
-            // skip if out of mana
-            if (player.GetCurrentMana() >= 3 * obj.Stack)
-                return null;
+            
 
             obj.Quality = one.Quality;
             Game1.player.Money -= diff * obj.Stack;

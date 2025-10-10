@@ -184,10 +184,7 @@ namespace WizardrySkill.Framework
 
             SpriteBatch b = e.SpriteBatch;
 
-
             bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Wizard_Skill.Magic10a2);
-
-
 
             var toolbar = GetToolbar();
             if (toolbar is null)
@@ -304,8 +301,8 @@ namespace WizardrySkill.Framework
 
         private static void LoadAssets()
         {
-            Magic.SpellBg = Content.LoadTexture("interface/spellbg.png");
-            Magic.ManaBg = Content.LoadTexture("interface/manabg.png");
+            Magic.SpellBg = ModEntry.Assets.Spellbg;
+            Magic.ManaBg = ModEntry.Assets.Manabg;
 
             Color manaCol = new Color(0, 48, 255);
             Magic.ManaFg = new Texture2D(Game1.graphics.GraphicsDevice, 1, 1);
@@ -385,9 +382,9 @@ namespace WizardrySkill.Framework
             int level = Game1.player.GetCustomSkillLevel(Magic.Skill);
             double manaRegen = (level + 1) / 2 + Magic.CarryoverManaRegen; // start at +1 mana at level 1
             if (Game1.player.HasCustomProfession(Wizard_Skill.Magic10b1))
-                manaRegen += level * 0.5;
-            if (Game1.player.HasCustomProfession(Wizard_Skill.Magic5b))
                 manaRegen += level * 1;
+            if (Game1.player.HasCustomProfession(Wizard_Skill.Magic5b))
+                manaRegen += level * 0.5;
 
             Game1.player.AddMana((int)manaRegen);
             Magic.CarryoverManaRegen = manaRegen - (int)manaRegen;

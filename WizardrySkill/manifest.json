@@ -1,13 +1,13 @@
 ﻿{
     "Name": "Wizardry",
     "Author": "moonslime",
-    "Version": "2.7.0",
+    "Version": "1.1.0",
     "Description": "Magic Revisited.",
     "UniqueID": "moonslime.WizardrySkill",
     "EntryDll": "WizardrySkill.dll",
     "MinimumApiVersion": "4.0.0",
     "UpdateKeys": [
-        "Nexus:-1"
+        "Nexus:38383"
     ],
     "Dependencies": [
         {

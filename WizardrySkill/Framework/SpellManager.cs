@@ -34,7 +34,7 @@ namespace WizardrySkill.Framework
         internal static void Init(Func<long> getNewId)
         {
             SpellManager.Register(new AnalyzeSpell());
-            SpellManager.Register(new ProjectileSpell(SchoolId.Arcane, "magicmissle", 5, 7, 15, "flameSpell", "flameSpellHit", seeking: true));
+            SpellManager.Register(new ProjectileSpell(SchoolId.Arcane, "magicmissle", 5, 7, 15, "debuffSpell", 16, rotationVelocy: 0f, seeking: true, wavey: false, piercesLeft: 999, ignoreTerrain: true));
             SpellManager.Register(new EnchantSpell(false));
             SpellManager.Register(new EnchantSpell(true));
             SpellManager.Register(new RewindSpell());
@@ -57,8 +57,8 @@ namespace WizardrySkill.Framework
             SpellManager.Register(new BuffSpell());
             SpellManager.Register(new EvacSpell());
 
-            SpellManager.Register(new ProjectileSpell(SchoolId.Elemental, "frostbolt", 7, 10, 20, "flameSpell", "flameSpellHit"));
-            SpellManager.Register(new ProjectileSpell(SchoolId.Elemental, "fireball", 7, 10, 20, "flameSpell", "flameSpellHit"));
+            SpellManager.Register(new ProjectileSpell(SchoolId.Elemental, "frostbolt", 7, 5, 10, "flameSpell", 9, tail: 5, debuff: "frozen", wavey: false));
+            SpellManager.Register(new ProjectileSpell(SchoolId.Elemental, "fireball", 7, 10, 20, "flameSpell", 10, tail: 10, explosion: true));
             SpellManager.Register(new DescendSpell());
             SpellManager.Register(new KilnSpell());
             SpellManager.Register(new TeleportSpell());

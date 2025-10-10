@@ -47,5 +47,13 @@ namespace WizardrySkill.Core
         public Texture2D ArcaneSchoolAnalyze1 { get; set; }
 
 
+
+        [SAsset.Asset("assets/interface/spellbg.png")]
+        public Texture2D Spellbg { get; set; }
+
+        [SAsset.Asset("assets/interface/manabg.png")]
+        public Texture2D Manabg { get; set; }
+
+
     }
 }

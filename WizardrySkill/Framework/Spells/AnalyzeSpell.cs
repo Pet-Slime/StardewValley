@@ -179,7 +179,7 @@ namespace WizardrySkill.Framework.Spells
 
                 Log.Debug($"Player learnt spell: {spell}");
                 spellBook.LearnSpell(spell, 0, true);
-                var item = ItemRegistry.Create("moonslime.Wizard.HudIcon");
+                var item = ItemRegistry.Create("moonslime.Wizardry.HudIcon");
                 var message = new HUDMessage(I18n.Spell_Learn(spellName: SpellManager.Get(spell).GetTranslatedName()));
                 message.messageSubject = item;
 
@@ -222,7 +222,7 @@ namespace WizardrySkill.Framework.Spells
                         Log.Debug("Player learnt ancient spell: " + ancientSpell);
                         spellBook.LearnSpell(ancientSpell, 0, true);
 
-                        var item = ItemRegistry.Create("moonslime.Wizard.HudIcon");
+                        var item = ItemRegistry.Create("moonslime.Wizardry.HudIcon");
                         var message = new HUDMessage(I18n.Spell_Learn_Ancient(spellName: ancientSpell.GetTranslatedName()));
                         message.messageSubject = item;
 
@@ -236,7 +236,7 @@ namespace WizardrySkill.Framework.Spells
                     Log.Debug("Player learnt ancient spell: " + rewindSpell);
                     spellBook.LearnSpell(rewindSpell, 0, true);
 
-                    var item = ItemRegistry.Create("moonslime.Wizard.HudIcon");
+                    var item = ItemRegistry.Create("moonslime.Wizardry.HudIcon");
                     var message = new HUDMessage(I18n.Spell_Learn_Ancient(spellName: rewindSpell.GetTranslatedName()));
                     message.messageSubject = item;
 
@@ -246,7 +246,7 @@ namespace WizardrySkill.Framework.Spells
 
             if (learnedAny == false)
             {
-                player.currentLocation.playSound("clank", player.Tile);
+                player.currentLocation.playSound("clank", player.Tile, 1);
             }
 
             // raise event

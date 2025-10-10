@@ -28,7 +28,7 @@ namespace ManaBar
             RenderManaBar = true;
 
             SizeMultiplier = 15f;
-            MaxOverchargeValue = 2;
+            MaxOverchargeValue = 13;
 
             BarsPosition = true;
         }

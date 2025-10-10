@@ -9,184 +9,249 @@ using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Projectiles;
 using StardewValley.TerrainFeatures;
+using static StardewValley.Menus.CharacterCustomization;
+using BirbCore.Attributes;
 
 namespace WizardrySkill.Framework.Game
 {
     public class SpellProjectile : Projectile
     {
-        /*********
-        ** Fields
-        *********/
-        private readonly Farmer Source;
-        private readonly ProjectileSpell Spell;
-        private readonly NetInt Damage = new();
-        private readonly NetFloat Direction = new();
-        private readonly NetFloat Velocity = new();
-        private readonly NetBool IsSeeking = new();
+        //
+        // Summary:
+        //     The buff ID to apply to players hit by this projectile.
+        public readonly NetString debuff = new NetString();
 
-        private Texture2D Tex;
-        private readonly NetString TexId = new();
-        private readonly Monster SeekTarget;
+        public NetBool wavyMotion = new NetBool(value: true);
 
-        private static readonly Random Rand = new();
+        public NetInt debuffIntensity = new NetInt(-1);
 
 
-        /*********
-        ** Public methods
-        *********/
+        //
+        // Summary:
+        //     The amount of damage caused when this projectile hits a monster or player.
+        public readonly NetInt damageToFarmer = new NetInt();
+
+        private float periodicEffectTimer;
+        private bool Explosion;
+
+        //
+        // Summary:
+        //     Construct an empty instance.
         public SpellProjectile()
         {
-            this.NetFields.AddField(this.Damage).AddField(this.Direction).AddField(this.Velocity).AddField(this.IsSeeking).AddField(this.TexId);
         }
 
-        public SpellProjectile(Farmer source, ProjectileSpell spell, int damage, float direction, float velocity, bool isSeeking)
+        //
+        // Summary:
+        //     Construct an instance.
+        //
+        // Parameters:
+        //   debuff:
+        //     The debuff ID to apply to players hit by this projectile.
+        //
+        //   spriteIndex:
+        //     The index of the sprite to draw in StardewValley.Projectiles.Projectile.projectileSheetName.
+        //
+        //
+        //   bouncesTillDestruct:
+        //     The number of times the projectile can bounce off walls before being destroyed.
+        //
+        //
+        //   tailLength:
+        //     The length of the tail which trails behind the main projectile.
+        //
+        //   rotationVelocity:
+        //     The rotation velocity.
+        //
+        //   xVelocity:
+        //     The speed at which the projectile moves along the X axis.
+        //
+        //   yVelocity:
+        //     The speed at which the projectile moves along the Y axis.
+        //
+        //   startingPosition:
+        //     The pixel world position at which the projectile will start moving.
+        //
+        //   location:
+        //     The location containing the projectile.
+        //
+        //   owner:
+        //     The character who fired the projectile.
+        public SpellProjectile(int damage, string debuff, int spriteIndex, int bouncesTillDestruct, int tailLength, float rotationVelocity, float xVelocity, float yVelocity, Vector2 startingPosition, GameLocation location = null, Character owner = null, bool hitsMonsters = false, bool playDefaultSoundOnFire = true, string sound = "", bool explosion = false)
             : this()
         {
-            this.Source = source;
-            this.Spell = spell;
-            this.Damage.Value = damage;
-            this.Direction.Value = direction;
-            this.Velocity.Value = velocity;
-            this.IsSeeking.Value = isSeeking;
+            this.theOneWhoFiredMe.Set(location, owner);
+            this.debuff.Value = debuff;
+            this.currentTileSheetIndex.Value = spriteIndex;
+            this.bouncesLeft.Value = bouncesTillDestruct;
+            base.tailLength.Value = tailLength;
+            base.rotationVelocity.Value = rotationVelocity;
+            base.xVelocity.Value = xVelocity;
+            base.yVelocity.Value = yVelocity;
+            this.position.Value = startingPosition;
+            this.damagesMonsters.Value = hitsMonsters;
+            this.damageToFarmer.Value = damage;
+            this.Explosion = explosion;
 
-            this.theOneWhoFiredMe.Set(source.currentLocation, this.Source);
-            this.position.Value = this.Source.getStandingPosition();
-            this.position.X += this.Source.GetBoundingBox().Width;
-            this.position.Y += this.Source.GetBoundingBox().Height;
-            this.rotation = direction;
-            this.xVelocity.Value = (float)Math.Cos(this.Direction.Value) * this.Velocity.Value;
-            this.yVelocity.Value = (float)Math.Sin(this.Direction.Value) * this.Velocity.Value;
-            this.damagesMonsters.Value = true;
-
-            this.Tex = Content.LoadTexture($"magic/{this.Spell.ParentSchoolId}/{this.Spell.Id}/projectile.png");
-            this.TexId.Value = Content.LoadTextureKey($"magic/{this.Spell.ParentSchoolId}/{this.Spell.Id}/projectile.png");
-
-            if (this.IsSeeking.Value)
+            if (playDefaultSoundOnFire)
             {
-                float nearestDist = float.MaxValue;
-                Monster nearestMob = null;
-                foreach (var character in source.currentLocation.characters)
-                {
-                    if (character is Monster mob)
-                    {
-                        float dist = Utility.distance(mob.Position.X, this.position.X, mob.Position.Y, this.position.Y);
-                        if (dist < nearestDist)
-                        {
-                            nearestDist = dist;
-                            nearestMob = mob;
-                        }
-                    }
-                }
+                string sfx = string.IsNullOrEmpty(sound) ? "debuffSpell" : sound;
 
-                this.SeekTarget = nearestMob;
+                if (location == null)
+                    Game1.playSound(sfx);
+                else
+                    location.playSound(sfx);
             }
+
+
+
+
         }
 
-        public override void behaviorOnCollisionWithMonster(NPC npc, GameLocation loc)
+        protected override void InitNetFields()
         {
-            if (npc is not Monster)
-                return;
-
-            bool didDmg = loc.damageMonster(npc.GetBoundingBox(), this.Damage.Value, this.Damage.Value + 1, false, this.Source);
-            if (this.Source != null && didDmg)
-                Utilities.AddEXP(this.Source, this.Damage.Value / ((this.theOneWhoFiredMe.Get(loc) as Farmer).CombatLevel + 1));
-            this.Disappear(loc);
+            base.InitNetFields();
+            base.NetFields.AddField(debuff, "debuff").AddField(wavyMotion, "wavyMotion").AddField(debuffIntensity, "debuffIntensity").AddField(damageToFarmer, "damageToFarmer");
         }
 
-        public override void behaviorOnCollisionWithOther(GameLocation loc)
+        public override void updatePosition(GameTime time)
         {
-            if (!this.IsSeeking.Value)
-                this.Disappear(loc);
-        }
-
-        public override void behaviorOnCollisionWithPlayer(GameLocation loc, Farmer farmer)
-        {
-        }
-
-        public override void behaviorOnCollisionWithTerrainFeature(TerrainFeature t, Vector2 tileLocation, GameLocation loc)
-        {
-            if (!this.IsSeeking.Value)
-                this.Disappear(loc);
-        }
-
-        public override bool isColliding(GameLocation location, out Character target, out TerrainFeature terrainFeature)
-        {
-            if (this.IsSeeking.Value)
+            this.xVelocity.Value += this.acceleration.X;
+            this.yVelocity.Value += this.acceleration.Y;
+            this.position.X += this.xVelocity.Value;
+            this.position.Y += this.yVelocity.Value;
+            if (this.wavyMotion.Value)
             {
-                terrainFeature = null;
-                target = location.doesPositionCollideWithCharacter(this.getBoundingBox());
-                return target != null;
+                this.position.X += (float)Math.Sin((double)time.TotalGameTime.Milliseconds * Math.PI / 128.0) * 8f;
+                this.position.Y += (float)Math.Cos((double)time.TotalGameTime.Milliseconds * Math.PI / 128.0) * 8f;
             }
-            else return base.isColliding(location, out target, out terrainFeature);
-        }
-
-        public override Rectangle getBoundingBox()
-        {
-            return new((int)(this.position.X - Game1.tileSize), (int)(this.position.Y - Game1.tileSize), Game1.tileSize / 2, Game1.tileSize / 2);
         }
 
         public override bool update(GameTime time, GameLocation location)
         {
-            if (this.IsSeeking.Value)
-            {
-                if (this.SeekTarget is not { Health: > 0 } || this.SeekTarget.currentLocation == null)
-                {
-                    this.Disappear(location);
-                    return true;
-                }
-                else
-                {
-                    Vector2 unit = new Vector2(this.SeekTarget.GetBoundingBox().Center.X + 32, this.SeekTarget.GetBoundingBox().Center.Y + 32) - this.position.Value;
-                    unit.Normalize();
 
-                    this.xVelocity.Value = unit.X * this.Velocity.Value;
-                    this.yVelocity.Value = unit.Y * this.Velocity.Value;
+            if (debuff.Value == "frozen")
+            {
+                periodicEffectTimer += (float)time.ElapsedGameTime.TotalMilliseconds;
+                if (periodicEffectTimer > 50f)
+                {
+                    periodicEffectTimer = 0f;
+                    location.temporarySprites.Add(new TemporaryAnimatedSprite("TileSheets\\Projectiles", new Rectangle(32, 32, 16, 16), 9999f, 1, 1, position.Value, flicker: false, flipped: false, 1f, 0.01f, Color.White, 4f, 0f, 0f, 0f)
+                    {
+                        motion = Utility.getRandom360degreeVector(1f) + new Vector2(xVelocity.Value, yVelocity.Value),
+                        drawAboveAlwaysFront = true
+                    });
                 }
             }
 
             return base.update(time, location);
         }
 
-        public override void updatePosition(GameTime time)
+        public override void behaviorOnCollisionWithPlayer(GameLocation location, Farmer player)
         {
-            //if (true) return;
-            this.position.X += this.xVelocity.Value;
-            this.position.Y += this.yVelocity.Value;
-        }
-        /*
-        public override bool isColliding(GameLocation location)
-        {
-            Log.trace("iscoll");
-            return false;
-            if (!location.isTileOnMap(this.position / (float)Game1.tileSize) || !this.ignoreLocationCollision && location.isCollidingPosition(this.getBoundingBox(), Game1.viewport, false, 0, true, this.theOneWhoFiredMe, false, true, false) || !this.damagesMonsters && Game1.player.GetBoundingBox().Intersects(this.getBoundingBox()))
-                return true;
-            if (this.damagesMonsters)
-                return location.doesPositionCollideWithCharacter(this.getBoundingBox(), false) != null;
-            return false;
-        }*/
+            if (!damagesMonsters.Value && Game1.random.Next(11) >= player.Immunity && !player.hasBuff("28") && !player.hasTrinketWithID("BasiliskPaw"))
+            {
+                piercesLeft.Value--;
+                if (Game1.player == player)
+                {
+                    player.applyBuff(debuff.Value);
+                }
 
-        public override void draw(SpriteBatch b)
-        {
-            this.Tex ??= Game1.content.Load<Texture2D>(this.TexId.Value);
-            Vector2 drawPos = Game1.GlobalToLocal(new Vector2(this.getBoundingBox().X + this.getBoundingBox().Width / 2, this.getBoundingBox().Y + this.getBoundingBox().Height / 2));
-            b.Draw(this.Tex, drawPos, new Rectangle(0, 0, this.Tex.Width, this.Tex.Height), Color.White, this.Direction.Value, new Vector2(this.Tex.Width / 2, this.Tex.Height / 2), 2, SpriteEffects.None, (float)((this.position.Y + (double)(Game1.tileSize * 3 / 2)) / 10000.0));
-            //Vector2 bdp = Game1.GlobalToLocal(new Vector2(getBoundingBox().X, getBoundingBox().Y));
-            //b.Draw(ModEntry.Instance.manaFg, new Rectangle((int)bdp.X, (int)bdp.Y, getBoundingBox().Width, getBoundingBox().Height), Color.White);
+                explosionAnimation(location);
+                if (debuff.Value == "19")
+                {
+                    location.playSound("frozen");
+                }
+                else
+                {
+                    location.playSound("debuffHit");
+                }
+            }
         }
 
-
-        /*********
-        ** Private methods
-        *********/
-        private void Disappear(GameLocation loc)
+        public override void behaviorOnCollisionWithTerrainFeature(TerrainFeature t, Vector2 tileLocation, GameLocation location)
         {
-            if (this.Spell?.SoundHit != null)
-                loc.LocalSoundAtPixel(this.Spell.SoundHit, this.position.Value);
+            explosionAnimation(location);
+            
+            this.piercesLeft.Value--;
+            
+        }
 
-            //Game1.createRadialDebris(loc, 22 + rand.Next( 2 ), ( int ) position.X / Game1.tileSize, ( int ) position.Y / Game1.tileSize, 3 + rand.Next(5), false);
-            Game1.createRadialDebris(loc, this.TexId.Value, Game1.getSourceRectForStandardTileSheet(Projectile.projectileSheet, 0), 4, (int)this.position.X, (int)this.position.Y, 6 + SpellProjectile.Rand.Next(10), (int)(this.position.Y / (double)Game1.tileSize) + 1, new Color(255, 255, 255, 8 + SpellProjectile.Rand.Next(64)), 2.0f);
-            //Game1.createRadialDebris(loc, tex, new Rectangle(0, 0, tex.Width, tex.Height), 0, ( int ) position.X, ( int ) position.Y, 3 + rand.Next(5), ( int ) position.Y / Game1.tileSize, Color.White, 5.0f);
-            this.destroyMe = true;
+        public override void behaviorOnCollisionWithOther(GameLocation location)
+        {
+            explosionAnimation(location);
+            this.piercesLeft.Value--;
+            
+        }
+
+        protected virtual void explosionAnimation(GameLocation location)
+        {
+            if (!(debuff.Value == "frozen"))
+            {
+                Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(352, Game1.random.Next(100, 150), 2, 1, position.Value, flicker: false, flipped: false));
+            }
+        }
+
+        public override void behaviorOnCollisionWithMonster(NPC n, GameLocation location)
+        {
+
+            if (n is Monster)
+            {
+                Farmer playerWhoFiredMe = GetPlayerWhoFiredMe(location);
+                location.damageMonster(n.GetBoundingBox(), this.damageToFarmer.Value, this.damageToFarmer.Value + 1, isBomb: false, playerWhoFiredMe, isProjectile: true);
+                Utilities.AddEXP(GetPlayerWhoFiredMe(location), this.damageToFarmer.Value / ((GetPlayerWhoFiredMe(location) as Farmer).CombatLevel + 1));
+                if (this.currentTileSheetIndex.Value == 15)
+                {
+                    Utility.addRainbowStarExplosion(location, this.position.Value, 11);
+                }
+
+                if (!(n as Monster).IsInvisible)
+                {
+                    this.piercesLeft.Value--;
+                    if (this.Explosion)
+                    {
+                        location.explode(new Vector2(n.Tile.X, n.Tile.Y), 3, GetPlayerWhoFiredMe(location), damage_amount: this.damageToFarmer.Value);
+                    }
+                }
+            }
+
+
+            if (damagesMonsters.Value && n is Monster && debuff.Value == "frozen" && (!(n is Leaper leaper) || !leaper.leaping.Value))
+            {
+                if ((n as Monster).stunTime.Value < 51)
+                {
+                    this.piercesLeft.Value--;
+                }
+
+                if ((n as Monster).stunTime.Value < debuffIntensity.Value - 1000)
+                {
+                    location.playSound("frozen");
+                    Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite("LooseSprites\\Cursors2", new Rectangle(118, 227, 16, 13), new Vector2(0f, 0f), flipped: false, 0f, Color.White)
+                    {
+                        layerDepth = (float)(n.StandingPixel.Y + 2) / 10000f,
+                        animationLength = 1,
+                        interval = debuffIntensity.Value,
+                        scale = 4f,
+                        id = (int)(n.position.X * 777f + n.position.Y * 77777f),
+                        positionFollowsAttachedCharacter = true,
+                        attachedCharacter = n
+                    });
+                }
+
+                (n as Monster).stunTime.Value = debuffIntensity.Value;
+            }
+        }
+
+        //
+        // Summary:
+        //     Get the player who fired this projectile.
+        //
+        // Parameters:
+        //   location:
+        //     The location containing the player.
+        public virtual Farmer GetPlayerWhoFiredMe(GameLocation location)
+        {
+            return (theOneWhoFiredMe.Get(location) as Farmer) ?? Game1.player;
         }
     }
 }
