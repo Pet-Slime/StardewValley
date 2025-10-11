@@ -102,7 +102,7 @@
     "spell.toil:water.name": "Water",
     "spell.toil:water.desc": "Water soil around the targeted area.\nHigher levels indicate a larger area.",
     "spell.toil:blink.name": "Blink",
-    "spell.toil:blink.desc": "Teleport to the targeted area.",
+    "spell.toil:blink.desc": "Teleport to the targeted area.\nMana cost increases with\ndistance.",
     "spell.toil:harvest.name": "Grass Removal",
     "spell.toil:harvest.desc": "Clear a large area of grass.",
 
@@ -131,7 +131,7 @@
     "spell.elemental:descend.name": "Descend",
     "spell.elemental:descend.desc": "Descend in the mines.\nHigher levels increase the floors passed, with no additional mana cost.",
     "spell.elemental:teleport.name": "Teleport",
-    "spell.elemental:teleport.desc": "Catalyst: Travel Core\n\nWhen outside, teleport to any outdoors location.",
+    "spell.elemental:teleport.desc": "Catalyst: Travel Core\n\nWhen outside, teleport to outdoor locations\nyou been to.",
 
     "spell.eldritch:meteor.name": "Meteor",
     "spell.eldritch:meteor.desc": "Catalyst: Iridium Ore",

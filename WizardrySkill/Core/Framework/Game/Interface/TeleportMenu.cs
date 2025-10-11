@@ -63,7 +63,6 @@ namespace WizardrySkill.Core.Framework.Game.Interface
         {
             base.update(time);
 
-            BirbCore.Attributes.Log.Alert($"Current location name is: {Game1.player.currentLocation.Name}");
 
             if (this.WarpTo != null)
             {
