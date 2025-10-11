@@ -112,11 +112,18 @@ namespace WizardrySkill.Core
             foreach (string SkillID in Skills.GetSkillList()) {
 
                 Skill test = GetSkill(SkillID);
-                foreach (Skills.Skill.Profession prof in test.Professions)
-                {
-                    Log.Alert($"Profession name is: {prof.Id}");
-                    Log.Alert($"Profession number is: {prof.GetVanillaId()}");
-                }
+
+//                Log.Alert($"Skill Name is: {test.GetName()}");
+//                Log.Alert($"Skill ID is: {test.Id}");
+//                Log.Alert($"This skill has the following Professions");
+//                foreach (Skills.Skill.Profession prof in test.Professions)
+//                {
+//                    Log.Alert($"");
+//                    Log.Alert($"Profession name is: {prof.GetName()}");
+//                    Log.Alert($"Profession ID is: {prof.Id}");
+//                    Log.Alert($"Profession number is: {prof.GetVanillaId()}");
+//                }
+//                Log.Alert($"-------------------------");
 
             }
         }
