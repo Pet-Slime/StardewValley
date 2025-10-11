@@ -69,7 +69,7 @@ namespace AthleticSkill.Objects
 
             if (CheckPrestigeMenu())
             {
-                if (ModEntry.IsWoLLoaded)
+                if (ModEntry.UseAltProfession)
                 {
                     return this.I18n.Get($"{this.Id}.WoL.prestige.desc", this.Tokens);
                 }
@@ -80,7 +80,7 @@ namespace AthleticSkill.Objects
             }
             else
             {
-                if (!ModEntry.IsWoLLoaded)
+                if (ModEntry.UseAltProfession)
                 {
                     return this.I18n.Get($"{this.Id}.WoL.desc", this.Tokens);
                 }

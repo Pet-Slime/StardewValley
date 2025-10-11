@@ -20,7 +20,7 @@ namespace AthleticSkill.Core.Patches
         [HarmonyPostfix]
         private static void Postfix(StardewValley.Object __instance, ref bool __result, GameLocation location)
         {
-            if (!ModEntry.IsWoLLoaded || __instance == null || __instance is not Item  || !Utility.IsGeode(__instance, true))
+            if (!ModEntry.UseAltProfession || __instance == null || __instance is not Item  || !Utility.IsGeode(__instance, true))
                 return;
 
             // Get the farmer, and if the farmer is null or doesnt have the right profession, exist out.

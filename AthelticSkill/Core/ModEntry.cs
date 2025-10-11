@@ -20,8 +20,12 @@ namespace AthleticSkill
 
         internal static bool IsWoLLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("DaLion.Professions");
 
+
+        internal static bool UseAltProfession;
+
         public override void Entry(IModHelper helper)
         {
+            UseAltProfession = false;
             Instance = this;
             Parser.ParseAll(this);
         }

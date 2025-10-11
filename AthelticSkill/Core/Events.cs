@@ -21,6 +21,10 @@ namespace AthleticSkill.Core
         [SEvent.GameLaunchedLate]
         private static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
+            if (ModEntry.IsWoLLoaded || ModEntry.Config.AlternativeStrongmanProfession)
+            {
+                ModEntry.UseAltProfession = true;
+            }
             BirbCore.Attributes.Log.Trace("Athletics: Trying to Register skill.");
             SpaceCore.Skills.RegisterSkill(new Athletic_Skill());
 
@@ -128,7 +132,7 @@ namespace AthleticSkill.Core
                 effects: new BuffEffects()
                 {
                     //If the player has the marathoner profession, increase speed amount, else it is 1
-                    Speed = { farmer.HasCustomProfession(Athletic_Skill.Athletic10b2) ? 2 : 1 },
+                    Speed = { farmer.HasCustomProfession(Athletic_Skill.Athletic10b2) ? 3 : 2 },
                     //If the player has the Linebacker profession, increase defense, else it is 0
                     Defense = { farmer.HasCustomProfession(Athletic_Skill.Athletic10a2) ? (Utilities.GetLevel(farmer)) : 0 }
                 }

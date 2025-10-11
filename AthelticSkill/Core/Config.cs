@@ -12,6 +12,10 @@ namespace AthleticSkill
     [SConfig]
     public class Config
     {
+
+        [SConfig.Option()]
+        public bool AlternativeStrongmanProfession { get; set; } = false;
+
         [SConfig.Option()]
         public KeybindList Key_Cast { get; set; } = KeybindList.Parse("LeftControl");
 

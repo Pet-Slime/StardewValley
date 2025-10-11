@@ -3,6 +3,10 @@
     "skill.perk": "+{{bonus}} Sprint Efficiency",
     "skill.perk_bonus": "Reduce the energy cost of sprinting",
 
+
+    "config.AlternativeStrongmanProfession": "Alternative Profession",
+    "config.AlternativeStrongmanProfession.tooltip": "REQUIRES RESTART!\nChanges the Strongman/Stronggal profession to crack geodes instead\nof allowing pickaxes and axes to charge.\nIs forced on if Walk of Life is installed.",
+
     "config.Key_Cast": "Sprint Key",
     "config.Key_Cast.tooltip": "The key needed to toggle/hold for sprint.",
 
@@ -13,7 +17,7 @@
     "config.ExpFromSprinting.tooltip": "Exp gained while sprinting",
 
     "config.ExpChanceFromTools": "Exp chance from using tools",
-    "config.ExpChanceFromTools.tooltip": "The chance for using a tool to give you exp. 25 = 25% chance.",
+    "config.ExpChanceFromTools.tooltip": "The chance for using a tool to give you exp. 25 is 25% chance.",
 
     "config.ExpFromLightToolUse": "Exp from Light Tools",
     "config.ExpFromLightToolUse.tooltip": "Exp from tools that drain stamina marked as light (Default: all tools except axes and pickaxes)",
@@ -22,7 +26,7 @@
     "config.ExpFromHeavyToolUse.tooltip": "Exp from tools that drain stamina marked as heavy (Default: axes and pickaxes)",
 
     "config.MinimumEnergyToSprint": "Minimum energy required to sprint.",
-    "config.MinimumEnergyToSprint.tooltip": "Change the minimum required amount of energy that is needed to sprint.",
+    "config.MinimumEnergyToSprint.tooltip": "The minimum required amount of energy that is needed to sprint.",
 
     "moonslime.Athletics.sprinting.displayName": "Sprinting",
     "moonslime.Athletics.sprinting.description": "Faster movement at the cost of energy!",
@@ -35,7 +39,7 @@
 
     "Athletic5a.name": "Bodybuilder",
     "Athletic5a.desc": "Regenerate health based on athletics level.",
-    "Athletic5b.name": "Runner",
+    "Athletic5b.name": "Jogger",
     "Athletic5b.desc": "Regenerate energy based on athletics level'",
     "Athletic10a1.name": "Strong${man^woman^person}$",
     "Athletic10a1.desc": "Allows the charging of Axes and Pickaxes.",

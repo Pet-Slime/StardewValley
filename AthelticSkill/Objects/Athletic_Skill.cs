@@ -22,10 +22,17 @@ namespace AthleticSkill
 
             this.ExperienceBarColor = new Microsoft.Xna.Framework.Color(205, 127, 50);
             this.ExperienceCurve = new[] { 100, 380, 770, 1300, 2150, 3300, 4000, 6900, 10000, 15000 };
+
+            var StrongManTexture = ModEntry.Assets.Athletic10a1;
+            if (ModEntry.UseAltProfession)
+            {
+                StrongManTexture = ModEntry.Assets.Athletic10a1_alt;
+            }
+
             this.AddProfessions(
                 Athletic5a = new KeyedProfession(this, "Athletic5a", ModEntry.Assets.Athletic5a, ModEntry.Instance.I18N),
                 Athletic5b = new KeyedProfession(this, "Athletic5b", ModEntry.Assets.Athletic5b, ModEntry.Instance.I18N),
-                Athletic10a1 = new StrongProfession(this, "Athletic10a1", ModEntry.Assets.Athletic10a1, ModEntry.Instance.I18N),
+                Athletic10a1 = new StrongProfession(this, "Athletic10a1", StrongManTexture, ModEntry.Instance.I18N),
                 Athletic10a2 = new KeyedProfession(this, "Athletic10a2", ModEntry.Assets.Athletic10a2, ModEntry.Instance.I18N),
                 Athletic10b1 = new KeyedProfession(this, "Athletic10b1", ModEntry.Assets.Athletic10b1, ModEntry.Instance.I18N),
                 Athletic10b2 = new KeyedProfession(this, "Athletic10b2", ModEntry.Assets.Athletic10b2, ModEntry.Instance.I18N)
