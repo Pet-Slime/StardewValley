@@ -1,12 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HarmonyLib;
-using StardewValley.Tools;
 using StardewValley;
-using BirbCore.Attributes;
+using StardewValley.Tools;
 
 namespace AthleticSkill.Core.Patches
 {

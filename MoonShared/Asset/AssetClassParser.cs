@@ -57,9 +57,9 @@ namespace MoonShared.Asset
 
         private void ParseAllProperties()
         {
-            foreach(PropertyInfo propertyInfo in this.Assets.GetType().GetProperties())
+            foreach (PropertyInfo propertyInfo in this.Assets.GetType().GetProperties())
             {
-                foreach(Attribute attr in propertyInfo.GetCustomAttributes(false))
+                foreach (Attribute attr in propertyInfo.GetCustomAttributes(false))
                 {
                     if (attr is AssetProperty assetProperty)
                     {
@@ -115,7 +115,7 @@ namespace MoonShared.Asset
 
         private static object LoadValue(PropertyInfo propertyInfo, string modId)
         {
-            return Game1.content.GetType().GetMethod("Load", new[] {typeof(string)} )
+            return Game1.content.GetType().GetMethod("Load", new[] { typeof(string) })
                 .MakeGenericMethod(propertyInfo.PropertyType)
                 .Invoke(Game1.content, new string[] { modId });
         }

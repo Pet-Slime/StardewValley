@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using StardewModdingAPI;
 using Log = BirbCore.Attributes.Log;
 
@@ -53,7 +52,7 @@ namespace MoonShared.Command
 
         private void ParseAllMethods()
         {
-            foreach(MethodInfo methodInfo in this.Command.GetType().GetMethods())
+            foreach (MethodInfo methodInfo in this.Command.GetType().GetMethods())
             {
                 foreach (Attribute attr in methodInfo.GetCustomAttributes(false))
                 {

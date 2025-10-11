@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework.Graphics;
+using MoonShared;
 using SpaceCore;
 using SpaceCore.Interface;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using MoonShared;
 
 namespace AthleticSkill.Objects
 {

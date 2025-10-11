@@ -1,16 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BirbCore.Attributes;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using MoonShared;
 using SpaceCore;
 using StardewValley;
-using StardewValley.Objects;
-using xTile.Tiles;
 
 namespace AthleticSkill.Core.Patches
 {
@@ -20,7 +11,7 @@ namespace AthleticSkill.Core.Patches
         [HarmonyPostfix]
         private static void Postfix(StardewValley.Object __instance, ref bool __result, GameLocation location)
         {
-            if (!ModEntry.UseAltProfession || __instance == null || __instance is not Item  || !Utility.IsGeode(__instance, true))
+            if (!ModEntry.UseAltProfession || __instance == null || __instance is not Item || !Utility.IsGeode(__instance, true))
                 return;
 
             // Get the farmer, and if the farmer is null or doesnt have the right profession, exist out.
@@ -65,7 +56,8 @@ namespace AthleticSkill.Core.Patches
         private static TemporaryAnimatedSprite CreateGeodeAnimation(Item item, Vector2 position)
         {
             TemporaryAnimatedSprite sprite = new TemporaryAnimatedSprite(0, 9999f, 1, 999, position, flicker: false, flipped: false, verticalFlipped: false, 0f)
-            { motion = new Vector2(0f, -1f),
+            {
+                motion = new Vector2(0f, -1f),
                 scaleChange = 0.01f,
                 alpha = 1f,
                 alphaFade = 0.0075f,
@@ -74,7 +66,8 @@ namespace AthleticSkill.Core.Patches
                 xPeriodic = true,
                 xPeriodicLoopTime = 1000f,
                 xPeriodicRange = 4f,
-                layerDepth = 1f };
+                layerDepth = 1f
+            };
             sprite.CopyAppearanceFromItemId(item.QualifiedItemId);
             return sprite;
         }

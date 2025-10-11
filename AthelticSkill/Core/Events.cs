@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using BirbCore.Attributes;
-using Netcode;
 using SpaceCore;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -14,7 +13,7 @@ namespace AthleticSkill.Core
     [SEvent]
     public class Events
     {
-        private static string SpringtingOn = "moonslime.AthelticSkill.sprinting";
+        private static readonly string SpringtingOn = "moonslime.AthelticSkill.sprinting";
 
 
 
@@ -28,8 +27,8 @@ namespace AthleticSkill.Core
             BirbCore.Attributes.Log.Trace("Athletics: Trying to Register skill.");
             SpaceCore.Skills.RegisterSkill(new Athletic_Skill());
 
-//            var field = ModEntry.Instance.Helper.Reflection.GetField<NetFloat>(Game1.player, "netStamina");
-//            field.GetValue().fieldChangeEvent += (field, oldValue, newValue) => OnStaminaUse(oldValue, newValue);
+            //            var field = ModEntry.Instance.Helper.Reflection.GetField<NetFloat>(Game1.player, "netStamina");
+            //            field.GetValue().fieldChangeEvent += (field, oldValue, newValue) => OnStaminaUse(oldValue, newValue);
         }
 
         private static void OnStaminaUse(float oldValue, float newValue)
@@ -97,8 +96,8 @@ namespace AthleticSkill.Core
             // Adjust player stamina
             farmer.stamina -= energyDrainPerSecond * StaminaDivisor;
 
-            if (e.IsMultipleOf(TimeChecker*6))
-               Utilities.AddEXP(farmer, ModEntry.Config.ExpFromSprinting);
+            if (e.IsMultipleOf(TimeChecker * 6))
+                Utilities.AddEXP(farmer, ModEntry.Config.ExpFromSprinting);
 
         }
 
@@ -128,7 +127,7 @@ namespace AthleticSkill.Core
                 description: farmer.HasCustomProfession(Athletic_Skill.Athletic10a2) ? ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description_Gridball") : ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description"),
                 iconTexture: farmer.HasCustomProfession(Athletic_Skill.Athletic10a2) ? ModEntry.Assets.IconA : ModEntry.Assets.IconA,
                 iconSheetIndex: 0,
-                duration: ((int)(TimeChecker*20)),
+                duration: ((int)(TimeChecker * 20)),
                 effects: new BuffEffects()
                 {
                     //If the player has the marathoner profession, increase speed amount, else it is 1

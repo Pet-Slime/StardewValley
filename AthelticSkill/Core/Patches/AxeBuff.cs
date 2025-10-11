@@ -1,21 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Newtonsoft.Json.Linq;
+using SpaceCore;
 using StardewValley;
 using StardewValley.Extensions;
-using StardewValley.Locations;
-using StardewValley.TerrainFeatures;
 using StardewValley.Tools;
-using static BirbCore.Attributes.SMod;
-using xTile.Dimensions;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
-using SpaceCore;
-using xTile.Tiles;
 
 namespace AthleticSkill.Core.Patches
 {
@@ -23,7 +12,7 @@ namespace AthleticSkill.Core.Patches
     public class AxeBeginUsing_patch
     {
         [HarmonyPrefix]
-        private static bool Prefix(Axe __instance, GameLocation location, int x, int y, Farmer who)
+        private static bool Prefix(Axe __instance, Farmer who)
         {
             // Copied from Stardewvalley.Tool
 

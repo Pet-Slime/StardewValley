@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BirbCore.Attributes;
-using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
 
 namespace AthleticSkill
@@ -26,7 +20,7 @@ namespace AthleticSkill
         public int MinimumEnergyToSprint { get; set; } = 20;
 
         [SConfig.Option(1, 100, 1)]
-        public int ExpFromSprinting{ get; set; } = 1;
+        public int ExpFromSprinting { get; set; } = 1;
 
 
         [SConfig.Option(0, 100, 1)]

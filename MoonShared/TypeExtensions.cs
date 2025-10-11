@@ -6,9 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
 using HarmonyLib;
-using StardewValley;
 using StardewValley.Mods;
 
 namespace MoonShared

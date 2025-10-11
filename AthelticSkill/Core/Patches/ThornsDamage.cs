@@ -1,14 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BirbCore.Attributes;
 using HarmonyLib;
 using SpaceCore;
 using StardewValley;
 using StardewValley.Monsters;
-using StardewValley.Tools;
 
 namespace AthleticSkill.Core.Patches
 {
@@ -19,7 +13,7 @@ namespace AthleticSkill.Core.Patches
         //Patch farmer take damage
         //This is a prefix since we can set the farmer invincible if they pass the check right before they take the damage, negating the damage.
         [HarmonyPostfix]
-        private static void PostFix(Farmer __instance, ref int damage, ref bool overrideParry,ref Monster damager)
+        private static void PostFix(Farmer __instance, ref int damage, ref bool overrideParry, ref Monster damager)
         {
             //Check to see if they have the acrobat profession
             if (__instance.HasCustomProfession(Athletic_Skill.Athletic10a2))
