@@ -3,7 +3,7 @@ using MoonShared;
 using StardewModdingAPI;
 using StardewValley;
 using WizardrySkill.Core;
-using WizardrySkill.Framework;
+using WizardrySkill.Core.Framework;
 
 namespace WizardrySkill.Objects
 {
@@ -78,7 +78,7 @@ namespace WizardrySkill.Objects
         public override void DoLevelPerk(int level)
         {
             // fix magic info if invalid
-            Magic.FixMagicIfNeeded(Game1.player, overrideMagicLevel: level - 1);
+            Events.FixMagicIfNeeded(Game1.player, overrideMagicLevel: level - 1);
 
             // add level perk
             int curMana = Game1.player.GetMaxMana();

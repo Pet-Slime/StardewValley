@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BirbCore.Attributes;
 using WizardrySkill.Core;
-using WizardrySkill.Framework;
 using StardewModdingAPI;
 using StardewValley;
+using WizardrySkill.Core.Framework;
 
 namespace WizardrySkill.API
 {

@@ -1,9 +1,9 @@
-using WizardrySkill.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MoonShared;
 using SpaceCore;
 using StardewModdingAPI;
 using StardewValley;
+using WizardrySkill.Core.Framework;
 
 namespace WizardrySkill.Objects
 {

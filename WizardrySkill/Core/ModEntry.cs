@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using BirbCore.Attributes;
 using WizardrySkill.API;
-using WizardrySkill.Framework;
 using MoonShared.APIs;
 using StardewModdingAPI;
 using StardewValley;
+using WizardrySkill.Core.Framework;
 
 namespace WizardrySkill.Core
 {
@@ -34,9 +34,10 @@ namespace WizardrySkill.Core
             Instance = this;
             LegacyDataMigrator = new(this.Monitor);
 
-            GameLocation.RegisterTileAction("MagicAltar", WizardrySkill.Framework.Magic.HandleMagicAltar);
-            GameLocation.RegisterTileAction("MagicRadio", WizardrySkill.Framework.Magic.HandleMagicRadio);
+            GameLocation.RegisterTileAction("MagicAltar", Events.HandleMagicAltar);
+            GameLocation.RegisterTileAction("MagicRadio", Events.HandleMagicRadio);
             Parser.ParseAll(this);
+            ModEntry.Instance.Helper.Events.GameLoop.GameLaunched += Events.GameLaunched;
         }
 
         /// <summary>Get an API that other mods can access. This is always called after <see cref="M:StardewModdingAPI.Mod.Entry(StardewModdingAPI.IModHelper)" />.</summary>

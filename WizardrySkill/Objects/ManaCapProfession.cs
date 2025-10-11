@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WizardrySkill.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MoonShared;
 using SpaceCore;
 using StardewModdingAPI;
 using StardewValley;
+using WizardrySkill.Core.Framework;
 
 namespace WizardrySkill.Objects
 {
