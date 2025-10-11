@@ -217,18 +217,24 @@ namespace WizardrySkill.Core.Framework.Spells
                     if (schoolId == SchoolId.Arcane)
                         continue;
 
-                    var ancientSpell = school.GetSpellsTier3()[0];
-                    if (knowsAllSchool && !spellBook.KnowsSpell(ancientSpell, 0))
+
+                    foreach (var spell in school.GetSpellsTier3())
                     {
-                        Log.Debug("Player learnt ancient spell: " + ancientSpell);
-                        spellBook.LearnSpell(ancientSpell, 0, true);
+                        var ancientSpell = spell;
+                        if (knowsAllSchool && !spellBook.KnowsSpell(ancientSpell, 0))
+                        {
+                            Log.Debug("Player learnt ancient spell: " + ancientSpell);
+                            spellBook.LearnSpell(ancientSpell, 0, true);
 
-                        var item = ItemRegistry.Create("moonslime.Wizardry.HudIcon");
-                        var message = new HUDMessage(I18n.Spell_Learn_Ancient(spellName: ancientSpell.GetTranslatedName()));
-                        message.messageSubject = item;
+                            var item = ItemRegistry.Create("moonslime.Wizardry.HudIcon");
+                            var message = new HUDMessage(I18n.Spell_Learn_Ancient(spellName: ancientSpell.GetTranslatedName()));
+                            message.messageSubject = item;
 
-                        Game1.addHUDMessage(message);
+                            Game1.addHUDMessage(message);
+                        }
                     }
+
+                    
                 }
 
                 var rewindSpell = School.GetSchool(SchoolId.Arcane).GetSpellsTier3()[0];

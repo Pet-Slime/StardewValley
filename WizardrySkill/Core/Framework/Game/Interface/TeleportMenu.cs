@@ -35,15 +35,18 @@ namespace WizardrySkill.Core.Framework.Game.Interface
         /*********
         ** Public methods
         *********/
-        public TeleportMenu()
+        public TeleportMenu(Farmer player)
             : base((Game1.viewport.Width - WindowWidth) / 2, (Game1.viewport.Height - WindowHeight) / 2, WindowWidth, WindowHeight)
         {
             foreach (var loc in Game1.locations)
             {
-                if (loc.IsOutdoors && !(loc.Name.StartsWith("SDM") && loc.Name.EndsWith("Farm")))
+                if (player.modData.ContainsKey("moonslime.Wizardry.TeleportTo."+loc.Name))
                     this.Locs.Add(loc.Name);
-            }
 
+            }
+            this.Locs.Remove("Summit");
+            this.Locs.Remove("BeachNightMarket");
+            this.Locs.Remove("DesertFestival");
             int x = this.xPositionOnScreen + 12, y = this.yPositionOnScreen + 12, w = WindowWidth - 24, h = WindowHeight - 24;
             this.ScrollbarBack = new Rectangle(x + w - Game1.pixelZoom * 6, y, Game1.pixelZoom * 6, h);
             this.Scrollbar = new Rectangle(this.ScrollbarBack.X + 2, this.ScrollbarBack.Y + 2, 6 * Game1.pixelZoom - 4, (int)(5.0 / this.Locs.Count * this.ScrollbarBack.Height) - 4);
@@ -60,19 +63,22 @@ namespace WizardrySkill.Core.Framework.Game.Interface
         {
             base.update(time);
 
+            BirbCore.Attributes.Log.Alert($"Current location name is: {Game1.player.currentLocation.Name}");
+
             if (this.WarpTo != null)
             {
                 var locObj = Game1.getLocationFromName(this.WarpTo);
                 int mapW = locObj.Map.Layers[0].LayerWidth;
                 int mapH = locObj.map.Layers[0].LayerHeight;
+                int tileSize = Game1.tileSize;
 
                 var cloud = new CloudMount
                 {
                     currentLocation = locObj,
-                    Position = new Vector2(mapW * Game1.tileSize / 2, mapH * Game1.tileSize / 2)
+                    Position = new Vector2(mapW * tileSize / 4, mapH * tileSize / 2)
                 };
-                Vector2 tileForCharacter = Utility.recursiveFindOpenTileForCharacter(cloud, locObj, cloud.Tile, 9 * 9);
-                cloud.Position = new Vector2(tileForCharacter.X * Game1.tileSize, tileForCharacter.Y * Game1.tileSize);
+                Vector2 tileForCharacter = Utility.recursiveFindOpenTileForCharacter(cloud, locObj, cloud.Tile, 5, false);
+                cloud.Position = new Vector2(tileForCharacter.X * tileSize, tileForCharacter.Y * tileSize);
                 locObj.addCharacter(cloud);
                 Game1.player.mount = cloud;
                 cloud.rider = Game1.player;
@@ -81,7 +87,9 @@ namespace WizardrySkill.Core.Framework.Game.Interface
 
                 Game1.playSound("wand");
                 Game1.warpFarmer(this.WarpTo, (int)cloud.Tile.X, (int)cloud.Tile.Y, false);
+                Game1.player.mount.dismount();
                 Game1.player.Items.ReduceId("moonslime.Wizardry.Travel_Core", 1);
+
                 Utilities.AddEXP(Game1.player, 25);
             }
 

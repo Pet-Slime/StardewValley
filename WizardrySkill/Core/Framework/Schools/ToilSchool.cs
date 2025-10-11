@@ -23,7 +23,13 @@ namespace WizardrySkill.Core.Framework.Schools
 
         public override Spell[] GetSpellsTier3()
         {
-            return new[] { SpellManager.Get("toil:collect") };
+            if (ModEntry.Config.VoidSchool)
+            {
+                return new[] { SpellManager.Get("toil:collect"), SpellManager.Get("toil:blink") };
+            } else
+            {
+                return new[] { SpellManager.Get("toil:collect") };
+            }
         }
     }
 }

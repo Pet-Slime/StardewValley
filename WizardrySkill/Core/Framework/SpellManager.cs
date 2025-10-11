@@ -44,6 +44,10 @@ namespace WizardrySkill.Core.Framework
             Register(new WaterSpell());
             Register(new CollectionSpell());
             Register(new HarvestSpell());
+            if (ModEntry.Config.VoidSchool)
+            {
+                Register(new BlinkSpell());
+            }
 
             Register(new LanternSpell(getNewId));
             Register(new TendrilsSpell());

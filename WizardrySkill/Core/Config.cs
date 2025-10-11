@@ -14,6 +14,9 @@ namespace WizardrySkill.Core
     public class Config
     {
 
+        [SConfig.Option()]
+        public bool VoidSchool { get; set; } = false;
+
         [SConfig.Option("SeedShop")]
         public string AltarLocation { get; set; } = "SeedShop";
         [SConfig.Option()]

@@ -33,7 +33,7 @@ namespace WizardrySkill.Core.Framework.Spells
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
             if (player.IsLocalPlayer)
-                Game1.activeClickableMenu = new TeleportMenu();
+                Game1.activeClickableMenu = new TeleportMenu(player);
 
             return null;
         }

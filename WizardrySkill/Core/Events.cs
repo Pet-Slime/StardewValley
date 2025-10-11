@@ -258,8 +258,14 @@ namespace WizardrySkill.Core
 
             int positionModifier = ModEntry.HasStardewValleyExpanded ? 17 : 5;
 
+            if (e.NewLocation.IsOutdoors && !e.Player.modData.ContainsKey("moonslime.Wizardry.TeleportTo."+e.NewLocation.Name))
+            {
+                e.Player.modData.Add("moonslime.Wizardry.TeleportTo."+e.NewLocation.Name, "");
+
+            }
+
             // check events
-            if (e.NewLocation.Name == "WizardHouse" && !LearnedMagic && Game1.player.friendshipData.TryGetValue("Wizard", out Friendship wizardFriendship) && wizardFriendship.Points >= 750)
+            if (e.NewLocation.Name == "WizardHouse" && !LearnedMagic && e.Player.friendshipData.TryGetValue("Wizard", out Friendship wizardFriendship) && wizardFriendship.Points >= 750)
             {
                 string eventStr = "WizardSong/0 " + positionModifier + "/Wizard 8 " + positionModifier + " 0 farmer 8 " + (positionModifier + 10) + " 0/skippable/ignoreCollisions farmer/move farmer 0 -8 0/speak Wizard \"{0}#$b#{1}#$b#{2}#$b#{3}#$b#{4}#$b#{5}#$b#{6}#$b#{7}#$b#{8}\"/textAboveHead Wizard \"{9}\"/pause 750/fade 750/end";
                 eventStr = string.Format(
@@ -278,11 +284,11 @@ namespace WizardrySkill.Core
                 e.NewLocation.currentEvent = new Event(eventStr, null, MagicConstants.LearnedMagicEventId.ToString());
                 Game1.eventUp = true;
                 Game1.displayHUD = false;
-                Game1.player.CanMove = false;
-                Game1.player.showNotCarrying();
-                Core.Utilities.AddEXP(Game1.player, Skill.ExperienceCurve[0]);
-                FixMagicIfNeeded(Game1.player, overrideMagicLevel: 1); // let player start using WizardrySkill immediately
-                Game1.player.eventsSeen.Add(MagicConstants.LearnedMagicEventId.ToString());
+                e.Player.CanMove = false;
+                e.Player.showNotCarrying();
+                Core.Utilities.AddEXP(e.Player, Skill.ExperienceCurve[0]);
+                FixMagicIfNeeded(e.Player, overrideMagicLevel: 1); // let player start using WizardrySkill immediately
+                e.Player.eventsSeen.Add(MagicConstants.LearnedMagicEventId.ToString());
             }
         }
 

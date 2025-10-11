@@ -46,7 +46,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 return null;
 
             // skip if out of mana
-            if (player.GetCurrentMana() <= 3 * obj.Stack)
+            if (player.GetCurrentMana() < 3 * obj.Stack)
                 return null;
 
             var one = (StardewValley.Object)obj.getOne();

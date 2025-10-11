@@ -162,6 +162,11 @@
     /*********
     ** Generic Mod Config Menu UI
     *********/
+
+
+    "config.VoidSchool": "Enable Blink Spell",
+    "config.VoidSchool.tooltip": "REQUIRES GAME RESTART.\nAllows the user to learn the spell blink.\nBlink can sometimes cause softlocks, user beware.",
+
     // altar and radio placement
     "config.altar-placement": "Altar placement",
     "config.radio-placement": "Radio placement",
