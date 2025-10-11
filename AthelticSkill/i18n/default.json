@@ -12,11 +12,14 @@
     "config.ExpFromSprinting": "Exp from Sprinting",
     "config.ExpFromSprinting.tooltip": "Exp gained while sprinting",
 
-    "config.ExpFromToolUse": "Exp from Light Tools",
-    "config.ExpFromToolUse.tooltip": "Exp from tools that drain stamina marked as light (Default: all tools except axes and pickaxes)",
+    "config.ExpChanceFromTools": "Exp chance from using tools",
+    "config.ExpChanceFromTools.tooltip": "The chance for using a tool to give you exp. 25 = 25% chance.",
 
-    "config.ExpFromAxUse": "Exp from Heavy Tools",
-    "config.ExpFromAxUse.tooltip": "Exp from tools that drain stamina marked as heavy (Default: axes and pickaxes)",
+    "config.ExpFromLightToolUse": "Exp from Light Tools",
+    "config.ExpFromLightToolUse.tooltip": "Exp from tools that drain stamina marked as light (Default: all tools except axes and pickaxes)",
+
+    "config.ExpFromHeavyToolUse": "Exp from Heavy Tools",
+    "config.ExpFromHeavyToolUse.tooltip": "Exp from tools that drain stamina marked as heavy (Default: axes and pickaxes)",
 
     "config.MinimumEnergyToSprint": "Minimum energy required to sprint.",
     "config.MinimumEnergyToSprint.tooltip": "Change the minimum required amount of energy that is needed to sprint.",

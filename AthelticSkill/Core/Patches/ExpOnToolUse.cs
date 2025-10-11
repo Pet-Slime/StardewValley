@@ -36,19 +36,26 @@ namespace AthleticSkill.Core.Patches
     }
 
     [HarmonyPatch(typeof(Tool), nameof(Tool.DoFunction))]
-    public class Tool_exp_patch
+    public static class ToolExpPatch
     {
         [HarmonyPostfix]
         private static void Postfix(Tool __instance, Farmer who)
         {
+            if (who == null || __instance == null)
+                return;
+
+            if (Game1.random.NextDouble() >= ModEntry.Config.ExpChanceFromTools / 100.0)
+                return;
+
+            int expToAdd = 0;
+
             if (__instance.HasContextTag("moonslime.Athletics.light_tool"))
-            {
-                Utilities.AddEXP(who, ModEntry.Config.ExpFromAxUse);
-            }
+                expToAdd = ModEntry.Config.ExpFromLightToolUse;
             else if (__instance.HasContextTag("moonslime.Athletics.heavy_tool"))
-            {
-                Utilities.AddEXP(who, ModEntry.Config.ExpFromToolUse);
-            }
+                expToAdd = ModEntry.Config.ExpFromHeavyToolUse;
+
+            if (expToAdd > 0)
+                Utilities.AddEXP(who, expToAdd);
         }
     }
 }
