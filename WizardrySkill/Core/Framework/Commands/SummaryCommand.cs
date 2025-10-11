@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
-using WizardrySkill.Framework.Spells;
+using WizardrySkill.Core.Framework.Spells;
 using SpaceCore;
 using SpaceShared;
 using SpaceShared.ConsoleCommands;

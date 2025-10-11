@@ -1,5 +1,5 @@
 using System;
-using WizardrySkill.Framework.Game;
+using WizardrySkill.Core.Framework.Game;
 using StardewValley;
 using WizardrySkill.Core;
 using Microsoft.Xna.Framework;
@@ -21,17 +21,12 @@ namespace WizardrySkill.Core.Framework.Spells
         public int DamageBase { get; }
         public int DamageIncr { get; }
         public string Sound { get; }
-        public string SoundHit { get; }
         public bool Seeking { get; }
-
         public int SpriteIndex { get; }
-
         public int Bounces { get; }
         public string Debuff { get; }
         public int Tail { get; }
-
         public float RotationalVelocy { get; }
-
         public bool Wavey { get; }
         public int PiercesLeft { get; }
         public bool IgnoreTerrain { get; }
@@ -74,15 +69,15 @@ namespace WizardrySkill.Core.Framework.Spells
         {
             int ammoDamage = (this.DamageBase + this.DamageIncr * (level + 1)) * (player.CombatLevel + 1) / 2;
             int finalDamage = (int)((ammoDamage + Game1.random.Next(-(ammoDamage / 2), ammoDamage + 2)) * (1f + player.buffs.AttackMultiplier));
-            Vector2 shootOrigin = GetShootOrigin(player);
-            Vector2 velocityTowardPoint = Utility.getVelocityTowardPoint(GetShootOrigin(player), AdjustForHeight(new Vector2(targetX, targetY)), (15 + Game1.random.Next(4, 6)) * (1f + player.buffs.WeaponSpeedMultiplier));
+            Vector2 shootOrigin = this.GetShootOrigin(player);
+            Vector2 velocityTowardPoint = Utility.getVelocityTowardPoint(this.GetShootOrigin(player), this.AdjustForHeight(new Vector2(targetX, targetY)), (15 + Game1.random.Next(4, 6)) * (1f + player.buffs.WeaponSpeedMultiplier));
             var location = player.currentLocation;
             var spellProjectile = new SpellProjectile(finalDamage, this.Debuff, this.SpriteIndex, this.Bounces,
                  this.Tail, this.RotationalVelocy, velocityTowardPoint.X, velocityTowardPoint.Y, shootOrigin, location, player, true, sound: this.Sound, explosion: this.Explosion);
             spellProjectile.wavyMotion.Value = this.Wavey;
             spellProjectile.piercesLeft.Value = this.PiercesLeft;
             spellProjectile.rotationVelocity.Value = this.RotationalVelocy;
-            spellProjectile.startingRotation.Value = GetRotation(player, targetX, targetY);
+            spellProjectile.startingRotation.Value = this.GetRotation(player, targetX, targetY);
 
             spellProjectile.debuffIntensity.Value = 4000;
             spellProjectile.boundingBoxWidth.Value = 32;
@@ -102,10 +97,10 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public Vector2 GetShootOrigin(Farmer who)
         {
-            return AdjustForHeight(who.getStandingPosition(), for_cursor: false);
+            return this.AdjustForHeight(who.getStandingPosition());
         }
 
-        public Vector2 AdjustForHeight(Vector2 position, bool for_cursor = true)
+        public Vector2 AdjustForHeight(Vector2 position)
         {
             return new Vector2(position.X - 8, position.Y - 32f - 8f);
 
@@ -117,7 +112,7 @@ namespace WizardrySkill.Core.Framework.Spells
             int mouseX = point.X;
             int mouseY = point.Y;
 
-            Vector2 shootOrigin = GetShootOrigin(player);
+            Vector2 shootOrigin = this.GetShootOrigin(player);
             float rotation = (float)Math.Atan2(mouseY - shootOrigin.Y, mouseX - shootOrigin.X) + (float)-Math.PI / 2;
 
             rotation -= (float)Math.PI;

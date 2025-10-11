@@ -1,4 +1,4 @@
-using WizardrySkill.Framework.Spells.Effects;
+using WizardrySkill.Core.Framework.Spells.Effects;
 using SpaceCore;
 using StardewValley;
 using WizardrySkill.Core;

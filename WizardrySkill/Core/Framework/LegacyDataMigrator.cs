@@ -74,7 +74,7 @@ namespace WizardrySkill.Core.Framework
             foreach (var pair in legacyData?.Players ?? new())
             {
                 // get player spellbook
-                Farmer player = Game1.getFarmerMaybeOffline(pair.Key);
+                Farmer player = Game1.GetPlayer(pair.Key);
                 if (player == null)
                     continue;
                 SpellBook book = player.GetSpellBook();

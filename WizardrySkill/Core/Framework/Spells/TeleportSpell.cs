@@ -1,5 +1,5 @@
 using System.Linq;
-using WizardrySkill.Framework.Game.Interface;
+using WizardrySkill.Core.Framework.Game.Interface;
 using StardewValley;
 using WizardrySkill.Core;
 using WizardrySkill.Core.Framework;

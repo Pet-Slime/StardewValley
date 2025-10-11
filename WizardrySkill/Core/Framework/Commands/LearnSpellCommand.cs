@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using WizardrySkill.Framework.Spells;
+using WizardrySkill.Core.Framework.Spells;
 using SpaceShared;
 using SpaceShared.ConsoleCommands;
 using StardewModdingAPI;

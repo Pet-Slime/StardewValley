@@ -1,6 +1,6 @@
 using System;
 using WizardrySkill.Core;
-using WizardrySkill.Framework.Spells;
+using WizardrySkill.Core.Framework.Spells;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Netcode;

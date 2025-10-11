@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using WizardrySkill.Framework.Game.Interface;
+using WizardrySkill.Core.Framework.Game.Interface;
 using SpaceShared;
 using SpaceShared.ConsoleCommands;
 using StardewModdingAPI;

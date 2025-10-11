@@ -15,13 +15,14 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Menus;
 using SpaceCore;
 using System.Text.RegularExpressions;
-using WizardrySkill.Framework.Game.Interface;
+using WizardrySkill.Core.Framework.Game.Interface;
 using Microsoft.Xna.Framework;
 using StardewValley.Network;
 using Log = BirbCore.Attributes.Log;
 using MoonShared;
 using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Spells;
+using static SpaceCore.Skills;
 
 namespace WizardrySkill.Core
 {
@@ -37,10 +38,13 @@ namespace WizardrySkill.Core
         private static IInputHelper InputHelper;
         private static bool CastPressed;
         private static double CarryoverManaRegen;
-        private static Toolbar? GetToolbar() => Game1.onScreenMenus.OfType<Toolbar>().FirstOrDefault();
+        private static Toolbar? GetToolbar()
+        {
+            return Game1.onScreenMenus.OfType<Toolbar>().FirstOrDefault();
+        }
 
         /// <summary>The active effects, spells, or projectiles which should be updated or drawn.</summary>
-        private static readonly IList<IActiveEffect> ActiveEffects = new List<IActiveEffect>();
+        private static readonly IList<IActiveEffect> ActiveEffects = [];
 
         /// <summary>The self-updating views of magic metadata for each player.</summary>
         /// <remarks>This should only be accessed through <see cref="GetSpellBook"/> or <see cref="Extensions.GetSpellBook"/> to make sure an updated instance is retrieved.</remarks>
@@ -84,13 +88,13 @@ namespace WizardrySkill.Core
 
             var helper = ModEntry.Instance.Helper;
             Log.Trace("Magic: Trying to Register skill.");
-            Init(helper.Events, helper.Input, helper.ModRegistry, helper.Multiplayer.GetNewID);
+            Init(helper.Input, helper.Multiplayer.GetNewID);
         }
 
         /*********
         ** Public methods
         *********/
-        public static void Init(IModEvents events, IInputHelper inputHelper, IModRegistry modRegistry, Func<long> getNewId)
+        public static void Init(IInputHelper inputHelper, Func<long> getNewId)
         {
             InputHelper = inputHelper;
 
@@ -104,6 +108,17 @@ namespace WizardrySkill.Core
             OnAnalyzeCast += (sender, e) => ModEntry.Instance.Api.InvokeOnAnalyzeCast(sender as Farmer);
 
             SpaceCore.Skills.RegisterSkill(Skill);
+
+            foreach (string SkillID in Skills.GetSkillList()) {
+
+                Skill test = GetSkill(SkillID);
+                foreach (Skills.Skill.Profession prof in test.Professions)
+                {
+                    Log.Alert($"Profession name is: {prof.Id}");
+                    Log.Alert($"Profession number is: {prof.GetVanillaId()}");
+                }
+
+            }
         }
 
         public static void LoadAssets()
@@ -111,9 +126,9 @@ namespace WizardrySkill.Core
             SpellBg = ModEntry.Assets.Spellbg;
             ManaBg = ModEntry.Assets.Manabg;
 
-            Color manaCol = new Color(0, 48, 255);
+            Color manaCol = new(0, 48, 255);
             ManaFg = new Texture2D(Game1.graphics.GraphicsDevice, 1, 1);
-            ManaFg.SetData(new[] { manaCol });
+            ManaFg.SetData([manaCol]);
         }
 
 
@@ -363,13 +378,13 @@ namespace WizardrySkill.Core
             bool drawBarAboveToolbar = toolbarBounds.Center.Y >= viewportBounds.Center.Y;
 
             Point[] spots =
-            {
+            [
                 new((int)toolbarBounds.Left + 60 * ( 0 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
                 new((int)toolbarBounds.Left + 60 * ( 1 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
                 new((int)toolbarBounds.Left + 60 * ( 2 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
                 new((int)toolbarBounds.Left + 60 * ( 3 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
                 new((int)toolbarBounds.Left + 60 * ( 4 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24)
-            };
+            ];
 
             // read spell info
             SpellBook spellBook = Game1.player.GetSpellBook();
@@ -394,7 +409,7 @@ namespace WizardrySkill.Core
                 if (spell == null || spell.Icons.Length <= prep.Level || spell.Icons[prep.Level] == null)
                     continue;
 
-                Rectangle bounds = new Rectangle(spots[i].X, spots[i].Y, 50, 50);
+                Rectangle bounds = new(spots[i].X, spots[i].Y, 50, 50);
 
                 b.Draw(spell.Icons[prep.Level], bounds, spellBook.CanCastSpell(spell, prep.Level) ? Color.White : new Color(128, 128, 128));
                 if (bounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY()))
@@ -453,7 +468,7 @@ namespace WizardrySkill.Core
                 if (spell == null || spell.Icons.Length <= prep.Level || spell.Icons[prep.Level] == null)
                     continue;
 
-                Rectangle bounds = new Rectangle(spots[i].X, spots[i].Y, 50, 50);
+                Rectangle bounds = new(spots[i].X, spots[i].Y, 50, 50);
 
                 if (bounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY()))
                     hoveredText = spell.GetTooltip(level: prep.Level);
