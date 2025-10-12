@@ -1,0 +1,23 @@
+﻿{
+    "Changes": [
+        {
+            "LogName": "Base Load",
+            "Action": "Load",
+            "Target": "Maps/wizardry",
+            "FromFile": "Assets/altarsobjects.png"
+        },
+        {
+            "LogName": "Actual Patch",
+            "Action": "EditMap",
+            "Target": "Maps/SeedShop",
+            "FromFile": "Assets/altar.tmx",
+            "ToArea": {
+                "X": 36,
+                "Y": 15,
+                "Width": 3,
+                "Height": 3
+            }
+        }
+
+    ]
+}

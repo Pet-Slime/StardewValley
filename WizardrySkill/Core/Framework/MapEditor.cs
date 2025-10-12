@@ -42,21 +42,9 @@ namespace WizardrySkill.Core.Framework
 
         public bool TryEdit(AssetRequestedEventArgs e)
         {
-            // add altar
-            if (e.NameWithoutLocale.IsEquivalentTo($"Maps/{Config.AltarLocation}"))
-            {
-                e.Edit(asset =>
-                {
-                    (int altarX, int altarY) = this.GetAltarPosition();
-                    Map altar = this.Content.Load<Map>("assets/altar.tmx");
-                    asset.AsMap().PatchMap(altar, targetArea: new Rectangle(altarX, altarY, 3, 3));
-                }, AssetEditPriority.Late);
-
-                return true;
-            }
 
             // add radio to Wizard's tower
-            else if (e.NameWithoutLocale.IsEquivalentTo($"Maps/{Config.RadioLocation}"))
+            if (e.NameWithoutLocale.IsEquivalentTo($"Maps/{Config.RadioLocation}"))
             {
                 e.Edit(asset =>
                 {
@@ -100,19 +88,7 @@ namespace WizardrySkill.Core.Framework
         /*********
         ** Private methods
         *********/
-        /// <summary>Get the tile position on which to place the altar.</summary>
-        private (int x, int y) GetAltarPosition()
-        {
-            int x = Config.AltarX;
-            int y = Config.AltarY;
 
-            if (x < 0)
-                x = 36;
-            if (y < 0)
-                y = 15;
-
-            return (x, y);
-        }
 
         /// <summary>Get the tile position on which to place the radio.</summary>
         private (int x, int y) GetRadioPosition()
