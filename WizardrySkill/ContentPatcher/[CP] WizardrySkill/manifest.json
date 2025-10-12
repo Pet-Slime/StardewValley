@@ -13,6 +13,10 @@
     "Dependencies": [
         {
             "UniqueID": "moonslime.WizardrySkill"
+        },
+        {
+            "UniqueID": "sb.AltarYoba",
+            "IsRequired": false
         }
     ]
 }
