@@ -57,6 +57,8 @@ namespace WizardrySkill.Core.Framework.Spells
                 if (backTile != null && (backTile.TileIndexProperties.ContainsKey("Passable") || backTile.Properties.ContainsKey("Passable")))
                     return null;
 
+                if (backTile != null && (backTile.TileIndexProperties.ContainsKey("Water") || backTile.Properties.ContainsKey("Water")))
+                    return null;
 
                 if (player.GetCurrentMana() < distance * 5)
                     return null;
@@ -68,7 +70,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
                 player.LocalSound("powerup");
                 ;
-                Utilities.AddEXP(player, 4);
+                Utilities.AddEXP(player, 4 * distance);
 
                 return null;
 
