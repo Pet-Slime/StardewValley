@@ -1,7 +1,7 @@
 ﻿{
     "Name": "[CP] Wizardry Skill",
     "Author": "moonslime",
-    "Version": "1.2.2",
+    "Version": "1.3.0",
     "Description": "Magic Skill Content Patcher",
     "UniqueID": "moonslime.WizardrySkill.CP",
     "ContentPackFor": {
