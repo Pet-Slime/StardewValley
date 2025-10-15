@@ -32,8 +32,8 @@ namespace ArchaeologySkill.Core
             yield return codeInstructions[0];
             for (int i = 1; i < codeInstructions.Count; i++)
             {
-                
-                if (i == 23  || i == 74 || i == 137)
+
+                if (i == 23 || i == 74 || i == 137)
                 {
                     yield return new CodeInstruction(OpCodes.Ldarg_S, 1);
                     yield return new CodeInstruction(OpCodes.Ldarg_S, 2);
@@ -111,5 +111,32 @@ namespace ArchaeologySkill.Core
         }
     }
 
+    [HarmonyPatch(typeof(MuseumMenu), nameof(MuseumMenu.receiveLeftClick))]
+    class MuseumMenu_patch
+    {
+        [HarmonyLib.HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> Transpile_MineShaft_checkForBuriedItems(IEnumerable<CodeInstruction> instructions)
+        {
+            List<CodeInstruction> codeInstructions = new List<CodeInstruction>(instructions);
+            yield return codeInstructions[0];
+            for (int i = 1; i < codeInstructions.Count; i++)
+            {
+                Log.Alert(codeInstructions[i].ToString());
+                if (i == 182)
+                {
+                    yield return CodeInstruction.Call(typeof(MuseumMenu_patch), nameof(ArchaeologySkillEXP));
+                }
+                yield return codeInstructions[i];
+            }
+        }
+        private static void ArchaeologySkillEXP()
+        {
+            foreach (var farmer in Game1.getOnlineFarmers()) {
+                Utilities.AddEXP(farmer, ModEntry.Config.ExperienceFromDonationRewards);
+            }
 
+        }
+    }
 }
+
+

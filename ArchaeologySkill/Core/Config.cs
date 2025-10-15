@@ -16,8 +16,6 @@ namespace ArchaeologySkill
         [SConfig.Option(0f, 5f, 0.1f)]
         public float DisplaySellPrice { get; set; } = 1f;
 
-
-
         [SConfig.Option(0, 100, 1)]
         public int ExperienceFromArtifactSpots { get; set; } = 20;
 
@@ -45,5 +43,9 @@ namespace ArchaeologySkill
 
         [SConfig.Option(0, 100, 1)]
         public int ExperienceFromHPreservationChamber { get; set; } = 20;
+
+
+        [SConfig.Option(0, 100, 1)]
+        public int ExperienceFromDonationRewards { get; set; } = 53;
     }
 }

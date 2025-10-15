@@ -22,6 +22,9 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 using Newtonsoft.Json.Linq;
 using StardewValley.GameData.Locations;
 using StardewValley.Objects;
+using StardewValley.Network;
+using Netcode;
+using StardewValley.Locations;
 
 namespace ArchaeologySkill.Core
 {
@@ -83,8 +86,6 @@ namespace ArchaeologySkill.Core
                 Log.Trace("Archaeology: I do see XP display, Registering API.");
                 ModEntry.XpAPI = ModEntry.Instance.Helper.ModRegistry.GetApi<IXPDisplayApi>("Shockah.XPDisplay");
             }
-
-            
         }
 
         [SEvent.DayStarted]
@@ -142,6 +143,12 @@ namespace ArchaeologySkill.Core
         private void StatChanged_water_shifter(object sender, SEvent.StatChanged.EventArgs e)
         {
             Utilities.AddEXP(Game1.player, ModEntry.Config.ExperienceFromWaterShifter);
+        }
+
+        [SEvent.StatChanged("GeodesCracked")]
+        private void StatChanged_geodesCracked(object sender, SEvent.StatChanged.EventArgs e)
+        {
+            Utilities.AddEXP(Game1.player, 1);
         }
 
 

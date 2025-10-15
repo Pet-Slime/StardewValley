@@ -14,6 +14,7 @@ using StardewValley.Enchantments;
 using StardewValley.Extensions;
 using StardewValley.GameData.Locations;
 using StardewValley.Locations;
+using StardewValley.Menus;
 using StardewValley.Tools;
 using Log = BirbCore.Attributes.Log;
 
@@ -551,7 +552,5 @@ namespace ArchaeologySkill.Core
             return "VolcanoDungeon" + level;
         }
     }
-
-
 
 }
