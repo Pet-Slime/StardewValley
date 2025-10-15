@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using BirbCore.Attributes;
+using MoonShared;
 using SpaceCore;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -58,7 +59,7 @@ namespace AthleticSkill.Core
             // Hold-to-sprint behavior
             if (!ModEntry.Config.ToggleSprint)
             {
-                modData[SpringtingOn] = ModEntry.Config.Key_Cast.IsDown() ? "true" : "false";
+                farmer.modData.SetBool(SpringtingOn, ModEntry.Config.Key_Cast.IsDown() ? true : false);
             }
         }
 
@@ -110,8 +111,7 @@ namespace AthleticSkill.Core
             if (!Context.IsPlayerFree) return false;
 
             // Must have sprint flag in modData
-            if (!farmer.modData.TryGetValue(SpringtingOn, out string areTheySprinting)
-                || areTheySprinting != "true")
+            if (farmer.modData.GetBool(SpringtingOn) == false)
                 return false;
 
             return farmer.Stamina > ModEntry.Config.MinimumEnergyToSprint;

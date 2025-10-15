@@ -1,34 +1,35 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MoonShared.APIs;
+using Netcode;
+using SpaceCore;
+using SpaceCore.Events;
+using SpaceShared.APIs;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using ManaBar.Interactions;
-using MoonShared;
-using ManaBar.Framework;
-using System.Numerics;
-using System.Runtime.Intrinsics;
-using xTile.Layers;
-using Vector2 = Microsoft.Xna.Framework.Vector2;
-using BirbCore.Attributes;
-using ManaBar;
+using StardewValley.Events;
+using StardewValley.Locations;
+using StardewValley.Objects;
+using StardewValley.Quests;
+using StardewValley.TerrainFeatures;
 
-namespace WizardryManaBar
+namespace WizardryManaBar.Core
 {
-    /// <summary>The mod entry point.</summary>
-    public class ModEntry : Mod
+    [SEvent]
+    internal class Events
     {
-        /*********
-        ** Fields
-        *********/
         public static Vector2 barPosition;
 
         private static Vector2 sizeUI;
 
         private static Texture2D manaFg;
-
-        private static Texture2D ManaBg;
 
         private static Texture2D ManaFg
         {
@@ -54,54 +55,15 @@ namespace WizardryManaBar
             set => manaFg = value;
         }
 
-        private IManaBarApi Api;
-
-        /// <summary>Handles migrating legacy data for a save file.</summary>
-        private LegacyDataMigrator LegacyDataMigrator;
-
-
-        /*********
-        ** Accessors
-        *********/
-        public static ModEntry Instance;
-
-        public static ModConfig Config;
-
-        /*********
-        ** Public methods
-        *********/
-        /// <inheritdoc />
-        public override void Entry(IModHelper helper)
+        public static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
-            Instance = this;
-            Config = helper.ReadConfig<ModConfig>();
-            this.LegacyDataMigrator = new(helper.Data, this.Monitor);
-
-            Command.Register("wizardry_player_addmana", HandleAddManaCommand);
-            Command.Register("wizardry_player_setmaxmana", HandleSetMaxManaCommand);
-
-            helper.Events.GameLoop.GameLaunched += OnGameLaunch;
-            helper.Events.GameLoop.DayStarted += OnDayStarted;
-            helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
-            helper.Events.Display.RenderingHud += OnRenderedHud;
-
-            ManaBg = helper.ModContent.Load<Texture2D>("assets/manabg.png");
-
             Color manaCol = new(0, 48, 255);
-            ManaFg = new Texture2D(Game1.graphics.GraphicsDevice, 1, 1);
+            WizardryManaBar.Core.Events.ManaFg = new Texture2D(Game1.graphics.GraphicsDevice, 1, 1);
             ManaFg.SetData(new[] { manaCol });
         }
 
-        private void OnGameLaunch(object sender, GameLaunchedEventArgs e) =>
-                     Initializer.InitializeModMenu(Helper);
 
-        /// <inheritdoc />
-        public override object GetApi() =>
-                               this.Api ??= new Api();
-
-        /// <inheritdoc cref="IDisplayEvents.RenderedHud"/>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
+        [SEvent.RenderingHud]
         [EventPriority(EventPriority.Low)]
         public static void OnRenderedHud(object sender, RenderingHudEventArgs e)
         {
@@ -111,7 +73,7 @@ namespace WizardryManaBar
 
             Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
             // Begin rendering, if mana is available and rendering is enabled.
-            if (player.GetMaxMana() > 0 && Config.RenderManaBar)
+            if (player.GetMaxMana() > 0 && ModEntry.Config.RenderManaBar)
                 BeginDrawManaBar(e.SpriteBatch);
             SetBarsPosition();
         }
@@ -127,15 +89,15 @@ namespace WizardryManaBar
 
             int barWidth = 12;
             int barHeaderHeight = 16;
-            int barBottomPosition = ManaBg.Height - barHeaderHeight;
+            int barBottomPosition = ModEntry.Assets.ManaBG.Height - barHeaderHeight;
             int drawedBarsHeight = default;
 
-            int overchargeHeight = Convert.ToInt32(Math.Ceiling(GetManaOvercharge() * Config.SizeMultiplier));
+            int overchargeHeight = Convert.ToInt32(Math.Ceiling(GetManaOvercharge() * ModEntry.Config.SizeMultiplier));
 
             Rectangle srcRect;
-            Vector2 topOfBar = new(safeXCoordinate + 3 + Config.XManaBarOffset + barPosition.X,
+            Vector2 topOfBar = new(safeXCoordinate + 3 + ModEntry.Config.XManaBarOffset + barPosition.X,
                                    safeYCoordinate - CalculateYOffsetToManaBar(barHeaderHeight, overchargeHeight, barBottomPosition) +
-                                                     Config.YManaBarOffset);
+                                                     ModEntry.Config.YManaBarOffset);
             #endregion
 
             // Drawing Bar Layout.
@@ -153,7 +115,7 @@ namespace WizardryManaBar
         {
             Rectangle srcRect = new Rectangle(0, 0, barWidth, barHeaderHeight);
             e.Draw(
-                ManaBg,
+                ModEntry.Assets.ManaBG,
                 topOfBar,
                 srcRect,
                 Color.White,
@@ -173,11 +135,11 @@ namespace WizardryManaBar
             destRect = new Rectangle(Convert.ToInt32(topOfBar.X),
                                      Convert.ToInt32(topOfBar.Y + drawedBarsHeight * Game1.pixelZoom),
                                      barWidth * 4,
-                                     barHeaderHeight + (ManaBg.Height - barHeaderHeight * 2) +
+                                     barHeaderHeight + (ModEntry.Assets.ManaBG.Height - barHeaderHeight * 2) +
                                                         Convert.ToInt32(overchargeHeight * Game1.pixelZoom));
 
             e.Draw(
-                ManaBg,
+                ModEntry.Assets.ManaBG,
                 destRect,
                 srcRect,
                 Color.White
@@ -191,7 +153,7 @@ namespace WizardryManaBar
         {
             Rectangle srcRect = new Rectangle(0, barBottomPosition, barWidth, 16);
             e.Draw(
-                ManaBg,
+                ModEntry.Assets.ManaBG,
                 new Vector2(topOfBar.X, topOfBar.Y + drawedBarsHeight + barBottomPosition),
                 srcRect,
                 Color.White,
@@ -219,7 +181,7 @@ namespace WizardryManaBar
              * Also, we using check to current mana percent, to prevent magic overflow too.
              **/
             srcRect = new Rectangle(barHeaderHeight, barBottomPosition, fillerWidth, srcHeight);
-            destRect = new Rectangle(Convert.ToInt32(topOfBar.X + ManaBg.Width * (int)Math.PI),
+            destRect = new Rectangle(Convert.ToInt32(topOfBar.X + ModEntry.Assets.ManaBG.Width * (int)Math.PI),
                                      Convert.ToInt32(topOfBar.Y + drawedBarsHeight + 40),
                                      fillerWidth * Game1.pixelZoom,
                                      Convert.ToInt32((drawedBarsHeight - 12) *
@@ -275,10 +237,10 @@ namespace WizardryManaBar
              * Value set to 24, cause with this value mana bar will have same margin as other bars.
              **/
             const int bottomMargin = 24;
-            int height = ManaBg.Height;
+            int height = ModEntry.Assets.ManaBG.Height;
 
             height += barHeaderHeight * 2;
-            height += ManaBg.Height - barHeaderHeight * 2 + Convert.ToInt32(oversize * Game1.pixelZoom);
+            height += ModEntry.Assets.ManaBG.Height - barHeaderHeight * 2 + Convert.ToInt32(oversize * Game1.pixelZoom);
             height += barBottomPosition;
             height += bottomMargin;
 
@@ -326,10 +288,10 @@ namespace WizardryManaBar
         {
             Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
             double maxMana = player.GetMaxMana();
-            double overchargeValue = maxMana / ManaBar.Api.BaseMaxMana;
+            double overchargeValue = maxMana / WizardryManaBar.Core.Api.BaseMaxMana;
 
             // This will prevent bar to grow limitless and exceed monitor area.
-            return overchargeValue <= Config.MaxOverchargeValue ? overchargeValue : Config.MaxOverchargeValue;
+            return overchargeValue <= ModEntry.Config.MaxOverchargeValue ? overchargeValue : ModEntry.Config.MaxOverchargeValue;
         }
 
         private static void HandleAddManaCommand(string[] args)
@@ -344,6 +306,8 @@ namespace WizardryManaBar
             player.SetMaxMana(int.Parse(args[0]));
         }
 
+
+        [SEvent.DayStarted]
         /// <inheritdoc cref="IGameLoopEvents.DayStarted"/>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
@@ -368,7 +332,7 @@ namespace WizardryManaBar
             if (!Context.IsWorldReady) return;
 
             sizeUI = new Vector2(Game1.uiViewport.Width, Game1.uiViewport.Height);
-            if (Config.BarsPosition)
+            if (ModEntry.Config.BarsPosition)
             {
                 barPosition.X = GetPositionInRightBottomCorner();
             }
@@ -381,51 +345,21 @@ namespace WizardryManaBar
 
         private static float GetPositionInRightBottomCorner()
         {
-            #region Used variables.
+            float basePosition = 116f;
+            float offset = 55f;
 
-            float position;
+            bool[] conditions = {
+                CheckToDangerous(),
+                false, // ultimateIsVisible
+                ModEntry.MagicStardewLoaded
+            };
 
-            bool inDangerous = CheckToDangerous();
-            bool ultimateIsVisible = false;
-            #endregion
+            basePosition += conditions.Count(c => c) * offset;
 
-            // Player is Safe, Ultimate isn't Visible.
-            if (!inDangerous && !ultimateIsVisible)
-                position = sizeUI.X - 116;
-
-            // Player is Safe, Ultimate is Visible.
-            else if (!inDangerous && ultimateIsVisible)
-                position = sizeUI.X - 171;
-
-            // Player isn't Safe, Ultimate isn't Visible.
-            else if (inDangerous && !ultimateIsVisible)
-                position = sizeUI.X - 171;
-
-            // Player isn't Safe, Ultimate is Visible.
-            else
-                position = sizeUI.X - 226;
-
-            return position;
-
+            return sizeUI.X - basePosition;
         }
 
         private static bool CheckToDangerous() =>
                     Game1.showingHealth;
-
-
-        /// <inheritdoc cref="IGameLoopEvents.SaveLoaded"/>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
-        {
-            try
-            {
-                this.LegacyDataMigrator.OnSaveLoaded();
-            }
-            catch (Exception ex)
-            {
-                Log.Warn($"Exception migrating legacy save data: {ex}");
-            }
-        }
     }
 }

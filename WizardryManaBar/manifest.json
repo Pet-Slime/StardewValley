@@ -1,0 +1,33 @@
+﻿{
+    "Name": "ManaBarApi",
+    "Author": "moonslime",
+    "Version": "1.0.0",
+    "Description": "A port of spacechase0's API to 1.6",
+    "UniqueID": "moonslime.ManaBarApi",
+    "EntryDll": "WizardryManaBar.dll",
+    "MinimumApiVersion": "4.0.0",
+    "UpdateKeys": [
+        "Nexus:-1"
+    ],
+    "Dependencies": [
+        {
+            "UniqueID": "HeyImAmethyst.ArsVenefici",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "Zexu2K.MagicStardew.C",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "spacechase0.GenericModConfigMenu",
+            "IsRequired": false
+        },
+        {
+            "UniqueID": "spacechase0.SpaceCore",
+            "MinimumVersion": "1.21.0"
+        },
+        {
+            "UniqueID": "drbirbdev.BirbCore"
+        }
+    ]
+}

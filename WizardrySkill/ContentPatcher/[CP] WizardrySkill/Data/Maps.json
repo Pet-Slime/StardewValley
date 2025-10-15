@@ -4,7 +4,7 @@
             "LogName": "Actual Patch",
             "Action": "EditMap",
             "Target": "Maps/SeedShop",
-            "FromFile": "Assets/alter_alt.tmx",
+            "FromFile": "Assets/altar.tmx",
             "ToArea": {
                 "X": 36,
                 "Y": 15,
@@ -19,7 +19,7 @@
             "LogName": "Actual Patch",
             "Action": "EditMap",
             "Target": "Maps/SeedShop",
-            "FromFile": "Assets/alter_alt.tmx",
+            "FromFile": "Assets/altar_alt.tmx",
             "ToArea": {
                 "X": 36,
                 "Y": 15,

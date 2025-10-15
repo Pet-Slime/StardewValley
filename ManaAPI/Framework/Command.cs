@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BirbCore.Attributes;
 using MoonShared;
+using WizardryManaBar;
 
 namespace ManaBar.Framework
 {
