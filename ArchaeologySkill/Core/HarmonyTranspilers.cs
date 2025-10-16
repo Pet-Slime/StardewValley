@@ -121,7 +121,6 @@ namespace ArchaeologySkill.Core
             yield return codeInstructions[0];
             for (int i = 1; i < codeInstructions.Count; i++)
             {
-                Log.Alert(codeInstructions[i].ToString());
                 if (i == 182)
                 {
                     yield return CodeInstruction.Call(typeof(MuseumMenu_patch), nameof(ArchaeologySkillEXP));
