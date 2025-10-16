@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
-using WizardrySkill.Core;
-using WizardrySkill.Core.Framework;
 
 namespace WizardrySkill.Core.Framework.Spells.Effects
 {

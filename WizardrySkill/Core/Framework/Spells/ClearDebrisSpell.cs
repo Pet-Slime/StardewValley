@@ -1,15 +1,12 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using SpaceCore;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using StardewValley.Tools;
-using WizardrySkill.Core;
-using SObject = StardewValley.Object;
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
+using SObject = StardewValley.Object;
 
 namespace WizardrySkill.Core.Framework.Spells
 {

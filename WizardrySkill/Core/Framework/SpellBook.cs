@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using SpaceShared;
 using StardewValley;
-using Log = BirbCore.Attributes.Log;
-using WizardrySkill.Core;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells;
+using Log = BirbCore.Attributes.Log;
 
 namespace WizardrySkill.Core.Framework
 {

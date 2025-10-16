@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework.Graphics;
-using WizardrySkill.Core;
 
 namespace WizardrySkill.Core.Framework
 {

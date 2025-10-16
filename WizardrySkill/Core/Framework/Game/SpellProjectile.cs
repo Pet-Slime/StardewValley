@@ -1,16 +1,10 @@
 using System;
-using WizardrySkill.Core;
-using WizardrySkill.Core.Framework.Spells;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Netcode;
-using SpaceCore;
 using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Projectiles;
 using StardewValley.TerrainFeatures;
-using static StardewValley.Menus.CharacterCustomization;
-using BirbCore.Attributes;
 
 namespace WizardrySkill.Core.Framework.Game
 {

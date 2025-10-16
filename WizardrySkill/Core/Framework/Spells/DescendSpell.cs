@@ -1,8 +1,5 @@
-using SpaceCore;
 using StardewValley;
 using StardewValley.Locations;
-using WizardrySkill.Core;
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
 
 namespace WizardrySkill.Core.Framework.Spells

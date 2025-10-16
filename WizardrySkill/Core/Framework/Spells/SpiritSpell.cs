@@ -1,9 +1,6 @@
-using WizardrySkill.Core.Framework.Spells.Effects;
-using SpaceCore;
 using StardewValley;
-using WizardrySkill.Core;
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {

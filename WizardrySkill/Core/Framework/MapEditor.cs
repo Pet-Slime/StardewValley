@@ -1,12 +1,9 @@
-using Microsoft.Xna.Framework;
-using SpaceShared;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using Log = BirbCore.Attributes.Log;
 using xTile;
 using xTile.Layers;
 using xTile.Tiles;
-using WizardrySkill.Core;
+using Log = BirbCore.Attributes.Log;
 
 namespace WizardrySkill.Core.Framework
 {

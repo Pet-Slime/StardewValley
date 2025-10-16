@@ -26,17 +26,17 @@ namespace WizardrySkill.Objects
             this.ExperienceCurve = new[] { 100, 380, 770, 1300, 2150, 3300, 4000, 6900, 10000, 15000 };
             this.AddProfessions(
                 //Potential
-                Magic5a = new UpgradePointProfession    (this, "Magic5a",    ModEntry.Assets.Magic5a,    ModEntry.Instance.I18N),
+                Magic5a = new UpgradePointProfession(this, "Magic5a", ModEntry.Assets.Magic5a, ModEntry.Instance.I18N),
                 //Mana Regen I
-                Magic5b = new KeyedProfession           (this, "Magic5b",    ModEntry.Assets.Magic5b,    ModEntry.Instance.I18N),
+                Magic5b = new KeyedProfession(this, "Magic5b", ModEntry.Assets.Magic5b, ModEntry.Instance.I18N),
                 //Prodigy
-                Magic10a1 = new UpgradePointProfession  (this, "Magic10a1",  ModEntry.Assets.Magic10a1,  ModEntry.Instance.I18N),
+                Magic10a1 = new UpgradePointProfession(this, "Magic10a1", ModEntry.Assets.Magic10a1, ModEntry.Instance.I18N),
                 //Memory
-                Magic10a2 = new KeyedProfession         (this, "Magic10a2",  ModEntry.Assets.Magic10a2,  ModEntry.Instance.I18N),
+                Magic10a2 = new KeyedProfession(this, "Magic10a2", ModEntry.Assets.Magic10a2, ModEntry.Instance.I18N),
                 //Mana Regen II
-                Magic10b1 = new KeyedProfession         (this, "Magic10b1",  ModEntry.Assets.Magic10b1,  ModEntry.Instance.I18N),
+                Magic10b1 = new KeyedProfession(this, "Magic10b1", ModEntry.Assets.Magic10b1, ModEntry.Instance.I18N),
                 //Mana Reserve
-                Magic10b2 = new ManaCapProfession       (this, "Magic10b2",  ModEntry.Assets.Magic10b2,  ModEntry.Instance.I18N)
+                Magic10b2 = new ManaCapProfession(this, "Magic10b2", ModEntry.Assets.Magic10b2, ModEntry.Instance.I18N)
             );
         }
 

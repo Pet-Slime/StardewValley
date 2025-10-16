@@ -1,11 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WizardrySkill.Core;
 using StardewValley;
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
 
 namespace WizardrySkill.Core.Framework.Spells

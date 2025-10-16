@@ -1,4 +1,3 @@
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Spells;
 
 namespace WizardrySkill.Core.Framework.Schools
@@ -26,7 +25,8 @@ namespace WizardrySkill.Core.Framework.Schools
             if (ModEntry.Config.VoidSchool)
             {
                 return new[] { SpellManager.Get("toil:collect"), SpellManager.Get("toil:blink") };
-            } else
+            }
+            else
             {
                 return new[] { SpellManager.Get("toil:collect") };
             }

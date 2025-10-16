@@ -3,9 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 using StardewValley;
-using WizardrySkill.Core;
 using StardewValley.Monsters;
-using WizardrySkill.Core.Framework;
 
 namespace WizardrySkill.Core.Framework.Spells.Effects
 {

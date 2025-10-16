@@ -1,10 +1,7 @@
+using BirbCore.Attributes;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SpaceShared;
 using StardewValley;
-using WizardrySkill.Core;
-using BirbCore.Attributes;
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
 
 namespace WizardrySkill.Core.Framework.Spells

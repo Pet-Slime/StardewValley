@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WizardrySkill.Core;
 using Microsoft.Xna.Framework.Graphics;
-using WizardrySkill.Core.Framework;
-using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells;
 
 namespace WizardrySkill.Core.Framework.Schools

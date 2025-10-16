@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Log = BirbCore.Attributes.Log;
 
 namespace WizardrySkill.Core.Framework
 {

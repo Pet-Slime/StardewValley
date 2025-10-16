@@ -1,14 +1,8 @@
 using System;
-using WizardrySkill.Core.Framework.Game;
-using StardewValley;
-using WizardrySkill.Core;
 using Microsoft.Xna.Framework;
-using System.Numerics;
+using StardewValley;
+using WizardrySkill.Core.Framework.Game;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
-using StardewValley.Tools;
-using StardewValley.Projectiles;
-using StardewValley.Monsters;
-using WizardrySkill.Core.Framework;
 
 namespace WizardrySkill.Core.Framework.Spells
 {

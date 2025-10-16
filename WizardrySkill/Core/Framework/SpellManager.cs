@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells;
-using Log = BirbCore.Attributes.Log;
 
 namespace WizardrySkill.Core.Framework
 {

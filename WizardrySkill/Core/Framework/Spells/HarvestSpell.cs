@@ -1,13 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StardewValley.TerrainFeatures;
-using StardewValley;
 using Microsoft.Xna.Framework;
-using WizardrySkill.Core;
-using WizardrySkill.Core.Framework;
+using StardewValley;
+using StardewValley.TerrainFeatures;
 using WizardrySkill.Core.Framework.Schools;
 
 namespace WizardrySkill.Core.Framework.Spells

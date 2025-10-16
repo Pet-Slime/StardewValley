@@ -1,5 +1,4 @@
 using WizardrySkill.Core.Framework.Spells;
-using Log = BirbCore.Attributes.Log;
 
 namespace WizardrySkill.Core.Framework
 {

@@ -1,9 +1,7 @@
-using WizardrySkill.Core.Framework.Spells.Effects;
 using StardewValley;
-using WizardrySkill.Core;
-using SObject = StardewValley.Object;
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
+using SObject = StardewValley.Object;
 
 namespace WizardrySkill.Core.Framework.Spells
 {

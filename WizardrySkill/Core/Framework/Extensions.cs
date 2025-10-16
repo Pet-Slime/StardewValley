@@ -1,7 +1,5 @@
-using WizardrySkill.Core;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using Log = BirbCore.Attributes.Log;
 
 namespace WizardrySkill.Core.Framework
 {

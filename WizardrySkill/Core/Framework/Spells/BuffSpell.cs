@@ -1,9 +1,6 @@
 using System;
 using System.Linq;
-using SpaceCore;
-using WizardrySkill.Core;
 using StardewValley;
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
 
 namespace WizardrySkill.Core.Framework.Spells

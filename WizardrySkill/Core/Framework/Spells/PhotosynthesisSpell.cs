@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using StardewValley;
 using StardewValley.Objects;
-using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
-using SObject = StardewValley.Object;
-using WizardrySkill.Core;
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
+using SObject = StardewValley.Object;
 
 namespace WizardrySkill.Core.Framework.Spells
 {

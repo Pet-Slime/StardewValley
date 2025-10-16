@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using WizardrySkill.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpaceCore;
 using StardewValley;
 using StardewValley.Menus;
 
@@ -40,7 +37,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
         {
             foreach (var loc in Game1.locations)
             {
-                if (player.modData.ContainsKey("moonslime.Wizardry.TeleportTo."+loc.Name))
+                if (player.modData.ContainsKey("moonslime.Wizardry.TeleportTo." + loc.Name))
                     this.Locs.Add(loc.Name);
 
             }

@@ -1,28 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using BirbCore.Attributes;
-using WizardrySkill.Objects;
-using SpaceCore.Events;
+using HarmonyLib;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MoonShared;
 using MoonShared.APIs;
+using SpaceCore;
+using SpaceCore.Events;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using HarmonyLib;
-using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Menus;
-using SpaceCore;
-using System.Text.RegularExpressions;
-using WizardrySkill.Core.Framework.Game.Interface;
-using Microsoft.Xna.Framework;
 using StardewValley.Network;
-using Log = BirbCore.Attributes.Log;
-using MoonShared;
 using WizardrySkill.Core.Framework;
+using WizardrySkill.Core.Framework.Game.Interface;
 using WizardrySkill.Core.Framework.Spells;
+using WizardrySkill.Objects;
 using static SpaceCore.Skills;
+using Log = BirbCore.Attributes.Log;
 
 namespace WizardrySkill.Core
 {
@@ -109,21 +107,22 @@ namespace WizardrySkill.Core
 
             SpaceCore.Skills.RegisterSkill(Skill);
 
-            foreach (string SkillID in Skills.GetSkillList()) {
+            foreach (string SkillID in Skills.GetSkillList())
+            {
 
                 Skill test = GetSkill(SkillID);
 
-//                Log.Alert($"Skill Name is: {test.GetName()}");
-//                Log.Alert($"Skill ID is: {test.Id}");
-//                Log.Alert($"This skill has the following Professions");
-//                foreach (Skills.Skill.Profession prof in test.Professions)
-//                {
-//                    Log.Alert($"");
-//                    Log.Alert($"Profession name is: {prof.GetName()}");
-//                    Log.Alert($"Profession ID is: {prof.Id}");
-//                    Log.Alert($"Profession number is: {prof.GetVanillaId()}");
-//                }
-//                Log.Alert($"-------------------------");
+                //                Log.Alert($"Skill Name is: {test.GetName()}");
+                //                Log.Alert($"Skill ID is: {test.Id}");
+                //                Log.Alert($"This skill has the following Professions");
+                //                foreach (Skills.Skill.Profession prof in test.Professions)
+                //                {
+                //                    Log.Alert($"");
+                //                    Log.Alert($"Profession name is: {prof.GetName()}");
+                //                    Log.Alert($"Profession ID is: {prof.Id}");
+                //                    Log.Alert($"Profession number is: {prof.GetVanillaId()}");
+                //                }
+                //                Log.Alert($"-------------------------");
 
             }
         }
@@ -258,9 +257,9 @@ namespace WizardrySkill.Core
 
             int positionModifier = ModEntry.HasStardewValleyExpanded ? 17 : 5;
 
-            if (e.NewLocation.IsOutdoors && !e.Player.modData.ContainsKey("moonslime.Wizardry.TeleportTo."+e.NewLocation.Name))
+            if (e.NewLocation.IsOutdoors && !e.Player.modData.ContainsKey("moonslime.Wizardry.TeleportTo." + e.NewLocation.Name))
             {
-                e.Player.modData.Add("moonslime.Wizardry.TeleportTo."+e.NewLocation.Name, "");
+                e.Player.modData.Add("moonslime.Wizardry.TeleportTo." + e.NewLocation.Name, "");
 
             }
 

@@ -1,10 +1,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
-using SpaceCore;
 using StardewValley;
 using StardewValley.Monsters;
-using WizardrySkill.Core;
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells.Effects;
 

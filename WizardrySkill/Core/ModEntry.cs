@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BirbCore.Attributes;
-using WizardrySkill.API;
 using MoonShared.APIs;
 using StardewModdingAPI;
 using StardewValley;
+using WizardrySkill.API;
 using WizardrySkill.Core.Framework;
 
 namespace WizardrySkill.Core
@@ -19,7 +14,7 @@ namespace WizardrySkill.Core
         internal static Assets Assets;
         internal static MapEditor Editor;
         internal static LegacyDataMigrator LegacyDataMigrator;
-        internal  long NewID;
+        internal long NewID;
 
         public Api Api;
 
@@ -46,7 +41,8 @@ namespace WizardrySkill.Core
             try
             {
                 return this.Api ??= new Api();
-            } catch
+            }
+            catch
             {
                 return null;
             }

@@ -1,15 +1,13 @@
 using System.Linq;
 using System.Text;
-using WizardrySkill.Core;
-using WizardrySkill.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceCore;
 using StardewValley;
 using StardewValley.Menus;
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells;
+using WizardrySkill.Objects;
 
 namespace WizardrySkill.Core.Framework.Game.Interface
 {

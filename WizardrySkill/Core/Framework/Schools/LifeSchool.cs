@@ -1,4 +1,3 @@
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Spells;
 
 namespace WizardrySkill.Core.Framework.Schools

@@ -1,18 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
+using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
-using SpaceShared;
 using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using StardewValley.Tools;
-using WizardrySkill.Core;
-using SObject = StardewValley.Object;
-using BirbCore.Attributes;
-using static SpaceCore.Skills;
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
+using SObject = StardewValley.Object;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -234,7 +230,7 @@ namespace WizardrySkill.Core.Framework.Spells
                         }
                     }
 
-                    
+
                 }
 
                 var rewindSpell = School.GetSchool(SchoolId.Arcane).GetSpellsTier3()[0];

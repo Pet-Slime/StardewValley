@@ -1,8 +1,5 @@
-using SpaceShared;
-using StardewValley;
-using WizardrySkill.Core;
 using BirbCore.Attributes;
-using WizardrySkill.Core.Framework;
+using StardewValley;
 
 namespace WizardrySkill.Core.Framework.Spells
 {

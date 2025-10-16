@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MoonShared;
 using StardewValley;
-using Log = BirbCore.Attributes.Log;
 
 namespace WizardrySkill.Core.Framework
 {

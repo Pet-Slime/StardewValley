@@ -1,11 +1,8 @@
 using Microsoft.Xna.Framework;
-using SpaceCore;
 using StardewValley;
 using StardewValley.Tools;
-using SObject = StardewValley.Object;
-using WizardrySkill.Core;
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
+using SObject = StardewValley.Object;
 
 namespace WizardrySkill.Core.Framework.Spells
 {

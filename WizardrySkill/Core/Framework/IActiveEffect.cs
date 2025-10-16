@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
-using Log = BirbCore.Attributes.Log;
 
 namespace WizardrySkill.Core.Framework
 {

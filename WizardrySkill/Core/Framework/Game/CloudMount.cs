@@ -1,9 +1,7 @@
-using WizardrySkill.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Characters;
-using WizardrySkill.Core.Framework;
 
 namespace WizardrySkill.Core.Framework.Game
 {

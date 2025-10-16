@@ -1,19 +1,8 @@
-using System;
-using System.Linq;
-using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using SpaceCore;
 using StardewValley;
-using StardewValley.Buildings;
 using StardewValley.Extensions;
-using StardewValley.TerrainFeatures;
-using WizardrySkill.Core;
-using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
 using xTile.Tiles;
-using static BirbCore.Attributes.SMod;
-using static StardewValley.Minigames.CraneGame;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -38,7 +27,7 @@ namespace WizardrySkill.Core.Framework.Spells
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
             Microsoft.Xna.Framework.Rectangle boundingBox = BlinkSpot(player, targetX - player.GetBoundingBox().Width / 2, targetY - player.GetBoundingBox().Height / 2);
-            
+
             if (!player.currentLocation.isCollidingPosition(boundingBox, Game1.viewport, isFarmer: true, 0, glider: false, player))
             {
 
@@ -48,8 +37,8 @@ namespace WizardrySkill.Core.Framework.Spells
 
 
 
-               if (distance == 0)
-                   return null;
+                if (distance == 0)
+                    return null;
 
                 if (backTile == null)
                     return null;
