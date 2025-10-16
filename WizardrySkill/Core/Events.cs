@@ -401,13 +401,15 @@ namespace WizardrySkill.Core
             var viewportBounds = Game1.graphics.GraphicsDevice.Viewport.Bounds;
             bool drawBarAboveToolbar = toolbarBounds.Center.Y >= viewportBounds.Center.Y;
 
+            int offsetY = ModEntry.Config.SpellBarOffset_Y;
+            int offsetX = ModEntry.Config.SpellBarOffset_X;
             Point[] spots =
             [
-                new((int)toolbarBounds.Left + 60 * ( 0 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
-                new((int)toolbarBounds.Left + 60 * ( 1 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
-                new((int)toolbarBounds.Left + 60 * ( 2 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
-                new((int)toolbarBounds.Left + 60 * ( 3 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
-                new((int)toolbarBounds.Left + 60 * ( 4 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24)
+                new((int)toolbarBounds.Left + 60 * ( 0 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY : toolbarBounds.Bottom + 24 + offsetY),
+                new((int)toolbarBounds.Left + 60 * ( 1 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY),
+                new((int)toolbarBounds.Left + 60 * ( 2 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY),
+                new((int)toolbarBounds.Left + 60 * ( 3 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY),
+                new((int)toolbarBounds.Left + 60 * ( 4 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY)
             ];
 
             // read spell info
@@ -472,14 +474,16 @@ namespace WizardrySkill.Core
             bool drawBarAboveToolbar = toolbarBounds.Center.Y >= viewportBounds.Center.Y;
 
             bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Wizard_Skill.Magic10a2);
+            int offsetY = ModEntry.Config.SpellBarOffset_Y;
+            int offsetX = ModEntry.Config.SpellBarOffset_X;
             Point[] spots =
-{
-                new((int)toolbarBounds.Left + 60 * ( 0 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
-                new((int)toolbarBounds.Left + 60 * ( 1 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
-                new((int)toolbarBounds.Left + 60 * ( 2 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
-                new((int)toolbarBounds.Left + 60 * ( 3 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24),
-                new((int)toolbarBounds.Left + 60 * ( 4 ), drawBarAboveToolbar ? toolbarBounds.Top - 72 : toolbarBounds.Bottom + 24)
-            };
+            [
+                new((int)toolbarBounds.Left + 60 * ( 0 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY : toolbarBounds.Bottom + 24 + offsetY),
+                new((int)toolbarBounds.Left + 60 * ( 1 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY),
+                new((int)toolbarBounds.Left + 60 * ( 2 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY),
+                new((int)toolbarBounds.Left + 60 * ( 3 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY),
+                new((int)toolbarBounds.Left + 60 * ( 4 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY)
+            ];
 
             string hoveredText = null;
             for (int i = 0; i < (hasFifthSpellSlot ? 5 : 4) && i < prepared.Spells.Count; ++i)

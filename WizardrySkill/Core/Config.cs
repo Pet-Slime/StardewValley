@@ -11,13 +11,12 @@ namespace WizardrySkill.Core
         [SConfig.Option()]
         public bool VoidSchool { get; set; } = false;
 
-        [SConfig.Option("SeedShop")]
-        public string AltarLocation { get; set; } = "SeedShop";
-        [SConfig.Option()]
-        public int AltarX { get; set; } = -1;
 
-        [SConfig.Option()]
-        public int AltarY { get; set; } = -1;
+        [SConfig.Option(-500, 500, 1)]
+        public int SpellBarOffset_X { get; set; } = 0;
+
+        [SConfig.Option(-500, 500, 1)]
+        public int SpellBarOffset_Y { get; set; } = 0;
 
         [SConfig.Option("WizardHouse")]
         public string RadioLocation { get; set; } = "WizardHouse";
