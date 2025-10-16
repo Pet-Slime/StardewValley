@@ -24,21 +24,28 @@ namespace WizardrySkill.Core.Framework
                 : null;
         }
 
-        /// <summary>Set a spell slot.</summary>
+        /// <summary>
+        /// Sets or clears a spell slot. Automatically expands or trims the list as needed.
+        /// </summary>
         /// <param name="index">The slot index.</param>
-        /// <param name="spell">The spell to add.</param>
+        /// <param name="spell">The spell to assign, or <c>null</c> to clear.</param>
         public void SetSlot(int index, PreparedSpell spell)
         {
-            // nothing to do
-            if (spell == null && index < this.Spells.Count)
-                return;
-
-            // resize if needed
-            for (int i = this.Spells.Count - 1; i < index; i++)
+            // ensure list is large enough
+            while (this.Spells.Count <= index)
                 this.Spells.Add(null);
 
-            // set value
+            // set or clear slot
             this.Spells[index] = spell;
+
+            // trim trailing nulls to keep list compact
+            for (int i = this.Spells.Count - 1; i >= 0; i--)
+            {
+                if (this.Spells[i] != null)
+                    break;
+
+                this.Spells.RemoveAt(i);
+            }
         }
     }
 }
