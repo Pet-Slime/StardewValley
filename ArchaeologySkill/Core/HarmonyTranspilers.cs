@@ -129,9 +129,6 @@ namespace ArchaeologySkill.Core
                     new CodeMatch(OpCodes.Callvirt),
                     new CodeMatch(OpCodes.Ldstr, "stoneStep")
                 );
-
-                var loc = matcher.Operand;
-
                 matcher.MatchEndForward(
                     new CodeMatch(OpCodes.Ldstr, "stoneStep")
                 ).Advance(1);
