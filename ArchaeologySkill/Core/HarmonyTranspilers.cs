@@ -59,21 +59,18 @@ namespace ArchaeologySkill.Core
 
         private static void ArchaeologySkillCheck_1(int xLocation, int yLocation, Farmer farmer)
         {
-            Log.Alert("Archaeology testing 1");
             Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation);
             return;
         }
 
         private static void ArchaeologySkillCheck_2(int xLocation, int yLocation, Farmer farmer)
         {
-            Log.Alert("Archaeology testing 2");
             Random r = Utility.CreateDaySaveRandom((double)(xLocation * 2000), (double)(yLocation * 77), Game1.stats.DirtHoed);
             Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: r.Choose("(O)412", "(O)416"));
             return;
         }
         private static void ArchaeologySkillCheck_3(int xLocation, int yLocation, Farmer farmer)
         {
-            Log.Alert("Archaeology testing 3");
             Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: "(O)330");
             return;
         }
