@@ -1,3 +1,4 @@
+using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
 using MoonShared;
 using SpaceCore;
@@ -7,22 +8,19 @@ using WizardrySkill.Core.Framework;
 
 namespace WizardrySkill.Objects
 {
-    public class UpgradePointProfession : KeyedProfession
+    public class MagicProfession : KeyedProfession
     {
         /*********
         ** Public methods
         *********/
-        public UpgradePointProfession(Skills.Skill skill, string theId, Texture2D icon, ITranslationHelper i18n)
+        public MagicProfession(Skills.Skill skill, string theId, Texture2D icon, ITranslationHelper i18n)
             : base(skill, theId, icon, i18n) { }
 
         public override void DoImmediateProfessionPerk()
         {
-
-            Farmer player = Game1.player;
-            if (player.IsLocalPlayer)
+            if (Game1.player.IsLocalPlayer)
             {
-                player.GetSpellBook().UseSpellPoints(-2);
-                player.SetManaToMax();
+                Farmer player = Game1.player;
                 string modDataID = this.Skill.Id + "." + this.Id;
                 BirbCore.Attributes.Log.Trace("Player now has Profession mod data: " + modDataID);
                 player.modData.SetBool(modDataID, true);
@@ -34,14 +32,12 @@ namespace WizardrySkill.Objects
         {
 
             Farmer player = Game1.player;
-            if (Game1.player.IsLocalPlayer)
+            if (player.IsLocalPlayer)
             {
                 string modDataID = this.Skill.Id + "." + this.Id;
                 if (player.modData.GetBool(modDataID))
                 {
-                    player.GetSpellBook().UseSpellPoints(2);
-                    player.SetManaToMax();
-                    SpellBook spellBook = Game1.player.GetSpellBook();
+                    SpellBook spellBook = player.GetSpellBook();
                     foreach (PreparedSpellBar spellBar in spellBook.Prepared)
                     {
                         spellBar.Spells.Clear();

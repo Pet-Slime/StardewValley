@@ -10,10 +10,10 @@ namespace WizardrySkill.Objects
     public class Wizard_Skill : SpaceCore.Skills.Skill
     {
         public static UpgradePointProfession Magic5a;
-        public static KeyedProfession Magic5b;
+        public static MagicProfession Magic5b;
         public static UpgradePointProfession Magic10a1;
-        public static KeyedProfession Magic10a2;
-        public static KeyedProfession Magic10b1;
+        public static MagicProfession Magic10a2;
+        public static MagicProfession Magic10b1;
         public static ManaCapProfession Magic10b2;
         public readonly IModHelper _modHelper;
 
@@ -28,19 +28,19 @@ namespace WizardrySkill.Objects
                 //Potential
                 Magic5a = new UpgradePointProfession(this, "Magic5a", ModEntry.Assets.Magic5a, ModEntry.Instance.I18N),
                 //Mana Regen I
-                Magic5b = new KeyedProfession(this, "Magic5b", ModEntry.Assets.Magic5b, ModEntry.Instance.I18N),
+                Magic5b = new MagicProfession(this, "Magic5b", ModEntry.Assets.Magic5b, ModEntry.Instance.I18N),
                 //Prodigy
                 Magic10a1 = new UpgradePointProfession(this, "Magic10a1", ModEntry.Assets.Magic10a1, ModEntry.Instance.I18N),
                 //Memory
-                Magic10a2 = new KeyedProfession(this, "Magic10a2", ModEntry.Assets.Magic10a2, ModEntry.Instance.I18N),
+                Magic10a2 = new MagicProfession(this, "Magic10a2", ModEntry.Assets.Magic10a2, ModEntry.Instance.I18N),
                 //Mana Regen II
-                Magic10b1 = new KeyedProfession(this, "Magic10b1", ModEntry.Assets.Magic10b1, ModEntry.Instance.I18N),
+                Magic10b1 = new MagicProfession(this, "Magic10b1", ModEntry.Assets.Magic10b1, ModEntry.Instance.I18N),
                 //Mana Reserve
                 Magic10b2 = new ManaCapProfession(this, "Magic10b2", ModEntry.Assets.Magic10b2, ModEntry.Instance.I18N)
             );
         }
 
-        private void AddProfessions(UpgradePointProfession lvl5A, KeyedProfession lvl5B, UpgradePointProfession lvl10A1, KeyedProfession lvl10A2, KeyedProfession lvl10B1, ManaCapProfession lvl10B2)
+        private void AddProfessions(UpgradePointProfession lvl5A, MagicProfession lvl5B, UpgradePointProfession lvl10A1, MagicProfession lvl10A2, MagicProfession lvl10B1, ManaCapProfession lvl10B2)
         {
             this.Professions.Add(lvl5A);
             this.Professions.Add(lvl5B);

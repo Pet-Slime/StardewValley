@@ -107,24 +107,24 @@ namespace WizardrySkill.Core
 
             SpaceCore.Skills.RegisterSkill(Skill);
 
-            foreach (string SkillID in Skills.GetSkillList())
-            {
-
-                Skill test = GetSkill(SkillID);
-
-                //                Log.Alert($"Skill Name is: {test.GetName()}");
-                //                Log.Alert($"Skill ID is: {test.Id}");
-                //                Log.Alert($"This skill has the following Professions");
-                //                foreach (Skills.Skill.Profession prof in test.Professions)
-                //                {
-                //                    Log.Alert($"");
-                //                    Log.Alert($"Profession name is: {prof.GetName()}");
-                //                    Log.Alert($"Profession ID is: {prof.Id}");
-                //                    Log.Alert($"Profession number is: {prof.GetVanillaId()}");
-                //                }
-                //                Log.Alert($"-------------------------");
-
-            }
+//foreach (string SkillID in Skills.GetSkillList())
+//{
+//
+//    Skill test = GetSkill(SkillID);
+//
+//    //                Log.Alert($"Skill Name is: {test.GetName()}");
+//    //                Log.Alert($"Skill ID is: {test.Id}");
+//    //                Log.Alert($"This skill has the following Professions");
+//    //                foreach (Skills.Skill.Profession prof in test.Professions)
+//    //                {
+//    //                    Log.Alert($"");
+//    //                    Log.Alert($"Profession name is: {prof.GetName()}");
+//    //                    Log.Alert($"Profession ID is: {prof.Id}");
+//    //                    Log.Alert($"Profession number is: {prof.GetVanillaId()}");
+//    //                }
+//    //                Log.Alert($"-------------------------");
+//
+//}
         }
 
         public static void LoadAssets()
@@ -336,6 +336,18 @@ namespace WizardrySkill.Core
                     while (spellBook.Prepared.Count < MagicConstants.SpellBarCount)
                         data.Prepared.Add(new PreparedSpellBar());
                 });
+            }
+
+            // fix professions
+            Skills.Skill skill = Skills.GetSkill("moonslime.Wizard");
+            for (int i = 0; i < skill.Professions.Count; i++)
+            {
+                if (player.professions.Contains(skill.Professions[i].GetVanillaId()))
+                {
+                    string modDataID = skill.Id + "." + skill.Professions[i].Id;
+                    BirbCore.Attributes.Log.Trace("Player now has Profession mod data: " + modDataID);
+                    player.modData.SetBool(modDataID, true);
+                }
             }
 
             // fix learned spells

@@ -17,15 +17,38 @@ namespace WizardrySkill.Objects
 
         public override void DoImmediateProfessionPerk()
         {
-            Game1.player.SetMaxMana(Game1.player.GetMaxMana() + 100);
-            Game1.player.SetManaToMax();
+            Farmer player = Game1.player;
+            if (player.IsLocalPlayer)
+            {
+                Game1.player.SetMaxMana(Game1.player.GetMaxMana() + 100);
+                Game1.player.SetManaToMax();
+                string modDataID = this.Skill.Id + "." + this.Id;
+                BirbCore.Attributes.Log.Trace("Player now has Profession mod data: " + modDataID);
+                player.modData.SetBool(modDataID, true);
+            }
             base.DoImmediateProfessionPerk();
         }
 
         public override void UndoImmediateProfessionPerk()
         {
-            Game1.player.SetMaxMana(Game1.player.GetMaxMana() - 100);
-            Game1.player.SetManaToMax();
+
+            Farmer player = Game1.player;
+            if (player.IsLocalPlayer)
+            {
+                string modDataID = this.Skill.Id + "." + this.Id;
+                if (player.modData.GetBool(modDataID))
+                {
+                    Game1.player.SetMaxMana(Game1.player.GetMaxMana() - 100);
+                    Game1.player.SetManaToMax();
+                    SpellBook spellBook = Game1.player.GetSpellBook();
+                    foreach (PreparedSpellBar spellBar in spellBook.Prepared)
+                    {
+                        spellBar.Spells.Clear();
+                    }
+                    BirbCore.Attributes.Log.Trace("Player now removed Profession mod data: " + modDataID);
+                    player.modData.SetBool(modDataID, false);
+                }
+            }
             base.UndoImmediateProfessionPerk();
         }
     }
