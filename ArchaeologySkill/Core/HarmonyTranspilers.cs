@@ -115,17 +115,37 @@ namespace ArchaeologySkill.Core
     class MuseumMenu_patch
     {
         [HarmonyLib.HarmonyTranspiler]
-        private static IEnumerable<CodeInstruction> Transpile_MineShaft_checkForBuriedItems(IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> MuseumMenu_receiveLeftClick_Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
         {
-            List<CodeInstruction> codeInstructions = new List<CodeInstruction>(instructions);
-            yield return codeInstructions[0];
-            for (int i = 1; i < codeInstructions.Count; i++)
+
+            var code = instructions.ToList();
+            try
             {
-                if (i == 182)
-                {
-                    yield return CodeInstruction.Call(typeof(MuseumMenu_patch), nameof(ArchaeologySkillEXP));
-                }
-                yield return codeInstructions[i];
+                var matcher = new CodeMatcher(code, il);
+
+                matcher.MatchStartForward(
+                    new CodeMatch(op => op.IsLdloc()),
+                    new CodeMatch(OpCodes.Callvirt),
+                    new CodeMatch(OpCodes.Callvirt),
+                    new CodeMatch(OpCodes.Ldstr, "stoneStep")
+                );
+
+                var loc = matcher.Operand;
+
+                matcher.MatchEndForward(
+                    new CodeMatch(OpCodes.Ldstr, "stoneStep")
+                ).Advance(1);
+
+                matcher.Insert(
+                    new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(MuseumMenu_patch), nameof(ArchaeologySkillEXP)))
+                );
+
+                return matcher.InstructionEnumeration();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error in moonslime.Archaeology.LibraryMuseumPatches_MuseumMenu_receiveLeftClick_Transpiler: \n" + ex);
+                return code;
             }
         }
         private static void ArchaeologySkillEXP()
