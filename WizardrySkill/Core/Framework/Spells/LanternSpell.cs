@@ -23,7 +23,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return level * 3;
+            return (level+1) * 3;
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
