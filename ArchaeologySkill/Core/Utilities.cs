@@ -1,18 +1,9 @@
-using System;
 using System.Collections.Generic;
-using MoonShared;
 using Microsoft.Xna.Framework;
+using MoonShared;
 using SpaceCore;
 using StardewValley;
-using System.Linq;
-using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Buffs;
-using StardewValley.BellsAndWhistles;
-using BirbCore.Attributes;
-using Object = StardewValley.Object;
-using ArchaeologySkill.Objects.Water_Shifter;
-using StardewValley.Menus;
-using Force.DeepCloner;
 
 namespace ArchaeologySkill
 {
@@ -31,7 +22,7 @@ namespace ArchaeologySkill
         public static void ApplyArchaeologySkill(Farmer who, int EXP, bool bonusLoot = false, int xLocation = 0, int yLocation = 0, bool panning = false, string exactItem = "")
         {
             var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
-            if (farmer == null ) { return; };
+            if (farmer == null) { return; };
 
             xLocation = farmer.TilePoint.X;
             yLocation = farmer.TilePoint.Y;
@@ -45,7 +36,8 @@ namespace ArchaeologySkill
             {
                 BirbCore.Attributes.Log.Trace("Archaeology Skll: The player does have gold rusher!");
                 ApplySpeedBoost(farmer);
-            } else
+            }
+            else
             {
                 BirbCore.Attributes.Log.Trace("Archaeology Skll: the player does not have gold rusher");
             }
@@ -105,7 +97,7 @@ namespace ArchaeologySkill
                 displayName: ModEntry.Instance.I18N.Get("Archaeology10b2.buff"), // can optionally specify description text too
                 iconTexture: ModEntry.Assets.Gold_Rush_Buff,
                 iconSheetIndex: 0,
-                duration: 6_000*GetLevel(player), // 60 seconds by default. Can go higher with buffs.
+                duration: 6_000 * GetLevel(player), // 60 seconds by default. Can go higher with buffs.
                 effects: new BuffEffects()
                 {
                     Speed = { 3 } // shortcut for buff.Speed.Value = 5

@@ -2,22 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using System.Text;
 using BirbCore.Attributes;
 using HarmonyLib;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Spacechase.Shared.Patching;
-using SpaceCore;
 using SpaceShared;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Extensions;
-using StardewValley.GameData.Objects;
 using StardewValley.Locations;
 using StardewValley.Menus;
-using static System.Net.Mime.MediaTypeNames;
-using static SpaceCore.Skills;
 
 namespace ArchaeologySkill.Core
 {
@@ -144,7 +135,8 @@ namespace ArchaeologySkill.Core
         }
         private static void ArchaeologySkillEXP()
         {
-            foreach (var farmer in Game1.getOnlineFarmers()) {
+            foreach (var farmer in Game1.getOnlineFarmers())
+            {
                 Utilities.AddEXP(farmer, ModEntry.Config.ExperienceFromDonationRewards);
             }
 

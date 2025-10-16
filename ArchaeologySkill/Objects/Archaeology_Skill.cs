@@ -1,14 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Reflection.PortableExecutable;
 using MoonShared;
-using Microsoft.Xna.Framework;
-using SpaceCore;
-using StardewValley;
-using SpaceCore.Interface;
-using StardewModdingAPI.Events;
 using StardewModdingAPI;
-using BirbCore.Attributes;
 
 namespace ArchaeologySkill
 {
@@ -28,7 +20,8 @@ namespace ArchaeologySkill
             if (ModEntry.Config.AlternativeSkillPageIcon == 1)
             {
                 this.SkillsPageIcon = ModEntry.Assets.IconBalt;
-            } else
+            }
+            else
             {
                 this.SkillsPageIcon = ModEntry.Assets.IconB;
             }
@@ -71,7 +64,7 @@ namespace ArchaeologySkill
             List<string> result = new()
             {
                 ModEntry.Instance.I18N.Get("skill.perk", new { bonus = 5 })
-            };            
+            };
             return result;
         }
 
@@ -80,7 +73,7 @@ namespace ArchaeologySkill
             return ModEntry.Instance.I18N.Get("skill.perk", new { bonus = 5 * level });
         }
 
-        
-        
+
+
     }
 }

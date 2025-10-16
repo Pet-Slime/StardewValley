@@ -1,15 +1,7 @@
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using MoonShared.Asset;
-using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI;
-using StardewModdingAPI.Events;
-using StardewModdingAPI.Utilities;
-using StardewValley;
 using BirbCore.Attributes;
-using HarmonyLib;
+using Microsoft.Xna.Framework.Graphics;
+using StardewModdingAPI.Events;
 
 namespace ArchaeologySkill
 {

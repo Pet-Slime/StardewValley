@@ -1,7 +1,7 @@
-using ArchaeologySkill;
-using ArchaeologySkill.Objects.Restoration_Table;
+using System;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MoonShared;
 using Netcode;
 using SpaceCore;
@@ -9,16 +9,8 @@ using StardewValley;
 using StardewValley.Extensions;
 using StardewValley.GameData.Machines;
 using StardewValley.GameData.Objects;
-using StardewValley.ItemTypeDefinitions;
-using StardewValley.Locations;
 using StardewValley.Objects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Serialization;
-using xTile.Dimensions;
 using Object = StardewValley.Object;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace ArchaeologySkill.Objects.Water_Shifter
 {
@@ -110,7 +102,7 @@ namespace ArchaeologySkill.Objects.Water_Shifter
                 list.AddRange(ModEntry.ArtifactLootTable);
             }
 
-            
+
             //Shuffle the list so it's in a random order!
             Random random = Game1.random;
             list.Shuffle(random);

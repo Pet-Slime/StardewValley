@@ -1,15 +1,10 @@
 using System;
 using System.Collections.Generic;
+using BirbCore.Attributes;
 using MoonShared.APIs;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
-using BirbCore.Attributes;
-using HarmonyLib;
-using MoonShared.Patching;
-using ArchaeologySkill.Objects.Water_Shifter;
-using StardewModdingAPI.Events;
-using SpaceShared.APIs;
 
 namespace ArchaeologySkill
 {

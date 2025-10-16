@@ -1,17 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using StardewValley.GameData.Machines;
-using StardewValley.Objects;
-using StardewValley;
-using Object = StardewValley.Object;
-using Netcode;
 using System.Xml.Serialization;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Netcode;
+using StardewValley;
+using StardewValley.GameData.Machines;
 using StardewValley.Tools;
+using Object = StardewValley.Object;
 
 namespace ArchaeologySkill.Objects.Restoration_Table
 {
@@ -104,7 +99,8 @@ namespace ArchaeologySkill.Objects.Restoration_Table
                     cask.daysToMature.Value = cask.GetDaysForQuality(@object.Quality);
 
                     int defaultTime = 10080;
-                    switch (@object.Quality) {
+                    switch (@object.Quality)
+                    {
                         case 0:
                             defaultTime = 10080;
                             break;
@@ -223,7 +219,8 @@ namespace ArchaeologySkill.Objects.Restoration_Table
             if (heldObject.Value == null)
             {
                 showNextIndex.Value = false;
-            } else
+            }
+            else
             {
                 showNextIndex.Value = true;
             }

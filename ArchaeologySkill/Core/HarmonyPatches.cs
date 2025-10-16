@@ -1,22 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Force.DeepCloner;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MoonShared;
 using SpaceCore;
 using StardewValley;
 using StardewValley.BellsAndWhistles;
-using StardewValley.Enchantments;
 using StardewValley.Extensions;
-using StardewValley.GameData.Locations;
 using StardewValley.Locations;
-using StardewValley.Menus;
 using StardewValley.Tools;
-using Log = BirbCore.Attributes.Log;
 
 namespace ArchaeologySkill.Core
 {
@@ -33,71 +27,71 @@ namespace ArchaeologySkill.Core
             }
         }
     }
-    
-        //Legacy code, kept for future refrence in case I need to swtich back
 
-//    [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.checkForBuriedItem))]
-//    class CheckForBuriedItem_Base_patch
-//    {
-//        [HarmonyLib.HarmonyPrefix]
-//        private static bool Prefix(
-//        GameLocation __instance, string __result, int xLocation, int yLocation, bool explosion, bool detectOnly, Farmer who)
-//        {
-//            BirbCore.Attributes.Log.Trace("Archaeology skill check for buried treasure, general");
-//            var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
-//
-//            Random random = Utility.CreateDaySaveRandom(xLocation * 2000, yLocation * 77, Game1.stats.DirtHoed);
-//            string text = ModEntry.Instance.Helper.Reflection.GetMethod(__instance, "HandleTreasureTileProperty").Invoke<string>(xLocation, yLocation, detectOnly);
-//            if (text != null)
-//            {
-//                __result = text;
-//                Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation);
-//                return false;
-//            }
-//
-//            bool flag = who?.CurrentTool is Hoe && who.CurrentTool.hasEnchantmentOfType<GenerousEnchantment>();
-//            float num = 0.5f;
-//            if (!__instance.IsFarm && (bool)__instance.IsOutdoors && __instance.GetSeason() == Season.Winter && random.NextDouble() < 0.08 && !explosion && !detectOnly && !(__instance is Desert))
-//            {
-//                string item = random.Choose("(O)412", "(O)416");
-//                Game1.createObjectDebris(item, xLocation, yLocation);
-//                if (flag && random.NextDouble() < (double)num)
-//                {
-//                    Game1.createObjectDebris(random.Choose("(O)412", "(O)416"), xLocation, yLocation);
-//                }
-//
-//                __result = "";
-//                Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: item);
-//                return false;
-//            }
-//
-//            LocationData data = __instance.GetData();
-//            if ((bool)__instance.IsOutdoors && random.NextBool(data?.ChanceForClay ?? 0.03) && !explosion)
-//            {
-//                __result = "";
-//                return false;
-//            }
-//
-//            if (detectOnly)
-//            {
-//                __instance.map.RequireLayer("Back").Tiles[xLocation, yLocation].Properties.Add("Treasure", "Item (O)330");
-//                __result = "Item";
-//                return false;
-//            }
-//
-//            Game1.createObjectDebris("(O)330", xLocation, yLocation);
-//            if (flag && random.NextDouble() < (double)num)
-//            {
-//                Game1.createObjectDebris("(O)330", xLocation, yLocation);
-//            }
-//
-//            __result = "";
-//            Log.Alert("testers 4");
-//            Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: "(O)330");
-//            return false;
-//        }
-//
-//    }
+    //Legacy code, kept for future refrence in case I need to swtich back
+
+    //    [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.checkForBuriedItem))]
+    //    class CheckForBuriedItem_Base_patch
+    //    {
+    //        [HarmonyLib.HarmonyPrefix]
+    //        private static bool Prefix(
+    //        GameLocation __instance, string __result, int xLocation, int yLocation, bool explosion, bool detectOnly, Farmer who)
+    //        {
+    //            BirbCore.Attributes.Log.Trace("Archaeology skill check for buried treasure, general");
+    //            var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
+    //
+    //            Random random = Utility.CreateDaySaveRandom(xLocation * 2000, yLocation * 77, Game1.stats.DirtHoed);
+    //            string text = ModEntry.Instance.Helper.Reflection.GetMethod(__instance, "HandleTreasureTileProperty").Invoke<string>(xLocation, yLocation, detectOnly);
+    //            if (text != null)
+    //            {
+    //                __result = text;
+    //                Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation);
+    //                return false;
+    //            }
+    //
+    //            bool flag = who?.CurrentTool is Hoe && who.CurrentTool.hasEnchantmentOfType<GenerousEnchantment>();
+    //            float num = 0.5f;
+    //            if (!__instance.IsFarm && (bool)__instance.IsOutdoors && __instance.GetSeason() == Season.Winter && random.NextDouble() < 0.08 && !explosion && !detectOnly && !(__instance is Desert))
+    //            {
+    //                string item = random.Choose("(O)412", "(O)416");
+    //                Game1.createObjectDebris(item, xLocation, yLocation);
+    //                if (flag && random.NextDouble() < (double)num)
+    //                {
+    //                    Game1.createObjectDebris(random.Choose("(O)412", "(O)416"), xLocation, yLocation);
+    //                }
+    //
+    //                __result = "";
+    //                Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: item);
+    //                return false;
+    //            }
+    //
+    //            LocationData data = __instance.GetData();
+    //            if ((bool)__instance.IsOutdoors && random.NextBool(data?.ChanceForClay ?? 0.03) && !explosion)
+    //            {
+    //                __result = "";
+    //                return false;
+    //            }
+    //
+    //            if (detectOnly)
+    //            {
+    //                __instance.map.RequireLayer("Back").Tiles[xLocation, yLocation].Properties.Add("Treasure", "Item (O)330");
+    //                __result = "Item";
+    //                return false;
+    //            }
+    //
+    //            Game1.createObjectDebris("(O)330", xLocation, yLocation);
+    //            if (flag && random.NextDouble() < (double)num)
+    //            {
+    //                Game1.createObjectDebris("(O)330", xLocation, yLocation);
+    //            }
+    //
+    //            __result = "";
+    //            Log.Alert("testers 4");
+    //            Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: "(O)330");
+    //            return false;
+    //        }
+    //
+    //    }
 
     [HarmonyPatch(typeof(IslandLocation), nameof(IslandLocation.checkForBuriedItem))]
     class CheckForBuriedItem_IslandLocation_patch
@@ -123,121 +117,121 @@ namespace ArchaeologySkill.Core
 
     //Legacy code, kept for future refrence just in case
 
-//    [HarmonyPatch(typeof(MineShaft), nameof(MineShaft.checkForBuriedItem))]
-//    class CheckForBuriedItem_Mineshaft_patch
-//    {
-//        [HarmonyLib.HarmonyPrefix]
-//        private static bool Prefix(
-//        MineShaft __instance, string __result, int xLocation, int yLocation, bool explosion, bool detectOnly, Farmer who)
-//        {
-//            if (__instance.isQuarryArea)
-//            {
-//                __result = "";
-//                return false;
-//            }
-//
-//            if (Game1.random.NextDouble() < 0.15)
-//            {
-//                string id = "(O)330";
-//                if (Game1.random.NextDouble() < 0.07)
-//                {
-//                    if (Game1.random.NextDouble() < 0.75)
-//                    {
-//                        switch (Game1.random.Next(5))
-//                        {
-//                            case 0:
-//                                id = "(O)96";
-//                                break;
-//                            case 1:
-//                                id = ((!who.hasOrWillReceiveMail("lostBookFound")) ? "(O)770" : ((Game1.netWorldState.Value.LostBooksFound < 21) ? "(O)102" : "(O)770"));
-//                                break;
-//                            case 2:
-//                                id = "(O)110";
-//                                break;
-//                            case 3:
-//                                id = "(O)112";
-//                                break;
-//                            case 4:
-//                                id = "(O)585";
-//                                break;
-//                        }
-//                    }
-//                    else if (Game1.random.NextDouble() < 0.75)
-//                    {
-//                        switch (__instance.getMineArea())
-//                        {
-//                            case 0:
-//                            case 10:
-//                                id = Game1.random.Choose("(O)121", "(O)97");
-//                                break;
-//                            case 40:
-//                                id = Game1.random.Choose("(O)122", "(O)336");
-//                                break;
-//                            case 80:
-//                                id = "(O)99";
-//                                break;
-//                        }
-//                    }
-//                    else
-//                    {
-//                        id = Game1.random.Choose("(O)126", "(O)127");
-//                    }
-//                }
-//                else if (Game1.random.NextDouble() < 0.19)
-//                {
-//                    id = (Game1.random.NextBool() ? "(O)390" : __instance.getOreIdForLevel(__instance.mineLevel, Game1.random));
-//                }
-//                else if (Game1.random.NextDouble() < 0.45)
-//                {
-//                    id = "(O)330";
-//                }
-//                else if (Game1.random.NextDouble() < 0.12)
-//                {
-//                    if (Game1.random.NextDouble() < 0.25)
-//                    {
-//                        id = "(O)749";
-//                    }
-//                    else
-//                    {
-//                        switch (__instance.getMineArea())
-//                        {
-//                            case 0:
-//                            case 10:
-//                                id = "(O)535";
-//                                break;
-//                            case 40:
-//                                id = "(O)536";
-//                                break;
-//                            case 80:
-//                                id = "(O)537";
-//                                break;
-//                        }
-//                    }
-//                }
-//                else
-//                {
-//                    id = "(O)78";
-//                }
-//
-//                Game1.createObjectDebris(id, xLocation, yLocation, who.UniqueMultiplayerID, __instance);
-//                bool num = who?.CurrentTool is Hoe && who.CurrentTool.hasEnchantmentOfType<GenerousEnchantment>();
-//                float num2 = 0.25f;
-//                /// Custom code
-//                Utilities.ApplyArchaeologySkill(Game1.GetPlayer(who.UniqueMultiplayerID), ModEntry.Config.ExperienceFromMinesDigging, false, xLocation, yLocation);
-//                ///
-//                if (num && Game1.random.NextDouble() < (double)num2)
-//                {
-//                    Game1.createObjectDebris(id, xLocation, yLocation, who.UniqueMultiplayerID, __instance);
-//                }
-//
-//                __result = "";
-//                return false;
-//            }
-//
-//            __result = "";
-//            return false;
-//        }
-//    }
+    //    [HarmonyPatch(typeof(MineShaft), nameof(MineShaft.checkForBuriedItem))]
+    //    class CheckForBuriedItem_Mineshaft_patch
+    //    {
+    //        [HarmonyLib.HarmonyPrefix]
+    //        private static bool Prefix(
+    //        MineShaft __instance, string __result, int xLocation, int yLocation, bool explosion, bool detectOnly, Farmer who)
+    //        {
+    //            if (__instance.isQuarryArea)
+    //            {
+    //                __result = "";
+    //                return false;
+    //            }
+    //
+    //            if (Game1.random.NextDouble() < 0.15)
+    //            {
+    //                string id = "(O)330";
+    //                if (Game1.random.NextDouble() < 0.07)
+    //                {
+    //                    if (Game1.random.NextDouble() < 0.75)
+    //                    {
+    //                        switch (Game1.random.Next(5))
+    //                        {
+    //                            case 0:
+    //                                id = "(O)96";
+    //                                break;
+    //                            case 1:
+    //                                id = ((!who.hasOrWillReceiveMail("lostBookFound")) ? "(O)770" : ((Game1.netWorldState.Value.LostBooksFound < 21) ? "(O)102" : "(O)770"));
+    //                                break;
+    //                            case 2:
+    //                                id = "(O)110";
+    //                                break;
+    //                            case 3:
+    //                                id = "(O)112";
+    //                                break;
+    //                            case 4:
+    //                                id = "(O)585";
+    //                                break;
+    //                        }
+    //                    }
+    //                    else if (Game1.random.NextDouble() < 0.75)
+    //                    {
+    //                        switch (__instance.getMineArea())
+    //                        {
+    //                            case 0:
+    //                            case 10:
+    //                                id = Game1.random.Choose("(O)121", "(O)97");
+    //                                break;
+    //                            case 40:
+    //                                id = Game1.random.Choose("(O)122", "(O)336");
+    //                                break;
+    //                            case 80:
+    //                                id = "(O)99";
+    //                                break;
+    //                        }
+    //                    }
+    //                    else
+    //                    {
+    //                        id = Game1.random.Choose("(O)126", "(O)127");
+    //                    }
+    //                }
+    //                else if (Game1.random.NextDouble() < 0.19)
+    //                {
+    //                    id = (Game1.random.NextBool() ? "(O)390" : __instance.getOreIdForLevel(__instance.mineLevel, Game1.random));
+    //                }
+    //                else if (Game1.random.NextDouble() < 0.45)
+    //                {
+    //                    id = "(O)330";
+    //                }
+    //                else if (Game1.random.NextDouble() < 0.12)
+    //                {
+    //                    if (Game1.random.NextDouble() < 0.25)
+    //                    {
+    //                        id = "(O)749";
+    //                    }
+    //                    else
+    //                    {
+    //                        switch (__instance.getMineArea())
+    //                        {
+    //                            case 0:
+    //                            case 10:
+    //                                id = "(O)535";
+    //                                break;
+    //                            case 40:
+    //                                id = "(O)536";
+    //                                break;
+    //                            case 80:
+    //                                id = "(O)537";
+    //                                break;
+    //                        }
+    //                    }
+    //                }
+    //                else
+    //                {
+    //                    id = "(O)78";
+    //                }
+    //
+    //                Game1.createObjectDebris(id, xLocation, yLocation, who.UniqueMultiplayerID, __instance);
+    //                bool num = who?.CurrentTool is Hoe && who.CurrentTool.hasEnchantmentOfType<GenerousEnchantment>();
+    //                float num2 = 0.25f;
+    //                /// Custom code
+    //                Utilities.ApplyArchaeologySkill(Game1.GetPlayer(who.UniqueMultiplayerID), ModEntry.Config.ExperienceFromMinesDigging, false, xLocation, yLocation);
+    //                ///
+    //                if (num && Game1.random.NextDouble() < (double)num2)
+    //                {
+    //                    Game1.createObjectDebris(id, xLocation, yLocation, who.UniqueMultiplayerID, __instance);
+    //                }
+    //
+    //                __result = "";
+    //                return false;
+    //            }
+    //
+    //            __result = "";
+    //            return false;
+    //        }
+    //    }
 
     [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.digUpArtifactSpot))]
     class DigUpArtifactSpot_Patch
@@ -432,7 +426,7 @@ namespace ArchaeologySkill.Core
                 string s = "∞" + (__instance.level?.Get() - 10).Value.ToString() ?? "";
                 Microsoft.Xna.Framework.Rectangle titleSafeArea = Game1.game1.GraphicsDevice.Viewport.GetTitleSafeArea();
                 SpriteText.drawString(b, s, titleSafeArea.Left + 16, titleSafeArea.Top + 16, 999999, -1, 999999, 1f, 1f, junimoText: false, 2, "", color_Red);
-                
+
             }
         }
     }
@@ -454,7 +448,7 @@ namespace ArchaeologySkill.Core
             Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
             GameLocation currentLocation = player.currentLocation;
 
-            
+
 
             if (!currentLocation.orePanPoint.Equals(Point.Zero))
             {

@@ -1,30 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using ArchaeologySkill.Objects.Water_Shifter;
 using ArchaeologySkill.Objects.Restoration_Table;
+using ArchaeologySkill.Objects.Water_Shifter;
 using BirbCore.Attributes;
-using Microsoft.Xna.Framework.Graphics;
 using MoonShared.APIs;
-using Newtonsoft.Json;
 using SpaceCore;
 using SpaceCore.Interface;
 using SpaceShared.APIs;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.GameData.Objects;
-using static BirbCore.Attributes.SMod;
-using static SpaceCore.Skills;
 using Object = StardewValley.Object;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
-using Newtonsoft.Json.Linq;
-using StardewValley.GameData.Locations;
-using StardewValley.Objects;
-using StardewValley.Network;
-using Netcode;
-using StardewValley.Locations;
 
 namespace ArchaeologySkill.Core
 {
@@ -35,7 +21,7 @@ namespace ArchaeologySkill.Core
         [SEvent.GameLaunchedLate]
         private static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
-            
+
             var sc = ModEntry.Instance.Helper.ModRegistry.GetApi<ISpaceCoreApi>("spacechase0.SpaceCore");
             sc.RegisterSerializerType(typeof(WaterShifter));
             sc.RegisterSerializerType(typeof(RestorationTable));
@@ -118,7 +104,7 @@ namespace ArchaeologySkill.Core
         [SEvent.StatChanged("moonslime.ArchaeologySkill.Restoration_Table")]
         private void StatChanged_Restoration_Table(object sender, SEvent.StatChanged.EventArgs e)
         {
-///            Utilities.AddEXP(Game1.player, ModEntry.Config.ExperienceFromResearchTable);
+            ///            Utilities.AddEXP(Game1.player, ModEntry.Config.ExperienceFromResearchTable);
         }
 
         [SEvent.StatChanged("moonslime.ArchaeologySkill.Ancient_Battery")]
