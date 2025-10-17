@@ -28,6 +28,9 @@
         },
         {
             "UniqueID": "drbirbdev.BirbCore"
+        },
+        {
+            "UniqueID": "moonslime.ManaBarApi.CP"
         }
     ]
 }

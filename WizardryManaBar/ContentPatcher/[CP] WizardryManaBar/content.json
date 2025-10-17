@@ -1,0 +1,10 @@
+﻿{
+    "Format": "2.4.0",
+    "Changes": [
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ManaBarApi/textures",
+            "FromFile": "Assets/manabg.png"
+        }
+    ]
+}

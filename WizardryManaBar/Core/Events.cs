@@ -324,6 +324,8 @@ namespace WizardryManaBar.Core
             {
                 player.SetManaToMax();
             }
+
+            
         }
 
 

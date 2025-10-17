@@ -1,0 +1,15 @@
+﻿{
+    "Name": "[CP] Wizardry Skill",
+    "Author": "moonslime",
+    "Version": "1.4.0",
+    "Description": "Magic Skill Content Patcher",
+    "UniqueID": "moonslime.ManaBarApi.CP",
+    "ContentPackFor": {
+        "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    "UpdateKeys": [
+        "Nexus:-1"
+    ],
+    "Dependencies": [
+    ]
+}

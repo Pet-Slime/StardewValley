@@ -2,6 +2,12 @@
     "Format": "2.4.0",
     "Changes": [
         {
+            "LogName": "Wizardry Compat",
+            "Action": "EditImage",
+            "Target": "Mods/moonslime.ManaBarApi/textures",
+            "FromFile": "Assets/manabg.png"
+        },
+        {
             "Action": "Include",
             "FromFile": "Data/ObjectsData.json, Data/CraftingData.json, Data/Maps.json"
         }
