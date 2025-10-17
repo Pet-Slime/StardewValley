@@ -1,0 +1,30 @@
+﻿{
+    "Format": "2.4.0",
+    "Changes": [
+        {
+            "LogName": "Wizardry Compat Vintage v2",
+            "Action": "EditImage",
+            "Target": "Mods/moonslime.ManaBarApi/textures",
+            "FromFile": "Assets/manabg_vintageV2.png"
+        },
+        {
+            "LogName": "Wizardry Compat Vintage v2",
+            "Action": "EditImage",
+            "Target": "Mods/moonslime.WizardrySkill/interface/manabg",
+            "FromFile": "Assets/manabg_vintageV2.png"
+        },
+        {
+            "LogName": "Wizardry Compat Vintage v2",
+            "Action": "EditImage",
+            "Target": "Mods/moonslime.WizardrySkill/interface/spellbg",
+            "FromFile": "Assets/spellbg_vintageV2.png"
+        },
+        {
+            "LogName": "Wizardry Compat Vintage v2",
+            "Action": "EditImage",
+            "Target": "Mods/moonslime.WizardrySkill/interface/spellMenubg",
+            "FromFile": "Assets/spellMenubg_vintageV2.png"
+        }
+       
+    ]
+}

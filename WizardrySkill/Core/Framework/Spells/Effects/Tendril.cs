@@ -28,7 +28,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             this.Pos = pos;
             this.Radius = rad;
             this.Duration = dur;
-            this.Tex = Content.LoadTexture("magic/nature/tendrils/tendril.png");
+            this.Tex = Content.LoadTexture("magic/nature/tendrils/tendril");
         }
 
         /// <summary>Update the effect state if needed.</summary>

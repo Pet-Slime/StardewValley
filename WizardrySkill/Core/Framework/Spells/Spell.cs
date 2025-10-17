@@ -72,7 +72,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 this.Icons = new Texture2D[this.GetMaxCastingLevel()];
                 for (int i = 1; i <= this.GetMaxCastingLevel(); ++i)
                 {
-                    this.Icons[i - 1] = Content.LoadTexture("magic/" + this.ParentSchool.Id + "/" + this.Id + "/" + i + ".png");
+                    this.Icons[i - 1] = Content.LoadTexture("magic/" + this.ParentSchool.Id + "/" + this.Id + "/" + i);
                 }
             }
             catch (ContentLoadException e)

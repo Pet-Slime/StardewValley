@@ -71,7 +71,7 @@ namespace WizardrySkill.Core.Framework.Schools
         protected School(string id)
         {
             this.Id = id;
-            this.IconImpl = new(() => Content.LoadTexture($"magic/{id}/school-icon.png"));
+            this.IconImpl = new(() => Content.LoadTexture($"magic/{id}/school-icon"));
         }
 
         private static void Init()

@@ -1,53 +1,36 @@
 using BirbCore.Attributes;
 using Microsoft.Xna.Framework.Graphics;
+using StardewValley;
 
 namespace WizardrySkill.Core
 {
     [SAsset(Priority = 0)]
     public class Assets
     {
-        [SAsset.Asset("assets/interface/MagiciconA.png")]
-        public Texture2D IconA { get; set; }
+        public Texture2D IconA => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/MagiciconA");
 
-        [SAsset.Asset("assets/interface/MagiciconB.png")]
-        public Texture2D IconB { get; set; }
+        public Texture2D IconB => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/MagiciconB");
 
-        [SAsset.Asset("assets/interface/Magic5a.png")]
-        public Texture2D Magic5a { get; set; }
+        public Texture2D Magic5a => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/Magic5a");
 
-        [SAsset.Asset("assets/interface/Magic5b.png")]
-        public Texture2D Magic5b { get; set; }
+        public Texture2D Magic5b => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/Magic5b");
 
-        [SAsset.Asset("assets/interface/Magic10a1.png")]
-        public Texture2D Magic10a1 { get; set; }
+        public Texture2D Magic10a1 => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/Magic10a1");
 
-        [SAsset.Asset("assets/interface/Magic10a2.png")]
-        public Texture2D Magic10a2 { get; set; }
+        public Texture2D Magic10a2 => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/Magic10a2");
 
-        [SAsset.Asset("assets/interface/Magic10b1.png")]
-        public Texture2D Magic10b1 { get; set; }
+        public Texture2D Magic10b1 => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/Magic10b1");
 
-        [SAsset.Asset("assets/interface/Magic10b2.png")]
-        public Texture2D Magic10b2 { get; set; }
+        public Texture2D Magic10b2 => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/Magic10b2");
 
 
 
-        [SAsset.Asset("assets/entities/cloud.png")]
-        public Texture2D CloudMount { get; set; }
+        public Texture2D CloudMount => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/entities/cloud");
 
-        [SAsset.Asset("assets/magic/arcane/school-icon.png")]
-        public Texture2D ArcaneSchoolIcon { get; set; }
+        public Texture2D Spellbg => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/spellbg");
 
-        [SAsset.Asset("assets/magic/arcane/analyze/1.png")]
-        public Texture2D ArcaneSchoolAnalyze1 { get; set; }
-
-
-
-        [SAsset.Asset("assets/interface/spellbg.png")]
-        public Texture2D Spellbg { get; set; }
-
-        [SAsset.Asset("assets/interface/manabg.png")]
-        public Texture2D Manabg { get; set; }
+        public Texture2D Manabg => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/manabg");
+        public Texture2D SpellMenubg => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/spellMenubg");
 
 
     }

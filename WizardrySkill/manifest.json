@@ -1,7 +1,7 @@
 ﻿{
     "Name": "Wizardry",
     "Author": "moonslime",
-    "Version": "1.4.0",
+    "Version": "1.5.0",
     "Description": "Magic Revisited.",
     "UniqueID": "moonslime.WizardrySkill",
     "EntryDll": "WizardrySkill.dll",
@@ -27,6 +27,10 @@
         {
             "UniqueID": "spacechase0.SpaceCore",
             "MinimumVersion": "1.21.0"
+        },
+        {
+            "UniqueID": "moonslime.WizardrySkill.CP",
+            "IsRequired": true
         }
     ]
 }

@@ -2,6 +2,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
 using SpaceCore;
 using StardewValley;
 using StardewValley.Menus;
@@ -19,7 +20,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
         private const int WindowWidth = 800;
         private const int WindowHeight = 600;
 
-        private const int Padding = 12;
+        private const int Padding = 24;
 
         private const int SchoolIconSize = 32;
         private const int SpellIconSize = 64;
@@ -103,9 +104,9 @@ namespace WizardrySkill.Core.Framework.Game.Interface
         *********/
         private void DrawBackground(SpriteBatch b)
         {
-            drawTextureBox(b, this.xPositionOnScreen, this.yPositionOnScreen, WindowWidth, WindowHeight, Color.White);
+            drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60), this.xPositionOnScreen, this.yPositionOnScreen, WindowWidth, WindowHeight, Color.White);
             // left half background
-            drawTextureBox(b, this.xPositionOnScreen, this.yPositionOnScreen, WindowWidth / 2, WindowHeight, Color.White);
+            drawTextureBox(b, Game1.menuTexture, new Rectangle(0, 256, 60, 60), this.xPositionOnScreen, this.yPositionOnScreen, WindowWidth / 2, WindowHeight, Color.White);
         }
 
         private void DrawSchoolIcons(SpriteBatch b, SpellBook spellBook, ref string hoverText)
@@ -119,7 +120,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                 bool knowsSchool = spellBook.KnowsSchool(school);
 
                 float alpha = knowsSchool ? 1f : 0.2f;
-                Rectangle iconBounds = new Rectangle(x + Padding, y + Padding, SchoolIconSize, SchoolIconSize);
+                Rectangle iconBounds = new Rectangle(x + Padding /2, y + Padding/2, SchoolIconSize, SchoolIconSize);
 
                 // draw frame
                 Color frameColor = this.SelectedSchool == school ? Color.Green : Color.White;
@@ -189,8 +190,11 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                         drawTextureBox(b, iconBounds.Left - 12, iconBounds.Top - 12, iconBounds.Width + 24, iconBounds.Height + 24, Color.Green);
                     }
 
+
+                    b.Draw(ModEntry.Assets.SpellMenubg, iconBounds, Color.White);
+
                     // draw icon (use highest-level icon available)
-                    Texture2D icon = spell.Icons[spell.Icons.Length - 1];
+                    Texture2D icon = spell.Icons[0];
                     b.Draw(icon, iconBounds, Color.White);
                 }
             }
@@ -207,7 +211,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
             b.DrawString(Game1.dialogueFont, title, titlePos, Color.Black);
 
             // Big icon
-            var icon = this.SelectedSpell.Icons[this.SelectedSpell.Icons.Length - 1];
+            var icon = this.SelectedSpell.Icons[0];
             Rectangle bigIconRect = new Rectangle(this.xPositionOnScreen + WindowWidth / 2 + (WindowWidth / 2 - SelIconSize) / 2, this.yPositionOnScreen + 85, SelIconSize, SelIconSize);
             b.Draw(icon, bigIconRect, Color.White);
 
@@ -256,6 +260,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                 }
 
                 float alpha = hasPreviousLevels ? 1f : 0.5f;
+                b.Draw(ModEntry.Assets.SpellMenubg, bounds, Color.White * alpha);
                 b.Draw(this.SelectedSpell.Icons[i], bounds, Color.White * alpha);
 
                 // click handling (learn/forget/start drag)
@@ -294,7 +299,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
             int hotbarHeight = 12 + HotbarIconSize * hotbarCount + 12 * (hotbarCount - 1) + 12;
             int gap = (WindowHeight - hotbarHeight * 2) / 3 + (hasFifthSlot ? 25 : 0);
 
-            int y = this.yPositionOnScreen + gap + 12 + (hasFifthSlot ? -32 : 0);
+            int y = this.yPositionOnScreen + gap + -32 + (hasFifthSlot ? -32 : 0);
             foreach (var spellBar in spellBook.Prepared)
             {
                 for (int i = 0; i < hotbarCount; ++i)
@@ -336,7 +341,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                             hoverText = spell.GetTooltip(level: prep.Level);
                     }
 
-                    y += HotbarIconSize + 12;
+                    y += HotbarIconSize + 24;
                 }
 
                 y += gap + 12;
@@ -353,7 +358,8 @@ namespace WizardrySkill.Core.Framework.Game.Interface
             if (icons != null && icons.Length > this.Dragging.Level && icons[this.Dragging.Level] != null)
             {
                 Texture2D icon = icons[this.Dragging.Level];
-                Rectangle drawRect = new Rectangle(Game1.getOldMouseX(), Game1.getOldMouseY(), HotbarIconSize, HotbarIconSize);
+                Rectangle drawRect = new Rectangle(Game1.getOldMouseX() - 24, Game1.getOldMouseY() - 24, HotbarIconSize, HotbarIconSize);
+                b.Draw(ModEntry.Assets.SpellMenubg, drawRect, Color.White);
                 b.Draw(icon, drawRect, Color.White);
             }
         }

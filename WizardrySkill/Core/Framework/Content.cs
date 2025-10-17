@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework.Graphics;
+using StardewValley;
 
 namespace WizardrySkill.Core.Framework
 {
@@ -9,12 +10,7 @@ namespace WizardrySkill.Core.Framework
         *********/
         public static Texture2D LoadTexture(string path)
         {
-            return ModEntry.Instance.Helper.ModContent.Load<Texture2D>($"Assets/{path}");
-        }
-
-        public static string LoadTextureKey(string path)
-        {
-            return ModEntry.Instance.Helper.ModContent.GetInternalAssetName($"Assets/{path}").BaseName;
+            return Game1.content.Load<Texture2D>($"Mods/moonslime.WizardrySkill/{path}");
         }
     }
 }
