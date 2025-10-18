@@ -23,6 +23,11 @@
     "skill.perk2": "+{{bonus}} Mana Regen",
     "skill.perk_bonus2": "+{{bonus}} Mana Regen",
 
+    "skill.perk0.1": "Base Mana set to 100",
+    "skill.perk0.2": "Can now set spells in Spell Slots by clicking Yoba's Altar in Pierre's shop.",
+    "skill.perk0.3": "Cast spells in Spell Slots by pressing Q. Then press 1-4 to choose the spell.",
+    "skill.perk0.4": "Change spell hotbar sets by pressing Q. Then press tab.",
+
     "Magic5a.name": "Student",
     "Magic5a.desc": "+2 spell upgrade points",
     "Magic5b.name": "Acolyte",

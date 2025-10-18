@@ -12,6 +12,10 @@
     "moonslime.Wizardry.Magic_Potion.name": "Mana Potion",
     "moonslime.Wizardry.Magic_Potion.description": "Restores health and some mana.",
 
+
+    "moonslime.Wizardry.CraftableSpellAltar": "Spell Focus Altar",
+    "moonslime.Wizardry.CraftableSpellAltar.description": "Right click once this is placed to open the spell book menu.",
+
     "moonslime.Wizardry.LearnMagic.00": "It is time for you to learn the ways of wizardry. It will take a day before it fully unlocks inside you.",
     "moonslime.Wizardry.LearnMagic.01": "You will need a place to act as a spell altar....",
     "moonslime.Wizardry.LearnMagic.02": "I have adjusted the Yoba altar in Pierre's shop for you to use. Go to it and pray for access to your spells.",
@@ -19,8 +23,6 @@
     "moonslime.Wizardry.LearnMagic.04": "The Arcane 'Analyze' spell can be used to discover most spells. However, certain more powerful spells must be discovered in other ways.",
     "moonslime.Wizardry.LearnMagic.05": "Every school of wizardry has four normal spells, and a fifth ancient spell. Even I do not know where these spells lie.",
     "moonslime.Wizardry.LearnMagic.06": "To help you get started, I will give you a hint. Try using Analyze on your watering can.",
-    "moonslime.Wizardry.LearnMagic.07": "(To start casting a spell, press Q. Then press 1-4 to choose the spell.)",
-    "moonslime.Wizardry.LearnMagic.08": "(Press TAB to switch between spell sets.)",
-    "moonslime.Wizardry.LearnMagic.09": "(These controls can be adjusted in Wizardry's config file.)",
+    "moonslime.Wizardry.LearnMagic.07": "Please now, go rest. All will make sense to you a good night's sleep.",
     "moonslime.Wizardry.LearnMagic.10": "MAGIC!"
 }

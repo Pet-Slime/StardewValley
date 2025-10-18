@@ -4,7 +4,8 @@
             "Action": "EditData",
             "Target": "Data/CraftingRecipes",
             "Entries": {
-                "moonslime.Wizardry.Travel_Core": "768 1 769 1//moonslime.Wizardry.Travel_Core/false/moonslime.Wizard 9"
+                "moonslime.Wizardry.Travel_Core": "768 1 769 1//moonslime.Wizardry.Travel_Core/false/moonslime.Wizard 7",
+                "moonslime.Wizardry.CraftableSpellAltar": "872 1 336 5 575 3//(F)moonslime.Wizardry.CraftableSpellAltar/true/moonslime.Wizard 9"
             }
         },
         {

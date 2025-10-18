@@ -517,10 +517,15 @@ namespace WizardrySkill.Core
         /// <summary>Handle an interaction with the magic altar.</summary>
         private static void OnAltarClicked()
         {
+            Log.Trace("Magic Altar clicked!");
             if (!LearnedMagic)
+            {
+                Log.Trace("Does not know Wizardry, not opening spell menu.");
                 Game1.drawObjectDialogue(I18n.Altar_ClickMessage());
+            }
             else
             {
+                Log.Trace("Knows wizardry, can open spell menu");
                 Game1.playSound("secret1");
                 Game1.activeClickableMenu = new MagicMenu();
             }
@@ -587,6 +592,30 @@ namespace WizardrySkill.Core
                 {
                     player.mailReceived.Add("moonslimeWizardryLearnedMagic");
                 }
+            }
+
+            string Id = "moonslime.Wizard";
+            int skillLevel = Game1.player.GetCustomSkillLevel(Id);
+            foreach (KeyValuePair<string, string> recipePair in DataLoader.CraftingRecipes(Game1.content))
+            {
+                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
+                if (!conditions.Contains(Id))
+                {
+                    continue;
+                }
+                if (conditions.Split(" ").Length < 2)
+                {
+                    continue;
+                }
+
+                int level = int.Parse(conditions.Split(" ")[1]);
+
+                if (skillLevel < level)
+                {
+                    continue;
+                }
+
+                Game1.player.craftingRecipes.TryAdd(recipePair.Key, 0);
             }
 
             if (!Context.IsMainPlayer)

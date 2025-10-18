@@ -98,6 +98,29 @@
                     "CustomFields": null
                 }
             }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Furniture",
+            "Entries": {
+                "moonslime.Wizardry.CraftableSpellAltar": "moonslime.Wizardry.CraftableSpellAltar/decor/1 2/1 1/1/1000/-1/{{i18n:moonslime.Wizardry.CraftableSpellAltar}}/5/Mods\\moonslime.WizardrySkill\\objects\\Items"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "spacechase0.SpaceCore/FurnitureExtensionData",
+            "Entries": {
+                "moonslime.Wizardry.CraftableSpellAltar": {
+                    "TileProperties": {
+                        "0, 0": {
+                            "Buildings": {
+                                "Action": "MagicAltar"
+                            }
+                        }
+                    },
+                    "DescriptionOverride": "{{i18n:moonslime.Wizardry.CraftableSpellAltar.description}}"
+                }
+            }
         }
     ]
 }

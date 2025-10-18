@@ -62,11 +62,22 @@ namespace WizardrySkill.Objects
 
         public override List<string> GetExtraLevelUpInfo(int level)
         {
-            List<string> result = new()
+            List<string> result = new();
+            if (level == 1)
             {
-                ModEntry.Instance.I18N.Get("skill.perk1", new { bonus = 5 }),
-                ModEntry.Instance.I18N.Get("skill.perk2", new { bonus = 1 })
-            };
+                result.Add(ModEntry.Instance.I18N.Get("skill.perk0.1"));
+                result.Add(ModEntry.Instance.I18N.Get("skill.perk1", new { bonus = 5 }));
+                result.Add(ModEntry.Instance.I18N.Get("skill.perk2", new { bonus = 1 }));
+                result.Add(ModEntry.Instance.I18N.Get("skill.perk0.2"));
+                result.Add(ModEntry.Instance.I18N.Get("skill.perk0.3"));
+                result.Add(ModEntry.Instance.I18N.Get("skill.perk0.4"));
+            }
+            else
+            {
+                result.Add(ModEntry.Instance.I18N.Get("skill.perk1", new { bonus = 5 }));
+                result.Add(ModEntry.Instance.I18N.Get("skill.perk2", new { bonus = 1 }));
+            }
+
             return result;
         }
 
