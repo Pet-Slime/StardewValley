@@ -289,17 +289,23 @@ namespace WizardrySkill.Core
             SpellBook spellBook = player.GetSpellBook();
 
             // fix mana pool
-            int expectedPoints = magicLevel * MagicConstants.ManaPointsPerLevel + 100;
+            int expectedMaxMana = 100 + (magicLevel * MagicConstants.ManaPointsPerLevel);
             if (player.HasCustomProfession(Wizard_Skill.Magic10b2))
+                expectedMaxMana += 100;
+
+            // Fix Manapool
+            if (player.GetMaxMana() != expectedMaxMana)
             {
-                expectedPoints += 100;
+                player.SetMaxMana(expectedMaxMana);
+                player.SetManaToMax();
             }
-            player.SetMaxMana(expectedPoints);
-            player.SetManaToMax();
+            else if (player.GetCurrentMana() < expectedMaxMana)
+            {
+                player.SetManaToMax();
+            }
+            // If player stamina does not equal max, set mana to half
             if (((int)(player.Stamina)) != player.MaxStamina)
-            {
-                player.AddMana((int)(player.GetMaxMana() * -0.5));
-            }
+                player.AddMana(player.GetMaxMana() / 2);
 
             // fix spell bars
             if (spellBook.Prepared.Count < MagicConstants.SpellBarCount)
@@ -311,22 +317,37 @@ namespace WizardrySkill.Core
                 });
             }
 
-            // fix professions
+            // fix profession mod data
             Skills.Skill skill = Skills.GetSkill("moonslime.Wizard");
-            for (int i = 0; i < skill.Professions.Count; i++)
+            foreach (var profession in skill.Professions)
             {
-                if (player.professions.Contains(skill.Professions[i].GetVanillaId()))
+                if (!player.professions.Contains(profession.GetVanillaId()))
+                    continue;
+
+                string modDataKey = $"{skill.Id}.{profession.Id}";
+                if (!player.modData.ContainsKey(modDataKey))
                 {
-                    string modDataID = skill.Id + "." + skill.Professions[i].Id;
-                    BirbCore.Attributes.Log.Trace("Player now has Profession mod data: " + modDataID);
-                    player.modData.SetBool(modDataID, true);
+                    player.modData.SetBool(modDataKey, true);
+                    BirbCore.Attributes.Log.Trace($"Player now has Profession mod data: {modDataKey}");
                 }
             }
 
-            // fix learned spells
-            foreach (string spellId in new[] { "arcane:analyze", "arcane:magicmissle", "arcane:enchant", "arcane:disenchant" })
-                spellBook.LearnSpell(spellId, 0, true);
+            // fix core spells
+            foreach (string spellId in CoreSpells)
+            {
+                if (!spellBook.KnowsSpell(spellId, 0))
+                    spellBook.LearnSpell(spellId, 0, true);
+            }
         }
+
+        /// <summary>Base arcane spells that all magic users should know.</summary>
+        private static readonly string[] CoreSpells =
+        {
+            "arcane:analyze",
+            "arcane:magicmissle",
+            "arcane:enchant",
+            "arcane:disenchant"
+        };
 
 
         /*********
