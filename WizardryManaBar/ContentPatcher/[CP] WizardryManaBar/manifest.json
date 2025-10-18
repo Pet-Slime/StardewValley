@@ -1,8 +1,8 @@
 ﻿{
-    "Name": "[CP] Wizardry Skill",
+    "Name": "[CP] Wizardry Mana bar",
     "Author": "moonslime",
-    "Version": "1.4.0",
-    "Description": "Magic Skill Content Patcher",
+    "Version": "1.1.0",
+    "Description": "Wizardry Mana bar Content Patcher",
     "UniqueID": "moonslime.ManaBarApi.CP",
     "ContentPackFor": {
         "UniqueID": "Pathoschild.ContentPatcher"
@@ -11,5 +11,8 @@
         "Nexus:-1"
     ],
     "Dependencies": [
+        {
+            "UniqueID": "Pathoschild.ContentPatcher"
+        }
     ]
 }
