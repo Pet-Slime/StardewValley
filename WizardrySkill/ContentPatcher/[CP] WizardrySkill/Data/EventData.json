@@ -1,0 +1,41 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/Events/wizardhouse",
+            "Entries": {
+                "90001/f Wizard 500": "WizardSong/0 5/Wizard 8 5 0 farmer 8 15 0/skippable/ignoreCollisions farmer/move farmer 0 -8 0/speak Wizard \"{{i18n:moonslime.Wizardry.LearnMagic.00}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.01}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.02}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.03}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.04}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.05}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.06}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.07}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.08}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.09}}\"/textAboveHead Wizard \"{{i18n:moonslime.Wizardry.LearnMagic.10}}\"/pause 750/fade 750/end"
+            },
+            "When": {
+                "HasMod |contains=FlashShifter.StardewValleyExpandedCP": false
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Events/wizardhouse",
+            "Entries": {
+                "90001/f Wizard 1000": "WizardSong/0 17/Wizard 8 17 0 farmer 8 27 0/skippable/ignoreCollisions farmer/move farmer 0 -8 0/speak Wizard \"{{i18n:moonslime.Wizardry.LearnMagic.00}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.01}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.02}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.03}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.04}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.05}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.06}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.07}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.08}}#$b#{{i18n:moonslime.Wizardry.LearnMagic.09}}\"/textAboveHead Wizard \"{{i18n:moonslime.Wizardry.LearnMagic.10}}\"/pause 750/fade 750/end"
+            },
+            "When": {
+                "HasMod |contains=FlashShifter.StardewValleyExpandedCP": true
+            }
+        },
+        {
+            "LogName": "Trigger actions",
+            "Action": "EditData",
+            "Target": "Data/TriggerActions",
+            "Entries": {
+                "moonslime.WizardrySkill.LearnedMagic": {
+                    "Id": "moonslime.WizardrySkill.LearnedMagic",
+                    "Trigger": "DayEnding",
+                    "Condition": "PLAYER_HAS_SEEN_EVENT Current 90001",
+                    "Actions": [
+                        "moonslime.WizardrySkill.learnedmagic 100",
+                        "AddMail Current moonslimeWizardryLearnedMagic received"
+                    ],
+                    "MarkActionApplied": true
+                }
+            }
+        }
+    ]
+}

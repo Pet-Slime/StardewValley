@@ -12,7 +12,8 @@
                 "Height": 3
             },
             "When": {
-                "HasMod |contains=sb.AltarYoba": false
+                "HasMod |contains=sb.AltarYoba": false,
+                "HasFlag |contains=moonslimeWizardryLearnedMagic": true
             }
         },
         {
@@ -27,7 +28,8 @@
                 "Height": 3
             },
             "When": {
-                "HasMod |contains=sb.AltarYoba": true
+                "HasMod |contains=sb.AltarYoba": true,
+                "HasFlag |contains=moonslimeWizardryLearnedMagic": true
             }
         }
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using BirbCore.Attributes;
 using StardewValley;
+using WizardrySkill.Objects;
+using static SpaceCore.Skills;
 
 namespace WizardrySkill.Core
 {
@@ -61,6 +63,18 @@ namespace WizardrySkill.Core
         public static void AddEXP(StardewValley.Farmer who, int amount)
         {
             SpaceCore.Skills.AddExperience(Game1.GetPlayer(who.UniqueMultiplayerID), "moonslime.Wizard", amount);
+
+        }
+
+        public static void LearnedMagic(int EXP)
+        {
+            if (Game1.player.IsLocalPlayer)
+            { 
+                Farmer player = Game1.player;
+                Core.Utilities.AddEXP(player, EXP);
+                WizardrySkill.Core.Events.FixMagicIfNeeded(player, overrideMagicLevel: 1); // let player start using WizardrySkill immediately
+            }
+
         }
     }
 }

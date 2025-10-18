@@ -2,8 +2,11 @@ using BirbCore.Attributes;
 using MoonShared.APIs;
 using StardewModdingAPI;
 using StardewValley;
+using StardewValley.Delegates;
+using StardewValley.Triggers;
 using WizardrySkill.API;
 using WizardrySkill.Core.Framework;
+using xTile.Tiles;
 
 namespace WizardrySkill.Core
 {
@@ -33,6 +36,10 @@ namespace WizardrySkill.Core
             GameLocation.RegisterTileAction("MagicRadio", Events.HandleMagicRadio);
             Parser.ParseAll(this);
             ModEntry.Instance.Helper.Events.GameLoop.GameLaunched += Events.GameLaunched;
+
+            TriggerActionManager.RegisterAction(
+            $"moonslime.WizardrySkill.learnedmagic",
+            LearnedMagic);
         }
 
         /// <summary>Get an API that other mods can access. This is always called after <see cref="M:StardewModdingAPI.Mod.Entry(StardewModdingAPI.IModHelper)" />.</summary>
@@ -46,6 +53,16 @@ namespace WizardrySkill.Core
             {
                 return null;
             }
+        }
+
+        static bool LearnedMagic(string[] args, TriggerActionContext context, out string error)
+        {
+            if (!ArgUtility.TryGetInt(args, 1, out int points, out error, "int points"))
+            {
+                return false;
+            }
+            Utilities.LearnedMagic(points);
+            return true;
         }
     }
 }
