@@ -1,5 +1,5 @@
 ﻿{
-    "Name": "[CP] Wizardry Skill vintageV2",
+    "Name": "[CP] Wizardry VintageV2 UI",
     "Author": "scarlett, moonslime",
     "Version": "1.0.0",
     "Description": "Replaces Wizardry Skill assets with vintage v2 versions through content patcher!",
@@ -8,7 +8,7 @@
         "UniqueID": "Pathoschild.ContentPatcher"
     },
     "UpdateKeys": [
-        "Nexus:-1"
+        "Nexus:38675"
     ],
     "Dependencies": [
         {
