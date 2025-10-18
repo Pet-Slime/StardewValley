@@ -72,7 +72,6 @@ namespace WizardrySkill.Core
             { 
                 Farmer player = Game1.player;
                 Core.Utilities.AddEXP(player, EXP);
-                WizardrySkill.Core.Events.FixMagicIfNeeded(player); // let player start using WizardrySkill immediately
             }
 
         }
