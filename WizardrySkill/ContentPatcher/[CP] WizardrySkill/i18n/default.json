@@ -24,5 +24,15 @@
     "moonslime.Wizardry.LearnMagic.05": "Every school of wizardry has four normal spells, and a fifth ancient spell. Even I do not know where these spells lie.",
     "moonslime.Wizardry.LearnMagic.06": "To help you get started, I will give you a hint. Try using Analyze on your watering can.",
     "moonslime.Wizardry.LearnMagic.07": "Please now, go rest. All will make sense to you a good night's sleep.",
-    "moonslime.Wizardry.LearnMagic.10": "MAGIC!"
+    "moonslime.Wizardry.LearnMagic.10": "MAGIC!",
+
+    "moonslime.Wizardry.LearnMagic.SVE.00": "After seeing your talent with the illusionary statue, I decided to let you explore the ways of Wizardry. It will take a day before it fully unlocks inside you.",
+    "moonslime.Wizardry.LearnMagic.SVE.01": "You will need a place to act as a spell altar....",
+    "moonslime.Wizardry.LearnMagic.SVE.02": "I have adjusted the Yoba altar in Pierre's shop for you to use. Go to it and pray for access to your spells.",
+    "moonslime.Wizardry.LearnMagic.SVE.03": "I will teach you the basics of Arcane spell casting, but the rest you must discover on your own.",
+    "moonslime.Wizardry.LearnMagic.SVE.04": "The Arcane 'Analyze' spell can be used to discover most spells. However, certain more powerful spells must be discovered in other ways.",
+    "moonslime.Wizardry.LearnMagic.SVE.05": "Every school of wizardry has four normal spells, and a fifth ancient spell. Even I do not know where these spells lie.",
+    "moonslime.Wizardry.LearnMagic.SVE.06": "To help you get started, I will give you a hint. Try using Analyze on your watering can.",
+    "moonslime.Wizardry.LearnMagic.SVE.07": "Please now, go rest. All will make sense to you a good night's sleep.",
+    "moonslime.Wizardry.LearnMagic.SVE.10": "MAGIC!"
 }
