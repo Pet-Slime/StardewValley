@@ -560,6 +560,14 @@ namespace WizardrySkill.Core
         [SEvent.SaveLoaded]
         private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
         {
+            foreach (var player in Game1.getAllFarmers())
+            {
+                if (player.eventsSeen.Contains("90001") && !player.mailReceived.Contains("moonslimeWizardryLearnedMagic"))
+                {
+                    player.mailReceived.Add("moonslimeWizardryLearnedMagic");
+                }
+            }
+
             if (!Context.IsMainPlayer)
                 return;
 
