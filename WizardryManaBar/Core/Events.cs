@@ -1,17 +1,24 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceCore.Events;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using static StardewValley.Menus.CoopMenu;
 
 namespace WizardryManaBar.Core
 {
     [SEvent]
     internal class Events
     {
+
+        private const string ManaFill = "moonslime.ManaBarApi.ManaFill";
+        private const string ManaRestore = "moonslime.ManaBarApi.ManaRestore";
+
         public static Vector2 barPosition;
 
         private static Vector2 sizeUI;
@@ -47,6 +54,49 @@ namespace WizardryManaBar.Core
             Color manaCol = new(0, 48, 255);
             WizardryManaBar.Core.Events.ManaFg = new Texture2D(Game1.graphics.GraphicsDevice, 1, 1);
             ManaFg.SetData(new[] { manaCol });
+
+
+            SpaceEvents.OnItemEaten += OnItemEaten;
+        }
+
+        private static void OnItemEaten(object sender, EventArgs args)
+        {
+            if (sender is not Farmer player)
+                return;
+
+            var item = player.itemToEat;
+            if (item == null)
+            {
+                Log.Warn("OnItemEaten called but no item was found.");
+                return;
+            }
+
+            foreach (string tag in item.GetContextTags())
+            {
+                bool isFill = tag.StartsWith(ManaFill);
+                bool isRestore = !isFill && tag.StartsWith(ManaRestore);
+
+                if (!isFill && !isRestore)
+                    continue;
+
+                int separatorIndex = tag.IndexOf('/');
+                if (separatorIndex <= 0 || separatorIndex >= tag.Length - 1)
+                    continue; // malformed tag, skip safely
+
+                ReadOnlySpan<char> valueSpan = tag.AsSpan(separatorIndex + 1);
+
+                if (isFill)
+                {
+                    if (int.TryParse(valueSpan, out int manaValue))
+                        player.AddMana(manaValue);
+                }
+                else if (isRestore)
+                {
+                    if (float.TryParse(valueSpan, out float manaPercent))
+                        player.AddMana((int)(player.GetMaxMana() * manaPercent));
+                }
+
+            }
         }
 
 

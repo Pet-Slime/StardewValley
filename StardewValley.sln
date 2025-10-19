@@ -108,11 +108,14 @@ Global
 		SolutionGuid = {2CC4FC86-39C6-4152-8058-FE3B146896A6}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{03ce7db8-dbca-4eed-8878-83bdda475241}*SharedItemsImports = 5
+		MoonShared\MoonShared.projitems*{03ce7db8-dbca-4eed-8878-83bdda475241}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{0b376c56-5e16-4b9d-803c-8c91b8b38e95}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{0b376c56-5e16-4b9d-803c-8c91b8b38e95}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{19cedb88-a912-48da-b35d-fce2509e70e6}*SharedItemsImports = 13
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{41ed1fc1-a8cc-4001-be74-8e92474c490a}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{41ed1fc1-a8cc-4001-be74-8e92474c490a}*SharedItemsImports = 5
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{445a0cdf-cd32-4585-be44-02fdfcdd88b7}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{445a0cdf-cd32-4585-be44-02fdfcdd88b7}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{8f13906d-7e88-45b4-abbc-617437970163}*SharedItemsImports = 13
 	EndGlobalSection

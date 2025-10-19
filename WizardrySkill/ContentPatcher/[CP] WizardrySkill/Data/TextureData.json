@@ -62,11 +62,6 @@
         },
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/interface/ManaSymbol",
-            "FromFile": "Assets/interface/ManaSymbol.png"
-        },
-        {
-            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/arcane/analyze/1",
             "FromFile": "Assets/magic/arcane/analyze/1.png"
         },

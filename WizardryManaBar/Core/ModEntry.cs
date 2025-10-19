@@ -12,7 +12,7 @@ namespace WizardryManaBar.Core
         internal static bool ArsVeneficiLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("HeyImAmethyst.ArsVenefici");
         internal static bool MagicStardewLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("Zexu2K.MagicStardew.C");
 
-        internal ITranslationHelper I18N => this.Helper.Translation;
+        public ITranslationHelper I18N => this.Helper.Translation;
 
 
         public override void Entry(IModHelper helper)

@@ -33,9 +33,5 @@ namespace WizardrySkill.Core
         public Texture2D SpellMenubg => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/spellMenubg");
 
 
-        [SAsset.Asset("assets/ManaSymbol.png")]
-        public Texture2D ManaSymbol { get; set; }
-
-
     }
 }

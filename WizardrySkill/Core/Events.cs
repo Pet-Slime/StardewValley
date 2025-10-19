@@ -100,7 +100,6 @@ namespace WizardrySkill.Core
 
             SpellManager.Init(getNewId);
 
-            SpaceEvents.OnItemEaten += OnItemEaten;
             Networking.RegisterMessageHandler(MsgCast, OnNetworkCast);
 
             OnAnalyzeCast += (sender, e) => ModEntry.Instance.Api.InvokeOnAnalyzeCast(sender as Farmer);
@@ -542,14 +541,14 @@ namespace WizardrySkill.Core
         {
             // player doesn't know magic
             if (!LearnedMagic)
-                return I18n.Radio_Static();
+                return ModEntry.Instance.I18N.Get("radio.static");
 
             // get base key for random hints
             string baseKey = Regex.Replace(nameof(I18n.Radio_Analyzehints_1), "_1$", "");
             if (baseKey == nameof(I18n.Radio_Analyzehints_1))
             {
                 Log.Error("Couldn't get the Magic radio station analyze hint base key. This is a bug in the Magic mod."); // key format changed?
-                return I18n.Radio_Static();
+                return ModEntry.Instance.I18N.Get("radio.static");
             }
 
             // choose random hint
@@ -562,39 +561,7 @@ namespace WizardrySkill.Core
             return $"{I18n.Radio_Static()} {stationTexts[random.Next(stationTexts.Length)]}";
         }
 
-        private static void OnItemEaten(object sender, EventArgs args)
-        {
-            if (sender is not Farmer player)
-                return;
 
-            var item = player.itemToEat;
-            if (item == null)
-            {
-                Log.Warn("OnItemEaten called but no item was found.");
-                return;
-            }
-
-            int maxMana = player.GetMaxMana();
-
-            foreach (var (tag, multiplier) in ManaPotionMultipliers)
-            {
-                if (item.HasContextTag(tag))
-                {
-                    int manaRestored = (int)(maxMana * multiplier);
-                    player.AddMana(manaRestored);
-                    Log.Debug($"{player.Name} restored {manaRestored} mana from potion: {tag}");
-                    break;
-                }
-            }
-        }
-
-        private static readonly Dictionary<string, float> ManaPotionMultipliers = new()
-        {
-            ["moonslime.Wizardry.mana_potion_full"] = 1f,
-            ["moonslime.Wizardry.mana_potion_half"] = 0.5f,
-            ["moonslime.Wizardry.mana_potion_4th"] = 0.25f,
-            ["moonslime.Wizardry.mana_potion_8th"] = 0.125f
-        };
 
         [SEvent.SaveLoaded]
         private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
