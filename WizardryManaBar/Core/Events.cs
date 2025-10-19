@@ -93,7 +93,7 @@ namespace WizardryManaBar.Core
                 else if (isRestore)
                 {
                     if (float.TryParse(valueSpan, out float manaPercent))
-                        player.AddMana((int)(player.GetMaxMana() * manaPercent));
+                        player.AddMana((int)(player.GetMaxMana() * (manaPercent/100)));
                 }
 
             }
