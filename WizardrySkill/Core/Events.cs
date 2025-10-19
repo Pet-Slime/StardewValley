@@ -564,24 +564,37 @@ namespace WizardrySkill.Core
 
         private static void OnItemEaten(object sender, EventArgs args)
         {
-            if (Game1.player.itemToEat == null)
+            if (sender is not Farmer player)
+                return;
+
+            var item = player.itemToEat;
+            if (item == null)
             {
-                Log.Warn("No item eaten for the item eat event?!?");
+                Log.Warn("OnItemEaten called but no item was found.");
                 return;
             }
-            if (Game1.player.itemToEat.HasContextTag("moonslime.Wizardry.mana_potion_full"))
-                Game1.player.AddMana(Game1.player.GetMaxMana());
 
-            if (Game1.player.itemToEat.HasContextTag("moonslime.Wizardry.mana_potion_half"))
-                Game1.player.AddMana(Game1.player.GetMaxMana() / 2);
+            int maxMana = player.GetMaxMana();
 
-
-            if (Game1.player.itemToEat.HasContextTag("moonslime.Wizardry.mana_potion_4th"))
-                Game1.player.AddMana(Game1.player.GetMaxMana() / 4);
-
-            if (Game1.player.itemToEat.HasContextTag("moonslime.Wizardry.mana_potion_8th"))
-                Game1.player.AddMana(Game1.player.GetMaxMana() / 8);
+            foreach (var (tag, multiplier) in ManaPotionMultipliers)
+            {
+                if (item.HasContextTag(tag))
+                {
+                    int manaRestored = (int)(maxMana * multiplier);
+                    player.AddMana(manaRestored);
+                    Log.Debug($"{player.Name} restored {manaRestored} mana from potion: {tag}");
+                    break;
+                }
+            }
         }
+
+        private static readonly Dictionary<string, float> ManaPotionMultipliers = new()
+        {
+            ["moonslime.Wizardry.mana_potion_full"] = 1f,
+            ["moonslime.Wizardry.mana_potion_half"] = 0.5f,
+            ["moonslime.Wizardry.mana_potion_4th"] = 0.25f,
+            ["moonslime.Wizardry.mana_potion_8th"] = 0.125f
+        };
 
         [SEvent.SaveLoaded]
         private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)

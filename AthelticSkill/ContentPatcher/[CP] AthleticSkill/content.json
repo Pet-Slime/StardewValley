@@ -3,7 +3,7 @@
     "Changes": [
         {
             "Action": "Include",
-            "FromFile": "Data/ObjectsData.json, Data/CraftingData.json"
+            "FromFile": "Data/TextureData.json, Data/ObjectsData.json, Data/CraftingData.json"
         }
     ]
 }

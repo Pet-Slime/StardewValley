@@ -18,8 +18,7 @@ namespace AthleticSkill
         public Athletic_Skill() : base("moonslime.Athletic")
         {
             this.Icon = ModEntry.Assets.IconA;
-            this.SkillsPageIcon = ModEntry.Assets.IconB;
-
+            this.SkillsPageIcon = ModEntry.Config.AlternativeSkillPageIcon ? ModEntry.Assets.IconB_alt : ModEntry.Assets.IconB;
             this.ExperienceBarColor = new Microsoft.Xna.Framework.Color(205, 127, 50);
             this.ExperienceCurve = new[] { 100, 380, 770, 1300, 2150, 3300, 4000, 6900, 10000, 15000 };
 

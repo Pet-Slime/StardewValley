@@ -3,6 +3,7 @@ using System.Linq;
 using BirbCore.Attributes;
 using MoonShared;
 using SpaceCore;
+using SpaceCore.Events;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -30,6 +31,21 @@ namespace AthleticSkill.Core
 
             //            var field = ModEntry.Instance.Helper.Reflection.GetField<NetFloat>(Game1.player, "netStamina");
             //            field.GetValue().fieldChangeEvent += (field, oldValue, newValue) => OnStaminaUse(oldValue, newValue);
+
+            SpaceEvents.OnItemEaten += OnItemEaten;
+        }
+
+        private static void OnItemEaten(object sender, EventArgs args)
+        {
+            if (sender is not Farmer player)
+                return;
+
+            // ensure itemToEat exists and has the right tag
+            if (player.itemToEat?.HasContextTag("moonslime.Athletic.Nauseated") == true)
+            {
+                // Apply buff ID 25 (Nauseated)
+                player.applyBuff("25");
+            }
         }
 
         private static void OnStaminaUse(float oldValue, float newValue)

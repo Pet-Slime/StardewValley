@@ -11,6 +11,9 @@ namespace AthleticSkill
         public bool AlternativeStrongmanProfession { get; set; } = false;
 
         [SConfig.Option()]
+        public bool AlternativeSkillPageIcon { get; set; } = false;
+
+        [SConfig.Option()]
         public KeybindList Key_Cast { get; set; } = KeybindList.Parse("LeftControl");
 
         [SConfig.Option()]

@@ -20,6 +20,9 @@
         {
             "UniqueID": "spacechase0.SpaceCore",
             "MinimumVersion": "1.26.2"
+        },
+        {
+            "UniqueID": "moonslime.AthleticSkill.CP"
         }
     ]
 }

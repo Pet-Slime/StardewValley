@@ -7,6 +7,10 @@
     "config.AlternativeStrongmanProfession": "Alternative Profession",
     "config.AlternativeStrongmanProfession.tooltip": "REQUIRES RESTART!\nChanges the Strongman/Stronggal profession to crack geodes instead\nof allowing pickaxes and axes to charge.\nIs forced on if Walk of Life is installed.",
 
+    "config.AlternativeSkillPageIcon": "Alternative Skill Page Icon",
+    "config.AlternativeSkillPageIcon.tooltip": "REQUIRES RESTART!\nChanges the lightningbolt skill icon to a set of dumb-bells.",
+
+
     "config.Key_Cast": "Sprint Key",
     "config.Key_Cast.tooltip": "The key needed to toggle/hold for sprint.",
 

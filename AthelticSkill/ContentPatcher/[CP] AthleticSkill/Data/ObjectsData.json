@@ -1,10 +1,5 @@
 ﻿{
     "Changes": [
-		{
-			"Action": "Load",
-			"Target": "Mods/moonslime.AthleticSkill/textures",
-			"FromFile": "Assets/sprites.png"
-		},
         {
             "Action": "EditData",
             "Target": "Data/Objects",
@@ -16,7 +11,7 @@
                     "Type": "Cooking",
                     "Category": -7,
                     "Price": 222,
-                    "Texture": "Mods/moonslime.AthleticSkill/textures",
+                    "Texture": "Mods/moonslime.AthleticSkill/objects/Items",
                     "SpriteIndex": 1,
                     "Edibility": 35,
                     "IsDrink": true,
@@ -54,7 +49,9 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "color_yellow",
-                        "food_sweet"
+                        "food_breakfast",
+                        "not_placeable",
+                        "moonslime.Athletic.Nauseated"
                     ],
                     "CustomFields": null
                 },
@@ -65,7 +62,7 @@
                     "Type": "Cooking",
                     "Category": -7,
                     "Price": 837,
-                    "Texture": "Mods/moonslime.AthleticSkill/textures",
+                    "Texture": "Mods/moonslime.AthleticSkill/objects/Items",
                     "SpriteIndex": 2,
                     "Edibility": 218,
                     "IsDrink": false,
@@ -102,8 +99,8 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
-                        "color_brown",
-                        "food_sweet"
+                        "color_yellow",
+                        "not_placeable"
                     ],
                     "CustomFields": null
                 },
@@ -114,7 +111,7 @@
                     "Type": "asdf",
                     "Category": -103,
                     "Price": 500,
-                    "Texture": "Mods/moonslime.AthleticSkill/textures",
+                    "Texture": "Mods/moonslime.AthleticSkill/objects/Items",
                     "SpriteIndex": 3,
                     "Edibility": -300,
                     "IsDrink": false,

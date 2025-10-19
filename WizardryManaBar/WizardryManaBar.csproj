@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="..\common.targets" />
-    <Import Project="$(SolutionDir)\MoonSharedSpaceCore\MoonSharedSpaceCore.projitems" Label="Shared" />
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -11,19 +10,20 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Update="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Reference Include="BirbCore">
-            <HintPath>$(GamePath)\Mods\BirbCore\BirbCore.dll</HintPath>
+            <HintPath>E:\SteamLibrary\steamapps\common\Stardew Valley\Mods\BirbCore\BirbCore.dll</HintPath>
             <Private>False</Private>
         </Reference>
+    </ItemGroup>
+    <ItemGroup>
         <Reference Include="SpaceCore">
             <HintPath>$(GamePath)\Mods\SpaceCore\SpaceCore.dll</HintPath>
             <Private>false</Private>
         </Reference>
     </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Update="Pathoschild.Stardew.ModBuildConfig" Version="4.3.2" />
-    </ItemGroup>
-
 
 </Project>

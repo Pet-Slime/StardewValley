@@ -1,0 +1,65 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.AthleticSkill/objects/Items",
+            "FromFile": "Assets/objects/item_sprites.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.AthleticSkill/interface/Athletic10a1",
+            "FromFile": "Assets/interface/Athletic10a1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.AthleticSkill/interface/Athletic10a1_alt",
+            "FromFile": "Assets/interface/Athletic10a1_alt.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.AthleticSkill/interface/Athletic10a2",
+            "FromFile": "Assets/interface/Athletic10a2.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.AthleticSkill/interface/Athletic10b1",
+            "FromFile": "Assets/interface/Athletic10b1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.AthleticSkill/interface/Athletic10b2",
+            "FromFile": "Assets/interface/Athletic10b2.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.AthleticSkill/interface/Athletic5a",
+            "FromFile": "Assets/interface/Athletic5a.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.AthleticSkill/interface/Athletic5b",
+            "FromFile": "Assets/interface/Athletic5b.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.AthleticSkill/interface/AthleticiconA",
+            "FromFile": "Assets/interface/AthleticiconA.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.AthleticSkill/interface/AthleticiconA_alt",
+            "FromFile": "Assets/interface/AthleticiconA_alt.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.AthleticSkill/interface/AthleticiconB",
+            "FromFile": "Assets/interface/AthleticiconB.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.AthleticSkill/interface/AthleticiconB_alt",
+            "FromFile": "Assets/interface/AthleticiconB_alt.png"
+        }
+
+    ]
+}

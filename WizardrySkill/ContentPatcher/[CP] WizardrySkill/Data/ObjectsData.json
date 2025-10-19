@@ -84,7 +84,22 @@
                     "SpriteIndex": 3,
                     "Edibility": 40,
                     "IsDrink": true,
-                    "Buffs": null,
+                    "Buffs": [
+                        {
+                            "Id": "Drink",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 0,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                            },
+                            "CustomFields": {
+                                "moonslime.Wizardry/refillMana": "2"
+                            }
+                        }
+                    ],
                     "GeodeDropsDefaultItems": false,
                     "GeodeDrops": null,
                     "ArtifactSpotChances": null,
@@ -92,8 +107,7 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Wizardry.mana_potion_half"
+                        "not_placeable"
                     ],
                     "CustomFields": null
                 }

@@ -1,39 +1,30 @@
 using BirbCore.Attributes;
 using Microsoft.Xna.Framework.Graphics;
+using StardewValley;
 
 namespace AthleticSkill
 {
     [SAsset(Priority = 0)]
     public class Assets
     {
-        [SAsset.Asset("assets/AthleticiconA.png")]
-        public Texture2D IconA { get; set; }
+        public Texture2D IconA  => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/AthleticiconA");
+        public Texture2D IconA_alt => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/AthleticiconA_alt");
 
-        [SAsset.Asset("assets/AthleticiconA_alt.png")]
-        public Texture2D IconA_alt { get; set; }
+        public Texture2D IconB => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/AthleticiconB");
+        public Texture2D IconB_alt => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/AthleticiconB_alt");
 
-        [SAsset.Asset("assets/AthleticiconB.png")]
-        public Texture2D IconB { get; set; }
+        public Texture2D Athletic5a => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/Athletic5a");
 
-        [SAsset.Asset("assets/Athletic5a.png")]
-        public Texture2D Athletic5a { get; set; }
+        public Texture2D Athletic5b => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/Athletic5b");
 
-        [SAsset.Asset("assets/Athletic5b.png")]
-        public Texture2D Athletic5b { get; set; }
+        public Texture2D Athletic10a1 => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/Athletic10a1");
 
-        [SAsset.Asset("assets/Athletic10a1.png")]
-        public Texture2D Athletic10a1 { get; set; }
+        public Texture2D Athletic10a1_alt => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/Athletic10a1_alt");
 
-        [SAsset.Asset("assets/Athletic10a1_alt.png")]
-        public Texture2D Athletic10a1_alt { get; set; }
+        public Texture2D Athletic10a2 => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/Athletic10a2");
 
-        [SAsset.Asset("assets/Athletic10a2.png")]
-        public Texture2D Athletic10a2 { get; set; }
+        public Texture2D Athletic10b1 => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/Athletic10b1");
 
-        [SAsset.Asset("assets/Athletic10b1.png")]
-        public Texture2D Athletic10b1 { get; set; }
-
-        [SAsset.Asset("assets/Athletic10b2.png")]
-        public Texture2D Athletic10b2 { get; set; }
+        public Texture2D Athletic10b2 => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/Athletic10b2");
     }
 }

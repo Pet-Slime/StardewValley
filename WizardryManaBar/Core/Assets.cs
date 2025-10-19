@@ -13,5 +13,7 @@ namespace WizardryManaBar.Core
     public class Assets
     {
         public Texture2D ManaBG => Game1.content.Load<Texture2D>("Mods/moonslime.ManaBarApi/textures");
+
+        public Texture2D ManaSymbol => Game1.content.Load<Texture2D>("Mods/moonslime.ManaBarApi/manaSymbol");
     }
 }

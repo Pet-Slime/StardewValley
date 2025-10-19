@@ -5,6 +5,72 @@
             "Action": "Load",
             "Target": "Mods/moonslime.ManaBarApi/textures",
             "FromFile": "Assets/manabg.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ManaBarApi/manaSymbol",
+            "FromFile": "Assets/ManaSymbol.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ManaBarApi/manapotion",
+            "FromFile": "Assets/manapotion.png"
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "Entries": {
+                "moonslime.Wizardry.Magic_Potion": {
+                    "Name": "Magic Potion",
+                    "DisplayName": "Mana Potion",
+                    "Description": "TESTERS",
+                    "Type": "Cooking",
+                    "Category": -7,
+                    "Price": 500,
+                    "Texture": "Mods/moonslime.ManaBarApi/manapotion",
+                    "SpriteIndex": 0,
+                    "Edibility": 40,
+                    "IsDrink": true,
+                    "Buffs": [
+                        {
+                            "Id": "Drink",
+                            "BuffId": null,
+                            "IconTexture": null,
+                            "IconSpriteIndex": 0,
+                            "Duration": 180,
+                            "IsDebuff": false,
+                            "GlowColor": null,
+                            "CustomAttributes": {
+                                "FarmingLevel": 0,
+                                "FishingLevel": 0,
+                                "MiningLevel": 0,
+                                "LuckLevel": 0,
+                                "ForagingLevel": 0,
+                                "MaxStamina": 32,
+                                "MagneticRadius": 0,
+                                "Speed": 0,
+                                "Defense": 0,
+                                "Attack": 0
+                            },
+                            "CustomFields": {
+                                "spacechase0.SpaceCore/HealthRegeneration": "2",
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Athletic": "2"
+                            }
+                        }
+                    ],
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "not_placeable",
+                        "moonslime.ManaBarApi.ManaFill/10"
+                    ],
+                    "CustomFields": null
+                }
+            }
         }
     ]
 }
