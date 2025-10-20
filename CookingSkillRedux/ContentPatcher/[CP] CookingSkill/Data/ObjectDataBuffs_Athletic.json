@@ -3,17 +3,9 @@
         {
             "Action": "EditData",
             "Target": "Data/Objects",
-            "TargetField": [ "moonslime.Cooking.egg_sandwhich", "Buffs", "Food", "CustomFields" ],
-            "Entries": {
-                "spacechase.SpaceCore.SkillBuff.moonslime.Archaeology": "1"
-            }
-        },
-        {
-            "Action": "EditData",
-            "Target": "Data/Objects",
             "TargetField": [ "moonslime.Cooking.wizards_brew", "Buffs", "Drink", "CustomFields" ],
             "Entries": {
-                "spacechase.SpaceCore.SkillBuff.moonslime.Archaeology": "5"
+                "spacechase.SpaceCore.SkillBuff.moonslime.Athletic": "5"
             }
         },
         {
@@ -21,7 +13,7 @@
             "Target": "Data/Objects",
             "TargetField": [ "moonslime.Cooking.wizard_casserole", "Buffs", "Food", "CustomFields" ],
             "Entries": {
-                "spacechase.SpaceCore.SkillBuff.moonslime.Archaeology": "5"
+                "spacechase.SpaceCore.SkillBuff.moonslime.Athletic": "5"
             }
         }
     ]

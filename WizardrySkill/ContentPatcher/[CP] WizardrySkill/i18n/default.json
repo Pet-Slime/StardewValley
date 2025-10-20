@@ -7,10 +7,10 @@
     "moonslime.Wizardry.Travel_Core.description": "An item mages use sometimes to travel around.",
 
     "moonslime.Wizardry.Magic_Elixir.name": "Mana Elixir",
-    "moonslime.Wizardry.Magic_Elixir.description": "Restores health and all mana.",
+    "moonslime.Wizardry.Magic_Elixir.description": "A Life Elixir converted into a Mana Elixir by cooking it with fairy dust. It lost it's potency to heal but will restore all mana.",
 
-    "moonslime.Wizardry.Magic_Potion.name": "Mana Potion",
-    "moonslime.Wizardry.Magic_Potion.description": "Restores health and some mana.",
+    "moonslime.Wizardry.Magic_Potion.name": "Mana Tonic",
+    "moonslime.Wizardry.Magic_Potion.description": "An Energy Tonic converted into a Mana Tonic by cooking it with fairy dust. It lost it's potency to recover energy but will restore half mana.",
 
 
     "moonslime.Wizardry.CraftableSpellAltar": "Spell Focus Altar",

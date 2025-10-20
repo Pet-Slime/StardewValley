@@ -76,12 +76,11 @@ namespace WizardrySkill.Core.Framework.Spells
             if (!this.DoesDisenchant && diff * obj.Stack > Game1.player.Money)
                 return null;
 
-
-
             obj.Quality = one.Quality;
             Game1.player.Money -= diff * obj.Stack;
 
             player.currentLocation.playSound("secret1", player.Tile);
+
             player.AddMana(-3 * obj.Stack);
             //As it costs the player Mana to cast this spell, reward 5 exp
             Utilities.AddEXP(player, obj.Stack);

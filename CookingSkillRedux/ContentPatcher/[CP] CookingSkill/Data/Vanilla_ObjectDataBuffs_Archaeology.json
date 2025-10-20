@@ -33,6 +33,14 @@
                     ]
                 }
             }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "607", "Buffs", "Food", "CustomFields" ],
+            "Entries": {
+                "spacechase.SpaceCore.SkillBuff.moonslime.Archaeology": "1"
+            }
         }
     ]
 }

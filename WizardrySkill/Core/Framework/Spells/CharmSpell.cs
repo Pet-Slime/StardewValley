@@ -3,6 +3,7 @@ using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
+using static BirbCore.Attributes.SMod;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -16,7 +17,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return 0;
+            return 15;
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
@@ -62,13 +63,13 @@ namespace WizardrySkill.Core.Framework.Spells
             foreach (var NPC in npcsInRange)
             {
                 // skip if out of mana
-                if (player.GetCurrentMana() <= 24)
+                if (!this.CanCast(player, level))
                     return null;
 
                 if (player.health <= 24)
                     return null;
 
-                player.AddMana(-25);
+                player.AddMana(-15);
                 player.changeFriendship(20 * (level + 1), NPC);
                 player.takeDamage(25, false, null);
                 NPC.currentLocation.playSound("jingle1", NPC.Tile);

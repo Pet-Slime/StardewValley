@@ -10,9 +10,6 @@
                         "Position": "0, 1"
                     }
                 }
-            },
-            "When": {
-                "HasMod": "spacechase0.SpaceCore"
             }
         },
         {

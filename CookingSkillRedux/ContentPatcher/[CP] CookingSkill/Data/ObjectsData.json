@@ -595,7 +595,7 @@
                             "BuffId": null,
                             "IconTexture": null,
                             "IconSpriteIndex": 0,
-                            "Duration": 72,
+                            "Duration": 87,
                             "IsDebuff": false,
                             "GlowColor": null,
                             "CustomAttributes": {
@@ -611,6 +611,7 @@
                                 "Attack": 5
                             },
                             "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Cooking": "5"
                             }
                         }
                     ],
@@ -622,7 +623,8 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "color_white",
-                        "food_sweet"
+                        "food_sweet",
+                        "moonslime.ManaBarApi.ManaFill/50"
                     ],
                     "CustomFields": null
                 },
@@ -958,7 +960,8 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "color_white",
-                        "food_sweet"
+                        "food_sweet",
+                        "moonslime.ManaBarApi.ManaFill/10"
                     ],
                     "CustomFields": null
                 },
@@ -995,6 +998,7 @@
                                 "Attack": 5
                             },
                             "CustomFields": {
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Cooking": "5"
                             }
                         }
                     ],
@@ -1005,7 +1009,8 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
-                        "color_purple"
+                        "color_purple",
+                        "moonslime.ManaBarApi.ManaFill/50"
                     ],
                     "CustomFields": null
                 },

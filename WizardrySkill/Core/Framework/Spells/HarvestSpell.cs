@@ -17,7 +17,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return 0;
+            return 3;
         }
 
         public override int GetMaxCastingLevel()
@@ -38,7 +38,7 @@ namespace WizardrySkill.Core.Framework.Spells
             {
                 for (int tileY = targetY - level; tileY <= targetY + level; ++tileY)
                 {
-                    if (player.GetCurrentMana() <= 3)
+                    if (!this.CanCast(player, level))
                         return null;
 
                     Vector2 tile = new Vector2(tileX, tileY);
@@ -63,7 +63,7 @@ namespace WizardrySkill.Core.Framework.Spells
                     });
                     num++;
 
-                    player.AddMana(-4);
+                    player.AddMana(-3);
                     Utilities.AddEXP(player, 2 * (level + 1));
                     player.currentLocation.playSound("cut", tile);
                 }

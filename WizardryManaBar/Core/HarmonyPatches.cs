@@ -80,19 +80,7 @@ namespace WizardryManaBar.Core
 
         public static int GetWidthAdjustment(SpriteFont font, Item hoveredItem, int width)
         {
-            if (hoveredItem == null)
-                return width;
 
-            if (hoveredItem.GetContextTags().Any(tag => tag.StartsWith(ManaFill)))
-            {
-                string manaTitle = ModEntry.Instance.I18N.Get("moonslime.ManaBarApi.Mana");
-                width = Math.Max(width, (int)font.MeasureString("+999 " + manaTitle).X) + 92;
-            }
-            if (hoveredItem.GetContextTags().Any(tag => tag.StartsWith(ManaRestore)))
-            {
-                string manaTitle = ModEntry.Instance.I18N.Get("moonslime.ManaBarApi.Mana");
-                width = Math.Max(width, (int)font.MeasureString("+100% " + manaTitle).X) + 92;
-            }
             return width;
         }
 
@@ -163,8 +151,7 @@ namespace WizardryManaBar.Core
         /// <param name="shadowAlpha">Relative opacity of shadow when drawn.</param>
         public static void DrawManaPercentEffect(SpriteBatch b, Vector2 position, float value, bool drawText = true, SpriteFont font = null, float alpha = 1, int spacing = 8 * Game1.pixelZoom, float shadowAlpha = 1)
         {
-            string manaTitle = ModEntry.Instance.I18N.Get("moonslime.ManaBarApi.Mana");
-            DrawPercentfEffect(b, position, value, drawText ? manaTitle : null, font, ModEntry.Assets.ManaSymbol, new Rectangle(0, 0, 10, 10), alpha: alpha, spacing: spacing, shadowAlpha: shadowAlpha);
+            DrawPercentfEffect(b, position, value, null, font, ModEntry.Assets.ManaSymbol, new Rectangle(0, 0, 10, 10), alpha: alpha, spacing: spacing, shadowAlpha: shadowAlpha);
         }
 
         /// <summary>
@@ -181,7 +168,7 @@ namespace WizardryManaBar.Core
         /// <param name="shadowAlpha">Relative opacity of shadow when drawn.</param>
         public static void DrawPercentfEffect(SpriteBatch b, Vector2 position, float value, string label = null, SpriteFont font = null, Texture2D icon = null, Rectangle? iconSource = null, float alpha = 1, int spacing = 8 * Game1.pixelZoom, float shadowAlpha = 1)
         {
-            string text = $"+{value}% {label}";
+            string text = $"{value}%";
             int xOffset = 0;
 
             if (icon is not null)

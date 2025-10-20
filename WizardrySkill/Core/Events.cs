@@ -211,10 +211,35 @@ namespace WizardrySkill.Core
                     IActiveEffect effect = spellBook.CastSpell(spell, slot.Level);
                     if (effect != null)
                         ActiveEffects.Add(effect);
+
+                    for (int level = 0; level < BloodManaBuffs.Length; level++)
+                    {
+                        if (!Game1.player.hasBuff(BloodManaBuffs[level]))
+                            continue;
+
+
+                        int damageMultiplier = level switch
+                        {
+                            0 => 3,
+                            1 => 2,
+                            2 => 1,
+                            _ => 1
+                        };
+
+                        Game1.player.takeDamage(spell.GetManaCost(Game1.player, slot.Level) * damageMultiplier, false, null);
+                        return; // done, don’t apply normal mana
+                    }
                     Game1.player.AddMana(-spell.GetManaCost(Game1.player, slot.Level));
                 }
             }
         }
+
+        private static readonly string[] BloodManaBuffs =
+{
+        "moonslime.Wizardry.bloodmana.0",
+        "moonslime.Wizardry.bloodmana.1",
+        "moonslime.Wizardry.bloodmana.2"
+        };
 
         [SEvent.ButtonReleased]
         /// <summary>Raised after the player releases a button on the keyboard, controller, or mouse.</summary>

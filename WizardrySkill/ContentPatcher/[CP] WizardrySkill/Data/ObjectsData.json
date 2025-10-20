@@ -69,7 +69,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "not_placeable",
-                        "moonslime.Wizardry.mana_potion_full"
+                        "moonslime.ManaBarApi.ManaRestore/100"
                     ],
                     "CustomFields": null
                 },
@@ -93,10 +93,23 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "not_placeable",
-                        "moonslime.ManaBarApi.ManaFill/10",
-                        "moonslime.ManaBarApi.ManaRestore/10"
+                        "moonslime.ManaBarApi.ManaRestore/50"
                     ],
                     "CustomFields": null
+                }
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "spacechase0.SpaceCore/ObjectExtensionData",
+            "Entries": {
+                "moonslime.Wizardry.Magic_Potion": {
+                    "EatenHealthRestoredOverride": 0,
+                    "EatenStaminaRestoredOverride": 50
+                },
+                "moonslime.Wizardry.Magic_Elixir": {
+                    "EatenHealthRestoredOverride": 50,
+                    "EatenStaminaRestoredOverride": 0
                 }
             }
         },

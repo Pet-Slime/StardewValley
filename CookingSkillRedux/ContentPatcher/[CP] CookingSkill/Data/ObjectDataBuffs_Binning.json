@@ -3,35 +3,31 @@
         {
             "Action": "EditData",
             "Target": "Data/Objects",
+            "TargetField": [ "moonslime.Cooking.wizard_casserole", "Buffs", "Food", "CustomFields" ],
+            "Entries": {
+                "spacechase.SpaceCore.SkillBuff.drbirbdev.Binning": "2"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "moonslime.Cooking.wizards_brew", "Buffs", "Drink", "CustomFields" ],
+            "Entries": {
+                "spacechase.SpaceCore.SkillBuff.drbirbdev.Binning": "5"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "moonslime.Cooking.wizard_casserole", "Buffs", "Food", "CustomFields" ],
+            "Entries": {
+                "spacechase.SpaceCore.SkillBuff.drbirbdev.Binning": "5"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
             "Fields": {
-                "moonslime.Cooking.tomato_soup": {
-                    "Buffs": [
-                        {
-                            "Id": "Food",
-                            "BuffId": null,
-                            "IconTexture": null,
-                            "IconSpriteIndex": 0,
-                            "Duration": 480,
-                            "IsDebuff": false,
-                            "GlowColor": null,
-                            "CustomAttributes": {
-                                "FarmingLevel": 0,
-                                "FishingLevel": 0,
-                                "MiningLevel": 0,
-                                "LuckLevel": 0,
-                                "ForagingLevel": 1,
-                                "MaxStamina": 0,
-                                "MagneticRadius": 0,
-                                "Speed": 0,
-                                "Defense": 0,
-                                "Attack": 0
-                            },
-                            "CustomFields": {
-                                "spacechase.SpaceCore.SkillBuff.drbirbdev.Binning": "2"
-                            }
-                        }
-                    ]
-                },
                 "199": {
                     "Buffs": [
                         {
@@ -56,62 +52,6 @@
                             },
                             "CustomFields": {
                                 "spacechase.SpaceCore.SkillBuff.drbirbdev.Binning": "1"
-                            }
-                        }
-                    ]
-                },
-                "moonslime.Cooking.wizards_brew": {
-                    "Buffs": [
-                        {
-                            "Id": "Drink",
-                            "BuffId": null,
-                            "IconTexture": null,
-                            "IconSpriteIndex": 0,
-                            "Duration": 87,
-                            "IsDebuff": false,
-                            "GlowColor": null,
-                            "CustomAttributes": {
-                                "FarmingLevel": 5,
-                                "FishingLevel": 5,
-                                "MiningLevel": 5,
-                                "LuckLevel": 5,
-                                "ForagingLevel": 5,
-                                "MaxStamina": 32,
-                                "MagneticRadius": 32,
-                                "Speed": 5,
-                                "Defense": 5,
-                                "Attack": 5
-                            },
-                            "CustomFields": {
-                                "spacechase.SpaceCore.SkillBuff.drbirbdev.Binning": "5"
-                            }
-                        }
-                    ]
-                },
-                "moonslime.Cooking.wizard_casserole": {
-                    "Buffs": [
-                        {
-                            "Id": "Food",
-                            "BuffId": null,
-                            "IconTexture": null,
-                            "IconSpriteIndex": 0,
-                            "Duration": 87,
-                            "IsDebuff": false,
-                            "GlowColor": null,
-                            "CustomAttributes": {
-                                "FarmingLevel": 5,
-                                "FishingLevel": 5,
-                                "MiningLevel": 5,
-                                "LuckLevel": 5,
-                                "ForagingLevel": 5,
-                                "MaxStamina": 32,
-                                "MagneticRadius": 32,
-                                "Speed": 5,
-                                "Defense": 5,
-                                "Attack": 5
-                            },
-                            "CustomFields": {
-                                "spacechase.SpaceCore.SkillBuff.drbirbdev.Binning": "5"
                             }
                         }
                     ]

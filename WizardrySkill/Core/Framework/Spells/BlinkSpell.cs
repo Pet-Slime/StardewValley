@@ -55,6 +55,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 player.position.X = targetX - player.GetBoundingBox().Width / 2;
                 player.position.Y = targetY - player.GetBoundingBox().Height / 2;
 
+
                 player.AddMana(distance * 5 * -1);
 
                 player.LocalSound("powerup");

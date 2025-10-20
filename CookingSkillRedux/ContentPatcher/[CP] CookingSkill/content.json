@@ -47,6 +47,20 @@
         {
             "Action": "Include",
             "When": {
+                "HasMod |contains=moonslime.AthleticSkill": true
+            },
+            "FromFile": "Data/ObjectDataBuffs_Athletic.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=moonslime.BibliocraftSkill": true
+            },
+            "FromFile": "Data/ObjectDataBuffs_Bibliocraft.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
                 "Enable_Vanilla_Food_Changes": true,
                 "HasMod |contains=drbirbdev.SocializingSkill": true
             },
@@ -59,39 +73,6 @@
                 "HasMod |contains=moonslime.ArchaeologySkill": true
             },
             "FromFile": "Data/Vanilla_ObjectDataBuffs_Archaeology.json"
-        },
-        {
-            "Action": "Include",
-            "When": {
-                "HasMod |contains=drbirbdev.SocializingSkill": true,
-                "HasMod |contains=moonslime.ArchaeologySkill": true
-            },
-            "FromFile": "Data/WizardBrew_Arch_Social.json"
-        },
-        {
-            "Action": "Include",
-            "When": {
-                "HasMod |contains=drbirbdev.BinningSkill": true,
-                "HasMod |contains=moonslime.ArchaeologySkill": true
-            },
-            "FromFile": "Data/WizardBrew_Arch_Bin.json"
-        },
-        {
-            "Action": "Include",
-            "When": {
-                "HasMod |contains=drbirbdev.BinningSkill": true,
-                "HasMod |contains=drbirbdev.SocializingSkill": true
-            },
-            "FromFile": "Data/WizardBrew_Bin_Social.json"
-        },
-        {
-            "Action": "Include",
-            "When": {
-                "HasMod |contains=moonslime.ArchaeologySkill": true,
-                "HasMod |contains=drbirbdev.BinningSkill": true,
-                "HasMod |contains=drbirbdev.SocializingSkill": true
-            },
-            "FromFile": "Data/WizardBrew_Arch_Bin_Soc.json"
         }
     ]
 }

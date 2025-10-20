@@ -15,7 +15,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return 0;
+            return 4;
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
@@ -31,7 +31,7 @@ namespace WizardrySkill.Core.Framework.Spells
             {
                 for (int tileY = targetY - level; tileY <= targetY + level; ++tileY)
                 {
-                    if (player.GetCurrentMana() <= 3)
+                    if (!this.CanCast(player, level))
                         return null;
 
                     Vector2 tile = new Vector2(tileX, tileY);

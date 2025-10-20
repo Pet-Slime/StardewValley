@@ -37,7 +37,7 @@ namespace WizardrySkill.Core.Framework.Spells
                     Vector2 tile = new Vector2(tileX, tileY);
 
                     // skip if out of mana
-                    if (player.GetCurrentMana() <= 2)
+                    if (player.GetCurrentMana() <= 3)
                         return null;
 
                     // skip if blocked
@@ -51,7 +51,7 @@ namespace WizardrySkill.Core.Framework.Spells
                         {
                             loc.digUpArtifactSpot(tileX, tileY, player);
                             loc.objects.Remove(tile);
-                            player.AddMana(-1);
+                            player.AddMana(-2);
                         }
                         else
                             continue;

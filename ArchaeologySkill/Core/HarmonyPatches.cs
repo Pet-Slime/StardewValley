@@ -413,30 +413,11 @@ namespace ArchaeologySkill.Core
         }
     }
 
-    [HarmonyPatch(typeof(VolcanoDungeon), nameof(VolcanoDungeon.drawAboveAlwaysFrontLayer))]
-    class VolcanoDungeonLevel_patch
-    {
-        [HarmonyLib.HarmonyPostfix]
-        private static void Postfix(
-        StardewValley.Locations.VolcanoDungeon __instance, SpriteBatch b)
-        {
-            if (!Game1.game1.takingMapScreenshot && __instance.level?.Get() > 10)
-            {
-                Color color_Red = SpriteText.color_Red;
-                string s = "∞" + (__instance.level?.Get() - 10).Value.ToString() ?? "";
-                Microsoft.Xna.Framework.Rectangle titleSafeArea = Game1.game1.GraphicsDevice.Viewport.GetTitleSafeArea();
-                SpriteText.drawString(b, s, titleSafeArea.Left + 16, titleSafeArea.Top + 16, 999999, -1, 999999, 1f, 1f, junimoText: false, 2, "", color_Red);
-
-            }
-        }
-    }
-
     [HarmonyPatch(typeof(StardewValley.Game1), "drawHUD")]
     class DrawHUD_patch
     {
         [HarmonyLib.HarmonyPostfix]
-        private static void Postfix(
-        StardewValley.Game1 __instance)
+        private static void Postfix(StardewValley.Game1 __instance)
         {
             if (Game1.player == null || //make sure the player is not null
                 !Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology5b) || //Make sure they have the start of the panning path
@@ -507,6 +488,26 @@ namespace ArchaeologySkill.Core
             }
         }
     }
+
+    [HarmonyPatch(typeof(VolcanoDungeon), nameof(VolcanoDungeon.drawAboveAlwaysFrontLayer))]
+    class VolcanoDungeonLevel_patch
+    {
+        [HarmonyLib.HarmonyPostfix]
+        private static void Postfix(
+        StardewValley.Locations.VolcanoDungeon __instance, SpriteBatch b)
+        {
+            if (!Game1.game1.takingMapScreenshot && __instance.level?.Get() > 10)
+            {
+                Color color_Red = SpriteText.color_Red;
+                string s = "∞" + (__instance.level?.Get() - 10).Value.ToString() ?? "";
+                Microsoft.Xna.Framework.Rectangle titleSafeArea = Game1.game1.GraphicsDevice.Viewport.GetTitleSafeArea();
+                SpriteText.drawString(b, s, titleSafeArea.Left + 16, titleSafeArea.Top + 16, 999999, -1, 999999, 1f, 1f, junimoText: false, 2, "", color_Red);
+
+            }
+        }
+    }
+
+  
 
 
     [HarmonyPatch(typeof(VolcanoDungeon), nameof(VolcanoDungeon.CreateEntrance))]
