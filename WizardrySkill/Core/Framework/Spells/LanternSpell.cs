@@ -23,7 +23,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return (level+1) * 3;
+            return 3;
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
@@ -33,9 +33,9 @@ namespace WizardrySkill.Core.Framework.Spells
 
             int power = level switch
             {
-                1 => 8,
-                2 => 16,
-                _ => 4
+                1 => 16,
+                2 => 32,
+                _ => 8
             };
 
             player.currentLocation.sharedLights.Add(this.GetUnusedLightSourceId(player.currentLocation), new LightSource(this.GetUnusedLightSourceId(player.currentLocation), 1, Game1.player.position.Value, power));

@@ -356,6 +356,12 @@ namespace WizardrySkill.Core
                 }
             }
 
+            foreach (var test in SpellManager.GetAll())
+            {
+                if (!spellBook.KnowsSpell(test, 0))
+                    spellBook.LearnSpell(test, 0, true);
+            }
+
             // fix core spells
             foreach (string spellId in CoreSpells)
             {
@@ -597,6 +603,8 @@ namespace WizardrySkill.Core
                 {
                     player.mailReceived.Add("moonslimeWizardryLearnedMagic");
                 }
+
+                
             }
 
             string Id = "moonslime.Wizard";

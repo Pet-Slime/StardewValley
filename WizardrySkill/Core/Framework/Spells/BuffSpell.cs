@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Reflection.Metadata;
+using SpaceCore;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
 
@@ -37,30 +39,28 @@ namespace WizardrySkill.Core.Framework.Spells
                 return null;
 
             int l = level + 1;
-            int farm = l, fish = l, mine = l, luck = l, forage = l, def = 0 /*1*/, atk = 2;
-            atk = l switch
-            {
-                2 => 5,
-                3 => 10,
-                _ => atk
-            };
 
-            player.buffs.Apply(new Buff(
+
+            var baseSkillBuff = new Buff(
                 id: "spacechase0.magic.buff",
                 source: "spell:life:buff",
-                displaySource: "Buff (spell)",
+                displaySource: ModEntry.Instance.I18N.Get("moonslime.Wizardry.buff.buffDescription"),
                 duration: (int)TimeSpan.FromSeconds(60 + level * 120).TotalMilliseconds,
                 effects: new StardewValley.Buffs.BuffEffects
                 {
-                    FarmingLevel = { farm },
-                    FishingLevel = { fish },
-                    MiningLevel = { mine },
-                    LuckLevel = { luck },
-                    ForagingLevel = { forage },
-                    Defense = { def },
-                    Attack = { atk },
+                    FarmingLevel = { l },
+                    FishingLevel = { l },
+                    MiningLevel = { l },
+                    CombatLevel = { l },
+                    ForagingLevel = { l }
                 }
-            ));
+                );
+
+            foreach (string customSkills in Skills.GetSkillList())
+            {
+                baseSkillBuff.customFields.Add($"spacechase.SpaceCore.SkillBuff.{customSkills}", $"{l}");
+            }
+            player.buffs.Apply(baseSkillBuff);
 
             player.currentLocation.playSound("powerup", player.Tile);
             Utilities.AddEXP(player, 10);

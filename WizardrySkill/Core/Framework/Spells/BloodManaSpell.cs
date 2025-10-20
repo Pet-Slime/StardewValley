@@ -26,18 +26,18 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override bool CanCast(Farmer player, int level)
         {
-            return player.GetCurrentMana() != player.GetMaxMana() && player.health > (player.maxHealth / 5);
+            return player.GetCurrentMana() != player.GetMaxMana() && player.health > (player.maxHealth / 4);
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            int health = (player.maxHealth/5);
+            int health = (player.maxHealth/4);
             player.health -= health;
             player.currentLocation.debris.Add(new Debris(health, new Vector2(player.StandingPixel.X + 8, player.StandingPixel.Y), Color.Red, 1f, player));
             player.currentLocation.playSound("ow", player.Tile);
             Game1.hitShakeTimer = 100 * health;
 
-            int mana = (player.GetMaxMana()/10) + ((level + 1) * 4);
+            int mana = (player.GetMaxMana()/6) + ((level + 1) * 4);
             player.AddMana(mana);
             player.currentLocation.debris.Add(new Debris(mana, new Vector2(player.StandingPixel.X + 8, player.StandingPixel.Y), Color.Blue, 1f, player));
             player.currentLocation.playSound("powerup", player.Tile);

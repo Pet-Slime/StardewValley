@@ -38,9 +38,9 @@ namespace WizardrySkill.Core.Framework.Spells
                 return null;
 
             player.buffs.Apply(new Buff(
-                id: "spacechase0.magic.haste",
+                id: "spacechase0.magic.magnetic_force",
                 source: "spell:nature:magnetic_force",
-                displaySource: "Haste (spell)",
+                displaySource: ModEntry.Instance.I18N.Get("moonslime.Wizardry.magnetic_force.buffDescription"),
                 duration: (int)TimeSpan.FromSeconds(60 + level * 120).TotalMilliseconds,
                 effects: new BuffEffects
                 {

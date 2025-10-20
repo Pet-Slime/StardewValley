@@ -39,7 +39,7 @@ namespace WizardrySkill.Core.Framework.Spells
             player.buffs.Apply(new Buff(
                 id: "spacechase0.magic.haste",
                 source: "spell:life:haste",
-                displaySource: "Haste (spell)",
+                displaySource: ModEntry.Instance.I18N.Get("moonslime.Wizardry.haste.buffDescription"),
                 duration: (int)TimeSpan.FromSeconds(60 + level * 120).TotalMilliseconds,
                 effects: new StardewValley.Buffs.BuffEffects
                 {

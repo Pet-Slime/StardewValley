@@ -216,8 +216,8 @@ namespace WizardrySkill.Core.Framework.Game.Interface
             b.Draw(icon, bigIconRect, Color.White);
 
             // Description (wrapped)
-            string desc = WrapText(this.SelectedSpell.GetTranslatedDescription(), (int)(WindowWidth / 2 / 0.75f));
-            Vector2 descPos = new Vector2(this.xPositionOnScreen + WindowWidth / 2 + 12, this.yPositionOnScreen + 280);
+            string desc = WrapText(this.SelectedSpell.GetTranslatedDescription(), (int)(WindowWidth / 2 / 0.75f) -6);
+            Vector2 descPos = new Vector2(this.xPositionOnScreen + WindowWidth / 2 + 6, this.yPositionOnScreen + 280);
             b.DrawString(Game1.dialogueFont, desc, descPos, Color.Black, 0, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
 
             // Level icons (tiers/levels of spell)

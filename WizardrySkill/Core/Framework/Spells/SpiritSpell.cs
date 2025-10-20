@@ -24,7 +24,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            Utilities.AddEXP(player, 25);
+            Utilities.AddEXP(player, 50);
             return new SpiritEffect(player);
         }
     }

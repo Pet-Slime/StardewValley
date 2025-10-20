@@ -14,7 +14,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return (player.GetMaxMana() / 5) ;
+            return (player.GetMaxMana() / 4) ;
         }
 
         public override bool CanCast(Farmer player, int level)
@@ -24,7 +24,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            int health = (player.maxHealth / 10) + ((level + 1) * 4);
+            int health = (player.maxHealth / 6) + ((level + 1) * 4);
             player.health += health;
             if (player.health >= player.maxHealth)
                 player.health = player.maxHealth;
