@@ -19,7 +19,6 @@ using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Game.Interface;
 using WizardrySkill.Core.Framework.Spells;
 using WizardrySkill.Objects;
-using static SpaceCore.Skills;
 using Log = BirbCore.Attributes.Log;
 
 namespace WizardrySkill.Core
@@ -354,12 +353,6 @@ namespace WizardrySkill.Core
                     player.modData.SetBool(modDataKey, true);
                     BirbCore.Attributes.Log.Trace($"Player now has Profession mod data: {modDataKey}");
                 }
-            }
-
-            foreach (var test in SpellManager.GetAll())
-            {
-                if (!spellBook.KnowsSpell(test, 0))
-                    spellBook.LearnSpell(test, 0, true);
             }
 
             // fix core spells

@@ -242,22 +242,53 @@ namespace ArchaeologySkill.Core
         {
             if (who != null)
             {
-                var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
-                string item = ModEntry.ArtifactLootTable.RandomChoose(Game1.random, "390");
+                //Get the unique player ~~Yes I am parinoid about it screwing up in multiplayer~~
+                Farmer farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
+
+                //Get the player's current location
+                string location = farmer.currentLocation.Name;
+
+                //Make a new list
+                var list = new List<string>();
+
+                //Get the artifact loot table
+                foreach (string thing in ModEntry.ArtifactLootTable)
+                {
+                    //Get the game data for each object in the artifact loot table
+                    if (Game1.objectData.TryGetValue(thing, out var value))
+                    {
+                        //Check the keys of the artifact spot chances to see if they match the machine's location
+                        if (value.ArtifactSpotChances != null && value.ArtifactSpotChances.ContainsKey(location))
+                        {
+                            //Finally add it to the list of possible artifacts
+                            list.Add(thing);
+                        }
+                    }
+                }
+                //Choose a random item from that list. Else  default to "stone"
+                string item = list.RandomChoose(Game1.random, "390");
+
+                //Get the tile location of the player
                 xLocation = farmer.TilePoint.X;
                 yLocation = farmer.TilePoint.Y;
+
+                //Send it to the generic Archaeology skill function
                 Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: item);
+
                 //Does The player have the Antiquarian Profession?
                 BirbCore.Attributes.Log.Trace("Archaeology skill: Checking to see if the player has Antiquarian");
                 if (Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology10a1))
                 {
 
                     BirbCore.Attributes.Log.Trace("Archaeology skill: Player has Antiquarian");
+                    //Make a random seed
                     Random random = Utility.CreateDaySaveRandom(xLocation * 2000, yLocation, Game1.netWorldState.Value.TreasureTotemsUsed * 777);
-                    Vector2 vector = new Vector2(xLocation * 64, yLocation * 64);
-                    item = ModEntry.ArtifactLootTable.RandomChoose(Game1.random, "390");
+                    //Choose a new item from the list
+                    item = list.RandomChoose(random, "390");
+                    //Change the string item into an Item item
                     Item finalItem = ItemRegistry.Create(item);
-                    Game1.createItemDebris(finalItem, farmer.Tile, Game1.random.Next(4), __instance);
+                    //Spawn the item
+                    Game1.createItemDebris(finalItem, farmer.Tile, random.Next(4), __instance);
                 }
             }
         }
@@ -291,8 +322,23 @@ namespace ArchaeologySkill.Core
                 if (random.NextDouble() < Utilities.GetLevel(farmer))
                 {
                     BirbCore.Attributes.Log.Trace("Archaeology skill: Dowser skill artifact roll won");
+                    var list = new List<string>();
                     //Find a random artifact to add from the artifact loot table
-                    string artifact = ModEntry.ArtifactLootTable.RandomChoose(random, "390");
+                    //Get the artifact loot table
+                    foreach (string thing in ModEntry.ArtifactLootTable)
+                    {
+                        //Get the game data for each object in the artifact loot table
+                        if (Game1.objectData.TryGetValue(thing, out var value))
+                        {
+                            //Check the keys of the artifact spot chances to see if they match the machine's location
+                            if (value.ArtifactSpotChances != null && value.ArtifactSpotChances.ContainsKey(location.Name))
+                            {
+                                //Finally add it to the list of possible artifacts
+                                list.Add(thing);
+                            }
+                        }
+                    }
+                    string artifact = list.RandomChoose(random, "390");
                     __result.Add(new StardewValley.Object(artifact, 1));
                 }
 
@@ -326,10 +372,10 @@ namespace ArchaeologySkill.Core
                     var player = Game1.GetPlayer(farmer.UniqueMultiplayerID);
                     if (player.isActive() && player.HasCustomProfession(Archaeology_Skill.Archaeology5b))
                     {
-                        extraPanningPointChance += 2;
+                        extraPanningPointChance += 4;
                     }
                 }
-                if (Game1.MasterPlayer.mailReceived.Contains("ccFishTank") && !(__instance is Beach) && __instance.orePanPoint.Value.Equals(Point.Zero) && r.NextBool())
+                if (Game1.MasterPlayer.mailReceived.Contains("ccFishTank") && __instance is not Beach && __instance.orePanPoint.Value.Equals(Point.Zero) && r.NextBool())
                 {
                     for (int i = 0; i < extraPanningPointChance; i++)
                     {
@@ -355,9 +401,7 @@ namespace ArchaeologySkill.Core
     class GetPriceAfterMultipliers_Patch
     {
         [HarmonyLib.HarmonyPostfix]
-#pragma warning disable IDE0051 // Remove unused private members
         private static void IncereaseCosts(
-#pragma warning restore IDE0051 // Remove unused private members
         StardewValley.Object __instance, ref float __result, float startPrice, long specificPlayerID)
         {
             //Set the sale multiplier to 1
@@ -413,82 +457,6 @@ namespace ArchaeologySkill.Core
         }
     }
 
-    [HarmonyPatch(typeof(StardewValley.Game1), "drawHUD")]
-    class DrawHUD_patch
-    {
-        [HarmonyLib.HarmonyPostfix]
-        private static void Postfix(StardewValley.Game1 __instance)
-        {
-            if (Game1.player == null || //make sure the player is not null
-                !Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology5b) || //Make sure they have the start of the panning path
-                !Game1.player.currentLocation.IsOutdoors) // make sure the location is outside
-            {
-                return;
-            }
-
-            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
-            GameLocation currentLocation = player.currentLocation;
-
-
-
-            if (!currentLocation.orePanPoint.Equals(Point.Zero))
-            {
-                Vector2 position2 = default(Vector2);
-                float num6 = 0f;
-                if (currentLocation.orePanPoint.X * 64 > Game1.viewport.MaxCorner.X - 64)
-                {
-                    position2.X = Game1.graphics.GraphicsDevice.Viewport.Bounds.Right - 8;
-                    num6 = MathF.PI / 2f;
-                }
-                else if (currentLocation.orePanPoint.X * 64 < Game1.viewport.X)
-                {
-                    position2.X = 8f;
-                    num6 = -MathF.PI / 2f;
-                }
-                else
-                {
-                    position2.X = currentLocation.orePanPoint.X * 64 - Game1.viewport.X;
-                }
-
-                if (currentLocation.orePanPoint.Y * 64 > Game1.viewport.MaxCorner.Y - 64)
-                {
-                    position2.Y = Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom - 8;
-                    num6 = MathF.PI;
-                }
-                else if (currentLocation.orePanPoint.Y * 64 < Game1.viewport.Y)
-                {
-                    position2.Y = 8f;
-                }
-                else
-                {
-                    position2.Y = currentLocation.orePanPoint.Y * 64 - Game1.viewport.Y;
-                }
-
-                if (position2.X == 8f && position2.Y == 8f)
-                {
-                    num6 += MathF.PI / 4f;
-                }
-
-                if (position2.X == 8f && position2.Y == (float)(Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom - 8))
-                {
-                    num6 += MathF.PI / 4f;
-                }
-
-                if (position2.X == (float)(Game1.graphics.GraphicsDevice.Viewport.Bounds.Right - 8) && position2.Y == 8f)
-                {
-                    num6 -= MathF.PI / 4f;
-                }
-
-                if (position2.X == (float)(Game1.graphics.GraphicsDevice.Viewport.Bounds.Right - 8) && position2.Y == (float)(Game1.graphics.GraphicsDevice.Viewport.Bounds.Bottom - 8))
-                {
-                    num6 -= MathF.PI / 4f;
-                }
-                var rectangle = ModEntry.Config.LargerPanningArrow ? new Microsoft.Xna.Framework.Rectangle(0, 0, 11, 12) : new Microsoft.Xna.Framework.Rectangle(3, 0, 6, 4);
-                Game1.spriteBatch.Draw(ModEntry.Assets.PanningArrow, position2, rectangle, Color.WhiteSmoke, num6, new Vector2(2f, 2f), 4f, SpriteEffects.None, 1f);
-            }
-        }
-    }
-
     [HarmonyPatch(typeof(VolcanoDungeon), nameof(VolcanoDungeon.drawAboveAlwaysFrontLayer))]
     class VolcanoDungeonLevel_patch
     {
@@ -507,7 +475,7 @@ namespace ArchaeologySkill.Core
         }
     }
 
-  
+
 
 
     [HarmonyPatch(typeof(VolcanoDungeon), nameof(VolcanoDungeon.CreateEntrance))]

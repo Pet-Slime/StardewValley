@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using BirbCore.Attributes;
 using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI.Events;
+using StardewValley;
 
 namespace ArchaeologySkill
 {
@@ -9,59 +9,25 @@ namespace ArchaeologySkill
     public class Assets
     {
 
-        [SAsset.Asset("assets/ArchaeologyiconA.png")]
-        public Texture2D IconA { get; set; }
+        public Texture2D IconA => Game1.content.Load<Texture2D>("Mods/moonslime.ArchaeologySkill/interface/ArchaeologyiconA");
 
-        [SAsset.Asset("assets/ArchaeologyiconB.png")]
-        public Texture2D IconB { get; set; }
+        public Texture2D IconB => Game1.content.Load<Texture2D>("Mods/moonslime.ArchaeologySkill/interface/ArchaeologyiconB");
 
-        [SAsset.Asset("assets/ArchaeologyiconBalt.png")]
-        public Texture2D IconBalt { get; set; }
+        public Texture2D IconBalt => Game1.content.Load<Texture2D>("Mods/moonslime.ArchaeologySkill/interface/ArchaeologyiconBalt");
 
-        [SAsset.Asset("assets/Archaeology5a.png")]
-        public Texture2D Archaeology5a { get; set; }
-        [SAsset.Asset("assets/Archaeology5b.png")]
-        public Texture2D Archaeology5b { get; set; }
-        [SAsset.Asset("assets/Archaeology10a1.png")]
-        public Texture2D Archaeology10a1 { get; set; }
-        [SAsset.Asset("assets/Archaeology10a2.png")]
-        public Texture2D Archaeology10a2 { get; set; }
-        [SAsset.Asset("assets/Archaeology10b1.png")]
-        public Texture2D Archaeology10b1 { get; set; }
-        [SAsset.Asset("assets/Archaeology10b2.png")]
-        public Texture2D Archaeology10b2 { get; set; }
+        public Texture2D Archaeology5a => Game1.content.Load<Texture2D>("Mods/moonslime.ArchaeologySkill/interface/Archaeology5a");
 
-        // Prestige Icons
-        [SAsset.Asset("assets/Archaeology5aP.png")]
-        public Texture2D Archaeology5aP { get; set; }
-        [SAsset.Asset("assets/Archaeology5bP.png")]
-        public Texture2D Archaeology5bP { get; set; }
-        [SAsset.Asset("assets/Archaeology10a1P.png")]
-        public Texture2D Archaeology10a1P { get; set; }
-        [SAsset.Asset("assets/Archaeology10a2P.png")]
-        public Texture2D Archaeology10a2P { get; set; }
-        [SAsset.Asset("assets/Archaeology10b1P.png")]
-        public Texture2D Archaeology10b1P { get; set; }
-        [SAsset.Asset("assets/Archaeology10b2P.png")]
-        public Texture2D Archaeology10b2P { get; set; }
+        public Texture2D Archaeology5b => Game1.content.Load<Texture2D>("Mods/moonslime.ArchaeologySkill/interface/Archaeology5b");
 
+        public Texture2D Archaeology10a1 => Game1.content.Load<Texture2D>("Mods/moonslime.ArchaeologySkill/interface/Archaeology10a1");
 
-        [SAsset.Asset("assets/gold_rush.png")]
-        public Texture2D Gold_Rush_Buff { get; set; }
+        public Texture2D Archaeology10a2 => Game1.content.Load<Texture2D>("Mods/moonslime.ArchaeologySkill/interface/Archaeology10a2");
 
+        public Texture2D Archaeology10b1 => Game1.content.Load<Texture2D>("Mods/moonslime.ArchaeologySkill/interface/Archaeology10b1");
 
+        public Texture2D Archaeology10b2 => Game1.content.Load<Texture2D>("Mods/moonslime.ArchaeologySkill/interface/Archaeology10b2");
 
-        [SAsset.Asset("assets/water_shifter.png")]
-        public Texture2D Water_shifter { get; set; }
-
-
-        [SAsset.Asset("assets/ArchaeologyPanningArrow.png")]
-        public Texture2D PanningArrow { get; set; }
-
-
-        [SAsset.Asset("assets/totem_volcano_warp.png", AssetLoadPriority.Medium)]
-        public Texture2D Totem_volcano_warp { get; set; }
-        public string Totem_volcano_warpPath { get; set; }
+        public Texture2D Gold_Rush_Buff => Game1.content.Load<Texture2D>("Mods/moonslime.ArchaeologySkill/interface/gold_rush");
 
 
 

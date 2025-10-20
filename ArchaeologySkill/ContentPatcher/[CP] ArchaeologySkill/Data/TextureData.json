@@ -1,0 +1,70 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/textures",
+            "FromFile": "Assets/sprites.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/water_shifter",
+            "FromFile": "Assets/water_shifter.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/machines",
+            "FromFile": "Assets/machines.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/interface/Archaeology10a1",
+            "FromFile": "Assets/interface/Archaeology10a1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/interface/Archaeology10a2",
+            "FromFile": "Assets/interface/Archaeology10a2.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/interface/Archaeology10b1",
+            "FromFile": "Assets/interface/Archaeology10b1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/interface/Archaeology10b2",
+            "FromFile": "Assets/interface/Archaeology10b2.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/interface/Archaeology5a",
+            "FromFile": "Assets/interface/Archaeology5a.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/interface/Archaeology5b",
+            "FromFile": "Assets/interface/Archaeology5b.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/interface/ArchaeologyiconA",
+            "FromFile": "Assets/interface/ArchaeologyiconA.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/interface/ArchaeologyiconB",
+            "FromFile": "Assets/interface/ArchaeologyiconB.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/interface/ArchaeologyiconBalt",
+            "FromFile": "Assets/interface/ArchaeologyiconBalt.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ArchaeologySkill/interface/gold_rush",
+            "FromFile": "Assets/interface/gold_rush.png"
+        }
+
+    ]
+}

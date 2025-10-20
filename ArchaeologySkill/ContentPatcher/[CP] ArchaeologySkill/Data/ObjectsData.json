@@ -1,21 +1,6 @@
 ﻿{
     "Changes": [
         {
-            "Action": "Load",
-            "Target": "Mods/moonslime.ArchaeologySkill/textures",
-            "FromFile": "Assets/sprites.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.ArchaeologySkill/water_shifter",
-            "FromFile": "Assets/water_shifter.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.ArchaeologySkill/machines",
-            "FromFile": "Assets/machines.png"
-        },
-        {
             "Action": "EditData",
             "Target": "Data/BigCraftables",
             "Entries": {

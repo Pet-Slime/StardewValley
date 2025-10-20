@@ -99,7 +99,22 @@ namespace ArchaeologySkill.Objects.Water_Shifter
             //If flag is true, add in the artifact loot table to the list
             if (flag)
             {
-                list.AddRange(ModEntry.ArtifactLootTable);
+                //Get the location of the water shifter
+                string location = machine.Location.Name;
+                //Get the artifact loot table
+                foreach (string thing in ModEntry.ArtifactLootTable)
+                {
+                    //Get the game data for each object in the artifact loot table
+                    if (Game1.objectData.TryGetValue(thing, out var value))
+                    {
+                        //Check the keys of the artifact spot chances to see if they match the machine's location
+                        if (value.ArtifactSpotChances.ContainsKey(location))
+                        {
+                            //Finally add it to the list of possible artifacts
+                            list.Add(thing);
+                        }
+                    }
+                }
             }
 
 

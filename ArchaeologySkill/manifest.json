@@ -1,7 +1,7 @@
 ﻿{
     "Name": "ArchaeologySkill",
     "Author": "moonslime",
-    "Version": "2.16.2",
+    "Version": "2.17.0",
     "Description": "Adds a skill related to digging and panning.",
     "UniqueID": "moonslime.ArchaeologySkill",
     "EntryDll": "ArchaeologySkill.dll",
@@ -17,9 +17,6 @@
         {
             "UniqueID": "drbirbdev.BirbCore",
             "MinimumVersion": "1.1.0"
-        },
-        {
-            "UniqueID": "Pathoschild.ContentPatcher"
         },
         {
             "UniqueID": "spacechase0.GenericModConfigMenu",
@@ -39,7 +36,10 @@
         },
         {
             "UniqueID": "spacechase0.SpaceCore",
-            "MinimumVersion": "1.26.2"
+            "MinimumVersion": "1.28.0"
+        },
+        {
+            "UniqueID": "moonslime.ArchaeologySkill.CP"
         }
     ]
 }
