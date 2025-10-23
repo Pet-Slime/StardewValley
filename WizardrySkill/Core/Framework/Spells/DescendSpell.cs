@@ -31,7 +31,7 @@ namespace WizardrySkill.Core.Framework.Spells
             if (ms == null)
                 return null;
 
-            int target = ms.mineLevel + 1 + 2 * level;
+            int target = ms.mineLevel + 1 + level;
             if (ms.mineLevel <= 120 && target >= 120)
             {
                 // We don't want the player to go through the bottom of the
