@@ -93,7 +93,6 @@ namespace ArchaeologySkill.Core
 
         private static void ArchaeologySkillCheck_4(int xLocation, int yLocation, Farmer farmer, string item)
         {
-            Log.Alert("Archaeology testing 4");
             Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: item);
             return;
         }
