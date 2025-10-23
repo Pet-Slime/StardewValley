@@ -45,7 +45,8 @@ namespace WizardrySkill.Core.Framework.Spells
             {
                 for (int tileY = targetY - level; tileY <= targetY + level; ++tileY)
                 {
-                    if (!this.CanCast(player, level))
+                    // skip if out of mana
+                    if (!this.CanContinueCast(player, level))
                         return null;
 
                     Vector2 tile = new(tileX, tileY);
@@ -76,7 +77,7 @@ namespace WizardrySkill.Core.Framework.Spells
                     // Trees
                     if (level >= 2)
                     {
-                        if (loc.terrainFeatures.TryGetValue(tile, out TerrainFeature feature) && feature is not HoeDirt or Flooring)
+                        if (loc.terrainFeatures.TryGetValue(tile, out TerrainFeature feature) && feature is not HoeDirt or Flooring or Grass)
                         {
                             if (feature is Tree)
                             {

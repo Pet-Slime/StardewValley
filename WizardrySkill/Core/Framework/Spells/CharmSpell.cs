@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using StardewValley;
@@ -20,10 +21,15 @@ namespace WizardrySkill.Core.Framework.Spells
             return 15;
         }
 
+        public override bool CanCast(Farmer player, int level)
+        {
+            return base.CanCast(player, level) && player.health > 25;
+        }
+
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
             var mobs = player.currentLocation.characters;
-            int levelAmount = level * 2 + 2;
+            int levelAmount = level * 2 + 8;
 
             GameLocation location = player.currentLocation;
             Vector2 playerTile = player.Tile;
@@ -31,6 +37,8 @@ namespace WizardrySkill.Core.Framework.Spells
             List<NPC> monstersInRange = [];
 
 
+            BirbCore.Attributes.Log.Alert($"{player.Tile.Y}");
+            BirbCore.Attributes.Log.Alert($"{player.TilePoint.Y}");
             foreach (var NPC in location.characters)
             {
 
@@ -60,21 +68,39 @@ namespace WizardrySkill.Core.Framework.Spells
                 }
             }
 
+            int num = 0;
             foreach (var NPC in npcsInRange)
             {
                 // skip if out of mana
-                if (!this.CanCast(player, level))
+                if (!this.CanContinueCast(player, level))
                     return null;
 
                 if (player.health <= 24)
                     return null;
 
-                player.AddMana(-15);
+                if (num != 0)
+                {
+                    player.AddMana(-15);
+                }
                 player.changeFriendship(20 * (level + 1), NPC);
                 player.takeDamage(25, false, null);
                 NPC.currentLocation.playSound("jingle1", NPC.Tile);
                 Utilities.AddEXP(player, 25);
                 NPC.doEmote(Character.blushEmote);
+                Game1.Multiplayer.broadcastSprites(location,
+                    new TemporaryAnimatedSprite(10,
+                    new Vector2(NPC.TilePoint.X * (float)Game1.tileSize, (NPC.TilePoint.Y-1) * (float)Game1.tileSize),
+                    Color.Cyan,
+                    10,
+                    Game1.random.NextDouble() < 0.5,
+                    70f,
+                    0,
+                    Game1.tileSize,
+                    100f)
+                {
+                    delayBeforeAnimationStart = num * 10
+                });
+                num++;
 
             }
 

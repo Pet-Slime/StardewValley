@@ -31,7 +31,8 @@ namespace WizardrySkill.Core.Framework.Spells
             {
                 for (int tileY = targetY - level; tileY <= targetY + level; ++tileY)
                 {
-                    if (!this.CanCast(player, level))
+                    // skip if out of mana
+                    if (!this.CanContinueCast(player, level))
                         return null;
 
                     Vector2 tile = new Vector2(tileX, tileY);
@@ -41,20 +42,24 @@ namespace WizardrySkill.Core.Framework.Spells
 
                     if (machine != null && machine.readyForHarvest.Value && machine.heldObject.Value != null)
                     {
-                        machine.checkForAction(Game1.player);
+                        machine.checkForAction(player);
 
                     }
                     #endregion
 
-                    loc.temporarySprites.Add(new TemporaryAnimatedSprite(13, new Vector2(tileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.Brown, 10, Game1.random.NextDouble() < 0.5, 70f, 0, Game1.tileSize, (float)((tileY * (double)Game1.tileSize + Game1.tileSize / 2) / 10000.0 - 0.00999999977648258))
+                    if (num != 0)
+                    {
+                        player.AddMana(-3);
+                    }
+                    Utilities.AddEXP(player, 5);
+                    loc.playSound("grunt", tile);
+
+                    Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(13, new Vector2(tileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.Brown, 10, Game1.random.NextDouble() < 0.5, 70f, 0, Game1.tileSize, (float)((tileY * (double)Game1.tileSize + Game1.tileSize / 2) / 10000.0 - 0.00999999977648258))
                     {
                         delayBeforeAnimationStart = num * 10
                     });
                     num++;
 
-                    player.AddMana(-3);
-                    Utilities.AddEXP(player, 5);
-                    loc.playSound("grunt", tile);
                 }
             }
             return null;

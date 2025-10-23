@@ -34,11 +34,15 @@ namespace WizardrySkill.Core.Framework.Spells
             {
                 for (int tileY = targetY - level; tileY <= targetY + level; ++tileY)
                 {
-                    Vector2 tile = new Vector2(tileX, tileY);
 
                     // skip if out of mana
-                    if (player.GetCurrentMana() <= 3)
+                    if (!this.CanContinueCast(player, level))
                         return null;
+
+
+                    Vector2 tile = new Vector2(tileX, tileY);
+
+
 
                     // skip if blocked
                     if (loc.terrainFeatures.ContainsKey(tile))
@@ -63,8 +67,8 @@ namespace WizardrySkill.Core.Framework.Spells
                         loc.makeHoeDirt(tile);
                         loc.playSound("hoeHit", tile);
                         //Game1.removeSquareDebrisFromTile(tileX, tileY);
-                        loc.temporarySprites.Add(new TemporaryAnimatedSprite(12, new Vector2(tileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.White, 8, Game1.random.NextDouble() < 0.5, 50f));
-                        loc.temporarySprites.Add(new TemporaryAnimatedSprite(6, new Vector2(tileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.White, 8, Game1.random.NextDouble() < 0.5, Vector2.Distance(tile, target) * 30f));
+                        Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(12, new Vector2(tileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.White, 8, Game1.random.NextDouble() < 0.5, 50f));
+                        Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(6, new Vector2(tileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.White, 8, Game1.random.NextDouble() < 0.5, Vector2.Distance(tile, target) * 30f));
                         loc.checkForBuriedItem(tileX, tileY, false, false, player);
                         player.AddMana(-3);
                         Utilities.AddEXP(player, 2);

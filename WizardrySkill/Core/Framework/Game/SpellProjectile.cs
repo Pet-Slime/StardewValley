@@ -1,4 +1,5 @@
 using System;
+using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
@@ -130,7 +131,7 @@ namespace WizardrySkill.Core.Framework.Game
                 if (periodicEffectTimer > 50f)
                 {
                     periodicEffectTimer = 0f;
-                    location.temporarySprites.Add(new TemporaryAnimatedSprite("TileSheets\\Projectiles", new Rectangle(32, 32, 16, 16), 9999f, 1, 1, position.Value, flicker: false, flipped: false, 1f, 0.01f, Color.White, 4f, 0f, 0f, 0f)
+                    Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite("TileSheets\\Projectiles", new Rectangle(32, 32, 16, 16), 9999f, 1, 1, position.Value, flicker: false, flipped: false, 1f, 0.01f, Color.White, 4f, 0f, 0f, 0f)
                     {
                         motion = Utility.getRandom360degreeVector(1f) + new Vector2(xVelocity.Value, yVelocity.Value),
                         drawAboveAlwaysFront = true

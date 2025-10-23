@@ -39,6 +39,11 @@ namespace WizardrySkill.Core.Framework.Spells
                 && player.GetCurrentMana() >= this.GetManaCost(player, level);
         }
 
+        public virtual bool CanContinueCast(Farmer player, int level)
+        {
+            return player.GetCurrentMana() >= this.GetManaCost(player, level);
+        }
+
         /// <summary>Get the spell's translated name.</summary>
         public virtual string GetTranslatedName()
         {

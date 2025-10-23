@@ -38,7 +38,8 @@ namespace WizardrySkill.Core.Framework.Spells
             {
                 for (int tileY = targetY - level; tileY <= targetY + level; ++tileY)
                 {
-                    if (!this.CanCast(player, level))
+                    // skip if out of mana
+                    if (!this.CanContinueCast(player, level))
                         return null;
 
                     Vector2 tile = new Vector2(tileX, tileY);
@@ -56,16 +57,18 @@ namespace WizardrySkill.Core.Framework.Spells
                         if (Game1.getFarm().tryToAddHay(1) == 0) // returns number left
                             Game1.addHUDMessage(new HUDMessage("Hay", HUDMessage.achievement_type, true));
                     }
-
-                    loc.temporarySprites.Add(new TemporaryAnimatedSprite(13, new Vector2(tileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.Brown, 10, Game1.random.NextDouble() < 0.5, 70f, 0, Game1.tileSize, (float)((tileY * (double)Game1.tileSize + Game1.tileSize / 2) / 10000.0 - 0.00999999977648258))
+                    if (num != 0)
+                    {
+                        player.AddMana(-3);
+                    }
+                    Utilities.AddEXP(player, 2 * (level + 1));
+                    player.currentLocation.playSound("cut", tile);
+                    Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(13, new Vector2(tileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.Brown, 10, Game1.random.NextDouble() < 0.5, 70f, 0, Game1.tileSize, (float)((tileY * (double)Game1.tileSize + Game1.tileSize / 2) / 10000.0 - 0.00999999977648258))
                     {
                         delayBeforeAnimationStart = num * 10
                     });
                     num++;
 
-                    player.AddMana(-3);
-                    Utilities.AddEXP(player, 2 * (level + 1));
-                    player.currentLocation.playSound("cut", tile);
                 }
             }
             return null;

@@ -1,4 +1,5 @@
 using System;
+using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
@@ -63,9 +64,10 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                         y: this.LandY + (float)Math.Sin(Math.PI * 2 / spotsForCurrRadius * i) * this.CurrRad * Game1.tileSize
                     );
 
-                    this.Player.currentLocation.LocalSoundAtPixel("hoeHit", pixelPos);
-                    this.Player.currentLocation.temporarySprites.Add(new TemporaryAnimatedSprite(6, pixelPos, Color.White, 8, Game1.random.NextDouble() < 0.5, 30));
-                    this.Player.currentLocation.temporarySprites.Add(new TemporaryAnimatedSprite(12, pixelPos, Color.White, 8, Game1.random.NextDouble() < 0.5, 50f));
+                    var loc = this.Player.currentLocation;
+                    loc.playSound("hoeHit", pixelPos);
+                    Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(6, pixelPos, Color.White, 8, Game1.random.NextDouble() < 0.5, 30));
+                    Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(12, pixelPos, Color.White, 8, Game1.random.NextDouble() < 0.5, 50f));
                 }
                 ++this.CurrRad;
 
