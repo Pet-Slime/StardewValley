@@ -17,12 +17,12 @@ namespace WizardrySkill.Core
         }
 
         private static readonly Dictionary<string, int> ManaFillMap = new()
-    {
-        { "Common Mushroom", 5 },
-        { "Purple Mushroom", 25 },
-        { "Fried Mushroom", 10 },
-        { "Stir Fry", 20 },
-        { "Tom Kha Soup", 15 }
-    };
+        {
+            { "Common Mushroom", 5 },
+            { "Purple Mushroom", 25 },
+            { "Fried Mushroom", 10 },
+            { "Stir Fry", 20 },
+            { "Tom Kha Soup", 15 }
+        };
     }
 }

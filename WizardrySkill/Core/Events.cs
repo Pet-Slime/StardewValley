@@ -256,11 +256,17 @@ namespace WizardrySkill.Core
         public static void OnTimeChanged(object sender, TimeChangedEventArgs e)
         {
             int level = Game1.player.GetCustomSkillLevel(Skill);
-            double manaRegen = (level + 1) / 2 + CarryoverManaRegen; // start at +1 mana at level 1
+            double manaRegen = 0; //
+
+            if (ModEntry.Config.EnableBaseManaRegen)
+                manaRegen = (level + 1) / 2; // start at +1 mana at level 1
+
             if (Game1.player.HasCustomProfession(Wizard_Skill.Magic10b1))
-                manaRegen += level * 1;
+                manaRegen += level * 0.5;
             if (Game1.player.HasCustomProfession(Wizard_Skill.Magic5b))
                 manaRegen += level * 0.5;
+
+            manaRegen += CarryoverManaRegen;
 
             Game1.player.AddMana((int)manaRegen);
             CarryoverManaRegen = manaRegen - (int)manaRegen;

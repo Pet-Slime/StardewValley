@@ -12,6 +12,9 @@ namespace WizardrySkill.Core
         public bool VoidSchool { get; set; } = false;
 
 
+        [SConfig.Option()]
+        public bool EnableBaseManaRegen { get; set; } = true;
+
         [SConfig.Option(-500, 500, 1)]
         public int SpellBarOffset_X { get; set; } = 0;
 
