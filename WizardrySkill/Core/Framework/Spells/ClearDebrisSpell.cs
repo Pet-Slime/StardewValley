@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
@@ -41,6 +42,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
             // scan location
             GameLocation loc = player.currentLocation;
+            int num = 0;
             for (int tileX = targetX - level; tileX <= targetX + level; ++tileX)
             {
                 for (int tileY = targetY - level; tileY <= targetY + level; ++tileY)
@@ -90,6 +92,26 @@ namespace WizardrySkill.Core.Framework.Spells
                                 loc.terrainFeatures.Remove(tile);
                             }
 
+                        } else if (feature is Grass)
+                        {
+                            loc.terrainFeatures.Remove(tile);
+                            // collect hay
+                            Random random = Game1.IsMultiplayer
+                            ? Game1.recentMultiplayerRandom
+                                : new Random((int)(Game1.uniqueIDForThisGame + tile.X * 1000.0 + tile.Y * 11.0));
+                            if (random.NextDouble() < 0.5)
+                            {
+                                if (Game1.getFarm().tryToAddHay(1) == 0) // returns number left
+                                    Game1.addHUDMessage(new HUDMessage("Hay", HUDMessage.achievement_type, true));
+                            }
+
+                            player.AddMana(-3);
+                            Utilities.AddEXP(player, 2 * (level + 1));
+                            player.currentLocation.playSound("cut", tile);
+                            Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(13, new Vector2(tileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.Brown, 10, Game1.random.NextDouble() < 0.5, 70f, 0, Game1.tileSize, (float)((tileY * (double)Game1.tileSize + Game1.tileSize / 2) / 10000.0 - 0.00999999977648258))
+                            {
+                                delayBeforeAnimationStart = num * 10
+                            });
                         }
                     }
 
@@ -114,6 +136,8 @@ namespace WizardrySkill.Core.Framework.Spells
                             }
                         }
                     }
+
+                    num++;
                 }
             }
 

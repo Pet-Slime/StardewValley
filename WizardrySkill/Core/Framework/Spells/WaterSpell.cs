@@ -39,7 +39,6 @@ namespace WizardrySkill.Core.Framework.Spells
 
                     if (!loc.terrainFeatures.TryGetValue(tile, out TerrainFeature feature) || feature is not HoeDirt dirt)
                         continue;
-
                     if (dirt.state.Value != HoeDirt.dry)
                         continue;
 
@@ -54,6 +53,8 @@ namespace WizardrySkill.Core.Framework.Spells
                     {
                         delayBeforeAnimationStart = num * 10
                     });
+                    
+
                     num++;
 
                 }

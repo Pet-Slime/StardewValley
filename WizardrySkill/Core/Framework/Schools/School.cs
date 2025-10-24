@@ -83,6 +83,7 @@ namespace WizardrySkill.Core.Framework.Schools
             RegisterSchool(new LifeSchool());
             RegisterSchool(new EldritchSchool());
             RegisterSchool(new ToilSchool());
+            RegisterSchool(new ToilSchool());
 
         }
     }

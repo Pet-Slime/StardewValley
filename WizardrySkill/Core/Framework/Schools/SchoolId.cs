@@ -11,6 +11,6 @@ namespace WizardrySkill.Core.Framework.Schools
         public static string Life = "life";
         public static string Elemental = "elemental";
         public static string Eldritch = "eldritch";
-        public static string Space = "space";
+        public static string Motion = "motion";
     }
 }
