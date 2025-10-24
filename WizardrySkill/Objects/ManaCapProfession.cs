@@ -20,7 +20,7 @@ namespace WizardrySkill.Objects
             Farmer player = Game1.player;
             if (player.IsLocalPlayer)
             {
-                player.AddToMaxMana(100);
+                player.AddToMaxMana(MagicConstants.ProfessionIncreaseMana);
                 player.SetManaToMax();
                 string modDataID = this.Skill.Id + "." + this.Id;
                 BirbCore.Attributes.Log.Trace("Player now has Profession mod data: " + modDataID);
@@ -38,7 +38,7 @@ namespace WizardrySkill.Objects
                 string modDataID = this.Skill.Id + "." + this.Id;
                 if (player.modData.GetBool(modDataID))
                 {
-                    player.AddToMaxMana(-100);
+                    player.AddToMaxMana(-MagicConstants.ProfessionIncreaseMana);
                     player.SetManaToMax();
                     SpellBook spellBook = Game1.player.GetSpellBook();
                     foreach (PreparedSpellBar spellBar in spellBook.Prepared)

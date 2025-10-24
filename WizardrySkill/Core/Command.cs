@@ -27,7 +27,7 @@ namespace WizardryManaBar.Core
                 // fix mana pool
                 int expectedMaxMana = MagicConstants.ManaPointsBase + (magicLevel * MagicConstants.ManaPointsPerLevel);
                 if (player.HasCustomProfession(Wizard_Skill.Magic10b2))
-                    expectedMaxMana += 100;
+                    expectedMaxMana += MagicConstants.ProfessionIncreaseMana;
 
                 // Fix Manapool
                 if (player.GetMaxMana() != expectedMaxMana)

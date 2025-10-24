@@ -17,5 +17,9 @@ namespace WizardrySkill.Core.Framework
 
         /// <summary>The number of mana points gained per magic level.</summary>
         public const int ManaPointsBase = 100;
+
+
+        /// <summary>The number of mana points gained per magic level.</summary>
+        public const int ProfessionIncreaseMana = 100;
     }
 }
