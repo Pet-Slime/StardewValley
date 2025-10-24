@@ -1,4 +1,4 @@
-{
+﻿{
     "Changes": [
         {
             "Action": "EditData",
@@ -49,10 +49,10 @@
                     "PlacementSound": "thudStep",
                     "RemovalSound": "hammer",
                     "RemovalDebrisType": 14,
-					"FootstepSound": "stoneStep",
-					"ConnectType": "Path",
-					"ShadowType": "None",
-					"CornerSize": 4,
+                    "FootstepSound": "stoneStep",
+                    "ConnectType": "Default",
+                    "ShadowType": "None",
+                    "CornerSize": 4,
                     "FarmSpeedBuff": 0.3
                 }
             }
