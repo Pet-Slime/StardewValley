@@ -361,6 +361,12 @@ namespace WizardrySkill.Core
                 }
             }
 
+            foreach (string spellId in SpellManager.GetAll())
+            {
+                spellBook.ForgetSpell(spellId, 0);
+
+            }
+
             // fix core spells
             foreach (string spellId in CoreSpells)
             {

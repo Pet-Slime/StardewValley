@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
+using SObject = StardewValley.Object;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -20,12 +21,12 @@ namespace WizardrySkill.Core.Framework.Spells
                 return !player.buffs.AppliedBuffs.Values.Any(u => u.source == "spell:life:haste");
             }
 
-            return base.CanCast(player, level);
+            return base.CanCast(player, level) && player.Items.ContainsId("(O)433", 1);
         }
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return 10;
+            return 50;
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
@@ -47,6 +48,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 }
             ));
 
+            player.Items.ReduceId("(O)433", 1);
             player.performPlayerEmote("exclamation");
             player.currentLocation.playSound("powerup", player.Tile);
             Utilities.AddEXP(player, 5);

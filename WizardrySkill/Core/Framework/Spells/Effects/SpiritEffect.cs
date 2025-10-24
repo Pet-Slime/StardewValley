@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
@@ -28,7 +29,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         public SpiritEffect(Farmer theSummoner)
         {
             this.Summoner = theSummoner;
-            this.Tex = Game1.content.Load<Texture2D>("Characters\\Junimo");
+            this.Tex = Game1.content.Load<Texture2D>("Characters\\Monsters\\Carbon Ghost");
 
             this.Pos = this.Summoner.Position;
             this.PrevSummonerLoc = this.Summoner.currentLocation;
@@ -36,6 +37,11 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
         public bool Update(UpdateTickedEventArgs e)
         {
+            if (this.Summoner == null) {
+                this.TimeLeft = 0;
+                return false;
+            }
+
             if (this.PrevSummonerLoc != Game1.currentLocation)
             {
                 this.PrevSummonerLoc = Game1.currentLocation;
@@ -71,12 +77,23 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                     if (this.AttackTimer <= 0)
                     {
                         this.AttackTimer = 45;
-                        int baseDmg = 20 * (this.Summoner.CombatLevel + 1);
+                        int baseDmg = 5 * (this.Summoner.CombatLevel + 1);
                         var oldPos = this.Summoner.Position;
                         this.Summoner.Position = new Vector2(nearestMob.GetBoundingBox().Center.X, nearestMob.GetBoundingBox().Center.Y);
                         this.Summoner.currentLocation.damageMonster(nearestMob.GetBoundingBox(), (int)(baseDmg * 0.75f), (int)(baseDmg * 1.5f), false, 1, 0, 0.1f, 2, false, this.Summoner);
                         this.Summoner.Position = oldPos;
                     }
+                }
+            } else
+            {
+
+
+                if (Utility.distance(this.Summoner.Position.X, this.Pos.X, this.Summoner.Position.Y, this.Pos.Y) > Game1.tileSize)
+                {
+                    Vector2 unit = this.Summoner.Position - this.Pos;
+                    unit.Normalize();
+
+                    this.Pos += unit * 7;
                 }
             }
 
@@ -93,10 +110,9 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 if (++this.AnimFrame >= 12)
                     this.AnimFrame = 0;
             }
-
-            int tx = this.AnimFrame % 8 * 16;
+            int tx = this.AnimFrame % 4 * 16;
             int ty = this.AnimFrame / 8 * 16;
-            b.Draw(this.Tex, Game1.GlobalToLocal(Game1.viewport, this.Pos), new Rectangle(tx, ty, 16, 16), new Color(1f, 1f, 1f, this.AttackTimer > 0 ? 0.1f : 1f), 0, new Vector2(8, 8), 2, SpriteEffects.None, 1);
+            b.Draw(this.Tex, Game1.GlobalToLocal(Game1.viewport, this.Pos), new Rectangle(tx, 0, 16, 24), new Color(1f, 1f, 1f, this.AttackTimer > 0 ? 0.1f : 1f), 0, new Vector2(8, 8), Math.Max(0.2f, Summoner.Scale) * 4f, SpriteEffects.None, 1);
         }
     }
 }

@@ -62,6 +62,11 @@
         },
         {
             "Action": "Load",
+            "Target": "Mods/moonslime.WizardrySkill/interface/unkownSpellBg",
+            "FromFile": "Assets/interface/unkownSpellBg.png"
+        },
+        {
+            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/arcane/analyze/1",
             "FromFile": "Assets/magic/arcane/analyze/1.png"
         },

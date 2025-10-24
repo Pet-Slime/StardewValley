@@ -135,7 +135,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                 {
                     hoverText = knowsSchool ? school.DisplayName : "???";
 
-                    if (this.JustLeftClicked && knowsSchool)
+                    if (this.JustLeftClicked)
                     {
                         SelectSchool(schoolId, spellBook);
                         this.JustLeftClicked = false;
@@ -166,36 +166,58 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                 for (int s = 0; s < tier.Length; ++s)
                 {
                     Spell spell = tier[s];
-                    if (spell == null || !spellBook.KnowsSpell(spell, 0))
+                    if (spell == null)
                         continue;
 
-                    int x = this.xPositionOnScreen + (WindowWidth / 2 - 24) / cols * (s + 1);
-                    Rectangle iconBounds = new Rectangle(x - SpellIconSize / 2, y - SpellIconSize / 2, SpellIconSize, SpellIconSize);
-
-                    // hover
-                    if (iconBounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY()))
+                    if (spellBook.KnowsSpell(spell, 0))
                     {
-                        hoverText = spell.GetTooltip();
+                        int x = this.xPositionOnScreen + (WindowWidth / 2 - 24) / cols * (s + 1);
+                        Rectangle iconBounds = new Rectangle(x - SpellIconSize / 2, y - SpellIconSize / 2, SpellIconSize, SpellIconSize);
 
-                        if (this.JustLeftClicked)
+                        // hover
+                        if (iconBounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY()))
                         {
-                            this.SelectedSpell = spell;
-                            this.JustLeftClicked = false;
+                            hoverText = spell.GetTooltip();
+
+                            if (this.JustLeftClicked)
+                            {
+                                this.SelectedSpell = spell;
+                                this.JustLeftClicked = false;
+                            }
                         }
-                    }
 
-                    // selection frame
-                    if (spell == this.SelectedSpell)
+                        // selection frame
+                        if (spell == this.SelectedSpell)
+                        {
+                            drawTextureBox(b, iconBounds.Left - 12, iconBounds.Top - 12, iconBounds.Width + 24, iconBounds.Height + 24, Color.Green);
+                        }
+
+
+                        b.Draw(ModEntry.Assets.SpellMenubg, iconBounds, Color.White);
+
+                        // draw icon (use highest-level icon available)
+                        Texture2D icon = spell.Icons[0];
+                        b.Draw(icon, iconBounds, Color.White);
+                    } else
                     {
-                        drawTextureBox(b, iconBounds.Left - 12, iconBounds.Top - 12, iconBounds.Width + 24, iconBounds.Height + 24, Color.Green);
+
+                        int x = this.xPositionOnScreen + (WindowWidth / 2 - 24) / cols * (s + 1);
+                        Rectangle iconBounds = new Rectangle(x - SpellIconSize / 2, y - SpellIconSize / 2, SpellIconSize, SpellIconSize);
+
+                        // hover
+                        if (iconBounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY()))
+                        {
+                            hoverText = ModEntry.Instance.I18N.Get($"moonslime.Wizardry.spell.{spell.FullId}.hint");
+
+
+                        }
+                        b.Draw(ModEntry.Assets.SpellMenubg, iconBounds, Color.White);
+                        // draw icon (use highest-level icon available)
+                        Texture2D icon = ModEntry.Assets.UnknownSpellBg;
+                        b.Draw(icon, iconBounds, Color.White);
                     }
 
 
-                    b.Draw(ModEntry.Assets.SpellMenubg, iconBounds, Color.White);
-
-                    // draw icon (use highest-level icon available)
-                    Texture2D icon = spell.Icons[0];
-                    b.Draw(icon, iconBounds, Color.White);
                 }
             }
         }

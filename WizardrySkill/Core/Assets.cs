@@ -32,6 +32,8 @@ namespace WizardrySkill.Core
         public Texture2D Manabg => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/manabg");
         public Texture2D SpellMenubg => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/spellMenubg");
 
+        public Texture2D UnknownSpellBg => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/unkownSpellBg");
+
 
     }
 }

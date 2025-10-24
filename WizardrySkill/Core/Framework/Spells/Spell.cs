@@ -48,13 +48,13 @@ namespace WizardrySkill.Core.Framework.Spells
         public virtual string GetTranslatedName()
         {
 
-            return ModEntry.Instance.I18N.Get($"spell.{this.FullId}.name");
+            return ModEntry.Instance.I18N.Get($"moonslime.Wizardry.spell.{this.FullId}.name");
         }
 
         /// <summary>Get the spell's translated description.</summary>
         public virtual string GetTranslatedDescription()
         {
-            return ModEntry.Instance.I18N.Get($"spell.{this.FullId}.desc");
+            return ModEntry.Instance.I18N.Get($"moonslime.Wizardry.spell.{this.FullId}.desc");
         }
 
         /// <summary>Get a translated tooltip to show for the spell.</summary>
