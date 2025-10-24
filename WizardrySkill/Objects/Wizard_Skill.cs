@@ -67,7 +67,7 @@ namespace WizardrySkill.Objects
             {
                 result.Add(ModEntry.Instance.I18N.Get("skill.perk0.1"));
                 result.Add(ModEntry.Instance.I18N.Get("skill.perk1", new { bonus = 5 }));
-                result.Add(ModEntry.Instance.I18N.Get("skill.perk2", new { bonus = 1 }));
+                result.Add(ModEntry.Instance.I18N.Get("skill.perk2", new { bonus = 0.5 }));
                 result.Add(ModEntry.Instance.I18N.Get("skill.perk0.2"));
                 result.Add(ModEntry.Instance.I18N.Get("skill.perk0.3"));
                 result.Add(ModEntry.Instance.I18N.Get("skill.perk0.4"));
@@ -75,7 +75,7 @@ namespace WizardrySkill.Objects
             else
             {
                 result.Add(ModEntry.Instance.I18N.Get("skill.perk1", new { bonus = 5 }));
-                result.Add(ModEntry.Instance.I18N.Get("skill.perk2", new { bonus = 1 }));
+                result.Add(ModEntry.Instance.I18N.Get("skill.perk2", new { bonus = 0.5 }));
             }
 
             return result;
@@ -83,19 +83,24 @@ namespace WizardrySkill.Objects
 
         public override string GetSkillPageHoverText(int level)
         {
-            return ModEntry.Instance.I18N.Get("skill.perk_bonus1", new { bonus = 5 * level }) + "\n" + ModEntry.Instance.I18N.Get("skill.perk_bonus2", new { bonus = 1 * level });
+            int subtractor = 0;
+            if (level >= 5)
+                subtractor += 1;
+
+            if (level >= 10)
+                subtractor += 1;
+
+            return ModEntry.Instance.I18N.Get("skill.perk_bonus1", new { bonus = 5 * (level - subtractor) }) + "\n" + ModEntry.Instance.I18N.Get("skill.perk_bonus2", new { bonus = (decimal)(level*0.5) });
         }
 
         public override void DoLevelPerk(int level)
         {
-            // fix magic info if invalid
-            Events.FixMagicIfNeeded(Game1.player, overrideMagicLevel: level - 1);
-
             // add level perk
-            int curMana = Game1.player.GetMaxMana();
-            if (level > 1 || curMana < MagicConstants.ManaPointsPerLevel) // skip increasing mana for first level, since we did it on learning the skill
-                Game1.player.SetMaxMana(curMana + MagicConstants.ManaPointsPerLevel);
-
+            if (level == 1)
+            {
+                Game1.player.AddToMaxMana(MagicConstants.ManaPointsBase);
+            }
+            Game1.player.AddToMaxMana(MagicConstants.ManaPointsPerLevel);
             Game1.player.GetSpellBook().UseSpellPoints(-1);
         }
     }

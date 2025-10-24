@@ -71,12 +71,13 @@
     /*********
     ** Magic spells
     *********/
-    "school.arcane.name": "Arcane",
-    "school.toil.name": "Toil",
-    "school.nature.name": "Nature",
-    "school.life.name": "Life",
-    "school.elemental.name": "Elemental",
-    "school.eldritch.name": "Eldritch",
+    "moonslime.Wizardry.school.arcane.name": "Arcane",
+    "moonslime.Wizardry.school.toil.name": "Toil",
+    "moonslime.Wizardry.school.nature.name": "Nature",
+    "moonslime.Wizardry.school.life.name": "Life",
+    "moonslime.Wizardry.school.elemental.name": "Elemental",
+    "moonslime.Wizardry.school.eldritch.name": "Eldritch",
+    "moonslime.Wizardry.school.uknown.name": "Unkown School",
 
     "moonslime.Wizardry.spell.arcane:analyze.name": "Analyze",
     "moonslime.Wizardry.spell.arcane:analyze.desc": "Examine an item for magical inspiration.",

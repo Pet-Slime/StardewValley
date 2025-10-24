@@ -8,6 +8,7 @@ namespace WizardryManaBar.Core
         void AddMana(Farmer farmer, int amt);
         int GetMaxMana(Farmer farmer);
         void SetMaxMana(Farmer farmer, int newMaxMana);
+        void AddToMaxMana(Farmer farmer, int maxManaToAdd);
         void SetManaToMax(Farmer farmer);
     }
 
@@ -33,6 +34,11 @@ namespace WizardryManaBar.Core
         public void SetMaxMana(Farmer farmer, int newMaxMana)
         {
             farmer.SetMaxMana(newMaxMana);
+        }
+
+        public void AddToMaxMana(Farmer farmer, int maxManaToAdd)
+        {
+            farmer.SetMaxMana(farmer.GetMaxMana() + maxManaToAdd);
         }
 
         public void SetManaToMax(Farmer farmer)

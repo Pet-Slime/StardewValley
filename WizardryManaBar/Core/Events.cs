@@ -331,18 +331,6 @@ namespace WizardryManaBar.Core
             return overchargeValue <= ModEntry.Config.MaxOverchargeValue ? overchargeValue : ModEntry.Config.MaxOverchargeValue;
         }
 
-        private static void HandleAddManaCommand(string[] args)
-        {
-            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
-            player.AddMana(int.Parse(args[0]));
-        }
-
-        private static void HandleSetMaxManaCommand(string[] args)
-        {
-            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
-            player.SetMaxMana(int.Parse(args[0]));
-        }
-
 
         [SEvent.DayStarted]
         /// <inheritdoc cref="IGameLoopEvents.DayStarted"/>

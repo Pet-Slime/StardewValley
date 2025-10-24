@@ -1,7 +1,7 @@
 ﻿{
     "Name": "Wizardry Mana bar",
     "Author": "moonslime",
-    "Version": "1.2.0",
+    "Version": "1.3.0",
     "Description": "A port of spacechase0's API to 1.6, designed for Wizardry",
     "UniqueID": "moonslime.ManaBarApi",
     "EntryDll": "WizardryManaBar.dll",

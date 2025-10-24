@@ -7,12 +7,15 @@ namespace WizardrySkill.Core.Framework
         ** Accessors
         *********/
         /// <summary>The number of spell bar which players are expected to have.</summary>
-        public static int SpellBarCount { get; } = 2;
+        public const int SpellBarCount = 2;
 
         /// <summary>The ID of the event in which the player learns magic from the Wizard.</summary>
-        public static int LearnedMagicEventId { get; } = 90001;
+        public const int LearnedMagicEventId = 90001;
 
         /// <summary>The number of mana points gained per magic level.</summary>
-        public static int ManaPointsPerLevel { get; } = 5;
+        public const int ManaPointsPerLevel = 5;
+
+        /// <summary>The number of mana points gained per magic level.</summary>
+        public const int ManaPointsBase = 100;
     }
 }

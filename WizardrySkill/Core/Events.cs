@@ -211,34 +211,10 @@ namespace WizardrySkill.Core
                     if (effect != null)
                         ActiveEffects.Add(effect);
 
-                    for (int level = 0; level < BloodManaBuffs.Length; level++)
-                    {
-                        if (!Game1.player.hasBuff(BloodManaBuffs[level]))
-                            continue;
-
-
-                        int damageMultiplier = level switch
-                        {
-                            0 => 3,
-                            1 => 2,
-                            2 => 1,
-                            _ => 1
-                        };
-
-                        Game1.player.takeDamage(spell.GetManaCost(Game1.player, slot.Level) * damageMultiplier, false, null);
-                        return; // done, don’t apply normal mana
-                    }
                     Game1.player.AddMana(-spell.GetManaCost(Game1.player, slot.Level));
                 }
             }
         }
-
-        private static readonly string[] BloodManaBuffs =
-{
-        "moonslime.Wizardry.bloodmana.0",
-        "moonslime.Wizardry.bloodmana.1",
-        "moonslime.Wizardry.bloodmana.2"
-        };
 
         [SEvent.ButtonReleased]
         /// <summary>Raised after the player releases a button on the keyboard, controller, or mouse.</summary>
@@ -306,7 +282,7 @@ namespace WizardrySkill.Core
         /// <summary>Fix the player's magic spells and mana pool to match their skill level if needed.</summary>
         /// <param name="player">The player to fix.</param>
         /// <param name="overrideMagicLevel">The magic skill level, or <c>null</c> to get it from the player.</param>
-        public static void FixMagicIfNeeded(Farmer player, int? overrideMagicLevel = null)
+        public static void FixMagicIfNeeded(Farmer player, int? overrideMagicLevel = null, bool fixMana = false)
         {
             // skip if player hasn't learned magic
             if (!LearnedMagic && overrideMagicLevel is not > 0)
@@ -317,24 +293,10 @@ namespace WizardrySkill.Core
             int magicLevel = overrideMagicLevel ?? player.GetCustomSkillLevel("moonslime.Wizard");
             SpellBook spellBook = player.GetSpellBook();
 
-            // fix mana pool
-            int expectedMaxMana = 100 + (magicLevel * MagicConstants.ManaPointsPerLevel);
-            if (player.HasCustomProfession(Wizard_Skill.Magic10b2))
-                expectedMaxMana += 100;
+            if (fixMana)
+            {
 
-            // Fix Manapool
-            if (player.GetMaxMana() != expectedMaxMana)
-            {
-                player.SetMaxMana(expectedMaxMana);
-                player.SetManaToMax();
             }
-            else if (player.GetCurrentMana() < expectedMaxMana)
-            {
-                player.SetManaToMax();
-            }
-            // If player stamina does not equal max, set mana to half
-            if (((int)(player.Stamina)) != player.MaxStamina)
-                player.AddMana(player.GetMaxMana() / 2);
 
             // fix spell bars
             if (spellBook.Prepared.Count < MagicConstants.SpellBarCount)
@@ -359,12 +321,6 @@ namespace WizardrySkill.Core
                     player.modData.SetBool(modDataKey, true);
                     BirbCore.Attributes.Log.Trace($"Player now has Profession mod data: {modDataKey}");
                 }
-            }
-
-            foreach (string spellId in SpellManager.GetAll())
-            {
-                spellBook.ForgetSpell(spellId, 0);
-
             }
 
             // fix core spells

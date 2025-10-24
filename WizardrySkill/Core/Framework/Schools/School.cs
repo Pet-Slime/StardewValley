@@ -21,7 +21,7 @@ namespace WizardrySkill.Core.Framework.Schools
         public string Id { get; }
 
         /// <summary>The display name for the school.</summary>
-        public string DisplayName => ModEntry.Instance.I18N.Get($"school.{this.Id}.name");
+        public string DisplayName => ModEntry.Instance.I18N.Get($"moonslime.Wizardry.school.{this.Id}.name");
 
         public Texture2D Icon => this.IconImpl.Value;
 

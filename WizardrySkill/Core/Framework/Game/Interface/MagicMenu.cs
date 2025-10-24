@@ -9,6 +9,7 @@ using StardewValley.Menus;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells;
 using WizardrySkill.Objects;
+using static SpaceCore.Skills;
 
 namespace WizardrySkill.Core.Framework.Game.Interface
 {
@@ -133,7 +134,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                 // hover + click handling
                 if (iconBounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY()))
                 {
-                    hoverText = knowsSchool ? school.DisplayName : "???";
+                    hoverText = knowsSchool ? school.DisplayName : ModEntry.Instance.I18N.Get("moonslime.Wizardry.school.uknown.name");
 
                     if (this.JustLeftClicked)
                     {

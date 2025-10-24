@@ -125,6 +125,16 @@ namespace WizardrySkill.Core.Framework
             data.Save();
         }
 
+        /// <summary>Set the number of spell points to 0.</summary>
+        public void SetSpellPointsToZero()
+        {
+            var data = this.GetUpdatedData();
+
+            data.FreePoints = 0;
+
+            data.Save();
+        }
+
         /// <summary>Get whether the player knows a given spell.</summary>
         /// <param name="spellId">The spell ID.</param>
         /// <param name="level">The minimum spell level.</param>

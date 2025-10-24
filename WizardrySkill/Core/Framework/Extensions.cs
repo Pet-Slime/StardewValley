@@ -28,6 +28,11 @@ namespace WizardrySkill.Core.Framework
             ModEntry.Mana.SetMaxMana(player, newCap);
         }
 
+        public static void AddToMaxMana(this Farmer player, int newCap)
+        {
+            ModEntry.Mana.AddToMaxMana(player, newCap);
+        }
+
         public static void SetManaToMax(this Farmer player)
         {
             ModEntry.Mana.SetManaToMax(player);
