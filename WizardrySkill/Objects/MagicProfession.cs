@@ -1,4 +1,3 @@
-using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
 using MoonShared;
 using SpaceCore;

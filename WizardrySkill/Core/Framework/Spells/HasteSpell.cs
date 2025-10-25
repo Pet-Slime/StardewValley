@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
-using SObject = StardewValley.Object;
 
 namespace WizardrySkill.Core.Framework.Spells
 {

@@ -6,7 +6,6 @@ using StardewValley.Delegates;
 using StardewValley.Triggers;
 using WizardrySkill.API;
 using WizardrySkill.Core.Framework;
-using xTile.Tiles;
 
 namespace WizardrySkill.Core
 {

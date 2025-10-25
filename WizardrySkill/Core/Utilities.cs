@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using BirbCore.Attributes;
 using StardewValley;
-using WizardrySkill.Objects;
-using static SpaceCore.Skills;
 
 namespace WizardrySkill.Core
 {
@@ -69,7 +67,7 @@ namespace WizardrySkill.Core
         public static void LearnedMagic(int EXP)
         {
             if (Game1.player.IsLocalPlayer)
-            { 
+            {
                 Farmer player = Game1.player;
                 Core.Utilities.AddEXP(player, EXP);
             }

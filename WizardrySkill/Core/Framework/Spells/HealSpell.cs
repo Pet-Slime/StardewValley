@@ -14,7 +14,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return (player.GetMaxMana() / 4) ;
+            return (player.GetMaxMana() / 4);
         }
 
         public override bool CanCast(Farmer player, int level)

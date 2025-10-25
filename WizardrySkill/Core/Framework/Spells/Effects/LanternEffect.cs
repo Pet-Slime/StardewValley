@@ -1,14 +1,12 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpaceCore;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.Monsters;
 
 namespace WizardrySkill.Core.Framework.Spells.Effects
 {
-    public class SpiritEffect : IActiveEffect
+    public class LanternEffect : IActiveEffect
     {
         /*********
         ** Fields
@@ -19,10 +17,10 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         private int TimeLeft = 60 * 60;
 
         private GameLocation PrevSummonerLoc;
-        private int AttackTimer;
         private int AnimTimer;
         private int AnimFrame;
-        private int yOffset;
+        private LightSource Light;
+        private int Level;
 
         private TemporaryAnimatedSprite Sprite;
         private TemporaryAnimatedSprite Shadow;
@@ -31,14 +29,16 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         /*********
         ** Public methods
         *********/
-        public SpiritEffect(Farmer theSummoner)
+        public LanternEffect(Farmer theSummoner, int level)
         {
             this.Summoner = theSummoner;
-            this.Tex = Game1.content.Load<Texture2D>("Characters\\Monsters\\Carbon Ghost");
+            this.Tex = ModEntry.Assets.Thunderbug;
 
             this.Pos = this.Summoner.Position;
             this.PrevSummonerLoc = this.Summoner.currentLocation;
-            this.AddSprite();
+            this.Level = level;
+            this.AddSpriteAndLight();
+
         }
 
         public bool Update(UpdateTickedEventArgs e)
@@ -55,81 +55,55 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 this.CleanUp();
                 this.PrevSummonerLoc = Game1.currentLocation;
                 this.Pos = this.Summoner.Position;
-                this.AddSprite();
+                this.AddSpriteAndLight();
             }
 
-            float nearestDist = 10;
-            Monster nearestMob = null;
-            foreach (var character in this.Summoner.currentLocation.characters)
+            if (Utility.distance(this.Summoner.Position.X, this.Pos.X, this.Summoner.Position.Y, this.Pos.Y) > Game1.tileSize)
             {
-                if (character is Monster mob)
-                {
-
-                    float dist = Vector2.Distance(mob.Tile, this.Summoner.Tile);
-                    if (dist < nearestDist)
-                    {
-                        nearestDist = dist;
-                        nearestMob = mob;
-                    }
-                }
-            }
-
-            if (this.AttackTimer > 0)
-                --this.AttackTimer;
-            if (nearestMob != null)
-            {
-                Vector2 unit = nearestMob.Position - this.Pos;
+                Vector2 unit = this.Summoner.Position - this.Pos;
                 unit.Normalize();
 
                 this.Pos += unit * 7;
-
-                if (Utility.distance(nearestMob.Position.X, this.Pos.X, nearestMob.Position.Y, this.Pos.Y) < Game1.tileSize)
-                {
-                    if (this.AttackTimer <= 0)
-                    {
-                        this.AttackTimer = 45;
-                        int baseDmg = 5 * (this.Summoner.CombatLevel + Skills.GetSkillLevel(this.Summoner, "moonslime.Wizard"));
-                        var oldPos = this.Summoner.Position;
-                        this.Summoner.Position = new Vector2(nearestMob.GetBoundingBox().Center.X, nearestMob.GetBoundingBox().Center.Y);
-                        this.Summoner.currentLocation.damageMonster(nearestMob.GetBoundingBox(), (int)(baseDmg * 0.75f), (int)(baseDmg * 1.5f), false, 1, 0, 0.1f, 2, false, this.Summoner);
-                        this.Summoner.Position = oldPos;
-                    }
-                }
-
-                this.UpdateSprite(nearestMob.Position);
+                this.Light.position.Value = this.Pos;
             }
-            else
-            {
-                if (Utility.distance(this.Summoner.Position.X, this.Pos.X, this.Summoner.Position.Y, this.Pos.Y) > Game1.tileSize)
-                {
-                    Vector2 unit = this.Summoner.Position - this.Pos;
-                    unit.Normalize();
-
-                    this.Pos += unit * 7;
-                }
-
-                this.UpdateSprite(this.Summoner.Position);
-            }
+            this.UpdateSprite();
 
             if (--this.TimeLeft <= 0)
             {
                 this.CleanUp();
                 return false;
             }
+
             return true;
         }
 
-        private void UpdateSprite(Vector2 target)
+        public void CleanUp()
         {
-            if (++this.AnimTimer >= 12)
+            if (this.PrevSummonerLoc.temporarySprites.Contains(this.Sprite))
+            {
+                this.PrevSummonerLoc.temporarySprites.Remove(this.Sprite);
+            }
+            if (this.PrevSummonerLoc.temporarySprites.Contains(this.Shadow))
+            {
+                this.PrevSummonerLoc.temporarySprites.Remove(this.Shadow);
+            }
+            if (Game1.currentLightSources.ContainsKey(this.Light.Id))
+            {
+                Game1.currentLightSources.Remove(this.Light.Id);
+            }
+        }
+
+        private void UpdateSprite()
+        {
+            if (++this.AnimTimer >= 6)
             {
                 this.AnimTimer = 0;
                 if (++this.AnimFrame >= 4)
                     this.AnimFrame = 0;
             }
             int tx = this.AnimFrame % 4 * 16;
-            int ty = GetSnappedDirection(this.Pos, target) * 24;
-            Vector2 dynamicTargetPosition = this.GetDynamicTargetPosition(this.Pos + new Vector2(-12f, -80f));
+            int ty = GetSnappedDirection(this.Pos, this.Summoner.Position) * 16;
+            Vector2 dynamicTargetPosition = this.GetDynamicTargetPosition(this.Pos + new Vector2(0f, -80f));
             this.Sprite.sourceRect.X = tx;
             this.Sprite.sourceRect.Y = ty;
             this.Sprite.position = Vector2.Lerp(this.Sprite.position, dynamicTargetPosition, 0.2f);
@@ -165,35 +139,27 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             return 1; // Right
         }
 
-        public void AddSprite()
+        public void AddSpriteAndLight()
         {
-            this.Sprite = new TemporaryAnimatedSprite("", new Rectangle(0, 0, 16, 24), 200f, 1, 9999, this.Summoner.Position, false, false)
+            this.Sprite = new TemporaryAnimatedSprite("", new Rectangle(0, 0, 16, 16), 200f, 1, 9999, this.Summoner.Position, false, false)
             {
                 texture = this.Tex,
-                scale = this.Summoner.Scale * 4f,
+                scale = this.Summoner.Scale * 2f,
                 layerDepth = (this.Pos.Y) / 10000f
 
             };
-            this.Shadow = new TemporaryAnimatedSprite("", Game1.shadowTexture.Bounds, 200f, 1, 9999, this.Pos, false, false)
+            this.Sprite.color = Color.Yellow;
+            this.Shadow = new TemporaryAnimatedSprite("", Game1.shadowTexture.Bounds, 200f, 1, 9999, this.Summoner.Position, false, false)
             {
                 texture = Game1.shadowTexture,
-                scale = this.Summoner.Scale * 4f,
+                scale = this.Summoner.Scale * 2f,
                 layerDepth = (this.Pos.Y - 1) / 10000f
             };
             Game1.Multiplayer.broadcastSprites(this.Summoner.currentLocation, this.Sprite);
             Game1.Multiplayer.broadcastSprites(this.Summoner.currentLocation, this.Shadow);
-        }
-
-        public void CleanUp()
-        {
-            if (this.PrevSummonerLoc.temporarySprites.Contains(this.Sprite))
-            {
-                this.PrevSummonerLoc.temporarySprites.Remove(this.Sprite);
-            }
-            if (this.PrevSummonerLoc.temporarySprites.Contains(this.Shadow))
-            {
-                this.PrevSummonerLoc.temporarySprites.Remove(this.Shadow);
-            }
+            string text = $"LanternSpell_{this.Summoner.UniqueMultiplayerID}_{this.Level}";
+            this.Light = new LightSource(text, 1, new Vector2(this.Summoner.Position.X + 21f, this.Summoner.Position.Y + 64f), 8f * (this.Level + 1), new Color(0, 50, 170), LightSource.LightContext.None, this.Summoner.UniqueMultiplayerID, null);
+            Game1.currentLightSources[text] = this.Light;
         }
 
         public void Draw(SpriteBatch b)

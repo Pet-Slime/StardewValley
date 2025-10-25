@@ -25,6 +25,11 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             return this.Any();
         }
 
+        public void CleanUp()
+        {
+
+        }
+
         /// <summary>Draw the effect to the screen if needed.</summary>
         /// <param name="spriteBatch">The sprite batch being drawn.</param>
         public void Draw(SpriteBatch spriteBatch)

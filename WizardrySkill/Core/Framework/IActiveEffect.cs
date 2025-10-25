@@ -17,5 +17,8 @@ namespace WizardrySkill.Core.Framework
         /// <summary>Draw the effect to the screen if needed.</summary>
         /// <param name="spriteBatch">The sprite batch being drawn.</param>
         void Draw(SpriteBatch spriteBatch);
+
+        /// <summary>Cleanup the effect</summary>
+        void CleanUp();
     }
 }

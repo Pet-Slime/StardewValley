@@ -1,15 +1,9 @@
-using System.Collections.Generic;
 using BirbCore.Attributes;
-using HarmonyLib;
-using Microsoft.Xna.Framework;
-using MoonShared.Command;
 using SpaceCore;
 using StardewModdingAPI;
 using StardewValley;
-using StardewValley.GameData.GarbageCans;
 using WizardrySkill.Core.Framework;
 using WizardrySkill.Objects;
-using Log = BirbCore.Attributes.Log;
 
 namespace WizardryManaBar.Core
 {
@@ -96,7 +90,7 @@ namespace WizardryManaBar.Core
                 if (Game1.player.HasCustomProfession(Wizard_Skill.Magic10a1))
                     magicLevel += 2;
 
-                player.GetSpellBook().UseSpellPoints(magicLevel*-1);
+                player.GetSpellBook().UseSpellPoints(magicLevel * -1);
 
                 foreach (string spellId in CoreSpells)
                 {

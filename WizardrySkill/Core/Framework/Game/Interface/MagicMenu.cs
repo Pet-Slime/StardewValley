@@ -2,14 +2,12 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
 using SpaceCore;
 using StardewValley;
 using StardewValley.Menus;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells;
 using WizardrySkill.Objects;
-using static SpaceCore.Skills;
 
 namespace WizardrySkill.Core.Framework.Game.Interface
 {
@@ -121,7 +119,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                 bool knowsSchool = spellBook.KnowsSchool(school);
 
                 float alpha = knowsSchool ? 1f : 0.2f;
-                Rectangle iconBounds = new Rectangle(x + Padding /2, y + Padding/2, SchoolIconSize, SchoolIconSize);
+                Rectangle iconBounds = new Rectangle(x + Padding / 2, y + Padding / 2, SchoolIconSize, SchoolIconSize);
 
                 // draw frame
                 Color frameColor = this.SelectedSchool == school ? Color.Green : Color.White;
@@ -199,7 +197,8 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                         // draw icon (use highest-level icon available)
                         Texture2D icon = spell.Icons[0];
                         b.Draw(icon, iconBounds, Color.White);
-                    } else
+                    }
+                    else
                     {
 
                         int x = this.xPositionOnScreen + (WindowWidth / 2 - 24) / cols * (s + 1);
@@ -239,7 +238,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
             b.Draw(icon, bigIconRect, Color.White);
 
             // Description (wrapped)
-            string desc = WrapText(this.SelectedSpell.GetTranslatedDescription(), (int)(WindowWidth / 2 / 0.75f) -6);
+            string desc = WrapText(this.SelectedSpell.GetTranslatedDescription(), (int)(WindowWidth / 2 / 0.75f) - 6);
             Vector2 descPos = new Vector2(this.xPositionOnScreen + WindowWidth / 2 + 6, this.yPositionOnScreen + 280);
             b.DrawString(Game1.dialogueFont, desc, descPos, Color.Black, 0, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
 

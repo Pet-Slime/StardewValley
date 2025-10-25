@@ -1,5 +1,4 @@
 using System;
-using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
@@ -89,6 +88,11 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             }
 
             return true;
+        }
+
+        public void CleanUp()
+        {
+
         }
 
         /// <summary>Draw the effect to the screen if needed.</summary>

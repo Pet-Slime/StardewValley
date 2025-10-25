@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MoonShared;
 using MoonShared.APIs;
 using SpaceCore;
-using SpaceCore.Events;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -67,6 +66,9 @@ namespace WizardrySkill.Core
 
         }
 
+
+
+
         [SEvent.GameLaunchedLate]
         public static void GameLaunchedLate(object sender, GameLaunchedEventArgs e)
         {
@@ -88,6 +90,16 @@ namespace WizardrySkill.Core
             Init(helper.Input, helper.Multiplayer.GetNewID);
         }
 
+        [SEvent.ReturnedToTitle]
+        public static void ReturnedToTitle(object sender, ReturnedToTitleEventArgs e)
+        {
+            foreach (var effect in ActiveEffects)
+            {
+                effect.CleanUp();
+            }
+            ActiveEffects.Clear();
+        }
+
         /*********
         ** Public methods
         *********/
@@ -105,24 +117,24 @@ namespace WizardrySkill.Core
 
             SpaceCore.Skills.RegisterSkill(Skill);
 
-//foreach (string SkillID in Skills.GetSkillList())
-//{
-//
-//    Skill test = GetSkill(SkillID);
-//
-//    //                Log.Alert($"Skill Name is: {test.GetName()}");
-//    //                Log.Alert($"Skill ID is: {test.Id}");
-//    //                Log.Alert($"This skill has the following Professions");
-//    //                foreach (Skills.Skill.Profession prof in test.Professions)
-//    //                {
-//    //                    Log.Alert($"");
-//    //                    Log.Alert($"Profession name is: {prof.GetName()}");
-//    //                    Log.Alert($"Profession ID is: {prof.Id}");
-//    //                    Log.Alert($"Profession number is: {prof.GetVanillaId()}");
-//    //                }
-//    //                Log.Alert($"-------------------------");
-//
-//}
+            //foreach (string SkillID in Skills.GetSkillList())
+            //{
+            //
+            //    Skill test = GetSkill(SkillID);
+            //
+            //    //                Log.Alert($"Skill Name is: {test.GetName()}");
+            //    //                Log.Alert($"Skill ID is: {test.Id}");
+            //    //                Log.Alert($"This skill has the following Professions");
+            //    //                foreach (Skills.Skill.Profession prof in test.Professions)
+            //    //                {
+            //    //                    Log.Alert($"");
+            //    //                    Log.Alert($"Profession name is: {prof.GetName()}");
+            //    //                    Log.Alert($"Profession ID is: {prof.Id}");
+            //    //                    Log.Alert($"Profession number is: {prof.GetVanillaId()}");
+            //    //                }
+            //    //                Log.Alert($"-------------------------");
+            //
+            //}
         }
 
         public static void LoadAssets()
@@ -565,7 +577,7 @@ namespace WizardrySkill.Core
                     player.mailReceived.Add("moonslimeWizardryLearnedMagic");
                 }
 
-                
+
             }
 
             string Id = "moonslime.Wizard";

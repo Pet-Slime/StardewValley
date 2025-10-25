@@ -1,5 +1,4 @@
 using System;
-using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using MoonShared;
 using StardewModdingAPI;
 using StardewValley;
 using WizardrySkill.Core;
@@ -90,7 +89,7 @@ namespace WizardrySkill.Objects
             if (level >= 10)
                 subtractor += 1;
 
-            return ModEntry.Instance.I18N.Get("skill.perk_bonus1", new { bonus = 5 * (level - subtractor) }) + "\n" + ModEntry.Instance.I18N.Get("skill.perk_bonus2", new { bonus = (decimal)(level*0.5) });
+            return ModEntry.Instance.I18N.Get("skill.perk_bonus1", new { bonus = 5 * (level - subtractor) }) + "\n" + ModEntry.Instance.I18N.Get("skill.perk_bonus2", new { bonus = (decimal)(level * 0.5) });
         }
 
         public override void DoLevelPerk(int level)

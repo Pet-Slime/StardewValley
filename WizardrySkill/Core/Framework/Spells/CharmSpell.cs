@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
 using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
-using static BirbCore.Attributes.SMod;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -89,7 +87,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 NPC.doEmote(Character.blushEmote);
                 Game1.Multiplayer.broadcastSprites(location,
                     new TemporaryAnimatedSprite(10,
-                    new Vector2(NPC.TilePoint.X * (float)Game1.tileSize, (NPC.TilePoint.Y-1) * (float)Game1.tileSize),
+                    new Vector2(NPC.TilePoint.X * (float)Game1.tileSize, (NPC.TilePoint.Y - 1) * (float)Game1.tileSize),
                     Color.Cyan,
                     10,
                     Game1.random.NextDouble() < 0.5,
@@ -97,9 +95,9 @@ namespace WizardrySkill.Core.Framework.Spells
                     0,
                     Game1.tileSize,
                     100f)
-                {
-                    delayBeforeAnimationStart = num * 10
-                });
+                    {
+                        delayBeforeAnimationStart = num * 10
+                    });
                 num++;
 
             }

@@ -469,6 +469,16 @@
             "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/entities/cloud",
             "FromFile": "Assets/entities/cloud.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.WizardrySkill/entities/spirit",
+            "FromFile": "Assets/entities/spirit.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.WizardrySkill/entities/thunderbug",
+            "FromFile": "Assets/entities/thunderbug.png"
         }
 
     ]
