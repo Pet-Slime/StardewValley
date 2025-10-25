@@ -114,8 +114,8 @@
     "moonslime.Wizardry.spell.toil:collect.desc": "Collect from machines at a distance.\nHigher levels increases collection radius.",
     "moonslime.Wizardry.spell.toil:collect.hint": "Find all other Toil spells.",
 
-    "moonslime.Wizardry.spell.nature:lantern.name": "Lantern",
-    "moonslime.Wizardry.spell.nature:lantern.desc": "Cost:3 mana.\nSummon a light to follow you. Higher levels create more light.",
+    "moonslime.Wizardry.spell.nature:lantern.name": "Thunderbug",
+    "moonslime.Wizardry.spell.nature:lantern.desc": "Cost:3 mana.\nSummon a bug that gives off light to follow you.\nHigher levels create more light.",
     "moonslime.Wizardry.spell.nature:lantern.hint": "Sunlight is pretty nice, but not always available.\nI wonder if artificial lights can be recreated?",
     "moonslime.Wizardry.spell.nature:tendrils.name": "Tendrils",
     "moonslime.Wizardry.spell.nature:tendrils.desc": "Cost:10 mana.\nSummon tendrils to stop a foe in their path.",
