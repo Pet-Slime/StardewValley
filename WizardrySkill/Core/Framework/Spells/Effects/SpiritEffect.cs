@@ -22,7 +22,6 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         private int AttackTimer;
         private int AnimTimer;
         private int AnimFrame;
-        private int yOffset;
 
         private TemporaryAnimatedSprite Sprite;
         private TemporaryAnimatedSprite Shadow;
@@ -34,7 +33,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         public SpiritEffect(Farmer theSummoner)
         {
             this.Summoner = theSummoner;
-            this.Tex = Game1.content.Load<Texture2D>("Characters\\Monsters\\Carbon Ghost");
+            this.Tex = ModEntry.Assets.Spirit;
 
             this.Pos = this.Summoner.Position;
             this.PrevSummonerLoc = this.Summoner.currentLocation;
@@ -66,7 +65,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 {
 
                     float dist = Vector2.Distance(mob.Tile, this.Summoner.Tile);
-                    if (dist < nearestDist)
+                    if (dist < nearestDist && !mob.IsInvisible)
                     {
                         nearestDist = dist;
                         nearestMob = mob;
