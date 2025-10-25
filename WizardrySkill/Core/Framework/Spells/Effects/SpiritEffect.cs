@@ -88,10 +88,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                     {
                         this.AttackTimer = 45;
                         int baseDmg = 5 * (this.Summoner.CombatLevel + Skills.GetSkillLevel(this.Summoner, "moonslime.Wizard"));
-                        var oldPos = this.Summoner.Position;
-                        this.Summoner.Position = new Vector2(nearestMob.GetBoundingBox().Center.X, nearestMob.GetBoundingBox().Center.Y);
                         this.Summoner.currentLocation.damageMonster(nearestMob.GetBoundingBox(), (int)(baseDmg * 0.75f), (int)(baseDmg * 1.5f), false, 1, 0, 0.1f, 2, false, this.Summoner);
-                        this.Summoner.Position = oldPos;
                     }
                 }
 
@@ -139,8 +136,9 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
         private Vector2 GetDynamicTargetPosition(Vector2 basePosition)
         {
-            float y = (float)Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 250.0) * 6f;
-            float x = (float)Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 500.0) * 10f;
+            double time = Game1.currentGameTime.TotalGameTime.TotalMilliseconds;
+            float y = (float)Math.Sin(time / 250.0) * 6f;
+            float x = (float)Math.Sin(time / 500.0) * 10f;
             return basePosition + new Vector2(x, y);
         }
 
