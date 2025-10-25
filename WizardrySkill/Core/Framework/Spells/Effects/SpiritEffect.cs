@@ -57,24 +57,33 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 this.AddSprite();
             }
 
-            float nearestDist = 10;
             Monster nearestMob = null;
-            foreach (var character in this.Summoner.currentLocation.characters)
-            {
-                if (character is Monster mob)
+            if (this.AttackTimer > 0)
+            { 
+                --this.AttackTimer;
+            } else
+            { 
+                float nearestDist = 10;
+                foreach (var character in this.Summoner.currentLocation.characters)
                 {
-
+                    if (character is not Monster mob || mob.IsInvisible)
+                        continue;
+    
                     float dist = Vector2.Distance(mob.Tile, this.Summoner.Tile);
-                    if (dist < nearestDist && !mob.IsInvisible)
+                    if (dist >= nearestDist)
+                        continue;
+    
+                    if (mob is LavaLurk lurk)
                     {
-                        nearestDist = dist;
-                        nearestMob = mob;
+                        if (lurk.currentState.Value == LavaLurk.State.Submerged && lurk.currentState.Value == LavaLurk.State.Diving)
+                            continue;
                     }
+    
+                    nearestDist = dist;
+                    nearestMob = mob;
                 }
             }
 
-            if (this.AttackTimer > 0)
-                --this.AttackTimer;
             if (nearestMob != null)
             {
                 Vector2 unit = nearestMob.Position - this.Pos;
@@ -86,9 +95,12 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 {
                     if (this.AttackTimer <= 0)
                     {
-                        this.AttackTimer = 45;
+                        this.AttackTimer = 60;
                         int baseDmg = 5 * (this.Summoner.CombatLevel + Skills.GetSkillLevel(this.Summoner, "moonslime.Wizard"));
+                        var oldPos = this.Summoner.Position;
+                        this.Summoner.Position = new Vector2(nearestMob.GetBoundingBox().Center.X, nearestMob.GetBoundingBox().Center.Y);
                         this.Summoner.currentLocation.damageMonster(nearestMob.GetBoundingBox(), (int)(baseDmg * 0.75f), (int)(baseDmg * 1.5f), false, 1, 0, 0.1f, 2, false, this.Summoner);
+                        this.Summoner.Position = oldPos;
                     }
                 }
 
