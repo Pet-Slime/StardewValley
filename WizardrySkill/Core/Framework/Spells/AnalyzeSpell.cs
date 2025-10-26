@@ -4,6 +4,7 @@ using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
+using StardewValley.Monsters;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using StardewValley.Tools;
@@ -43,10 +44,12 @@ namespace WizardrySkill.Core.Framework.Spells
             // ReSharper disable twice PossibleLossOfFraction
             Vector2 tilePos = new(targetX / Game1.tileSize, targetY / Game1.tileSize);
 
+            bool lightningRod = false;
+
             // get spells from item
             foreach (var activeItem in new[] { this.GetItemFromMenu(Game1.activeClickableMenu) ?? this.GetItemFromToolbar(), player.CurrentItem })
             {
-                if (activeItem is not null)
+                if (activeItem is not null && activeItem.QualifiedItemId != null)
                 {
                     // by item type
                     switch (activeItem)
@@ -74,47 +77,47 @@ namespace WizardrySkill.Core.Framework.Spells
                             break;
                     }
 
-                    // by item ID
-                    if (activeItem is SObject activeObj && activeItem.GetType() == typeof(SObject) && !activeObj.bigCraftable.Value)
+                    switch (activeItem.QualifiedItemId)
                     {
-                        switch (activeItem.ItemId)
-                        {
-                            case "395" or "253": // coffee
-                                spellsLearnt.Add("life:haste");
-                                break;
+                        case "(O)395" or "(O)253": // coffee
+                            spellsLearnt.Add("life:haste");
+                            break;
 
-                            case "773": // life elixir
-                                spellsLearnt.Add("life:heal");
-                                break;
+                        case "(O)773": // life elixir
+                            spellsLearnt.Add("life:heal");
+                            break;
 
-                            case "86": // earth crystal
-                                spellsLearnt.Add("nature:shockwave");
-                                break;
+                        case "(O)86": // earth crystal
+                            spellsLearnt.Add("nature:shockwave");
+                            break;
 
-                            case "82": // fire quartz
-                                spellsLearnt.Add("elemental:fireball");
-                                break;
+                        case "(O)82": // fire quartz
+                            spellsLearnt.Add("elemental:fireball");
+                            break;
 
-                            case "161": // ice pip
-                                spellsLearnt.Add("elemental:frostbolt");
-                                break;
+                        case "(O)161": // ice pip
+                            spellsLearnt.Add("elemental:frostbolt");
+                            break;
 
-                            case "169" or "388": // driftwood or wood
-                                spellsLearnt.Add("elemental:kiln");
-                                break;
+                        case "(O)169" or "(O)388": // driftwood or wood
+                            spellsLearnt.Add("elemental:kiln");
+                            break;
 
-                            case "879": // monster musk
-                                spellsLearnt.Add("eldritch:charm");
-                                break;
+                        case "(O)879": // monster musk
+                            spellsLearnt.Add("eldritch:charm");
+                            break;
 
-                            case "921": // Squid Ink Ravioli
-                                spellsLearnt.Add("life:cleanse");
-                                break;
+                        case "(O)921": // Squid Ink Ravioli
+                            spellsLearnt.Add("life:cleanse");
+                            break;
 
-                            case "703" or "519": // magnet, magnet ring
-                                spellsLearnt.Add("nature:magnetic_force");
-                                break;
-                        }
+                        case "(O)703" or "(O)519": // magnet, magnet ring
+                            spellsLearnt.Add("nature:magnetic_force");
+                            break;
+
+                        case "(BC)9": // Squid Ink Ravioli
+                            lightningRod = true;
+                            break;
                     }
                 }
             }
@@ -122,10 +125,10 @@ namespace WizardrySkill.Core.Framework.Spells
             // get spells from world
             if (Game1.activeClickableMenu == null)
             {
-                // light sources
-                foreach (var lightSource in player.currentLocation.sharedLights.Values)
+                // Thunderbug
+                foreach (var charcter in player.currentLocation.characters)
                 {
-                    if (Utility.distance(targetX, lightSource.position.X, targetY, lightSource.position.Y) < lightSource.radius.Value * Game1.tileSize)
+                    if (charcter is Bug mob && Vector2.Distance(mob.Tile, tilePos) < 5f && lightningRod)
                     {
                         spellsLearnt.Add("nature:lantern");
                         break;
