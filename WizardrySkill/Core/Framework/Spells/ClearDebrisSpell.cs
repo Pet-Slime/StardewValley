@@ -44,9 +44,9 @@ namespace WizardrySkill.Core.Framework.Spells
             int tileY = targetY / Game1.tileSize;
             var target = new Vector2(tileX, tileY);
             //get a list of the tiles affected
-            List<Vector2> list = Utilities.TilesAffected(target, 3 * level, player);
+            List<Vector2> list = Utilities.TilesAffected(target, level, player);
             //for each tile in the list, do the spell's function
-            foreach (var tile in list)
+            foreach (Vector2 tile in list)
             {
                 // skip if out of mana
                 if (!this.CanContinueCast(player, level))
@@ -122,7 +122,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 {
                     if (num != 0)
                     {
-                        player.AddMana(-3);
+                        player.AddMana(this.GetManaCost(player, level) * -1);
                     }
                     num++;
                     Utilities.AddEXP(player, 10);

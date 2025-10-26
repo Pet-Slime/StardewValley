@@ -81,6 +81,7 @@ namespace WizardrySkill.Core.Framework
         {
             Spells.Add(spell.ParentSchool.Id + ":" + spell.Id, spell);
             spell.LoadIcon();
+            spell.LoadLevel();
         }
     }
 }

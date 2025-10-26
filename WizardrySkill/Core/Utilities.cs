@@ -75,16 +75,16 @@ namespace WizardrySkill.Core
 
         }
 
-
-        public static List<Vector2> TilesAffected(Vector2 tileLocation, int power, Farmer who)
+        public static List<Vector2> TilesAffected(Vector2 tileLocation, int level, Farmer who)
         {
             List<Vector2> list = new List<Vector2>();
-            list.Add(tileLocation);
-            for (int i = (int)tileLocation.X - power; (float)i <= tileLocation.X + power; i++)
+            int targetX = (int)tileLocation.X;
+            int targetY = (int)tileLocation.Y;
+            for (int tileX = targetX - level; tileX <= targetX + level; ++tileX)
             {
-                for (int j = (int)tileLocation.Y - power; (float)j <= tileLocation.Y + power; j++)
+                for (int tileY = targetY - level; tileY <= targetY + level; ++tileY)
                 {
-                    list.Add(new Vector2(i, j));
+                    list.Add(new Vector2(tileX, tileY));
                 }
             }
             return list;

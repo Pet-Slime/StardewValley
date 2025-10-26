@@ -4,6 +4,7 @@ using System.Linq;
 using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Extensions;
 using StardewValley.Minigames;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
@@ -41,14 +42,16 @@ namespace WizardrySkill.Core.Framework.Spells
             GameLocation location = player.currentLocation;
             int tileX = targetX / Game1.tileSize;
             int tileY = targetY / Game1.tileSize;
-            var tile = new Vector2(tileX, tileY);
+            var target = new Vector2(tileX, tileY);
             //get a list of the tiles affected
-            List<Vector2> list = Utilities.TilesAffected(tile, 10 * (level +1), player);
+            List<Vector2> list = Utilities.TilesAffected(target, 3 * (level +1), player);
 
-            // check each tile for the crops
             foreach (var entry in location.terrainFeatures.Pairs.ToList())
             {
+                bool didAction = false;
                 var tf = entry.Value;
+                var tile = tf.Tile;
+
                 // If the object in hoedirt and is on the list
                 if (tf is HoeDirt dirt && list.Contains(entry.Key))
                 {
@@ -57,12 +60,12 @@ namespace WizardrySkill.Core.Framework.Spells
                         continue;
                     // If it does contain a a crop, advance the crop for one day
                     dirt.crop.newDay(1);
-                    location.playSound("grassyStep");
+                    didAction = true;
                 }
                 if (tf is FruitTree fruitTree && list.Contains(entry.Key)) {
                     if (fruitTree.daysUntilMature.Value > 0)
                     {
-                        location.playSound("grassyStep");
+                        didAction = true;
                         fruitTree.daysUntilMature.Value = Math.Max(0, fruitTree.daysUntilMature.Value - 7);
                         fruitTree.growthStage.Value = fruitTree.daysUntilMature.Value > 0 ? fruitTree.daysUntilMature.Value > 7 ? fruitTree.daysUntilMature.Value > 14 ? fruitTree.daysUntilMature.Value > 21 ? 0 : 1 : 2 : 3 : 4;
                     }
@@ -72,7 +75,7 @@ namespace WizardrySkill.Core.Framework.Spells
                         for (int i = fruitCount; i < 3; i++)
                         {
                             fruitTree.TryAddFruit();
-                            location.playSound("grassyStep");
+                            didAction = true;
                         }
                     }
                 }
@@ -80,12 +83,18 @@ namespace WizardrySkill.Core.Framework.Spells
                 {
                     if (tree.growthStage.Value < 5)
                     {
-
-                        location.playSound("grassyStep");
                         tree.growthStage.Value++;
+                        didAction = true;
                     }
                 }
-                location.updateMap();
+                if (didAction)
+                {
+                    Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(10, new Vector2(tile.X * 64f, tile.Y * 64f), Color.Purple, 10, Game1.random.NextBool(), 70f, 0, 64, (tile.Y * 64f + 32f) / 10000f - 0.01f));
+                    
+                    Utilities.AddEXP(player, 2);
+                    location.playSound("grassyStep", tile);
+                    location.updateMap();
+                }
 
             }
             player.Items.ReduceId(SObject.prismaticShardIndex.ToString(), 1);

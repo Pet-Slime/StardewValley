@@ -82,6 +82,11 @@
         },
         {
             "Action": "Load",
+            "Target": "Mods/moonslime.WizardrySkill/interface/level_3_spell",
+            "FromFile": "Assets/interface/level_3_spell.png"
+        },
+        {
+            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/arcane/analyze/1",
             "FromFile": "Assets/magic/arcane/analyze/1.png"
         },
@@ -92,43 +97,13 @@
         },
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/arcane/disenchant/2",
-            "FromFile": "Assets/magic/arcane/disenchant/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/arcane/disenchant/3",
-            "FromFile": "Assets/magic/arcane/disenchant/3.png"
-        },
-        {
-            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/arcane/enchant/1",
             "FromFile": "Assets/magic/arcane/enchant/1.png"
         },
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/arcane/enchant/2",
-            "FromFile": "Assets/magic/arcane/enchant/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/arcane/enchant/3",
-            "FromFile": "Assets/magic/arcane/enchant/3.png"
-        },
-        {
-            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/arcane/magicmissle/1",
             "FromFile": "Assets/magic/arcane/magicmissle/1.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/arcane/magicmissle/2",
-            "FromFile": "Assets/magic/arcane/magicmissle/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/arcane/magicmissle/3",
-            "FromFile": "Assets/magic/arcane/magicmissle/3.png"
         },
         {
             "Action": "Load",
@@ -147,28 +122,8 @@
         },
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/eldritch/bloodmana/2",
-            "FromFile": "Assets/magic/eldritch/bloodmana/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/eldritch/bloodmana/3",
-            "FromFile": "Assets/magic/eldritch/bloodmana/3.png"
-        },
-        {
-            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/eldritch/charm/1",
             "FromFile": "Assets/magic/eldritch/charm/1.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/eldritch/charm/2",
-            "FromFile": "Assets/magic/eldritch/charm/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/eldritch/charm/3",
-            "FromFile": "Assets/magic/eldritch/charm/3.png"
         },
         {
             "Action": "Load",
@@ -197,28 +152,8 @@
         },
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/elemental/descend/2",
-            "FromFile": "Assets/magic/elemental/descend/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/elemental/descend/3",
-            "FromFile": "Assets/magic/elemental/descend/3.png"
-        },
-        {
-            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/elemental/fireball/1",
             "FromFile": "Assets/magic/elemental/fireball/1.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/elemental/fireball/2",
-            "FromFile": "Assets/magic/elemental/fireball/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/elemental/fireball/3",
-            "FromFile": "Assets/magic/elemental/fireball/3.png"
         },
         {
             "Action": "Load",
@@ -227,28 +162,8 @@
         },
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/elemental/frostbolt/2",
-            "FromFile": "Assets/magic/elemental/frostbolt/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/elemental/frostbolt/3",
-            "FromFile": "Assets/magic/elemental/frostbolt/3.png"
-        },
-        {
-            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/elemental/kiln/1",
             "FromFile": "Assets/magic/elemental/kiln/1.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/elemental/kiln/2",
-            "FromFile": "Assets/magic/elemental/kiln/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/elemental/kiln/3",
-            "FromFile": "Assets/magic/elemental/kiln/3.png"
         },
         {
             "Action": "Load",
@@ -267,16 +182,6 @@
         },
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/life/buff/2",
-            "FromFile": "Assets/magic/life/buff/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/life/buff/3",
-            "FromFile": "Assets/magic/life/buff/3.png"
-        },
-        {
-            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/life/cleanse/1",
             "FromFile": "Assets/magic/life/cleanse/1.png"
         },
@@ -292,28 +197,8 @@
         },
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/life/haste/2",
-            "FromFile": "Assets/magic/life/haste/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/life/haste/3",
-            "FromFile": "Assets/magic/life/haste/3.png"
-        },
-        {
-            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/life/heal/1",
             "FromFile": "Assets/magic/life/heal/1.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/life/heal/2",
-            "FromFile": "Assets/magic/life/heal/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/life/heal/3",
-            "FromFile": "Assets/magic/life/heal/3.png"
         },
         {
             "Action": "Load",
@@ -327,28 +212,8 @@
         },
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/nature/lantern/2",
-            "FromFile": "Assets/magic/nature/lantern/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/nature/lantern/3",
-            "FromFile": "Assets/magic/nature/lantern/3.png"
-        },
-        {
-            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/nature/magnetic_force/1",
             "FromFile": "Assets/magic/nature/magnetic_force/1.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/nature/magnetic_force/2",
-            "FromFile": "Assets/magic/nature/magnetic_force/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/nature/magnetic_force/3",
-            "FromFile": "Assets/magic/nature/magnetic_force/3.png"
         },
         {
             "Action": "Load",
@@ -362,28 +227,8 @@
         },
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/nature/shockwave/2",
-            "FromFile": "Assets/magic/nature/shockwave/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/nature/shockwave/3",
-            "FromFile": "Assets/magic/nature/shockwave/3.png"
-        },
-        {
-            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/nature/tendrils/1",
             "FromFile": "Assets/magic/nature/tendrils/1.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/nature/tendrils/2",
-            "FromFile": "Assets/magic/nature/tendrils/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/nature/tendrils/3",
-            "FromFile": "Assets/magic/nature/tendrils/3.png"
         },
         {
             "Action": "Load",
@@ -407,28 +252,8 @@
         },
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/toil/cleardebris/2",
-            "FromFile": "Assets/magic/toil/cleardebris/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/toil/cleardebris/3",
-            "FromFile": "Assets/magic/toil/cleardebris/3.png"
-        },
-        {
-            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/toil/collect/1",
             "FromFile": "Assets/magic/toil/collect/1.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/toil/collect/2",
-            "FromFile": "Assets/magic/toil/collect/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/toil/collect/3",
-            "FromFile": "Assets/magic/toil/collect/3.png"
         },
         {
             "Action": "Load",
@@ -437,43 +262,13 @@
         },
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/toil/harvest/2",
-            "FromFile": "Assets/magic/toil/harvest/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/toil/harvest/3",
-            "FromFile": "Assets/magic/toil/harvest/3.png"
-        },
-        {
-            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/toil/till/1",
             "FromFile": "Assets/magic/toil/till/1.png"
         },
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/toil/till/2",
-            "FromFile": "Assets/magic/toil/till/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/toil/till/3",
-            "FromFile": "Assets/magic/toil/till/3.png"
-        },
-        {
-            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/toil/water/1",
             "FromFile": "Assets/magic/toil/water/1.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/toil/water/2",
-            "FromFile": "Assets/magic/toil/water/2.png"
-        },
-        {
-            "Action": "Load",
-            "Target": "Mods/moonslime.WizardrySkill/magic/toil/water/3",
-            "FromFile": "Assets/magic/toil/water/3.png"
         },
         {
             "Action": "Load",

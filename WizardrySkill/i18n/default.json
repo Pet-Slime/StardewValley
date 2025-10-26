@@ -55,7 +55,7 @@
     "radio.static": "*static*",
     "radio.analyzehints.1": "Looking to use magic to work around the farm? Try analyzing your tools.",
     "radio.analyzehints.2": "Need a quick escape? I wonder if some boots will give you some inspiration.",
-    "radio.analyzehints.3": "Sunlight is pretty nice, but not always available. I wonder if artificial lights can be recreated?",
+    "radio.analyzehints.3": "I wonder if one could combine lightning with a bug? To study this, I'll need something that can harness the lightning's power while I'm close enough to a bug.",
     "radio.analyzehints.4": "Some basic minerals seem to contain some magical energy.",
     "radio.analyzehints.5": "The other day a meteor fell in my backyard. It seemed really mysterious.",
     "radio.analyzehints.6": "Coffee is delicious. Why not recreate its effects with a spell?",
@@ -120,7 +120,7 @@
     "moonslime.Wizardry.spell.toil:till.hint": "Looking to use magic to work around the farm?\nTry analyzing your tools.",
 
     "moonslime.Wizardry.spell.toil:water.name": "Water",
-    "moonslime.Wizardry.spell.toil:water.cost": "2 mana per tile",
+    "moonslime.Wizardry.spell.toil:water.cost": "1 mana per tile",
     "moonslime.Wizardry.spell.toil:water.desc": "Water soil around the targeted area.\nHigher levels indicate a larger area.",
     "moonslime.Wizardry.spell.toil:water.hint": "Looking to use magic to work around the farm?\nTry analyzing your tools.",
 
@@ -142,7 +142,7 @@
     "moonslime.Wizardry.spell.nature:lantern.name": "Thunderbug",
     "moonslime.Wizardry.spell.nature:lantern.cost": "3 mana per level",
     "moonslime.Wizardry.spell.nature:lantern.desc": "Summon a bug that will give off light and follow you.\nHigher levels create more light.",
-    "moonslime.Wizardry.spell.nature:lantern.hint": "I wonder if one could combine lightning with a bug?\nI would need something that could harness it while nearby a bug to study.",
+    "moonslime.Wizardry.spell.nature:lantern.hint": "I wonder if one could combine lightning with a bug?\nTo study this, I'll need something that can harness the lightning's power while I'm close enough to a bug.",
 
     "moonslime.Wizardry.spell.nature:tendrils.name": "Tendrils",
     "moonslime.Wizardry.spell.nature:tendrils.cost": "10 mana",
@@ -160,8 +160,8 @@
     "moonslime.Wizardry.spell.nature:magnetic_force.hint": "I hear a magnetic effect might be able to become a spell,\nbut I need a thing to study for it.\nI wonder what.",
 
     "moonslime.Wizardry.spell.nature:photosynthesis.name": "Photosynthesis",
-    "moonslime.Wizardry.spell.nature:photosynthesis.cost": "Prismatic Shard",
-    "moonslime.Wizardry.spell.nature:photosynthesis.desc": "Advance all plants in your farming areas a stage.",
+    "moonslime.Wizardry.spell.nature:photosynthesis.cost": "100 mana, Prismatic Shard",
+    "moonslime.Wizardry.spell.nature:photosynthesis.desc": "Advance all plants in target area a stage.",
     "moonslime.Wizardry.spell.nature:photosynthesis.hint": "Find all other Nature spells.",
 
     "moonslime.Wizardry.spell.life:heal.name": "Heal",
@@ -200,13 +200,13 @@
     "moonslime.Wizardry.spell.elemental:frostbolt.hint": "I bet you could shoot a blast of ice to slow something down.\nI wonder where you could study ice...?",
 
     "moonslime.Wizardry.spell.elemental:descend.name": "Descend",
-    "moonslime.Wizardry.spell.elemental:descend.cost": "25 mana",
+    "moonslime.Wizardry.spell.elemental:descend.cost": "25 mana per level",
     "moonslime.Wizardry.spell.elemental:descend.desc": "Descend in the mines.\nHigher levels increase the floors passed, with no additional mana cost.",
     "moonslime.Wizardry.spell.elemental:descend.hint": "Most people use ladders to descend underground,\nbut I saw one person cast a spell and zip straight through the floor.",
 
     "moonslime.Wizardry.spell.elemental:kiln.name": "Kiln Wood",
-    "moonslime.Wizardry.spell.elemental:kiln.cost": "5 mana, Wood or Driftwood",
-    "moonslime.Wizardry.spell.elemental:kiln.desc": "Turn wood into coal.\nHigher level reduces amount of wood needed.",
+    "moonslime.Wizardry.spell.elemental:kiln.cost": "5 Mana increases rapidly with level, Wood or Driftwood",
+    "moonslime.Wizardry.spell.elemental:kiln.desc": "Turn wood into coal.\nHigher levels reduce wood required at an increasing rate.",
     "moonslime.Wizardry.spell.elemental:kiln.hint": "Is there a way we can use magic to generate coal?",
 
     "moonslime.Wizardry.spell.elemental:teleport.name": "Teleport",

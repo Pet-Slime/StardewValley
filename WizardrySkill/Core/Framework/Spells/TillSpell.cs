@@ -18,7 +18,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return 3;
+            return 2;
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
@@ -37,9 +37,9 @@ namespace WizardrySkill.Core.Framework.Spells
             int tileY = targetY / Game1.tileSize;
             var target = new Vector2(tileX, tileY);
             //get a list of the tiles affected
-            List<Vector2> list = Utilities.TilesAffected(target, 3 * level, player);
+            List<Vector2> list = Utilities.TilesAffected(target, level, player);
             //for each tile in the list, do the spell's function
-            foreach (var tile in list)
+            foreach (Vector2 tile in list)
             {
                 // skip if out of mana
                 if (!this.CanContinueCast(player, level))
@@ -61,7 +61,7 @@ namespace WizardrySkill.Core.Framework.Spells
                         loc.objects.Remove(tile);
                         if (num != 0)
                         {
-                            player.AddMana(-2);
+                            player.AddMana(this.GetManaCost(player, level) * -1);
                         }
                         num++;
                         Utilities.AddEXP(player, 2);
@@ -82,7 +82,7 @@ namespace WizardrySkill.Core.Framework.Spells
                     loc.checkForBuriedItem(targetTileX, targetTileY, false, false, player);
                     if (num != 0)
                     {
-                        player.AddMana(-3);
+                        player.AddMana(this.GetManaCost(player, level) * -1);
                     }
                     num++;
                     Utilities.AddEXP(player, 2);

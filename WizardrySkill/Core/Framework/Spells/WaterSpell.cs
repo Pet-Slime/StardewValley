@@ -20,7 +20,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return 2;
+            return 1;
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
@@ -38,7 +38,7 @@ namespace WizardrySkill.Core.Framework.Spells
             int tileY = targetY / Game1.tileSize;
             var target = new Vector2(tileX, tileY);
             //get a list of the tiles affected
-            List<Vector2> list = Utilities.TilesAffected(target, 3 * level, player);
+            List<Vector2> list = Utilities.TilesAffected(target, level, player);
             //for each tile in the list, do the spell's function
             foreach (Vector2 tile in list)
             {
@@ -67,7 +67,7 @@ namespace WizardrySkill.Core.Framework.Spells
                     didAction = true;
                 }
 
-                BirbCore.Attributes.Log.Alert($"{didAction}");
+
                 if (didAction)
                 {
                     Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(13, new Vector2(tile.X * 64f, tile.Y * 64f), Color.White, 10, Game1.random.NextBool(), 70f, 0, 64, (tile.Y * 64f + 32f) / 10000f - 0.01f)
@@ -76,7 +76,7 @@ namespace WizardrySkill.Core.Framework.Spells
                     });
                     if (num != 0)
                     {
-                        player.AddMana(-3);
+                        player.AddMana(this.GetManaCost(player, level) * -1);
                     }
 
                     num++;
