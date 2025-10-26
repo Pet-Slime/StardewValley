@@ -170,7 +170,7 @@
     "moonslime.Wizardry.spell.life:heal.hint": "Health potions sure are inconvenient to carry around.\nMaybe we can heal ourselves with magic?",
 
     "moonslime.Wizardry.spell.life:haste.name": "Haste",
-    "moonslime.Wizardry.spell.life:haste.cost": "30 mana per level, coffee bean",
+    "moonslime.Wizardry.spell.life:haste.cost": "40 mana per level, coffee bean",
     "moonslime.Wizardry.spell.life:haste.desc": "Move as swift as the wind. Higher levels make you move faster for longer.",
     "moonslime.Wizardry.spell.life:haste.hint": "Coffee is delicious.\nWhy not recreate its effects with a spell?",
 
