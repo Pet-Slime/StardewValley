@@ -15,17 +15,12 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override bool CanCast(Farmer player, int level)
         {
-            if (player == Game1.player)
-            {
-                return !player.buffs.AppliedBuffs.Values.Any(u => u.source == "spell:life:haste");
-            }
-
-            return base.CanCast(player, level) && player.Items.ContainsId("(O)433", 1);
+            return base.CanCast(player, level) && player.Items.ContainsId("(O)433", 1) && !player.hasBuff($"spell:life:haste:{level}");
         }
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return 50;
+            return 40 * (level + 1);
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
@@ -33,13 +28,13 @@ namespace WizardrySkill.Core.Framework.Spells
             if (player != Game1.player)
                 return null;
 
-            if (player.buffs.AppliedBuffs.Values.Any(u => u.source == "spell:life:haste"))
+            if (player.hasBuff($"spell:life:haste:{level}"))
                 return null;
 
             player.buffs.Apply(new Buff(
-                id: "spacechase0.magic.haste",
-                source: "spell:life:haste",
-                displaySource: ModEntry.Instance.I18N.Get("moonslime.Wizardry.haste.buffDescription"),
+                id: $"spell:life:haste:{level}",
+                source: $"spell:life:haste:{level}",
+                displaySource: ModEntry.Instance.I18N.Get("moonslime.Wizardry.haste.buffDescription") + level.ToString(),
                 duration: (int)TimeSpan.FromSeconds(60 + level * 120).TotalMilliseconds,
                 effects: new StardewValley.Buffs.BuffEffects
                 {

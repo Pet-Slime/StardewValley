@@ -13,32 +13,36 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         *********/
         private readonly Farmer Summoner;
         private readonly Texture2D Tex;
-        private Vector2 Pos;
-        private int TimeLeft = 60 * 60;
+        private readonly int Level;
 
+        private Vector2 Pos;
         private GameLocation PrevSummonerLoc;
-        private int AnimTimer;
-        private int AnimFrame;
         private LightSource Light;
-        private int Level;
 
         private TemporaryAnimatedSprite Sprite;
         private TemporaryAnimatedSprite Shadow;
+
+        private int TimeLeft = 60 * 60;
+        private int AnimTimer;
+        private int AnimFrame;
+
+        private static readonly Vector2 SpriteOffset = new(0f, -80f);
+        private static Vector2 SharedOscillation;
 
 
         /*********
         ** Public methods
         *********/
-        public LanternEffect(Farmer theSummoner, int level)
+        public LanternEffect(Farmer summoner, int level)
         {
-            this.Summoner = theSummoner;
+            this.Summoner = summoner;
+            this.Level = level;
             this.Tex = ModEntry.Assets.Thunderbug;
 
-            this.Pos = this.Summoner.Position;
-            this.PrevSummonerLoc = this.Summoner.currentLocation;
-            this.Level = level;
-            this.AddSpriteAndLight();
+            this.Pos = summoner.Position;
+            this.PrevSummonerLoc = summoner.currentLocation;
 
+            this.AddSpriteAndLight();
         }
 
         public bool Update(UpdateTickedEventArgs e)
@@ -50,6 +54,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 return false;
             }
 
+            // Location changed
             if (this.PrevSummonerLoc != Game1.currentLocation)
             {
                 this.CleanUp();
@@ -58,14 +63,17 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 this.AddSpriteAndLight();
             }
 
-            if (Utility.distance(this.Summoner.Position.X, this.Pos.X, this.Summoner.Position.Y, this.Pos.Y) > Game1.tileSize)
+            // Smoothly follow summoner
+            if (Vector2.Distance(this.Pos, this.Summoner.Position) > Game1.tileSize)
             {
-                Vector2 unit = this.Summoner.Position - this.Pos;
-                unit.Normalize();
+                Vector2 direction = this.Summoner.Position - this.Pos;
+                direction.Normalize();
+                this.Pos += direction * 7f;
 
-                this.Pos += unit * 7;
-                this.Light.position.Value = this.Pos;
+                if (this.Light != null)
+                    this.Light.position.Value = this.Pos;
             }
+
             this.UpdateSprite();
 
             if (--this.TimeLeft <= 0)
@@ -77,46 +85,57 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             return true;
         }
 
+        public void Draw(SpriteBatch b)
+        {
+            // nothing; drawn Manually via TemporaryAnimatedSprite
+        }
+
         public void CleanUp()
         {
-            if (this.PrevSummonerLoc.temporarySprites.Contains(this.Sprite))
+            if (this.PrevSummonerLoc != null)
             {
                 this.PrevSummonerLoc.temporarySprites.Remove(this.Sprite);
-            }
-            if (this.PrevSummonerLoc.temporarySprites.Contains(this.Shadow))
-            {
                 this.PrevSummonerLoc.temporarySprites.Remove(this.Shadow);
             }
-            if (Game1.currentLightSources.ContainsKey(this.Light.Id))
-            {
+
+            if (this.Light != null)
                 Game1.currentLightSources.Remove(this.Light.Id);
-            }
+        }
+
+
+        /*********
+        ** Private helpers
+        *********/
+        public static void UpdateSharedOscillation()
+        {
+            double t = Game1.currentGameTime.TotalGameTime.TotalMilliseconds;
+            SharedOscillation.X = (float)Math.Sin(t * 0.002) * 10f;
+            SharedOscillation.Y = (float)Math.Sin(t * 0.004) * 6f;
         }
 
         private void UpdateSprite()
         {
+            UpdateSharedOscillation();
+
+            // Animation
             if (++this.AnimTimer >= 6)
             {
                 this.AnimTimer = 0;
-                if (++this.AnimFrame >= 4)
-                    this.AnimFrame = 0;
+                this.AnimFrame = (this.AnimFrame + 1) & 3; // faster modulo 4
             }
-            int tx = this.AnimFrame % 4 * 16;
-            int ty = GetSnappedDirection(this.Pos, this.Summoner.Position) * 16;
-            Vector2 dynamicTargetPosition = this.GetDynamicTargetPosition(this.Pos + new Vector2(0f, -80f));
-            this.Sprite.sourceRect.X = tx;
-            this.Sprite.sourceRect.Y = ty;
-            this.Sprite.position = Vector2.Lerp(this.Sprite.position, dynamicTargetPosition, 0.2f);
-            this.Sprite.layerDepth = (this.Pos.Y) / 10000f;
-            this.Shadow.position = Vector2.Lerp(this.Shadow.position, this.GetDynamicTargetPosition(this.Pos), 0.2f);
-            this.Shadow.layerDepth = (this.Pos.Y - 1) / 10000f;
-        }
 
-        private Vector2 GetDynamicTargetPosition(Vector2 basePosition)
-        {
-            float y = (float)Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 250.0) * 6f;
-            float x = (float)Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 500.0) * 10f;
-            return basePosition + new Vector2(x, y);
+            int direction = GetSnappedDirection(this.Pos, this.Summoner.Position);
+            this.Sprite.sourceRect.X = this.AnimFrame * 16;
+            this.Sprite.sourceRect.Y = direction * 16;
+
+            // Visual offset + smooth movement
+            Vector2 dynamicPos = this.Pos + SharedOscillation + SpriteOffset;
+            Vector2 shadowPos = this.Pos + SharedOscillation;
+            this.Sprite.position = Vector2.Lerp(this.Sprite.position, dynamicPos, 0.2f);
+            this.Sprite.layerDepth = shadowPos.Y / 10000f;
+
+            this.Shadow.position = Vector2.Lerp(this.Shadow.position, shadowPos, 0.2f);
+            this.Shadow.layerDepth = (shadowPos.Y - 1) / 10000f;
         }
 
         public static int GetSnappedDirection(Vector2 from, Vector2 to)
@@ -139,32 +158,49 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             return 1; // Right
         }
 
-        public void AddSpriteAndLight()
+        private void AddSpriteAndLight()
         {
-            this.Sprite = new TemporaryAnimatedSprite("", new Rectangle(0, 0, 16, 16), 200f, 1, 9999, this.Summoner.Position, false, false)
+            float scale = this.Summoner.Scale * 2f;
+            Vector2 startPos = this.Summoner.Position;
+
+            this.Sprite = new TemporaryAnimatedSprite(
+                textureName: "",
+                sourceRect: new Rectangle(0, 0, 16, 16),
+                animationInterval: 200f,
+                animationLength: 1,
+                numberOfLoops: 9999,
+                position: startPos,
+                flicker: false,
+                flipped: false)
             {
                 texture = this.Tex,
-                scale = this.Summoner.Scale * 2f,
-                layerDepth = (this.Pos.Y) / 10000f
-
+                scale = scale,
+                color = Color.White,
+                layerDepth = startPos.Y / 10000f
             };
-            this.Sprite.color = Color.Yellow;
-            this.Shadow = new TemporaryAnimatedSprite("", Game1.shadowTexture.Bounds, 200f, 1, 9999, this.Summoner.Position, false, false)
+
+            this.Shadow = new TemporaryAnimatedSprite(
+                textureName: "",
+                sourceRect: Game1.shadowTexture.Bounds,
+                animationInterval: 200f,
+                animationLength: 1,
+                numberOfLoops: 9999,
+                position: startPos,
+                flicker: false,
+                flipped: false)
             {
                 texture = Game1.shadowTexture,
-                scale = this.Summoner.Scale * 2f,
-                layerDepth = (this.Pos.Y - 1) / 10000f
+                scale = scale,
+                layerDepth = (startPos.Y - 1) / 10000f
             };
+
             Game1.Multiplayer.broadcastSprites(this.Summoner.currentLocation, this.Sprite);
             Game1.Multiplayer.broadcastSprites(this.Summoner.currentLocation, this.Shadow);
-            string text = $"LanternSpell_{this.Summoner.UniqueMultiplayerID}_{this.Level}";
-            this.Light = new LightSource(text, 1, new Vector2(this.Summoner.Position.X + 21f, this.Summoner.Position.Y + 64f), 8f * (this.Level + 1), new Color(0, 50, 170), LightSource.LightContext.None, this.Summoner.UniqueMultiplayerID, null);
-            Game1.currentLightSources[text] = this.Light;
-        }
 
-        public void Draw(SpriteBatch b)
-        {
+            string lightId = $"LanternSpell_{this.Summoner.UniqueMultiplayerID}";
+            this.Light = new LightSource(lightId, 1, new Vector2(this.Summoner.Position.X + 21f, this.Summoner.Position.Y + 64f), 8f * (this.Level + 1), new Color(0, 50, 170), LightSource.LightContext.None, this.Summoner.UniqueMultiplayerID, null);
 
+            Game1.currentLightSources[lightId] = this.Light;
         }
     }
 }

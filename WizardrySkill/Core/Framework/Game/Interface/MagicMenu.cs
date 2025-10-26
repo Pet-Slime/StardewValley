@@ -31,6 +31,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
         private const int HotbarFrameSize = HotbarIconSize + 24;
         private const string Select = "smallSelect";
         private const string Deselect = "smallSelect";
+        private string UnkownSchool = ModEntry.Instance.I18N.Get("moonslime.Wizardry.school.uknown.name");
 
         private static readonly Rectangle MenuBoxSource = new(0, 256, 60, 60);
 
@@ -92,7 +93,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
             DrawDraggedSpell(b, mouseX, mouseY);
 
             // hover text & cursor
-            if (!string.IsNullOrEmpty(hoverText))
+            if (!string.IsNullOrEmpty(hoverText) && this.Dragging == null)
                 drawHoverText(b, hoverText, Game1.smallFont);
 
             base.draw(b);
@@ -156,7 +157,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                 {
                     hoverText = knowsSchool
                         ? school.DisplayName
-                        : ModEntry.Instance.I18N.Get("moonslime.Wizardry.school.uknown.name");
+                        : this.UnkownSchool;
 
                     if (this.JustLeftClicked)
                     {
@@ -180,7 +181,10 @@ namespace WizardrySkill.Core.Framework.Game.Interface
 
 
             // Title
-            string title = $"{this.SelectedSchool.DisplayName} {this.SchoolTitleCache}";
+            bool knowsSchool = book.KnowsSchool(this.SelectedSchool);
+            string title = knowsSchool
+                ? $"{this.SelectedSchool.DisplayName} {this.SchoolTitleCache}"
+                : $"{this.UnkownSchool} {this.SchoolTitleCache}";
             float centerX = this.NewBaseX + (WindowWidth / 4f);
             int titleWidth = SpriteText.getWidthOfString(title);
             SpriteText.drawString(b, title, (int)(centerX - titleWidth / 2f), this.NewBaseY + 30, scroll_text_alignment: SpriteText.ScrollTextAlignment.Center);
@@ -251,7 +255,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
             b.Draw(icon, iconRect, Color.White);
 
             // Description
-            string desc = WrapText(this.SelectedSpell.GetTranslatedDescriptionForSpellMenu(), (int)(WindowWidth / 1.5f) +100);
+            string desc = WrapText(this.SelectedSpell.GetTranslatedDescriptionForSpellMenu(), (int)(WindowWidth / 1.5f) + 50);
             b.DrawString(Game1.smallFont, desc, new Vector2(this.NewBaseX + WindowWidth / 2 + 6, this.NewBaseY + 260), Color.Black);
 
             // Levels

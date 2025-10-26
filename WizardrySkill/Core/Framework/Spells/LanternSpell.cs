@@ -24,12 +24,12 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return 3;
+            return 3 * (level+1);
         }
 
         public override bool CanCast(Farmer player, int level)
         {
-            return base.CanCast(player, level) && !Game1.currentLightSources.ContainsKey($"LanternSpell_{player.UniqueMultiplayerID}_{level}");
+            return base.CanCast(player, level) && !Game1.currentLightSources.ContainsKey($"LanternSpell_{player.UniqueMultiplayerID}");
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
@@ -37,7 +37,7 @@ namespace WizardrySkill.Core.Framework.Spells
             if (player != Game1.player)
                 return null;
 
-            player.currentLocation.playSound("thunder_small", player.Tile);
+            player.currentLocation.playSound("thunder", player.Tile);
             Utilities.AddEXP(player, (level + 1) * 3);
             return new LanternEffect(player, level);
         }
