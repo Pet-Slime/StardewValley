@@ -29,6 +29,8 @@ namespace WizardrySkill.Core.Framework.Game.Interface
 
         private const int SchoolFrameSize = SchoolIconSize + 24;
         private const int HotbarFrameSize = HotbarIconSize + 24;
+        private const string Select = "smallSelect";
+        private const string Deselect = "smallSelect";
 
         private static readonly Rectangle MenuBoxSource = new(0, 256, 60, 60);
 
@@ -159,6 +161,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                     if (this.JustLeftClicked)
                     {
                         SelectSchool(id, book);
+                        Game1.playSound(Select);
                         this.JustLeftClicked = false;
                     }
                 }
@@ -177,7 +180,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
 
 
             // Title
-            string title = this.SelectedSchool.DisplayName + this.SchoolTitleCache;
+            string title = $"{this.SelectedSchool.DisplayName} {this.SchoolTitleCache}";
             float centerX = this.NewBaseX + (WindowWidth / 4f);
             int titleWidth = SpriteText.getWidthOfString(title);
             SpriteText.drawString(b, title, (int)(centerX - titleWidth / 2f), this.NewBaseY + 30, scroll_text_alignment: SpriteText.ScrollTextAlignment.Center);
@@ -224,6 +227,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                     if (this.JustLeftClicked && known)
                     {
                         this.SelectedSpell = spell;
+                        Game1.playSound(Select);
                         this.JustLeftClicked = false;
                     }
                 }
@@ -305,6 +309,13 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                     else if (unlockable && book.FreePoints > 0)
                         book.Mutate(_ => book.LearnSpell(this.SelectedSpell, i));
                     this.JustLeftClicked = false;
+                    if (this.Dragging != null)
+                    {
+                        Game1.playSound("select");
+                    } else
+                    {
+                        Game1.playSound(Select);
+                    }
                 }
                 else if (this.JustRightClicked && i != 0 && known)
                 {
@@ -312,6 +323,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                     {
                         book.Mutate(_ => book.ForgetSpell(this.SelectedSpell, i));
                         this.JustRightClicked = false;
+                        Game1.playSound(Deselect);
                     } else
                     {
                         this.Dragging = null;
@@ -349,13 +361,28 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                     {
                         if (this.JustRightClicked)
                         {
-                            book.Mutate(_ => bar.SetSlot(i, this.Dragging == null ? null : null));
-                            this.Dragging = null;
+                            if (this.Dragging != null)
+                            {
+                                this.Dragging = null;
+                                Game1.playSound(Deselect);
+                            } else
+                            {
+                                book.Mutate(_ => bar.SetSlot(i, this.Dragging == null ? null : null));
+                                if (prep != null)
+                                    Game1.playSound(Deselect);
+                            }
                             this.JustRightClicked = false;
                         }
                         else if (this.JustLeftClicked)
                         {
                             book.Mutate(_ => bar.SetSlot(i, this.Dragging));
+                            if (this.Dragging != null)
+                            {
+                                Game1.playSound(Select);
+                            } else if (prep != null)
+                            {
+                                Game1.playSound(Deselect);
+                            }
                             this.Dragging = null;
                             this.JustLeftClicked = false;
                         }

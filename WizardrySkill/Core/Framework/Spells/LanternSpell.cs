@@ -37,7 +37,7 @@ namespace WizardrySkill.Core.Framework.Spells
             if (player != Game1.player)
                 return null;
 
-
+            player.currentLocation.playSound("thunder_small", player.Tile);
             Utilities.AddEXP(player, (level + 1) * 3);
             return new LanternEffect(player, level);
         }

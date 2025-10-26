@@ -29,6 +29,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
+            player.currentLocation.playSound("ghost", player.Tile);
             player.takeDamage((player.maxHealth / 5), false, null);
             Utilities.AddEXP(player, 50);
             return new SpiritEffect(player);
