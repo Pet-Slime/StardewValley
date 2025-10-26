@@ -54,7 +54,21 @@ namespace WizardrySkill.Core.Framework.Spells
         /// <summary>Get the spell's translated description.</summary>
         public virtual string GetTranslatedDescription()
         {
-            return ModEntry.Instance.I18N.Get($"moonslime.Wizardry.spell.{this.FullId}.desc");
+            string costBase = ModEntry.Instance.I18N.Get($"moonslime.Wizardry.spell.cost");
+            string costNumbers = ModEntry.Instance.I18N.Get($"moonslime.Wizardry.spell.{this.FullId}.cost");
+            string effect = ModEntry.Instance.I18N.Get($"moonslime.Wizardry.spell.effect");
+            string description = ModEntry.Instance.I18N.Get($"moonslime.Wizardry.spell.{this.FullId}.desc");
+            return $"{costBase}{costNumbers}\n{effect}{description}";
+        }
+
+        /// <summary>Get the spell's translated description.</summary>
+        public virtual string GetTranslatedDescriptionForSpellMenu()
+        {
+            string costBase = ModEntry.Instance.I18N.Get($"moonslime.Wizardry.spell.cost");
+            string costNumbers = ModEntry.Instance.I18N.Get($"moonslime.Wizardry.spell.{this.FullId}.cost");
+            string effect = ModEntry.Instance.I18N.Get($"moonslime.Wizardry.spell.effect");
+            string description = ModEntry.Instance.I18N.Get($"moonslime.Wizardry.spell.{this.FullId}.desc");
+            return $"{costBase}{costNumbers}\n\n{effect}{description}";
         }
 
         /// <summary>Get a translated tooltip to show for the spell.</summary>
