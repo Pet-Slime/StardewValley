@@ -19,7 +19,8 @@ namespace WizardrySkill.Core.Framework.Spells
         /// <summary>Whether the spell can be cast while a menu is open.</summary>
         public bool CanCastInMenus { get; protected set; }
 
-        public Texture2D[] Icons { get; protected set; }
+        public Texture2D Icon { get; protected set; }
+        public Texture2D[] SpellLevels { get; protected set; }
 
 
         /*********
@@ -88,10 +89,22 @@ namespace WizardrySkill.Core.Framework.Spells
         {
             try
             {
-                this.Icons = new Texture2D[this.GetMaxCastingLevel()];
+                this.Icon = Content.LoadTexture("magic/" + this.ParentSchool.Id + "/" + this.Id + "/" + 1);
+            }
+            catch (ContentLoadException e)
+            {
+                Log.Warn("Failed to load icon for spell " + this.FullId + ": " + e);
+            }
+        }
+
+        public virtual void LoadLevel()
+        {
+            try
+            {
+                this.SpellLevels = new Texture2D[this.GetMaxCastingLevel()];
                 for (int i = 1; i <= this.GetMaxCastingLevel(); ++i)
                 {
-                    this.Icons[i - 1] = Content.LoadTexture("magic/" + this.ParentSchool.Id + "/" + this.Id + "/" + i);
+                    this.SpellLevels[i - 1] = Content.LoadTexture($"interface/level_{i-1}_spell");
                 }
             }
             catch (ContentLoadException e)

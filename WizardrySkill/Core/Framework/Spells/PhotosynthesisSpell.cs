@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BirbCore.Attributes;
+using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Minigames;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using WizardrySkill.Core.Framework.Schools;
@@ -19,12 +22,12 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetMaxCastingLevel()
         {
-            return 1;
+            return 3;
         }
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return 0;
+            return 100;
         }
 
         public override bool CanCast(Farmer player, int level)
@@ -34,105 +37,59 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            List<GameLocation> locs = new List<GameLocation>
-            {
-                Game1.getLocationFromName("Farm"),
-                Game1.getLocationFromName("Greenhouse"),
-                Game1.getLocationFromName("IslandWest")
-            };
 
-            List<GameLocation> mod_compat_locs = new List<GameLocation>
+            GameLocation location = player.currentLocation;
+            int tileX = targetX / Game1.tileSize;
+            int tileY = targetY / Game1.tileSize;
+            var tile = new Vector2(tileX, tileY);
+            //get a list of the tiles affected
+            List<Vector2> list = Utilities.TilesAffected(tile, 10 * (level +1), player);
+
+            // check each tile for the crops
+            foreach (var entry in location.terrainFeatures.Pairs.ToList())
             {
-                // Ridgeside Village:
-                Game1.getLocationFromName("Custom_Ridgeside_RSVGreenhouse1"),
-                Game1.getLocationFromName("Custom_Ridgeside_RSVGreenhouse2"),
-                Game1.getLocationFromName("Custom_Ridgeside_AguarCaveTemporary"),
-                Game1.getLocationFromName("Custom_Ridgeside_SummitFarm"),
-                // SVE:
-                Game1.getLocationFromName("Custom_GrandpasShedGreenhouse"),
-                Game1.getLocationFromName("Custom_GrampletonFields")
-            };
-            foreach (GameLocation loc in mod_compat_locs)
-            {
-                if (loc != null)
+                var tf = entry.Value;
+                // If the object in hoedirt and is on the list
+                if (tf is HoeDirt dirt && list.Contains(entry.Key))
                 {
-                    locs.Add(loc);
+                    // continue if there is no crop or if the crop is fully grown
+                    if (dirt.crop == null || dirt.crop.fullyGrown.Value)
+                        continue;
+                    // If it does contain a a crop, advance the crop for one day
+                    dirt.crop.newDay(1);
+                    location.playSound("grassyStep");
                 }
-            }
-
-
-            foreach (GameLocation location in Game1.locations
-                .Concat(
-                    from location in Game1.locations
-                    from building in location.buildings
-                    where location.IsBuildableLocation()
-                    where building.indoors.Value != null
-                    select building.indoors.Value
-                ))
-            {
-                if (location.IsGreenhouse || location.IsFarm)
-                {
-                    if (!locs.Contains(location))
+                if (tf is FruitTree fruitTree && list.Contains(entry.Key)) {
+                    if (fruitTree.daysUntilMature.Value > 0)
                     {
-                        locs.Add(location);
+                        location.playSound("grassyStep");
+                        fruitTree.daysUntilMature.Value = Math.Max(0, fruitTree.daysUntilMature.Value - 7);
+                        fruitTree.growthStage.Value = fruitTree.daysUntilMature.Value > 0 ? fruitTree.daysUntilMature.Value > 7 ? fruitTree.daysUntilMature.Value > 14 ? fruitTree.daysUntilMature.Value > 21 ? 0 : 1 : 2 : 3 : 4;
+                    }
+                    else if (!fruitTree.stump.Value && fruitTree.growthStage.Value == 4 && (fruitTree.IsInSeasonHere() || location.Name == "Greenhouse"))
+                    {
+                        int fruitCount = fruitTree.fruit.Count;
+                        for (int i = fruitCount; i < 3; i++)
+                        {
+                            fruitTree.TryAddFruit();
+                            location.playSound("grassyStep");
+                        }
                     }
                 }
-            }
-            // TODO: API for other places to grow
-            // TODO: Garden pots
-            // Such as the SDM farms
-
-            foreach (GameLocation loc in locs)
-            {
-                foreach (var terrainFeature in loc.terrainFeatures.Values)
+                if (tf is FruitTree tree && list.Contains(entry.Key))
                 {
-                    switch (terrainFeature)
+                    if (tree.growthStage.Value < 5)
                     {
-                        case HoeDirt dirt:
-                            this.GrowHoeDirt(dirt);
-                            break;
 
-                        case FruitTree tree:
-                            if (tree.daysUntilMature.Value > 0)
-                            {
-                                tree.daysUntilMature.Value = Math.Max(0, tree.daysUntilMature.Value - 7);
-                                tree.growthStage.Value = tree.daysUntilMature.Value > 0 ? tree.daysUntilMature.Value > 7 ? tree.daysUntilMature.Value > 14 ? tree.daysUntilMature.Value > 21 ? 0 : 1 : 2 : 3 : 4;
-                            }
-                            else if (!tree.stump.Value && tree.growthStage.Value == 4 && (tree.IsInSeasonHere() || loc.Name == "Greenhouse"))
-                            {
-                                int fruitCount = tree.fruit.Count;
-                                for (int i = fruitCount; i < 3; i++)
-                                    tree.TryAddFruit();
-                            }
-                            break;
-
-                        case Tree tree:
-                            if (tree.growthStage.Value < 5)
-                                tree.growthStage.Value++;
-                            break;
+                        location.playSound("grassyStep");
+                        tree.growthStage.Value++;
                     }
                 }
+                location.updateMap();
 
-                foreach (var obj in loc.Objects.Values)
-                {
-                    if (obj is IndoorPot pot)
-                        this.GrowHoeDirt(pot.hoeDirt.Value);
-                }
             }
-
             player.Items.ReduceId(SObject.prismaticShardIndex.ToString(), 1);
             return null;
-        }
-
-        private void GrowHoeDirt(HoeDirt dirt)
-        {
-            if (dirt?.crop is not null)
-            {
-                dirt.crop.currentPhase.Value = Math.Min(dirt.crop.phaseDays.Count - 1, dirt.crop.currentPhase.Value + 1);
-                dirt.crop.dayOfCurrentPhase.Value = 0;
-                if (dirt.crop.RegrowsAfterHarvest() && dirt.crop.currentPhase.Value == dirt.crop.phaseDays.Count - 1)
-                    dirt.crop.fullyGrown.Value = true;
-            }
         }
     }
 }

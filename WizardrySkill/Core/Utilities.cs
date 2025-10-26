@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BirbCore.Attributes;
+using Microsoft.Xna.Framework;
 using StardewValley;
 
 namespace WizardrySkill.Core
@@ -72,6 +73,21 @@ namespace WizardrySkill.Core
                 Core.Utilities.AddEXP(player, EXP);
             }
 
+        }
+
+
+        public static List<Vector2> TilesAffected(Vector2 tileLocation, int power, Farmer who)
+        {
+            List<Vector2> list = new List<Vector2>();
+            list.Add(tileLocation);
+            for (int i = (int)tileLocation.X - power; (float)i <= tileLocation.X + power; i++)
+            {
+                for (int j = (int)tileLocation.Y - power; (float)j <= tileLocation.Y + power; j++)
+                {
+                    list.Add(new Vector2(i, j));
+                }
+            }
+            return list;
         }
     }
 }

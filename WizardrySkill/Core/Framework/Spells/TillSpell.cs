@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Tools;
 using WizardrySkill.Core.Framework.Schools;
+using static StardewValley.Minigames.TargetGame;
 using SObject = StardewValley.Object;
 
 namespace WizardrySkill.Core.Framework.Spells
@@ -16,63 +18,74 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return 0;
+            return 3;
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            level += 1;
-            targetX /= Game1.tileSize;
-            targetY /= Game1.tileSize;
-            Vector2 target = new Vector2(targetX, targetY);
 
+            // create fake tools
             Tool dummyHoe = new Hoe();
+            dummyHoe.IsEfficient = true;
             ModEntry.Instance.Helper.Reflection.GetField<Farmer>(dummyHoe, "lastUser").SetValue(player);
 
+            level += 1;
+            int num = 0;
+
             GameLocation loc = player.currentLocation;
-            for (int tileX = targetX - level; tileX <= targetX + level; ++tileX)
+            int tileX = targetX / Game1.tileSize;
+            int tileY = targetY / Game1.tileSize;
+            var target = new Vector2(tileX, tileY);
+            //get a list of the tiles affected
+            List<Vector2> list = Utilities.TilesAffected(target, 3 * level, player);
+            //for each tile in the list, do the spell's function
+            foreach (var tile in list)
             {
-                for (int tileY = targetY - level; tileY <= targetY + level; ++tileY)
+                // skip if out of mana
+                if (!this.CanContinueCast(player, level))
+                    return null;
+
+                // skip if blocked
+                if (loc.terrainFeatures.ContainsKey(tile))
+                    continue;
+
+                int targetTileX = (int)tile.X;
+                int targetTileY = (int)tile.X;
+
+                // handle artifact spot, else skip if blocked
+                if (loc.objects.TryGetValue(tile, out SObject obj))
                 {
-
-                    // skip if out of mana
-                    if (!this.CanContinueCast(player, level))
-                        return null;
-
-
-                    Vector2 tile = new Vector2(tileX, tileY);
-
-
-
-                    // skip if blocked
-                    if (loc.terrainFeatures.ContainsKey(tile))
-                        continue;
-
-                    // handle artifact spot, else skip if blocked
-                    if (loc.objects.TryGetValue(tile, out SObject obj))
+                    if (obj.ParentSheetIndex == 590)
                     {
-                        if (obj.ParentSheetIndex == 590)
+                        loc.digUpArtifactSpot(targetTileX, targetTileY, player);
+                        loc.objects.Remove(tile);
+                        if (num != 0)
                         {
-                            loc.digUpArtifactSpot(tileX, tileY, player);
-                            loc.objects.Remove(tile);
                             player.AddMana(-2);
                         }
-                        else
-                            continue;
-                    }
-
-                    // till dirt
-                    if (loc.doesTileHaveProperty(tileX, tileY, "Diggable", "Back") != null && !loc.IsTileOccupiedBy(tile))
-                    {
-                        loc.makeHoeDirt(tile);
-                        loc.playSound("hoeHit", tile);
-                        //Game1.removeSquareDebrisFromTile(tileX, tileY);
-                        Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(12, new Vector2(tileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.White, 8, Game1.random.NextDouble() < 0.5, 50f));
-                        Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(6, new Vector2(tileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.White, 8, Game1.random.NextDouble() < 0.5, Vector2.Distance(tile, target) * 30f));
-                        loc.checkForBuriedItem(tileX, tileY, false, false, player);
-                        player.AddMana(-3);
+                        num++;
                         Utilities.AddEXP(player, 2);
+                        continue;
                     }
+                    else
+                        continue;
+                }
+
+                // till dirt
+                if (loc.doesTileHaveProperty(targetTileX, targetTileY, "Diggable", "Back") != null && !loc.IsTileOccupiedBy(tile))
+                {
+                    loc.makeHoeDirt(tile);
+                    loc.playSound("hoeHit", tile);
+                    //Game1.removeSquareDebrisFromTile(tileX, tileY);
+                    Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(12, new Vector2(targetTileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.White, 8, Game1.random.NextDouble() < 0.5, 50f));
+                    Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(6, new Vector2(targetTileX * (float)Game1.tileSize, targetTileY * (float)Game1.tileSize), Color.White, 8, Game1.random.NextDouble() < 0.5, Vector2.Distance(tile, target) * 30f));
+                    loc.checkForBuriedItem(targetTileX, targetTileY, false, false, player);
+                    if (num != 0)
+                    {
+                        player.AddMana(-3);
+                    }
+                    num++;
+                    Utilities.AddEXP(player, 2);
                 }
             }
 

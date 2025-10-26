@@ -2,6 +2,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
 using SpaceCore;
 using StardewValley;
 using StardewValley.BellsAndWhistles;
@@ -216,7 +217,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                     // Draw the spell background
                     b.Draw(ModEntry.Assets.SpellMenubg, rect, Color.White);
                     // Draw the spell icon
-                    b.Draw(known ? spell.Icons[0] : ModEntry.Assets.UnknownSpellBg, rect, Color.White);
+                    b.Draw(known ? spell.Icon : ModEntry.Assets.UnknownSpellBg, rect, Color.White);
 
 
                     if (!hovered) continue;
@@ -250,7 +251,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
             SpriteText.drawString(b, title, (int)(centerX - titleWidth / 2f), this.NewBaseY + 30, scroll_text_alignment: SpriteText.ScrollTextAlignment.Center);
 
             // Big Icon
-            Texture2D icon = this.SelectedSpell.Icons[0];
+            Texture2D icon = this.SelectedSpell.Icon;
             Rectangle iconRect = new(this.NewBaseX + WindowWidth / 2 + (WindowWidth / 2 - SelIconSize) / 2, this.NewBaseY + 65, SelIconSize, SelIconSize);
             b.Draw(icon, iconRect, Color.White);
 
@@ -264,8 +265,9 @@ namespace WizardrySkill.Core.Framework.Game.Interface
 
         private void DrawSpellLevels(SpriteBatch b, SpellBook book, ref string hoverText, int mouseX, int mouseY, string title)
         {
-            var icons = this.SelectedSpell.Icons;
-            int levelCount = icons.Length;
+            var spell = this.SelectedSpell;
+            var icons = spell.Icon;
+            int levelCount = spell.GetMaxCastingLevel();
             int spacing = WindowWidth / 2 / (levelCount + 1);
 
             for (int i = 0; i < levelCount; i++)
@@ -274,8 +276,8 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                 int y = this.NewBaseY + WindowHeight - SpellIconSize - 84;
                 Rectangle rect = new(x - SpellIconSize / 2, y, SpellIconSize, SpellIconSize);
                 bool hovered = rect.Contains(mouseX, mouseY);
-                bool known = book.KnowsSpell(this.SelectedSpell, i);
-                bool unlockable = known || i == 0 || book.KnowsSpell(this.SelectedSpell, i - 1);
+                bool known = book.KnowsSpell(spell, i);
+                bool unlockable = known || i == 0 || book.KnowsSpell(spell, i - 1);
                 float alpha = unlockable ? 1f : 0.5f;
 
                 // Frame color & tooltip
@@ -301,7 +303,8 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                     b.Draw(ModEntry.Assets.SpellMenubg, new Rectangle(rect.Left - 12, rect.Top - 12, rect.Width + 24, rect.Height + 24), Color.Green);
 
                 b.Draw(ModEntry.Assets.SpellMenubg, rect, Color.White * alpha);
-                b.Draw(icons[i], rect, Color.White * alpha);
+                b.Draw(icons, rect, Color.White * alpha);
+                b.Draw(spell.SpellLevels[i], rect, Color.White * alpha);
 
                 // Click handling
                 if (!hovered) continue;
@@ -309,9 +312,9 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                 if (this.JustLeftClicked && this.Dragging == null)
                 {
                     if (known)
-                        this.Dragging = new PreparedSpell(this.SelectedSpell.FullId, i);
+                        this.Dragging = new PreparedSpell(spell.FullId, i);
                     else if (unlockable && book.FreePoints > 0)
-                        book.Mutate(_ => book.LearnSpell(this.SelectedSpell, i));
+                        book.Mutate(_ => book.LearnSpell(spell, i));
                     this.JustLeftClicked = false;
                     if (this.Dragging != null)
                     {
@@ -325,7 +328,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                 {
                     if (this.Dragging == null)
                     {
-                        book.Mutate(_ => book.ForgetSpell(this.SelectedSpell, i));
+                        book.Mutate(_ => book.ForgetSpell(spell, i));
                         this.JustRightClicked = false;
                         Game1.playSound(Deselect);
                     } else
@@ -398,11 +401,12 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                     if (prep != null)
                     {
                         Spell spell = SpellManager.Get(prep.SpellId);
-                        Texture2D icon = spell?.Icons.ElementAtOrDefault(prep.Level);
+                        Texture2D icon = spell?.Icon;
                         if (icon != null)
                             b.Draw(icon, rect, Color.White);
+                            b.Draw(spell.SpellLevels[prep.Level], rect, Color.White);
 
-                        if (hovered)
+                        if (hovered && this.Dragging == null)
                             hoverText = spell.GetTooltip(prep.Level);
                     }
 
@@ -422,12 +426,14 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                 return;
 
             Spell spell = SpellManager.Get(this.Dragging.SpellId);
-            Texture2D icon = spell?.Icons.ElementAtOrDefault(this.Dragging.Level);
+            Texture2D icon = spell?.Icon;
+            int level = this.Dragging.Level;
             if (icon == null) return;
 
             Rectangle rect = new(mouseX - 24, mouseY - 24, HotbarIconSize, HotbarIconSize);
             b.Draw(ModEntry.Assets.SpellMenubg, rect, Color.White);
             b.Draw(icon, rect, Color.White);
+            b.Draw(spell.SpellLevels[level], rect, Color.White);
         }
 
         /*********

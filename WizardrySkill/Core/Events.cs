@@ -429,12 +429,12 @@ namespace WizardrySkill.Core
                     continue;
 
                 Spell spell = SpellManager.Get(prep.SpellId);
-                if (spell == null || spell.Icons.Length <= prep.Level || spell.Icons[prep.Level] == null)
+                if (spell == null || spell.SpellLevels.Length <= prep.Level || spell.SpellLevels[prep.Level] == null)
                     continue;
 
                 Rectangle bounds = new(spots[i].X, spots[i].Y, 50, 50);
-
-                b.Draw(spell.Icons[prep.Level], bounds, spellBook.CanCastSpell(spell, prep.Level) ? Color.White : new Color(128, 128, 128));
+                b.Draw(spell.Icon, bounds, spellBook.CanCastSpell(spell, prep.Level) ? Color.White : new Color(128, 128, 128));
+                b.Draw(spell.SpellLevels[prep.Level], bounds, spellBook.CanCastSpell(spell, prep.Level) ? Color.White : new Color(128, 128, 128));
                 if (bounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY()))
                     hoveredText = spell.GetTooltip(level: prep.Level);
             }
@@ -490,7 +490,7 @@ namespace WizardrySkill.Core
                     continue;
 
                 Spell spell = SpellManager.Get(prep.SpellId);
-                if (spell == null || spell.Icons.Length <= prep.Level || spell.Icons[prep.Level] == null)
+                if (spell == null || spell.SpellLevels.Length <= prep.Level || spell.SpellLevels[prep.Level] == null)
                     continue;
 
                 Rectangle bounds = new(spots[i].X, spots[i].Y, 50, 50);

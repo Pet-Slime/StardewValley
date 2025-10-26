@@ -142,7 +142,7 @@
     "moonslime.Wizardry.spell.nature:lantern.name": "Thunderbug",
     "moonslime.Wizardry.spell.nature:lantern.cost": "3 mana per level",
     "moonslime.Wizardry.spell.nature:lantern.desc": "Summon a bug that will give off light and follow you.\nHigher levels create more light.",
-    "moonslime.Wizardry.spell.nature:lantern.hint": "I wonder if one could combine lightning with a bug?\nI would need something that could harness it while close enough to a bug to study.",
+    "moonslime.Wizardry.spell.nature:lantern.hint": "I wonder if one could combine lightning with a bug?\nI would need something that could harness it while nearby a bug to study.",
 
     "moonslime.Wizardry.spell.nature:tendrils.name": "Tendrils",
     "moonslime.Wizardry.spell.nature:tendrils.cost": "10 mana",

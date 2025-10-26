@@ -67,6 +67,21 @@
         },
         {
             "Action": "Load",
+            "Target": "Mods/moonslime.WizardrySkill/interface/level_0_spell",
+            "FromFile": "Assets/interface/level_0_spell.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.WizardrySkill/interface/level_1_spell",
+            "FromFile": "Assets/interface/level_1_spell.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.WizardrySkill/interface/level_2_spell",
+            "FromFile": "Assets/interface/level_2_spell.png"
+        },
+        {
+            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/arcane/analyze/1",
             "FromFile": "Assets/magic/arcane/analyze/1.png"
         },
