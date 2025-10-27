@@ -24,7 +24,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return 3 * (level+1);
+            return 10 * (level+1);
         }
 
         public override bool CanCast(Farmer player, int level)

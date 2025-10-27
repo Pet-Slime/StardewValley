@@ -182,9 +182,9 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 this.AnimFrame = (this.AnimFrame + 1) & 3; // faster modulo 4
             }
 
-            int dir = GetSnappedDirection(this.Pos, target);
+            int direction = GetSnappedDirection(this.Pos, target);
             this.Sprite.sourceRect.X = this.AnimFrame * 16;
-            this.Sprite.sourceRect.Y = dir * 24;
+            this.Sprite.sourceRect.Y = direction * 24;
 
             // Visual offset + smooth movement
             Vector2 dynamicPos = this.Pos + SharedOscillation + SpriteOffset;

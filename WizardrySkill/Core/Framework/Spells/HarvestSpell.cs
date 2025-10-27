@@ -49,14 +49,10 @@ namespace WizardrySkill.Core.Framework.Spells
 
                     loc.terrainFeatures.Remove(tile);
                     // collect hay
-                    Random random = Game1.IsMultiplayer
-                    ? Game1.recentMultiplayerRandom
-                        : new Random((int)(Game1.uniqueIDForThisGame + tile.X * 1000.0 + tile.Y * 11.0));
-                    if (random.NextDouble() < 0.5)
-                    {
-                        if (Game1.getFarm().tryToAddHay(1) == 0) // returns number left
-                            Game1.addHUDMessage(new HUDMessage("Hay", HUDMessage.achievement_type, true));
-                    }
+
+                    if (Game1.getFarm().tryToAddHay(1) == 0) // returns number left
+                        Game1.addHUDMessage(new HUDMessage("Hay", HUDMessage.achievement_type, true));
+
                     if (num != 0)
                     {
                         player.AddMana(-3);

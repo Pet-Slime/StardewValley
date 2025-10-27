@@ -1,8 +1,17 @@
 using System;
+using System.Collections.Generic;
+using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceCore;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.Extensions;
+using StardewValley.Monsters;
+using xTile.Tiles;
+using static StardewValley.Minigames.TargetGame;
+using Object = StardewValley.Object;
 
 namespace WizardrySkill.Core.Framework.Spells.Effects
 {
@@ -23,6 +32,8 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         private TemporaryAnimatedSprite Shadow;
 
         private int TimeLeft = 60 * 60;
+        private int BaseAttackTimer;
+        private int AttackTimer;
         private int AnimTimer;
         private int AnimFrame;
 
@@ -36,12 +47,14 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         public LanternEffect(Farmer summoner, int level)
         {
             this.Summoner = summoner;
-            this.Level = level;
+            this.Level = level+1;
+            this.TimeLeft = 30 * this.Level * 60;
             this.Tex = ModEntry.Assets.Thunderbug;
 
             this.Pos = summoner.Position;
             this.PrevSummonerLoc = summoner.currentLocation;
-
+            this.BaseAttackTimer = this.TimeLeft / (this.Level + 1);
+            this.AttackTimer = this.BaseAttackTimer;
             this.AddSpriteAndLight();
         }
 
@@ -54,7 +67,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 return false;
             }
 
-            // Location changed
+            // Handle Location changed
             if (this.PrevSummonerLoc != Game1.currentLocation)
             {
                 this.CleanUp();
@@ -63,18 +76,27 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 this.AddSpriteAndLight();
             }
 
-            // Smoothly follow summoner
-            if (Vector2.Distance(this.Pos, this.Summoner.Position) > Game1.tileSize)
+            // Handle attack or movement
+            Vector2 target = this.AttackTimer > 0 ? Vector2.Zero : this.FindNearestLightningRod(10f * (this.Level));
+            if (this.AttackTimer > 0)
+                this.AttackTimer--;
+
+            if (target != Vector2.Zero)
             {
-                Vector2 direction = this.Summoner.Position - this.Pos;
-                direction.Normalize();
-                this.Pos += direction * 7f;
+                var targetPosition = target * Game1.tileSize;
+                this.MoveTowards(targetPosition);
 
-                if (this.Light != null)
-                    this.Light.position.Value = this.Pos;
+                if (Vector2.Distance(this.Pos, targetPosition) < Game1.tileSize)
+                    this.AttemptAttack(target);
+
+                this.UpdateSprite(targetPosition);
             }
-
-            this.UpdateSprite();
+            else
+            {
+                // No enemies found — follow the summoner
+                this.FollowSummoner();
+                this.UpdateSprite(this.Summoner.Position);
+            }
 
             if (--this.TimeLeft <= 0)
             {
@@ -106,6 +128,82 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         /*********
         ** Private helpers
         *********/
+        private void FollowSummoner()
+        {
+            if (Vector2.Distance(this.Pos, this.Summoner.Position) <= Game1.tileSize)
+                return;
+
+            Vector2 direction = this.Summoner.Position - this.Pos;
+            direction.Normalize();
+            this.Pos += direction * 7f;
+
+            if (this.Light != null)
+                this.Light.position.Value = this.Pos;
+        }
+
+        private void MoveTowards(Vector2 target)
+        {
+            Vector2 dir = target - this.Pos;
+            if (dir.LengthSquared() > 0.001f)
+            {
+                dir.Normalize();
+                this.Pos += dir * 7f;
+            }
+        }
+
+        private void AttemptAttack(Vector2 target)
+        {
+            var location = this.Summoner.currentLocation;
+            List<Vector2> lightningRods = new List<Vector2>();
+            foreach (KeyValuePair<Vector2, StardewValley.Object> thing in location.objects.Pairs)
+            {
+                if (thing.Key == target)
+                {
+                    lightningRods.Add(target);
+                }
+            }
+            if (lightningRods.Count > 0)
+            {
+                if (location.objects[target].heldObject.Value == null)
+                {
+                    location.objects[target].heldObject.Value = ItemRegistry.Create<Object>("(O)787", 1, 0, false);
+                    location.objects[target].MinutesUntilReady = Utility.CalculateMinutesUntilMorning(Game1.timeOfDay);
+                    location.objects[target].shakeTimer = 1000;
+                    Game1.flashAlpha = (float)(0.5 + Game1.random.NextDouble());
+                    location.playSound("thunder", target);
+
+                    var boltPosition = target * 64f + new Vector2(32f, 0f);
+                    Utility.drawLightningBolt(boltPosition, location);
+                }
+            }
+            this.AttackTimer = this.BaseAttackTimer;
+        }
+
+        private Vector2 FindNearestLightningRod(float maxDistance)
+        {
+            Vector2 nearest = Vector2.Zero;
+            float nearestDist = maxDistance;
+
+            Farm.LightningStrikeEvent lightningEvent = new Farm.LightningStrikeEvent();
+            lightningEvent.bigFlash = true;
+            List<Vector2> lightningRods = new List<Vector2>();
+            GameLocation location = this.Summoner.currentLocation;
+            foreach (KeyValuePair<Vector2, StardewValley.Object> thing in location.objects.Pairs)
+            {
+                if (thing.Value.QualifiedItemId == "(BC)9" && thing.Value.heldObject.Value == null)
+                {
+                    float dist = Vector2.Distance(thing.Key, this.Summoner.Tile);
+                    if (dist < nearestDist)
+                    {
+                        nearest = thing.Value.TileLocation;
+                        nearestDist = dist;
+                    }
+                }
+            }
+
+            return nearest;
+        }
+
         public static void UpdateSharedOscillation()
         {
             double t = Game1.currentGameTime.TotalGameTime.TotalMilliseconds;
@@ -113,7 +211,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             SharedOscillation.Y = (float)Math.Sin(t * 0.004) * 6f;
         }
 
-        private void UpdateSprite()
+        private void UpdateSprite(Vector2 target)
         {
             UpdateSharedOscillation();
 
@@ -124,7 +222,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 this.AnimFrame = (this.AnimFrame + 1) & 3; // faster modulo 4
             }
 
-            int direction = GetSnappedDirection(this.Pos, this.Summoner.Position);
+            int direction = GetSnappedDirection(this.Pos, target);
             this.Sprite.sourceRect.X = this.AnimFrame * 16;
             this.Sprite.sourceRect.Y = direction * 16;
 
@@ -198,7 +296,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             Game1.Multiplayer.broadcastSprites(this.Summoner.currentLocation, this.Shadow);
 
             string lightId = $"LanternSpell_{this.Summoner.UniqueMultiplayerID}";
-            this.Light = new LightSource(lightId, 1, new Vector2(this.Summoner.Position.X + 21f, this.Summoner.Position.Y + 64f), 8f * (this.Level + 1), new Color(0, 50, 170), LightSource.LightContext.None, this.Summoner.UniqueMultiplayerID, null);
+            this.Light = new LightSource(lightId, 1, new Vector2(this.Summoner.Position.X + 21f, this.Summoner.Position.Y + 64f), 8f * (this.Level), new Color(0, 50, 170), LightSource.LightContext.None, this.Summoner.UniqueMultiplayerID, null);
 
             Game1.currentLightSources[lightId] = this.Light;
         }

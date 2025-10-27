@@ -115,7 +115,7 @@
     "moonslime.Wizardry.spell.toil:cleardebris.hint": "Looking to use magic to work around the farm?\nTry analyzing your tools.",
 
     "moonslime.Wizardry.spell.toil:till.name": "Till",
-    "moonslime.Wizardry.spell.toil:till.cost": "3 mana per tile",
+    "moonslime.Wizardry.spell.toil:till.cost": "2 mana per tile",
     "moonslime.Wizardry.spell.toil:till.desc": "Till soil around the targeted area.\nHigher levels indicate a larger area.",
     "moonslime.Wizardry.spell.toil:till.hint": "Looking to use magic to work around the farm?\nTry analyzing your tools.",
 
@@ -131,7 +131,7 @@
 
     "moonslime.Wizardry.spell.toil:harvest.name": "Grass Removal",
     "moonslime.Wizardry.spell.toil:harvest.cost": "5 mana per tile",
-    "moonslime.Wizardry.spell.toil:harvest.desc": "Clear a large area of grass.",
+    "moonslime.Wizardry.spell.toil:harvest.desc": "Clear a large area of grass and gives hay for each one removed.",
     "moonslime.Wizardry.spell.toil:harvest.hint": "Looking to use magic to work around the farm?\nTry analyzing your tools",
 
     "moonslime.Wizardry.spell.toil:collect.name": "Collect",
@@ -140,8 +140,8 @@
     "moonslime.Wizardry.spell.toil:collect.hint": "Find all other Toil spells.",
 
     "moonslime.Wizardry.spell.nature:lantern.name": "Thunderbug",
-    "moonslime.Wizardry.spell.nature:lantern.cost": "3 mana per level",
-    "moonslime.Wizardry.spell.nature:lantern.desc": "Summon a bug that will give off light and follow you.\nHigher levels create more light.",
+    "moonslime.Wizardry.spell.nature:lantern.cost": "10 mana per level",
+    "moonslime.Wizardry.spell.nature:lantern.desc": "Summon a glowing bug that follows you and may charge lightning rods.\nHigher levels create more light.",
     "moonslime.Wizardry.spell.nature:lantern.hint": "I wonder if one could combine lightning with a bug?\nTo study this, I'll need something that can harness the lightning's power while I'm close enough to a bug.",
 
     "moonslime.Wizardry.spell.nature:tendrils.name": "Tendrils",
