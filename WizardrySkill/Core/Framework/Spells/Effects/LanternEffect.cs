@@ -48,7 +48,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         {
             this.Summoner = summoner;
             this.Level = level+1;
-            this.TimeLeft = 30 * this.Level * 60;
+            this.TimeLeft = 30 * 3 * 60;
             this.Tex = ModEntry.Assets.Thunderbug;
 
             this.Pos = summoner.Position;
