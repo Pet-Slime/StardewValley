@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -20,49 +22,76 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            level += 1 + level * 2;
-            targetX /= Game1.tileSize;
-            targetY /= Game1.tileSize;
+            int effectiveRange = (level + 1) * 3;
+            int collectedCount = 0;
+            const int baseManaCost = 3;
+            const int expPerCollect = 5;
+            const string collectSound = "coin";
 
-            int num = 0;
+            GameLocation location = player.currentLocation;
+            int tileSize = Game1.tileSize;
 
-            GameLocation loc = player.currentLocation;
-            for (int tileX = targetX - level; tileX <= targetX + level; ++tileX)
+            // Determine the target tile
+            Vector2 target = new Vector2(targetX / tileSize, targetY / tileSize);
+
+            // Get all affected tiles
+            List<Vector2> tiles = Utilities.TilesAffected(target, effectiveRange, player);
+
+            foreach (Vector2 tile in tiles)
             {
-                for (int tileY = targetY - level; tileY <= targetY + level; ++tileY)
-                {
-                    // skip if out of mana
-                    if (!this.CanContinueCast(player, level))
-                        return null;
+                // Stop if the player runs out of mana
+                if (!this.CanContinueCast(player, level))
+                    break;
 
-                    Vector2 tile = new Vector2(tileX, tileY);
+                // Skip if no machine at this tile
+                if (!location.objects.TryGetValue(tile, out StardewValley.Object machine) ||
+                    machine is not { bigCraftable.Value: true, readyForHarvest.Value: true } ||
+                    machine.heldObject.Value is null ||
+                    !player.couldInventoryAcceptThisItem(machine.heldObject.Value))
+                    continue;
 
-                    #region Harvest Machines
-                    loc.objects.TryGetValue(tile, out StardewValley.Object machine);
+                // Perform harvest
+                machine.checkForAction(player);
+                Utilities.AddEXP(player, expPerCollect);
 
-                    if (machine != null && machine.readyForHarvest.Value && machine.heldObject.Value != null)
-                    {
-                        machine.checkForAction(player);
+                if (collectedCount > 0)
+                    player.AddMana(-baseManaCost);
 
-                    }
-                    #endregion
+                // Visual and audio feedback
+                location.playSound(collectSound, tile);
 
-                    if (num != 0)
-                    {
-                        player.AddMana(-3);
-                    }
-                    Utilities.AddEXP(player, 5);
-                    loc.playSound("grunt", tile);
+                var point = machine.TileLocation * tileSize;
 
-                    Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(13, new Vector2(tileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.Brown, 10, Game1.random.NextDouble() < 0.5, 70f, 0, Game1.tileSize, (float)((tileY * (double)Game1.tileSize + Game1.tileSize / 2) / 10000.0 - 0.00999999977648258))
-                    {
-                        delayBeforeAnimationStart = num * 10
-                    });
-                    num++;
+                Game1.Multiplayer.broadcastSprites(player.currentLocation,
+                    new TemporaryAnimatedSprite(10,
+                    point,
+                    Color.Cyan,
+                    10,
+                    Game1.random.NextDouble() < 0.5,
+                    70f,
+                    0,
+                    Game1.tileSize,
+                    100f));
 
-                }
+                point.Y -= (int)(player.Sprite.SpriteHeight * 2);
+
+                Game1.Multiplayer.broadcastSprites(player.currentLocation,
+                    new TemporaryAnimatedSprite(10,
+                    point,
+                    Color.Cyan,
+                    10,
+                    Game1.random.NextDouble() < 0.5,
+                    70f,
+                    0,
+                    Game1.tileSize,
+                    100f));
+
+                collectedCount++;
             }
-            return null;
+
+            return collectedCount == 0
+                ? new SpellFizzle(player, this.GetManaCost(player, level))
+                : null;
         }
     }
 }

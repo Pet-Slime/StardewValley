@@ -6,6 +6,7 @@ using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using StardewValley.Tools;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 using SObject = StardewValley.Object;
 
 namespace WizardrySkill.Core.Framework.Spells
@@ -37,7 +38,7 @@ namespace WizardrySkill.Core.Framework.Spells
             }
 
             level += 1;
-            int num = 0;
+            int actionCount = 0;
             // scan location
             GameLocation loc = player.currentLocation;
             int tileX = targetX / Game1.tileSize;
@@ -120,17 +121,18 @@ namespace WizardrySkill.Core.Framework.Spells
 
                 if (didAction)
                 {
-                    if (num != 0)
+                    if (actionCount != 0)
                     {
                         player.AddMana(this.GetManaCost(player, level) * -1);
                     }
-                    num++;
+                    actionCount++;
                     Utilities.AddEXP(player, 10);
                 }
             }
 
-
-            return null;
+            return actionCount == 0
+                ? new SpellFizzle(player, this.GetManaCost(player, level))
+                : null;
         }
 
 

@@ -30,7 +30,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
             var ms = player.currentLocation as MineShaft;
             if (ms == null)
-                return new SpellFizzle(player);
+                return new SpellFizzle(player, this.GetManaCost(player, level));
 
             int target = ms.mineLevel + 1 + level;
             if (ms.mineLevel <= 120 && target >= 120)

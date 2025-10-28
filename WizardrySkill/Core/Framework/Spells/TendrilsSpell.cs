@@ -45,7 +45,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
             return tendrils.Any()
                 ? tendrils
-                : new SpellFizzle(player);
+                : new SpellFizzle(player, this.GetManaCost(player, level));
         }
     }
 }

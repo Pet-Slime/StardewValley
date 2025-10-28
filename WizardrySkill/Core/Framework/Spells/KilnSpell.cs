@@ -56,7 +56,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 return new SpellSuccess(player, "furnace", 2 * (level + 1));
 
             }
-            return new SpellFizzle(player);
+            return new SpellFizzle(player, this.GetManaCost(player, level));
         }
     }
 }

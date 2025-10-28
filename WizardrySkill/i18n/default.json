@@ -79,6 +79,14 @@
     "moonslime.Wizardry.school.eldritch.name": "Eldritch",
     "moonslime.Wizardry.school.uknown.name": "Unkown",
 
+    "moonslime.Wizardry.school.arcane.desc": "Arcane spells give you handy tools and a little extra insight into the world around you.",
+    "moonslime.Wizardry.school.toil.desc": "Not every school of magic is about hurling fire from your hands.\nThe School of Toil focuses on the practical.\nSpells that make everyday chores a little easier.",
+    "moonslime.Wizardry.school.nature.desc": "The Nature school weaves magic that lets plants and animals join in the fun.",
+    "moonslime.Wizardry.school.life.desc": "Life magic lends a helping hand;\npatching up aches, clearing away gloom, and giving you a spark of extra energy.",
+    "moonslime.Wizardry.school.elemental.desc": "",
+    "moonslime.Wizardry.school.eldritch.desc": "A dash of Eldritch magic can do wonders…\nbut it loves to collect a tiny toll in return.",
+    "moonslime.Wizardry.school.uknown.desc": "Unkown",
+
     "moonslime.Wizardry.spellmenu.leftsideTitle": "Spells",
     "moonslime.Wizardry.spell.cost": "Cost: ",
     "moonslime.Wizardry.spell.spellpoints": "Free Points: ",
@@ -116,12 +124,12 @@
 
     "moonslime.Wizardry.spell.toil:till.name": "Till",
     "moonslime.Wizardry.spell.toil:till.cost": "2 mana per tile",
-    "moonslime.Wizardry.spell.toil:till.desc": "Till soil around the targeted area.\nHigher levels indicate a larger area.",
+    "moonslime.Wizardry.spell.toil:till.desc": "Use magic to act as a Hoe on target area.\nHigher levels indicate a larger area.",
     "moonslime.Wizardry.spell.toil:till.hint": "Looking to use magic to work around the farm?\nTry analyzing your tools.",
 
     "moonslime.Wizardry.spell.toil:water.name": "Water",
     "moonslime.Wizardry.spell.toil:water.cost": "1 mana per tile",
-    "moonslime.Wizardry.spell.toil:water.desc": "Water soil around the targeted area.\nHigher levels indicate a larger area.",
+    "moonslime.Wizardry.spell.toil:water.desc": "Use magic to act as a Watering Can on target area.\nHigher levels indicate a larger area.",
     "moonslime.Wizardry.spell.toil:water.hint": "Looking to use magic to work around the farm?\nTry analyzing your tools.",
 
     "moonslime.Wizardry.spell.toil:blink.name": "Blink",
@@ -136,7 +144,7 @@
 
     "moonslime.Wizardry.spell.toil:collect.name": "Collect",
     "moonslime.Wizardry.spell.toil:collect.cost": "3 mana per machine",
-    "moonslime.Wizardry.spell.toil:collect.desc": "Higher levels increases collection radius.",
+    "moonslime.Wizardry.spell.toil:collect.desc": "Use to collect items from machines at a range!\nHigher levels increases collection radius.",
     "moonslime.Wizardry.spell.toil:collect.hint": "Find all other Toil spells.",
 
     "moonslime.Wizardry.spell.nature:lantern.name": "Thunderbug",

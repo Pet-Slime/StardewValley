@@ -9,6 +9,7 @@ using StardewValley.Minigames;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 using SObject = StardewValley.Object;
 
 namespace WizardrySkill.Core.Framework.Spells
@@ -45,7 +46,7 @@ namespace WizardrySkill.Core.Framework.Spells
             var target = new Vector2(tileX, tileY);
             //get a list of the tiles affected
             List<Vector2> list = Utilities.TilesAffected(target, 3 * (level +1), player);
-
+            int num = 0;
             foreach (var entry in location.terrainFeatures.Pairs.ToList())
             {
                 bool didAction = false;
@@ -79,7 +80,7 @@ namespace WizardrySkill.Core.Framework.Spells
                         }
                     }
                 }
-                if (tf is FruitTree tree && list.Contains(entry.Key))
+                if (tf is Tree tree && list.Contains(entry.Key))
                 {
                     if (tree.growthStage.Value < 5)
                     {
@@ -93,9 +94,14 @@ namespace WizardrySkill.Core.Framework.Spells
                     
                     Utilities.AddEXP(player, 2);
                     location.playSound("grassyStep", tile);
+                    num++;
                     location.updateMap();
                 }
 
+            }
+            if (num == 0)
+            {
+                return new SpellFizzle(player, this.GetManaCost(player, level));
             }
             player.Items.ReduceId(SObject.prismaticShardIndex.ToString(), 1);
             return null;

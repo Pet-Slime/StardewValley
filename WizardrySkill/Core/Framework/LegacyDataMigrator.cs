@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using SpaceCore;
 using StardewModdingAPI;
 using StardewValley;
+using WizardrySkill.Core.Framework.Spells;
+using WizardrySkill.Objects;
 
 namespace WizardrySkill.Core.Framework
 {
@@ -57,6 +60,72 @@ namespace WizardrySkill.Core.Framework
             {
                 File.Delete(this.OldFilePath);
                 this.Monitor.Log($"Deleted legacy data file: {this.OldFilePath}.");
+            }
+        }
+
+        public static void NewDataMigration()
+        {
+            foreach (var player in Game1.getAllFarmers())
+            {
+
+                SpellBook spellBook = player.GetSpellBook();
+                foreach (PreparedSpellBar spellBar in spellBook.Prepared)
+                {
+                    spellBar.Spells.Clear();
+                }
+
+                if (spellBook.KnowsSpell("arcane:magicmissle", 0))
+                {
+                    spellBook.LearnSpell("elemental:magicmissle", 0, true);
+                }
+
+                if (spellBook.KnowsSpell("life:evac", 0))
+                {
+                    spellBook.LearnSpell("motion:evac", 0, true);
+                }
+
+                if (spellBook.KnowsSpell("toil:blink", 0))
+                {
+                    spellBook.LearnSpell("motion:blink", 0, true);
+                }
+
+                if (spellBook.KnowsSpell("life:haste", 0))
+                {
+                    spellBook.LearnSpell("motion:haste", 0, true);
+                }
+
+                if (spellBook.KnowsSpell("elemental:teleport", 0))
+                {
+                    spellBook.LearnSpell("motion:teleport", 0, true);
+                }
+
+                if (spellBook.KnowsSpell("elemental:descend", 0))
+                {
+                    spellBook.LearnSpell("motion:descend", 0, true);
+                }
+
+                if (spellBook.KnowsSpell("eldritch:meteor", 0))
+                {
+                    spellBook.LearnSpell("elemental:meteor", 0, true);
+                }
+
+                if (spellBook.KnowsSpell("nature:magnetic_force", 0))
+                {
+                    spellBook.LearnSpell("life:magnetic_force", 0, true);
+                }
+
+                if (spellBook.KnowsSpell("nature:shockwave", 0))
+                {
+                    spellBook.LearnSpell("elemental:shockwave", 0, true);
+                }
+
+
+
+                if (spellBook.KnowsSpell("elemental:kiln", 0))
+                {
+                    spellBook.LearnSpell("toil:kiln", 0, true);
+                }
+
             }
         }
 

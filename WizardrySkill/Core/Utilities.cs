@@ -75,19 +75,35 @@ namespace WizardrySkill.Core
 
         }
 
-        public static List<Vector2> TilesAffected(Vector2 tileLocation, int level, Farmer who)
+        public static List<Vector2> TilesAffected(Vector2 tileLocation, int level, Farmer who, bool hollow = false)
         {
             List<Vector2> list = new List<Vector2>();
-            int targetX = (int)tileLocation.X;
-            int targetY = (int)tileLocation.Y;
-            for (int tileX = targetX - level; tileX <= targetX + level; ++tileX)
+            int centerX = (int)tileLocation.X;
+            int centerY = (int)tileLocation.Y;
+
+            float radius = 1.5f + level;
+            float radiusSq = radius * radius;
+            float innerRadiusSq = (radius - 0.75f) * (radius - 0.75f);
+
+            for (int x = centerX - (int)radius; x <= centerX + (int)radius; x++)
             {
-                for (int tileY = targetY - level; tileY <= targetY + level; ++tileY)
+                for (int y = centerY - (int)radius; y <= centerY + (int)radius; y++)
                 {
-                    list.Add(new Vector2(tileX, tileY));
+                    float dx = x - centerX;
+                    float dy = y - centerY;
+                    float distSq = dx * dx + dy * dy;
+
+                    if (distSq <= radiusSq)
+                    {
+                        if (!hollow || distSq >= innerRadiusSq)
+                            list.Add(new Vector2(x, y));
+                    }
                 }
             }
+
             return list;
         }
+
+
     }
 }

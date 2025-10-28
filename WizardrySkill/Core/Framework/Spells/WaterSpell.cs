@@ -6,6 +6,7 @@ using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 using StardewValley.Tools;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 using xTile.Tiles;
 
 namespace WizardrySkill.Core.Framework.Spells
@@ -31,7 +32,7 @@ namespace WizardrySkill.Core.Framework.Spells
             ModEntry.Instance.Helper.Reflection.GetField<Farmer>(water, "lastUser").SetValue(player);
 
             level += 1;
-            int num = 0;
+            int actionCount = 0;
 
             GameLocation loc = player.currentLocation;
             int tileX = targetX / Game1.tileSize;
@@ -72,20 +73,22 @@ namespace WizardrySkill.Core.Framework.Spells
                 {
                     Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(13, new Vector2(tile.X * 64f, tile.Y * 64f), Color.White, 10, Game1.random.NextBool(), 70f, 0, 64, (tile.Y * 64f + 32f) / 10000f - 0.01f)
                     {
-                        delayBeforeAnimationStart =  num * 10
+                        delayBeforeAnimationStart = actionCount * 10
                     });
-                    if (num != 0)
+                    if (actionCount != 0)
                     {
-                        player.AddMana(this.GetManaCost(player, level) * -1);
+                        player.AddMana(-this.GetManaCost(player, level));
                     }
 
-                    num++;
+                    actionCount++;
                     Utilities.AddEXP(player, 2);
                     loc.playSound("wateringCan", tile);
                 }
             }
 
-            return null;
+            return actionCount == 0
+                ? new SpellFizzle(player, this.GetManaCost(player, level))
+                : null;
         }
     }
 }

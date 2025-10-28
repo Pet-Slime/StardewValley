@@ -452,6 +452,9 @@ namespace WizardrySkill.Core
         private static void OnRenderedHud(object sender, RenderedHudEventArgs e)
         {
 
+            if (Game1.activeClickableMenu != null || Game1.eventUp || !LearnedMagic || !Context.IsPlayerFree)
+                return;
+
             // read spell info
             SpellBook spellBook = Game1.player.GetSpellBook();
             PreparedSpellBar prepared = spellBook.GetPreparedSpells();

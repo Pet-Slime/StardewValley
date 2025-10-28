@@ -31,7 +31,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 return null;
 
             if (player.hasBuff($"spell:life:buff:{level}"))
-                return new SpellFizzle(player);
+                return new SpellFizzle(player, this.GetManaCost(player, level));
 
             int l = level + 1;
 

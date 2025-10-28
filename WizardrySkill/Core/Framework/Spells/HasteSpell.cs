@@ -30,7 +30,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 return null;
 
             if (player.hasBuff($"spell:life:haste:{level}"))
-                return new SpellFizzle(player);
+                return new SpellFizzle(player, this.GetManaCost(player, level));
 
             player.buffs.Apply(new Buff(
                 id: $"spell:life:haste:{level}",

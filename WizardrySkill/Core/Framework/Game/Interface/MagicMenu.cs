@@ -155,10 +155,12 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                 drawTextureBox(b, Game1.menuTexture, MenuBoxSource, x, y, SchoolFrameSize, SchoolFrameSize, frameColor);
                 b.Draw(school.Icon, iconRect, Color.White * alpha);
 
+
+
                 if (iconRect.Contains(mouseX, mouseY))
                 {
                     hoverText = knowsSchool
-                        ? school.DisplayName
+                        ? school.DisplayName + "\n" + school.GetTranslatedDescriptionForSpellMenu()
                         : this.UnkownSchool;
 
                     if (this.JustLeftClicked)
@@ -190,6 +192,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
             float centerX = this.NewBaseX + (WindowWidth / 4f);
             int titleWidth = SpriteText.getWidthOfString(title);
             SpriteText.drawString(b, title, (int)(centerX - titleWidth / 2f), this.NewBaseY + 30, scroll_text_alignment: SpriteText.ScrollTextAlignment.Center);
+
 
             // Spells
             for (int t = 0; t < tiers.Length; t++)
@@ -319,7 +322,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                     this.JustLeftClicked = false;
                     if (this.Dragging != null)
                     {
-                        Game1.playSound("select");
+                        Game1.playSound("dwop");
                     } else
                     {
                         Game1.playSound(Select);

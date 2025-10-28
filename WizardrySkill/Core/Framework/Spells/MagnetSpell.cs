@@ -31,7 +31,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 return null;
 
             if (player.hasBuff($"spell:nature:magnetic_force:{level}"))
-                return new SpellFizzle(player);
+                return new SpellFizzle(player, this.GetManaCost(player, level));
 
             player.buffs.Apply(new Buff(
                 id: $"spell:nature:magnetic_force:{level}",

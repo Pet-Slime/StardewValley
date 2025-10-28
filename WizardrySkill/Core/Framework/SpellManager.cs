@@ -33,7 +33,7 @@ namespace WizardrySkill.Core.Framework
         internal static void Init(Func<long> getNewId)
         {
             Register(new AnalyzeSpell());
-            Register(new ProjectileSpell(SchoolId.Arcane, "magicmissle", 5, 7, 15, "debuffSpell", 16, rotationVelocy: 0f, seeking: true, wavey: false, piercesLeft: 999, ignoreTerrain: true));
+            Register(new ProjectileSpell(SchoolId.Arcane, "magicmissle", 5, 7, 15, "magic_arrow", 16, rotationVelocy: 0f, seeking: true, wavey: false, piercesLeft: 999, ignoreTerrain: true));
             Register(new EnchantSpell(false));
             Register(new EnchantSpell(true));
             Register(new RewindSpell());

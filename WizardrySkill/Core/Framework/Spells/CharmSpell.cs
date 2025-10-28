@@ -3,6 +3,7 @@ using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -64,6 +65,9 @@ namespace WizardrySkill.Core.Framework.Spells
                 }
             }
 
+            if (npcsInRange.Count == 0)
+                return new SpellFizzle(player, this.GetManaCost(player, level));
+
             int num = 0;
             foreach (var NPC in npcsInRange)
             {
@@ -76,7 +80,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
                 if (num != 0)
                 {
-                    player.AddMana(-15);
+                    player.AddMana(-this.GetManaCost(player, level));
                 }
                 player.changeFriendship(20 * (level + 1), NPC);
                 player.takeDamage(25, false, null);
@@ -86,8 +90,8 @@ namespace WizardrySkill.Core.Framework.Spells
 
                 var point = NPC.StandingPixel;
 
-                point.X -= player.Sprite.SpriteWidth * 2;
-                point.Y -= (int)(player.Sprite.SpriteHeight * 1.5);
+                point.X -= NPC.Sprite.SpriteWidth * 2;
+                point.Y -= (int)(NPC.Sprite.SpriteHeight * 1.5);
 
                 Game1.Multiplayer.broadcastSprites(player.currentLocation,
                     new TemporaryAnimatedSprite(10,
@@ -100,7 +104,7 @@ namespace WizardrySkill.Core.Framework.Spells
                     Game1.tileSize,
                     100f));
 
-                point.Y -= (int)(player.Sprite.SpriteHeight * 2.5);
+                point.Y -= (int)(NPC.Sprite.SpriteHeight * 2.5);
 
                 Game1.Multiplayer.broadcastSprites(player.currentLocation,
                     new TemporaryAnimatedSprite(10,
@@ -117,7 +121,8 @@ namespace WizardrySkill.Core.Framework.Spells
 
             }
 
-            return null;
+
+            return new SpellSuccess(player, "clam_tone", npcsInRange.Count * 25);
         }
     }
 }

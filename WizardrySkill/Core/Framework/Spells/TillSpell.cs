@@ -1,10 +1,24 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Extensions;
+using StardewValley.Locations;
 using StardewValley.Tools;
 using WizardrySkill.Core.Framework.Schools;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using StardewValley;
+using StardewValley.Extensions;
+using StardewValley.Locations;
+using StardewValley.TerrainFeatures;
+using StardewValley.Tools;
+using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
+using xTile.Tiles;
+using WizardrySkill.Core.Framework.Spells.Effects;
 using static StardewValley.Minigames.TargetGame;
 using SObject = StardewValley.Object;
+using xTile.Dimensions;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -30,7 +44,7 @@ namespace WizardrySkill.Core.Framework.Spells
             ModEntry.Instance.Helper.Reflection.GetField<Farmer>(dummyHoe, "lastUser").SetValue(player);
 
             level += 1;
-            int num = 0;
+            int actionCount = 0;
 
             GameLocation loc = player.currentLocation;
             int tileX = targetX / Game1.tileSize;
@@ -41,55 +55,67 @@ namespace WizardrySkill.Core.Framework.Spells
             //for each tile in the list, do the spell's function
             foreach (Vector2 tile in list)
             {
-                // skip if out of mana
-                if (!this.CanContinueCast(player, level))
-                    return null;
+                if (loc.terrainFeatures.TryGetValue(tile, out var value))
+                {
+                    if (value.performToolAction(dummyHoe, 0, tile))
+                    {
+                        loc.terrainFeatures.Remove(tile);
+                    }
 
-                // skip if blocked
-                if (loc.terrainFeatures.ContainsKey(tile))
                     continue;
+                }
 
-                int targetTileX = (int)tile.X;
-                int targetTileY = (int)tile.X;
-
-                // handle artifact spot, else skip if blocked
-                if (loc.objects.TryGetValue(tile, out SObject obj))
+                if (loc.objects.TryGetValue(tile, out var value2) && value2.performToolAction(dummyHoe))
                 {
-                    if (obj.ParentSheetIndex == 590)
+                    if (value2.Type == "Crafting" && value2.Fragility != 2)
                     {
-                        loc.digUpArtifactSpot(targetTileX, targetTileY, player);
-                        loc.objects.Remove(tile);
-                        if (num != 0)
+                        loc.debris.Add(new Debris(value2.QualifiedItemId, player.GetToolLocation(), Utility.PointToVector2(player.StandingPixel)));
+                    }
+
+                    value2.performRemoveAction();
+                    loc.Objects.Remove(tile);
+                }
+
+                if (loc.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") == null)
+                {
+                    continue;
+                }
+
+                if (loc is MineShaft && !loc.IsTileOccupiedBy(tile, CollisionMask.All, CollisionMask.None, useFarmerTile: true))
+                {
+                    if (loc.makeHoeDirt(tile))
+                    {
+
+                        loc.checkForBuriedItem((int)tile.X, (int)tile.Y, explosion: false, detectOnly: false, player);
+                        Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(12, new Vector2(tile.X * 64f, tile.Y * 64f), Color.White, 8, Game1.random.NextBool(), 50f));
+                        if (list.Count > 2)
                         {
-                            player.AddMana(this.GetManaCost(player, level) * -1);
+                            Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(6, new Vector2(tile.X * 64f, tile.Y * 64f), Color.White, 8, Game1.random.NextBool(), Vector2.Distance(target, tile) * 30f));
                         }
-                        num++;
-                        Utilities.AddEXP(player, 2);
-                        continue;
                     }
-                    else
-                        continue;
+                }
+                else if (loc.isTilePassable(new Location((int)tile.X, (int)tile.Y), Game1.viewport) && loc.makeHoeDirt(tile))
+                {
+
+                    Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(12, new Vector2(tile.X * 64f, tile.Y * 64f), Color.White, 8, Game1.random.NextBool(), 50f));
+                    if (list.Count > 2)
+                    {
+                        Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(6, new Vector2(tile.X * 64f, tile.Y * 64f), Color.White, 8, Game1.random.NextBool(), Vector2.Distance(target, tile) * 30f));
+                    }
+
+                    loc.checkForBuriedItem((int)tile.X, (int)tile.Y, explosion: false, detectOnly: false, player);
                 }
 
-                // till dirt
-                if (loc.doesTileHaveProperty(targetTileX, targetTileY, "Diggable", "Back") != null && !loc.IsTileOccupiedBy(tile))
-                {
-                    loc.makeHoeDirt(tile);
-                    loc.playSound("hoeHit", tile);
-                    //Game1.removeSquareDebrisFromTile(tileX, tileY);
-                    Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(12, new Vector2(targetTileX * (float)Game1.tileSize, tileY * (float)Game1.tileSize), Color.White, 8, Game1.random.NextDouble() < 0.5, 50f));
-                    Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(6, new Vector2(targetTileX * (float)Game1.tileSize, targetTileY * (float)Game1.tileSize), Color.White, 8, Game1.random.NextDouble() < 0.5, Vector2.Distance(tile, target) * 30f));
-                    loc.checkForBuriedItem(targetTileX, targetTileY, false, false, player);
-                    if (num != 0)
-                    {
-                        player.AddMana(this.GetManaCost(player, level) * -1);
-                    }
-                    num++;
-                    Utilities.AddEXP(player, 2);
-                }
+                actionCount++;
+                Utilities.AddEXP(player, 3);
+                loc.playSound("hoeHit", tile);
+                Game1.stats.DirtHoed++;
             }
 
-            return null;
+
+            return actionCount == 0
+                ? new SpellFizzle(player, this.GetManaCost(player, level))
+                : null;
         }
     }
 }

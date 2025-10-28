@@ -85,5 +85,12 @@ namespace WizardrySkill.Core.Framework.Schools
             RegisterSchool(new ToilSchool());
 
         }
+
+        /// <summary>Get the spell's translated description.</summary>
+        public virtual string GetTranslatedDescriptionForSpellMenu()
+        {
+            string description = ModEntry.Instance.I18N.Get($"moonslime.Wizardry.school.{this.Id}.desc");
+            return $"{description}";
+        }
     }
 }
