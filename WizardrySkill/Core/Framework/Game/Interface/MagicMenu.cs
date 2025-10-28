@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -349,73 +350,52 @@ namespace WizardrySkill.Core.Framework.Game.Interface
         {
             int slots = hasFifth ? 5 : 4;
             int y = this.BottomBarY + 24;
-            int x = 14;
+            int xStart = this.BottomBarX + 14;
+
+            // static bar label width cache (1–5)
+            ReadOnlySpan<int> barNumWidths = stackalloc int[] {
+                SpriteText.getWidthOfString("1"),
+                SpriteText.getWidthOfString("2")
+            };
+
+            // layout + hover detection pass
+            int hoveredBar = -1;
+            int hoveredSlot = -1;
             int barNum = 1;
+
+            int x = xStart;
 
             foreach (var bar in book.Prepared)
             {
-                SpriteText.drawString(b, barNum.ToString(), this.BottomBarX + x, y);
-                x += SpriteText.getWidthOfString(barNum.ToString()) + 9;
+                int barWidth = barNumWidths[Math.Min(barNum - 1, barNumWidths.Length - 1)];
+                SpriteText.drawString(b, barNum.ToString(), x, y);
+                x += barWidth + 9;
 
                 for (int i = 0; i < slots; i++)
                 {
-                    Rectangle rect = new(this.BottomBarX + x, y, HotbarIconSize, HotbarIconSize);
+                    Rectangle rect = new(x, y, HotbarIconSize, HotbarIconSize);
                     PreparedSpell prep = bar.GetSlot(i);
-                    bool hovered = rect.Contains(mouseX, mouseY);
 
-                    // click logic
-                    if (hovered)
+                    // hover check
+                    if (hoveredBar == -1 && rect.Contains(mouseX, mouseY))
                     {
-                        if (this.JustRightClicked)
-                        {
-                            if (this.Dragging != null)
-                            {
-                                this.Dragging = null;
-                                Game1.playSound(Deselect);
-                            } else
-                            {
-                                book.Mutate(_ => bar.SetSlot(i, this.Dragging == null ? null : null));
-                                if (prep != null)
-                                    Game1.playSound(Deselect);
-                            }
-                            this.JustRightClicked = false;
-                        }
-                        else if (this.JustLeftClicked)
-                        {
-                            book.Mutate(_ => bar.SetSlot(i, this.Dragging));
-                            if (this.Dragging != null)
-                            {
-                                Game1.playSound(Select);
-                            } else if (prep != null)
-                            {
-                                Game1.playSound(Deselect);
-                            }
-                            this.Dragging = null;
-                            this.JustLeftClicked = false;
-                        }
+                        hoveredBar = barNum - 1;
+                        hoveredSlot = i;
                     }
 
-                    // draw frame & spell
-                    drawTextureBox(b, Game1.menuTexture, MenuBoxSource, rect.X - 12, y - 12, HotbarFrameSize, HotbarFrameSize, Color.White, drawShadow: false);
+                    // draw frame
+                    drawTextureBox(b, Game1.menuTexture, MenuBoxSource,
+                        rect.X - 12, rect.Y - 12, HotbarFrameSize, HotbarFrameSize, Color.White, drawShadow: false);
 
+                    // draw spell icon if present
                     if (prep != null)
                     {
                         Spell spell = SpellManager.Get(prep.SpellId);
-
-                        Texture2D[] iconlevels = spell?.SpellLevels;
-                        if (iconlevels?.Length > prep.Level && iconlevels[prep.Level] != null)
+                        if (spell?.SpellLevels?.Length > prep.Level && spell.SpellLevels[prep.Level] != null)
                         {
-                            Texture2D icon = spell?.Icon;
-                            Texture2D spelllevels = iconlevels[prep.Level];
-                            if (icon != null)
-                            {
-                                b.Draw(icon, rect, Color.White);
-                                b.Draw(spelllevels, rect, Color.White);
-                            }
+                            b.Draw(spell.Icon, rect, Color.White);
+                            b.Draw(spell.SpellLevels[prep.Level], rect, Color.White);
                         }
-
-                        if (hovered && this.Dragging == null)
-                            hoverText = spell.GetTooltip(prep.Level);
                     }
 
                     x += HotbarFrameSize;
@@ -425,6 +405,47 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                     x += HotbarFrameSize;
 
                 barNum++;
+            }
+
+            // click handling
+            if (hoveredBar >= 0 && hoveredSlot >= 0)
+            {
+                var bar = book.Prepared[hoveredBar];
+                PreparedSpell prep = bar.GetSlot(hoveredSlot);
+
+                if (this.JustRightClicked)
+                {
+                    if (this.Dragging != null)
+                    {
+                        this.Dragging = null;
+                        Game1.playSound(Deselect);
+                    }
+                    else
+                    {
+                        book.Mutate(_ => bar.SetSlot(hoveredSlot, (PreparedSpell)null));
+                        if (prep != null)
+                            Game1.playSound(Deselect);
+                    }
+                    this.JustRightClicked = false;
+                }
+                else if (this.JustLeftClicked)
+                {
+                    book.Mutate(_ => bar.SetSlot(hoveredSlot, this.Dragging));
+                    if (this.Dragging != null)
+                        Game1.playSound(Select);
+                    else if (prep != null)
+                        Game1.playSound(Deselect);
+
+                    this.Dragging = null;
+                    this.JustLeftClicked = false;
+                }
+
+                // set hover text last (only once)
+                if (this.Dragging == null && prep != null)
+                {
+                    Spell spell = SpellManager.Get(prep.SpellId);
+                    hoverText = spell?.GetTooltip(prep.Level);
+                }
             }
         }
 

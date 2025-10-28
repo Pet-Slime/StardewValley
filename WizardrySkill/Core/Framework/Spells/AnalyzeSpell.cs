@@ -9,15 +9,18 @@ using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using StardewValley.Tools;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 using SObject = StardewValley.Object;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
     public class AnalyzeSpell : Spell
     {
+        private IActiveEffect sfx;
+
         /*********
-        ** Public methods
-        *********/
+** Public methods
+*********/
         public AnalyzeSpell()
             : base(SchoolId.Arcane, "analyze")
         {
@@ -173,7 +176,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
                 if (!learnedAny)
                 {
-                    player.currentLocation.playSound("secret1", player.Tile);
+                    this.sfx = new SpellSuccess(player, "secret1");
                     learnedAny = true;
                 }
 
@@ -252,14 +255,14 @@ namespace WizardrySkill.Core.Framework.Spells
 
             if (learnedAny == false)
             {
-                player.currentLocation.playSound("clank", player.Tile, 1);
+                this.sfx = new SpellFizzle(player);
             }
 
             // raise event
             if (Events.OnAnalyzeCast != null)
                 Utilities.InvokeEvent("OnAnalyzeCast", Events.OnAnalyzeCast.GetInvocationList(), player, new AnalyzeEventArgs(targetX, targetY));
 
-            return null;
+            return this.sfx;
         }
 
 

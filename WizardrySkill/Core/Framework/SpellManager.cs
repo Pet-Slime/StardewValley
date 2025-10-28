@@ -60,7 +60,7 @@ namespace WizardrySkill.Core.Framework
             Register(new BuffSpell());
             Register(new EvacSpell());
 
-            Register(new ProjectileSpell(SchoolId.Elemental, "frostbolt", 7, 5, 10, "flameSpell", 9, tail: 5, debuff: "frozen", wavey: false));
+            Register(new ProjectileSpell(SchoolId.Elemental, "frostbolt", 7, 5, 10, "coldSpell", 9, tail: 5, debuff: "frozen", wavey: false));
             Register(new ProjectileSpell(SchoolId.Elemental, "fireball", 7, 10, 20, "flameSpell", 10, tail: 10, explosion: true));
             Register(new DescendSpell());
             Register(new KilnSpell());

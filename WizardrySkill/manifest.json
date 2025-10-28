@@ -1,7 +1,7 @@
 ﻿{
     "Name": "Wizardry",
     "Author": "moonslime",
-    "Version": "1.7.0",
+    "Version": "1.7.1",
     "Description": "Magic Revisited.",
     "UniqueID": "moonslime.WizardrySkill",
     "EntryDll": "WizardrySkill.dll",
