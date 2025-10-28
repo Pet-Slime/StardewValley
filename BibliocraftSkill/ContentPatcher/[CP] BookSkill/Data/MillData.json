@@ -19,7 +19,7 @@
                     "DestinationChest": "Output",
                     "ProducedItems": [
                         {
-                            "Condition": null,
+                            "Condition": "PLAYER_MOONSLIME.BIBLIOCRAFT_LEVEL current 2",
                             "Id": "(O)moonslime.Bibliocraft.woodpulp",
                             "ItemId": "(O)moonslime.Bibliocraft.woodpulp",
                             "RandomItemId": null,
@@ -52,7 +52,7 @@
                     "DestinationChest": "Output",
                     "ProducedItems": [
                         {
-                            "Condition": null,
+                            "Condition": "PLAYER_MOONSLIME.BIBLIOCRAFT_LEVEL current 2",
                             "Id": "(O)moonslime.Bibliocraft.hardwoodpulp",
                             "ItemId": "(O)moonslime.Bibliocraft.hardwoodpulp",
                             "RandomItemId": null,

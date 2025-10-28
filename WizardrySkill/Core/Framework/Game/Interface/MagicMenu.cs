@@ -401,10 +401,18 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                     if (prep != null)
                     {
                         Spell spell = SpellManager.Get(prep.SpellId);
-                        Texture2D icon = spell?.Icon;
-                        if (icon != null)
-                            b.Draw(icon, rect, Color.White);
-                            b.Draw(spell.SpellLevels[prep.Level], rect, Color.White);
+
+                        Texture2D[] iconlevels = spell?.SpellLevels;
+                        if (iconlevels?.Length > prep.Level && iconlevels[prep.Level] != null)
+                        {
+                            Texture2D icon = spell?.Icon;
+                            Texture2D spelllevels = iconlevels[prep.Level];
+                            if (icon != null)
+                            {
+                                b.Draw(icon, rect, Color.White);
+                                b.Draw(spelllevels, rect, Color.White);
+                            }
+                        }
 
                         if (hovered && this.Dragging == null)
                             hoverText = spell.GetTooltip(prep.Level);

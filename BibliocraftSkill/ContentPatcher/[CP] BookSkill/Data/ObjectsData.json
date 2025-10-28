@@ -356,6 +356,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -374,6 +375,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -392,6 +394,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -410,6 +413,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -428,6 +432,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -446,6 +451,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -464,6 +470,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -482,6 +489,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -500,6 +508,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -518,6 +527,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -536,6 +546,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -554,6 +565,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -572,6 +584,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -590,6 +603,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -608,6 +622,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -626,6 +641,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -644,6 +660,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -662,6 +679,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -680,6 +698,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -698,6 +717,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -716,6 +736,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -734,6 +755,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -752,6 +774,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -770,6 +793,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -788,6 +812,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -806,6 +831,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -824,6 +850,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -842,6 +869,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -860,6 +888,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
@@ -878,6 +907,7 @@
                     "Edibility": -300,
                     "IsDrink": false,
                     "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "not_placeable",
                         "moonslime.Bibliocraft.mail"
