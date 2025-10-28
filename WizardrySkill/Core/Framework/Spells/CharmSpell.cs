@@ -35,8 +35,6 @@ namespace WizardrySkill.Core.Framework.Spells
             List<NPC> monstersInRange = [];
 
 
-            BirbCore.Attributes.Log.Alert($"{player.Tile.Y}");
-            BirbCore.Attributes.Log.Alert($"{player.TilePoint.Y}");
             foreach (var NPC in location.characters)
             {
 
