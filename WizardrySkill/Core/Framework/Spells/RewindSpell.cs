@@ -21,7 +21,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override bool CanCast(Farmer player, int level)
         {
-            return base.CanCast(player, level) && player.Items.ContainsId("336", 1);
+            return base.CanCast(player, level) && player.Items.ContainsId("336", 1) && Game1.timeOfDay != 600;
         }
 
         public override int GetManaCost(Farmer player, int level)
