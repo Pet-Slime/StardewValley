@@ -1,6 +1,7 @@
 using StardewValley;
 using WizardrySkill.Core.Framework.Game.Interface;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -32,7 +33,7 @@ namespace WizardrySkill.Core.Framework.Spells
             if (player.IsLocalPlayer)
                 Game1.activeClickableMenu = new TeleportMenu(player);
 
-            return null;
+            return new SpellSuccess(player, "wand", 50);
         }
     }
 }

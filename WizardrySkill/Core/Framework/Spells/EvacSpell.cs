@@ -1,5 +1,6 @@
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -32,9 +33,7 @@ namespace WizardrySkill.Core.Framework.Spells
         {
             player.position.X = EnterX;
             player.position.Y = EnterY;
-            player.currentLocation.playSound("stairsdown", player.Tile);
-            Utilities.AddEXP(player, 5);
-            return null;
+            return new SpellSuccess(player, "stairsdown", 5);
         }
 
         internal static void OnLocationChanged()

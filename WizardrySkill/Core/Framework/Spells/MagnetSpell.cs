@@ -3,6 +3,7 @@ using System.Linq;
 using StardewValley;
 using StardewValley.Buffs;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -30,7 +31,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 return null;
 
             if (player.hasBuff($"spell:nature:magnetic_force:{level}"))
-                return null;
+                return new SpellFizzle(player);
 
             player.buffs.Apply(new Buff(
                 id: $"spell:nature:magnetic_force:{level}",
@@ -44,9 +45,8 @@ namespace WizardrySkill.Core.Framework.Spells
                 }
             ));
             player.performPlayerEmote("exclamation");
-            player.currentLocation.playSound("powerup", player.Tile);
-            Utilities.AddEXP(player, 5);
-            return null;
+
+            return new SpellSuccess(player, "powerup", 5);
         }
     }
 }

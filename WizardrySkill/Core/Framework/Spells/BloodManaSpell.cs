@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -40,9 +41,8 @@ namespace WizardrySkill.Core.Framework.Spells
             int mana = (player.GetMaxMana() / 6) + ((level + 1) * 4);
             player.AddMana(mana);
             player.currentLocation.debris.Add(new Debris(mana, new Vector2(player.StandingPixel.X + 8, player.StandingPixel.Y), Color.Blue, 1f, player));
-            player.currentLocation.playSound("powerup", player.Tile);
 
-            return null;
+            return new SpellSuccess(player, "ow");
         }
     }
 }

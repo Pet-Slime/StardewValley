@@ -130,7 +130,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 return;
 
             this.AttackTimer = 60;
-            int baseDmg = 5 * (this.Summoner.CombatLevel + Skills.GetSkillLevel(this.Summoner, "moonslime.Wizard"));
+            int baseDmg = 5 * (this.Summoner.CombatLevel + this.Summoner.GetCustomBuffedSkillLevel(MagicConstants.SkillName));
 
             // Temporarily move summoner to apply hitbox-based damage
             Vector2 oldPos = this.Summoner.Position;

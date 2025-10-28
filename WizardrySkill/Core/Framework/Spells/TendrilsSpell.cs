@@ -45,7 +45,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
             return tendrils.Any()
                 ? tendrils
-                : null;
+                : new SpellFizzle(player);
         }
     }
 }

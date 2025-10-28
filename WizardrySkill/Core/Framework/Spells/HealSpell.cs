@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -29,10 +30,8 @@ namespace WizardrySkill.Core.Framework.Spells
             if (player.health >= player.maxHealth)
                 player.health = player.maxHealth;
             player.currentLocation.debris.Add(new Debris(health, new Vector2(Game1.player.StandingPixel.X + 8, Game1.player.StandingPixel.Y), Color.Green, 1f, Game1.player));
-            player.currentLocation.playSound("healSound", player.Tile);
-            Utilities.AddEXP(player, health / 2);
 
-            return null;
+            return new SpellSuccess(player, "healSound", (int)(health * 0.5));
         }
     }
 }

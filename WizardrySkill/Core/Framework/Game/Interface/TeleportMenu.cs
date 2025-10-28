@@ -80,13 +80,10 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                 cloud.rider = Game1.player;
 
                 Game1.activeClickableMenu = null;
-
-                Game1.playSound("wand");
                 Game1.warpFarmer(this.WarpTo, (int)cloud.Tile.X, (int)cloud.Tile.Y, false);
                 Game1.player.mount.dismount();
                 Game1.player.Items.ReduceId("moonslime.Wizardry.Travel_Core", 1);
 
-                Utilities.AddEXP(Game1.player, 25);
             }
 
             if (this.DragScroll)

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Extensions;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 using xTile.Tiles;
 
 namespace WizardrySkill.Core.Framework.Spells
@@ -38,19 +39,19 @@ namespace WizardrySkill.Core.Framework.Spells
 
 
                 if (distance == 0)
-                    return null;
+                    return new SpellFizzle(player);
 
                 if (backTile == null)
-                    return null;
+                    return new SpellFizzle(player);
 
                 if (backTile != null && (backTile.TileIndexProperties.ContainsKey("Passable") || backTile.Properties.ContainsKey("Passable")))
-                    return null;
+                    return new SpellFizzle(player);
 
                 if (backTile != null && (backTile.TileIndexProperties.ContainsKey("Water") || backTile.Properties.ContainsKey("Water")))
-                    return null;
+                    return new SpellFizzle(player);
 
                 if (player.GetCurrentMana() < distance * 5)
-                    return null;
+                    return new SpellFizzle(player);
 
                 player.position.X = targetX - player.GetBoundingBox().Width / 2;
                 player.position.Y = targetY - player.GetBoundingBox().Height / 2;
@@ -58,14 +59,10 @@ namespace WizardrySkill.Core.Framework.Spells
 
                 player.AddMana(distance * 5 * -1);
 
-                player.LocalSound("powerup");
-                ;
-                Utilities.AddEXP(player, 4 * distance);
-
-                return null;
+                return new SpellSuccess(player, "powerup", 4 * distance);
 
             }
-            return null;
+            return new SpellFizzle(player);
 
         }
 

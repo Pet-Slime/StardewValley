@@ -58,8 +58,11 @@ namespace WizardrySkill.Core.Framework.Spells
             int currentIndex = Array.IndexOf(QualityTiers, sourceItem.Quality);
             int direction = upgrade ? 1 : -1;
 
+            int totalLoops = 0;
             for (int i = 0; i < times; i++)
             {
+
+                totalLoops = i;
                 if (i > 0 && !this.CanContinueCast(player, level))
                     break;
 
@@ -115,7 +118,6 @@ namespace WizardrySkill.Core.Framework.Spells
 
                 // Apply mana and XP rewards
                 player.AddMana(-this.GetManaCost(player, level));
-                Utilities.AddEXP(player, 3);
             }
 
             // Remove source if fully consumed
@@ -123,7 +125,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 player.removeItemFromInventory(sourceItem);
 
             
-            return new SpellSuccess(player, "secret1");
+            return new SpellSuccess(player, "secret1", totalLoops);
         }
     }
 }

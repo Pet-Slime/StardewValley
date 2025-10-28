@@ -21,5 +21,9 @@ namespace WizardrySkill.Core.Framework
 
         /// <summary>The number of mana points gained per magic level.</summary>
         public const int ProfessionIncreaseMana = 100;
+
+
+        /// <summary>The number of mana points gained per magic level.</summary>
+        public const string SkillName = "moonslime.Wizard";
     }
 }

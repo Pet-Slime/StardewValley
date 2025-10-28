@@ -1,5 +1,6 @@
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -26,9 +27,7 @@ namespace WizardrySkill.Core.Framework.Spells
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
             player.ClearBuffs();
-            player.currentLocation.playSound("debuffSpell", player.Tile);
-            Utilities.AddEXP(player, 2);
-            return null;
+            return new SpellSuccess(player, "debuffSpell", 2);
         }
     }
 }

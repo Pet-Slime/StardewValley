@@ -1,6 +1,7 @@
 using StardewValley;
 using StardewValley.Locations;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -29,7 +30,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
             var ms = player.currentLocation as MineShaft;
             if (ms == null)
-                return null;
+                return new SpellFizzle(player);
 
             int target = ms.mineLevel + 1 + level;
             if (ms.mineLevel <= 120 && target >= 120)
@@ -40,9 +41,7 @@ namespace WizardrySkill.Core.Framework.Spells
             }
 
             Game1.enterMine(target);
-            player.currentLocation.playSound("stairsdown", player.Tile);
-            Utilities.AddEXP(player, 5);
-            return null;
+            return new SpellSuccess(player, "stairsdown", 5);
         }
     }
 }

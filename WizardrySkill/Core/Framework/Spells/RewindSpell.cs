@@ -1,5 +1,8 @@
+using System;
+using BirbCore.Attributes;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -29,9 +32,10 @@ namespace WizardrySkill.Core.Framework.Spells
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
             player.Items.ReduceId("336", 1);
-            Game1.timeOfDay -= 200;
-            Utilities.AddEXP(player, 25);
-            return null;
+            Game1.timeOfDay = Math.Max(600, Game1.timeOfDay - 200);
+
+
+            return new SpellSuccess(player, "ticket_machine_whir", 25);
         }
     }
 }

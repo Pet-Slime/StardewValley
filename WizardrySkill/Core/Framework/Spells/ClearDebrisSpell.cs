@@ -60,9 +60,9 @@ namespace WizardrySkill.Core.Framework.Spells
                 {
                     // select tool
                     Tool tool = null;
-                    if (this.IsAxeDebris(loc, obj))
+                    if (IsAxeDebris(loc, obj))
                         tool = axe;
-                    else if (this.IsPickaxeDebris(loc, obj))
+                    else if (IsPickaxeDebris(loc, obj))
                         tool = pickaxe;
 
                     // apply
@@ -140,7 +140,7 @@ namespace WizardrySkill.Core.Framework.Spells
         /// <summary>Get whether a given object is debris which can be cleared with a pickaxe.</summary>
         /// <param name="location">The location containing the object.</param>
         /// <param name="obj">The world object.</param>
-        private bool IsPickaxeDebris(GameLocation location, SObject obj)
+        private static bool IsPickaxeDebris(GameLocation location, SObject obj)
         {
             if (obj is not Chest or null)
             {
@@ -159,7 +159,7 @@ namespace WizardrySkill.Core.Framework.Spells
         /// <summary>Get whether a given object is debris which can be cleared with an axe.</summary>
         /// <param name="location">The location containing the object.</param>
         /// <param name="obj">The world object.</param>
-        private bool IsAxeDebris(GameLocation location, SObject obj)
+        private static bool IsAxeDebris(GameLocation location, SObject obj)
         {
             if (obj is not Chest or null)
             {

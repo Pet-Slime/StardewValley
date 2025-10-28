@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 using StardewValley;
+using SpaceCore;
 using StardewValley.Monsters;
 
 namespace WizardrySkill.Core.Framework.Spells.Effects
@@ -76,8 +77,10 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                     {
                         if (Vector2.Distance(new Vector2(this.LandX, this.LandY), mob.position.Value) < this.CurrRad * Game1.tileSize)
                         {
-                            // TODO: Use location damage method for xp and quest progress
-                            mob.takeDamage((this.Level + 1) * 5 * (this.Player.CombatLevel + 1), 0, 0, false, 0, this.Player);
+                            int baseDMG = (this.Level + 1) * 5 * (this.Player.CombatLevel + 1 + this.Player.GetCustomBuffedSkillLevel(MagicConstants.SkillName));
+                            int minDMG = (int)(baseDMG * 0.75);
+                            int maxDMG = (int)(baseDMG * 1.5);
+                            this.Player.currentLocation.damageMonster(mob.GetBoundingBox(), minDMG, maxDMG, false, this.Player);
                             Utilities.AddEXP(this.Player, 3);
                         }
                     }

@@ -1,6 +1,7 @@
 using System;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -44,10 +45,7 @@ namespace WizardrySkill.Core.Framework.Spells
             if (player.Items.ContainsId("169", woodAmount))
             {
                 player.Items.ReduceId("169", woodAmount);
-                Game1.createObjectDebris(StardewValley.Object.coal.ToString(), player.TilePoint.X, player.TilePoint.Y, player.currentLocation);
-                player.currentLocation.playSound("furnace", player.Tile);
-                Utilities.AddEXP(player, 2 * (level + 1));
-                return null;
+                return new SpellSuccess(player, "furnace", 2 * (level + 1));
 
             }
 
@@ -55,12 +53,10 @@ namespace WizardrySkill.Core.Framework.Spells
             {
                 player.Items.ReduceId("388", woodAmount);
                 Game1.createObjectDebris(StardewValley.Object.coal.ToString(), player.TilePoint.X, player.TilePoint.Y, player.currentLocation);
-                player.currentLocation.playSound("furnace", player.Tile);
-                Utilities.AddEXP(player, 2 * (level + 1));
-                return null;
+                return new SpellSuccess(player, "furnace", 2 * (level + 1));
 
             }
-            return null;
+            return new SpellFizzle(player);
         }
     }
 }

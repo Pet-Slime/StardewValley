@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -34,10 +35,7 @@ namespace WizardrySkill.Core.Framework.Spells
             var friendshipData = player.friendshipData[new List<string>(player.friendshipData.Keys)[num]];
             friendshipData.Points = Math.Max(0, friendshipData.Points - 250);
             player.team.sharedDailyLuck.Value = 0.12;
-            player.currentLocation.playSound("death", player.Tile);
-            Utilities.AddEXP(player, 50);
-
-            return null;
+            return new SpellSuccess(player, "death", 50);
         }
     }
 }

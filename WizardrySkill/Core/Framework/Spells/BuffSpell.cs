@@ -3,6 +3,7 @@ using System.Linq;
 using SpaceCore;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
+using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -30,7 +31,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 return null;
 
             if (player.hasBuff($"spell:life:buff:{level}"))
-                return null;
+                return new SpellFizzle(player);
 
             int l = level + 1;
 
@@ -56,9 +57,7 @@ namespace WizardrySkill.Core.Framework.Spells
             }
             player.buffs.Apply(baseSkillBuff);
 
-            player.currentLocation.playSound("powerup", player.Tile);
-            Utilities.AddEXP(player, 10);
-            return null;
+            return new SpellSuccess(player, "powerup", 10);
         }
     }
 }
