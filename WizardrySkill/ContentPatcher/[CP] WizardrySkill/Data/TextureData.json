@@ -197,6 +197,11 @@
         },
         {
             "Action": "Load",
+            "Target": "Mods/moonslime.WizardrySkill/magic/life/healarea/1",
+            "FromFile": "Assets/magic/life/healarea/1.png"
+        },
+        {
+            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/life/heal/1",
             "FromFile": "Assets/magic/life/heal/1.png"
         },

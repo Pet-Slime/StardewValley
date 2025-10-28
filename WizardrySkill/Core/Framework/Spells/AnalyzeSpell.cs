@@ -153,6 +153,11 @@ namespace WizardrySkill.Core.Framework.Spells
                     }
                 }
 
+                if (player.currentLocation.Name == "Hospital")
+                {
+                    spellsLearnt.Add("life:healarea");
+                }
+
                 // map tile
                 {
                     // TODO: Add proper tilesheet check

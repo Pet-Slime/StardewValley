@@ -57,10 +57,10 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             }
 
             // Handle location changes
-            if (this.PrevSummonerLoc != Game1.currentLocation)
+            if (this.PrevSummonerLoc != this.Summoner.currentLocation)
             {
                 this.CleanUp();
-                this.PrevSummonerLoc = Game1.currentLocation;
+                this.PrevSummonerLoc = this.Summoner.currentLocation;
                 this.Pos = this.Summoner.Position;
                 this.AddSprite();
             }

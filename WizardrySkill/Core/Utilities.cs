@@ -103,7 +103,5 @@ namespace WizardrySkill.Core
 
             return list;
         }
-
-
     }
 }

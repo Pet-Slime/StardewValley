@@ -55,6 +55,7 @@ namespace WizardrySkill.Core.Framework
             Register(new PhotosynthesisSpell());
 
             Register(new HealSpell());
+            Register(new HealAreaSpell());
             Register(new CleanseSpell());
             Register(new HasteSpell());
             Register(new BuffSpell());

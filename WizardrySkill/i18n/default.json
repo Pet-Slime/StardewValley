@@ -79,11 +79,11 @@
     "moonslime.Wizardry.school.eldritch.name": "Eldritch",
     "moonslime.Wizardry.school.uknown.name": "Unkown",
 
-    "moonslime.Wizardry.school.arcane.desc": "Arcane spells give you handy tools and a little extra insight into the world around you.",
+    "moonslime.Wizardry.school.arcane.desc": "The Arcane school give you handy tools.\nAlong with a little extra insight into the world around you.",
     "moonslime.Wizardry.school.toil.desc": "Not every school of magic is about hurling fire from your hands.\nThe School of Toil focuses on the practical.\nSpells that make everyday chores a little easier.",
     "moonslime.Wizardry.school.nature.desc": "The Nature school weaves magic that lets plants and animals join in the fun.",
-    "moonslime.Wizardry.school.life.desc": "Life magic lends a helping hand;\npatching up aches, clearing away gloom, and giving you a spark of extra energy.",
-    "moonslime.Wizardry.school.elemental.desc": "",
+    "moonslime.Wizardry.school.life.desc": "Life magic lends a helping hand;\npatching up aches, clearing away gloom,\nand giving you a spark of extra health.",
+    "moonslime.Wizardry.school.elemental.desc": " ",
     "moonslime.Wizardry.school.eldritch.desc": "A dash of Eldritch magic can do wonders…\nbut it loves to collect a tiny toll in return.",
     "moonslime.Wizardry.school.uknown.desc": "Unkown",
 
@@ -176,6 +176,12 @@
     "moonslime.Wizardry.spell.life:heal.cost": "25% mana",
     "moonslime.Wizardry.spell.life:heal.desc": "Restore 16% Health + extra based on spell level.",
     "moonslime.Wizardry.spell.life:heal.hint": "Health potions sure are inconvenient to carry around.\nMaybe we can heal ourselves with magic?",
+
+
+    "moonslime.Wizardry.spell.life:healarea.name": "Healing Area",
+    "moonslime.Wizardry.spell.life:healarea.cost": "25% mana",
+    "moonslime.Wizardry.spell.life:healarea.desc": "Create an area that will heal all players in it for 60 seconds.\nHigher levels increase the area",
+    "moonslime.Wizardry.spell.life:healarea.hint": "I wonder where I can learn to help heal others with Life magic?",
 
     "moonslime.Wizardry.spell.life:haste.name": "Haste",
     "moonslime.Wizardry.spell.life:haste.cost": "40 mana per level, coffee bean",
