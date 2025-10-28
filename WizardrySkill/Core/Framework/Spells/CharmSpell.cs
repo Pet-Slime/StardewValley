@@ -85,19 +85,36 @@ namespace WizardrySkill.Core.Framework.Spells
                 NPC.currentLocation.playSound("jingle1", NPC.Tile);
                 Utilities.AddEXP(player, 25);
                 NPC.doEmote(Character.blushEmote);
-                Game1.Multiplayer.broadcastSprites(location,
+
+                var point = NPC.StandingPixel;
+
+                point.X -= player.Sprite.SpriteWidth * 2;
+                point.Y -= (int)(player.Sprite.SpriteHeight * 1.5);
+
+                Game1.Multiplayer.broadcastSprites(player.currentLocation,
                     new TemporaryAnimatedSprite(10,
-                    new Vector2(NPC.TilePoint.X * (float)Game1.tileSize, (NPC.TilePoint.Y - 1) * (float)Game1.tileSize),
+                    point.ToVector2(),
                     Color.Cyan,
                     10,
                     Game1.random.NextDouble() < 0.5,
                     70f,
                     0,
                     Game1.tileSize,
-                    100f)
-                    {
-                        delayBeforeAnimationStart = num * 10
-                    });
+                    100f));
+
+                point.Y -= (int)(player.Sprite.SpriteHeight * 2.5);
+
+                Game1.Multiplayer.broadcastSprites(player.currentLocation,
+                    new TemporaryAnimatedSprite(10,
+                    point.ToVector2(),
+                    Color.Cyan,
+                    10,
+                    Game1.random.NextDouble() < 0.5,
+                    70f,
+                    0,
+                    Game1.tileSize,
+                    100f));
+
                 num++;
 
             }
