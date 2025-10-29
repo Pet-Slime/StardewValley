@@ -368,16 +368,22 @@ namespace WizardrySkill.Core
         }
 
 
+        [SEvent.RenderedWorld]
+        private static void OnRenderedWorld(object sender, RenderedWorldEventArgs e)
+        {
 
-        [SEvent.RenderingHud]
+            // draw active effects
+            foreach (IActiveEffect effect in ActiveEffects)
+                effect.Draw(e.SpriteBatch);
+
+        }
+
+            [SEvent.RenderingHud]
         /// <summary>Raised before drawing the HUD (item toolbar, clock, etc) to the screen. The vanilla HUD may be hidden at this point (e.g. because a menu is open). Content drawn to the sprite batch at this point will appear under the HUD.</summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
         private static void OnRenderingHud(object sender, RenderingHudEventArgs e)
         {
-            // draw active effects
-            foreach (IActiveEffect effect in ActiveEffects)
-                effect.Draw(e.SpriteBatch);
 
             if (Game1.activeClickableMenu != null || Game1.eventUp || !LearnedMagic || !Context.IsPlayerFree)
                 return;

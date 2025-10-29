@@ -262,38 +262,37 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             Vector2 startPos = this.Summoner.Position;
 
             this.Sprite = new TemporaryAnimatedSprite(
-                textureName: "",
+                textureName: this.Tex.Name,
                 sourceRect: new Rectangle(0, 0, 16, 16),
                 animationInterval: 200f,
                 animationLength: 1,
-                numberOfLoops: 9999,
-                position: startPos,
+                numberOfLoops: this.TimeLeft,
+                position: startPos + SpriteOffset,
                 flicker: false,
                 flipped: false)
             {
-                texture = this.Tex,
                 scale = scale,
                 color = Color.White,
                 layerDepth = startPos.Y / 10000f
             };
 
             this.Shadow = new TemporaryAnimatedSprite(
-                textureName: "",
+                textureName: Game1.shadowTexture.Name,
                 sourceRect: Game1.shadowTexture.Bounds,
                 animationInterval: 200f,
                 animationLength: 1,
-                numberOfLoops: 9999,
+                numberOfLoops: this.TimeLeft,
                 position: startPos,
                 flicker: false,
                 flipped: false)
             {
-                texture = Game1.shadowTexture,
                 scale = scale,
                 layerDepth = (startPos.Y - 1) / 10000f
             };
 
-            Game1.Multiplayer.broadcastSprites(this.Summoner.currentLocation, this.Sprite);
-            Game1.Multiplayer.broadcastSprites(this.Summoner.currentLocation, this.Shadow);
+            this.PrevSummonerLoc.TemporarySprites.Add(this.Sprite);
+            this.PrevSummonerLoc.TemporarySprites.Add(this.Shadow);
+
 
             string lightId = $"LanternSpell_{this.Summoner.UniqueMultiplayerID}";
             this.Light = new LightSource(lightId, 1, new Vector2(this.Summoner.Position.X + 21f, this.Summoner.Position.Y + 64f), 8f * (this.Level), new Color(0, 50, 170), LightSource.LightContext.None, this.Summoner.UniqueMultiplayerID, null);

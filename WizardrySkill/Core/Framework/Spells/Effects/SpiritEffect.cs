@@ -251,8 +251,8 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 scale = scale,
                 layerDepth = (startPos.Y - 1) / 10000f
             };
-            Game1.Multiplayer.broadcastSprites(this.Summoner.currentLocation, this.Sprite);
-            Game1.Multiplayer.broadcastSprites(this.Summoner.currentLocation, this.Shadow);
+            this.PrevSummonerLoc.TemporarySprites.Add(this.Sprite);
+            this.PrevSummonerLoc.TemporarySprites.Add(this.Shadow);
         }
 
         public void CleanUp()

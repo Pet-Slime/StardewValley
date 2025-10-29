@@ -34,8 +34,6 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            if (!player.IsLocalPlayer)
-                return null;
 
             player.currentLocation.playSound("thunder", player.Tile);
             Utilities.AddEXP(player, (level + 1) * 3);
