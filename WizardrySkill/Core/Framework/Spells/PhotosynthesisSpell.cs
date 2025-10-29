@@ -40,6 +40,9 @@ namespace WizardrySkill.Core.Framework.Spells
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
 
+            if (!player.IsLocalPlayer)
+                return null;
+
             GameLocation location = player.currentLocation;
             int tileX = targetX / Game1.tileSize;
             int tileY = targetY / Game1.tileSize;

@@ -38,6 +38,9 @@ namespace WizardrySkill.Core.Framework.Spells
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
 
+            if (!player.IsLocalPlayer)
+                return null;
+
             // create fake tools
             Tool dummyHoe = new Hoe();
             dummyHoe.IsEfficient = true;

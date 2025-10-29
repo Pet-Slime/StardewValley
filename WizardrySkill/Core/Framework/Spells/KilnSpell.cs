@@ -39,6 +39,9 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
+            if (!player.IsLocalPlayer)
+                return null;
+
             int actualLevel = level + 1;
             int woodAmount = (int)(-0.5 * actualLevel * actualLevel - 0.5 * actualLevel + 18);
             woodAmount = Math.Max(3, woodAmount); // clamp at 3 for level 5+

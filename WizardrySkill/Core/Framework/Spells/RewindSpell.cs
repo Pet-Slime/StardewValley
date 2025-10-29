@@ -32,6 +32,10 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
+
+            if (!player.IsLocalPlayer)
+                return null;
+
             player.Items.ReduceId("336", 1);
             var point = player.StandingPixel;
 

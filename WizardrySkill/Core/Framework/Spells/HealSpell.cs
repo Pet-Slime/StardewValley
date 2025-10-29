@@ -25,6 +25,10 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
+
+            if (!player.IsLocalPlayer)
+                return null;
+
             int health = (player.maxHealth / 6) + ((level + 1) * 4);
             player.health += health;
             if (player.health >= player.maxHealth)

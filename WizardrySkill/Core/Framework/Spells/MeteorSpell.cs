@@ -30,6 +30,9 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
+            if (!player.IsLocalPlayer)
+                return null;
+
             player.Items.ReduceId(SObject.iridium.ToString(), 1);
             return new Meteor(player, targetX, targetY);
         }

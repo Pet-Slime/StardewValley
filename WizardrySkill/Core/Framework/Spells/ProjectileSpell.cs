@@ -61,6 +61,10 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
+
+            if (!player.IsLocalPlayer)
+                return null;
+
             int ammoDamage = (this.DamageBase + this.DamageIncr * (level + 1)) * (player.CombatLevel + 1) / 2;
             int finalDamage = (int)((ammoDamage + Game1.random.Next(-(ammoDamage / 2), ammoDamage + 2)) * (1f + player.buffs.AttackMultiplier));
             Vector2 shootOrigin = this.GetShootOrigin(player);

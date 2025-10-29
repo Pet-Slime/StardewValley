@@ -15,7 +15,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return 0;
+            return (player.GetMaxMana() / 4);
         }
 
         public override bool CanCast(Farmer player, int level)
@@ -26,6 +26,8 @@ namespace WizardrySkill.Core.Framework.Spells
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
 
+            if (!player.IsLocalPlayer)
+                return null;
 
             player.currentLocation.playSound("healSound", player.Tile);
             return new HealAreaEffect(player, level);

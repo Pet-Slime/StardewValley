@@ -22,6 +22,10 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
+
+            if (!player.IsLocalPlayer)
+                return null;
+
             int effectiveRange = (level + 1) * 3;
             int collectedCount = 0;
             const int baseManaCost = 3;

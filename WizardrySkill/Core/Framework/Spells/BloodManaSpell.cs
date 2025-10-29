@@ -32,6 +32,9 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
+            if (!player.IsLocalPlayer)
+                return null;
+
             int health = (player.maxHealth / 4);
             player.health -= health;
             player.currentLocation.debris.Add(new Debris(health, new Vector2(player.StandingPixel.X + 8, player.StandingPixel.Y), Color.Red, 1f, player));
