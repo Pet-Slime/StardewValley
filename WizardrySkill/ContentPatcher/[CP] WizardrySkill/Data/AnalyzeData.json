@@ -1,0 +1,116 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "82", "ContextTags" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "moonslime.Wizardry.analyze/elemental:fireball"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "395", "ContextTags" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "moonslime.Wizardry.analyze/life:haste"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "253", "ContextTags" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "moonslime.Wizardry.analyze/life:haste"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "86", "ContextTags" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "moonslime.Wizardry.analyze/nature:shockwave"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "161", "ContextTags" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "moonslime.Wizardry.analyze/elemental:frostbolt"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "84", "ContextTags" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "moonslime.Wizardry.analyze/elemental:frostbolt"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "169", "ContextTags" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "moonslime.Wizardry.analyze/elemental:kiln"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "388", "ContextTags" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "moonslime.Wizardry.analyze/elemental:kiln"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "879", "ContextTags" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "moonslime.Wizardry.analyze/eldritch:charm"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "921", "ContextTags" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "moonslime.Wizardry.analyze/life:cleanse"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "703", "ContextTags" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "moonslime.Wizardry.analyze/nature:magnetic_force"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "519", "ContextTags" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "moonslime.Wizardry.analyze/nature:magnetic_force"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "518", "ContextTags" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "moonslime.Wizardry.analyze/nature:magnetic_force"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/BigCraftables",
+            "TargetField": [ "9", "ContextTags" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "moonslime.Wizardry.analyze/nature:lantern"
+            }
+        }
+    ]
+}

@@ -1,8 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewValley;
+using StardewValley.GameData.Objects;
+using StardewValley.ItemTypeDefinitions;
 using StardewValley.Menus;
 using StardewValley.Monsters;
 using StardewValley.Objects;
@@ -50,80 +55,56 @@ namespace WizardrySkill.Core.Framework.Spells
             bool lightningRod = false;
 
             // get spells from item
-            foreach (var activeItem in new[] { this.GetItemFromMenu(Game1.activeClickableMenu) ?? this.GetItemFromToolbar(), player.CurrentItem })
+            var itemsToCheck = new[] { this.GetItemFromMenu(Game1.activeClickableMenu), this.GetItemFromToolbar(), player.CurrentItem };
+
+            foreach (var activeItem in itemsToCheck)
             {
-                if (activeItem is not null && activeItem.QualifiedItemId != null)
+                if (activeItem?.QualifiedItemId == null)
+                    continue;
+
+
+                // Process tags
+                foreach (string tag in activeItem.GetContextTags())
                 {
-                    // by item type
-                    switch (activeItem)
+                    if (!tag.Contains("moonslime.Wizardry.analyze"))
+                        continue;
+
+                    string[] split = tag.Split('/');
+                    if (split.Length < 2)
+                        continue;
+
+                    string identifier = split[1];
+                    if (identifier == "nature:lantern")
                     {
-                        case Axe or Pickaxe:
-                            spellsLearnt.Add("toil:cleardebris");
-                            break;
-
-                        case Hoe:
-                            spellsLearnt.Add("toil:till");
-                            break;
-
-                        case WateringCan:
-                            spellsLearnt.Add("toil:water");
-                            break;
-
-                        case Boots:
-                            spellsLearnt.Add("life:evac");
-                            break;
-                        case MeleeWeapon:
-                            if (activeItem.Name.Contains("Scythe"))
-                            {
-                                spellsLearnt.Add("toil:harvest");
-                            }
-                            break;
+                        lightningRod = true;
                     }
-
-                    switch (activeItem.QualifiedItemId)
+                    else
                     {
-                        case "(O)395" or "(O)253": // coffee
-                            spellsLearnt.Add("life:haste");
-                            break;
-
-                        case "(O)773": // life elixir
-                            spellsLearnt.Add("life:heal");
-                            break;
-
-                        case "(O)86": // earth crystal
-                            spellsLearnt.Add("nature:shockwave");
-                            break;
-
-                        case "(O)82": // fire quartz
-                            spellsLearnt.Add("elemental:fireball");
-                            break;
-
-                        case "(O)161": // ice pip
-                            spellsLearnt.Add("elemental:frostbolt");
-                            break;
-
-                        case "(O)169" or "(O)388": // driftwood or wood
-                            spellsLearnt.Add("elemental:kiln");
-                            break;
-
-                        case "(O)879": // monster musk
-                            spellsLearnt.Add("eldritch:charm");
-                            break;
-
-                        case "(O)921": // Squid Ink Ravioli
-                            spellsLearnt.Add("life:cleanse");
-                            break;
-
-                        case "(O)703" or "(O)519": // magnet, magnet ring
-                            spellsLearnt.Add("nature:magnetic_force");
-                            break;
-
-                        case "(BC)9": // Squid Ink Ravioli
-                            lightningRod = true;
-                            break;
+                        spellsLearnt.Add(identifier);
                     }
                 }
+
+                // Process item type
+                switch (activeItem)
+                {
+                    case Axe or Pickaxe:
+                        spellsLearnt.Add("toil:cleardebris");
+                        break;
+                    case Hoe:
+                        spellsLearnt.Add("toil:till");
+                        break;
+                    case WateringCan:
+                        spellsLearnt.Add("toil:water");
+                        break;
+                    case Boots:
+                        spellsLearnt.Add("life:evac");
+                        break;
+                    case MeleeWeapon mw when mw.Name.Contains("Scythe"):
+                        spellsLearnt.Add("toil:harvest");
+                        break;
+                }
             }
+
 
             // get spells from world
             if (Game1.activeClickableMenu == null)
