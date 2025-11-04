@@ -34,6 +34,7 @@ namespace WizardrySkill.Core
         private static IInputHelper InputHelper;
         private static bool CastPressed;
         private static double CarryoverManaRegen;
+        private const string ModDataKey = "moonSlime.Wizardry.ActiveEffect";
         private static Toolbar? GetToolbar()
         {
             return Game1.onScreenMenus.OfType<Toolbar>().FirstOrDefault();
@@ -98,6 +99,7 @@ namespace WizardrySkill.Core
                 effect.CleanUp();
             }
             ActiveEffects.Clear();
+            Game1.player.modData[ModDataKey] = "";
         }
 
         /*********
@@ -110,8 +112,6 @@ namespace WizardrySkill.Core
             LoadAssets();
 
             SpellManager.Init(getNewId);
-
-            Networking.RegisterMessageHandler(MsgCast, OnNetworkCast);
 
             OnAnalyzeCast += (sender, e) => ModEntry.Instance.Api.InvokeOnAnalyzeCast(sender as Farmer);
 
@@ -155,12 +155,34 @@ namespace WizardrySkill.Core
         }
 
         [SEvent.UpdateTicked]
-        /// <summary>Raised after the game state is updated (≈60 times per second).</summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
         private static void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-            // update active effects
+
+            if (!Context.IsWorldReady)
+                return;
+
+
+            // 1️ Only check messages if the modData actually contains something
+            if (Game1.player.modData.TryGetValue(ModDataKey, out string rawData) &&
+                !string.IsNullOrWhiteSpace(rawData))
+            {
+                var messages = ReadAndClearActiveEffects(Game1.player);
+
+                foreach (var msg in messages)
+                {
+                    Farmer caster = Game1.GetPlayer(msg.CasterId);
+                    if (caster == null)
+                        continue;
+
+                    IActiveEffect effect = caster.GetSpellBook()
+                        .CastSpell(msg.SpellFullId, msg.Level, msg.X, msg.Y);
+
+                    if (effect != null)
+                        ActiveEffects.Add(effect);
+                }
+            }
+
+            // 2️ Update all currently active effects
             for (int i = ActiveEffects.Count - 1; i >= 0; i--)
             {
                 IActiveEffect effect = ActiveEffects[i];
@@ -168,6 +190,54 @@ namespace WizardrySkill.Core
                     ActiveEffects.RemoveAt(i);
             }
         }
+
+        /// <summary>
+        /// Reads and clears queued spell-cast messages from the given farmer’s modData.
+        /// Each entry format: "casterId,spellFullId,level,x,y" separated by '/'.
+        /// </summary>
+        public static List<(long CasterId, string SpellFullId, int Level, int X, int Y)>
+            ReadAndClearActiveEffects(Farmer farmer)
+        {
+            var results = new List<(long, string, int, int, int)>();
+
+            if (farmer == null)
+                return results;
+
+            if (!farmer.modData.TryGetValue(ModDataKey, out string raw) || string.IsNullOrWhiteSpace(raw))
+                return results;
+
+            foreach (string entry in raw.Split('/', StringSplitOptions.RemoveEmptyEntries))
+            {
+                string[] parts = entry.Split(',');
+                if (parts.Length < 5)
+                    continue;
+
+                if (!long.TryParse(parts[0], out long casterId))
+                    continue;
+
+                string spellFullId = parts[1];
+
+                if (!int.TryParse(parts[2], out int level))
+                    continue;
+
+                if (!int.TryParse(parts[3], out int x))
+                    continue;
+
+                if (!int.TryParse(parts[4], out int y))
+                    continue;
+
+                results.Add((casterId, spellFullId, level, x, y));
+            }
+
+            // Clear once read (prevents duplicate processing)
+            farmer.modData[ModDataKey] = "";
+
+            return results;
+        }
+
+
+
+
 
         [SEvent.ButtonPressed]
         /// <summary>Raised after the player presses a button on the keyboard, controller, or mouse.</summary>
@@ -219,11 +289,20 @@ namespace WizardrySkill.Core
                 {
                     Log.Trace("Casting " + slot.SpellId);
 
-                    IActiveEffect effect = spellBook.CastSpell(spell, slot.Level);
-                    if (effect != null)
-                        ActiveEffects.Add(effect);
-
                     Game1.player.AddMana(-spell.GetManaCost(Game1.player, slot.Level));
+
+                    string entry = $"{Game1.player.UniqueMultiplayerID},{spell.FullId},{slot.Level},{Game1.getMouseX() + Game1.viewport.X},{Game1.getMouseY() + Game1.viewport.Y}";
+
+                    foreach (var who in Game1.getOnlineFarmers())
+                    {
+                        if (!who.modData.TryGetValue("moonSlime.Wizardry.ActiveEffect", out string existing))
+                            existing = "";
+
+                        if (!string.IsNullOrEmpty(existing))
+                            existing += "/";
+
+                        who.modData["moonSlime.Wizardry.ActiveEffect"] = existing + entry;
+                    }
                 }
             }
         }
@@ -356,18 +435,6 @@ namespace WizardrySkill.Core
         /*********
         ** Private methods
         *********/
-        private static void OnNetworkCast(IncomingMessage msg)
-        {
-            Farmer player = Game1.GetPlayer(msg.FarmerID);
-            if (player == null)
-                return;
-
-            IActiveEffect effect = player.GetSpellBook().CastSpell(msg.Reader.ReadString(), msg.Reader.ReadInt32(), msg.Reader.ReadInt32(), msg.Reader.ReadInt32());
-            if (effect != null)
-                ActiveEffects.Add(effect);
-        }
-
-
         [SEvent.RenderedWorld]
         private static void OnRenderedWorld(object sender, RenderedWorldEventArgs e)
         {

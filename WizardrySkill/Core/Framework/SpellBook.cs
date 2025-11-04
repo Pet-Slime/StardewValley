@@ -225,21 +225,8 @@ namespace WizardrySkill.Core.Framework
         /// <param name="y">The Y coordinate on which to cast the spell.</param>
         public IActiveEffect CastSpell(Spell spell, int level, int x = int.MinValue, int y = int.MinValue)
         {
-            if (this.Player == Game1.player)
-            {
-                using var stream = new MemoryStream();
-                using var writer = new BinaryWriter(stream);
-                writer.Write(spell.FullId);
-                writer.Write(level);
-                writer.Write(Game1.getMouseX() + Game1.viewport.X);
-                writer.Write(Game1.getMouseY() + Game1.viewport.Y);
-                SpaceCore.Networking.BroadcastMessage(Events.MsgCast, stream.ToArray());
-            }
-            Point pos = new Point(x, y);
-            if (x == int.MinValue && y == int.MinValue)
-                pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
 
-            return spell.OnCast(this.Player, level, pos.X, pos.Y);
+            return spell.OnCast(this.Player, level, x, y);
         }
 
 

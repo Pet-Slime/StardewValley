@@ -39,6 +39,10 @@ namespace WizardrySkill.Core
             TriggerActionManager.RegisterAction(
             $"moonslime.WizardrySkill.learnedmagic",
             LearnedMagic);
+
+            TriggerActionManager.RegisterAction(
+            $"moonslime.WizardrySkill.learnedspell",
+            LearnedSPell);
         }
 
         /// <summary>Get an API that other mods can access. This is always called after <see cref="M:StardewModdingAPI.Mod.Entry(StardewModdingAPI.IModHelper)" />.</summary>
@@ -61,6 +65,16 @@ namespace WizardrySkill.Core
                 return false;
             }
             Utilities.LearnedMagic(points);
+            return true;
+        }
+
+        static bool LearnedSPell(string[] args, TriggerActionContext context, out string error)
+        {
+            if (!ArgUtility.TryGet(args, 1, out string points, out error))
+            {
+                return false;
+            }
+            Utilities.LearnedSpell(points);
             return true;
         }
     }

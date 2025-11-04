@@ -8,24 +8,26 @@ using StardewValley.TerrainFeatures;
 
 namespace WizardrySkill.Core.Framework.Game
 {
+
+    // Copied and modified from vanilla's debuff projectile to make our own projectiles!
     public class SpellProjectile : Projectile
     {
         //
         // Summary:
         //     The buff ID to apply to players hit by this projectile.
-        public readonly NetString debuff = new NetString();
+        public readonly NetString Debuff = new NetString();
 
-        public NetBool wavyMotion = new NetBool(value: true);
+        public NetBool WavyMotion = new NetBool(value: true);
 
-        public NetInt debuffIntensity = new NetInt(-1);
+        public NetInt DebuffIntensity = new NetInt(-1);
 
 
         //
         // Summary:
         //     The amount of damage caused when this projectile hits a monster or player.
-        public readonly NetInt damageToFarmer = new NetInt();
+        public readonly NetInt DamageToFarmer = new NetInt();
 
-        private float periodicEffectTimer;
+        private float PeriodicEffectTimer;
         private bool Explosion;
 
         //
@@ -75,7 +77,7 @@ namespace WizardrySkill.Core.Framework.Game
             : this()
         {
             this.theOneWhoFiredMe.Set(location, owner);
-            this.debuff.Value = debuff;
+            this.Debuff.Value = debuff;
             this.currentTileSheetIndex.Value = spriteIndex;
             this.bouncesLeft.Value = bouncesTillDestruct;
             base.tailLength.Value = tailLength;
@@ -84,7 +86,7 @@ namespace WizardrySkill.Core.Framework.Game
             base.yVelocity.Value = yVelocity;
             this.position.Value = startingPosition;
             this.damagesMonsters.Value = hitsMonsters;
-            this.damageToFarmer.Value = damage;
+            this.DamageToFarmer.Value = damage;
             this.Explosion = explosion;
 
             if (playDefaultSoundOnFire)
@@ -105,7 +107,7 @@ namespace WizardrySkill.Core.Framework.Game
         protected override void InitNetFields()
         {
             base.InitNetFields();
-            NetFields.AddField(debuff, "debuff").AddField(wavyMotion, "wavyMotion").AddField(debuffIntensity, "debuffIntensity").AddField(damageToFarmer, "damageToFarmer");
+            this.NetFields.AddField(Debuff, "debuff").AddField(WavyMotion, "wavyMotion").AddField(DebuffIntensity, "debuffIntensity").AddField(DamageToFarmer, "damageToFarmer");
         }
 
         public override void updatePosition(GameTime time)
@@ -114,7 +116,7 @@ namespace WizardrySkill.Core.Framework.Game
             this.yVelocity.Value += this.acceleration.Y;
             this.position.X += this.xVelocity.Value;
             this.position.Y += this.yVelocity.Value;
-            if (this.wavyMotion.Value)
+            if (this.WavyMotion.Value)
             {
                 this.position.X += (float)Math.Sin(time.TotalGameTime.Milliseconds * Math.PI / 128.0) * 8f;
                 this.position.Y += (float)Math.Cos(time.TotalGameTime.Milliseconds * Math.PI / 128.0) * 8f;
@@ -124,12 +126,12 @@ namespace WizardrySkill.Core.Framework.Game
         public override bool update(GameTime time, GameLocation location)
         {
 
-            if (debuff.Value == "frozen")
+            if (this.Debuff.Value == "frozen")
             {
-                periodicEffectTimer += (float)time.ElapsedGameTime.TotalMilliseconds;
-                if (periodicEffectTimer > 50f)
+                this.PeriodicEffectTimer += (float)time.ElapsedGameTime.TotalMilliseconds;
+                if (this.PeriodicEffectTimer > 50f)
                 {
-                    periodicEffectTimer = 0f;
+                    this.PeriodicEffectTimer = 0f;
                     Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite("TileSheets\\Projectiles", new Rectangle(32, 32, 16, 16), 9999f, 1, 1, position.Value, flicker: false, flipped: false, 1f, 0.01f, Color.White, 4f, 0f, 0f, 0f)
                     {
                         motion = Utility.getRandom360degreeVector(1f) + new Vector2(xVelocity.Value, yVelocity.Value),
@@ -143,16 +145,16 @@ namespace WizardrySkill.Core.Framework.Game
 
         public override void behaviorOnCollisionWithPlayer(GameLocation location, Farmer player)
         {
-            if (!damagesMonsters.Value && Game1.random.Next(11) >= player.Immunity && !player.hasBuff("28") && !player.hasTrinketWithID("BasiliskPaw"))
+            if (!this.damagesMonsters.Value && Game1.random.Next(11) >= player.Immunity && !player.hasBuff("28") && !player.hasTrinketWithID("BasiliskPaw"))
             {
-                piercesLeft.Value--;
+                this.piercesLeft.Value--;
                 if (Game1.player == player)
                 {
-                    player.applyBuff(debuff.Value);
+                    player.applyBuff(this.Debuff.Value);
                 }
 
-                explosionAnimation(location);
-                if (debuff.Value == "19")
+                this.ExplosionAnimation(location);
+                if (this.Debuff.Value == "19")
                 {
                     location.playSound("frozen");
                 }
@@ -165,7 +167,7 @@ namespace WizardrySkill.Core.Framework.Game
 
         public override void behaviorOnCollisionWithTerrainFeature(TerrainFeature t, Vector2 tileLocation, GameLocation location)
         {
-            explosionAnimation(location);
+            this.ExplosionAnimation(location);
 
             this.piercesLeft.Value--;
 
@@ -173,14 +175,14 @@ namespace WizardrySkill.Core.Framework.Game
 
         public override void behaviorOnCollisionWithOther(GameLocation location)
         {
-            explosionAnimation(location);
+            this.ExplosionAnimation(location);
             this.piercesLeft.Value--;
 
         }
 
-        protected virtual void explosionAnimation(GameLocation location)
+        protected virtual void ExplosionAnimation(GameLocation location)
         {
-            if (!(debuff.Value == "frozen"))
+            if (!(this.Debuff.Value == "frozen"))
             {
                 Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(352, Game1.random.Next(100, 150), 2, 1, position.Value, flicker: false, flipped: false));
             }
@@ -192,8 +194,8 @@ namespace WizardrySkill.Core.Framework.Game
             if (n is Monster)
             {
                 Farmer playerWhoFiredMe = GetPlayerWhoFiredMe(location);
-                location.damageMonster(n.GetBoundingBox(), this.damageToFarmer.Value, this.damageToFarmer.Value + 1, isBomb: false, playerWhoFiredMe, isProjectile: true);
-                Utilities.AddEXP(GetPlayerWhoFiredMe(location), this.damageToFarmer.Value / ((GetPlayerWhoFiredMe(location) as Farmer).CombatLevel + 1));
+                location.damageMonster(n.GetBoundingBox(), this.DamageToFarmer.Value, this.DamageToFarmer.Value + 1, isBomb: false, playerWhoFiredMe, isProjectile: true);
+                Utilities.AddEXP(this.GetPlayerWhoFiredMe(location), this.DamageToFarmer.Value / ((this.GetPlayerWhoFiredMe(location) as Farmer).CombatLevel + 1));
                 if (this.currentTileSheetIndex.Value == 15)
                 {
                     Utility.addRainbowStarExplosion(location, this.position.Value, 11);
@@ -204,27 +206,27 @@ namespace WizardrySkill.Core.Framework.Game
                     this.piercesLeft.Value--;
                     if (this.Explosion)
                     {
-                        location.explode(new Vector2(n.Tile.X, n.Tile.Y), 3, GetPlayerWhoFiredMe(location), damage_amount: this.damageToFarmer.Value);
+                        location.explode(new Vector2(n.Tile.X, n.Tile.Y), 3, this.GetPlayerWhoFiredMe(location), damage_amount: this.DamageToFarmer.Value);
                     }
                 }
             }
 
 
-            if (damagesMonsters.Value && n is Monster && debuff.Value == "frozen" && (!(n is Leaper leaper) || !leaper.leaping.Value))
+            if (this.damagesMonsters.Value && n is Monster && this.Debuff.Value == "frozen" && (!(n is Leaper leaper) || !leaper.leaping.Value))
             {
                 if ((n as Monster).stunTime.Value < 51)
                 {
                     this.piercesLeft.Value--;
                 }
 
-                if ((n as Monster).stunTime.Value < debuffIntensity.Value - 1000)
+                if ((n as Monster).stunTime.Value < DebuffIntensity.Value - 1000)
                 {
                     location.playSound("frozen");
                     Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite("LooseSprites\\Cursors2", new Rectangle(118, 227, 16, 13), new Vector2(0f, 0f), flipped: false, 0f, Color.White)
                     {
                         layerDepth = (n.StandingPixel.Y + 2) / 10000f,
                         animationLength = 1,
-                        interval = debuffIntensity.Value,
+                        interval = DebuffIntensity.Value,
                         scale = 4f,
                         id = (int)(n.position.X * 777f + n.position.Y * 77777f),
                         positionFollowsAttachedCharacter = true,
@@ -232,7 +234,7 @@ namespace WizardrySkill.Core.Framework.Game
                     });
                 }
 
-                (n as Monster).stunTime.Value = debuffIntensity.Value;
+                (n as Monster).stunTime.Value = DebuffIntensity.Value;
             }
         }
 
@@ -245,7 +247,7 @@ namespace WizardrySkill.Core.Framework.Game
         //     The location containing the player.
         public virtual Farmer GetPlayerWhoFiredMe(GameLocation location)
         {
-            return theOneWhoFiredMe.Get(location) as Farmer ?? Game1.player;
+            return this.theOneWhoFiredMe.Get(location) as Farmer ?? Game1.player;
         }
     }
 }

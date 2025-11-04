@@ -4,6 +4,9 @@ using System.Linq;
 using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using WizardrySkill.Core.Framework;
+using WizardrySkill.Core.Framework.Spells;
+using static SpaceCore.Skills;
 
 namespace WizardrySkill.Core
 {
@@ -71,6 +74,30 @@ namespace WizardrySkill.Core
             {
                 Farmer player = Game1.player;
                 Core.Utilities.AddEXP(player, EXP);
+            }
+
+        }
+
+        public static void LearnedSpell(string spell)
+        {
+            if (Game1.player.IsLocalPlayer)
+            {
+                Farmer player = Game1.player;
+                SpellBook spellBook = player.GetSpellBook();
+
+                if (spellBook.KnowsSpell(spell, 0))
+                    return;
+
+                Log.Debug($"Player learnt spell: {spell}");
+                spellBook.LearnSpell(spell, 0, true);
+
+                // Show message in HUD
+                var item = ItemRegistry.Create("moonslime.Wizardry.HudIcon");
+                var message = new HUDMessage(I18n.Spell_Learn(spellName: SpellManager.Get(spell).GetTranslatedName()))
+                {
+                    messageSubject = item
+                };
+                Game1.addHUDMessage(message);
             }
 
         }
