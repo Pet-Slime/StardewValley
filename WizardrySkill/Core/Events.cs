@@ -426,7 +426,7 @@ namespace WizardrySkill.Core
         private static readonly string[] CoreSpells =
         {
             "arcane:analyze",
-            "arcane:magicmissle",
+            "elemental:magicmissle",
             "arcane:enchant",
             "arcane:disenchant"
         };

@@ -33,7 +33,6 @@ namespace WizardrySkill.Core.Framework
         internal static void Init(Func<long> getNewId)
         {
             Register(new AnalyzeSpell());
-            Register(new ProjectileSpell(SchoolId.Arcane, "magicmissle", 5, 7, 15, "magic_arrow", 16, rotationVelocy: 0f, seeking: true, wavey: false, piercesLeft: 999, ignoreTerrain: true));
             Register(new EnchantSpell(false));
             Register(new EnchantSpell(true));
             Register(new RewindSpell());
@@ -42,36 +41,41 @@ namespace WizardrySkill.Core.Framework
             Register(new TillSpell());
             Register(new WaterSpell());
             Register(new CollectionSpell());
-            Register(new HarvestSpell());
-            if (ModEntry.Config.VoidSchool)
-            {
-                Register(new BlinkSpell());
-            }
+            Register(new KilnSpell());
+
 
             Register(new LanternSpell(getNewId));
             Register(new TendrilsSpell());
-            Register(new MagnetSpell());
-            Register(new ShockwaveSpell());
             Register(new PhotosynthesisSpell());
 
             Register(new HealSpell());
             Register(new HealAreaSpell());
             Register(new CleanseSpell());
-            Register(new HasteSpell());
+            Register(new MagnetSpell());
             Register(new BuffSpell());
-            Register(new EvacSpell());
 
+            Register(new ProjectileSpell(SchoolId.Elemental, "magicmissle", 5, 7, 15, "magic_arrow", 16, rotationVelocy: 0f, seeking: true, wavey: false, piercesLeft: 999, ignoreTerrain: true));
             Register(new ProjectileSpell(SchoolId.Elemental, "frostbolt", 7, 5, 10, "coldSpell", 9, tail: 5, debuff: "frozen", wavey: false));
             Register(new ProjectileSpell(SchoolId.Elemental, "fireball", 7, 10, 20, "flameSpell", 10, tail: 10, explosion: true));
-            Register(new DescendSpell());
-            Register(new KilnSpell());
-            Register(new TeleportSpell());
-
+            Register(new ShockwaveSpell());
             Register(new MeteorSpell());
+
+            Register(new EvacSpell());
+            Register(new HasteSpell());
+            Register(new DescendSpell());
+            Register(new TeleportSpell());
+            if (ModEntry.Config.VoidSchool)
+            {
+                Register(new BlinkSpell());
+            }
+
             Register(new CharmSpell());
             Register(new BloodManaSpell());
             Register(new LuckStealSpell());
             Register(new SpiritSpell());
+
+
+
         }
 
 

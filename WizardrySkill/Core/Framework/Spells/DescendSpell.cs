@@ -13,7 +13,7 @@ namespace WizardrySkill.Core.Framework.Spells
         *********/
 
         public DescendSpell()
-            : base(SchoolId.Elemental, "descend")
+            : base(SchoolId.Motion, "descend")
         {
             // SchoolId.Elemental identifies the spell's magical school
             // "descend" is the internal name used to reference this spell

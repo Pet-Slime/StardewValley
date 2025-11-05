@@ -18,7 +18,7 @@ namespace WizardrySkill.Core.Framework.Spells
         *********/
 
         public EvacSpell()
-            : base(SchoolId.Life, "evac")
+            : base(SchoolId.Motion, "evac")
         {
             // SchoolId.Life identifies the spell's magical school
             // "evac" is the internal name for this spell

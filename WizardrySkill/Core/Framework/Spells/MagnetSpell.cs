@@ -14,7 +14,7 @@ namespace WizardrySkill.Core.Framework.Spells
         ** Public methods
         *********/
         public MagnetSpell()
-            : base(SchoolId.Nature, "magnetic_force")
+            : base(SchoolId.Life, "magnetic_force")
         {
             // SchoolId.Nature indicates this spell belongs to the Nature school
             // "magnetic_force" is the internal name of this spell

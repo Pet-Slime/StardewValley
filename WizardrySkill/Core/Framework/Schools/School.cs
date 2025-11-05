@@ -81,9 +81,9 @@ namespace WizardrySkill.Core.Framework.Schools
             RegisterSchool(new ElementalSchool());
             RegisterSchool(new NatureSchool());
             RegisterSchool(new LifeSchool());
-            RegisterSchool(new EldritchSchool());
+            RegisterSchool(new MotionSchool());
             RegisterSchool(new ToilSchool());
-
+            RegisterSchool(new EldritchSchool());
         }
 
         /// <summary>Get the spell's translated description.</summary>

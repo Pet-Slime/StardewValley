@@ -12,12 +12,12 @@ namespace WizardrySkill.Core.Framework.Schools
 
         public override Spell[] GetSpellsTier1()
         {
-            return new[] { SpellManager.Get("nature:lantern"), SpellManager.Get("nature:tendrils") };
+            return new[] { SpellManager.Get("nature:lantern")  };
         }
 
         public override Spell[] GetSpellsTier2()
         {
-            return new[] { SpellManager.Get("nature:shockwave"), SpellManager.Get("nature:magnetic_force") };
+            return new[] { SpellManager.Get("nature:tendrils") };
         }
 
         public override Spell[] GetSpellsTier3()

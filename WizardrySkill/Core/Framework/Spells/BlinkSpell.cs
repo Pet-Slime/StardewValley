@@ -15,7 +15,7 @@ namespace WizardrySkill.Core.Framework.Spells
         ** Public methods
         *********/
         public BlinkSpell()
-            : base(SchoolId.Toil, "blink") { }
+            : base(SchoolId.Motion, "blink") { }
 
         public override int GetManaCost(Farmer player, int level)
         {

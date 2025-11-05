@@ -14,7 +14,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         // Constructor: sets the spell's school and ID
         public ShockwaveSpell()
-            : base(SchoolId.Nature, "shockwave") { }
+            : base(SchoolId.Elemental, "shockwave") { }
 
         // Determines if the spell can currently be cast
         public override bool CanCast(Farmer player, int level)

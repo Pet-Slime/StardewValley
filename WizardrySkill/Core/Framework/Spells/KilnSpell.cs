@@ -13,7 +13,7 @@ namespace WizardrySkill.Core.Framework.Spells
         *********/
 
         public KilnSpell()
-            : base(SchoolId.Elemental, "kiln")
+            : base(SchoolId.Toil, "kiln")
         {
             // SchoolId.Elemental identifies the spell's magical school
             // "kiln" is the internal name for this spell

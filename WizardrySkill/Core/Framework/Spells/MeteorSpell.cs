@@ -12,7 +12,7 @@ namespace WizardrySkill.Core.Framework.Spells
         ** Public methods
         *********/
         public MeteorSpell()
-            : base(SchoolId.Eldritch, "meteor")
+            : base(SchoolId.Elemental, "meteor")
         {
             // SchoolId.Eldritch indicates this spell belongs to the Eldritch school
             // "meteor" is the internal name for this spell
