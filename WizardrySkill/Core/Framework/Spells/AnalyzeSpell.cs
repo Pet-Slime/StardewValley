@@ -132,10 +132,10 @@ namespace WizardrySkill.Core.Framework.Spells
                         spellsLearnt.Add("toil:water");
                         break;
                     case Boots:
-                        spellsLearnt.Add("life:evac");
+                        spellsLearnt.Add("motion:evac");
                         break;
                     case MeleeWeapon mw when mw.Name.Contains("Scythe", StringComparison.Ordinal):
-                        spellsLearnt.Add("toil:harvest");
+                        spellsLearnt.Add("toil:cleardebris");
                         break;
                 }
             }
@@ -177,7 +177,7 @@ namespace WizardrySkill.Core.Framework.Spells
                     new Rectangle((int)clump.Tile.X, (int)clump.Tile.Y, clump.width.Value, clump.height.Value)
                         .Contains((int)tilePos.X, (int)tilePos.Y))
                 {
-                    spellsLearnt.Add("eldritch:meteor");
+                    spellsLearnt.Add("elemental:meteor");
                     break;
                 }
             }
@@ -192,7 +192,7 @@ namespace WizardrySkill.Core.Framework.Spells
             // Check for specific tiles (e.g., special buildings)
             var tile = location.map.GetLayer("Buildings").Tiles[(int)tilePos.X, (int)tilePos.Y];
             if (tile?.TileIndex == 173)
-                spellsLearnt.Add("elemental:descend");
+                spellsLearnt.Add("motion:descend");
 
             // Check for water tiles in level 100 of the Mine
             if (location is StardewValley.Locations.MineShaft { mineLevel: 100 } ms &&
