@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MoonShared.Attributes;
@@ -12,64 +13,34 @@ namespace WizardryManaBar.Core
 {
     internal class Events
     {
-
         private const string ManaFill = "moonslime.ManaBarApi.ManaFill";
         private const string ManaRestore = "moonslime.ManaBarApi.ManaRestore";
 
-        public static Vector2 barPosition;
+        public static Vector2 BarPosition;
+        private static Vector2 SizeUI;
+        private static Vector2 LastViewportSize;
+        private static Texture2D ManaFg;
 
-        private static Vector2 sizeUI;
+        private static double LastManaRatio = double.NaN;
+        private static Color LastManaColor = Color.Transparent;
 
-        private static Texture2D manaFg;
+        // Temporary reusable objects
+        private static Rectangle SharedRect = new();
+        private static Rectangle DestRect = new();
+        private static readonly StringBuilder HoverTextBuilder = new();
+        private static readonly Color[] SingleColorBuffer = new Color[1];
 
-        // Cache last-known ratio and color to avoid expensive SetData() uploads every frame.
-        private static double lastManaRatio = double.NaN;
-        private static Color lastManaColor = Color.Transparent;
 
-        private static Texture2D ManaFg
-        {
-            get
-            {
-                Color manaCol;
-                if (Context.IsWorldReady)
-                {
-                    double ratio = GetManaRatio();
-                    manaCol = ApplyColorOffset(new Color(0, 48, 255), ratio);
-
-                    // Only update the GPU texture when the color (or ratio) meaningfully changes.
-                    if (double.IsNaN(lastManaRatio) || Math.Abs(ratio - lastManaRatio) > 0.001 || manaCol != lastManaColor)
-                    {
-                        manaFg.SetData(new[] { manaCol });
-                        lastManaRatio = ratio;
-                        lastManaColor = manaCol;
-                    }
-                }
-                else
-                {
-                    manaCol = new Color(0, 48, 255);
-
-                    // If default color hasn't been set yet, set it once.
-                    if (lastManaColor != manaCol)
-                    {
-                        manaFg.SetData(new[] { manaCol });
-                        lastManaColor = manaCol;
-                        lastManaRatio = double.NaN;
-                    }
-                }
-
-                return manaFg;
-            }
-
-            set => manaFg = value;
-        }
+        private static int LastExtraCount = -1; // track previous bar offsets
 
         public static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
-            Color manaCol = new(0, 48, 255);
-            WizardryManaBar.Core.Events.ManaFg = new Texture2D(Game1.graphics.GraphicsDevice, 1, 1);
-            ManaFg.SetData(new[] { manaCol });
+            // Initialize mana texture
+            SingleColorBuffer[0] = new Color(0, 48, 255);
+            ManaFg = new Texture2D(Game1.graphics.GraphicsDevice, 1, 1);
+            ManaFg.SetData(SingleColorBuffer);
 
-
+            // Hook events
             SpaceEvents.OnItemEaten += OnItemEaten;
             ModEntry.Instance.Helper.Events.Display.RenderingHud += OnRenderedHud;
             ModEntry.Instance.Helper.Events.GameLoop.DayStarted += OnDayStarted;
@@ -77,8 +48,7 @@ namespace WizardryManaBar.Core
 
         private static void OnItemEaten(object sender, EventArgs args)
         {
-            if (sender is not Farmer player)
-                return;
+            if (sender is not Farmer player) return;
 
             var item = player.itemToEat;
             if (item == null)
@@ -91,51 +61,56 @@ namespace WizardryManaBar.Core
             {
                 bool isFill = tag.StartsWith(ManaFill);
                 bool isRestore = !isFill && tag.StartsWith(ManaRestore);
+                if (!isFill && !isRestore) continue;
 
-                if (!isFill && !isRestore)
-                    continue;
+                int sep = tag.IndexOf('/');
+                if (sep <= 0 || sep >= tag.Length - 1) continue;
 
-                int separatorIndex = tag.IndexOf('/');
-                if (separatorIndex <= 0 || separatorIndex >= tag.Length - 1)
-                    continue; // malformed tag, skip safely
+                ReadOnlySpan<char> valueSpan = tag.AsSpan(sep + 1);
 
-                ReadOnlySpan<char> valueSpan = tag.AsSpan(separatorIndex + 1);
-
-
-                if (isFill)
+                if (isFill && int.TryParse(valueSpan, out int manaValue))
                 {
-                    if (int.TryParse(valueSpan, out int manaValue))
-                    {
-                        int qualityAdjustment = item.Quality;
-                        manaValue = (int)Math.Floor(manaValue * (1 + (qualityAdjustment * 0.4)));
-                        player.AddMana(manaValue);
-                    }
+                    int qualityAdjustment = item.Quality;
+                    manaValue = (int)Math.Floor(manaValue * (1 + qualityAdjustment * 0.4));
+                    player.AddMana(manaValue);
                 }
-                else if (isRestore)
+                else if (isRestore && float.TryParse(valueSpan, out float manaPercent))
                 {
-                    if (float.TryParse(valueSpan, out float manaPercent))
-                        player.AddMana((int)(player.GetMaxMana() * (manaPercent / 100)));
+                    player.AddMana((int)(player.GetMaxMana() * (manaPercent / 100)));
                 }
-
             }
         }
-
 
         [EventPriority(EventPriority.Low)]
         public static void OnRenderedHud(object sender, RenderingHudEventArgs e)
         {
-            // Skip if not applicable.
             if (Game1.activeClickableMenu != null || Game1.eventUp || !Context.IsPlayerFree)
                 return;
 
-            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
-            // Begin rendering, if mana is available and rendering is enabled.
+            var player = Game1.player;
+            var graphics = Game1.graphics.GraphicsDevice;
+
             if (player.GetMaxMana() > 0 && ModEntry.Config.RenderManaBar)
+            {
+                UpdateManaTexture(player);
+                SetBarsPosition();
                 BeginDrawManaBar(e.SpriteBatch);
-            SetBarsPosition();
+            }
         }
 
-        #region Mana Bar Render Functions.
+        private static void UpdateManaTexture(Farmer player)
+        {
+            double ratio = GetManaRatio(player);
+            Color manaColor = ApplyColorOffset(new Color(0, 48, 255), ratio);
+
+            if (Math.Abs(ratio - LastManaRatio) > 0.001 || manaColor != LastManaColor)
+            {
+                SingleColorBuffer[0] = manaColor;
+                ManaFg.SetData(SingleColorBuffer);
+                LastManaRatio = ratio;
+                LastManaColor = manaColor;
+            }
+        }
 
         private static void BeginDrawManaBar(SpriteBatch e)
         {
@@ -151,21 +126,31 @@ namespace WizardryManaBar.Core
 
             int overchargeHeight = Convert.ToInt32(Math.Ceiling(GetManaOvercharge() * ModEntry.Config.SizeMultiplier));
 
-            Rectangle srcRect;
-            Vector2 topOfBar = new(safeXCoordinate + 3 + ModEntry.Config.XManaBarOffset + barPosition.X,
+            Vector2 topOfBar = new(safeXCoordinate + 3 + ModEntry.Config.XManaBarOffset + BarPosition.X,
                                    safeYCoordinate - CalculateYOffsetToManaBar(barHeaderHeight, overchargeHeight, barBottomPosition) +
                                                      ModEntry.Config.YManaBarOffset);
             #endregion
 
             // Drawing Bar Layout.
-            srcRect = DrawManaBarTop(e, barWidth, barHeaderHeight, ref drawedBarsHeight, topOfBar);
-            srcRect = DrawManaBarBody(e, barWidth, barHeaderHeight, ref drawedBarsHeight, overchargeHeight, out srcRect, out Rectangle destRect, topOfBar);
-            srcRect = DrawManaBarBottom(e, barWidth, barBottomPosition, ref drawedBarsHeight, topOfBar);
+            SharedRect = DrawManaBarTop(e, barWidth, barHeaderHeight, ref drawedBarsHeight, topOfBar);
+            SharedRect = DrawManaBarBody(e, barWidth, barHeaderHeight, ref drawedBarsHeight, overchargeHeight, out SharedRect, out Rectangle destRect, topOfBar);
+            SharedRect = DrawManaBarBottom(e, barWidth, barBottomPosition, ref drawedBarsHeight, topOfBar);
 
             // Filling Layout with Content.
-            DrawManaBarFiller(e, barHeaderHeight, barBottomPosition, drawedBarsHeight, out srcRect, out destRect, topOfBar);
+            DrawManaBarFiller(e, barHeaderHeight, barBottomPosition, drawedBarsHeight, out SharedRect, out destRect, topOfBar);
             DrawManaBarShade(e, destRect);
             DrawManaBarHoverText(e, drawedBarsHeight, topOfBar);
+        }
+
+
+        private static double GetManaOvercharge()
+        {
+            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+            double maxMana = player.GetMaxMana();
+            double overchargeValue = maxMana / WizardryManaBar.Core.Api.BaseMaxMana;
+
+            // This will prevent bar to grow limitless and exceed monitor area.
+            return overchargeValue <= ModEntry.Config.MaxOverchargeValue ? overchargeValue : ModEntry.Config.MaxOverchargeValue;
         }
 
         private static Rectangle DrawManaBarTop(SpriteBatch e, int barWidth, int barHeaderHeight, ref int drawedBarsHeight, Vector2 topOfBar)
@@ -256,6 +241,16 @@ namespace WizardryManaBar.Core
             );
         }
 
+
+        private static double GetManaRatio()
+        {
+            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+            double currentMana = player.GetCurrentMana() * 1.0;
+            double maxMana = player.GetMaxMana() * 1.0;
+
+            return currentMana / maxMana;
+        }
+
         private static void DrawManaBarShade(SpriteBatch e, Rectangle destRect)
         {
             destRect.Height = 4;
@@ -283,93 +278,45 @@ namespace WizardryManaBar.Core
                     new Color(0, 48, 255));
             }
         }
-        #endregion
 
-        private static int CalculateYOffsetToManaBar(int barHeaderHeight, double oversize, int barBottomPosition)
+
+
+        private static int CalculateYOffsetToManaBar(int headerHeight, double oversize, int bottomPos)
         {
-            /** Variable: 'bottomMargin'.
-             *
-             * After base calculations, we get value, that lies right on game screen border.
-             * But we need to make small margin. So we need this variable to this needs.
-             * Value set to 24, cause with this value mana bar will have same margin as other bars.
-             **/
             const int bottomMargin = 24;
-            int height = ModEntry.Assets.ManaBG.Height;
-
-            height += barHeaderHeight * 2;
-            height += ModEntry.Assets.ManaBG.Height - barHeaderHeight * 2 + Convert.ToInt32(oversize * Game1.pixelZoom);
-            height += barBottomPosition;
-            height += bottomMargin;
-
+            int height = ModEntry.Assets.ManaBG.Height + headerHeight * 2;
+            height += ModEntry.Assets.ManaBG.Height - headerHeight * 2 + (int)(oversize * Game1.pixelZoom);
+            height += bottomPos + bottomMargin;
             return height;
         }
 
-        private static bool CheckXAxisToMouseIntersection(float xTopPosition, out int xPosition)
-        {
-            xPosition = Game1.getOldMouseX();
-
-            return xPosition >= xTopPosition && xPosition < xTopPosition + 36f;
-        }
-
-        private static bool CheckYAxisToMouseIntersection(int drawedBarsHeight, float yTopPosition, out int yPosition)
-        {
-            yPosition = Game1.getOldMouseY();
-
-            return yPosition >= yTopPosition && yPosition < yTopPosition + drawedBarsHeight + 46f;
-        }
-
-        /*********
-        ** Private methods
-        *********/
         private static Color ApplyColorOffset(Color color, double offset)
         {
-            byte redMaxOffset = 255;
-            byte greenMaxOffset = 207;
+            const byte redMaxOffset = 255;
+            const byte greenMaxOffset = 207;
 
-            byte currentRedOffset = (byte)(Math.Abs(offset - 1) * redMaxOffset);
-            byte currentGreenOffset = (byte)(Math.Abs(offset - 1) * greenMaxOffset);
+            byte r = (byte)(Math.Abs(offset - 1) * redMaxOffset);
+            byte g = (byte)(Math.Abs(offset - 1) * greenMaxOffset);
 
-            return new Color(color.R + currentRedOffset, color.G + currentGreenOffset, color.B);
+            return new Color(color.R + r, color.G + g, color.B);
         }
 
-        private static double GetManaRatio()
+        private static double GetManaRatio(Farmer player)
+            => player.GetCurrentMana() / (double)player.GetMaxMana();
+
+        private static double GetManaOvercharge(Farmer player)
         {
-            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
-            double currentMana = player.GetCurrentMana() * 1.0;
-            double maxMana = player.GetMaxMana() * 1.0;
-
-            return currentMana / maxMana;
+            double overchargeValue = player.GetMaxMana() / WizardryManaBar.Core.Api.BaseMaxMana;
+            return Math.Min(overchargeValue, ModEntry.Config.MaxOverchargeValue);
         }
 
-        private static double GetManaOvercharge()
-        {
-            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
-            double maxMana = player.GetMaxMana();
-            double overchargeValue = maxMana / WizardryManaBar.Core.Api.BaseMaxMana;
-
-            // This will prevent bar to grow limitless and exceed monitor area.
-            return overchargeValue <= ModEntry.Config.MaxOverchargeValue ? overchargeValue : ModEntry.Config.MaxOverchargeValue;
-        }
-
-
-        /// <inheritdoc cref="IGameLoopEvents.DayStarted"/>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
         private static void OnDayStarted(object sender, DayStartedEventArgs e)
         {
-            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
-            ///Give the player only half mana if they passed out from the night before
+            var player = Game1.player;
             if ((int)player.Stamina != player.MaxStamina)
-            {
-                int manaToRestore = (int)(player.GetMaxMana() * 0.5);
-                player.AddMana(manaToRestore);
-            }
+                player.AddMana((int)(player.GetMaxMana() * 0.5));
             else
-            {
                 player.SetManaToMax();
-            }
-
-
         }
 
 
@@ -377,35 +324,24 @@ namespace WizardryManaBar.Core
         {
             if (!Context.IsWorldReady) return;
 
-            sizeUI = new Vector2(Game1.uiViewport.Width, Game1.uiViewport.Height);
-            if (ModEntry.Config.BarsPosition)
-            {
-                barPosition.X = GetPositionInRightBottomCorner();
-            }
-            else
-            {
-                barPosition.X = 0;
-            }
+            Vector2 currentViewport = new(Game1.uiViewport.Width, Game1.uiViewport.Height);
+
+            // Compute how many extra bars shift the mana bar
+            int extraCount = 0;
+            if (Game1.showingHealth) extraCount++;
+            if (ModEntry.MagicStardewLoaded) extraCount++;
+
+            // Only update if viewport size or extra count changed
+            if (currentViewport == LastViewportSize && extraCount == LastExtraCount)
+                return;
+
+            LastViewportSize = currentViewport;
+            LastExtraCount = extraCount;
+            SizeUI = currentViewport;
+
+            BarPosition.X = ModEntry.Config.BarsPosition
+                ? SizeUI.X - (116f + 55f * extraCount)
+                : 0;
         }
-
-
-        private static float GetPositionInRightBottomCorner()
-        {
-            float basePosition = 116f;
-            float offset = 55f;
-
-            bool[] conditions = {
-                CheckToDangerous(),
-                false, // ultimateIsVisible
-                ModEntry.MagicStardewLoaded
-            };
-
-            basePosition += conditions.Count(c => c) * offset;
-
-            return sizeUI.X - basePosition;
-        }
-
-        private static bool CheckToDangerous() =>
-                    Game1.showingHealth;
     }
 }
