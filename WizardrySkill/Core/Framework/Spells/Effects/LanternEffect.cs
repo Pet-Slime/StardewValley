@@ -234,6 +234,10 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
             this.Shadow.position = Vector2.Lerp(this.Shadow.position, shadowPos, 0.2f);
             this.Shadow.layerDepth = (shadowPos.Y - 1) / 10000f;
+
+
+            Game1.Multiplayer.broadcastSprites(this.PrevSummonerLoc, this.Sprite);
+            Game1.Multiplayer.broadcastSprites(this.PrevSummonerLoc, this.Shadow);
         }
 
         public static int GetSnappedDirection(Vector2 from, Vector2 to)
@@ -290,8 +294,6 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 layerDepth = (startPos.Y - 1) / 10000f
             };
 
-            this.PrevSummonerLoc.TemporarySprites.Add(this.Sprite);
-            this.PrevSummonerLoc.TemporarySprites.Add(this.Shadow);
 
 
             string lightId = $"LanternSpell_{this.Summoner.UniqueMultiplayerID}";
