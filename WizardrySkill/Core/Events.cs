@@ -163,25 +163,21 @@ namespace WizardrySkill.Core
 
 
             // 1️ Only check messages if the modData actually contains something
-            if (Game1.player.IsLocalPlayer && Game1.player.modData.TryGetValue(ModDataKey, out string rawData) &&
-                !string.IsNullOrWhiteSpace(rawData))
+            var messages = ReadAndClearActiveEffects(Game1.player);
+
+            foreach (var msg in messages)
             {
 
                 Log.Alert($"Got Message for {Game1.player.displayName}");
-                var messages = ReadAndClearActiveEffects(Game1.player);
+                Farmer caster = Game1.GetPlayer(msg.CasterId);
+                if (caster == null)
+                    continue;
 
-                foreach (var msg in messages)
-                {
-                    Farmer caster = Game1.GetPlayer(msg.CasterId);
-                    if (caster == null)
-                        continue;
+                IActiveEffect effect = caster.GetSpellBook()
+                    .CastSpell(msg.SpellFullId, msg.Level, msg.X, msg.Y);
 
-                    IActiveEffect effect = caster.GetSpellBook()
-                        .CastSpell(msg.SpellFullId, msg.Level, msg.X, msg.Y);
-
-                    if (effect != null)
-                        ActiveEffects.Add(effect);
-                }
+                if (effect != null)
+                    ActiveEffects.Add(effect);
             }
 
             // 2️ Update all currently active effects
