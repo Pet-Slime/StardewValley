@@ -291,7 +291,10 @@ namespace WizardrySkill.Core
 
                     Game1.player.AddMana(-spell.GetManaCost(Game1.player, slot.Level));
 
-                    string entry = $"{Game1.player.UniqueMultiplayerID},{spell.FullId},{slot.Level},{Game1.getMouseX()},{Game1.getMouseY()}";
+
+                    Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
+
+                    string entry = $"{Game1.player.UniqueMultiplayerID},{spell.FullId},{slot.Level},{pos.X},{pos.Y}";
 
                     Farm farm = Game1.getFarm();
 
