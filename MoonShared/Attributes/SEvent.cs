@@ -9,10 +9,18 @@ using StardewValley;
 namespace MoonShared.Attributes;
 
 /// <summary>
-/// Specifies a method as a SMAPI event.
+/// Marks a class as an SMAPI event handler container.
+/// Each nested class represents a specific event type that the mod can subscribe to.
+/// This allows methods to be annotated and automatically wired into SMAPI’s event system
+/// without manual subscription in the mod’s main entry point.
 /// </summary>
 public class SEvent() : ClassHandler(9)
 {
+    /// <summary>
+    /// Entry point for handling an event container class.
+    /// Logs a warning if priority is too low since parsing events too early may cause issues.
+    /// Calls base handler to parse nested methods.
+    /// </summary>
     public override void Handle(Type type, object? instance, IMod mod, object[]? args = null)
     {
         if (this.Priority < 2)
@@ -23,6 +31,16 @@ public class SEvent() : ClassHandler(9)
         base.Handle(type, instance, mod);
     }
 
+    // ───────────────────────────────────────────────────────────────
+    // EVENT HANDLER CLASSES
+    // Each nested class represents one type of SMAPI event and wires a method
+    // annotated with that event to the appropriate SMAPI subscription.
+    // ───────────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Fires after the GameLaunched event but delayed until the first UpdateTick.
+    /// Useful for mods that need all other mods initialized before running.
+    /// </summary>
     public class GameLaunchedLate : MethodHandler
     {
         private MethodInfo? _method;
@@ -35,6 +53,7 @@ public class SEvent() : ClassHandler(9)
             this._mod = mod;
             this._instance = instance;
 
+            // Subscribe temporarily to UpdateTicked to delay execution
             mod.Helper.Events.GameLoop.UpdateTicked += this.DoAfterTick;
         }
 
@@ -46,15 +65,25 @@ public class SEvent() : ClassHandler(9)
                 return;
             }
 
+            // Unsubscribe immediately to run only once
             this._mod.Helper.Events.GameLoop.UpdateTicked -= this.DoAfterTick;
+
+            // Invoke the annotated method
             this._method.Invoke(this._instance, [this, new GameLaunchedEventArgs()]);
         }
     }
 
+    /// <summary>
+    /// Triggers when a player stat changes.
+    /// Automatically tracks old vs new value and passes delta to the annotated method.
+    /// </summary>
+    /// <param name="stat">The player stat to track, e.g., "Luck", "FarmingLevel".</param>
     public class StatChanged(string stat) : MethodHandler
     {
         private MethodInfo? _method;
         private object? _instance;
+
+        // Per-screen storage ensures multiplayer compatibility
         private readonly PerScreen<uint> _currentStat = new();
 
         public override void Handle(MethodInfo method, object? instance, IMod mod, object[]? args = null)
@@ -62,28 +91,35 @@ public class SEvent() : ClassHandler(9)
             this._method = method;
             this._instance = instance;
 
+            // Subscribe to load and periodic tick to track stat changes
             mod.Helper.Events.GameLoop.SaveLoaded += this.DoOnLoad;
             mod.Helper.Events.GameLoop.OneSecondUpdateTicked += this.DoOnOneSecondUpdateTicked;
         }
 
         private void DoOnLoad(object? sender, SaveLoadedEventArgs e)
         {
+            // Initialize tracked value from player stats on save load
             this._currentStat.Value = Game1.player.stats.Get(stat);
         }
 
         private void DoOnOneSecondUpdateTicked(object? sender, OneSecondUpdateTickedEventArgs e)
         {
             uint newStat = Game1.player.stats.Get(stat);
+
+            // Only trigger if the stat changed
             if (this._currentStat.Value == newStat)
-            {
                 return;
-            }
 
             this._method?.Invoke(this._instance,
                 [this, new EventArgs(this._currentStat.Value, newStat, (int)(newStat - this._currentStat.Value))]);
+
             this._currentStat.Value = newStat;
         }
 
+        /// <summary>
+        /// Encapsulates old, new, and delta values for a stat change.
+        /// Passed automatically to the annotated method.
+        /// </summary>
         public class EventArgs(uint oldStat, uint newStat, int delta) : System.EventArgs
         {
             public uint OldStat { get; } = oldStat;
@@ -91,6 +127,12 @@ public class SEvent() : ClassHandler(9)
             public int Delta { get; } = delta;
         }
     }
+
+    // ───────────────────────────────────────────────────────────────
+    // AUTO-WIRED GAME LOOP EVENTS
+    // Each of these classes subscribes a method to a SMAPI GameLoop event
+    // using reflection to automatically convert the method to a delegate.
+    // ───────────────────────────────────────────────────────────────
 
     public class UpdateTicking : MethodHandler
     {
@@ -202,6 +244,10 @@ public class SEvent() : ClassHandler(9)
         }
     }
 
+    // ───────────────────────────────────────────────────────────────
+    // INPUT EVENTS
+    // ───────────────────────────────────────────────────────────────
+
     public class ButtonsChanged : MethodHandler
     {
         public override void Handle(MethodInfo method, object? instance, IMod mod, object[]? args = null)
@@ -246,6 +292,10 @@ public class SEvent() : ClassHandler(9)
         }
     }
 
+    // ───────────────────────────────────────────────────────────────
+    // MULTIPLAYER EVENTS
+    // ───────────────────────────────────────────────────────────────
+
     public class PeerContextReceived : MethodHandler
     {
         public override void Handle(MethodInfo method, object? instance, IMod mod, object[]? args = null)
@@ -282,6 +332,10 @@ public class SEvent() : ClassHandler(9)
         }
     }
 
+    // ───────────────────────────────────────────────────────────────
+    // PLAYER EVENTS
+    // ───────────────────────────────────────────────────────────────
+
     public class InventoryChanged : MethodHandler
     {
         public override void Handle(MethodInfo method, object? instance, IMod mod, object[]? args = null)
@@ -306,6 +360,10 @@ public class SEvent() : ClassHandler(9)
             mod.Helper.Events.Player.Warped += method.InitDelegate<EventHandler<WarpedEventArgs>>(instance);
         }
     }
+
+    // ───────────────────────────────────────────────────────────────
+    // WORLD EVENTS
+    // ───────────────────────────────────────────────────────────────
 
     public class LocationListChanged : MethodHandler
     {
@@ -387,6 +445,10 @@ public class SEvent() : ClassHandler(9)
                 method.InitDelegate<EventHandler<TerrainFeatureListChangedEventArgs>>(instance);
         }
     }
+
+    // ───────────────────────────────────────────────────────────────
+    // DISPLAY EVENTS
+    // ───────────────────────────────────────────────────────────────
 
     public class MenuChanged : MethodHandler
     {
@@ -473,6 +535,10 @@ public class SEvent() : ClassHandler(9)
                 method.InitDelegate<EventHandler<WindowResizedEventArgs>>(instance);
         }
     }
+
+    // ───────────────────────────────────────────────────────────────
+    // CONTENT EVENTS
+    // ───────────────────────────────────────────────────────────────
 
     public class AssetRequested : MethodHandler
     {

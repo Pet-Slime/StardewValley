@@ -1,11 +1,13 @@
 using System.Reflection;
 using HarmonyLib;
 using Microsoft.Xna.Framework.Graphics;
+using MoonShared.Attributes;
 using StardewModdingAPI;
 using StardewValley;
 
 namespace WizardryManaBar.Core
 {
+    [SMod]
     public class ModEntry : Mod
     {
         internal static ModEntry Instance;

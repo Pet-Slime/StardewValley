@@ -11,13 +11,29 @@ using StardewValley.Triggers;
 
 namespace MoonShared.Attributes;
 
+/// <summary>
+/// Marks a class that registers delegates, actions, and queries in Stardew Valley.
+/// Automatically wires methods to the appropriate game systems.
+/// </summary>
 public class SDelegate() : ClassHandler(2)
 {
+    /// <summary>
+    /// Handles the delegate class itself. 
+    /// Currently just passes through to the base handler.
+    /// </summary>
     public override void Handle(Type type, object? instance, IMod mod, object[]? args = null)
     {
         base.Handle(type, instance, mod);
     }
 
+    // ──────────────────────────────────────────────
+    // NESTED METHOD HANDLERS
+    // Each nested class wires a method to a specific Stardew Valley delegate or action.
+    // ──────────────────────────────────────────────
+
+    /// <summary>
+    /// Registers a custom event command for in-game events.
+    /// </summary>
     public class EventCommand : MethodHandler
     {
         public override void Handle(MethodInfo method, object? instance, IMod mod, object[]? args = null)
@@ -26,6 +42,9 @@ public class SDelegate() : ClassHandler(2)
         }
     }
 
+    /// <summary>
+    /// Registers a precondition for an event command.
+    /// </summary>
     public class EventPrecondition : MethodHandler
     {
         public override void Handle(MethodInfo method, object? instance, IMod mod, object[]? args = null)
@@ -34,6 +53,9 @@ public class SDelegate() : ClassHandler(2)
         }
     }
 
+    /// <summary>
+    /// Registers a query that can check the game state.
+    /// </summary>
     public class GameStateQuery : MethodHandler
     {
         public override void Handle(MethodInfo method, object? instance, IMod mod, object[]? args = null)
@@ -42,6 +64,9 @@ public class SDelegate() : ClassHandler(2)
         }
     }
 
+    /// <summary>
+    /// Registers a resolver for item queries in-game.
+    /// </summary>
     public class ResolveItemQuery : MethodHandler
     {
         public override void Handle(MethodInfo method, object? instance, IMod mod, object[]? args = null)
@@ -50,6 +75,9 @@ public class SDelegate() : ClassHandler(2)
         }
     }
 
+    /// <summary>
+    /// Registers a custom token parser for tokenizable strings.
+    /// </summary>
     public class TokenParser : MethodHandler
     {
         public override void Handle(MethodInfo method, object? instance, IMod mod, object[]? args = null)
@@ -58,6 +86,9 @@ public class SDelegate() : ClassHandler(2)
         }
     }
 
+    /// <summary>
+    /// Registers a custom touch action on a game location.
+    /// </summary>
     public class TouchAction : MethodHandler
     {
         public override void Handle(MethodInfo method, object? instance, IMod mod, object[]? args = null)
@@ -66,6 +97,9 @@ public class SDelegate() : ClassHandler(2)
         }
     }
 
+    /// <summary>
+    /// Registers a tile action that can be triggered by the player.
+    /// </summary>
     public class TileAction : MethodHandler
     {
         public override void Handle(MethodInfo method, object? instance, IMod mod, object[]? args = null)
@@ -74,6 +108,9 @@ public class SDelegate() : ClassHandler(2)
         }
     }
 
+    /// <summary>
+    /// Registers a custom trigger action.
+    /// </summary>
     public class TriggerAction : MethodHandler
     {
         public override void Handle(MethodInfo method, object? instance, IMod mod, object[]? args = null)
@@ -81,6 +118,4 @@ public class SDelegate() : ClassHandler(2)
             TriggerActionManager.RegisterAction($"{mod.ModManifest.UniqueID}_{method.Name}", method.InitDelegate<TriggerActionDelegate>(instance));
         }
     }
-
-
 }

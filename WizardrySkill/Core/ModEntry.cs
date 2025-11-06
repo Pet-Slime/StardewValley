@@ -1,5 +1,6 @@
 using System.Reflection;
 using MoonShared.APIs;
+using MoonShared.Attributes;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Delegates;
@@ -9,6 +10,7 @@ using WizardrySkill.Core.Framework;
 
 namespace WizardrySkill.Core
 {
+    [SMod]
     public class ModEntry : Mod
     {
         internal static ModEntry Instance;
