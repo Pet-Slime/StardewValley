@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,7 +18,8 @@ using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Game.Interface;
 using WizardrySkill.Core.Framework.Spells;
 using WizardrySkill.Objects;
-using Log = BirbCore.Attributes.Log;
+using MoonShared.Attributes;
+using Log = MoonShared.Attributes.Log;
 
 namespace WizardrySkill.Core
 {
@@ -419,7 +420,7 @@ namespace WizardrySkill.Core
                 if (!player.modData.ContainsKey(modDataKey))
                 {
                     player.modData.SetBool(modDataKey, true);
-                    BirbCore.Attributes.Log.Trace($"Player now has Profession mod data: {modDataKey}");
+                    MoonShared.Attributes.Log.Trace($"Player now has Profession mod data: {modDataKey}");
                 }
             }
 

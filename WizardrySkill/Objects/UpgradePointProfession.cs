@@ -24,7 +24,7 @@ namespace WizardrySkill.Objects
                 player.GetSpellBook().UseSpellPoints(-2);
                 player.SetManaToMax();
                 string modDataID = this.Skill.Id + "." + this.Id;
-                BirbCore.Attributes.Log.Trace("Player now has Profession mod data: " + modDataID);
+                MoonShared.Attributes.Log.Trace("Player now has Profession mod data: " + modDataID);
                 player.modData.SetBool(modDataID, true);
             }
             base.DoImmediateProfessionPerk();
@@ -46,7 +46,7 @@ namespace WizardrySkill.Objects
                     {
                         spellBar.Spells.Clear();
                     }
-                    BirbCore.Attributes.Log.Trace("Player now removed Profession mod data: " + modDataID);
+                    MoonShared.Attributes.Log.Trace("Player now removed Profession mod data: " + modDataID);
                     player.modData.SetBool(modDataID, false);
                 }
             }

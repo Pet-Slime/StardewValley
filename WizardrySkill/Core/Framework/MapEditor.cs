@@ -3,7 +3,7 @@ using StardewModdingAPI.Events;
 using xTile;
 using xTile.Layers;
 using xTile.Tiles;
-using Log = BirbCore.Attributes.Log;
+using Log = MoonShared.Attributes.Log;
 
 namespace WizardrySkill.Core.Framework
 {

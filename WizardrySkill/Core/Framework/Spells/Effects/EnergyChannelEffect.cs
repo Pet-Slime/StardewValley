@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection.PortableExecutable;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceCore;

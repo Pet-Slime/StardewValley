@@ -1,5 +1,5 @@
 using System.Linq;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Extensions;

@@ -1,4 +1,4 @@
-using BirbCore.Attributes;
+using System.Reflection;
 using MoonShared.APIs;
 using StardewModdingAPI;
 using StardewValley;
@@ -29,13 +29,15 @@ namespace WizardrySkill.Core
         {
             I18n.Init(helper.Translation);
             Instance = this;
+            Assembly assembly = this.GetType().Assembly;
             LegacyDataMigrator = new(this.Monitor);
 
             GameLocation.RegisterTileAction("MagicAltar", Events.HandleMagicAltar);
             GameLocation.RegisterTileAction("MagicRadio", Events.HandleMagicRadio);
-            Parser.ParseAll(this);
             ModEntry.Instance.Helper.Events.GameLoop.GameLaunched += Events.GameLaunched;
 
+            MoonShared.Attributes.Parser.InitEvents(helper);
+            MoonShared.Attributes.Parser.ParseAll(this);
             TriggerActionManager.RegisterAction(
             $"moonslime.WizardrySkill.learnedmagic",
             LearnedMagic);

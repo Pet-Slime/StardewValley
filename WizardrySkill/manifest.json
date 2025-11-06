@@ -15,9 +15,6 @@
             "IsRequired": true
         },
         {
-            "UniqueID": "drbirbdev.BirbCore"
-        },
-        {
             "UniqueID": "Pathoschild.ContentPatcher"
         },
         {

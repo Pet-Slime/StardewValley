@@ -1,4 +1,4 @@
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using StardewValley;
 
 namespace WizardrySkill.Core.Framework.Spells

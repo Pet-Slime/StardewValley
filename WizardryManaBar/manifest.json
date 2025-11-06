@@ -23,9 +23,6 @@
             "IsRequired": false
         },
         {
-            "UniqueID": "drbirbdev.BirbCore"
-        },
-        {
             "UniqueID": "spacechase0.SpaceCore",
             "MinimumVersion": "1.28.0"
         },
