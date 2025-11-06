@@ -295,6 +295,8 @@ namespace WizardrySkill.Core
 
                     foreach (var who in Game1.getOnlineFarmers())
                     {
+
+                        Log.Alert($"Sending data to {who.displayName}");
                         if (!who.modData.TryGetValue("moonSlime.Wizardry.ActiveEffect", out string existing))
                             existing = "";
 
