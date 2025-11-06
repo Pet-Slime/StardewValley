@@ -1,12 +1,16 @@
+using System;
+using System.Collections.Generic;
 using BirbCore.Attributes;
 using SpaceCore;
 using StardewModdingAPI;
 using StardewValley;
+using WizardrySkill.Core;
 using WizardrySkill.Core.Framework;
 using WizardrySkill.Objects;
 
 namespace WizardryManaBar.Core
 {
+
     [SCommand("player_wizard_fixMana")]
     public class Command_playerWizardFixMana
     {

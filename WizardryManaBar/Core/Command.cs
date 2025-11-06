@@ -1,12 +1,7 @@
-using System.Collections.Generic;
-using BirbCore.Attributes;
-using HarmonyLib;
-using Microsoft.Xna.Framework;
-using MoonShared.Command;
+
+using MoonShared.Attributes;
 using StardewModdingAPI;
 using StardewValley;
-using StardewValley.GameData.GarbageCans;
-using Log = BirbCore.Attributes.Log;
 
 namespace WizardryManaBar.Core
 {

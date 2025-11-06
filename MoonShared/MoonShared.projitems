@@ -9,6 +9,7 @@
     <Import_RootNamespace>MoonShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)APIs\IContentPatcher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)APIs\IManaBarApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)APIs\IBetterCraftingApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)APIs\IXPDisplayApi.cs" />
@@ -19,18 +20,24 @@
     <Compile Include="$(MSBuildThisFileDirectory)APIs\IMargo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)APIs\IProducerFrameworkAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)APIs\ISpaceCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Asset\AssetClass.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Asset\AssetClassParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\SAsset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\Parser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\Log.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\SCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\SContent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\SData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\SDelegate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\SEdit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\SEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\SMod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\SToken.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectIds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patching\BasePatcher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patching\HarmonyPatcher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patching\IPatcher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patching\PatchHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Command\CommandClass.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Command\CommandClassParser.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Config\ConfigClass.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Config\ConfigClassParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\SConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities.cs" />
   </ItemGroup>
 </Project>

@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text;
 using HarmonyLib;
 using StardewValley.Mods;
 
@@ -394,4 +395,250 @@ namespace MoonShared
         }
 
     }
+
+    public static class ReflectionExtensions
+    {
+        public const BindingFlags ALL_DECLARED = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+
+        public static bool TryGetMemberOfType(this Type type, Type memberType, out MemberInfo memberInfo)
+        {
+            foreach (FieldInfo fieldInfo in type.GetFields(ALL_DECLARED))
+            {
+                if (fieldInfo.FieldType != memberType)
+                {
+                    continue;
+                }
+
+                memberInfo = fieldInfo;
+                return true;
+            }
+            foreach (PropertyInfo propertyInfo in type.GetProperties(ALL_DECLARED))
+            {
+                if (propertyInfo.PropertyType != memberType)
+                {
+                    continue;
+                }
+
+                memberInfo = propertyInfo;
+                return true;
+            }
+
+            memberInfo = typeof(int);
+            return false;
+        }
+
+        public static bool TryGetMemberOfName(this Type type, string name, out MemberInfo memberInfo)
+        {
+            foreach (FieldInfo fieldInfo in type.GetFields(ALL_DECLARED))
+            {
+                if (fieldInfo.Name != name)
+                {
+                    continue;
+                }
+
+                memberInfo = fieldInfo;
+                return true;
+            }
+            foreach (PropertyInfo propertyInfo in type.GetProperties(ALL_DECLARED))
+            {
+                if (propertyInfo.Name != name)
+                {
+                    continue;
+                }
+
+                memberInfo = propertyInfo;
+                return true;
+            }
+
+            memberInfo = typeof(int);
+            return false;
+        }
+
+        public static bool TryGetGetterOfName(this Type type, string name, out Func<object?, object?> getter)
+        {
+            if (!TryGetMemberOfName(type, name, out MemberInfo memberInfo))
+            {
+                getter = null!;
+                return false;
+            }
+
+            getter = memberInfo.GetGetter();
+            return true;
+        }
+
+        public static bool TryGetSetterOfName(this Type type, string name, out Action<object?, object?> setter)
+        {
+            if (!TryGetMemberOfName(type, name, out MemberInfo memberInfo))
+            {
+                setter = null!;
+                return false;
+            }
+
+            setter = memberInfo.GetSetter();
+            return true;
+        }
+
+        public static bool TryGetMemberWithCustomAttribute(this Type type, Type attributeType, out MemberInfo memberInfo)
+        {
+            foreach (FieldInfo fieldInfo in type.GetFields(ALL_DECLARED))
+            {
+                foreach (Attribute attribute in fieldInfo.GetCustomAttributes())
+                {
+                    if (attribute.GetType() != attributeType)
+                    {
+                        continue;
+                    }
+
+                    memberInfo = fieldInfo;
+                    return true;
+                }
+            }
+            foreach (PropertyInfo propertyInfo in type.GetProperties(ALL_DECLARED))
+            {
+                foreach (Attribute attribute in propertyInfo.GetCustomAttributes())
+                {
+                    if (attribute.GetType() != attributeType)
+                    {
+                        continue;
+                    }
+
+                    memberInfo = propertyInfo;
+                    return true;
+                }
+            }
+
+            memberInfo = typeof(int);
+            return false;
+        }
+
+        public static Type GetReflectedType(this MemberInfo member)
+        {
+            return member switch
+            {
+                FieldInfo field => field.FieldType,
+                PropertyInfo property => property.PropertyType,
+                _ => typeof(int) // default case shouldn't happen
+            };
+        }
+
+        public static Func<object?, object?> GetGetter(this MemberInfo member)
+        {
+            return member switch
+            {
+                FieldInfo field => field.GetValue,
+                PropertyInfo property => property.GetValue,
+                _ => a => a // default case shouldn't happen
+            };
+        }
+
+        public static Action<object?, object?> GetSetter(this MemberInfo member)
+        {
+            return member switch
+            {
+                FieldInfo field => field.SetValue,
+                PropertyInfo property => property.SetValue,
+                _ => (a, b) => { } // default case shouldn't happen
+            };
+        }
+
+        public static T InitDelegate<T>(this MethodInfo method, object? instance = null) where T : Delegate
+        {
+            if (method.IsStatic)
+            {
+                return (T)Delegate.CreateDelegate(typeof(T), method);
+            }
+            return (T)Delegate.CreateDelegate(typeof(T), instance, method);
+        }
+    }
+
+    public static class StringExtensions
+    {
+        public static string ToSnakeCase(this string str)
+        {
+            if (str is null)
+            {
+                return null;
+            }
+            if (str.Length < 2)
+            {
+                return str.ToLowerInvariant();
+            }
+            StringBuilder sb = new();
+            sb.Append(char.ToLowerInvariant(str[0]));
+            for (int i = 1; i < str.Length; i++)
+            {
+                char c = str[i];
+                if (char.IsUpper(c))
+                {
+                    sb.Append('_');
+                    sb.Append(char.ToLowerInvariant(c));
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
+        }
+
+        public static string ToPascalCase(this string str)
+        {
+            if (str is null)
+            {
+                return null;
+            }
+            bool nextUpper = true;
+            StringBuilder sb = new();
+            foreach (char c in str)
+            {
+                if (c is '_' or '-' or ' ')
+                {
+                    nextUpper = true;
+                    continue;
+                }
+
+                if (nextUpper)
+                {
+                    nextUpper = false;
+                    sb.Append(char.ToUpperInvariant(c));
+                }
+                else
+                {
+                    sb.Append(char.ToLowerInvariant(c));
+                }
+            }
+            return sb.ToString();
+        }
+
+        public static string ToCamelCase(this string str)
+        {
+            if (str is null)
+            {
+                return null;
+            }
+            bool nextUpper = false;
+            StringBuilder sb = new();
+            foreach (char c in str)
+            {
+                if (c is '_' or '-' or ' ')
+                {
+                    nextUpper = true;
+                    continue;
+                }
+
+                if (nextUpper)
+                {
+                    nextUpper = false;
+                    sb.Append(char.ToUpperInvariant(c));
+                }
+                else
+                {
+                    sb.Append(char.ToLowerInvariant(c));
+                }
+            }
+            return sb.ToString();
+        }
+    }
+
+
 }

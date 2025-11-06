@@ -5,7 +5,7 @@ using MoonShared.APIs;
 using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
-using Log = BirbCore.Attributes.Log;
+using Log = MoonShared.Attributes.Log;
 
 namespace MoonShared
 {

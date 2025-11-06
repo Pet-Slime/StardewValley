@@ -1,18 +1,15 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using BirbCore.Attributes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MoonShared.Attributes;
 using SpaceCore.Events;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using static StardewValley.Menus.CoopMenu;
 
 namespace WizardryManaBar.Core
 {
-    [SEvent]
     internal class Events
     {
 
@@ -25,6 +22,10 @@ namespace WizardryManaBar.Core
 
         private static Texture2D manaFg;
 
+        // Cache last-known ratio and color to avoid expensive SetData() uploads every frame.
+        private static double lastManaRatio = double.NaN;
+        private static Color lastManaColor = Color.Transparent;
+
         private static Texture2D ManaFg
         {
             get
@@ -32,15 +33,28 @@ namespace WizardryManaBar.Core
                 Color manaCol;
                 if (Context.IsWorldReady)
                 {
-                    double offset = GetManaRatio();
-                    manaCol = ApplyColorOffset(new Color(0, 48, 255), offset);
+                    double ratio = GetManaRatio();
+                    manaCol = ApplyColorOffset(new Color(0, 48, 255), ratio);
 
-                    manaFg.SetData(new[] { manaCol });
+                    // Only update the GPU texture when the color (or ratio) meaningfully changes.
+                    if (double.IsNaN(lastManaRatio) || Math.Abs(ratio - lastManaRatio) > 0.001 || manaCol != lastManaColor)
+                    {
+                        manaFg.SetData(new[] { manaCol });
+                        lastManaRatio = ratio;
+                        lastManaColor = manaCol;
+                    }
                 }
                 else
                 {
                     manaCol = new Color(0, 48, 255);
-                    manaFg.SetData(new[] { manaCol });
+
+                    // If default color hasn't been set yet, set it once.
+                    if (lastManaColor != manaCol)
+                    {
+                        manaFg.SetData(new[] { manaCol });
+                        lastManaColor = manaCol;
+                        lastManaRatio = double.NaN;
+                    }
                 }
 
                 return manaFg;
@@ -57,6 +71,8 @@ namespace WizardryManaBar.Core
 
 
             SpaceEvents.OnItemEaten += OnItemEaten;
+            ModEntry.Instance.Helper.Events.Display.RenderingHud += OnRenderedHud;
+            ModEntry.Instance.Helper.Events.GameLoop.DayStarted += OnDayStarted;
         }
 
         private static void OnItemEaten(object sender, EventArgs args)
@@ -105,7 +121,6 @@ namespace WizardryManaBar.Core
         }
 
 
-        [SEvent.RenderingHud]
         [EventPriority(EventPriority.Low)]
         public static void OnRenderedHud(object sender, RenderingHudEventArgs e)
         {
@@ -337,7 +352,6 @@ namespace WizardryManaBar.Core
         }
 
 
-        [SEvent.DayStarted]
         /// <inheritdoc cref="IGameLoopEvents.DayStarted"/>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
@@ -355,7 +369,7 @@ namespace WizardryManaBar.Core
                 player.SetManaToMax();
             }
 
-            
+
         }
 
 
