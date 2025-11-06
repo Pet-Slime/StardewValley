@@ -163,9 +163,11 @@ namespace WizardrySkill.Core
 
 
             // 1️ Only check messages if the modData actually contains something
-            if (Game1.player.modData.TryGetValue(ModDataKey, out string rawData) &&
+            if (Game1.player.IsLocalPlayer && Game1.player.modData.TryGetValue(ModDataKey, out string rawData) &&
                 !string.IsNullOrWhiteSpace(rawData))
             {
+
+                Log.Alert($"Got Message for {Game1.player}");
                 var messages = ReadAndClearActiveEffects(Game1.player);
 
                 foreach (var msg in messages)
