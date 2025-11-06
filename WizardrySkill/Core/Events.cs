@@ -34,7 +34,7 @@ namespace WizardrySkill.Core
         private static IInputHelper InputHelper;
         private static bool CastPressed;
         private static double CarryoverManaRegen;
-        private const string ModDataKey = "moonSlime.Wizardry.ActiveEffect";
+        private const string BaseModDataKey = "moonSlime.Wizardry.ActiveEffect";
         private static Toolbar? GetToolbar()
         {
             return Game1.onScreenMenus.OfType<Toolbar>().FirstOrDefault();
@@ -99,7 +99,6 @@ namespace WizardrySkill.Core
                 effect.CleanUp();
             }
             ActiveEffects.Clear();
-            Game1.player.modData[ModDataKey] = "";
         }
 
         /*********
@@ -157,30 +156,33 @@ namespace WizardrySkill.Core
         [SEvent.UpdateTicked]
         private static void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-
             if (!Context.IsWorldReady)
                 return;
 
-            Log.Alert($"{Game1.player.modData[ModDataKey]}");
+            Farm farm = Game1.getFarm();
+            string playerKey = $"{BaseModDataKey}/{Game1.player.UniqueMultiplayerID}";
 
-            // 1️ Only check messages if the modData actually contains something
-            var messages = ReadAndClearActiveEffects(Game1.player);
-
-            foreach (var msg in messages)
+            // 1️ Only read if this player’s message queue has data
+            if (farm.modData.TryGetValue(playerKey, out string rawData) && !string.IsNullOrWhiteSpace(rawData))
             {
+                var messages = ReadAndClearActiveEffects(farm, playerKey);
 
-                Farmer caster = Game1.GetPlayer(msg.CasterId);
-                if (caster == null)
-                    continue;
+                Log.Alert($"Got data to {Game1.player.displayName}");
+                foreach (var msg in messages)
+                {
+                    Farmer caster = Game1.GetPlayer(msg.CasterId);
+                    if (caster == null)
+                        continue;
 
-                IActiveEffect effect = caster.GetSpellBook()
-                    .CastSpell(msg.SpellFullId, msg.Level, msg.X, msg.Y);
+                    IActiveEffect effect = caster.GetSpellBook()
+                        .CastSpell(msg.SpellFullId, msg.Level, msg.X, msg.Y);
 
-                if (effect != null)
-                    ActiveEffects.Add(effect);
+                    if (effect != null)
+                        ActiveEffects.Add(effect);
+                }
             }
 
-            // 2️ Update all currently active effects
+            // 2️ Update active effects
             for (int i = ActiveEffects.Count - 1; i >= 0; i--)
             {
                 IActiveEffect effect = ActiveEffects[i];
@@ -194,14 +196,14 @@ namespace WizardrySkill.Core
         /// Each entry format: "casterId,spellFullId,level,x,y" separated by '/'.
         /// </summary>
         public static List<(long CasterId, string SpellFullId, int Level, int X, int Y)>
-            ReadAndClearActiveEffects(Farmer farmer)
+            ReadAndClearActiveEffects(Farm farm, string newKey)
         {
             var results = new List<(long, string, int, int, int)>();
 
-            if (farmer == null)
+            if (farm == null)
                 return results;
 
-            if (!farmer.modData.TryGetValue(ModDataKey, out string raw) || string.IsNullOrWhiteSpace(raw))
+            if (!farm.modData.TryGetValue(newKey, out string raw) || string.IsNullOrWhiteSpace(raw))
                 return results;
 
             foreach (string entry in raw.Split('/', StringSplitOptions.RemoveEmptyEntries))
@@ -228,7 +230,7 @@ namespace WizardrySkill.Core
             }
 
             // Clear once read (prevents duplicate processing)
-            farmer.modData[ModDataKey] = "";
+            farm.modData[newKey] = "";
 
             return results;
         }
@@ -291,17 +293,20 @@ namespace WizardrySkill.Core
 
                     string entry = $"{Game1.player.UniqueMultiplayerID},{spell.FullId},{slot.Level},{Game1.getMouseX()},{Game1.getMouseY()}";
 
+                    Farm farm = Game1.getFarm();
+
                     foreach (var who in Game1.getOnlineFarmers())
                     {
 
+                        string playerKey = $"{BaseModDataKey}/{Game1.player.UniqueMultiplayerID}";
                         Log.Alert($"Sending data to {who.displayName}");
-                        if (!who.modData.TryGetValue("moonSlime.Wizardry.ActiveEffect", out string existing))
+                        if (!farm.modData.TryGetValue(playerKey, out string existing))
                             existing = "";
 
                         if (!string.IsNullOrEmpty(existing))
                             existing += "/";
 
-                        who.modData["moonSlime.Wizardry.ActiveEffect"] = existing + entry;
+                        farm.modData[playerKey] = existing + entry;
                     }
                 }
             }
