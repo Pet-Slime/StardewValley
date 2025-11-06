@@ -161,6 +161,7 @@ namespace WizardrySkill.Core
             if (!Context.IsWorldReady)
                 return;
 
+            Log.Alert($"{Game1.player.modData[ModDataKey]}");
 
             // 1️ Only check messages if the modData actually contains something
             var messages = ReadAndClearActiveEffects(Game1.player);
@@ -168,7 +169,6 @@ namespace WizardrySkill.Core
             foreach (var msg in messages)
             {
 
-                Log.Alert($"Got Message for {Game1.player.displayName}");
                 Farmer caster = Game1.GetPlayer(msg.CasterId);
                 if (caster == null)
                     continue;
