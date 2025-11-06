@@ -234,10 +234,6 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
             this.Shadow.position = Vector2.Lerp(this.Shadow.position, shadowPos, 0.2f);
             this.Shadow.layerDepth = (shadowPos.Y - 1) / 10000f;
-
-
-            Game1.Multiplayer.broadcastSprites(this.PrevSummonerLoc, this.Sprite);
-            Game1.Multiplayer.broadcastSprites(this.PrevSummonerLoc, this.Shadow);
         }
 
         public static int GetSnappedDirection(Vector2 from, Vector2 to)
@@ -300,6 +296,9 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             this.Light = new LightSource(lightId, 1, new Vector2(this.Summoner.Position.X + 21f, this.Summoner.Position.Y + 64f), 8f * (this.Level), new Color(0, 50, 170), LightSource.LightContext.None, this.Summoner.UniqueMultiplayerID, null);
 
             Game1.currentLightSources[lightId] = this.Light;
+
+            Game1.Multiplayer.broadcastSprites(this.PrevSummonerLoc, this.Sprite);
+            Game1.Multiplayer.broadcastSprites(this.PrevSummonerLoc, this.Shadow);
         }
     }
 }
