@@ -37,10 +37,6 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Only run for the local player
-            if (!player.IsLocalPlayer)
-                return null;
-
             // Consume 1 Iridium Ore from inventory
             player.Items.ReduceId(SObject.iridium.ToString(), 1);
 

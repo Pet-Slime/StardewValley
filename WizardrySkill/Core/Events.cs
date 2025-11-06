@@ -185,6 +185,7 @@ namespace WizardrySkill.Core
             // 2️ Update active effects
             for (int i = ActiveEffects.Count - 1; i >= 0; i--)
             {
+                Log.Warn($"{ActiveEffects.Count}");
                 IActiveEffect effect = ActiveEffects[i];
                 if (!effect.Update(e))
                     ActiveEffects.RemoveAt(i);
@@ -443,16 +444,6 @@ namespace WizardrySkill.Core
         /*********
         ** Private methods
         *********/
-        [SEvent.RenderedWorld]
-        private static void OnRenderedWorld(object sender, RenderedWorldEventArgs e)
-        {
-
-            // draw active effects
-            foreach (IActiveEffect effect in ActiveEffects)
-                effect.Draw(e.SpriteBatch);
-
-        }
-
             [SEvent.RenderingHud]
         /// <summary>Raised before drawing the HUD (item toolbar, clock, etc) to the screen. The vanilla HUD may be hidden at this point (e.g. because a menu is open). Content drawn to the sprite batch at this point will appear under the HUD.</summary>
         /// <param name="sender">The event sender.</param>
@@ -463,7 +454,12 @@ namespace WizardrySkill.Core
             if (Game1.activeClickableMenu != null || Game1.eventUp || !LearnedMagic || !Context.IsPlayerFree)
                 return;
 
+
             SpriteBatch b = e.SpriteBatch;
+
+            // draw active effects
+            foreach (IActiveEffect effect in ActiveEffects)
+                effect.Draw(e.SpriteBatch);
 
             bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Wizard_Skill.Magic10a2);
 
