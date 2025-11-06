@@ -167,7 +167,7 @@ namespace WizardrySkill.Core
                 !string.IsNullOrWhiteSpace(rawData))
             {
 
-                Log.Alert($"Got Message for {Game1.player}");
+                Log.Alert($"Got Message for {Game1.player.displayName}");
                 var messages = ReadAndClearActiveEffects(Game1.player);
 
                 foreach (var msg in messages)
