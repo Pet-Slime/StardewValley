@@ -298,7 +298,7 @@ namespace WizardrySkill.Core
                     foreach (var who in Game1.getOnlineFarmers())
                     {
 
-                        string playerKey = $"{BaseModDataKey}/{Game1.player.UniqueMultiplayerID}";
+                        string playerKey = $"{BaseModDataKey}/{who.UniqueMultiplayerID}";
                         Log.Alert($"Sending data to {who.displayName}");
                         if (!farm.modData.TryGetValue(playerKey, out string existing))
                             existing = "";
