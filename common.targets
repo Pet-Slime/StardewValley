@@ -21,6 +21,7 @@
         <EnableHarmony>true</EnableHarmony>
         <GamePath>E:\SteamLibrary\steamapps\common\Stardew Valley</GamePath>
         <EnableModZip Condition="$(Configuration) == 'Debug'">false</EnableModZip>
+        <EnableModZip Condition="$(Configuration) == 'Release'">false</EnableModZip>
     </PropertyGroup>
 
   
