@@ -1,4 +1,4 @@
-using MoonShared.Attributes;
+using BirbCore.Attributes;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 

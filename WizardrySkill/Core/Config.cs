@@ -1,4 +1,4 @@
-using MoonShared.Attributes;
+using BirbCore.Attributes;
 using StardewModdingAPI;
 
 namespace WizardrySkill.Core

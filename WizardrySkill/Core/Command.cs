@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using MoonShared.Attributes;
+using BirbCore.Attributes;
 using SpaceCore;
 using StardewModdingAPI;
 using StardewValley;

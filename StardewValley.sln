@@ -38,7 +38,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceCoreLevels", "SpaceCor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThievingSkill", "ThievingSkill\ThievingSkill.csproj", "{0B376C56-5E16-4B9D-803C-8C91B8B38E95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WizardryManaBar", "WizardryManaBar\WizardryManaBar.csproj", "{445A0CDF-CD32-4585-BE44-02FDFCDD88B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManaBarAPI", "WizardryManaBar\ManaBarAPI.csproj", "{445A0CDF-CD32-4585-BE44-02FDFCDD88B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

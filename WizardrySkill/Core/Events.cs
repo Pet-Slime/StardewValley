@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using MoonShared.Attributes;
+using BirbCore.Attributes;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,12 +13,10 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
-using StardewValley.Network;
 using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Game.Interface;
 using WizardrySkill.Core.Framework.Spells;
 using WizardrySkill.Objects;
-using MoonShared.Attributes;
 using Log = MoonShared.Attributes.Log;
 
 namespace WizardrySkill.Core
