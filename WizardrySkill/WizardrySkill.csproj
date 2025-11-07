@@ -17,12 +17,7 @@
             <Private>false</Private>
         </Reference>
     </ItemGroup>
-    <ItemGroup>
-        <Reference Include="BirbCore">
-            <HintPath>$(GamePath)\Mods\BirbCore\BirbCore.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-    </ItemGroup>
+
 	<ItemGroup>
 	  <PackageReference Update="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
 	</ItemGroup>

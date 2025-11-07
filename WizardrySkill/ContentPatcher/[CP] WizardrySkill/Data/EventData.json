@@ -35,6 +35,9 @@
                     ],
                     "MarkActionApplied": true
                 }
+            },
+            "When": {
+                "HasMod |contains=moonslime.WizardrySkill": true
             }
         }
     ]
