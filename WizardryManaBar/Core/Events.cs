@@ -85,15 +85,20 @@ namespace WizardryManaBar.Core
 
                 ReadOnlySpan<char> valueSpan = tag.AsSpan(separatorIndex + 1);
 
+
                 if (isFill)
                 {
                     if (int.TryParse(valueSpan, out int manaValue))
+                    {
+                        int qualityAdjustment = item.Quality;
+                        manaValue = (int)Math.Floor(manaValue * (1 + (qualityAdjustment * 0.4)));
                         player.AddMana(manaValue);
+                    }
                 }
                 else if (isRestore)
                 {
                     if (float.TryParse(valueSpan, out float manaPercent))
-                        player.AddMana((int)(player.GetMaxMana() * (manaPercent/100)));
+                        player.AddMana((int)(player.GetMaxMana() * (manaPercent / 100)));
                 }
 
             }

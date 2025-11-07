@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using BirbCore.Attributes;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
-using StardewValley.GameData.Objects;
-using static BirbCore.Attributes.SEvent;
 using static SpaceCore.Skills;
 
 namespace WizardryManaBar.Core
@@ -110,12 +106,17 @@ namespace WizardryManaBar.Core
                 if (!float.TryParse(tag.AsSpan(separatorIndex + 1), out float manaValue))
                     continue;
 
+
                 var position = new Vector2(x + offsetX, y + offsetY);
 
                 if (isFill)
-                    DrawManaFillEffect(b, position, manaValue,font: font, spacing: spacing);
+                {
+                    int qualityAdjustment = hoveredItem.Quality;
+                    manaValue = (float)Math.Floor(manaValue * (1 + (qualityAdjustment * 0.4)));
+                    DrawManaFillEffect(b, position, manaValue, font: font, spacing: spacing);
+                }
                 else
-                    DrawManaPercentEffect(b, position, manaValue,font: font, spacing: spacing);
+                    DrawManaPercentEffect(b, position, manaValue, font: font, spacing: spacing);
 
                 y += spacing;
             }

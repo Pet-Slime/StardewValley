@@ -1,0 +1,132 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "82", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "elemental:fireball"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "395", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "life:haste"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "253", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "life:haste"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "86", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "nature:shockwave"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "161", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "elemental:frostbolt"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "84", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "elemental:frostbolt"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "169", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "elemental:kiln"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "388", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "elemental:kiln"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "879", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "eldritch:charm"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "921", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "life:cleanse"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "703", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "nature:magnetic_force"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "519", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "nature:magnetic_force"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "518", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "nature:magnetic_force"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/BigCraftables",
+            "TargetField": [ "9", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "nature:lantern"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Locations",
+            "TargetField": [ "Hospital", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "life:healarea"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Locations",
+            "TargetField": [ "WitchHut", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "eldritch:lucksteal"
+            }
+        }
+    ]
+}

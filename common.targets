@@ -19,7 +19,7 @@
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <EnableHarmony>true</EnableHarmony>
-        <GamePath>E:\SteamLibrary\steamapps\common\Stardew Valley</GamePath>
+        <GamePath>C:\Program Files (x86)\Steam\steamapps\common\Stardew Valley</GamePath>
         <EnableModZip Condition="$(Configuration) == 'Debug'">false</EnableModZip>
     </PropertyGroup>
 

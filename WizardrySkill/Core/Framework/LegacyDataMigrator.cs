@@ -73,50 +73,64 @@ namespace WizardrySkill.Core.Framework
                 {
                     spellBar.Spells.Clear();
                 }
+                foreach (var spell in spellBook.KnownSpells.Values.ToArray())
+                {
+                    if (spell.Level > 0)
+                        spellBook.ForgetSpell(spell.SpellId, 1);
+                }
 
                 if (spellBook.KnowsSpell("arcane:magicmissle", 0))
                 {
                     spellBook.LearnSpell("elemental:magicmissle", 0, true);
+                    spellBook.ForgetSpell("arcane:magicmissle", 0);
                 }
 
                 if (spellBook.KnowsSpell("life:evac", 0))
                 {
                     spellBook.LearnSpell("motion:evac", 0, true);
+                    spellBook.ForgetSpell("life:evac", 0);
                 }
 
                 if (spellBook.KnowsSpell("toil:blink", 0))
                 {
                     spellBook.LearnSpell("motion:blink", 0, true);
+                    spellBook.ForgetSpell("toil:blink", 0);
                 }
 
                 if (spellBook.KnowsSpell("life:haste", 0))
                 {
                     spellBook.LearnSpell("motion:haste", 0, true);
+                    spellBook.ForgetSpell("life:haste", 0);
                 }
 
                 if (spellBook.KnowsSpell("elemental:teleport", 0))
                 {
                     spellBook.LearnSpell("motion:teleport", 0, true);
+                    spellBook.ForgetSpell("elemental:teleport", 0);
                 }
 
                 if (spellBook.KnowsSpell("elemental:descend", 0))
                 {
                     spellBook.LearnSpell("motion:descend", 0, true);
+                    spellBook.ForgetSpell("elemental:descend", 0);
                 }
 
                 if (spellBook.KnowsSpell("eldritch:meteor", 0))
                 {
                     spellBook.LearnSpell("elemental:meteor", 0, true);
+                    spellBook.ForgetSpell("eldritch:meteor", 0);
                 }
 
                 if (spellBook.KnowsSpell("nature:magnetic_force", 0))
                 {
                     spellBook.LearnSpell("life:magnetic_force", 0, true);
+                    spellBook.ForgetSpell("nature:magnetic_force", 0);
                 }
 
                 if (spellBook.KnowsSpell("nature:shockwave", 0))
                 {
                     spellBook.LearnSpell("elemental:shockwave", 0, true);
+                    spellBook.ForgetSpell("nature:shockwave", 0);
                 }
 
 
@@ -124,6 +138,7 @@ namespace WizardrySkill.Core.Framework
                 if (spellBook.KnowsSpell("elemental:kiln", 0))
                 {
                     spellBook.LearnSpell("toil:kiln", 0, true);
+                    spellBook.ForgetSpell("elemental:kiln", 0);
                 }
 
             }
