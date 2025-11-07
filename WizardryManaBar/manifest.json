@@ -7,7 +7,7 @@
     "EntryDll": "WizardryManaBar.dll",
     "MinimumApiVersion": "4.0.0",
     "UpdateKeys": [
-        "Nexus:-1"
+        "Nexus:39117"
     ],
     "Dependencies": [
         {
