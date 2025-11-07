@@ -12,12 +12,12 @@ namespace WizardrySkill.Core.Framework.Schools
 
         public override Spell[] GetSpellsTier1()
         {
-            return new[] { SpellManager.Get("life:evac"), SpellManager.Get("life:cleanse"), SpellManager.Get("life:healarea") };
+            return new[] { SpellManager.Get("life:cleanse"), SpellManager.Get("life:healarea") };
         }
 
         public override Spell[] GetSpellsTier2()
         {
-            return new[] { SpellManager.Get("life:heal"), SpellManager.Get("life:haste") };
+            return new[] { SpellManager.Get("life:heal"), SpellManager.Get("life:magnetic_force") };
         }
 
         public override Spell[] GetSpellsTier3()

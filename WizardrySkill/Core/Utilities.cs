@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using WizardrySkill.Core.Framework;

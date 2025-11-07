@@ -13,7 +13,7 @@
             "Target": "Data/Objects",
             "TargetField": [ "395", "CustomFields" ],
             "Entries": {
-                "moonslime.Wizardry.analyze": "life:haste"
+                "moonslime.Wizardry.analyze": "motion:haste"
             }
         },
         {
@@ -21,7 +21,7 @@
             "Target": "Data/Objects",
             "TargetField": [ "253", "CustomFields" ],
             "Entries": {
-                "moonslime.Wizardry.analyze": "life:haste"
+                "moonslime.Wizardry.analyze": "motion:haste"
             }
         },
         {
@@ -29,7 +29,7 @@
             "Target": "Data/Objects",
             "TargetField": [ "86", "CustomFields" ],
             "Entries": {
-                "moonslime.Wizardry.analyze": "nature:shockwave"
+                "moonslime.Wizardry.analyze": "elemental:shockwave"
             }
         },
         {
@@ -53,7 +53,7 @@
             "Target": "Data/Objects",
             "TargetField": [ "169", "CustomFields" ],
             "Entries": {
-                "moonslime.Wizardry.analyze": "elemental:kiln"
+                "moonslime.Wizardry.analyze": "toil:kiln"
             }
         },
         {
@@ -61,7 +61,7 @@
             "Target": "Data/Objects",
             "TargetField": [ "388", "CustomFields" ],
             "Entries": {
-                "moonslime.Wizardry.analyze": "elemental:kiln"
+                "moonslime.Wizardry.analyze": "toil:kiln"
             }
         },
         {
@@ -85,7 +85,7 @@
             "Target": "Data/Objects",
             "TargetField": [ "703", "CustomFields" ],
             "Entries": {
-                "moonslime.Wizardry.analyze": "nature:magnetic_force"
+                "moonslime.Wizardry.analyze": "life:magnetic_force"
             }
         },
         {
@@ -93,7 +93,7 @@
             "Target": "Data/Objects",
             "TargetField": [ "519", "CustomFields" ],
             "Entries": {
-                "moonslime.Wizardry.analyze": "nature:magnetic_force"
+                "moonslime.Wizardry.analyze": "life:magnetic_force"
             }
         },
         {
@@ -101,7 +101,7 @@
             "Target": "Data/Objects",
             "TargetField": [ "518", "CustomFields" ],
             "Entries": {
-                "moonslime.Wizardry.analyze": "nature:magnetic_force"
+                "moonslime.Wizardry.analyze": "life:magnetic_force"
             }
         },
         {

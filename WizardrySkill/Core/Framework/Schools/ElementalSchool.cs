@@ -12,17 +12,17 @@ namespace WizardrySkill.Core.Framework.Schools
 
         public override Spell[] GetSpellsTier1()
         {
-            return new[] { SpellManager.Get("elemental:fireball"), SpellManager.Get("elemental:frostbolt") };
+            return new[] { SpellManager.Get("elemental:magicmissle"), SpellManager.Get("elemental:frostbolt") };
         }
 
         public override Spell[] GetSpellsTier2()
         {
-            return new[] { SpellManager.Get("elemental:descend"), SpellManager.Get("elemental:kiln") };
+            return new[] { SpellManager.Get("elemental:fireball"), SpellManager.Get("elemental:shockwave") };
         }
 
         public override Spell[] GetSpellsTier3()
         {
-            return new[] { SpellManager.Get("elemental:teleport") };
+            return new[] { SpellManager.Get("elemental:meteor") };
         }
     }
 }

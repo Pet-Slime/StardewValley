@@ -14,7 +14,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         // Constructor: sets the spell's school and ID
         public ShockwaveSpell()
-            : base(SchoolId.Nature, "shockwave") { }
+            : base(SchoolId.Elemental, "shockwave") { }
 
         // Determines if the spell can currently be cast
         public override bool CanCast(Farmer player, int level)
@@ -34,12 +34,14 @@ namespace WizardrySkill.Core.Framework.Spells
         // Called when the spell is cast
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Only execute for the local player (prevents duplicates in multiplayer)
-            if (!player.IsLocalPlayer)
-                return null;
 
             // Make the player jump slightly as part of the spell animation
             player.jump();
+
+
+            // Only execute for the local player (prevents duplicates in multiplayer)
+            if (!player.IsLocalPlayer)
+                return null;
 
             // Create the shockwave effect around the player
             return new Shockwave(player, level);

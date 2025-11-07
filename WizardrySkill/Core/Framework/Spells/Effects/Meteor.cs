@@ -43,6 +43,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             if (this.Height > 0)
                 return true;
 
+            if (Game1.player == this.Source)
             // trigger explosion
             {
                 this.Loc.LocalSoundAtPixel("explosion", this.Position);
@@ -70,6 +71,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 this.Loc.explode(new Vector2((int)this.Position.X / Game1.tileSize, (int)this.Position.Y / Game1.tileSize), 4 + 2, this.Source);
                 return false;
             }
+            return false;
         }
 
         public void CleanUp()

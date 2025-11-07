@@ -12,12 +12,6 @@
 	</ItemGroup>
 
     <ItemGroup>
-        <Reference Include="BirbCore">
-            <HintPath>$(GamePath)\Mods\BirbCore\BirbCore.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-    </ItemGroup>
-    <ItemGroup>
         <Reference Include="SpaceCore">
             <HintPath>$(GamePath)\Mods\SpaceCore\SpaceCore.dll</HintPath>
             <Private>false</Private>

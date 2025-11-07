@@ -14,7 +14,7 @@ namespace WizardrySkill.Core.Framework.Spells
         *********/
 
         public HasteSpell()
-            : base(SchoolId.Life, "haste")
+            : base(SchoolId.Motion, "haste")
         {
             // SchoolId.Life identifies the spell's magical school
             // "haste" is the internal name for this spell

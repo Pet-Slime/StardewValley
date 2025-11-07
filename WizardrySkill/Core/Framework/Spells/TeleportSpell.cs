@@ -14,7 +14,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
         // Constructor: sets the spell's school and ID
         public TeleportSpell()
-            : base(SchoolId.Elemental, "teleport") { }
+            : base(SchoolId.Motion, "teleport") { }
 
 
         public override int GetMaxCastingLevel()

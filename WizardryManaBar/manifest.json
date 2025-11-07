@@ -1,13 +1,13 @@
 ﻿{
-    "Name": "Wizardry Mana bar",
+    "Name": "Mana bar API",
     "Author": "moonslime",
     "Version": "1.4.0",
     "Description": "A port of spacechase0's API to 1.6, designed for Wizardry",
     "UniqueID": "moonslime.ManaBarApi",
-    "EntryDll": "WizardryManaBar.dll",
+    "EntryDll": "ManaBarAPI.dll",
     "MinimumApiVersion": "4.0.0",
     "UpdateKeys": [
-        "Nexus:-1"
+        "Nexus:39117"
     ],
     "Dependencies": [
         {
@@ -21,9 +21,6 @@
         {
             "UniqueID": "spacechase0.GenericModConfigMenu",
             "IsRequired": false
-        },
-        {
-            "UniqueID": "drbirbdev.BirbCore"
         },
         {
             "UniqueID": "spacechase0.SpaceCore",

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells;
-using Log = BirbCore.Attributes.Log;
+using Log = MoonShared.Attributes.Log;
 
 namespace WizardrySkill.Core.Framework
 {

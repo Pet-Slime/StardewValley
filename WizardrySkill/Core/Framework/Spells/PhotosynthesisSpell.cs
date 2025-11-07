@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Extensions;
@@ -29,20 +29,18 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetMaxCastingLevel()
         {
-            // This spell can be cast at up to level 3
             return 3;
         }
 
         public override int GetManaCost(Farmer player, int level)
         {
-            // Mana cost is 100, regardless of player level
-            return 100;
+            return 80;
         }
 
         public override bool CanCast(Farmer player, int level)
         {
             // Can cast only if the player has a Prismatic Shard in their inventory
-            return base.CanCast(player, level) && player.Items.ContainsId(SObject.prismaticShardIndex.ToString(), 1);
+            return base.CanCast(player, level) && player.Items.ContainsId("872", 1);
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
@@ -137,8 +135,8 @@ namespace WizardrySkill.Core.Framework.Spells
                 return new SpellFizzle(player, this.GetManaCost(player, level));
             }
 
-            // Consume one Prismatic Shard after casting
-            player.Items.ReduceId(SObject.prismaticShardIndex.ToString(), 1);
+            // Consume one fairydust after casting
+            player.Items.ReduceId("872", 1);
 
             return null; // Spell succeeded
         }

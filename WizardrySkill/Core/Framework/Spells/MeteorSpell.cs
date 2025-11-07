@@ -12,7 +12,7 @@ namespace WizardrySkill.Core.Framework.Spells
         ** Public methods
         *********/
         public MeteorSpell()
-            : base(SchoolId.Eldritch, "meteor")
+            : base(SchoolId.Elemental, "meteor")
         {
             // SchoolId.Eldritch indicates this spell belongs to the Eldritch school
             // "meteor" is the internal name for this spell
@@ -37,10 +37,6 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Only run for the local player
-            if (!player.IsLocalPlayer)
-                return null;
-
             // Consume 1 Iridium Ore from inventory
             player.Items.ReduceId(SObject.iridium.ToString(), 1);
 

@@ -1,12 +1,16 @@
-using BirbCore.Attributes;
+using System;
+using System.Collections.Generic;
+using MoonShared.Attributes;
 using SpaceCore;
 using StardewModdingAPI;
 using StardewValley;
+using WizardrySkill.Core;
 using WizardrySkill.Core.Framework;
 using WizardrySkill.Objects;
 
 namespace WizardryManaBar.Core
 {
+
     [SCommand("player_wizard_fixMana")]
     public class Command_playerWizardFixMana
     {
@@ -105,7 +109,7 @@ namespace WizardryManaBar.Core
         private static readonly string[] CoreSpells =
         {
             "arcane:analyze",
-            "arcane:magicmissle",
+            "elemental:magicmissle",
             "arcane:enchant",
             "arcane:disenchant"
         };

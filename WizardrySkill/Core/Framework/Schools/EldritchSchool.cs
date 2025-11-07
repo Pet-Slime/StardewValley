@@ -12,7 +12,7 @@ namespace WizardrySkill.Core.Framework.Schools
 
         public override Spell[] GetSpellsTier1()
         {
-            return new[] { SpellManager.Get("eldritch:meteor"), SpellManager.Get("eldritch:bloodmana") };
+            return new[] { SpellManager.Get("eldritch:bloodmana") };
         }
 
         public override Spell[] GetSpellsTier2()

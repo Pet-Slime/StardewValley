@@ -1,4 +1,4 @@
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 
 namespace WizardryManaBar.Core
 {

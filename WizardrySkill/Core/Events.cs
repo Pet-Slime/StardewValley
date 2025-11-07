@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,12 +13,11 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
-using StardewValley.Network;
 using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Game.Interface;
 using WizardrySkill.Core.Framework.Spells;
 using WizardrySkill.Objects;
-using Log = BirbCore.Attributes.Log;
+using Log = MoonShared.Attributes.Log;
 
 namespace WizardrySkill.Core
 {
@@ -34,7 +33,7 @@ namespace WizardrySkill.Core
         private static IInputHelper InputHelper;
         private static bool CastPressed;
         private static double CarryoverManaRegen;
-        private const string ModDataKey = "moonSlime.Wizardry.ActiveEffect";
+        private const string BaseModDataKey = "moonSlime.Wizardry.ActiveEffect";
         private static Toolbar? GetToolbar()
         {
             return Game1.onScreenMenus.OfType<Toolbar>().FirstOrDefault();
@@ -99,7 +98,6 @@ namespace WizardrySkill.Core
                 effect.CleanUp();
             }
             ActiveEffects.Clear();
-            Game1.player.modData[ModDataKey] = "";
         }
 
         /*********
@@ -157,17 +155,18 @@ namespace WizardrySkill.Core
         [SEvent.UpdateTicked]
         private static void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-
             if (!Context.IsWorldReady)
                 return;
 
+            Farm farm = Game1.getFarm();
+            string playerKey = $"{BaseModDataKey}/{Game1.player.UniqueMultiplayerID}";
 
-            // 1️ Only check messages if the modData actually contains something
-            if (Game1.player.modData.TryGetValue(ModDataKey, out string rawData) &&
-                !string.IsNullOrWhiteSpace(rawData))
+            // 1️ Only read if this player’s message queue has data
+            if (farm.modData.TryGetValue(playerKey, out string rawData) && !string.IsNullOrWhiteSpace(rawData))
             {
-                var messages = ReadAndClearActiveEffects(Game1.player);
+                var messages = ReadAndClearActiveEffects(farm, playerKey);
 
+                Log.Alert($"Got data to {Game1.player.displayName}");
                 foreach (var msg in messages)
                 {
                     Farmer caster = Game1.GetPlayer(msg.CasterId);
@@ -182,9 +181,10 @@ namespace WizardrySkill.Core
                 }
             }
 
-            // 2️ Update all currently active effects
+            // 2️ Update active effects
             for (int i = ActiveEffects.Count - 1; i >= 0; i--)
             {
+                Log.Warn($"{ActiveEffects.Count}");
                 IActiveEffect effect = ActiveEffects[i];
                 if (!effect.Update(e))
                     ActiveEffects.RemoveAt(i);
@@ -196,14 +196,14 @@ namespace WizardrySkill.Core
         /// Each entry format: "casterId,spellFullId,level,x,y" separated by '/'.
         /// </summary>
         public static List<(long CasterId, string SpellFullId, int Level, int X, int Y)>
-            ReadAndClearActiveEffects(Farmer farmer)
+            ReadAndClearActiveEffects(Farm farm, string newKey)
         {
             var results = new List<(long, string, int, int, int)>();
 
-            if (farmer == null)
+            if (farm == null)
                 return results;
 
-            if (!farmer.modData.TryGetValue(ModDataKey, out string raw) || string.IsNullOrWhiteSpace(raw))
+            if (!farm.modData.TryGetValue(newKey, out string raw) || string.IsNullOrWhiteSpace(raw))
                 return results;
 
             foreach (string entry in raw.Split('/', StringSplitOptions.RemoveEmptyEntries))
@@ -230,7 +230,7 @@ namespace WizardrySkill.Core
             }
 
             // Clear once read (prevents duplicate processing)
-            farmer.modData[ModDataKey] = "";
+            farm.modData[newKey] = "";
 
             return results;
         }
@@ -291,17 +291,25 @@ namespace WizardrySkill.Core
 
                     Game1.player.AddMana(-spell.GetManaCost(Game1.player, slot.Level));
 
-                    string entry = $"{Game1.player.UniqueMultiplayerID},{spell.FullId},{slot.Level},{Game1.getMouseX() + Game1.viewport.X},{Game1.getMouseY() + Game1.viewport.Y}";
+
+                    Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
+
+                    string entry = $"{Game1.player.UniqueMultiplayerID},{spell.FullId},{slot.Level},{pos.X},{pos.Y}";
+
+                    Farm farm = Game1.getFarm();
 
                     foreach (var who in Game1.getOnlineFarmers())
                     {
-                        if (!who.modData.TryGetValue("moonSlime.Wizardry.ActiveEffect", out string existing))
+
+                        string playerKey = $"{BaseModDataKey}/{who.UniqueMultiplayerID}";
+                        Log.Alert($"Sending data to {who.displayName}");
+                        if (!farm.modData.TryGetValue(playerKey, out string existing))
                             existing = "";
 
                         if (!string.IsNullOrEmpty(existing))
                             existing += "/";
 
-                        who.modData["moonSlime.Wizardry.ActiveEffect"] = existing + entry;
+                        farm.modData[playerKey] = existing + entry;
                     }
                 }
             }
@@ -410,7 +418,7 @@ namespace WizardrySkill.Core
                 if (!player.modData.ContainsKey(modDataKey))
                 {
                     player.modData.SetBool(modDataKey, true);
-                    BirbCore.Attributes.Log.Trace($"Player now has Profession mod data: {modDataKey}");
+                    MoonShared.Attributes.Log.Trace($"Player now has Profession mod data: {modDataKey}");
                 }
             }
 
@@ -426,7 +434,7 @@ namespace WizardrySkill.Core
         private static readonly string[] CoreSpells =
         {
             "arcane:analyze",
-            "arcane:magicmissle",
+            "elemental:magicmissle",
             "arcane:enchant",
             "arcane:disenchant"
         };
@@ -435,16 +443,6 @@ namespace WizardrySkill.Core
         /*********
         ** Private methods
         *********/
-        [SEvent.RenderedWorld]
-        private static void OnRenderedWorld(object sender, RenderedWorldEventArgs e)
-        {
-
-            // draw active effects
-            foreach (IActiveEffect effect in ActiveEffects)
-                effect.Draw(e.SpriteBatch);
-
-        }
-
             [SEvent.RenderingHud]
         /// <summary>Raised before drawing the HUD (item toolbar, clock, etc) to the screen. The vanilla HUD may be hidden at this point (e.g. because a menu is open). Content drawn to the sprite batch at this point will appear under the HUD.</summary>
         /// <param name="sender">The event sender.</param>
@@ -455,7 +453,12 @@ namespace WizardrySkill.Core
             if (Game1.activeClickableMenu != null || Game1.eventUp || !LearnedMagic || !Context.IsPlayerFree)
                 return;
 
+
             SpriteBatch b = e.SpriteBatch;
+
+            // draw active effects
+            foreach (IActiveEffect effect in ActiveEffects)
+                effect.Draw(e.SpriteBatch);
 
             bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Wizard_Skill.Magic10a2);
 

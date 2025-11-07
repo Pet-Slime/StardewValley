@@ -1,8 +1,13 @@
-using BirbCore.Attributes;
+using System.Reflection;
+using HarmonyLib;
+using Microsoft.Xna.Framework.Graphics;
+using MoonShared.Attributes;
 using StardewModdingAPI;
+using StardewValley;
 
 namespace WizardryManaBar.Core
 {
+    [SMod]
     public class ModEntry : Mod
     {
         internal static ModEntry Instance;
@@ -18,7 +23,9 @@ namespace WizardryManaBar.Core
         public override void Entry(IModHelper helper)
         {
             Instance = this;
-            Parser.ParseAll(this);
+            Assembly assembly = this.GetType().Assembly;
+            MoonShared.Attributes.Parser.InitEvents(helper);
+            MoonShared.Attributes.Parser.ParseAll(this);
             ModEntry.Instance.Helper.Events.GameLoop.GameLaunched += Events.GameLaunched;
         }
 

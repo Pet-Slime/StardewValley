@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceCore;
@@ -290,14 +290,15 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 layerDepth = (startPos.Y - 1) / 10000f
             };
 
-            this.PrevSummonerLoc.TemporarySprites.Add(this.Sprite);
-            this.PrevSummonerLoc.TemporarySprites.Add(this.Shadow);
 
 
             string lightId = $"LanternSpell_{this.Summoner.UniqueMultiplayerID}";
             this.Light = new LightSource(lightId, 1, new Vector2(this.Summoner.Position.X + 21f, this.Summoner.Position.Y + 64f), 8f * (this.Level), new Color(0, 50, 170), LightSource.LightContext.None, this.Summoner.UniqueMultiplayerID, null);
 
             Game1.currentLightSources[lightId] = this.Light;
+
+            Game1.Multiplayer.broadcastSprites(this.PrevSummonerLoc, this.Sprite);
+            Game1.Multiplayer.broadcastSprites(this.PrevSummonerLoc, this.Shadow);
         }
     }
 }

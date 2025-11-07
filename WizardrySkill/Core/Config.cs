@@ -1,10 +1,9 @@
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using StardewModdingAPI;
 
 namespace WizardrySkill.Core
 {
     [SConfig]
-    [SToken]
     public class Config
     {
 

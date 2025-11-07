@@ -17,16 +17,11 @@ namespace WizardrySkill.Core.Framework.Schools
 
         public override Spell[] GetSpellsTier2()
         {
-            return new[] { SpellManager.Get("toil:water"), SpellManager.Get("toil:harvest") };
+            return new[] { SpellManager.Get("toil:water"), SpellManager.Get("toil:kiln") };
         }
 
         public override Spell[] GetSpellsTier3()
         {
-            if (ModEntry.Config.VoidSchool)
-            {
-                return new[] { SpellManager.Get("toil:collect"), SpellManager.Get("toil:blink") };
-            }
-            else
             {
                 return new[] { SpellManager.Get("toil:collect") };
             }

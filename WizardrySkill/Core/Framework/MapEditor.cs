@@ -3,7 +3,7 @@ using StardewModdingAPI.Events;
 using xTile;
 using xTile.Layers;
 using xTile.Tiles;
-using Log = BirbCore.Attributes.Log;
+using Log = MoonShared.Attributes.Log;
 
 namespace WizardrySkill.Core.Framework
 {
@@ -41,7 +41,7 @@ namespace WizardrySkill.Core.Framework
         {
 
             // add radio to Wizard's tower
-            if (e.NameWithoutLocale.IsEquivalentTo($"Maps/{Config.RadioLocation}"))
+            if (e.NameWithoutLocale.IsEquivalentTo($"Maps/{ModEntry.Config.RadioLocation}"))
             {
                 e.Edit(asset =>
                 {

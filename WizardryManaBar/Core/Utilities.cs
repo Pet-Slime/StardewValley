@@ -72,10 +72,9 @@ namespace WizardryManaBar.Core
         public static void AddMana(this Farmer player, int amt)
         {
             int mana = player.GetCurrentMana() + amt;
-            Utilities.SetCurrentMana(
-                player,
-                Math.Max(0, Math.Min(player.GetMaxMana(), mana))
-            );
+            int amount = Math.Clamp(mana, 0, player.GetMaxMana());
+            Utilities.SetCurrentMana(player, amount);
+            
         }
 
         /// <summary>Get the player's max mana points.</summary>

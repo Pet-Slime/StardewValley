@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using StardewModdingAPI;
 using StardewValley;
 using WizardrySkill.Core;
