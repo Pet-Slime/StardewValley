@@ -6,7 +6,7 @@
     <PropertyGroup>
         <Name>Mana bar API</Name>
         <Description>A port of spacechase0's API to 1.6.</Description>
-        <Version>1.4.0</Version>
+        <Version>1.5.0</Version>
         <UpdateKeys>Nexus:39117</UpdateKeys>
     </PropertyGroup>
 

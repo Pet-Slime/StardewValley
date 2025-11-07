@@ -3,7 +3,7 @@
   "UniqueID": "moonslime.ManaBarAPI",
   "Name": "Mana bar API",
   "Author": "moonslime",
-  "Version": "1.4.0",
+  "Version": "1.5.0",
   "Description": "A port of spacechase0's API to 1.6.",
   "MinimumApiVersion": "4.3.2",
   "MinimumGameVersion": "1.6.15",

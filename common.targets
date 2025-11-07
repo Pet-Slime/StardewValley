@@ -38,9 +38,6 @@
         <ModReleasePath>$(GamePath)\Mods</ModReleasePath>
     </PropertyGroup>
 
-    
-
-
     <PropertyGroup>
         <GameModsPath>$(GamePath)\Mods\$(AssemblyName)</GameModsPath>
         <EnableModZip>false</EnableModZip>
