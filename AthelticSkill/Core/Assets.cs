@@ -8,7 +8,9 @@ namespace AthleticSkill
     public class Assets
     {
         public Texture2D IconA  => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/AthleticiconA");
-        public Texture2D IconA_alt => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/AthleticiconA_alt");
+
+        public Texture2D SprintingIcon1 => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/SprintingIcon1");
+        public Texture2D SprintingIcon2 => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/SprintingIcon2");
 
         public Texture2D IconB => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/AthleticiconB");
         public Texture2D IconB_alt => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/AthleticiconB_alt");

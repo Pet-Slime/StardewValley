@@ -141,7 +141,7 @@ namespace AthleticSkill.Core
                 id: "Athletics:sprinting",
                 displayName: farmer.HasCustomProfession(Athletic_Skill.Athletic10a2) ? ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.displayName_Gridball") : ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.displayName"),
                 description: farmer.HasCustomProfession(Athletic_Skill.Athletic10a2) ? ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description_Gridball") : ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description"),
-                iconTexture: farmer.HasCustomProfession(Athletic_Skill.Athletic10a2) ? ModEntry.Assets.IconA : ModEntry.Assets.IconA,
+                iconTexture: farmer.HasCustomProfession(Athletic_Skill.Athletic10a2) ? ModEntry.Assets.SprintingIcon2 : ModEntry.Assets.SprintingIcon1,
                 iconSheetIndex: 0,
                 duration: ((int)(TimeChecker * 20)),
                 effects: new BuffEffects()
