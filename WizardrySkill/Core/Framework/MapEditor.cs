@@ -41,7 +41,7 @@ namespace WizardrySkill.Core.Framework
         {
 
             // add radio to Wizard's tower
-            if (e.NameWithoutLocale.IsEquivalentTo($"Maps/{Config.RadioLocation}"))
+            if (e.NameWithoutLocale.IsEquivalentTo($"Maps/{ModEntry.Config.RadioLocation}"))
             {
                 e.Edit(asset =>
                 {
