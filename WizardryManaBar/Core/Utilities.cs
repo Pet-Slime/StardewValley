@@ -50,6 +50,9 @@ namespace WizardryManaBar.Core
         {
             player.modData.SetInt(MaxManaKey, mana, min: 0);
         }
+
+
+
     }
 
     
@@ -98,5 +101,24 @@ namespace WizardryManaBar.Core
         {
             Utilities.SetCurrentMana(player, player.GetMaxMana());
         }
+
+        /// <summary>Check to see if the player's current mana is equal to or  greater than a value</summary>
+        /// <param name="player">The player to check.</param>
+        /// <param name="valueToCheckAgainst">The value to check.</param>
+        public static bool IsCurrentManaGreaterThanValue(this Farmer player, int valueToCheckAgainst)
+        {
+            return Utilities.GetCurrentMana(player) >= valueToCheckAgainst;
+        }
+
+
+        /// <summary>Check to see if the player's current mana is equal to or  greater than a value</summary>
+        /// <param name="player">The player to check.</param>
+        /// <param name="valueToCheckAgainst">The value to check.</param>
+        public static bool IsCurrentManaLessThanValue(this Farmer player, int valueToCheckAgainst)
+        {
+            return Utilities.GetCurrentMana(player) <= valueToCheckAgainst;
+        }
+
+
     }
 }

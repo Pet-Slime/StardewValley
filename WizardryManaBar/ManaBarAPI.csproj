@@ -16,7 +16,7 @@
         <SMAPIDependency Include="Zexu2K.MagicStardew.C" MinimumVersion="1.0.0" Required="false" />
         <SMAPIDependency Include="spacechase0.GenericModConfigMenu" MinimumVersion="1.0.0" Required="false" />
         <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
-        <SMAPIDependency Include="moomoonslime.ManaBarApi.CP" MinimumVersion="1.4.0" Required="true" />
+        <SMAPIDependency Include="moonslime.ManaBarApi.CP" version="1.4.0" Required="true" />
     </ItemGroup>
 
 </Project>

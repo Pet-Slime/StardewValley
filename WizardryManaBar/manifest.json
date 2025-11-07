@@ -14,7 +14,8 @@
       "IsRequired": false
     },
     {
-      "UniqueID": "moomoonslime.ManaBarApi.CP"
+      "UniqueID": "moonslime.ManaBarApi.CP",
+      "MinimumVersion": "1.4.0"
     },
     {
       "UniqueID": "Pathoschild.ContentPatcher"

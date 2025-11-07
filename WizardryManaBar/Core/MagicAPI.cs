@@ -9,6 +9,8 @@ namespace WizardryManaBar.Core
         int GetMaxMana(Farmer farmer);
         void SetMaxMana(Farmer farmer, int newMaxMana);
         void AddToMaxMana(Farmer farmer, int maxManaToAdd);
+        void IsCurrentManaGreaterThanValue(Farmer farmer, int valueToCheckAgainst);
+        void IsCurrentManaLessThanValue(Farmer farmer, int valueToCheckAgainst);
         void SetManaToMax(Farmer farmer);
     }
 
@@ -44,6 +46,16 @@ namespace WizardryManaBar.Core
         public void SetManaToMax(Farmer farmer)
         {
             farmer.SetManaToMax();
+        }
+
+        public void IsCurrentManaGreaterThanValue(Farmer farmer, int valueToCheckAgainst)
+        {
+            farmer.IsCurrentManaGreaterThanValue(valueToCheckAgainst);
+        }
+
+        public void IsCurrentManaLessThanValue(Farmer farmer, int valueToCheckAgainst)
+        {
+            farmer.IsCurrentManaLessThanValue(valueToCheckAgainst);
         }
     }
 }

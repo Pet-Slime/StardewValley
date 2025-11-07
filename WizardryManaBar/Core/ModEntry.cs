@@ -5,6 +5,7 @@ using MoonShared.Attributes;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Delegates;
+using StardewValley.Locations;
 using StardewValley.Triggers;
 
 namespace WizardryManaBar.Core
@@ -45,6 +46,107 @@ namespace WizardryManaBar.Core
             TriggerActionManager.RegisterAction(
                 $"moonslime.ManaBarAPI.SetManaToMax",
                 SetManaToMax);
+
+
+
+            GameStateQuery.Register("PLAYER_CURRENT_MANA_GREATER_THAN_VALUE", (string[] query, GameStateQueryContext ctx) =>
+            {
+                string player = query[1];
+                string value = query[2];
+
+                if (string.IsNullOrEmpty(player))
+                {
+                    return GameStateQuery.Helpers.ErrorResult(query, "Player string is empty");
+                }
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    return GameStateQuery.Helpers.ErrorResult(query, "Value to check against is empty");
+                }
+
+                int intValue = int.Parse(value);
+
+                return GameStateQuery.Helpers.WithPlayer(ctx.Player, player, target => target.IsCurrentManaGreaterThanValue(intValue));
+            });
+
+            GameStateQuery.Register("PLAYER_CURRENT_MANA_LESS_THAN_VALUE", (string[] query, GameStateQueryContext ctx) =>
+            {
+                string player = query[1];
+                string value = query[2];
+
+                if (string.IsNullOrEmpty(player))
+                {
+                    return GameStateQuery.Helpers.ErrorResult(query, "Player string is empty");
+                }
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    return GameStateQuery.Helpers.ErrorResult(query, "Value to check against is empty");
+                }
+
+                int intValue = int.Parse(value);
+
+                return GameStateQuery.Helpers.WithPlayer(ctx.Player, player, target => target.IsCurrentManaLessThanValue(intValue));
+            });
+
+            GameStateQuery.Register("PLAYER_MANA", (string[] query, GameStateQueryContext ctx) =>
+            {
+                string player = query[1];
+                string minValue = query[2];
+                string maxValue = query[2];
+
+                if (string.IsNullOrEmpty(player))
+                {
+                    return GameStateQuery.Helpers.ErrorResult(query, "Player string is empty");
+                }
+
+                if (string.IsNullOrEmpty(minValue))
+                {
+                    return GameStateQuery.Helpers.ErrorResult(query, "Value to check against is empty");
+                }
+
+                int intMaxValue = int.MaxValue;
+
+                if (!string.IsNullOrEmpty(maxValue))
+                {
+                    intMaxValue = int.Parse(maxValue);
+                }
+
+                int intMinValue = int.Parse(minValue);
+
+                return GameStateQuery.Helpers.WithPlayer(ctx.Player, player,
+                    target => target.GetCurrentMana() >= intMinValue && target.GetCurrentMana() <= intMaxValue);
+            });
+
+            GameStateQuery.Register("PLAYER_MAX_MANA", (string[] query, GameStateQueryContext ctx) =>
+            {
+                string player = query[1];
+                string minValue = query[2];
+                string maxValue = query[2];
+
+                if (string.IsNullOrEmpty(player))
+                {
+                    return GameStateQuery.Helpers.ErrorResult(query, "Player string is empty");
+                }
+
+                if (string.IsNullOrEmpty(minValue))
+                {
+                    return GameStateQuery.Helpers.ErrorResult(query, "Value to check against is empty");
+                }
+
+                int intMaxValue = int.MaxValue;
+
+                if (!string.IsNullOrEmpty(maxValue))
+                {
+                    intMaxValue = int.Parse(maxValue);
+                }
+
+                int intMinValue = int.Parse(minValue);
+
+                return GameStateQuery.Helpers.WithPlayer(ctx.Player, player,
+                    target => target.GetMaxMana() >= intMinValue && target.GetMaxMana() <= intMaxValue);
+            });
+
         }
 
         public override object GetApi()
@@ -99,7 +201,5 @@ namespace WizardryManaBar.Core
             Game1.player.SetManaToMax();
             return true;
         }
-
-
     }
 }
