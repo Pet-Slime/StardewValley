@@ -27,5 +27,6 @@ _ReSharper*/
 
 # release zips
 _releases/Debug/*
+_releases/Release/*
 /UpgradeLog.htm
 /Backup
