@@ -1,204 +1,219 @@
+using System;
+using System.Linq;
 using System.Reflection;
 using HarmonyLib;
-using Microsoft.Xna.Framework.Graphics;
 using MoonShared.Attributes;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Delegates;
-using StardewValley.Locations;
 using StardewValley.Triggers;
 
 namespace WizardryManaBar.Core
 {
+    /// <summary>
+    /// The main entry point for the Wizardry Mana Bar mod.
+    /// Handles initialization, event registration, and API setup.
+    /// </summary>
     [SMod]
     public class ModEntry : Mod
     {
         internal static ModEntry Instance;
         internal static Config Config;
         internal static Assets Assets;
-
-        internal static bool ArsVeneficiLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("HeyImAmethyst.ArsVenefici");
-        internal static bool MagicStardewLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("Zexu2K.MagicStardew.C");
-
-        public ITranslationHelper I18N => this.Helper.Translation;
+        internal static bool ArsVeneficiLoaded => Instance.Helper.ModRegistry.IsLoaded("HeyImAmethyst.ArsVenefici");
+        internal static bool MagicStardewLoaded => Instance.Helper.ModRegistry.IsLoaded("Zexu2K.MagicStardew.C");
+        public ITranslationHelper I18N => Helper.Translation;
 
 
         public override void Entry(IModHelper helper)
         {
             Instance = this;
-            Assembly assembly = this.GetType().Assembly;
-            MoonShared.Attributes.Parser.InitEvents(helper);
-            MoonShared.Attributes.Parser.ParseAll(this);
-            ModEntry.Instance.Helper.Events.GameLoop.GameLaunched += Events.GameLaunched;
 
-            TriggerActionManager.RegisterAction(
-                $"moonslime.ManaBarAPI.AddMana",
-                AddMana);
+            // Initialize MoonShared attribute system
+            Parser.InitEvents(helper);
+            Parser.ParseAll(this);
 
-            TriggerActionManager.RegisterAction(
-                $"moonslime.ManaBarAPI.SetMaxMana",
-                SetMaxMana);
+            helper.Events.GameLoop.GameLaunched += Events.GameLaunched;
 
-            TriggerActionManager.RegisterAction(
-                $"moonslime.ManaBarAPI.AddToMaxMana",
-                AddToMaxMana);
+            // Register Trigger Actions
+            RegisterTrigger("AddMana", AddMana);
+            RegisterTrigger("SetMaxMana", SetMaxMana);
+            RegisterTrigger("AddToMaxMana", AddToMaxMana);
+            RegisterTrigger("SetManaToMax", SetManaToMax);
 
-            TriggerActionManager.RegisterAction(
-                $"moonslime.ManaBarAPI.SetManaToMax",
-                SetManaToMax);
+            // Register GameStateQueries
+            RegisterManaQueries();
+        }
 
+        /// <summary>
+        /// Returns this mod's API instance, exposed for other mods to integrate with.
+        /// </summary>
+        public override object GetApi() => new Api();
 
+        /// <summary>
+        /// Registers a trigger action under the ManaBar API namespace.
+        /// </summary>
+        /// <param name="name">The unique action name (without namespace prefix).</param>
+        /// <param name="handler">The delegate to execute when triggered.</param>
+        private static void RegisterTrigger(string name, TriggerActionDelegate handler)
+        {
+            TriggerActionManager.RegisterAction($"moonslime.ManaBarAPI.{name}", handler);
+        }
 
-            GameStateQuery.Register("PLAYER_CURRENT_MANA_GREATER_THAN_VALUE", (string[] query, GameStateQueryContext ctx) =>
+        /// <summary>
+        /// Registers all supported GameStateQueries for checking player mana conditions.
+        /// </summary>
+        private static void RegisterManaQueries()
+        {
+            // --- Helper for safe int parsing ---
+            static bool TryParseString(string input, out string value, out string error, string paramName)
             {
-                string player = query[1];
-                string value = query[2];
-
-                if (string.IsNullOrEmpty(player))
+                if (string.IsNullOrWhiteSpace(input))
                 {
-                    return GameStateQuery.Helpers.ErrorResult(query, "Player string is empty");
+                    error = $"{paramName} cannot be empty or missing.";
+                    value = null;
+                    return false;
                 }
 
-                if (string.IsNullOrEmpty(value))
-                {
-                    return GameStateQuery.Helpers.ErrorResult(query, "Value to check against is empty");
-                }
+                value = input;
+                error = null;
+                return true;
+            }
 
-                int intValue = int.Parse(value);
 
-                return GameStateQuery.Helpers.WithPlayer(ctx.Player, player, target => target.IsCurrentManaGreaterThanValue(intValue));
-            });
-
-            GameStateQuery.Register("PLAYER_CURRENT_MANA_LESS_THAN_VALUE", (string[] query, GameStateQueryContext ctx) =>
+            static bool TryParseInt(string input, out int value, out string error, string paramName)
             {
-                string player = query[1];
-                string value = query[2];
-
-                if (string.IsNullOrEmpty(player))
+                if (string.IsNullOrWhiteSpace(input))
                 {
-                    return GameStateQuery.Helpers.ErrorResult(query, "Player string is empty");
+                    error = $"{paramName} cannot be empty";
+                    value = 0;
+                    return false;
                 }
 
-                if (string.IsNullOrEmpty(value))
+                if (!int.TryParse(input, out value))
                 {
-                    return GameStateQuery.Helpers.ErrorResult(query, "Value to check against is empty");
+                    error = $"{paramName} must be an integer";
+                    return false;
                 }
 
-                int intValue = int.Parse(value);
+                error = null;
+                return true;
+            }
 
-                return GameStateQuery.Helpers.WithPlayer(ctx.Player, player, target => target.IsCurrentManaLessThanValue(intValue));
-            });
-
-            GameStateQuery.Register("PLAYER_MANA", (string[] query, GameStateQueryContext ctx) =>
+            // PLAYER_CURRENT_MANA_GREATER_THAN_VALUE
+            GameStateQuery.Register("PLAYER_CURRENT_MANA_GREATER_THAN_VALUE", (query, ctx) =>
             {
-                string player = query[1];
-                string minValue = query[2];
-                string maxValue = query[2];
+                if (!TryParseString(query[1], out string player, out string playerError, "player"))
+                    return GameStateQuery.Helpers.ErrorResult(query, playerError);
 
-                if (string.IsNullOrEmpty(player))
-                {
-                    return GameStateQuery.Helpers.ErrorResult(query, "Player string is empty");
-                }
-
-                if (string.IsNullOrEmpty(minValue))
-                {
-                    return GameStateQuery.Helpers.ErrorResult(query, "Value to check against is empty");
-                }
-
-                int intMaxValue = int.MaxValue;
-
-                if (!string.IsNullOrEmpty(maxValue))
-                {
-                    intMaxValue = int.Parse(maxValue);
-                }
-
-                int intMinValue = int.Parse(minValue);
+                if (!TryParseInt(query[2], out int value, out string valueError, "value"))
+                    return GameStateQuery.Helpers.ErrorResult(query, valueError);
 
                 return GameStateQuery.Helpers.WithPlayer(ctx.Player, player,
-                    target => target.GetCurrentMana() >= intMinValue && target.GetCurrentMana() <= intMaxValue);
+                    target => target.IsCurrentManaGreaterThanValue(value));
             });
 
-            GameStateQuery.Register("PLAYER_MAX_MANA", (string[] query, GameStateQueryContext ctx) =>
+            // PLAYER_CURRENT_MANA_LESS_THAN_VALUE
+            GameStateQuery.Register("PLAYER_CURRENT_MANA_LESS_THAN_VALUE", (query, ctx) =>
             {
-                string player = query[1];
-                string minValue = query[2];
-                string maxValue = query[2];
+                if (!TryParseString(query[1], out string player, out string playerError, "player"))
+                    return GameStateQuery.Helpers.ErrorResult(query, playerError);
 
-                if (string.IsNullOrEmpty(player))
-                {
-                    return GameStateQuery.Helpers.ErrorResult(query, "Player string is empty");
-                }
-
-                if (string.IsNullOrEmpty(minValue))
-                {
-                    return GameStateQuery.Helpers.ErrorResult(query, "Value to check against is empty");
-                }
-
-                int intMaxValue = int.MaxValue;
-
-                if (!string.IsNullOrEmpty(maxValue))
-                {
-                    intMaxValue = int.Parse(maxValue);
-                }
-
-                int intMinValue = int.Parse(minValue);
+                if (!TryParseInt(query[2], out int value, out string valueError, "value"))
+                    return GameStateQuery.Helpers.ErrorResult(query, valueError);
 
                 return GameStateQuery.Helpers.WithPlayer(ctx.Player, player,
-                    target => target.GetMaxMana() >= intMinValue && target.GetMaxMana() <= intMaxValue);
+                    target => target.IsCurrentManaLessThanValue(value));
             });
 
+            // PLAYER_MANA
+            GameStateQuery.Register("PLAYER_MANA", (query, ctx) =>
+            {
+                if (!TryParseString(query[1], out string player, out string playerError, "player"))
+                    return GameStateQuery.Helpers.ErrorResult(query, playerError);
+
+                if (!TryParseInt(query[2], out int min, out string minError, "minValue"))
+                    return GameStateQuery.Helpers.ErrorResult(query, minError);
+
+                int max = int.MaxValue;
+                if (int.TryParse(query[3], out int parsedMax))
+                    max = parsedMax;
+
+                return GameStateQuery.Helpers.WithPlayer(ctx.Player, player,
+                    target =>
+                    {
+                        int mana = target.GetCurrentMana();
+                        return mana >= min && mana <= max;
+                    });
+            });
+
+            // PLAYER_MAX_MANA
+            GameStateQuery.Register("PLAYER_MAX_MANA", (query, ctx) =>
+            {
+                if (!TryParseString(query[1], out string player, out string playerError, "player"))
+                    return GameStateQuery.Helpers.ErrorResult(query, playerError);
+
+                if (!TryParseInt(query[2], out int min, out string minError, "minValue"))
+                    return GameStateQuery.Helpers.ErrorResult(query, minError);
+
+                int max = int.MaxValue;
+                if (int.TryParse(query[3], out int parsedMax))
+                    max = parsedMax;
+
+                return GameStateQuery.Helpers.WithPlayer(ctx.Player, player,
+                    target =>
+                    {
+                        int mana = target.GetMaxMana();
+                        return mana >= min && mana <= max;
+                    });
+            });
         }
 
-        public override object GetApi()
-        {
-            try
-            {
-                return new WizardryManaBar.Core.Api();
-            }
-            catch
-            {
-                return null;
-            }
+        // Trigger Actions
 
-        }
+        /// <summary>
+        /// Adds a specified number of mana points to the current player.
+        /// </summary>
+        private static bool AddMana(string[] args, TriggerActionContext context, out string error) =>
+            TryDoManaAction(args, 1, Game1.player.AddMana, out error);
 
-        static bool AddMana(string[] args, TriggerActionContext context, out string error)
+        /// <summary>
+        /// Sets the player's maximum mana to a specific value.
+        /// </summary>
+        private static bool SetMaxMana(string[] args, TriggerActionContext context, out string error) =>
+            TryDoManaAction(args, 1, Game1.player.SetMaxMana, out error);
+
+        /// <summary>
+        /// Increases the player's maximum mana by the given number of points.
+        /// </summary>
+        private static bool AddToMaxMana(string[] args, TriggerActionContext context, out string error)
         {
             if (!ArgUtility.TryGetInt(args, 1, out int points, out error, "int points"))
-            {
                 return false;
-            }
-            Game1.player.AddMana(points);
-            return true;
-        }
 
-        static bool SetMaxMana(string[] args, TriggerActionContext context, out string error)
-        {
-            if (!ArgUtility.TryGetInt(args, 1, out int points, out error, "int points"))
-            {
-                return false;
-            }
-            Game1.player.SetMaxMana(points);
-            return true;
-        }
-
-        static bool AddToMaxMana(string[] args, TriggerActionContext context, out string error)
-        {
-            if (!ArgUtility.TryGetInt(args, 1, out int points, out error, "int points"))
-            {
-                return false;
-            }
             Game1.player.SetMaxMana(Game1.player.GetMaxMana() + points);
             return true;
         }
 
-        static bool SetManaToMax(string[] args, TriggerActionContext context, out string error)
+        /// <summary>
+        /// Restores the player's mana to their maximum capacity.
+        /// </summary>
+        private static bool SetManaToMax(string[] args, TriggerActionContext context, out string error)
         {
-            if (!ArgUtility.TryGetInt(args, 1, out int points, out error, "int points"))
-            {
-                return false;
-            }
+            error = null;
             Game1.player.SetManaToMax();
+            return true;
+        }
+
+        /// <summary>
+        /// Shared helper for parsing integer arguments and applying a mana-related action.
+        /// </summary>
+        private static bool TryDoManaAction(string[] args, int index, Action<int> action, out string error)
+        {
+            if (!ArgUtility.TryGetInt(args, index, out int points, out error, "int points"))
+                return false;
+
+            action(points);
             return true;
         }
     }

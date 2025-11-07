@@ -26,7 +26,6 @@ namespace WizardryManaBar.Core
 
         // Temporary reusable objects
         private static Rectangle SharedRect = new();
-        private static Rectangle DestRect = new();
         private static readonly StringBuilder HoverTextBuilder = new();
         private static readonly Color[] SingleColorBuffer = new Color[1];
 
