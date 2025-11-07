@@ -1,33 +1,38 @@
-﻿{
-    "Name": "Mana bar API",
-    "Author": "moonslime",
-    "Version": "1.4.0",
-    "Description": "A port of spacechase0's API to 1.6, designed for Wizardry",
-    "UniqueID": "moonslime.ManaBarApi",
-    "EntryDll": "ManaBarAPI.dll",
-    "MinimumApiVersion": "4.0.0",
-    "UpdateKeys": [
-        "Nexus:39117"
-    ],
-    "Dependencies": [
-        {
-            "UniqueID": "HeyImAmethyst.ArsVenefici",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "Zexu2K.MagicStardew.C",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "spacechase0.GenericModConfigMenu",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "spacechase0.SpaceCore",
-            "MinimumVersion": "1.28.0"
-        },
-        {
-            "UniqueID": "moonslime.ManaBarApi.CP"
-        }
-    ]
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "moonslime.ManaBarAPI",
+  "Name": "Mana bar API",
+  "Author": "moonslime",
+  "Version": "1.4.0",
+  "Description": "A port of spacechase0's API to 1.6.",
+  "MinimumApiVersion": "4.3.2",
+  "MinimumGameVersion": "1.6.15",
+  "EntryDll": "ManaBarAPI.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "HeyImAmethyst.ArsVenefici",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "moomoonslime.ManaBarApi.CP"
+    },
+    {
+      "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.28.0"
+    },
+    {
+      "UniqueID": "Zexu2K.MagicStardew.C",
+      "IsRequired": false
+    }
+  ],
+  "UpdateKeys": [
+    "Nexus:39117"
+  ]
 }

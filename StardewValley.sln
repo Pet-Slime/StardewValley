@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_root", "_root", "{7BB5EFE4
 		common.targets = common.targets
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
+		spacecore.targets = spacecore.targets
 	EndProjectSection
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MoonSharedSpaceCore", "MoonSharedSpaceCore\MoonSharedSpaceCore.shproj", "{19CEDB88-A912-48DA-B35D-FCE2509E70E6}"
@@ -115,6 +116,8 @@ Global
 		MoonShared\MoonShared.projitems*{41ed1fc1-a8cc-4001-be74-8e92474c490a}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{445a0cdf-cd32-4585-be44-02fdfcdd88b7}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{445a0cdf-cd32-4585-be44-02fdfcdd88b7}*SharedItemsImports = 5
+		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
+		MoonShared\MoonShared.projitems*{56651b71-984e-463c-bd0c-027917e96089}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{582e2861-2bf8-4704-8f5e-1ab9bae2b572}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{582e2861-2bf8-4704-8f5e-1ab9bae2b572}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{5bc19468-1d91-43e6-94e5-9e8fc7cf29ed}*SharedItemsImports = 5
@@ -123,6 +126,5 @@ Global
 		MoonShared\MoonShared.projitems*{aeb84f1f-25d1-41db-8d54-b7a364776f8b}*SharedItemsImports = 5
 		MoonSharedSpaceCore\MoonSharedSpaceCore.projitems*{b4835048-a339-456f-b0ed-64cfe03c4c29}*SharedItemsImports = 5
 		MoonShared\MoonShared.projitems*{b4835048-a339-456f-b0ed-64cfe03c4c29}*SharedItemsImports = 5
-		MoonShared\MoonShared.projitems*{ca7454a3-0d10-4f64-876e-a62c6423860b}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

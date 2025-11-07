@@ -1,33 +1,33 @@
-﻿{
-    "Name": "Wizardry",
-    "Author": "moonslime",
-    "Version": "1.9.0",
-    "Description": "Magic Revisited.",
-    "UniqueID": "moonslime.WizardrySkill",
-    "EntryDll": "WizardrySkill.dll",
-    "MinimumApiVersion": "4.0.0",
-    "UpdateKeys": [
-        "Nexus:38383"
-    ],
-    "Dependencies": [
-        {
-            "UniqueID": "moonslime.ManaBarApi",
-            "IsRequired": true
-        },
-        {
-            "UniqueID": "Pathoschild.ContentPatcher"
-        },
-        {
-            "UniqueID": "spacechase0.GenericModConfigMenu",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "spacechase0.SpaceCore",
-            "MinimumVersion": "1.28.0"
-        },
-        {
-            "UniqueID": "moonslime.WizardrySkill.CP",
-            "IsRequired": true
-        }
-    ]
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "moonslime.WizardrySkill",
+  "Name": "Wizardry",
+  "Author": "moonslime",
+  "Version": "1.9.0",
+  "Description": "Magic Revisted.",
+  "MinimumApiVersion": "4.3.2",
+  "MinimumGameVersion": "1.6.15",
+  "EntryDll": "WizardrySkill.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "moomoonslime.WizardrySkill.CP"
+    },
+    {
+      "UniqueID": "moonslime.ManaBarApi"
+    },
+    {
+      "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.28.0"
+    }
+  ],
+  "UpdateKeys": [
+    "Nexus:38383"
+  ]
 }

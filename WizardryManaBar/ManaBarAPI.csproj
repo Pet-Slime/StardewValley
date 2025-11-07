@@ -1,25 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="..\common.targets" />
-    <Import Project="$(SolutionDir)\MoonSharedSpaceCore\MoonSharedSpaceCore.projitems" Label="Shared" />
+    <Import Project="..\spacecore.targets" />
 
+    
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <Name>Mana bar API</Name>
+        <Description>A port of spacechase0's API to 1.6.</Description>
+        <Version>1.4.0</Version>
+        <UpdateKeys>Nexus:39117</UpdateKeys>
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="SpaceCore">
-            <HintPath>$(GamePath)\Mods\SpaceCore\SpaceCore.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
+        <SMAPIDependency Include="Pathoschild.ContentPatcher" MinimumVersion="2.8.0" Required="true" />
+        <SMAPIDependency Include="HeyImAmethyst.ArsVenefici" MinimumVersion="1.0.0" Required="false" />
+        <SMAPIDependency Include="Zexu2K.MagicStardew.C" MinimumVersion="1.0.0" Required="false" />
+        <SMAPIDependency Include="spacechase0.GenericModConfigMenu" MinimumVersion="1.0.0" Required="false" />
+        <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
+        <SMAPIDependency Include="moomoonslime.ManaBarApi.CP" MinimumVersion="1.4.0" Required="true" />
     </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Update="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
-    </ItemGroup>
-
 
 </Project>

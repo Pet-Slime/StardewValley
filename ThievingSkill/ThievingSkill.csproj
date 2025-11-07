@@ -1,10 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="..\common.targets" />
-    <Import Project="$(SolutionDir)\MoonSharedSpaceCore\MoonSharedSpaceCore.projitems" Label="Shared" />
+    <Import Project="..\spacecore.targets" />
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <Name>Thieving Skill</Name>
+        <Description>Standalone Thieving Skill.</Description>
+        <Version>1.0.0</Version>
+        <UpdateKeys>Nexus:23791</UpdateKeys>
     </PropertyGroup>
+
+    <ItemGroup>
+        <SMAPIDependency Include="Pathoschild.ContentPatcher" MinimumVersion="2.8.0" Required="true" />
+        <SMAPIDependency Include="drbirbdev.BirbCore" MinimumVersion="1.1.0" Required="true" />
+        <SMAPIDependency Include="spacechase0.GenericModConfigMenu" Required="false" />
+        <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
+    </ItemGroup>
+
 
     <ItemGroup>
         <Reference Include="BirbCore">
@@ -12,20 +23,7 @@
             <Private>False</Private>
         </Reference>
     </ItemGroup>
-    <ItemGroup>
-        <Reference Include="SpaceCore">
-            <HintPath>$(GamePath)\Mods\SpaceCore\SpaceCore.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-    </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Update="Pathoschild.Stardew.ModBuildConfig" Version="4.3.2" />
-    </ItemGroup>
 
 
 </Project>

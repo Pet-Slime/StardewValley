@@ -1,37 +1,39 @@
-﻿{
-    "Name": "BibliocraftSkill",
-    "Author": "moonslime",
-    "Version": "0.7.0",
-    "Description": "Become a master of the Books!",
-    "UniqueID": "moonslime.BibliocraftSkill",
-    "EntryDll": "BibliocraftSkill.dll",
-    "MinimumApiVersion": "4.1.7",
-    "UpdateKeys": [
-        -1
-    ],
-    "Dependencies": [
-        {
-            "UniqueID": "leclair.bettercrafting",
-            "MinimumVersion": "2.18.0",
-            "IsRequired": true
-        },
-        {
-            "UniqueID": "drbirbdev.BirbCore"
-        },
-        {
-            "UniqueID": "Pathoschild.ContentPatcher"
-        },
-        {
-            "UniqueID": "spacechase0.GenericModConfigMenu",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "spacechase0.SpaceCore",
-            "MinimumVersion": "1.26.2"
-        },
-        {
-            "UniqueID": "selph.ExtraMachineConfig",
-            "MinimumVersion": "1.17.4"
-        }
-    ]
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "moonslime.BibliocraftSkill",
+  "Name": "Bibliocraft, A book crafting Skill",
+  "Author": "moonslime",
+  "Version": "1.0.0",
+  "Description": "Become a master of the Books!",
+  "MinimumApiVersion": "4.3.2",
+  "MinimumGameVersion": "1.6.15",
+  "EntryDll": "BibliocraftSkill.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "drbirbdev.BirbCore",
+      "MinimumVersion": "1.1.0"
+    },
+    {
+      "UniqueID": "leclair.bettercrafting",
+      "MinimumVersion": "2.18.0"
+    },
+    {
+      "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    {
+      "UniqueID": "selph.ExtraMachineConfig",
+      "MinimumVersion": "1.17.4"
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.28.0"
+    }
+  ],
+  "UpdateKeys": [
+    "Nexus:-1"
+  ]
 }

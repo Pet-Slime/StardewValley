@@ -1,10 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="..\common.targets" />
-    <Import Project="$(SolutionDir)\MoonSharedSpaceCore\MoonSharedSpaceCore.projitems" Label="Shared" />
+    <Import Project="..\common.targets" />
+    <Import Project="..\spacecore.targets" />
 
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-	</PropertyGroup>
+
+    <PropertyGroup>
+        <Name>Yet Another Cooking Skill</Name>
+        <UniqueId>$(Authors).CookingSkill</UniqueId>
+        <Description>A remix built from the ground, for players must cook!</Description>
+        <Version>1.11.1</Version>
+        <UpdateKeys>Nexus:22681</UpdateKeys>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <SMAPIDependency Include="Pathoschild.ContentPatcher" MinimumVersion="2.8.0" Required="true" />
+        <SMAPIDependency Include="Shockah.XPDisplay" MinimumVersion="1.0.0" Required="false" />
+        <SMAPIDependency Include="spacechase0.DynamicGameAssets" MinimumVersion="1.0.0" Required="false" />
+        <SMAPIDependency Include="spacechase0.JsonAssets" MinimumVersion="1.0.0" Required="false" />
+        <SMAPIDependency Include="spacechase0.GenericModConfigMenu" MinimumVersion="1.0.0" Required="false" />
+        <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
+        <SMAPIDependency Include="leclair.bettercrafting" version="2.18.0" Required="false" />
+        <SMAPIDependency Include="drbirbdev.BirbCore" version="1.1.0" Required="true" />
+    </ItemGroup>
 
 	<ItemGroup>
 	  <Reference Include="BetterCrafting">
@@ -16,18 +32,7 @@
 	    <HintPath>$(GamePath)\Mods\BirbCore\BirbCore.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
-        <Reference Include="SpaceCore">
-            <HintPath>$(GamePath)\Mods\SpaceCore\SpaceCore.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <PackageReference Update="Pathoschild.Stardew.ModBuildConfig" Version="4.3.2" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	</ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
 using BirbCore.Attributes;
-using MoonShared.Config;
 
 namespace CookingSkillRedux
 {

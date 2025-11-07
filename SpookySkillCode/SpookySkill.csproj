@@ -1,39 +1,29 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="..\common.targets" />
-    <Import Project="$(SolutionDir)\MoonSharedSpaceCore\MoonSharedSpaceCore.projitems" Label="Shared" />
+    <Import Project="..\spacecore.targets" />
 
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-	</PropertyGroup>
+    <PropertyGroup>
+        <Name>Scaring / Thieving Skill</Name>
+        <Description>Scare(or steal from) NPCs, get items.</Description>
+        <Version>1.3.2</Version>
+        <UpdateKeys>Nexus:23791</UpdateKeys>
+    </PropertyGroup>
 
-	<ItemGroup>
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	</ItemGroup>
+    <ItemGroup>
+        <SMAPIDependency Include="Pathoschild.ContentPatcher" MinimumVersion="2.8.0" Required="true" />
+        <SMAPIDependency Include="drbirbdev.BirbCore" MinimumVersion="1.1.0" Required="true" />
+        <SMAPIDependency Include="spacechase0.GenericModConfigMenu" Required="false" />
+        <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
+    </ItemGroup>
 
-	<ItemGroup>
-	  <Reference Include="0Harmony">
-	    <HintPath>$(GamePath)\smapi-internal\0Harmony.dll</HintPath>
-	  </Reference>
-	  <Reference Include="BirbCore">
-	    <HintPath>$(GamePath)\Mods\BirbCore\BirbCore.dll</HintPath>
-	    <Private>False</Private>
-	  </Reference>
-	  <Reference Include="Stardew Valley">
-	    <HintPath>$(GamePath)\Stardew Valley.dll</HintPath>
-	  </Reference>
-	  <Reference Include="StardewModdingAPI">
-	    <HintPath>$(GamePath)\StardewModdingAPI.dll</HintPath>
-	  </Reference>
-        <Reference Include="SpaceCore">
-            <HintPath>$(GamePath)\Mods\SpaceCore\SpaceCore.dll</HintPath>
-            <Private>false</Private>
+
+    <ItemGroup>
+        <Reference Include="BirbCore">
+            <HintPath>$(GamePath)\Mods\BirbCore\BirbCore.dll</HintPath>
+            <Private>False</Private>
         </Reference>
-	</ItemGroup>
+    </ItemGroup>
 
-
-	<ItemGroup>
-	  <PackageReference Update="Pathoschild.Stardew.ModBuildConfig" Version="4.3.2" />
-	</ItemGroup>
 
 
 </Project>

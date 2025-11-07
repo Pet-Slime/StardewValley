@@ -9,6 +9,7 @@
         <MinimumGameVersion_Behavior>UpdateFull</MinimumGameVersion_Behavior>
         <EntryDll>$(AssemblyName)</EntryDll>
         <BaseManifest>new</BaseManifest>
+        <Version_AppendConfiguration>false</Version_AppendConfiguration>
         <Dependencies_AlwaysIncludeRequire>true</Dependencies_AlwaysIncludeRequire>
         <Dependencies_VersionBehavior>Error</Dependencies_VersionBehavior>
         <ManifestComment>false</ManifestComment>
@@ -21,20 +22,23 @@
         <EnableHarmony>true</EnableHarmony>
         <GamePath>E:\SteamLibrary\steamapps\common\Stardew Valley</GamePath>
         <EnableModZip Condition="$(Configuration) == 'Debug'">false</EnableModZip>
-        <EnableModZip Condition="$(Configuration) == 'Release'">false</EnableModZip>
     </PropertyGroup>
 
-  
+
     <!--import mod build package-->
     <ItemGroup>
-        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+        <PackageReference Include="Leclair.Stardew.ModManifestBuilder" Version="2.4.1" />
+        <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.4.0" />
     </ItemGroup>
 
     <!--common mod build package options-->
     <PropertyGroup>
         <ModZipPath>$(SolutionDir)\_releases\$(Configuration)</ModZipPath>
+        <ModReleasePath>$(GamePath)\Mods</ModReleasePath>
     </PropertyGroup>
 
+    
 
 
     <PropertyGroup>
@@ -42,6 +46,7 @@
         <EnableModZip>false</EnableModZip>
     </PropertyGroup>
 
+    <!--Deploying Content patcher files in the mod folder-->
     <Target Name="DeployPack" AfterTargets="Build">
         <Message Text="Running DeployPack target..." />
         <ItemGroup>
@@ -50,9 +55,10 @@
 
         <Copy SourceFiles="@(_ContentPatcherFiles)" DestinationFiles="@(_ContentPatcherFiles->'$(GameModsPath)/%(RecursiveDir)%(Filename)%(Extension)')" />
     </Target>
-
+    
+    <!--Zip up the mod for the github version (mainly used to store the latest release)-->
     <Target Name="ZipPack" AfterTargets="DeployPack">
-        <Message Text="Running ZipPack target..." />
+        <Message Text="Running Github ZipPack target..." />
         <ItemGroup>
             <_ModFiles Include="$(GameModsPath)/**/*" />
             <_FilesToDelete Include="$(GamePath)temp/$(AssemblyName)/$(AssemblyName)/$(AssemblyName)/config.json" />
@@ -61,12 +67,25 @@
         <Copy SourceFiles="@(_ModFiles)" DestinationFiles="@(_ModFiles->'$(GamePath)temp/$(AssemblyName)/$(AssemblyName)/%(RecursiveDir)%(Filename)%(Extension)')" />
         <Delete Files="@(_FilesToDelete)" />
         <!-- Use ZipDirectory after build. -->
-        <ZipDirectory DestinationFile="$(ModZipPath)/$(AssemblyName) $(Version).zip" SourceDirectory="$(GamePath)temp/$(AssemblyName)" Overwrite="True" />
+        <ZipDirectory DestinationFile="$(ModZipPath)/$(AssemblyName) 1.0.0.zip" SourceDirectory="$(GamePath)temp/$(AssemblyName)" Overwrite="True" />
         <RemoveDir Directories="$(GamePath)temp" />
     </Target>
 
-    <ItemGroup>
-        <SMAPIDependency Include="Pathoschild.ContentPatcher" Required="true" />
-    </ItemGroup>
+    <!--Zip up the mod for the github version (mainly used to store the latest release)-->
+    <Target Name="ZipReleaseVersion" AfterTargets="DeployPack">
+        <Message Text="Running Release ZipPack target..." />
+        <ItemGroup>
+            <_ModFiles Include="$(GameModsPath)/**/*" />
+            <_FilesToDelete Include="$(GamePath)temp/$(AssemblyName)/$(AssemblyName)/$(AssemblyName)/config.json" />
+        </ItemGroup>
+
+        <Copy SourceFiles="@(_ModFiles)" DestinationFiles="@(_ModFiles->'$(GamePath)temp/$(AssemblyName)/$(AssemblyName)/%(RecursiveDir)%(Filename)%(Extension)')" />
+        <Delete Files="@(_FilesToDelete)" />
+        <!-- Use ZipDirectory after build. -->
+        <ZipDirectory DestinationFile="$(ModReleasePath)/$(AssemblyName)-1.6-v$(Version).zip" SourceDirectory="$(GamePath)temp/$(AssemblyName)" Overwrite="True" />
+        <RemoveDir Directories="$(GamePath)temp" />
+    </Target>
+
+
 
 </Project>

@@ -1,33 +1,30 @@
-﻿{
-    "Name": "Scaring / Thieving Skill",
-    "Author": "moonslime",
-    "Version": "1.3.2",
-    "Description": "Scare(or steal from) NPCs, get items",
-    "UniqueID": "moonslime.SpookySkill",
-    "EntryDll": "SpookySkill.dll",
-    "MinimumApiVersion": "4.3.2",
-    "UpdateKeys": [
-        "Nexus:23791"
-    ],
-    "Dependencies": [
-        {
-            "UniqueID": "DaLion.Overhaul",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "drbirbdev.BirbCore",
-            "MinimumVersion": "1.1.0"
-        },
-        {
-            "UniqueID": "Pathoschild.ContentPatcher"
-        },
-        {
-            "UniqueID": "spacechase0.GenericModConfigMenu",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "spacechase0.SpaceCore",
-            "MinimumVersion": "1.26.2"
-        }
-    ]
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "moonslime.SpookySkill",
+  "Name": "Scaring / Thieving Skill",
+  "Author": "moonslime",
+  "Version": "1.3.2",
+  "Description": "Scare(or steal from) NPCs, get items.",
+  "MinimumApiVersion": "4.3.2",
+  "MinimumGameVersion": "1.6.15",
+  "EntryDll": "SpookySkill.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "drbirbdev.BirbCore"
+    },
+    {
+      "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.28.0"
+    }
+  ],
+  "UpdateKeys": [
+    "Nexus:23791"
+  ]
 }

@@ -1,29 +1,31 @@
-﻿{
-    "Name": "LuckSkill",
-    "Author": "moonslime",
-    "Version": "1.4.0",
-    "Description": "A Spacecore version of the luck skill",
-    "UniqueID": "moonslime.LuckSkill",
-    "EntryDll": "LuckSkill.dll",
-    "MinimumApiVersion": "4.3.2",
-    "UpdateKeys": [
-        "Nexus:28103"
-    ],
-    "Dependencies": [
-        {
-            "UniqueID": "drbirbdev.BirbCore",
-            "MinimumVersion": "1.1.0"
-        },
-        {
-            "UniqueID": "Pathoschild.ContentPatcher"
-        },
-        {
-            "UniqueID": "spacechase0.GenericModConfigMenu",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "spacechase0.SpaceCore",
-            "MinimumVersion": "1.28.0"
-        }
-    ]
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "moonslime.LuckSkill",
+  "Name": "Luck Skill",
+  "Author": "moonslime",
+  "Version": "1.4.0",
+  "Description": "A Spacecore version of the luck skill.",
+  "MinimumApiVersion": "4.3.2",
+  "MinimumGameVersion": "1.6.15",
+  "EntryDll": "LuckSkill.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "drbirbdev.BirbCore",
+      "MinimumVersion": "1.1.0"
+    },
+    {
+      "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.28.0"
+    }
+  ],
+  "UpdateKeys": [
+    "Nexus:28103"
+  ]
 }

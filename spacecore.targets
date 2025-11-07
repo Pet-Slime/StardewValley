@@ -1,0 +1,12 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(SolutionDir)\MoonSharedSpaceCore\MoonSharedSpaceCore.projitems" Label="Shared" />
+
+    <ItemGroup>
+        <Reference Include="SpaceCore">
+            <HintPath>$(GamePath)\Mods\SpaceCore\SpaceCore.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    
+</Project>

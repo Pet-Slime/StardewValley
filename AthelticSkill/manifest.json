@@ -1,28 +1,35 @@
-﻿{
-    "Name": "AthleticSkill",
-    "Author": "moonslime",
-    "Version": "1.0.0",
-    "Description": "Adds sprinting and buffs professions as a skill",
-    "UniqueID": "moonslime.AthleticSkill",
-    "EntryDll": "AthleticSkill.dll",
-    "MinimumApiVersion": "4.0.0",
-    "UpdateKeys": [
-        "Nexus:-1"
-    ],
-    "Dependencies": [
-        {
-            "UniqueID": "drbirbdev.BirbCore",
-            "MinimumVersion": "1.1.0"
-        },
-        {
-            "UniqueID": "Pathoschild.ContentPatcher"
-        },
-        {
-            "UniqueID": "spacechase0.SpaceCore",
-            "MinimumVersion": "1.26.2"
-        },
-        {
-            "UniqueID": "moonslime.AthleticSkill.CP"
-        }
-    ]
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "moonslime.AthleticSkill",
+  "Name": "Athletics, A sprinting Skill",
+  "Author": "moonslime",
+  "Version": "1.0.0",
+  "Description": "Adds sprinting and buffs professions as a skill",
+  "MinimumApiVersion": "4.3.2",
+  "MinimumGameVersion": "1.6.15",
+  "EntryDll": "AthleticSkill.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "drbirbdev.BirbCore",
+      "MinimumVersion": "1.1.0"
+    },
+    {
+      "UniqueID": "moonslime.AthleticSkill.CP",
+      "MinimumVersion": "1.0.0"
+    },
+    {
+      "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.28.0"
+    }
+  ],
+  "UpdateKeys": [
+    "Nexus:-1"
+  ]
 }

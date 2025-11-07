@@ -1,24 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="..\common.targets" />
+    <Import Project="..\common.targets" />
 
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-	</PropertyGroup>
 
-	<ItemGroup>
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Update="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
-	</ItemGroup>
+    <PropertyGroup>
+        <Name>Exp Control</Name>
+        <Description>Allows increasing or decreasing how much exp you get for base skills..</Description>
+        <Version>1.2.0</Version>
+        <UpdateKeys>Nexus:23067</UpdateKeys>
+    </PropertyGroup>
 
     <ItemGroup>
+        <SMAPIDependency Include="drbirbdev.BirbCore" version="1.1.0" Required="true" />
+    </ItemGroup>
+    
+    <ItemGroup>
         <Reference Include="BirbCore">
-            <HintPath>E:\SteamLibrary\steamapps\common\Stardew Valley\Mods\BirbCore\BirbCore.dll</HintPath>
+            <HintPath>$(GamePath)\Mods\BirbCore\BirbCore.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>
-
 
 </Project>

@@ -1,33 +1,30 @@
-﻿{
-    "Name": "Thieving Skill",
-    "Author": "moonslime",
-    "Version": "1.0.0",
-    "Description": "Steal from NPCs, get items",
-    "UniqueID": "moonslime.ThievingSkill",
-    "EntryDll": "ThievingSkill.dll",
-    "MinimumApiVersion": "4.3.2",
-    "UpdateKeys": [
-        "Nexus:23791"
-    ],
-    "Dependencies": [
-        {
-            "UniqueID": "DaLion.Overhaul",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "drbirbdev.BirbCore",
-            "MinimumVersion": "1.1.0"
-        },
-        {
-            "UniqueID": "Pathoschild.ContentPatcher"
-        },
-        {
-            "UniqueID": "spacechase0.GenericModConfigMenu",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "spacechase0.SpaceCore",
-            "MinimumVersion": "1.26.2"
-        }
-    ]
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "moonslime.ThievingSkill",
+  "Name": "Thieving Skill",
+  "Author": "moonslime",
+  "Version": "1.0.0",
+  "Description": "Standalone Thieving Skill.",
+  "MinimumApiVersion": "4.3.2",
+  "MinimumGameVersion": "1.6.15",
+  "EntryDll": "ThievingSkill.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "drbirbdev.BirbCore"
+    },
+    {
+      "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.28.0"
+    }
+  ],
+  "UpdateKeys": [
+    "Nexus:23791"
+  ]
 }

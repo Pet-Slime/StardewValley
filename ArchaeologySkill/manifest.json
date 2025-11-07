@@ -1,45 +1,52 @@
-﻿{
-    "Name": "ArchaeologySkill",
-    "Author": "moonslime",
-    "Version": "2.17.3",
-    "Description": "Adds a skill related to digging and panning.",
-    "UniqueID": "moonslime.ArchaeologySkill",
-    "EntryDll": "ArchaeologySkill.dll",
-    "MinimumApiVersion": "4.3.2",
-    "UpdateKeys": [
-        "Nexus:22199"
-    ],
-    "Dependencies": [
-        {
-            "UniqueID": "DaLion.Overhaul",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "drbirbdev.BirbCore",
-            "MinimumVersion": "1.1.0"
-        },
-        {
-            "UniqueID": "spacechase0.GenericModConfigMenu",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "Shockah.XPDisplay",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "spacechase0.JsonAssets",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "spacechase0.DynamicGameAssets",
-            "IsRequired": false
-        },
-        {
-            "UniqueID": "spacechase0.SpaceCore",
-            "MinimumVersion": "1.28.0"
-        },
-        {
-            "UniqueID": "moonslime.ArchaeologySkill.CP"
-        }
-    ]
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "moonslime.ArchaeologySkill",
+  "Name": "ArchaeologySkill",
+  "Author": "moonslime",
+  "Version": "2.17.3",
+  "Description": "Adds a skill related to digging and panning.",
+  "MinimumApiVersion": "4.3.2",
+  "MinimumGameVersion": "1.6.15",
+  "EntryDll": "ArchaeologySkill.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "drbirbdev.BirbCore",
+      "MinimumVersion": "1.1.0"
+    },
+    {
+      "UniqueID": "leclair.bettercrafting",
+      "MinimumVersion": "2.18.0",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "moonslime.ArchaeologySkill.CP",
+      "MinimumVersion": "2.17.3"
+    },
+    {
+      "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    {
+      "UniqueID": "Shockah.XPDisplay",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.DynamicGameAssets",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.JsonAssets",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.28.0"
+    }
+  ],
+  "UpdateKeys": [
+    "Nexus:22199"
+  ]
 }
