@@ -275,10 +275,20 @@
             "Target": "Mods/moonslime.WizardrySkill/magic/toil/school-icon",
             "FromFile": "Assets/magic/toil/school-icon.png"
         },
-                {
+        {
             "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/motion/school-icon",
             "FromFile": "Assets/magic/motion/school-icon.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.WizardrySkill/magic/nature/fish_frenzy/1",
+            "FromFile": "Assets/magic/nature/fish_frenzy/1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.WizardrySkill/magic/nature/crabrain/1",
+            "FromFile": "Assets/magic/nature/crabrain/1.png"
         },
         {
             "Action": "Load",

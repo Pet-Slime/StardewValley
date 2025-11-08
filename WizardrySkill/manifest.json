@@ -10,10 +10,11 @@
   "EntryDll": "WizardrySkill.dll",
   "Dependencies": [
     {
-      "UniqueID": "moomoonslime.WizardrySkill.CP"
+      "UniqueID": "moonslime.ManaBarApi"
     },
     {
-      "UniqueID": "moonslime.ManaBarApi"
+      "UniqueID": "moonslime.WizardrySkill.CP",
+      "MinimumVersion": "1.9.0"
     },
     {
       "UniqueID": "Pathoschild.ContentPatcher"

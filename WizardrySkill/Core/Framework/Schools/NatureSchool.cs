@@ -12,7 +12,7 @@ namespace WizardrySkill.Core.Framework.Schools
 
         public override Spell[] GetSpellsTier1()
         {
-            return new[] { SpellManager.Get("nature:lantern")  };
+            return new[] { SpellManager.Get("nature:lantern"), SpellManager.Get("nature:fish_frenzy") };
         }
 
         public override Spell[] GetSpellsTier2()
@@ -22,7 +22,7 @@ namespace WizardrySkill.Core.Framework.Schools
 
         public override Spell[] GetSpellsTier3()
         {
-            return new[] { SpellManager.Get("nature:photosynthesis") };
+            return new[] { SpellManager.Get("nature:photosynthesis"), SpellManager.Get("nature:crabrain") };
         }
     }
 }

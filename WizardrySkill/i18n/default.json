@@ -154,6 +154,16 @@
     "moonslime.Wizardry.spell.nature:lantern.desc": "Summon a glowing bug that follows you and may charge lightning rods.\nHigher levels create more light.",
     "moonslime.Wizardry.spell.nature:lantern.hint": "I wonder if one could combine lightning with a bug?\nTo study this, I'll need something that can harness the lightning's power while I'm close enough to a bug.",
 
+    "moonslime.Wizardry.spell.nature:fish_frenzy.name": "Fish Frenzy",
+    "moonslime.Wizardry.spell.nature:fish_frenzy.cost": "10 mana, first fish in inventory",
+    "moonslime.Wizardry.spell.nature:fish_frenzy.desc": "Creates a fish frenzy on water that can be fished in; Not guaranteed to work every time.",
+    "moonslime.Wizardry.spell.nature:fish_frenzy.hint": "Studying the magic behind Magic Bait might lead to something useful.",
+
+    "moonslime.Wizardry.spell.nature:crabrain.name": "Crab Rain",
+    "moonslime.Wizardry.spell.nature:crabrain.cost": "25 mana, a crab",
+    "moonslime.Wizardry.spell.nature:crabrain.desc": "Summons crabs from the sky that might explode.",
+    "moonslime.Wizardry.spell.nature:crabrain.hint": "Find all other Nature spells.",
+
     "moonslime.Wizardry.spell.nature:tendrils.name": "Tendrils",
     "moonslime.Wizardry.spell.nature:tendrils.cost": "10 mana",
     "moonslime.Wizardry.spell.nature:tendrils.desc": "Summon tendrils to stop a foe in their path.",

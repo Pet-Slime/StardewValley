@@ -14,7 +14,7 @@
         <SMAPIDependency Include="moonslime.ManaBarApi" MinimumVersion="1.0.0" Required="true" />
         <SMAPIDependency Include="spacechase0.GenericModConfigMenu" Required="false" />
         <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
-        <SMAPIDependency Include="moomoonslime.WizardrySkill.CP" MinimumVersion="1.4.0" Required="true" />
+        <SMAPIDependency Include="moonslime.WizardrySkill.CP" version="1.9.0" Required="true" />
     </ItemGroup>
 
     
@@ -24,6 +24,10 @@
 
 	<ItemGroup>
 	  <Folder Include="i18n\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Core\Framework\Spells\FishFrenzySpell.cs" />
 	</ItemGroup>
 
 

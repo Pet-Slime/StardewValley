@@ -166,7 +166,7 @@ namespace WizardrySkill.Core
             {
                 var messages = ReadAndClearActiveEffects(farm, playerKey);
 
-                Log.Alert($"Got data to {Game1.player.displayName}");
+                Log.Trace($"Got data to {Game1.player.displayName}");
                 foreach (var msg in messages)
                 {
                     Farmer caster = Game1.GetPlayer(msg.CasterId);
@@ -184,7 +184,6 @@ namespace WizardrySkill.Core
             // 2️ Update active effects
             for (int i = ActiveEffects.Count - 1; i >= 0; i--)
             {
-                Log.Warn($"{ActiveEffects.Count}");
                 IActiveEffect effect = ActiveEffects[i];
                 if (!effect.Update(e))
                     ActiveEffects.RemoveAt(i);
@@ -302,7 +301,7 @@ namespace WizardrySkill.Core
                     {
 
                         string playerKey = $"{BaseModDataKey}/{who.UniqueMultiplayerID}";
-                        Log.Alert($"Sending data to {who.displayName}");
+                        Log.Trace($"Sending data to {who.displayName}");
                         if (!farm.modData.TryGetValue(playerKey, out string existing))
                             existing = "";
 
