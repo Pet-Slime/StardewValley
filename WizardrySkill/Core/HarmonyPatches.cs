@@ -1,5 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using HarmonyLib;
+using Microsoft.Xna.Framework.Graphics;
+using SpaceCore;
+using StardewValley;
+using StardewValley.Locations;
+using WizardrySkill.Core.Framework;
+using WizardrySkill.Objects;
 
 namespace WizardrySkill.Core
 {
@@ -25,4 +33,144 @@ namespace WizardrySkill.Core
             { "Tom Kha Soup", 15 }
         };
     }
+
+
+    [HarmonyPatch]
+    class Walkoflife_level_reset_patch
+    {
+        // Dynamically resolve the method so it won’t fail if DaLion.Professions isn’t loaded
+        static MethodBase TargetMethod()
+        {
+            var type = AccessTools.TypeByName("DaLion.Professions.Framework.CustomSkill");
+            if (type == null)
+                return null; // Skip patch if the mod isn't loaded
+
+            return AccessTools.Method(type, "Reset");
+        }
+
+        [HarmonyPrefix]
+        public static void Prefix(object __instance)
+        {
+            try
+            {
+                // Skip entirely if DaLion.Professions isn’t active
+                if (!ModEntry.Instance.Helper.ModRegistry.IsLoaded("DaLion.Professions"))
+                    return;
+
+                if (__instance == null)
+                    return;
+
+                // Reflect the skill ID (StringId)
+                var nameProp = __instance.GetType().GetProperty("StringId", BindingFlags.Public | BindingFlags.Instance);
+                string skillId = nameProp?.GetValue(__instance)?.ToString() ?? "UnknownSkill";
+
+                // Ensure we’re handling the Wizardry skill only
+                if (skillId != "moonslime.Wizard")
+                    return;
+
+                Farmer player = Game1.player;
+                if (player == null)
+                    return;
+
+                player.modData["moonslime.Wizardry.PrestigeOriginalLevel"] = player.GetCustomSkillLevel("moonslime.Wizard").ToString();
+
+                
+
+                MoonShared.Attributes.Log.Trace("[Walkoflife] Wizard skill prefix handled successfully.");
+            }
+            catch (Exception ex)
+            {
+                MoonShared.Attributes.Log.Error($"[Walkoflife] Error in CustomSkill.Reset patch: {ex}");
+            }
+        }
+
+        [HarmonyPostfix]
+        public static void Postfix(object __instance)
+        {
+            try
+            {
+                // Skip entirely if DaLion.Professions isn’t active
+                if (!ModEntry.Instance.Helper.ModRegistry.IsLoaded("DaLion.Professions"))
+                    return;
+
+                if (__instance == null)
+                    return;
+
+                // Reflect the skill ID (StringId)
+                var nameProp = __instance.GetType().GetProperty("StringId", BindingFlags.Public | BindingFlags.Instance);
+                string skillId = nameProp?.GetValue(__instance)?.ToString() ?? "UnknownSkill";
+
+                // Ensure we’re handling the Wizardry skill only
+                if (skillId != "moonslime.Wizard")
+                    return;
+
+                Farmer player = Game1.player;
+                if (player == null)
+                    return;
+
+                if (!player.modData.TryGetValue("moonslime.Wizardry.PrestigeOriginalLevel", out string origLevelStr) ||
+                    !int.TryParse(origLevelStr, out int originalMagicLevel))
+                    return;
+
+                // Remove old Wizardry contribution
+                int ManaToRemove = MagicConstants.ManaPointsBase + (originalMagicLevel * MagicConstants.ManaPointsPerLevel);
+                if (player.HasCustomProfession(Wizard_Skill.Magic10b2))
+                    ManaToRemove += MagicConstants.ProfessionIncreaseMana;
+                player.AddToMaxMana(-ManaToRemove);
+
+                // Recalculate new Wizardry contribution
+                int magicLevel = player.GetCustomSkillLevel("moonslime.Wizard");
+                int expectedMaxMana = MagicConstants.ManaPointsBase + (magicLevel * MagicConstants.ManaPointsPerLevel);
+                if (player.HasCustomProfession(Wizard_Skill.Magic10b2))
+                    expectedMaxMana += MagicConstants.ProfessionIncreaseMana;
+                player.AddToMaxMana(expectedMaxMana);
+                player.SetManaToMax();
+
+                // Remove temporary key
+                player.modData.Remove("moonslime.Wizardry.PrestigeOriginalLevel");
+
+                // Reset spellbook state
+                SpellBook spellBook = player.GetSpellBook();
+                if (spellBook != null)
+                {
+                    foreach (PreparedSpellBar spellBar in spellBook.Prepared)
+                        spellBar.Spells.Clear();
+
+                    List<string> spellList = new List<string>();
+                    foreach (string spellId in SpellManager.GetAll())
+                    {
+                        spellList.Add(spellId);
+                        spellBook.ForgetSpell(spellId, 0);
+                    }
+                    spellBook.SetSpellPointsToZero();
+
+                    // Adjust points for prestige professions
+                    if (player.HasCustomProfession(Wizard_Skill.Magic5a))
+                        magicLevel += 2;
+                    if (player.HasCustomProfession(Wizard_Skill.Magic10a1))
+                        magicLevel += 2;
+
+                    spellBook.UseSpellPoints(magicLevel * -1);
+
+                    // Re-add default spells
+                    foreach (string spellId in spellList)
+                    {
+                        if (!spellBook.KnowsSpell(spellId, 0))
+                            spellBook.LearnSpell(spellId, 0, true);
+                    }
+                }
+
+                // Mark prestige flag
+                player.modData["moonSlime.Wizardry.HasPrestigedMagic"] = "yes";
+
+                MoonShared.Attributes.Log.Trace("[Walkoflife] Wizard skill reset handled successfully.");
+            }
+            catch (Exception ex)
+            {
+                MoonShared.Attributes.Log.Error($"[Walkoflife] Error in CustomSkill.Reset patch: {ex}");
+            }
+        }
+
+    }
+
 }

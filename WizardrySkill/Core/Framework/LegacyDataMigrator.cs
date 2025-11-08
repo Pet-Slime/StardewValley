@@ -79,11 +79,19 @@ namespace WizardrySkill.Core.Framework
             {
                 spellBar.Spells.Clear();
             }
-            foreach (var spell in spellBook.KnownSpells.Values.ToArray())
+            List<string> spellList = new List<string>();
+            foreach (string spellId in SpellManager.GetAll())
             {
-                if (spell.Level > 0)
-                    spellBook.ForgetSpell(spell.SpellId, 1);
+                spellList.Add(spellId);
+                spellBook.ForgetSpell(spellId, 0);
             }
+            spellBook.SetSpellPointsToZero();
+            foreach (string spellId in spellList)
+            {
+                if (!spellBook.KnowsSpell(spellId, 0))
+                    spellBook.LearnSpell(spellId, 0, true);
+            }
+
 
             if (spellBook.KnowsSpell("arcane:magicmissle", 0))
             {
@@ -152,7 +160,6 @@ namespace WizardrySkill.Core.Framework
                 spellBook.ForgetSpell("elemental:kiln", 0);
             }
 
-            player.GetSpellBook().SetSpellPointsToZero();
 
             int magicLevel = player.GetCustomSkillLevel("moonslime.Wizard");
 

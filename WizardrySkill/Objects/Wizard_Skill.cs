@@ -62,7 +62,7 @@ namespace WizardrySkill.Objects
         public override List<string> GetExtraLevelUpInfo(int level)
         {
             List<string> result = new();
-            if (level == 1)
+            if (level == 1 && !Game1.player.modData.ContainsKey("moonSlime.Wizardry.HasPrestigedMagic"))
             {
                 result.Add(ModEntry.Instance.I18N.Get("skill.perk0.1"));
                 result.Add(ModEntry.Instance.I18N.Get("skill.perk1", new { bonus = 5 }));
@@ -95,7 +95,7 @@ namespace WizardrySkill.Objects
         public override void DoLevelPerk(int level)
         {
             // add level perk
-            if (level == 1)
+            if (level == 1 && !Game1.player.modData.ContainsKey("moonSlime.Wizardry.HasPrestigedMagic"))
             {
                 Game1.player.AddToMaxMana(MagicConstants.ManaPointsBase);
             }

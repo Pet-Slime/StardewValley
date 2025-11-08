@@ -10,6 +10,10 @@
   "EntryDll": "WizardrySkill.dll",
   "Dependencies": [
     {
+      "UniqueID": "DaLion.Professions",
+      "IsRequired": false
+    },
+    {
       "UniqueID": "moonslime.ManaBarApi"
     },
     {
