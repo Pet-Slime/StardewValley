@@ -387,7 +387,7 @@ namespace WizardrySkill.Core
 
                 if (canCast)
                 {
-                    Log.Alert("Casting " + slot.SpellId);
+                    Log.Trace("Casting " + slot.SpellId);
                     player.AddMana(-spell.GetManaCost(player, slot.Level));
                     player.modData["moonslime.Wizardry.scrollspell"] = "no";
                     Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);

@@ -1,4 +1,5 @@
 using System;
+using AthleticSkill.Objects;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using SpaceCore;

@@ -1,35 +1,46 @@
+using AthleticSkill.Objects;
 using HarmonyLib;
 using SpaceCore;
 using StardewValley;
 
 namespace AthleticSkill.Core.Patches
 {
-
+    /// <summary>
+    /// This patch modifies Farmer.takeDamage to implement the "Avoid Damage" effect
+    /// for players with the Acrobat profession (Athletic10b1). When the player
+    /// takes damage, they have a chance to completely dodge the attack.
+    /// </summary>
     [HarmonyPatch(typeof(Farmer), nameof(Farmer.takeDamage))]
     public class AvoidDamage
     {
-        //Patch farmer take damage
-        //This is a prefix since we can set the farmer invincible if they pass the check right before they take the damage, negating the damage.
+        // Using a Prefix so we can set the player temporarily invincible
+        // before the damage is applied, effectively negating it.
         [HarmonyPrefix]
         private static void Prefix(Farmer __instance)
         {
-            //Check to see if they have the acrobat profession
+            // --- Check if the player has the Acrobat profession ---
             if (__instance.HasCustomProfession(Athletic_Skill.Athletic10b1))
             {
-                //Get the dodge chance. The formula is atheltics level + luck level
+                // --- Calculate dodge chance ---
+                // Formula: 1% per athletic level + 0.5% per luck level
                 double dodgeChance = Utilities.GetLevel(__instance) * 0.01 + __instance.LuckLevel * 0.005;
-                //Get the dice roll they have to roll againce
-                double diceRoll = Game1.random.NextDouble();
-                //See if they win the dice roll
+
+                // --- Roll the dice ---
+                double diceRoll = Game1.random.NextDouble(); // Generates a value between 0.0 and 1.0
+
+                // --- Determine if dodge succeeds ---
                 bool didTheyWin = (diceRoll < dodgeChance);
-                //If they won, set invincibility.
+
                 if (didTheyWin)
                 {
-                    __instance.temporarilyInvincible = true;
-                    __instance.flashDuringThisTemporaryInvincibility = true;
-                    __instance.temporaryInvincibilityTimer = 0;
-                    __instance.currentTemporaryInvincibilityDuration = 1200 + __instance.GetEffectsOfRingMultiplier("861") * 400;
-                    //Play a sound to indicate they just dodged an attack
+                    // --- Apply temporary invincibility ---
+                    __instance.temporarilyInvincible = true;                       // Prevents damage
+                    __instance.flashDuringThisTemporaryInvincibility = true;        // Visual flash effect
+                    __instance.temporaryInvincibilityTimer = 0;                     // Reset timer
+                    __instance.currentTemporaryInvincibilityDuration = 1200         // Base duration (ms)
+                        + __instance.GetEffectsOfRingMultiplier("861") * 400;     // Bonus from ring (if any)
+
+                    // --- Play sound to indicate successful dodge ---
                     __instance.playNearbySoundAll("coldSpell");
                 }
             }

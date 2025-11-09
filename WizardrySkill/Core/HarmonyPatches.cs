@@ -64,7 +64,7 @@ namespace WizardrySkill.Core
 
                 if (!string.IsNullOrEmpty(spell))
                 {
-                    Log.Alert("Casting " + spell);
+                    Log.Trace("Casting " + spell);
                     Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
                     string entry = $"{player.UniqueMultiplayerID},{spell},0,{pos.X},{pos.Y}";
                     player.modData["moonslime.Wizardry.scrollspell"] = "yes";

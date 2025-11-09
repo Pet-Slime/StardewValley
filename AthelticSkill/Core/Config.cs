@@ -1,7 +1,7 @@
 using BirbCore.Attributes;
 using StardewModdingAPI.Utilities;
 
-namespace AthleticSkill
+namespace AthleticSkill.Core
 {
     [SConfig]
     public class Config
@@ -34,5 +34,13 @@ namespace AthleticSkill
 
         [SConfig.Option(1, 100, 1)]
         public int ExpFromHeavyToolUse { get; set; } = 3;
+
+
+        [SConfig.Option(1, 8, 1)]
+        public int SprintSpeed { get; set; } = 1;
+
+
+        [SConfig.Option(1, 20, 1)]
+        public uint SprintingExpEvent { get; set; } = 8;
     }
 }

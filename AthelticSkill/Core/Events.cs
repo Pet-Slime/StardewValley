@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using AthleticSkill.Objects;
 using BirbCore.Attributes;
 using MoonShared;
 using SpaceCore;
@@ -15,188 +16,209 @@ namespace AthleticSkill.Core
     [SEvent]
     public class Events
     {
-        private static readonly string SpringtingOn = "moonslime.AthelticSkill.sprinting";
-
-
+        // Key used to track whether sprinting is active in Farmer.modData
+        private static readonly string SprintingOn = "moonslime.AthelticSkill.sprinting";
 
         [SEvent.GameLaunchedLate]
         private static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
+            // Check whether WoL (Walks of Life) or alternative profession settings are active
+            // This toggles an internal flag to use the alternative profession system.
             if (ModEntry.IsWoLLoaded || ModEntry.Config.AlternativeStrongmanProfession)
             {
                 ModEntry.UseAltProfession = true;
             }
-            BirbCore.Attributes.Log.Trace("Athletics: Trying to Register skill.");
+
+            Log.Trace("Athletics: Trying to Register skill.");
             SpaceCore.Skills.RegisterSkill(new Athletic_Skill());
 
-            //            var field = ModEntry.Instance.Helper.Reflection.GetField<NetFloat>(Game1.player, "netStamina");
-            //            field.GetValue().fieldChangeEvent += (field, oldValue, newValue) => OnStaminaUse(oldValue, newValue);
+            // Legacy stamina hook (commented out): was meant to trigger OnStaminaUse()
+            // when the stamina value changes. Currently unused.
+            // var field = ModEntry.Instance.Helper.Reflection.GetField<NetFloat>(Game1.player, "netStamina");
+            // field.GetValue().fieldChangeEvent += (field, oldValue, newValue) => OnStaminaUse(oldValue, newValue);
 
+            // Subscribe to SpaceCore’s OnItemEaten event to handle “Nauseated” food items.
             SpaceEvents.OnItemEaten += OnItemEaten;
         }
 
+        // ITEM EVENT HANDLER
         private static void OnItemEaten(object sender, EventArgs args)
         {
+            // This event fires when the player eats any item.
             if (sender is not Farmer player)
                 return;
 
-            // ensure itemToEat exists and has the right tag
+            // If the eaten item has the "Nauseated" context tag,
+            // apply vanilla buff #25 (the Nauseated debuff).
             if (player.itemToEat?.HasContextTag("moonslime.Athletic.Nauseated") == true)
             {
-                // Apply buff ID 25 (Nauseated)
                 player.applyBuff("25");
             }
         }
 
+        // Placeholder for possible future stamina-use detection logic.
         private static void OnStaminaUse(float oldValue, float newValue)
         {
-            //Legacy code area in case I want to plug in again
         }
 
+        // INPUT HANDLER 
         [SEvent.ButtonsChanged]
         public void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
         {
+            // Don’t run if player can’t move or game isn’t ready
             if (!Context.IsWorldReady || !Context.CanPlayerMove)
                 return;
 
             Farmer farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
             var modData = farmer.modData;
 
-            // Toggle sprint with key press
+            // --- TOGGLE MODE ---
             if (ModEntry.Config.ToggleSprint && ModEntry.Config.Key_Cast.JustPressed())
             {
-                bool isSprinting = !modData.TryGetValue(SpringtingOn, out string value) || value == "false";
-                modData[SpringtingOn] = isSprinting ? "true" : "false";
+                // Flip sprint state between true and false
+                modData.SetBool(SprintingOn, !modData.GetBool(SprintingOn));
 
-                Log.Trace($"Sprint toggled: {modData[SpringtingOn]}");
+                Log.Trace($"Sprint toggled: {modData[SprintingOn]}");
                 return;
             }
 
-            // Hold-to-sprint behavior
+            // --- HOLD-TO-SPRINT MODE ---
             if (!ModEntry.Config.ToggleSprint)
             {
-                farmer.modData.SetBool(SpringtingOn, ModEntry.Config.Key_Cast.IsDown() ? true : false);
+                // Active only while the key is held down
+                farmer.modData.SetBool(SprintingOn, ModEntry.Config.Key_Cast.IsDown());
             }
         }
 
-        // These are here instead of at the top of the class since the following methods use these
-        private const uint TimeChecker = 15;
-        private const float BaseDrain = 20f;
-        private const float ProfBonus = 5f;          // flat bonus for profession
-        private const float MinDrain = 1f;           // lower cap
-        private const float StaminaDivisor = 0.0375f;  // tick rate adjustment. This number is TimeChecker/400
+        // SPRINT TICK HANDLER
 
+        // Constants governing stamina drain and timing
+        private const uint TimeChecker = 15;           // Number of ticks between checks (15 ticks = ~0.25s)
+        private const float BaseDrain = 20f;           // Baseline stamina drain rate
+        private const float ProfBonus = 5f;            // Flat bonus for profession
+        private const float MinDrain = 1f;             // Lower bound for stamina drain
+        private const float StaminaDivisor = 0.0375f;  // Converts per-second drain to per-tick adjustment (≈ TimeChecker / 400)
 
         [SEvent.UpdateTicked]
         public void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-            // Only run this code every X ticks, and when the player is actually in the world
             if (!e.IsMultipleOf(TimeChecker) || !Context.IsWorldReady || !Context.CanPlayerMove)
                 return;
 
-            // Get the player
             Farmer farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
 
-            // If the player isn't in a sprintable enviorment, dont run the rest of the code
             if (!CanSprint(farmer))
                 return;
 
-            // Apply the sprint buff
-            ApplySprintBuff(farmer);
+            // Cache profession checks once per tick
+            bool hasMarathoner = farmer.HasCustomProfession(Athletic_Skill.Athletic10b2);
+            bool hasLinebacker = farmer.HasCustomProfession(Athletic_Skill.Athletic10a2);
 
-            float levelModifier = Utilities.GetLevel(farmer) + (farmer.HasCustomProfession(Athletic_Skill.Athletic10b2) ? ProfBonus : 0f);
+            // Maintain / reapply sprint buff
+            ApplySprintBuff(farmer, hasMarathoner, hasLinebacker);
 
+            // Level modifier for drain
+            float levelModifier = Utilities.GetLevel(farmer) + (hasMarathoner ? ProfBonus : 0f);
             float newDrain = BaseDrain * (BaseDrain / (BaseDrain + levelModifier));
-
             float energyDrainPerSecond = Math.Max(newDrain, MinDrain);
 
-            // Adjust player stamina
             farmer.stamina -= energyDrainPerSecond * StaminaDivisor;
 
-            if (e.IsMultipleOf(TimeChecker * 6))
+            if (e.IsMultipleOf(TimeChecker * ModEntry.Config.SprintingExpEvent))
                 Utilities.AddEXP(farmer, ModEntry.Config.ExpFromSprinting);
-
         }
 
+        // SPRINT VALIDATION
         public static bool CanSprint(Farmer farmer)
         {
-            // Early exit for simple blockers
-            if (farmer.isRidingHorse()) return false;
-            if (farmer.exhausted.Value) return false;
-            if (!farmer.isMoving()) return false;
-            if (!Context.IsPlayerFree) return false;
+            // These checks ensure sprinting only works in valid conditions
+            if (farmer.isRidingHorse()) return false;               // Can't sprint on horse
+            if (farmer.exhausted.Value) return false;               // Can't sprint when exhausted
+            if (!farmer.isMoving()) return false;                   // Must be moving
+            if (!Context.IsPlayerFree) return false;                // No menus or cutscenes
+            if (!farmer.modData.GetBool(SprintingOn)) return false; // Must have sprint flag active
 
-            // Must have sprint flag in modData
-            if (farmer.modData.GetBool(SpringtingOn) == false)
-                return false;
-
+            // Ensure enough energy remains
             return farmer.Stamina > ModEntry.Config.MinimumEnergyToSprint;
         }
 
-        public static void ApplySprintBuff(Farmer farmer)
+        // BUFF MANAGEMENT
+        public static void ApplySprintBuff(Farmer farmer, bool hasMarathoner, bool hasLinebacker)
         {
+            int sprintspeed = ModEntry.Config.SprintSpeed;
 
-            // Create the buff
+            // Create or refresh the sprint buff
             Buff sprinting = new(
                 id: "Athletics:sprinting",
-                displayName: farmer.HasCustomProfession(Athletic_Skill.Athletic10a2) ? ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.displayName_Gridball") : ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.displayName"),
-                description: farmer.HasCustomProfession(Athletic_Skill.Athletic10a2) ? ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description_Gridball") : ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description"),
-                iconTexture: farmer.HasCustomProfession(Athletic_Skill.Athletic10a2) ? ModEntry.Assets.SprintingIcon2 : ModEntry.Assets.SprintingIcon1,
+                displayName: hasLinebacker
+                    ? ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.displayName_Gridball")
+                    : ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.displayName"),
+                description: hasLinebacker
+                    ? ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description_Gridball")
+                    : ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description"),
+                iconTexture: hasLinebacker
+                    ? ModEntry.Assets.SprintingIcon2
+                    : ModEntry.Assets.SprintingIcon1,
                 iconSheetIndex: 0,
-                duration: ((int)(TimeChecker * 20)),
+                duration: ((int)(TimeChecker * 20)), // lasts ~5 seconds (15 ticks * 20 / 60)
                 effects: new BuffEffects()
                 {
-                    //If the player has the marathoner profession, increase speed amount, else it is 1
-                    Speed = { farmer.HasCustomProfession(Athletic_Skill.Athletic10b2) ? 3 : 2 },
-                    //If the player has the Linebacker profession, increase defense, else it is 0
-                    Defense = { farmer.HasCustomProfession(Athletic_Skill.Athletic10a2) ? (Utilities.GetLevel(farmer)) : 0 }
+                    // Speed bonus is +3 for Marathoner, +2 otherwise
+                    Speed = { hasMarathoner ? sprintspeed+1 : sprintspeed },
+                    // Defense bonus scales with level for Linebacker profession
+                    Defense = { hasMarathoner ? Utilities.GetLevel(farmer) : 0 }
                 }
             );
 
-            // Check to see if they have the sprinting buff
-            Buff buff = Game1.buffsDisplay.GetSortedBuffs().Where(x => x.id == "Athletics:sprinting").FirstOrDefault();
-
-            if (buff is not null) // If they do just increase the duration
+            // Check for existing sprint buff
+            Buff existing = null;
+            foreach (var buff in farmer.buffs.AppliedBuffs.Values)
             {
-                buff.millisecondsDuration = ((int)(TimeChecker * 20));
+                if (buff.id == "Athletics:sprinting")
+                {
+                    existing = buff;
+                    break;
+                }
             }
-            else // if they don't, apply the buff
+
+            if (existing is not null)
             {
+                // Refresh duration to prevent expiration while sprinting
+                existing.millisecondsDuration = ((int)(TimeChecker * 20));
+            }
+            else
+            {
+                // Apply new sprint buff
                 farmer.applyBuff(sprinting);
             }
         }
 
-
-
+        // PROFESSION EFFECTS 
         [SEvent.OneSecondUpdateTicked]
         public void OnOneSecondUpdateTicked_professions(object sender, OneSecondUpdateTickedEventArgs e)
         {
-            // Only run this code every 5 seconds, and when the player is actually in the world
+            // Run every 5 seconds (60 * 5 = 300 ticks)
             if (!e.IsMultipleOf(300) || !Context.IsWorldReady || !Context.CanPlayerMove)
                 return;
 
-            // Get the player
             Farmer farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
 
+            // Restore amount scales with half the athletic level
+            int amount = (int)Math.Floor(Utilities.GetLevel(farmer) * 0.5);
 
-            // Figure out how much to restore based on athletic's level
-            int amount = ((int)Math.Floor(Utilities.GetLevel(farmer) * 0.5));
-
-            // If they have the Bodybuilder profession, restore HP
+            // Profession 1: Bodybuilder -> restores health
             if (farmer.HasCustomProfession(Athletic_Skill.Athletic5a))
                 farmer.health = Restore(farmer.health, farmer.maxHealth, amount);
 
-            // If they have the Runner profession, restore energy
+            // Profession 2: Runner -> restores stamina
             if (farmer.HasCustomProfession(Athletic_Skill.Athletic5b))
-                farmer.stamina = Restore(((int)Math.Floor(farmer.stamina)), farmer.MaxStamina, amount);
+                farmer.stamina = Restore((int)Math.Floor(farmer.stamina), farmer.MaxStamina, amount);
         }
 
+        // Helper: safely restore HP or stamina, capped at max
         public static int Restore(int current, int max, int amount)
         {
-            if (current < max)
-                current = Math.Min(current + amount, max);
-
-            return current;
+            return Math.Min(current + amount, max);
         }
     }
 }

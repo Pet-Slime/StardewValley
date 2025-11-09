@@ -103,31 +103,6 @@
                         "not_placeable"
                     ],
                     "CustomFields": null
-                },
-                "moonslime.Athletic.skill_book": {
-                    "Name": "How to Improve Yourself!",
-                    "DisplayName": "{{i18n:moonslime.Athletic.skill_book.name}}",
-                    "Description": "{{i18n:moonslime.Athletic.skill_book.description}}",
-                    "Type": "asdf",
-                    "Category": -103,
-                    "Price": 500,
-                    "Texture": "Mods/moonslime.AthleticSkill/objects/Items",
-                    "SpriteIndex": 3,
-                    "Edibility": -300,
-                    "IsDrink": false,
-                    "Buffs": null,
-                    "GeodeDropsDefaultItems": false,
-                    "GeodeDrops": null,
-                    "ArtifactSpotChances": null,
-                    "ExcludeFromFishingCollection": true,
-                    "ExcludeFromShippingCollection": true,
-                    "ExcludeFromRandomSale": false,
-                    "ContextTags": [
-                        "moonslime.Athletic",
-                        "color_dark_blue",
-                        "book_item"
-                    ],
-                    "CustomFields": null
                 }
             }
         }

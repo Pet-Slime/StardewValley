@@ -1,7 +1,7 @@
 using BirbCore.Attributes;
 using StardewModdingAPI;
 
-namespace AthleticSkill
+namespace AthleticSkill.Core
 {
     [SMod]
     public class ModEntry : Mod
@@ -13,7 +13,7 @@ namespace AthleticSkill
 
         internal ITranslationHelper I18N => this.Helper.Translation;
 
-        internal static bool IsWoLLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("DaLion.Professions");
+        internal static bool IsWoLLoaded => Instance.Helper.ModRegistry.IsLoaded("DaLion.Professions");
 
 
         internal static bool UseAltProfession;

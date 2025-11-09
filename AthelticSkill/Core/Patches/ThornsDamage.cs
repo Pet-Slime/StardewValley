@@ -1,50 +1,76 @@
 using System;
+using AthleticSkill.Objects;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 using SpaceCore;
 using StardewValley;
 using StardewValley.Monsters;
 
 namespace AthleticSkill.Core.Patches
 {
-
+    /// <summary>
+    /// This patch modifies Farmer.takeDamage to implement the "Thorns" effect
+    /// for players with the Linebacker profession (Athletic10a2). When the player
+    /// takes damage, this reflects some damage back to the monster.
+    /// </summary>
     [HarmonyPatch(typeof(Farmer), nameof(Farmer.takeDamage))]
     public class ThornsDamage
     {
-        //Patch farmer take damage
-        //This is a prefix since we can set the farmer invincible if they pass the check right before they take the damage, negating the damage.
+        // Using a Postfix so we can apply reflected damage *after* the player takes damage
         [HarmonyPostfix]
         private static void PostFix(Farmer __instance, ref int damage, ref bool overrideParry, ref Monster damager)
         {
-            //Check to see if they have the acrobat profession
+            // --- Check if the player has the Linebacker profession ---
             if (__instance.HasCustomProfession(Athletic_Skill.Athletic10a2))
             {
+                // --- Validate the monster and damage ---
+                // Only reflect damage if:
+                // 1. There is a monster (damager != null)
+                // 2. The monster is not invincible
+                // 3. The damage was not parried (overrideParry == false)
+                // 4. Damage is not zero
                 if (damager != null && !damager.isInvincible() && !overrideParry && damage != 0)
                 {
+                    // --- Calculate effective defense ---
+                    // Copied from vanilla Thorn's Ring logic
+                    int playerDefense = __instance.buffs.Defense;
 
-                    //Copied from vanilla thorn's ring
-                    int num2 = __instance.buffs.Defense;
+                    // Some additional defense from "Book_Defense" stat
                     if (__instance.stats.Get("Book_Defense") != 0)
                     {
-                        num2++;
+                        playerDefense++;
                     }
 
-                    if ((float)num2 >= (float)damage * 0.5f)
+                    // Reduce effective defense slightly with random factor if defense >= 50% of damage
+                    if ((float)playerDefense >= (float)damage * 0.5f)
                     {
-                        num2 -= (int)((float)num2 * (float)Game1.random.Next(3) / 10f);
+                        playerDefense -= (int)((float)playerDefense * (float)Game1.random.Next(3) / 10f);
                     }
 
-                    Microsoft.Xna.Framework.Rectangle boundingBox = damager.GetBoundingBox();
-                    _ = Utility.getAwayFromPlayerTrajectory(boundingBox, __instance) / 2f;
-                    int num3 = damage;
-                    int num4 = Math.Max(1, damage - num2);
-                    if (num4 < 10)
+                    // --- Determine monster bounding box for reflected damage ---
+                    Rectangle monsterBoundingBox = damager.GetBoundingBox();
+
+                    // Calculate vector away from player (used for knockback) - not stored, just called
+                    _ = Utility.getAwayFromPlayerTrajectory(monsterBoundingBox, __instance) / 2f;
+
+                    // --- Calculate reflected damage ---
+                    int reflectedDamage = damage;                           // Original damage taken
+                    int damageAfterDefense = Math.Max(1, damage - playerDefense); // Damage minus defense, minimum 1
+
+                    // If damage after defense is small (<10), average it with original damage
+                    if (damageAfterDefense < 10)
                     {
-                        num3 = (int)Math.Ceiling((double)(num3 + num4) / 2.0);
+                        reflectedDamage = (int)Math.Ceiling((double)(reflectedDamage + damageAfterDefense) / 2.0);
                     }
 
-                    num3 *= (int)Math.Floor((Utilities.GetLevel(__instance) * 0.02));
+                    // Scale reflected damage by player’s athletic level
+                    // Each level adds +2% of reflected damage (0.02 multiplier per level)
+                    reflectedDamage = Math.Max(1, (int)(reflectedDamage * (Utilities.GetLevel(__instance) * 0.02f)));
 
-                    __instance.currentLocation?.damageMonster(boundingBox, num3, num3 + 1, isBomb: false, __instance);
+                    // --- Apply reflected damage to the monster ---
+                    // Damage range: reflectedDamage to reflectedDamage + 1
+                    // Not using bombs
+                    __instance.currentLocation?.damageMonster(monsterBoundingBox, reflectedDamage, reflectedDamage + 1, isBomb: false, __instance);
                 }
             }
         }

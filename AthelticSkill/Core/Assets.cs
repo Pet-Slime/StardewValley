@@ -2,7 +2,7 @@ using BirbCore.Attributes;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 
-namespace AthleticSkill
+namespace AthleticSkill.Core
 {
     [SAsset(Priority = 0)]
     public class Assets

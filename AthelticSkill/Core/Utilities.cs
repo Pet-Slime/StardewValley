@@ -2,20 +2,20 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
 
-namespace AthleticSkill
+namespace AthleticSkill.Core
 {
     internal class Utilities
     {
 
         private const string AthleticSkillId = "moonslime.Athletic";
 
-        public static void AddEXP(StardewValley.Farmer who, int amount)
+        public static void AddEXP(Farmer who, int amount)
         {
             var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
             SpaceCore.Skills.AddExperience(farmer, "moonslime.Athletic", amount);
         }
 
-        public static int GetLevel(StardewValley.Farmer who, bool original = false, bool buff = false)
+        public static int GetLevel(Farmer who, bool original = false, bool buff = false)
         {
             var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
             int baseLevel = SpaceCore.Skills.GetSkillLevel(farmer, AthleticSkillId);

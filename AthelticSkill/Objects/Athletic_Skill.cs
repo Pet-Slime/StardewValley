@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using AthleticSkill.Objects;
+using AthleticSkill.Core;
 using MoonShared;
 using StardewModdingAPI;
 
-namespace AthleticSkill
+namespace AthleticSkill.Objects
 {
     public class Athletic_Skill : SpaceCore.Skills.Skill
     {
