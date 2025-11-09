@@ -46,6 +46,7 @@ namespace WizardrySkill.Core.Framework
                 {
 
                     NewDataMigration(player);
+                    WizardrySkill.Core.Command_playerWizardFixMana.Run();
                 }
             }
 

@@ -4,11 +4,10 @@ using MoonShared.Attributes;
 using SpaceCore;
 using StardewModdingAPI;
 using StardewValley;
-using WizardrySkill.Core;
 using WizardrySkill.Core.Framework;
 using WizardrySkill.Objects;
 
-namespace WizardryManaBar.Core
+namespace WizardrySkill.Core
 {
 
     [SCommand("player_wizard_fixMana")]
@@ -22,10 +21,22 @@ namespace WizardryManaBar.Core
             foreach (Farmer player in Game1.getOnlineFarmers())
             {
                 int magicLevel = player.GetCustomSkillLevel("moonslime.Wizard");
+
+                int subtractor = 0;
+                if (magicLevel >= 5)
+                    subtractor += 1;
+
+                if (magicLevel >= 10)
+                    subtractor += 1;
+
+                magicLevel -= subtractor;
+
                 // fix mana pool
-                int expectedMaxMana = MagicConstants.ManaPointsBase + (magicLevel * MagicConstants.ManaPointsPerLevel);
+                int expectedMaxMana = MagicConstants.ManaPointsBase + magicLevel * MagicConstants.ManaPointsPerLevel;
                 if (player.HasCustomProfession(Wizard_Skill.Magic10b2))
                     expectedMaxMana += MagicConstants.ProfessionIncreaseMana;
+
+
 
                 // Fix Manapool
                 if (player.GetMaxMana() != expectedMaxMana)
