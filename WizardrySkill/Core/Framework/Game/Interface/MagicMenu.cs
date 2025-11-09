@@ -468,6 +468,11 @@ namespace WizardrySkill.Core.Framework.Game.Interface
             b.Draw(spell.SpellLevels[level], rect, Color.White);
         }
 
+        protected override void cleanupBeforeExit()
+        {
+            WizardrySkill.Core.Events.CachedSpellMenuOpen = true;
+        }
+
         /*********
         ** Logic helpers
         *********/

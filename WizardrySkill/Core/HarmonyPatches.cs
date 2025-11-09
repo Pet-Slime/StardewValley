@@ -2,15 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MoonShared.Attributes;
 using SpaceCore;
 using StardewValley;
 using StardewValley.Locations;
+using StardewValley.Minigames;
 using WizardrySkill.Core.Framework;
 using WizardrySkill.Objects;
 
 namespace WizardrySkill.Core
 {
+
+
     [HarmonyPatch(typeof(StardewValley.Object), "_PopulateContextTags")]
     class PopulateContextTags_Patch
     {
@@ -32,6 +37,57 @@ namespace WizardrySkill.Core
             { "Stir Fry", 20 },
             { "Tom Kha Soup", 15 }
         };
+    }
+
+    [HarmonyPatch(typeof(StardewValley.Object), nameof(StardewValley.Object.performUseAction))]
+    class Spellscrolls_patch
+    {
+
+        /*********
+        ** Constants
+        *********/
+        private const string BaseModDataKey = "moonSlime.Wizardry.ActiveEffect";
+
+        [HarmonyPrefix]
+        private static bool Prefix(StardewValley.Object __instance, ref bool __result)
+        {
+            bool didStuff = false;
+            if (!Game1.player.canMove || __instance.isTemporarilyInvisible)
+            {
+                __result = false;
+                return false;
+            }
+            if (__instance.HasContextTag("moonslime_spellscroll"))
+            {
+                Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+                string spell = __instance.Name;
+
+                if (!string.IsNullOrEmpty(spell))
+                {
+                    Log.Alert("Casting " + spell);
+                    Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
+                    string entry = $"{player.UniqueMultiplayerID},{spell},0,{pos.X},{pos.Y}";
+                    player.modData["moonslime.Wizardry.scrollspell"] = "yes";
+                    Farm farm = Game1.getFarm();
+                    foreach (var who in Game1.getOnlineFarmers())
+                    {
+                        string playerKey = $"{BaseModDataKey}/{who.UniqueMultiplayerID}";
+                        Log.Trace($"Sending data to {who.displayName}");
+                        if (!farm.modData.TryGetValue(playerKey, out string existing))
+                            existing = "";
+
+                        if (!string.IsNullOrEmpty(existing))
+                            existing += "/";
+
+                        farm.modData[playerKey] = existing + entry;
+                    }
+                    didStuff = true;
+                    __result = true;
+                }
+            }
+
+            return !didStuff;
+        }
     }
 
 

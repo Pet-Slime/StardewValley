@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using MoonShared;
 using MoonShared.Attributes;
 using StardewValley;
 using StardewValley.Extensions;
@@ -26,10 +27,13 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return 0;
+            return 25;
         }
 
-        public override int GetMaxCastingLevel() => 1;
+        public override int GetMaxCastingLevel()
+        {
+            return 1;
+        }
 
         public override bool CanCast(Farmer player, int level)
         {
@@ -44,7 +48,10 @@ namespace WizardrySkill.Core.Framework.Spells
             if (!player.IsLocalPlayer)
                 return null;
 
-            player.Items.ReduceId("(O)717", 1);
+            if (player.modData.GetBool("moonslime.Wizardry.scrollspell") == false)
+            {
+                player.Items.ReduceId("(O)717", 1);
+            }
 
             int tileX = targetX / Game1.tileSize;
             int tileY = targetY / Game1.tileSize;

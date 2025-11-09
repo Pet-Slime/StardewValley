@@ -1,3 +1,4 @@
+using MoonShared;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells.Effects;
@@ -37,8 +38,14 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Consume 1 Iridium Ore from inventory
-            player.Items.ReduceId(SObject.iridium.ToString(), 1);
+            if (player.IsLocalPlayer)
+            {
+                if (player.modData.GetBool("moonslime.Wizardry.scrollspell") == false)
+                {
+                    // Consume 1 Iridium Ore from inventory
+                    player.Items.ReduceId(SObject.iridium.ToString(), 1);
+                }
+            }
 
             // Create a meteor effect at the targeted tile
             return new Meteor(player, targetX, targetY);

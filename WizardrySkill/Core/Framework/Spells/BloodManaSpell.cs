@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using MoonShared;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells.Effects;
@@ -39,8 +40,11 @@ namespace WizardrySkill.Core.Framework.Spells
             // Calculate health to sacrifice: 1/4 of max health
             int health = (player.maxHealth / 4);
 
-            // Reduce the player's health
-            player.health -= health;
+            if (player.modData.GetBool("moonslime.Wizardry.scrollspell") == false)
+            {
+                // Reduce the player's health
+                player.health -= health;
+            }
 
             // Show floating red numbers above the player indicating lost health
             player.currentLocation.debris.Add(new Debris(

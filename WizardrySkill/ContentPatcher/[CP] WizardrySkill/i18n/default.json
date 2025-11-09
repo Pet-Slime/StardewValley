@@ -13,6 +13,47 @@
     "moonslime.Wizardry.Magic_Potion.description": "An Energy Tonic converted into a Mana Tonic by cooking it with fairy dust. It lost it's potency to recover energy but will restore half mana.",
 
 
+    "moonslime.Wizardry.Magic_Stone:Energy.name": "Magic Stone: Energy",
+    "moonslime.Wizardry.Magic_Stone:Energy.description": "A stone infused with a person's stamina.",
+
+    "moonslime.Wizardry.Magic_Stone:Health.name": "Magic Stone: Health",
+    "moonslime.Wizardry.Magic_Stone:Health.description": "A stone infused with a person's health.",
+
+    "moonslime.Wizardry.Magic_Stone:Mana.name": "Magic Stone: Mana",
+    "moonslime.Wizardry.Magic_Stone:Mana.description": "A stone infused with a person's mana.",
+
+
+    "moonslime.Wizardry.Scroll_Fireball.name": "Spell Scroll: Fireball",
+    "moonslime.Wizardry.Scroll_Fireball.description": "An ancient dwarf scroll imbued with the magic of Fireball. Use to cast a weaker version.",
+
+    "moonslime.Wizardry.Scroll_Buff.name": "Spell Scroll: Buff",
+    "moonslime.Wizardry.Scroll_Buff.description": "An ancient dwarf scroll imbued with the magic of Buff. Use to cast a weaker version.",
+
+    "moonslime.Wizardry.Scroll_Bloodmana.name": "Spell Scroll: Bloodmana",
+    "moonslime.Wizardry.Scroll_Bloodmana.description": "An ancient dwarf scroll imbued with the magic of Bloodmana. Use to cast a weaker version.",
+
+    "moonslime.Wizardry.Scroll_Evac.name": "Spell Scroll: Evac",
+    "moonslime.Wizardry.Scroll_Evac.description": "An ancient dwarf scroll imbued with the magic of Evac. Use to cast a weaker version.",
+
+    "moonslime.Wizardry.Scroll_Meteor.name": "Spell Scroll: Meteor",
+    "moonslime.Wizardry.Scroll_Meteor.description": "An ancient dwarf scroll imbued with the magic of Meteor. Use to cast a weaker version.",
+
+    "moonslime.Wizardry.Scroll_Thunderbug.name": "Spell Scroll: Thunderbug",
+    "moonslime.Wizardry.Scroll_Thunderbug.description": "An ancient dwarf scroll imbued with the magic of Thunderbug. Use to cast a weaker version.",
+
+    "moonslime.Wizardry.Scroll_Rewind.name": "Spell Scroll: Rewind",
+    "moonslime.Wizardry.Scroll_Rewind.description": "An ancient dwarf scroll imbued with the magic of Rewind. Use to cast a weaker version.",
+
+    "moonslime.Wizardry.Scroll_Descend.name": "Spell Scroll: Descend",
+    "moonslime.Wizardry.Scroll_Descend.description": "An ancient dwarf scroll imbued with the magic of Descend. Use to cast a weaker version.",
+
+    "moonslime.Wizardry.Scroll_Heal.name": "Spell Scroll: Heal",
+    "moonslime.Wizardry.Scroll_Heal.description": "An ancient dwarf scroll imbued with the magic of Heal. Use to cast a weaker version.",
+
+    "moonslime.Wizardry.Scroll_Crabrain.name": "Spell Scroll: Crab Rain",
+    "moonslime.Wizardry.Scroll_Crabrain.description": "An ancient dwarf scroll imbued with the magic of Crab Rain. Use to cast a weaker version.",
+
+
     "moonslime.Wizardry.CraftableSpellAltar": "Spell Focus Altar",
     "moonslime.Wizardry.CraftableSpellAltar.description": "Right click once this is placed to open the spell book menu.",
 

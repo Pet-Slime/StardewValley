@@ -12,7 +12,7 @@ namespace WizardrySkill.Core.Framework.Schools
 
         public override Spell[] GetSpellsTier1()
         {
-            return new[] { SpellManager.Get("arcane:analyze") };
+            return new[] { SpellManager.Get("arcane:analyze"), SpellManager.Get("arcane:spellstones") };
         }
 
         public override Spell[] GetSpellsTier2()

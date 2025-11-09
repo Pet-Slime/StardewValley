@@ -7,6 +7,11 @@
         },
         {
             "Action": "Load",
+            "Target": "Mods/moonslime.WizardrySkill/objects/Scrolls",
+            "FromFile": "Assets/objects/scroll_sprites.png"
+        },
+        {
+            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/interface/Magic10a1",
             "FromFile": "Assets/interface/Magic10a1.png"
         },
@@ -99,6 +104,11 @@
             "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/arcane/enchant/1",
             "FromFile": "Assets/magic/arcane/enchant/1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.WizardrySkill/magic/arcane/spellstones/1",
+            "FromFile": "Assets/magic/arcane/spellstones/1.png"
         },
         {
             "Action": "Load",

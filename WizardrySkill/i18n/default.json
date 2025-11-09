@@ -99,6 +99,11 @@
     "moonslime.Wizardry.spell.arcane:analyze.desc": "Examine an item for magical inspiration.",
     "moonslime.Wizardry.spell.arcane:analyze.hint": "No hint, as you start with this spell!",
 
+    "moonslime.Wizardry.spell.arcane:spellstones.name": "Spell Stones",
+    "moonslime.Wizardry.spell.arcane:spellstones.cost": "L1: 10m. L2: 10m,10h.\nL3: 10m,10e. L4: 30m,10h,10e.",
+    "moonslime.Wizardry.spell.arcane:spellstones.desc": "Create a magical stone based on level used.",
+    "moonslime.Wizardry.spell.arcane:spellstones.hint": "Can I imbue rocks with some magical energy?",
+
     "moonslime.Wizardry.spell.elemental:magicmissle.name": "Magic Arrow",
     "moonslime.Wizardry.spell.elemental:magicmissle.cost": "5 mana per level",
     "moonslime.Wizardry.spell.elemental:magicmissle.desc": "A somewhat weak but piercing projectile.",

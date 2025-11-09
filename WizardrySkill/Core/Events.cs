@@ -56,6 +56,7 @@ namespace WizardrySkill.Core
         private static IClickableMenu CachedToolbarRef;
         private static Rectangle CachedToolbarBounds;
         private static bool CachedDrawBarAboveToolbar;
+        public static bool CachedSpellMenuOpen = false;
         private static Point[] CachedSpellSpots;
         private static StaticSpellDraw[] CachedStaticSpells;
         private static PreparedSpellBar LastPreparedSpellBar;
@@ -154,6 +155,8 @@ namespace WizardrySkill.Core
                 {
                     farmers.mailReceived.Add("moonslimeWizardryLearnedMagic");
                 }
+
+                farmers.modData["moonslime.Wizardry.scrollspell"] = "no";
             }
 
             Farmer player = Game1.player;
@@ -173,6 +176,51 @@ namespace WizardrySkill.Core
                     continue;
 
                 player.craftingRecipes.TryAdd(recipePair.Key, 0);
+            }
+
+            foreach (KeyValuePair<string, string> recipePair in DataLoader.CookingRecipes(Game1.content))
+            {
+                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 3, "");
+                if (!conditions.Contains(Id))
+                {
+                    continue;
+                }
+                if (conditions.Split(" ").Length < 2)
+                {
+                    continue;
+                }
+
+                int level = int.Parse(conditions.Split(" ")[1]);
+
+                if (skillLevel < level)
+                {
+                    continue;
+                }
+
+                if (Game1.player.cookingRecipes.TryAdd(recipePair.Key, 0) &&
+                    !Game1.player.hasOrWillReceiveMail("robinKitchenLetter"))
+                {
+                    Game1.mailbox.Add("robinKitchenLetter");
+                }
+            }
+
+            SpellBook book = player.GetSpellBook();
+            foreach (var spell in book.KnownSpells)
+            {
+                Id = spell.Key;
+                foreach (KeyValuePair<string, string> recipePair in DataLoader.CraftingRecipes(Game1.content))
+                {
+                    string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
+                    if (!conditions.Contains(Id))
+                        continue;
+                    if (conditions.Split(" ").Length < 2)
+                        continue;
+
+                    int level = int.Parse(conditions.Split(" ")[1]);
+
+
+                    player.craftingRecipes.TryAdd(recipePair.Key, 0);
+                }
             }
 
             if (!Context.IsMainPlayer)
@@ -339,8 +387,9 @@ namespace WizardrySkill.Core
 
                 if (canCast)
                 {
-                    Log.Trace("Casting " + slot.SpellId);
+                    Log.Alert("Casting " + slot.SpellId);
                     player.AddMana(-spell.GetManaCost(player, slot.Level));
+                    player.modData["moonslime.Wizardry.scrollspell"] = "no";
                     Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
                     string entry = $"{player.UniqueMultiplayerID},{spell.FullId},{slot.Level},{pos.X},{pos.Y}";
 
@@ -475,7 +524,7 @@ namespace WizardrySkill.Core
             bool viewportChanged = CheckViewportChanged(viewport);
             var toolbarBounds = GetToolbarBounds(buttons);
             bool drawBarAboveToolbar = ShouldDrawAboveToolbar(toolbarBounds, viewport);
-            bool toolbarMoved = CheckToolbarChanged(toolbar, toolbarBounds, drawBarAboveToolbar, totalSlots, viewportChanged);
+            bool toolbarMoved = CheckToolbarChanged(toolbar, toolbarBounds, drawBarAboveToolbar, totalSlots, viewportChanged, CachedSpellMenuOpen);
 
             // If toolbar or viewport changed → recalculate slot layout
             if (toolbarMoved)
@@ -576,13 +625,14 @@ namespace WizardrySkill.Core
         /// <summary>
         /// Checks whether toolbar layout, viewport, or slot count changed.
         /// </summary>
-        private static bool CheckToolbarChanged(Toolbar toolbar, Rectangle bounds, bool drawAbove, int slots, bool viewportChanged)
+        private static bool CheckToolbarChanged(Toolbar toolbar, Rectangle bounds, bool drawAbove, int slots, bool viewportChanged, bool CachedSpellMenuOpen)
         {
             return CachedToolbarRef != toolbar
                 || bounds != CachedToolbarBounds
                 || CachedDrawBarAboveToolbar != drawAbove
                 || (CachedSpellSpots?.Length ?? 0) != slots
-                || viewportChanged;
+                || viewportChanged
+                || CachedSpellMenuOpen;
         }
 
         /// <summary>
@@ -604,6 +654,7 @@ namespace WizardrySkill.Core
             CachedToolbarRef = toolbar;
             CachedToolbarBounds = toolbarBounds;
             CachedDrawBarAboveToolbar = drawAbove;
+            CachedSpellMenuOpen = false;
             CachedHoverText = null;
         }
 

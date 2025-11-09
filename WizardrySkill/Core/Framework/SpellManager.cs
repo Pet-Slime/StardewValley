@@ -35,6 +35,7 @@ namespace WizardrySkill.Core.Framework
             Register(new AnalyzeSpell());
             Register(new EnchantSpell(false));
             Register(new EnchantSpell(true));
+            Register(new SpellStonesSpell());
             Register(new RewindSpell());
 
             Register(new ClearDebrisSpell());

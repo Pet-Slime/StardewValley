@@ -216,6 +216,8 @@ namespace WizardrySkill.Core.Framework.Spells
                 learnedAny = true;
                 Log.Debug($"Player learnt spell: {spell}");
                 spellBook.LearnSpell(spell, 0, true);
+                LearnSpellScroll(player, spell);
+
 
                 // Show message in HUD
                 ShowLearnMessage(I18n.Spell_Learn(spellName: SpellManager.Get(spell).GetTranslatedName()));
@@ -282,6 +284,7 @@ namespace WizardrySkill.Core.Framework.Spells
         {
             Log.Debug("Player learnt ancient spell: " + spell);
             book.LearnSpell(spell, 0, true);
+            LearnSpellScroll(player, spell.FullId);
             ShowLearnMessage(I18n.Spell_Learn_Ancient(spellName: spell.GetTranslatedName()));
         }
 
@@ -342,6 +345,22 @@ namespace WizardrySkill.Core.Framework.Spells
             return index >= 0 && index < Game1.player.Items.Count
                 ? Game1.player.Items[index]
                 : null;
+        }
+
+        public static void LearnSpellScroll(Farmer player, string spell)
+        {
+            foreach (KeyValuePair<string, string> recipePair in DataLoader.CraftingRecipes(Game1.content))
+            {
+                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
+                if (!conditions.Contains(spell))
+                    continue;
+                if (conditions.Split(" ").Length < 2)
+                    continue;
+
+                int level = int.Parse(conditions.Split(" ")[1]);
+
+                player.craftingRecipes.TryAdd(recipePair.Key, 0);
+            }
         }
     }
 }

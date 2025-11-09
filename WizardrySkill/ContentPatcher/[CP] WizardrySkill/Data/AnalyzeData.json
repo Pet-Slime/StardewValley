@@ -3,9 +3,25 @@
         {
             "Action": "EditData",
             "Target": "Data/Objects",
+            "TargetField": [ "390", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "arcane:spellstones"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
             "TargetField": [ "82", "CustomFields" ],
             "Entries": {
                 "moonslime.Wizardry.analyze": "elemental:fireball"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "773", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "life:heal"
             }
         },
         {
@@ -102,6 +118,14 @@
             "TargetField": [ "518", "CustomFields" ],
             "Entries": {
                 "moonslime.Wizardry.analyze": "life:magnetic_force"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "908", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "nature:fish_frenzy"
             }
         },
         {

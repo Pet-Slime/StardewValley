@@ -251,52 +251,87 @@ namespace CookingSkillRedux.Core
         }
     }
 
+    // This Harmony patch hooks into StardewValley.Object.OutputMachine().
+    // It runs AFTER the original method (Postfix) to modify or replace
+    // the output when the custom "soda machine" produces an item.
+
     [HarmonyPatch(typeof(StardewValley.Object), nameof(Object.OutputMachine))]
     class CreateFlavoredSoda_patch
     {
-        [HarmonyLib.HarmonyPostfix]
+        [HarmonyPostfix]
         private static void Postfix(
-        StardewValley.Object __instance, MachineData machine, MachineOutputRule outputRule, Item inputItem, Farmer who, GameLocation location, bool probe)
+            StardewValley.Object __instance,       // The machine object running OutputMachine()
+            MachineData machine,                   // Machine data definition (from Data/Machines)
+            MachineOutputRule outputRule,           // Rule used to determine output
+            Item inputItem,                        // The item placed into the machine
+            Farmer who,                            // The farmer using the machine
+            GameLocation location,                 // The location the machine is in
+            bool probe                             // True if this is a dry-run (e.g. checking output only)
+        )
         {
-            if (__instance.QualifiedItemId.Equals("(BC)moonslime.Cooking.soda_machine") &&
-                __instance.heldObject.Value != null &&
-                inputItem is Object item2 && item2 is not null &&
-                item2.HasContextTag("category_fruits"))
+            // Check if this is our custom soda machine and a valid fruit input
+            if (__instance.QualifiedItemId.Equals("(BC)moonslime.Cooking.soda_machine") && // Only apply to our mod’s soda machine
+                __instance.heldObject.Value != null &&                                    // Must have a valid output object
+                inputItem is Object item2 && item2 is not null &&                         // Input must be an Object
+                item2.HasContextTag("category_fruits"))                                   // Input must be a fruit
             {
-                Object output = __instance.heldObject.Value;
-                Color color = ItemContextTagManager.GetColorFromTags(item2) ?? Color.Brown;
+                // Prepare variables and determine color
+                Object output = __instance.heldObject.Value;                              // The machine's current output
+                Color color = ItemContextTagManager.GetColorFromTags(item2) ?? Color.Brown; // Try to extract a color from the fruit, fallback to brown
+
+                // Create a new colored soda item 
                 ColoredObject soda = new ColoredObject("(O)moonslime.Cooking.soda", output.Stack, color)
                 {
-                    Quality = inputItem.Quality
+                    Quality = inputItem.Quality                                            // Inherit input item quality
                 };
 
-
+                // Apply flavor-specific data if input has an ItemId
                 if (item2?.ItemId is not null)
                 {
+                    // "%PRESERVED_DISPLAY_NAME" makes the game format the item as “<Fruit> Soda”
                     soda.displayNameFormat = "%PRESERVED_DISPLAY_NAME %DISPLAY_NAME";
+
+                    // Store the parent fruit's ID for tooltip flavor text and color logic
                     soda.preservedParentSheetIndex.Value = item2.ItemId;
+
+                    // Base price for soda; this will be used to calculate stack count
                     soda.Price = 25;
+
+                    // Determine output stack size and edibility based on fruit value
+                    // Calculate relative yield: higher value fruit = more sodas
                     double value = (item2.Price + 200.0) / soda.Price;
-                    soda.Stack = ((int)Math.Ceiling(value));
+                    soda.Stack = (int)Math.Ceiling(value);
+
+                    // Scale edibility per soda to prevent infinite energy farming
                     soda.Edibility = item2.Edibility / soda.Stack;
+
+                    // Profession bonus: Cooking Level 10 “a1” doubles yield sometimes
                     if (who.HasCustomProfession(Cooking_Skill.Cooking10a1))
                     {
+                        // Get profession-based chance modifier (likely scales with cooking level)
                         float doubleLevelChance = Utilities.GetLevelValue(who, true) + Utilities.GetLevelValue(who, true);
+
+                        // Roll random chance to double the output stack
                         if (Game1.random.NextDouble() < doubleLevelChance)
                         {
                             soda.Stack += soda.Stack;
                         }
                     }
+
+                    // Name the soda uniquely using the input fruit’s name
+                    // e.g., “moonslime.Cooking.soda_Apple” or similar
                     if (item2?.Name is not null)
                     {
                         soda.Name = $"{soda.QualifiedItemId}_{item2.Name}";
                     }
                 }
-                __instance.heldObject.Value = soda;
 
+                // Replace the machine's held output with our flavored soda
+                __instance.heldObject.Value = soda;
             }
         }
     }
+
 
 
     [HarmonyPatch(typeof(StardewValley.Buildings.Building), "CheckItemConversionRule")]
