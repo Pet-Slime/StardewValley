@@ -38,15 +38,27 @@ namespace WizardrySkill.Core
     [HarmonyPatch]
     class Walkoflife_level_reset_patch
     {
-        // Dynamically resolve the method so it won’t fail if DaLion.Professions isn’t loaded
         static MethodBase TargetMethod()
         {
-            var type = AccessTools.TypeByName("DaLion.Professions.Framework.CustomSkill");
-            if (type == null)
-                return null; // Skip patch if the mod isn't loaded
+            try
+            {
+                if (!ModEntry.Instance.Helper.ModRegistry.IsLoaded("DaLion.Professions"))
+                    return typeof(Walkoflife_level_reset_patch).GetMethod(nameof(DummyMethod), BindingFlags.Static | BindingFlags.NonPublic);
 
-            return AccessTools.Method(type, "Reset");
+                var type = AccessTools.TypeByName("DaLion.Professions.Framework.CustomSkill");
+                if (type == null)
+                    return typeof(Walkoflife_level_reset_patch).GetMethod(nameof(DummyMethod), BindingFlags.Static | BindingFlags.NonPublic);
+
+                return AccessTools.Method(type, "Reset");
+            }
+            catch
+            {
+                return typeof(Walkoflife_level_reset_patch).GetMethod(nameof(DummyMethod), BindingFlags.Static | BindingFlags.NonPublic);
+            }
         }
+
+        // Dummy method just to return a MethodBase
+        private static void DummyMethod() { }
 
         [HarmonyPrefix]
         public static void Prefix(object __instance)
@@ -80,7 +92,7 @@ namespace WizardrySkill.Core
             }
             catch (Exception ex)
             {
-                MoonShared.Attributes.Log.Error($"[Walkoflife] Error in CustomSkill.Reset patch: {ex}");
+                MoonShared.Attributes.Log.Error($"[Walkoflife] Wizardry patch Error in CustomSkill.Reset patch: {ex}");
             }
         }
 
@@ -167,7 +179,7 @@ namespace WizardrySkill.Core
             }
             catch (Exception ex)
             {
-                MoonShared.Attributes.Log.Error($"[Walkoflife] Error in CustomSkill.Reset patch: {ex}");
+                MoonShared.Attributes.Log.Error($"[Walkoflife] Wizardry patch Error in CustomSkill.Reset patch: {ex}");
             }
         }
 

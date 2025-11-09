@@ -46,6 +46,7 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
+                        "color_white"
                     ],
                     "CustomFields": null
                 },
@@ -69,7 +70,8 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "not_placeable",
-                        "moonslime.ManaBarApi.ManaRestore/100"
+                        "moonslime.ManaBarApi.ManaRestore/100",
+                        "color_blue"
                     ],
                     "CustomFields": null
                 },
@@ -93,7 +95,88 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "not_placeable",
-                        "moonslime.ManaBarApi.ManaRestore/50"
+                        "moonslime.ManaBarApi.ManaRestore/50",
+                        "color_blue"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Wizardry.Magic_Stone:Mana": {
+                    "Name": "Magic_Stone:Mana",
+                    "DisplayName": "{{i18n:moonslime.Wizardry.Magic_Stone:Mana.name}}",
+                    "Description": "{{i18n:moonslime.Wizardry.Magic_Stone:Mana.description}}",
+                    "Texture": "Mods/moonslime.WizardrySkill/objects/Items",
+                    "Type": "Minerals",
+                    "Category": -12,
+                    "Price": 1,
+                    "SpriteIndex": 4,
+                    "ColorOverlayFromNextIndex": false,
+                    "Edibility": 5,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "CanBeGivenAsGift": true,
+                    "CanBeTrashed": true,
+                    "ExcludeFromFishingCollection": false,
+                    "ExcludeFromShippingCollection": false,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "not_placeable",
+                        "moonslime.ManaBarApi.ManaFill/5",
+                        "color_blue"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Wizardry.Magic_Stone:Health": {
+                    "Name": "Magic_Stone:Energy",
+                    "DisplayName": "{{i18n:moonslime.Wizardry.Magic_Stone:Health.name}}",
+                    "Description": "{{i18n:moonslime.Wizardry.Magic_Stone:Health.description}}",
+                    "Texture": "Mods/moonslime.WizardrySkill/objects/Items",
+                    "Type": "Minerals",
+                    "Category": -12,
+                    "Price": 1,
+                    "SpriteIndex": 4,
+                    "ColorOverlayFromNextIndex": false,
+                    "Edibility": 5,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "CanBeGivenAsGift": true,
+                    "CanBeTrashed": true,
+                    "ExcludeFromFishingCollection": false,
+                    "ExcludeFromShippingCollection": false,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_red"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Wizardry.Magic_Stone:Energy": {
+                    "Name": "Magic_Stone:Energy",
+                    "DisplayName": "{{i18n:moonslime.Wizardry.Magic_Potion.name}}",
+                    "Description": "{{i18n:moonslime.Wizardry.Magic_Potion.description}}",
+                    "Texture": "Mods/moonslime.WizardrySkill/objects/Items",
+                    "Type": "Minerals",
+                    "Category": -12,
+                    "Price": 1,
+                    "SpriteIndex": 4,
+                    "ColorOverlayFromNextIndex": false,
+                    "Edibility": 5,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "CanBeGivenAsGift": true,
+                    "CanBeTrashed": true,
+                    "ExcludeFromFishingCollection": false,
+                    "ExcludeFromShippingCollection": false,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_green"
                     ],
                     "CustomFields": null
                 }

@@ -27,9 +27,6 @@
 	  <Folder Include="i18n\" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Include="Core\Framework\Spells\FishFrenzySpell.cs" />
-	</ItemGroup>
 
 
 </Project>

@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using MoonShared.Attributes;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MoonShared;
 using MoonShared.APIs;
+using MoonShared.Attributes;
 using SpaceCore;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -25,6 +26,11 @@ namespace WizardrySkill.Core
     public class Events
     {
         /*********
+        ** Constants
+        *********/
+        private const string BaseModDataKey = "moonSlime.Wizardry.ActiveEffect";
+
+        /*********
         ** Fields
         *********/
         private static Texture2D SpellBg;
@@ -33,11 +39,6 @@ namespace WizardrySkill.Core
         private static IInputHelper InputHelper;
         private static bool CastPressed;
         private static double CarryoverManaRegen;
-        private const string BaseModDataKey = "moonSlime.Wizardry.ActiveEffect";
-        private static Toolbar? GetToolbar()
-        {
-            return Game1.onScreenMenus.OfType<Toolbar>().FirstOrDefault();
-        }
 
         /// <summary>The active effects, spells, or projectiles which should be updated or drawn.</summary>
         private static readonly IList<IActiveEffect> ActiveEffects = [];
@@ -46,28 +47,73 @@ namespace WizardrySkill.Core
         /// <remarks>This should only be accessed through <see cref="GetSpellBook"/> or <see cref="Extensions.GetSpellBook"/> to make sure an updated instance is retrieved.</remarks>
         private static readonly IDictionary<long, SpellBook> SpellBookCache = new Dictionary<long, SpellBook>();
 
+        /*********
+        ** Caching fields
+        *********/
+        private static readonly Color DisabledColor = new(128, 128, 128);
+
+        private static Point CachedViewport;
+        private static IClickableMenu CachedToolbarRef;
+        private static Rectangle CachedToolbarBounds;
+        private static bool CachedDrawBarAboveToolbar;
+        private static Point[] CachedSpellSpots;
+        private static StaticSpellDraw[] CachedStaticSpells;
+        private static PreparedSpellBar LastPreparedSpellBar;
+        private static string CachedHoverText;
+        private static int LastMouseX, LastMouseY;
+
+        private static int FrameCounter = 0;
+        private static bool[] CachedCanCastStates;
+
+        // Static spell data cache (layout, textures, tooltips)
+        private class StaticSpellDraw
+        {
+            public Rectangle Bounds;
+            public Texture2D Icon;
+            public Texture2D LevelIcon;
+            public string Tooltip;
+            public Spell Spell;
+            public int Level;
+        }
 
         /*********
-        ** Accessors
+        ** Properties / Accessors
         *********/
         public static Wizard_Skill Skill = new();
         public static EventHandler<AnalyzeEventArgs> OnAnalyzeCast;
-        public const string MsgCast = "spacechase0.Magic.Cast";
 
-        private static readonly Lazy<Func<Toolbar, List<ClickableComponent>>> ToolbarButtonsGetter = new(() => AccessTools.DeclaredField(typeof(Toolbar), "buttons").EmitInstanceGetter<Toolbar, List<ClickableComponent>>());
+        private static readonly Lazy<Func<Toolbar, List<ClickableComponent>>> ToolbarButtonsGetter =
+            new(() => AccessTools.DeclaredField(typeof(Toolbar), "buttons").EmitInstanceGetter<Toolbar, List<ClickableComponent>>());
 
+        public static bool LearnedMagic =>
+            Game1.player?.eventsSeen?.Contains(MagicConstants.LearnedMagicEventId.ToString()) == true;
 
-        /// <summary>Whether the current player learned magic.</summary>
-        public static bool LearnedMagic => Game1.player?.eventsSeen?.Contains(MagicConstants.LearnedMagicEventId.ToString()) == true;
+        /*********
+        ** Core spell IDs
+        *********/
+        private static readonly string[] CoreSpells =
+        {
+            "arcane:analyze",
+            "elemental:magicmissle",
+            "arcane:enchant",
+            "arcane:disenchant"
+        };
 
+        /*********
+        ** Private helpers
+        *********/
+        private static Toolbar? GetToolbar()
+        {
+            return Game1.onScreenMenus.OfType<Toolbar>().FirstOrDefault();
+        }
+
+        /*********
+        ** Public lifecycle methods
+        *********/
         public static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
             ModEntry.Editor = new(ModEntry.Config, ModEntry.Instance.Helper.ModContent, ModEntry.HasStardewValleyExpanded);
-
         }
-
-
-
 
         [SEvent.GameLaunchedLate]
         public static void GameLaunchedLate(object sender, GameLaunchedEventArgs e)
@@ -75,15 +121,13 @@ namespace WizardrySkill.Core
             ModEntry.Editor = new(ModEntry.Config, ModEntry.Instance.Helper.ModContent, ModEntry.HasStardewValleyExpanded);
 
             // hook Mana Bar
+            var manaBar = ModEntry.Instance.Helper.ModRegistry.GetApi<IManaBarApi>("moonslime.ManaBarApi");
+            if (manaBar == null)
             {
-                var manaBar = ModEntry.Instance.Helper.ModRegistry.GetApi<IManaBarApi>("moonslime.ManaBarApi");
-                if (manaBar == null)
-                {
-                    Log.Error("No mana bar API???");
-                    return;
-                }
-                ModEntry.Mana = manaBar;
+                Log.Error("No mana bar API???");
+                return;
             }
+            ModEntry.Mana = manaBar;
 
             var helper = ModEntry.Instance.Helper;
             Log.Trace("Magic: Trying to Register skill.");
@@ -100,586 +144,35 @@ namespace WizardrySkill.Core
             ActiveEffects.Clear();
         }
 
-        /*********
-        ** Public methods
-        *********/
-        public static void Init(IInputHelper inputHelper, Func<long> getNewId)
-        {
-            InputHelper = inputHelper;
-
-            LoadAssets();
-
-            SpellManager.Init(getNewId);
-
-            OnAnalyzeCast += (sender, e) => ModEntry.Instance.Api.InvokeOnAnalyzeCast(sender as Farmer);
-
-            SpaceCore.Skills.RegisterSkill(Skill);
-
-            //foreach (string SkillID in Skills.GetSkillList())
-            //{
-            //
-            //    Skill test = GetSkill(SkillID);
-            //
-            //    //                Log.Alert($"Skill Name is: {test.GetName()}");
-            //    //                Log.Alert($"Skill ID is: {test.Id}");
-            //    //                Log.Alert($"This skill has the following Professions");
-            //    //                foreach (Skills.Skill.Profession prof in test.Professions)
-            //    //                {
-            //    //                    Log.Alert($"");
-            //    //                    Log.Alert($"Profession name is: {prof.GetName()}");
-            //    //                    Log.Alert($"Profession ID is: {prof.Id}");
-            //    //                    Log.Alert($"Profession number is: {prof.GetVanillaId()}");
-            //    //                }
-            //    //                Log.Alert($"-------------------------");
-            //
-            //}
-        }
-
-        public static void LoadAssets()
-        {
-            SpellBg = ModEntry.Assets.Spellbg;
-            ManaBg = ModEntry.Assets.Manabg;
-
-            Color manaCol = new(0, 48, 255);
-            ManaFg = new Texture2D(Game1.graphics.GraphicsDevice, 1, 1);
-            ManaFg.SetData([manaCol]);
-        }
-
-
-        [SEvent.AssetRequested]
-        public static void AssetRequested(object sender, AssetRequestedEventArgs e)
-        {
-            ModEntry.Editor.TryEdit(e);
-        }
-
-        [SEvent.UpdateTicked]
-        private static void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
-        {
-            if (!Context.IsWorldReady)
-                return;
-
-            Farm farm = Game1.getFarm();
-            string playerKey = $"{BaseModDataKey}/{Game1.player.UniqueMultiplayerID}";
-
-            // 1️ Only read if this player’s message queue has data
-            if (farm.modData.TryGetValue(playerKey, out string rawData) && !string.IsNullOrWhiteSpace(rawData))
-            {
-                var messages = ReadAndClearActiveEffects(farm, playerKey);
-
-                Log.Trace($"Got data to {Game1.player.displayName}");
-                foreach (var msg in messages)
-                {
-                    Farmer caster = Game1.GetPlayer(msg.CasterId);
-                    if (caster == null)
-                        continue;
-
-                    IActiveEffect effect = caster.GetSpellBook()
-                        .CastSpell(msg.SpellFullId, msg.Level, msg.X, msg.Y);
-
-                    if (effect != null)
-                        ActiveEffects.Add(effect);
-                }
-            }
-
-            // 2️ Update active effects
-            for (int i = ActiveEffects.Count - 1; i >= 0; i--)
-            {
-                IActiveEffect effect = ActiveEffects[i];
-                if (!effect.Update(e))
-                    ActiveEffects.RemoveAt(i);
-            }
-        }
-
-        /// <summary>
-        /// Reads and clears queued spell-cast messages from the given farmer’s modData.
-        /// Each entry format: "casterId,spellFullId,level,x,y" separated by '/'.
-        /// </summary>
-        public static List<(long CasterId, string SpellFullId, int Level, int X, int Y)>
-            ReadAndClearActiveEffects(Farm farm, string newKey)
-        {
-            var results = new List<(long, string, int, int, int)>();
-
-            if (farm == null)
-                return results;
-
-            if (!farm.modData.TryGetValue(newKey, out string raw) || string.IsNullOrWhiteSpace(raw))
-                return results;
-
-            foreach (string entry in raw.Split('/', StringSplitOptions.RemoveEmptyEntries))
-            {
-                string[] parts = entry.Split(',');
-                if (parts.Length < 5)
-                    continue;
-
-                if (!long.TryParse(parts[0], out long casterId))
-                    continue;
-
-                string spellFullId = parts[1];
-
-                if (!int.TryParse(parts[2], out int level))
-                    continue;
-
-                if (!int.TryParse(parts[3], out int x))
-                    continue;
-
-                if (!int.TryParse(parts[4], out int y))
-                    continue;
-
-                results.Add((casterId, spellFullId, level, x, y));
-            }
-
-            // Clear once read (prevents duplicate processing)
-            farm.modData[newKey] = "";
-
-            return results;
-        }
-
-
-
-
-
-        [SEvent.ButtonPressed]
-        /// <summary>Raised after the player presses a button on the keyboard, controller, or mouse.</summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        public static void OnButtonPressed(object sender, ButtonPressedEventArgs e)
-        {
-            bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Wizard_Skill.Magic10a2);
-            bool hasMenuOpen = Game1.activeClickableMenu is not null;
-
-            if (e.Button == ModEntry.Config.Key_Cast)
-                CastPressed = true;
-
-            if (CastPressed && e.Button == ModEntry.Config.Key_SwapSpells && !hasMenuOpen)
-            {
-                Game1.player.GetSpellBook().SwapPreparedSet();
-                InputHelper.Suppress(e.Button);
-            }
-            else if (CastPressed &&
-                     (e.Button == ModEntry.Config.Key_Spell1 || e.Button == ModEntry.Config.Key_Spell2 ||
-                      e.Button == ModEntry.Config.Key_Spell3 || e.Button == ModEntry.Config.Key_Spell4 ||
-                      (e.Button == ModEntry.Config.Key_Spell5 && hasFifthSpellSlot)))
-            {
-                int slotIndex = 0;
-                if (e.Button == ModEntry.Config.Key_Spell1) slotIndex = 0;
-                else if (e.Button == ModEntry.Config.Key_Spell2) slotIndex = 1;
-                else if (e.Button == ModEntry.Config.Key_Spell3) slotIndex = 2;
-                else if (e.Button == ModEntry.Config.Key_Spell4) slotIndex = 3;
-                else if (e.Button == ModEntry.Config.Key_Spell5) slotIndex = 4;
-
-                InputHelper.Suppress(e.Button);
-
-                SpellBook spellBook = Game1.player.GetSpellBook();
-
-                PreparedSpellBar prepared = spellBook.GetPreparedSpells();
-                PreparedSpell slot = prepared?.GetSlot(slotIndex);
-                if (slot == null)
-                    return;
-
-                Spell spell = SpellManager.Get(slot.SpellId);
-                if (spell == null)
-                    return;
-
-                bool canCast =
-                    spellBook.CanCastSpell(spell, slot.Level)
-                    && (!hasMenuOpen || spell.CanCastInMenus);
-
-                if (canCast)
-                {
-                    Log.Trace("Casting " + slot.SpellId);
-
-                    Game1.player.AddMana(-spell.GetManaCost(Game1.player, slot.Level));
-
-
-                    Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
-
-                    string entry = $"{Game1.player.UniqueMultiplayerID},{spell.FullId},{slot.Level},{pos.X},{pos.Y}";
-
-                    Farm farm = Game1.getFarm();
-
-                    foreach (var who in Game1.getOnlineFarmers())
-                    {
-
-                        string playerKey = $"{BaseModDataKey}/{who.UniqueMultiplayerID}";
-                        Log.Trace($"Sending data to {who.displayName}");
-                        if (!farm.modData.TryGetValue(playerKey, out string existing))
-                            existing = "";
-
-                        if (!string.IsNullOrEmpty(existing))
-                            existing += "/";
-
-                        farm.modData[playerKey] = existing + entry;
-                    }
-                }
-            }
-        }
-
-        [SEvent.ButtonReleased]
-        /// <summary>Raised after the player releases a button on the keyboard, controller, or mouse.</summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        public static void OnButtonReleased(object sender, ButtonReleasedEventArgs e)
-        {
-            if (e.Button == ModEntry.Config.Key_Cast)
-            {
-                CastPressed = false;
-            }
-        }
-
-        [SEvent.TimeChanged]
-        public static void OnTimeChanged(object sender, TimeChangedEventArgs e)
-        {
-            int level = Game1.player.GetCustomSkillLevel(Skill);
-            double manaRegen = 0; //
-
-            if (ModEntry.Config.EnableBaseManaRegen)
-                manaRegen = (level + 1) / 2; // start at +1 mana at level 1
-
-            if (Game1.player.HasCustomProfession(Wizard_Skill.Magic10b1))
-                manaRegen += level * 0.5;
-            if (Game1.player.HasCustomProfession(Wizard_Skill.Magic5b))
-                manaRegen += level * 0.5;
-
-            manaRegen += CarryoverManaRegen;
-
-            Game1.player.AddMana((int)manaRegen);
-            CarryoverManaRegen = manaRegen - (int)manaRegen;
-        }
-
-        [SEvent.Warped]
-        /// <summary>Raised after a player warps to a new location.</summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        public static void OnWarped(object sender, WarpedEventArgs e)
-        {
-            if (!e.IsLocalPlayer)
-                return;
-
-            // update spells
-            EvacSpell.OnLocationChanged();
-
-            if (e.NewLocation.IsOutdoors && !e.Player.modData.ContainsKey("moonslime.Wizardry.TeleportTo." + e.NewLocation.Name))
-            {
-                e.Player.modData.Add("moonslime.Wizardry.TeleportTo." + e.NewLocation.Name, "");
-
-            }
-
-
-        }
-
-        /// <summary>Get a self-updating view of a player's magic metadata.</summary>
-        /// <param name="player">The player whose spell book to get.</param>
-        public static SpellBook GetSpellBook(Farmer player)
-        {
-            if (!SpellBookCache.TryGetValue(player.UniqueMultiplayerID, out SpellBook book) || !object.ReferenceEquals(player, book.Player))
-                SpellBookCache[player.UniqueMultiplayerID] = book = new SpellBook(player);
-
-            return book;
-        }
-
-        /// <summary>Fix the player's magic spells and mana pool to match their skill level if needed.</summary>
-        /// <param name="player">The player to fix.</param>
-        /// <param name="overrideMagicLevel">The magic skill level, or <c>null</c> to get it from the player.</param>
-        public static void FixMagicIfNeeded(Farmer player, int? overrideMagicLevel = null, bool fixMana = false)
-        {
-            // skip if player hasn't learned magic
-            if (!LearnedMagic && overrideMagicLevel is not > 0)
-                return;
-
-
-            // get magic info
-            int magicLevel = overrideMagicLevel ?? player.GetCustomSkillLevel("moonslime.Wizard");
-            SpellBook spellBook = player.GetSpellBook();
-
-            if (fixMana)
-            {
-
-            }
-
-            // fix spell bars
-            if (spellBook.Prepared.Count < MagicConstants.SpellBarCount)
-            {
-                spellBook.Mutate(data =>
-                {
-                    while (spellBook.Prepared.Count < MagicConstants.SpellBarCount)
-                        data.Prepared.Add(new PreparedSpellBar());
-                });
-            }
-
-            // fix profession mod data
-            Skills.Skill skill = Skills.GetSkill("moonslime.Wizard");
-            foreach (var profession in skill.Professions)
-            {
-                if (!player.professions.Contains(profession.GetVanillaId()))
-                    continue;
-
-                string modDataKey = $"{skill.Id}.{profession.Id}";
-                if (!player.modData.ContainsKey(modDataKey))
-                {
-                    player.modData.SetBool(modDataKey, true);
-                    MoonShared.Attributes.Log.Trace($"Player now has Profession mod data: {modDataKey}");
-                }
-            }
-
-            // fix core spells
-            foreach (string spellId in CoreSpells)
-            {
-                if (!spellBook.KnowsSpell(spellId, 0))
-                    spellBook.LearnSpell(spellId, 0, true);
-            }
-        }
-
-        /// <summary>Base arcane spells that all magic users should know.</summary>
-        private static readonly string[] CoreSpells =
-        {
-            "arcane:analyze",
-            "elemental:magicmissle",
-            "arcane:enchant",
-            "arcane:disenchant"
-        };
-
-
-        /*********
-        ** Private methods
-        *********/
-            [SEvent.RenderingHud]
-        /// <summary>Raised before drawing the HUD (item toolbar, clock, etc) to the screen. The vanilla HUD may be hidden at this point (e.g. because a menu is open). Content drawn to the sprite batch at this point will appear under the HUD.</summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        private static void OnRenderingHud(object sender, RenderingHudEventArgs e)
-        {
-
-            if (Game1.activeClickableMenu != null || Game1.eventUp || !LearnedMagic || !Context.IsPlayerFree)
-                return;
-
-
-            SpriteBatch b = e.SpriteBatch;
-
-            // draw active effects
-            foreach (IActiveEffect effect in ActiveEffects)
-                effect.Draw(e.SpriteBatch);
-
-            bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Wizard_Skill.Magic10a2);
-
-            var toolbar = GetToolbar();
-            if (toolbar is null)
-                return;
-
-            var buttons = ToolbarButtonsGetter.Value(toolbar);
-            int toolbarMinX = buttons.Select(b => b.bounds.X).Min();
-            int toolbarMaxX = buttons.Select(b => b.bounds.X).Max();
-            int toolbarMinY = buttons.Select(b => b.bounds.Y).Min();
-            Rectangle toolbarBounds = new(toolbarMinX, toolbarMinY, toolbarMaxX - toolbarMinX + 64, 64);
-            var viewportBounds = Game1.graphics.GraphicsDevice.Viewport.Bounds;
-            bool drawBarAboveToolbar = toolbarBounds.Center.Y >= viewportBounds.Center.Y;
-
-            int offsetY = ModEntry.Config.SpellBarOffset_Y;
-            int offsetX = ModEntry.Config.SpellBarOffset_X;
-            Point[] spots =
-            [
-                new((int)toolbarBounds.Left + 60 * ( 0 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY : toolbarBounds.Bottom + 24 + offsetY),
-                new((int)toolbarBounds.Left + 60 * ( 1 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY),
-                new((int)toolbarBounds.Left + 60 * ( 2 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY),
-                new((int)toolbarBounds.Left + 60 * ( 3 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY),
-                new((int)toolbarBounds.Left + 60 * ( 4 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY)
-            ];
-
-            // read spell info
-            SpellBook spellBook = Game1.player.GetSpellBook();
-            PreparedSpellBar prepared = spellBook.GetPreparedSpells();
-            if (prepared == null)
-                return;
-
-            // render empty spell slots
-            for (int i = 0; i < (hasFifthSpellSlot ? 5 : 4); ++i)
-                b.Draw(SpellBg, new Rectangle(spots[i].X, spots[i].Y, 50, 50), Color.White);
-
-
-            // render spell bar
-            string hoveredText = null;
-            for (int i = 0; i < (hasFifthSpellSlot ? 5 : 4) && i < prepared.Spells.Count; ++i)
-            {
-                PreparedSpell prep = prepared.GetSlot(i);
-                if (prep == null)
-                    continue;
-
-                Spell spell = SpellManager.Get(prep.SpellId);
-                if (spell == null || spell.SpellLevels.Length <= prep.Level || spell.SpellLevels[prep.Level] == null)
-                    continue;
-
-                Rectangle bounds = new(spots[i].X, spots[i].Y, 50, 50);
-                b.Draw(spell.Icon, bounds, spellBook.CanCastSpell(spell, prep.Level) ? Color.White : new Color(128, 128, 128));
-                b.Draw(spell.SpellLevels[prep.Level], bounds, spellBook.CanCastSpell(spell, prep.Level) ? Color.White : new Color(128, 128, 128));
-                if (bounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY()))
-                    hoveredText = spell.GetTooltip(level: prep.Level);
-            }
-
-            // render hover text
-            if (hoveredText != null && drawBarAboveToolbar == false)
-                StardewValley.Menus.IClickableMenu.drawHoverText(b, hoveredText, Game1.smallFont);
-        }
-
-
-        [SEvent.RenderedHud]
-        /// <summary>Raised after drawing the HUD (item toolbar, clock, etc) to the sprite batch, but before it's rendered to the screen. The vanilla HUD may be hidden at this point (e.g. because a menu is open).</summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        private static void OnRenderedHud(object sender, RenderedHudEventArgs e)
-        {
-
-            if (Game1.activeClickableMenu != null || Game1.eventUp || !LearnedMagic || !Context.IsPlayerFree)
-                return;
-
-            // read spell info
-            SpellBook spellBook = Game1.player.GetSpellBook();
-            PreparedSpellBar prepared = spellBook.GetPreparedSpells();
-            if (prepared == null)
-                return;
-
-            var toolbar = GetToolbar();
-            if (toolbar is null)
-                return;
-
-            var buttons = ToolbarButtonsGetter.Value(toolbar);
-            int toolbarMinX = buttons.Select(b => b.bounds.X).Min();
-            int toolbarMaxX = buttons.Select(b => b.bounds.X).Max();
-            int toolbarMinY = buttons.Select(b => b.bounds.Y).Min();
-            Rectangle toolbarBounds = new(toolbarMinX, toolbarMinY, toolbarMaxX - toolbarMinX + 64, 64);
-            var viewportBounds = Game1.graphics.GraphicsDevice.Viewport.Bounds;
-            bool drawBarAboveToolbar = toolbarBounds.Center.Y >= viewportBounds.Center.Y;
-
-            bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Wizard_Skill.Magic10a2);
-            int offsetY = ModEntry.Config.SpellBarOffset_Y;
-            int offsetX = ModEntry.Config.SpellBarOffset_X;
-            Point[] spots =
-            [
-                new((int)toolbarBounds.Left + 60 * ( 0 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY : toolbarBounds.Bottom + 24 + offsetY),
-                new((int)toolbarBounds.Left + 60 * ( 1 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY),
-                new((int)toolbarBounds.Left + 60 * ( 2 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY),
-                new((int)toolbarBounds.Left + 60 * ( 3 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY),
-                new((int)toolbarBounds.Left + 60 * ( 4 ) + offsetX, drawBarAboveToolbar ? toolbarBounds.Top - 72 - offsetY: toolbarBounds.Bottom + 24 + offsetY)
-            ];
-
-            string hoveredText = null;
-            for (int i = 0; i < (hasFifthSpellSlot ? 5 : 4) && i < prepared.Spells.Count; ++i)
-            {
-                PreparedSpell prep = prepared.GetSlot(i);
-                if (prep == null)
-                    continue;
-
-                Spell spell = SpellManager.Get(prep.SpellId);
-                if (spell == null || spell.SpellLevels.Length <= prep.Level || spell.SpellLevels[prep.Level] == null)
-                    continue;
-
-                Rectangle bounds = new(spots[i].X, spots[i].Y, 50, 50);
-
-                if (bounds.Contains(Game1.getOldMouseX(), Game1.getOldMouseY()))
-                    hoveredText = spell.GetTooltip(level: prep.Level);
-            }
-
-            SpriteBatch b = e.SpriteBatch;
-            // render hover text
-            if (hoveredText != null && drawBarAboveToolbar == true)
-                StardewValley.Menus.IClickableMenu.drawHoverText(b, hoveredText, Game1.smallFont);
-        }
-
-        internal static bool HandleMagicAltar(GameLocation location, string[] args, Farmer player, Microsoft.Xna.Framework.Point point)
-        {
-            OnAltarClicked();
-            return true;
-        }
-
-        internal static bool HandleMagicRadio(GameLocation location, string[] args, Farmer player, Microsoft.Xna.Framework.Point point)
-        {
-            OnRadioClicked();
-            return true;
-        }
-
-        /// <summary>Handle an interaction with the magic altar.</summary>
-        private static void OnAltarClicked()
-        {
-            Log.Trace("Magic Altar clicked!");
-            if (!LearnedMagic)
-            {
-                Log.Trace("Does not know Wizardry, not opening spell menu.");
-                Game1.drawObjectDialogue(I18n.Altar_ClickMessage());
-            }
-            else
-            {
-                Log.Trace("Knows wizardry, can open spell menu");
-                Game1.playSound("secret1");
-                Game1.activeClickableMenu = new MagicMenu();
-            }
-        }
-
-        /// <summary>Handle an interaction with the magic radio.</summary>
-        private static void OnRadioClicked()
-        {
-            Game1.activeClickableMenu = new DialogueBox(GetRadioTextToday());
-        }
-
-        /// <summary>Get the radio station text to play today.</summary>
-        private static string GetRadioTextToday()
-        {
-            // player doesn't know magic
-            if (!LearnedMagic)
-                return ModEntry.Instance.I18N.Get("radio.static");
-
-            // get base key for random hints
-            string baseKey = Regex.Replace(nameof(I18n.Radio_Analyzehints_1), "_1$", "");
-            if (baseKey == nameof(I18n.Radio_Analyzehints_1))
-            {
-                Log.Error("Couldn't get the Magic radio station analyze hint base key. This is a bug in the Magic mod."); // key format changed?
-                return ModEntry.Instance.I18N.Get("radio.static");
-            }
-
-            // choose random hint
-            string[] stationTexts = typeof(I18n)
-                .GetMethods()
-                .Where(p => Regex.IsMatch(p.Name, $@"^{baseKey}_\d+$"))
-                .Select(p => (string)p.Invoke(null, Array.Empty<object>()))
-                .ToArray();
-            Random random = new Random((int)Game1.stats.DaysPlayed + (int)(Game1.uniqueIDForThisGame / 2));
-            return $"{I18n.Radio_Static()} {stationTexts[random.Next(stationTexts.Length)]}";
-        }
-
-
-
         [SEvent.SaveLoaded]
         private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
         {
-            foreach (var player in Game1.getAllFarmers())
+            foreach (var farmers in Game1.getAllFarmers())
             {
-                if (player.eventsSeen.Contains("90001") && !player.mailReceived.Contains("moonslimeWizardryLearnedMagic"))
+                if (farmers.eventsSeen.Contains("90001") &&
+                    !farmers.mailReceived.Contains("moonslimeWizardryLearnedMagic"))
                 {
-                    player.mailReceived.Add("moonslimeWizardryLearnedMagic");
+                    farmers.mailReceived.Add("moonslimeWizardryLearnedMagic");
                 }
-
-
             }
 
+            Farmer player = Game1.player;
             string Id = "moonslime.Wizard";
-            int skillLevel = Game1.player.GetCustomSkillLevel(Id);
+            int skillLevel = player.GetCustomSkillLevel(Id);
             foreach (KeyValuePair<string, string> recipePair in DataLoader.CraftingRecipes(Game1.content))
             {
                 string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
                 if (!conditions.Contains(Id))
-                {
                     continue;
-                }
                 if (conditions.Split(" ").Length < 2)
-                {
                     continue;
-                }
 
                 int level = int.Parse(conditions.Split(" ")[1]);
 
                 if (skillLevel < level)
-                {
                     continue;
-                }
 
-                Game1.player.craftingRecipes.TryAdd(recipePair.Key, 0);
+                player.craftingRecipes.TryAdd(recipePair.Key, 0);
             }
 
             if (!Context.IsMainPlayer)
@@ -710,9 +203,581 @@ namespace WizardrySkill.Core
                 return;
 
             ModEntry.LegacyDataMigrator.OnSaved();
-
             ModEntry.Instance.Helper.Events.GameLoop.Saving -= this.OnSaving;
         }
 
+        /*********
+        ** Public methods
+        *********/
+        public static void Init(IInputHelper inputHelper, Func<long> getNewId)
+        {
+            InputHelper = inputHelper;
+
+            LoadAssets();
+            SpellManager.Init(getNewId);
+
+            OnAnalyzeCast += (sender, e) => ModEntry.Instance.Api.InvokeOnAnalyzeCast(sender as Farmer);
+
+            SpaceCore.Skills.RegisterSkill(Skill);
+        }
+
+        public static void LoadAssets()
+        {
+            SpellBg = ModEntry.Assets.Spellbg;
+            ManaBg = ModEntry.Assets.Manabg;
+
+            Color manaCol = new(0, 48, 255);
+            ManaFg = new Texture2D(Game1.graphics.GraphicsDevice, 1, 1);
+            ManaFg.SetData([manaCol]);
+        }
+
+        [SEvent.AssetRequested]
+        public static void AssetRequested(object sender, AssetRequestedEventArgs e)
+        {
+            ModEntry.Editor.TryEdit(e);
+        }
+
+        [SEvent.UpdateTicked]
+        private static void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
+        {
+            if (!Context.IsWorldReady)
+                return;
+
+            Farm farm = Game1.getFarm();
+            string playerKey = $"{BaseModDataKey}/{Game1.player.UniqueMultiplayerID}";
+
+            if (farm.modData.TryGetValue(playerKey, out string rawData) && !string.IsNullOrWhiteSpace(rawData))
+            {
+                var messages = ReadAndClearActiveEffects(farm, playerKey);
+                Log.Trace($"Got data to {Game1.player.displayName}");
+                foreach (var msg in messages)
+                {
+                    Farmer caster = Game1.GetPlayer(msg.CasterId);
+                    if (caster == null) continue;
+
+                    IActiveEffect effect = caster.GetSpellBook()
+                        .CastSpell(msg.SpellFullId, msg.Level, msg.X, msg.Y);
+                    if (effect != null)
+                        ActiveEffects.Add(effect);
+                }
+            }
+
+            for (int i = ActiveEffects.Count - 1; i >= 0; i--)
+            {
+                IActiveEffect effect = ActiveEffects[i];
+                if (!effect.Update(e))
+                    ActiveEffects.RemoveAt(i);
+            }
+        }
+
+        public static List<(long CasterId, string SpellFullId, int Level, int X, int Y)>
+            ReadAndClearActiveEffects(Farm farm, string newKey)
+        {
+            var results = new List<(long, string, int, int, int)>();
+            if (farm == null) return results;
+
+            if (!farm.modData.TryGetValue(newKey, out string raw) || string.IsNullOrWhiteSpace(raw))
+                return results;
+
+            foreach (string entry in raw.Split('/', StringSplitOptions.RemoveEmptyEntries))
+            {
+                string[] parts = entry.Split(',');
+                if (parts.Length < 5) continue;
+                if (!long.TryParse(parts[0], out long casterId)) continue;
+
+                string spellFullId = parts[1];
+
+                if (!int.TryParse(parts[2], out int level)) continue;
+                if (!int.TryParse(parts[3], out int x)) continue;
+                if (!int.TryParse(parts[4], out int y)) continue;
+
+                results.Add((casterId, spellFullId, level, x, y));
+            }
+
+            farm.modData[newKey] = "";
+            return results;
+        }
+
+        [SEvent.ButtonPressed]
+        public static void OnButtonPressed(object sender, ButtonPressedEventArgs e)
+        {
+            bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Wizard_Skill.Magic10a2);
+            bool hasMenuOpen = Game1.activeClickableMenu is not null;
+
+            if (e.Button == ModEntry.Config.Key_Cast) CastPressed = true;
+
+            if (CastPressed && e.Button == ModEntry.Config.Key_SwapSpells && !hasMenuOpen)
+            {
+                Game1.player.GetSpellBook().SwapPreparedSet();
+                InputHelper.Suppress(e.Button);
+            }
+            else if (CastPressed &&
+                     (e.Button == ModEntry.Config.Key_Spell1 || e.Button == ModEntry.Config.Key_Spell2 ||
+                      e.Button == ModEntry.Config.Key_Spell3 || e.Button == ModEntry.Config.Key_Spell4 ||
+                      (e.Button == ModEntry.Config.Key_Spell5 && hasFifthSpellSlot)))
+            {
+                int slotIndex = 0;
+                if (e.Button == ModEntry.Config.Key_Spell1) slotIndex = 0;
+                else if (e.Button == ModEntry.Config.Key_Spell2) slotIndex = 1;
+                else if (e.Button == ModEntry.Config.Key_Spell3) slotIndex = 2;
+                else if (e.Button == ModEntry.Config.Key_Spell4) slotIndex = 3;
+                else if (e.Button == ModEntry.Config.Key_Spell5) slotIndex = 4;
+
+                InputHelper.Suppress(e.Button);
+                Farmer player = Game1.player;
+                SpellBook spellBook = player.GetSpellBook();
+                PreparedSpellBar prepared = spellBook.GetPreparedSpells();
+                PreparedSpell slot = prepared?.GetSlot(slotIndex);
+                if (slot == null) return;
+
+                Spell spell = SpellManager.Get(slot.SpellId);
+                if (spell == null) return;
+
+                bool canCast =
+                    spellBook.CanCastSpell(spell, slot.Level) &&
+                    (!hasMenuOpen || spell.CanCastInMenus);
+
+                if (canCast)
+                {
+                    Log.Trace("Casting " + slot.SpellId);
+                    player.AddMana(-spell.GetManaCost(player, slot.Level));
+                    Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
+                    string entry = $"{player.UniqueMultiplayerID},{spell.FullId},{slot.Level},{pos.X},{pos.Y}";
+
+                    Farm farm = Game1.getFarm();
+                    foreach (var who in Game1.getOnlineFarmers())
+                    {
+                        string playerKey = $"{BaseModDataKey}/{who.UniqueMultiplayerID}";
+                        Log.Trace($"Sending data to {who.displayName}");
+                        if (!farm.modData.TryGetValue(playerKey, out string existing))
+                            existing = "";
+
+                        if (!string.IsNullOrEmpty(existing))
+                            existing += "/";
+
+                        farm.modData[playerKey] = existing + entry;
+                    }
+                }
+            }
+        }
+
+        [SEvent.ButtonReleased]
+        public static void OnButtonReleased(object sender, ButtonReleasedEventArgs e)
+        {
+            if (e.Button == ModEntry.Config.Key_Cast)
+                CastPressed = false;
+        }
+
+        [SEvent.TimeChanged]
+        public static void OnTimeChanged(object sender, TimeChangedEventArgs e)
+        {
+            Farmer player = Game1.player;
+            int level = player.GetCustomSkillLevel(Skill);
+            double manaRegen = 0;
+
+            if (ModEntry.Config.EnableBaseManaRegen)
+                manaRegen = (level + 1) / 2;
+
+            if (player.HasCustomProfession(Wizard_Skill.Magic10b1))
+                manaRegen += level * 0.5;
+            if (player.HasCustomProfession(Wizard_Skill.Magic5b))
+                manaRegen += level * 0.5;
+
+            manaRegen += CarryoverManaRegen;
+
+            player.AddMana((int)manaRegen);
+            CarryoverManaRegen = manaRegen - (int)manaRegen;
+        }
+
+        [SEvent.Warped]
+        public static void OnWarped(object sender, WarpedEventArgs e)
+        {
+            if (!e.IsLocalPlayer) return;
+
+            EvacSpell.OnLocationChanged();
+
+            if (e.NewLocation.IsOutdoors && !e.Player.modData.ContainsKey("moonslime.Wizardry.TeleportTo." + e.NewLocation.Name))
+                e.Player.modData.Add("moonslime.Wizardry.TeleportTo." + e.NewLocation.Name, "");
+        }
+
+        public static SpellBook GetSpellBook(Farmer player)
+        {
+            if (!SpellBookCache.TryGetValue(player.UniqueMultiplayerID, out SpellBook book) ||
+                !object.ReferenceEquals(player, book.Player))
+                SpellBookCache[player.UniqueMultiplayerID] = book = new SpellBook(player);
+
+            return book;
+        }
+
+        public static void FixMagicIfNeeded(Farmer player, int? overrideMagicLevel = null, bool fixMana = false)
+        {
+            if (!LearnedMagic && overrideMagicLevel is not > 0)
+                return;
+
+            int magicLevel = overrideMagicLevel ?? player.GetCustomSkillLevel("moonslime.Wizard");
+            SpellBook spellBook = player.GetSpellBook();
+
+            if (fixMana) { }
+
+            if (spellBook.Prepared.Count < MagicConstants.SpellBarCount)
+            {
+                spellBook.Mutate(data =>
+                {
+                    while (spellBook.Prepared.Count < MagicConstants.SpellBarCount)
+                        data.Prepared.Add(new PreparedSpellBar());
+                });
+            }
+
+            Skills.Skill skill = Skills.GetSkill("moonslime.Wizard");
+            foreach (var profession in skill.Professions)
+            {
+                if (!player.professions.Contains(profession.GetVanillaId()))
+                    continue;
+
+                string modDataKey = $"{skill.Id}.{profession.Id}";
+                if (!player.modData.ContainsKey(modDataKey))
+                {
+                    player.modData.SetBool(modDataKey, true);
+                    MoonShared.Attributes.Log.Trace($"Player now has Profession mod data: {modDataKey}");
+                }
+            }
+
+            foreach (string spellId in CoreSpells)
+            {
+                if (!spellBook.KnowsSpell(spellId, 0))
+                    spellBook.LearnSpell(spellId, 0, true);
+            }
+        }
+
+
+        [SEvent.RenderingHud]
+        private static void OnRenderingHud(object sender, RenderingHudEventArgs e)
+        {
+            // Skip drawing if menus are open, events are active, or the player can't act
+            if (Game1.activeClickableMenu != null || Game1.eventUp || !LearnedMagic || !Context.IsPlayerFree)
+                return;
+
+            SpriteBatch b = e.SpriteBatch;
+            var viewport = Game1.graphics.GraphicsDevice.Viewport.Bounds;
+
+            // 1. Draw all active visual spell effects (e.g. ongoing auras)
+            DrawActiveEffects(b);
+
+            // 2. Try to get toolbar info (toolbar instance + button list)
+            if (!TryGetToolbarInfo(out Toolbar toolbar, out var buttons))
+                return; // toolbar not ready — skip drawing
+
+            // Determine number of available spell slots
+            bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Wizard_Skill.Magic10a2);
+            int totalSlots = hasFifthSpellSlot ? 5 : 4;
+
+            // Detect any changes that require position recalculation
+            bool viewportChanged = CheckViewportChanged(viewport);
+            var toolbarBounds = GetToolbarBounds(buttons);
+            bool drawBarAboveToolbar = ShouldDrawAboveToolbar(toolbarBounds, viewport);
+            bool toolbarMoved = CheckToolbarChanged(toolbar, toolbarBounds, drawBarAboveToolbar, totalSlots, viewportChanged);
+
+            // If toolbar or viewport changed → recalculate slot layout
+            if (toolbarMoved)
+                RecalculateSpellBar(toolbar, toolbarBounds, drawBarAboveToolbar, totalSlots);
+
+            // 3. Draw spell icons and manage hover text
+            SpellBook spellBook = Game1.player.GetSpellBook();
+            PreparedSpellBar prepared = spellBook.GetPreparedSpells();
+            if (prepared == null)
+                return;
+
+            // Detect if player switched to a different spell bar
+            bool spellBarChanged = DetectSpellBarChange(prepared);
+
+            // If toolbar, spell bar, or cache changed → rebuild static icon cache
+            if (CachedStaticSpells == null || spellBarChanged || toolbarMoved)
+                RebuildStaticSpellCache(spellBook, prepared, totalSlots);
+
+            // Refresh CanCast states every few frames (for mana/inventory updates)
+            UpdateCanCastCache(spellBook, totalSlots);
+
+            // Draw empty background slots
+            DrawEmptySpellSlots(b, totalSlots);
+
+            // Draw actual spells + hover text
+            DrawSpellsAndHover(b, spellBook, totalSlots, toolbarMoved, viewportChanged, spellBarChanged);
+        }
+
+        [SEvent.RenderedHud]
+        private static void OnRenderedHud(object sender, RenderedHudEventArgs e)
+        {
+            // Skip if player isn't in active control
+            if (Game1.activeClickableMenu != null || Game1.eventUp || !LearnedMagic || !Context.IsPlayerFree)
+                return;
+
+            // Draw hover tooltip *above* the toolbar (if applicable)
+            if (CachedHoverText != null && CachedDrawBarAboveToolbar)
+                IClickableMenu.drawHoverText(e.SpriteBatch, CachedHoverText, Game1.smallFont);
+        }
+
+        /// <summary>
+        /// Draws all currently active spell effects (visual overlays or auras).
+        /// </summary>
+        private static void DrawActiveEffects(SpriteBatch b)
+        {
+            foreach (IActiveEffect effect in ActiveEffects)
+                effect.Draw(b);
+        }
+
+        /// <summary>
+        /// Safely retrieves the toolbar and its clickable buttons.
+        /// Returns false if toolbar isn’t ready.
+        /// </summary>
+        private static bool TryGetToolbarInfo(out Toolbar toolbar, out IList<ClickableComponent> buttons)
+        {
+            toolbar = GetToolbar();
+            buttons = toolbar != null ? ToolbarButtonsGetter.Value(toolbar) : null;
+            return toolbar != null && buttons != null && buttons.Count > 0;
+        }
+
+        /// <summary>
+        /// Detects if the game window or viewport has changed size since last frame.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool CheckViewportChanged(Rectangle viewportBounds)
+        {
+            bool changed = viewportBounds.Width != CachedViewport.X || viewportBounds.Height != CachedViewport.Y;
+            if (changed)
+            {
+                CachedViewport.X = viewportBounds.Width;
+                CachedViewport.Y = viewportBounds.Height;
+            }
+            return changed;
+        }
+
+        /// <summary>
+        /// Computes the full bounding box of the toolbar based on its button layout.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Rectangle GetToolbarBounds(IList<ClickableComponent> buttons)
+        {
+            int minX = buttons.Min(b => b.bounds.X);
+            int maxX = buttons.Max(b => b.bounds.X);
+            int minY = buttons.Min(b => b.bounds.Y);
+            return new Rectangle(minX, minY, maxX - minX + 64, 64);
+        }
+
+        /// <summary>
+        /// Determines whether to draw the spell bar above or below the toolbar
+        /// based on the toolbar’s vertical position.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool ShouldDrawAboveToolbar(Rectangle toolbarBounds, Rectangle viewport)
+        {
+            return toolbarBounds.Center.Y >= viewport.Center.Y;
+        }
+
+        /// <summary>
+        /// Checks whether toolbar layout, viewport, or slot count changed.
+        /// </summary>
+        private static bool CheckToolbarChanged(Toolbar toolbar, Rectangle bounds, bool drawAbove, int slots, bool viewportChanged)
+        {
+            return CachedToolbarRef != toolbar
+                || bounds != CachedToolbarBounds
+                || CachedDrawBarAboveToolbar != drawAbove
+                || (CachedSpellSpots?.Length ?? 0) != slots
+                || viewportChanged;
+        }
+
+        /// <summary>
+        /// Rebuilds spell bar layout coordinates relative to the toolbar.
+        /// </summary>
+        private static void RecalculateSpellBar(Toolbar toolbar, Rectangle toolbarBounds, bool drawAbove, int totalSlots)
+        {
+            int offsetX = ModEntry.Config.SpellBarOffset_X;
+            int offsetY = ModEntry.Config.SpellBarOffset_Y;
+
+            CachedSpellSpots = new Point[totalSlots];
+            for (int i = 0; i < totalSlots; i++)
+            {
+                int x = toolbarBounds.Left + 60 * i + offsetX;
+                int y = drawAbove ? toolbarBounds.Top - 72 - offsetY : toolbarBounds.Bottom + 24 + offsetY;
+                CachedSpellSpots[i] = new Point(x, y);
+            }
+
+            CachedToolbarRef = toolbar;
+            CachedToolbarBounds = toolbarBounds;
+            CachedDrawBarAboveToolbar = drawAbove;
+            CachedHoverText = null;
+        }
+
+        /// <summary>
+        /// Detects when the player switches to a different prepared spell bar.
+        /// </summary>
+        private static bool DetectSpellBarChange(PreparedSpellBar prepared)
+        {
+            bool changed = prepared != LastPreparedSpellBar;
+            if (changed)
+                LastPreparedSpellBar = prepared;
+            return changed;
+        }
+
+        /// <summary>
+        /// Builds a static cache of all visible spells (icons, tooltips, bounds).
+        /// Called when the spell bar or layout changes.
+        /// </summary>
+        private static void RebuildStaticSpellCache(SpellBook book, PreparedSpellBar prepared, int totalSlots)
+        {
+            CachedStaticSpells = new StaticSpellDraw[totalSlots];
+            for (int i = 0; i < totalSlots && i < prepared.Spells.Count; i++)
+            {
+                PreparedSpell prep = prepared.GetSlot(i);
+                if (prep == null)
+                    continue;
+
+                Spell spell = SpellManager.Get(prep.SpellId);
+                if (spell == null || spell.SpellLevels.Length <= prep.Level || spell.SpellLevels[prep.Level] == null)
+                    continue;
+
+                CachedStaticSpells[i] = new StaticSpellDraw
+                {
+                    Bounds = new Rectangle(CachedSpellSpots[i].X, CachedSpellSpots[i].Y, 50, 50),
+                    Icon = spell.Icon,
+                    LevelIcon = spell.SpellLevels[prep.Level],
+                    Tooltip = spell.GetTooltip(prep.Level),
+                    Spell = spell,
+                    Level = prep.Level
+                };
+            }
+        }
+
+        /// <summary>
+        /// Updates CanCast states every 5 frames to reflect mana or inventory changes.
+        /// </summary>
+        private static void UpdateCanCastCache(SpellBook book, int totalSlots)
+        {
+            FrameCounter++;
+            if (FrameCounter % 5 != 0)
+                return; // skip most frames to save CPU
+
+            if (CachedStaticSpells == null)
+                return;
+
+            CachedCanCastStates = new bool[totalSlots];
+            for (int i = 0; i < totalSlots && i < CachedStaticSpells.Length; i++)
+            {
+                var s = CachedStaticSpells[i];
+                CachedCanCastStates[i] = s != null && book.CanCastSpell(s.Spell, s.Level);
+            }
+        }
+
+        /// <summary>
+        /// Draws the empty spell slot backgrounds.
+        /// </summary>
+        private static void DrawEmptySpellSlots(SpriteBatch b, int totalSlots)
+        {
+            for (int i = 0; i < totalSlots; i++)
+                b.Draw(SpellBg, new Rectangle(CachedSpellSpots[i].X, CachedSpellSpots[i].Y, 50, 50), Color.White);
+        }
+
+        /// <summary>
+        /// Draws each spell icon, applies color tint based on CanCast state,
+        /// and handles tooltip display logic.
+        /// </summary>
+        private static void DrawSpellsAndHover(SpriteBatch b, SpellBook spellBook, int totalSlots, bool toolbarMoved, bool viewportChanged, bool spellBarChanged)
+        {
+            int mouseX = Game1.getOldMouseX();
+            int mouseY = Game1.getOldMouseY();
+            bool mouseMoved = mouseX != LastMouseX || mouseY != LastMouseY;
+            LastMouseX = mouseX;
+            LastMouseY = mouseY;
+
+            string hoveredText = null;
+            for (int i = 0; i < totalSlots && i < CachedStaticSpells.Length; i++)
+            {
+                var s = CachedStaticSpells[i];
+                if (s == null)
+                    continue;
+
+                bool canCast = CachedCanCastStates != null && i < CachedCanCastStates.Length && CachedCanCastStates[i];
+                Color drawColor = canCast ? Color.White : DisabledColor;
+
+                // Draw the spell’s main icon and its level overlay
+                b.Draw(s.Icon, s.Bounds, drawColor);
+                b.Draw(s.LevelIcon, s.Bounds, drawColor);
+
+                // Detect mouse hover for tooltip
+                if (s.Bounds.Contains(mouseX, mouseY))
+                    hoveredText = s.Tooltip;
+            }
+
+            // Update cached hover text only when needed
+            if (mouseMoved || toolbarMoved || viewportChanged || spellBarChanged)
+                CachedHoverText = hoveredText;
+
+            // Draw tooltip below toolbar (the above-toolbar case is drawn in OnRenderedHud)
+            if (CachedHoverText != null && !CachedDrawBarAboveToolbar)
+                IClickableMenu.drawHoverText(b, CachedHoverText, Game1.smallFont);
+        }
+
+
+
+
+
+        /*********
+        ** Interaction Handlers
+        *********/
+
+
+        internal static bool HandleMagicAltar(GameLocation location, string[] args, Farmer player, Microsoft.Xna.Framework.Point point)
+        {
+            OnAltarClicked();
+            return true;
+        }
+
+        internal static bool HandleMagicRadio(GameLocation location, string[] args, Farmer player, Microsoft.Xna.Framework.Point point)
+        {
+            OnRadioClicked();
+            return true;
+        }
+
+        private static void OnAltarClicked()
+        {
+            Log.Trace("Magic Altar clicked!");
+            if (!LearnedMagic)
+            {
+                Log.Trace("Does not know Wizardry, not opening spell menu.");
+                Game1.drawObjectDialogue(I18n.Altar_ClickMessage());
+            }
+            else
+            {
+                Log.Trace("Knows wizardry, can open spell menu");
+                Game1.playSound("secret1");
+                Game1.activeClickableMenu = new MagicMenu();
+            }
+        }
+
+        private static void OnRadioClicked()
+        {
+            Game1.activeClickableMenu = new DialogueBox(GetRadioTextToday());
+        }
+
+        private static string GetRadioTextToday()
+        {
+            if (!LearnedMagic)
+                return ModEntry.Instance.I18N.Get("radio.static");
+
+            string baseKey = Regex.Replace(nameof(I18n.Radio_Analyzehints_1), "_1$", "");
+            if (baseKey == nameof(I18n.Radio_Analyzehints_1))
+            {
+                Log.Error("Couldn't get the Magic radio station analyze hint base key. This is a bug in the Magic mod.");
+                return ModEntry.Instance.I18N.Get("radio.static");
+            }
+
+            string[] stationTexts = typeof(I18n)
+                .GetMethods()
+                .Where(p => Regex.IsMatch(p.Name, $@"^{baseKey}_\d+$"))
+                .Select(p => (string)p.Invoke(null, Array.Empty<object>()))
+                .ToArray();
+
+            Random random = new Random((int)Game1.stats.DaysPlayed + (int)(Game1.uniqueIDForThisGame / 2));
+            return $"{I18n.Radio_Static()} {stationTexts[random.Next(stationTexts.Length)]}";
+        }
     }
 }
