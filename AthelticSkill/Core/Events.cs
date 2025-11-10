@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using AthleticSkill.Objects;
 using Microsoft.Xna.Framework;
 using MoonShared;
@@ -9,9 +10,11 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Buffs;
+using StardewValley.Extensions;
 using xTile.Dimensions;
 using xTile.Tiles;
 using Log = MoonShared.Attributes.Log;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace AthleticSkill.Core
 {
@@ -225,31 +228,10 @@ namespace AthleticSkill.Core
                 CachedSprintBuff = BackupSprintBuff;
                 CachedSprintBuff.millisecondsDuration = SprintBuffDurationMs;
                 farmer.applyBuff(CachedSprintBuff);
-                Game1.Multiplayer.broadcastSprites(farmer.currentLocation,
-                    new TemporaryAnimatedSprite(5,
-                    farmer.Position,
-                    Color.Brown,
-                    10,
-                    Game1.random.NextDouble() < 0.5,
-                    70f,
-                    0,
-                    Game1.tileSize,
-                    farmer.Position.Y / 10000f));
-
             } else
             {
                 CachedSprintBuff.millisecondsDuration = SprintBuffDurationMs;
                 farmer.applyBuff(CachedSprintBuff);
-                Game1.Multiplayer.broadcastSprites(farmer.currentLocation,
-                    new TemporaryAnimatedSprite(5,
-                    farmer.Position,
-                    Color.White,
-                    3,
-                    Game1.random.NextDouble() < 0.5,
-                    70f,
-                    0,
-                    Game1.tileSize,
-                    farmer.Position.Y / 10000f));
             }
         }
 
