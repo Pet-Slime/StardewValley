@@ -1,14 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MoonShared.APIs;
 using StardewModdingAPI;
 using StardewModdingAPI.Utilities;
-using StardewValley.Extensions;
-using Log = MoonShared.Attributes.Log;
 
 namespace MoonShared.Attributes
 {

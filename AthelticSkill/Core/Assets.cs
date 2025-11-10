@@ -1,5 +1,5 @@
-using MoonShared.Attributes;
 using Microsoft.Xna.Framework.Graphics;
+using MoonShared.Attributes;
 using StardewValley;
 
 namespace AthleticSkill.Core
@@ -7,7 +7,7 @@ namespace AthleticSkill.Core
     [SAsset(Priority = 0)]
     public class Assets
     {
-        public Texture2D IconA  => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/AthleticiconA");
+        public Texture2D IconA => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/AthleticiconA");
 
         public Texture2D SprintingIcon1 => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/SprintingIcon1");
         public Texture2D SprintingIcon2 => Game1.content.Load<Texture2D>("Mods/moonslime.AthleticSkill/interface/SprintingIcon2");

@@ -1,8 +1,7 @@
 using System;
-using System.Linq;
 using AthleticSkill.Objects;
-using MoonShared.Attributes;
 using MoonShared;
+using MoonShared.Attributes;
 using SpaceCore;
 using SpaceCore.Events;
 using StardewModdingAPI;
