@@ -88,7 +88,7 @@ namespace AthleticSkill.Core
                     effects: new BuffEffects()
                     {
                         Speed = { HasMarathoner ? ModEntry.Config.SprintSpeed + 1 : ModEntry.Config.SprintSpeed },
-                        Defense = { HasMarathoner ? Utilities.GetLevel(player) : 0 }
+                        Defense = { HasLinebacker ? Utilities.GetLevel(player) : 0 }
                     }
                 );
 
@@ -130,8 +130,6 @@ namespace AthleticSkill.Core
             {
                 // Flip sprint state between true and false
                 modData.SetBool(SprintingOn, !modData.GetBool(SprintingOn));
-
-                Log.Trace($"Sprint toggled: {modData[SprintingOn]}");
                 return;
             }
 

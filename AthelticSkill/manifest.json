@@ -1,7 +1,7 @@
 {
   "$schema": "https://smapi.io/schemas/manifest.json",
   "UniqueID": "moonslime.AthleticSkill",
-  "Name": "Athletics, A sprinting Skill",
+  "Name": "Athletics Skill",
   "Author": "moonslime",
   "Version": "1.0.0",
   "Description": "Adds sprinting and buffs professions as a skill",
@@ -9,6 +9,10 @@
   "MinimumGameVersion": "1.6.15",
   "EntryDll": "AthleticSkill.dll",
   "Dependencies": [
+    {
+      "UniqueID": "DaLion.Professions",
+      "IsRequired": false
+    },
     {
       "UniqueID": "moonslime.AthleticSkill.CP",
       "MinimumVersion": "1.0.0"

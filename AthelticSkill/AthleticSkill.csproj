@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <Import Project="..\common.targets" />
     <Import Project="..\spacecore.targets" />
 
 
     <PropertyGroup>
-        <Name>Athletics, A sprinting Skill</Name>
+        <Name>Athletics Skill</Name>
         <Description>Adds sprinting and buffs professions as a skill</Description>
         <Version>1.0.0</Version>
         <UpdateKeys>Nexus:-1</UpdateKeys>
@@ -14,6 +14,7 @@
         <SMAPIDependency Include="Pathoschild.ContentPatcher" MinimumVersion="2.8.0" Required="true" />
         <SMAPIDependency Include="spacechase0.GenericModConfigMenu" MinimumVersion="1.0.0" Required="false" />
         <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
+        <SMAPIDependency Include="DaLion.Professions" Required="false" />
         <SMAPIDependency Include="moonslime.AthleticSkill.CP" version="1.0.0" Required="true" />
     </ItemGroup>
 
