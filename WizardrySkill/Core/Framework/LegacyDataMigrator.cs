@@ -81,10 +81,10 @@ namespace WizardrySkill.Core.Framework
                 spellBar.Spells.Clear();
             }
             List<string> spellList = new List<string>();
-            foreach (string spellId in SpellManager.GetAll())
+            foreach (var spellId in spellBook.KnownSpells)
             {
-                spellList.Add(spellId);
-                spellBook.ForgetSpell(spellId, 0);
+                spellList.Add(spellId.Key);
+                spellBook.ForgetSpell(spellId.Key, 0);
             }
             spellBook.SetSpellPointsToZero();
             foreach (string spellId in spellList)

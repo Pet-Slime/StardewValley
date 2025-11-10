@@ -2,6 +2,7 @@ using System;
 using AthleticSkill.Objects;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using MoonShared;
 using SpaceCore;
 using StardewValley;
 using StardewValley.Monsters;
@@ -16,12 +17,15 @@ namespace AthleticSkill.Core.Patches
     [HarmonyPatch(typeof(Farmer), nameof(Farmer.takeDamage))]
     public class ThornsDamage
     {
+        // Key used to track whether sprinting is active in Farmer.modData
+        private static readonly string SprintingOn = "moonslime.AthelticSkill.sprinting";
+
         // Using a Postfix so we can apply reflected damage *after* the player takes damage
         [HarmonyPostfix]
         private static void PostFix(Farmer __instance, ref int damage, ref bool overrideParry, ref Monster damager)
         {
             // --- Check if the player has the Linebacker profession ---
-            if (__instance.HasCustomProfession(Athletic_Skill.Athletic10a2))
+            if (__instance.HasCustomProfession(Athletic_Skill.Athletic10a2) && __instance.modData.GetBool(SprintingOn))
             {
                 // --- Validate the monster and damage ---
                 // Only reflect damage if:
