@@ -1,6 +1,6 @@
 using System;
 using AthleticSkill.Objects;
-using Force.DeepCloner;
+using Microsoft.Xna.Framework;
 using MoonShared;
 using MoonShared.Attributes;
 using SpaceCore;
@@ -9,6 +9,8 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Buffs;
+using xTile.Dimensions;
+using xTile.Tiles;
 using Log = MoonShared.Attributes.Log;
 
 namespace AthleticSkill.Core
@@ -36,6 +38,7 @@ namespace AthleticSkill.Core
 
         // Buff and sprint-related cached values
         private static Buff CachedSprintBuff;          // Reference to the sprint Buff object, reused each tick
+        private static Buff BackupSprintBuff;          // A backup of the sprint buff just in case the Cached sprint buff some how vanishes
         private static bool CacheToggleSprint = false; // Cached sprint toggle mode setting
         private static uint CacheSprintingExpEvent = 0; // How often to award EXP from sprinting
         private static int CacheExpFromSprinting = 0;  // Amount of EXP awarded per sprint interval
@@ -45,35 +48,35 @@ namespace AthleticSkill.Core
         [SEvent.GameLaunchedLate]
         private static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
-            // Determine whether alternative profession system is active
+            // Check whether WoL (Walks of Life) or alternative profession settings are active
+            // This toggles an internal flag to use the alternative profession system.
             if (ModEntry.IsWoLLoaded || ModEntry.Config.AlternativeStrongmanProfession)
             {
                 ModEntry.UseAltProfession = true;
             }
 
             Log.Trace("Athletics: Trying to Register skill.");
-
-            // Register the Athletics skill with SpaceCore
             SpaceCore.Skills.RegisterSkill(new Athletic_Skill());
 
-            // Legacy stamina hook (currently unused)
+            // Legacy stamina hook (commented out): was meant to trigger OnStaminaUse()
+            // when the stamina value changes. Currently unused.
             // var field = ModEntry.Instance.Helper.Reflection.GetField<NetFloat>(Game1.player, "netStamina");
             // field.GetValue().fieldChangeEvent += (field, oldValue, newValue) => OnStaminaUse(oldValue, newValue);
 
-            // Subscribe to SpaceCore item-eaten events for custom "Nauseated" tag handling
+            // Subscribe to SpaceCore’s OnItemEaten event to handle “Nauseated” food items.
             SpaceEvents.OnItemEaten += OnItemEaten;
 
-            // Initialize I18N string cache for sprinting display names/descriptions
+            // String cache for optimizations
+
             I18NCache.Initialize();
         }
 
-        // Internal cache for localized strings used in buffs
         private static class I18NCache
         {
-            public static string SprintDisplayName { get; private set; }           // Default sprint buff display name
-            public static string SprintDescription { get; private set; }           // Default sprint buff description
-            public static string SprintDisplayName_Gridball { get; private set; }  // Sprint display name for Linebacker
-            public static string SprintDescription_Gridball { get; private set; }  // Sprint description for Linebacker
+            public static string SprintDisplayName { get; private set; }
+            public static string SprintDescription { get; private set; }
+            public static string SprintDisplayName_Gridball { get; private set; }
+            public static string SprintDescription_Gridball { get; private set; }
 
             public static void Initialize()
             {
@@ -116,63 +119,74 @@ namespace AthleticSkill.Core
                     Defense = { HasLinebacker ? CachedAthleticLevel : 0 }
                 }
             );
+
+            CachedSprintBuff.visible = ModEntry.Config.BuffIcon;
+
+            // Make a backup of the sprint buff object just in case something happens
+            BackupSprintBuff = CachedSprintBuff;
         }
 
-        // Handles player eating an item
+        // ITEM EVENT HANDLER
         private static void OnItemEaten(object sender, EventArgs args)
         {
+            // This event fires when the player eats any item.
             if (sender is not Farmer player)
                 return;
 
-            // Apply Nauseated debuff if the eaten item has the custom context tag
+            // If the eaten item has the "Nauseated" context tag,
+            // apply vanilla buff #25 (the Nauseated debuff).
             if (player.itemToEat?.HasContextTag("moonslime.Athletic.Nauseated") == true)
             {
                 player.applyBuff("25");
             }
         }
 
-        // Placeholder method for detecting stamina use (currently unused)
+        // Placeholder for possible future stamina-use detection logic.
         private static void OnStaminaUse(float oldValue, float newValue)
         {
         }
 
+        // INPUT HANDLER 
         [SEvent.ButtonsChanged]
         public static void OnButtonsChanged(object sender, ButtonsChangedEventArgs e)
         {
+            // Don’t run if player can’t move or game isn’t ready
             if (!Context.IsWorldReady || !Context.CanPlayerMove)
                 return;
 
             Farmer farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+            var modData = farmer.modData;
 
-            // --- TOGGLE SPRINT MODE ---
+            // --- TOGGLE MODE ---
             if (CacheToggleSprint && ModEntry.Config.Key_Cast.JustPressed())
             {
-                // Flip sprint state between true/false
-                farmer.modData.SetBool(SprintingOn, !farmer.modData.GetBool(SprintingOn));
+                // Flip sprint state between true and false
+                modData.SetBool(SprintingOn, !modData.GetBool(SprintingOn));
                 return;
             }
 
             // --- HOLD-TO-SPRINT MODE ---
             if (!CacheToggleSprint)
             {
-                // Active only while key is held down
+                // Active only while the key is held down
                 farmer.modData.SetBool(SprintingOn, ModEntry.Config.Key_Cast.IsDown());
             }
         }
 
+        // SPRINT TICK HANDLER
         [SEvent.UpdateTicked]
         public static void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-            if (!e.IsMultipleOf(TimeChecker) || !Context.IsWorldReady || !Context.CanPlayerMove)
+            if (!e.IsMultipleOf(TimeChecker) || !Context.CanPlayerMove)
                 return;
 
             Farmer farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
 
-            // Don't sprint if conditions are invalid
             if (!CanSprint(farmer))
                 return;
 
-            // Reapply the sprint buff so it doesn't expire
+
+            // Maintain / reapply sprint buff
             ApplySprintBuff(farmer);
 
             // Calculate stamina drain factoring in athletic level and profession
@@ -181,60 +195,81 @@ namespace AthleticSkill.Core
             float newDrain = BaseDrain * scale;
             float energyDrainPerSecond = Math.Max(newDrain, MinDrain);
 
-            // Apply stamina drain per tick
             farmer.stamina -= energyDrainPerSecond * StaminaDivisor;
 
-            // Award EXP at configured intervals
+
             if (e.IsMultipleOf(TimeChecker * CacheSprintingExpEvent))
                 Utilities.AddEXP(farmer, CacheExpFromSprinting);
         }
 
-        // Checks whether the player can currently sprint
+        // SPRINT VALIDATION
         public static bool CanSprint(Farmer farmer)
         {
+            // These checks ensure sprinting only works in valid conditions
             if (farmer.isRidingHorse()) return false;               // Can't sprint on horse
-            if (farmer.exhausted.Value) return false;               // Can't sprint while exhausted
+            if (farmer.exhausted.Value) return false;               // Can't sprint when exhausted
             if (!farmer.isMoving()) return false;                   // Must be moving
             if (!Context.IsPlayerFree) return false;                // No menus or cutscenes
-            if (!farmer.modData.GetBool(SprintingOn)) return false; // Sprint key not active
-            return farmer.Stamina > CacheMinimumEnergyToSprint;     // Must have enough energy
+            if (!farmer.modData.GetBool(SprintingOn)) return false; // Must have sprint flag active
+
+            // Ensure enough energy remains
+            return farmer.Stamina > CacheMinimumEnergyToSprint;
         }
 
-        // Applies or refreshes the sprint buff
+        // BUFF MANAGEMENT
         public static void ApplySprintBuff(Farmer farmer)
         {
-            if (farmer.buffs.AppliedBuffs.TryGetValue("Athletics:sprinting", out var existing))
+            // if the cache sprint buff is somehow null, reset it and then apply
+            if (CachedSprintBuff == null)
             {
-                // Refresh duration if already applied
-                existing.millisecondsDuration = SprintBuffDurationMs;
-            }
-            else
-            {
-                // Apply cached buff
+                CachedSprintBuff = BackupSprintBuff;
                 CachedSprintBuff.millisecondsDuration = SprintBuffDurationMs;
-                farmer.applyBuff(CachedSprintBuff.DeepClone());
+                farmer.applyBuff(CachedSprintBuff);
+                Game1.Multiplayer.broadcastSprites(farmer.currentLocation,
+                    new TemporaryAnimatedSprite(5,
+                    farmer.Position,
+                    Color.Brown,
+                    10,
+                    Game1.random.NextDouble() < 0.5,
+                    70f,
+                    0,
+                    Game1.tileSize,
+                    farmer.Position.Y / 10000f));
+
+            } else
+            {
+                CachedSprintBuff.millisecondsDuration = SprintBuffDurationMs;
+                farmer.applyBuff(CachedSprintBuff);
+                Game1.Multiplayer.broadcastSprites(farmer.currentLocation,
+                    new TemporaryAnimatedSprite(5,
+                    farmer.Position,
+                    Color.White,
+                    3,
+                    Game1.random.NextDouble() < 0.5,
+                    70f,
+                    0,
+                    Game1.tileSize,
+                    farmer.Position.Y / 10000f));
             }
         }
 
+        // PROFESSION EFFECTS 
         [SEvent.OneSecondUpdateTicked]
         public static void OnOneSecondUpdateTicked_professions(object sender, OneSecondUpdateTickedEventArgs e)
         {
             // Run every 5 seconds
-            if (!e.IsMultipleOf(300) || !Context.IsWorldReady)
+            if (!e.IsMultipleOf(300) || !Context.IsPlayerFree)
                 return;
 
             Farmer farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
 
             // Refresh cached athletic level and update sprint buff if changed
             int currentLevel = Utilities.GetLevel(farmer);
-            if (currentLevel != CachedAthleticLevel && HasLinebacker)
+            if (HasLinebacker && currentLevel != CachedAthleticLevel)
             {
                 CachedAthleticLevel = currentLevel;
                 UpdateSprintBuff(farmer);
             }
-
-            if (!farmer.CanMove)
-                return;
 
             // Amount to restore scales with half the athletic level
             int amount = CachedAthleticLevel >> 1;
@@ -263,7 +298,13 @@ namespace AthleticSkill.Core
 
             // Always update cached template so next application is correct
             if (CachedSprintBuff != null)
+            {
+                CachedSprintBuff = BackupSprintBuff;
                 CachedSprintBuff.effects.Defense.Value = CachedAthleticLevel;
+            } else
+            {
+                CachedSprintBuff.effects.Defense.Value = CachedAthleticLevel;
+            }
         }
     }
 }

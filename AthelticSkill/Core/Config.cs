@@ -42,5 +42,9 @@ namespace AthleticSkill.Core
 
         [SConfig.Option(1, 20, 1)]
         public int SprintingExpEvent { get; set; } = 8;
+
+
+        [SConfig.Option()]
+        public bool BuffIcon { get; set; } = false;
     }
 }
