@@ -503,7 +503,7 @@ namespace WizardrySkill.Core
         private static void OnRenderingHud(object sender, RenderingHudEventArgs e)
         {
             // Skip drawing if menus are open, events are active, or the player can't act
-            if (Game1.activeClickableMenu != null || Game1.eventUp || !LearnedMagic || !Context.IsPlayerFree)
+            if ( !LearnedMagic || !Context.IsPlayerFree || Game1.farmEvent != null)
                 return;
 
             SpriteBatch b = e.SpriteBatch;

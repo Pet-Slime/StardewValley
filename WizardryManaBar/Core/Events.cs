@@ -83,10 +83,12 @@ namespace WizardryManaBar.Core
         [EventPriority(EventPriority.Low)]
         public static void OnRenderedHud(object sender, RenderingHudEventArgs e)
         {
-            if (Game1.activeClickableMenu != null || Game1.eventUp || !Context.IsPlayerFree)
+            if (!Context.IsPlayerFree || Game1.farmEvent != null)
                 return;
 
-            var player = Game1.player;
+
+
+                var player = Game1.player;
             var graphics = Game1.graphics.GraphicsDevice;
 
             if (player.GetMaxMana() > 0 && ModEntry.Config.RenderManaBar)
