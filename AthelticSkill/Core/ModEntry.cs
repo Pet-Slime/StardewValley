@@ -1,4 +1,4 @@
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using StardewModdingAPI;
 
 namespace AthleticSkill.Core
@@ -22,7 +22,8 @@ namespace AthleticSkill.Core
         {
             UseAltProfession = false;
             Instance = this;
-            Parser.ParseAll(this);
+            MoonShared.Attributes.Parser.InitEvents(helper);
+            MoonShared.Attributes.Parser.ParseAll(this);
         }
     }
 }

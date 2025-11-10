@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using AthleticSkill.Objects;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using MoonShared;
 using SpaceCore;
 using SpaceCore.Events;
@@ -9,7 +9,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Buffs;
-using Log = BirbCore.Attributes.Log;
+using Log = MoonShared.Attributes.Log;
 
 namespace AthleticSkill.Core
 {
@@ -18,6 +18,12 @@ namespace AthleticSkill.Core
     {
         // Key used to track whether sprinting is active in Farmer.modData
         private static readonly string SprintingOn = "moonslime.AthelticSkill.sprinting";
+        private static bool HasMarathoner = false;
+        private static bool HasLinebacker = false;
+
+        private static bool HasHealthRegen = false;
+        private static bool HasEnergyRegen = false;
+        private static Buff CachedSprintBuff;
 
         [SEvent.GameLaunchedLate]
         private static void GameLaunched(object sender, GameLaunchedEventArgs e)
@@ -39,6 +45,54 @@ namespace AthleticSkill.Core
 
             // Subscribe to SpaceCore’s OnItemEaten event to handle “Nauseated” food items.
             SpaceEvents.OnItemEaten += OnItemEaten;
+
+            // String cache for optimizations
+
+            I18NCache.Initialize();
+        }
+
+        private static class I18NCache
+        {
+            public static string SprintDisplayName { get; private set; }
+            public static string SprintDescription { get; private set; }
+            public static string SprintDisplayName_Gridball { get; private set; }
+            public static string SprintDescription_Gridball { get; private set; }
+
+            public static void Initialize()
+            {
+                SprintDisplayName = ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.displayName");
+                SprintDescription = ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description");
+                SprintDisplayName_Gridball = ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.displayName_Gridball");
+                SprintDescription_Gridball = ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description_Gridball");
+            }
+        }
+
+        [SEvent.DayStarted]
+        private void OnDayStarted(object sender, DayStartedEventArgs e)
+        {
+            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+
+            // Cache profession since they usually only change during night events
+            HasMarathoner = player.HasCustomProfession(Athletic_Skill.Athletic10b2);
+            HasLinebacker = player.HasCustomProfession(Athletic_Skill.Athletic10a2);
+            HasHealthRegen = player.HasCustomProfession(Athletic_Skill.Athletic5a);
+            HasEnergyRegen = player.HasCustomProfession(Athletic_Skill.Athletic5b);
+
+            // Create the Buff once
+            CachedSprintBuff = new Buff(
+                    id: "Athletics:sprinting",
+                    displayName: HasLinebacker ? I18NCache.SprintDisplayName_Gridball : I18NCache.SprintDisplayName,
+                    description: HasLinebacker ? I18NCache.SprintDescription_Gridball : I18NCache.SprintDescription,
+                    iconTexture: HasLinebacker ? ModEntry.Assets.SprintingIcon2 : ModEntry.Assets.SprintingIcon1,
+                    iconSheetIndex: 0,
+                    duration: ((int)(TimeChecker * 20)),
+                    effects: new BuffEffects()
+                    {
+                        Speed = { HasMarathoner ? ModEntry.Config.SprintSpeed + 1 : ModEntry.Config.SprintSpeed },
+                        Defense = { HasMarathoner ? Utilities.GetLevel(player) : 0 }
+                    }
+                );
+
         }
 
         // ITEM EVENT HANDLER
@@ -110,21 +164,20 @@ namespace AthleticSkill.Core
             if (!CanSprint(farmer))
                 return;
 
-            // Cache profession checks once per tick
-            bool hasMarathoner = farmer.HasCustomProfession(Athletic_Skill.Athletic10b2);
-            bool hasLinebacker = farmer.HasCustomProfession(Athletic_Skill.Athletic10a2);
 
             // Maintain / reapply sprint buff
-            ApplySprintBuff(farmer, hasMarathoner, hasLinebacker);
+            ApplySprintBuff(farmer);
 
             // Level modifier for drain
-            float levelModifier = Utilities.GetLevel(farmer) + (hasMarathoner ? ProfBonus : 0f);
+            float levelModifier = Utilities.GetLevel(farmer) + (HasMarathoner ? ProfBonus : 0f);
             float newDrain = BaseDrain * (BaseDrain / (BaseDrain + levelModifier));
             float energyDrainPerSecond = Math.Max(newDrain, MinDrain);
 
             farmer.stamina -= energyDrainPerSecond * StaminaDivisor;
 
-            if (e.IsMultipleOf(TimeChecker * ModEntry.Config.SprintingExpEvent))
+            uint sprintgEvent = (uint)ModEntry.Config.SprintingExpEvent;
+
+            if (e.IsMultipleOf(TimeChecker * sprintgEvent))
                 Utilities.AddEXP(farmer, ModEntry.Config.ExpFromSprinting);
         }
 
@@ -143,32 +196,9 @@ namespace AthleticSkill.Core
         }
 
         // BUFF MANAGEMENT
-        public static void ApplySprintBuff(Farmer farmer, bool hasMarathoner, bool hasLinebacker)
+        public static void ApplySprintBuff(Farmer farmer)
         {
             int sprintspeed = ModEntry.Config.SprintSpeed;
-
-            // Create or refresh the sprint buff
-            Buff sprinting = new(
-                id: "Athletics:sprinting",
-                displayName: hasLinebacker
-                    ? ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.displayName_Gridball")
-                    : ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.displayName"),
-                description: hasLinebacker
-                    ? ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description_Gridball")
-                    : ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description"),
-                iconTexture: hasLinebacker
-                    ? ModEntry.Assets.SprintingIcon2
-                    : ModEntry.Assets.SprintingIcon1,
-                iconSheetIndex: 0,
-                duration: ((int)(TimeChecker * 20)), // lasts ~5 seconds (15 ticks * 20 / 60)
-                effects: new BuffEffects()
-                {
-                    // Speed bonus is +3 for Marathoner, +2 otherwise
-                    Speed = { hasMarathoner ? sprintspeed+1 : sprintspeed },
-                    // Defense bonus scales with level for Linebacker profession
-                    Defense = { hasMarathoner ? Utilities.GetLevel(farmer) : 0 }
-                }
-            );
 
             // Check for existing sprint buff
             Buff existing = null;
@@ -188,8 +218,9 @@ namespace AthleticSkill.Core
             }
             else
             {
+                CachedSprintBuff.millisecondsDuration = ((int)(TimeChecker * 20));
                 // Apply new sprint buff
-                farmer.applyBuff(sprinting);
+                farmer.applyBuff(CachedSprintBuff);
             }
         }
 
@@ -204,15 +235,16 @@ namespace AthleticSkill.Core
             Farmer farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
 
             // Restore amount scales with half the athletic level
-            int amount = (int)Math.Floor(Utilities.GetLevel(farmer) * 0.5);
+            int amount = Utilities.GetLevel(farmer) >> 1; // same as dividing by 2
+
 
             // Profession 1: Bodybuilder -> restores health
-            if (farmer.HasCustomProfession(Athletic_Skill.Athletic5a))
+            if (HasHealthRegen)
                 farmer.health = Restore(farmer.health, farmer.maxHealth, amount);
 
             // Profession 2: Runner -> restores stamina
-            if (farmer.HasCustomProfession(Athletic_Skill.Athletic5b))
-                farmer.stamina = Restore((int)Math.Floor(farmer.stamina), farmer.MaxStamina, amount);
+            if (HasEnergyRegen)
+                farmer.stamina = Restore((int)farmer.stamina, farmer.MaxStamina, amount);
         }
 
         // Helper: safely restore HP or stamina, capped at max

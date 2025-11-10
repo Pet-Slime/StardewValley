@@ -10,10 +10,6 @@
   "EntryDll": "AthleticSkill.dll",
   "Dependencies": [
     {
-      "UniqueID": "drbirbdev.BirbCore",
-      "MinimumVersion": "1.1.0"
-    },
-    {
       "UniqueID": "moonslime.AthleticSkill.CP",
       "MinimumVersion": "1.0.0"
     },

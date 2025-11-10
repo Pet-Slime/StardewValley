@@ -20,7 +20,7 @@ namespace AthleticSkill.Core.Patches
 
             if (!ModEntry.UseAltProfession && who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
             {
-                BirbCore.Attributes.Log.Warn($"The power of the {__instance.DisplayName} is {who.toolPower.Value}");
+                MoonShared.Attributes.Log.Warn($"The power of the {__instance.DisplayName} is {who.toolPower.Value}");
                 who.Halt();
                 __instance.Update(who.FacingDirection, 0, who);
                 switch (who.FacingDirection)

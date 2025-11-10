@@ -33,7 +33,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
         ** Public methods
         *********/
         public TeleportMenu(Farmer player)
-            : base((Game1.viewport.Width - WindowWidth) / 2, (Game1.viewport.Height - WindowHeight) / 2, WindowWidth, WindowHeight)
+            : base((Game1.uiViewport.Width - WindowWidth) / 2, (Game1.uiViewport.Height - WindowHeight) / 2, WindowWidth, WindowHeight, true)
         {
             foreach (var loc in Game1.locations)
             {

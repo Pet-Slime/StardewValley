@@ -56,11 +56,23 @@ namespace WizardrySkill.Core.Framework.Game.Interface
         ** Constructor
         *********/
         public MagicMenu()
-            : base((Game1.viewport.Size.Width - WindowWidth) / 2, (Game1.viewport.Size.Height - WindowHeight) / 2, WindowWidth, WindowHeight, true)
+            : base((Game1.uiViewport.Width - WindowWidth) / 2, (Game1.uiViewport.Height - WindowHeight) / 2, WindowWidth, WindowHeight, true)
         {
             SelectDefaultSchool();
             UpdateLayoutPositions();
             this.upperRightCloseButton.bounds.Y = this.NewBaseY - 8;
+        }
+
+        public void SetPosition(int x, int y)
+        {
+            this.movePosition(-this.xPositionOnScreen, -this.yPositionOnScreen);
+            this.movePosition(x, y);
+        }
+
+        public void movePosition(int x, int y)
+        {
+            this.xPositionOnScreen += x;
+            this.yPositionOnScreen += y;
         }
 
         /*********

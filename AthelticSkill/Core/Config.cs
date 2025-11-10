@@ -1,4 +1,4 @@
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using StardewModdingAPI.Utilities;
 
 namespace AthleticSkill.Core
@@ -41,6 +41,6 @@ namespace AthleticSkill.Core
 
 
         [SConfig.Option(1, 20, 1)]
-        public uint SprintingExpEvent { get; set; } = 8;
+        public int SprintingExpEvent { get; set; } = 8;
     }
 }
