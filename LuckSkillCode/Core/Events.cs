@@ -159,8 +159,6 @@ namespace LuckSkill.Core
                     }
                 }
 
-
-
                 if (quest != null)
                 {
                     Log.Trace($"Applying quest {quest} for today, due to having PROFESSION_MOREQUESTS.");

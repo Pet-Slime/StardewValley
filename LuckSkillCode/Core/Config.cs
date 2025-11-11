@@ -7,6 +7,8 @@ namespace LuckSkill.Core
     {
         [SConfig.Option(0, 4000, 1)]
         public int DailyLuckExpBonus { get; set; } = 750;
+
+        [SConfig.Option(1, 100, 1)]
         public int QuestChecks { get; set; } = 3;
     }
 }
