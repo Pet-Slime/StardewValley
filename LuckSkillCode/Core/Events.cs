@@ -36,8 +36,9 @@ namespace LuckSkill.Core
         [SEvent.TimeChanged]
         private static void TimeChanged(object sender, TimeChangedEventArgs e)
         {
-            LuckSkill(Game1.player); // Update luck skill for the main player
-            Log.Trace("Luck: Player luck level is: " + Game1.player.LuckLevel.ToString());
+            var player = Game1.player;
+            LuckSkill(player); // Update luck skill for the main player
+            Log.Debug($"Luck: Player luck level is: {player.LuckLevel}. Spacecore luck level is: {player.GetCustomSkillLevel(ModEntry.SkillID)}");
         }
 
         // Fired when a new save is created
@@ -55,12 +56,8 @@ namespace LuckSkill.Core
             CachedRandom = Utility.CreateDaySaveRandom(100.0, Game1.stats.DaysPlayed * 777, Game1.player.stats.StepsTaken);
             LuckSkill(Game1.player);
 
-            var thing = SpaceCore.Skills.GetSkill("moonslime.Luck");
-            foreach (var item in thing.Professions)
-            {
-                Game1.player.professions.Add(item.GetVanillaId());
-            }
-            ;
+            MoonSharedSpaceCore.SpaceUtilities.LearnRecipesOnLoad(Game1.GetPlayer(Game1.player.UniqueMultiplayerID), ModEntry.SkillID);
+
         }
 
         // Fired at the start of each day

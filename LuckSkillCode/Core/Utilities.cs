@@ -13,13 +13,13 @@ namespace LuckSkill.Core
         public static void AddEXP(Farmer who, int amount)
         {
             var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
-            SpaceCore.Skills.AddExperience(farmer, "moonslime.Luck", amount);
+            SpaceCore.Skills.AddExperience(farmer, ModEntry.SkillID, amount);
         }
 
         public static int GetLevel(Farmer who)
         {
             var player = Game1.GetPlayer(who.UniqueMultiplayerID);
-            return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Luck");
+            return SpaceCore.Skills.GetSkillLevel(player, ModEntry.SkillID);
         }
 
         // Summary:

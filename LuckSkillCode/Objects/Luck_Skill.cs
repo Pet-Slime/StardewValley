@@ -15,7 +15,7 @@ namespace LuckSkill.Objects
         public static KeyedProfession Luck10b2;
         public readonly IModHelper _modHelper;
 
-        public Luck_Skill() : base("moonslime.Luck")
+        public Luck_Skill() : base(ModEntry.SkillID)
         {
             this.Icon = Assets.IconA;
             this.SkillsPageIcon = Assets.IconB;

@@ -10,6 +10,7 @@ namespace LuckSkill.Core
 
         internal ITranslationHelper I18N => this.Helper.Translation;
 
+        public const string SkillID = "moonslime.Luck";
 
         public override void Entry(IModHelper helper)
         {
