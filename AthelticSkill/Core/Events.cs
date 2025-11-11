@@ -4,6 +4,7 @@ using AthleticSkill.Objects;
 using Microsoft.Xna.Framework;
 using MoonShared;
 using MoonShared.Attributes;
+using MoonSharedSpaceCore;
 using SpaceCore;
 using SpaceCore.Events;
 using StardewModdingAPI;
@@ -87,6 +88,15 @@ namespace AthleticSkill.Core
                 SprintDescription = ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description");
                 SprintDisplayName_Gridball = ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.displayName_Gridball");
                 SprintDescription_Gridball = ModEntry.Instance.I18N.Get("moonslime.Athletics.sprinting.description_Gridball");
+            }
+        }
+
+        [SEvent.SaveLoaded]
+        private void SaveLoaded(object sender, SaveLoadedEventArgs e)
+        {
+            foreach (Farmer player in Game1.getAllFarmers())
+            {
+                SpaceUtilities.LearnRecipesOnLoad(Game1.GetPlayer(player.UniqueMultiplayerID), ModEntry.SkillID);
             }
         }
 

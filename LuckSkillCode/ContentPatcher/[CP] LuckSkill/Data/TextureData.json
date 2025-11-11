@@ -1,0 +1,50 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.LuckSkill/textures",
+            "FromFile": "Assets/sprites.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.LuckSkill/interface/Luck10a1",
+            "FromFile": "Assets/interface/Luck10a1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.LuckSkill/interface/Luck10a2",
+            "FromFile": "Assets/interface/Luck10a2.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.LuckSkill/interface/Luck10b1",
+            "FromFile": "Assets/interface/Luck10b1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.LuckSkill/interface/Luck10b2",
+            "FromFile": "Assets/interface/Luck10b2.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.LuckSkill/interface/Luck5a",
+            "FromFile": "Assets/interface/Luck5a.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.LuckSkill/interface/Luck5b",
+            "FromFile": "Assets/interface/Luck5b.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.LuckSkill/interface/LuckiconA",
+            "FromFile": "Assets/interface/LuckiconA.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.LuckSkill/interface/LuckiconB",
+            "FromFile": "Assets/interface/LuckiconB.png"
+        }
+
+    ]
+}

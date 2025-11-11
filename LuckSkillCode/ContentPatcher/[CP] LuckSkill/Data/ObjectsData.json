@@ -1,11 +1,6 @@
 ﻿{
     "Changes": [
         {
-            "Action": "Load",
-            "Target": "Mods/moonslime.LuckSkill/textures",
-            "FromFile": "Assets/sprites.png"
-        },
-        {
             "Action": "EditData",
             "Target": "Data/BigCraftables",
             "Entries": {

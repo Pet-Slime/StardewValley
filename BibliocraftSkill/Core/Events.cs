@@ -1,25 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BirbCore.Attributes;
-using BibliocraftSkill;
-using MoonShared.APIs;
-using Netcode;
-using SpaceCore;
-using SpaceCore.Events;
-using SpaceShared.APIs;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.Events;
-using StardewValley.Locations;
-using StardewValley.Objects;
-using StardewValley.Quests;
-using StardewValley.TerrainFeatures;
-using StardewValley.Constants;
-using static SpaceCore.Skills;
+using BibliocraftSkill.Objects;
+using MoonSharedSpaceCore;
 
 namespace BibliocraftSkill.Core
 {
@@ -46,7 +29,16 @@ namespace BibliocraftSkill.Core
 
         }
 
-        [SEvent.StatChanged("moonslime.BibliocraftSkill.Machines")]
+        [SEvent.SaveLoaded]
+        private void SaveLoaded(object sender, SaveLoadedEventArgs e)
+        {
+            foreach (Farmer player in Game1.getAllFarmers())
+            {
+                SpaceUtilities.LearnRecipesOnLoad(Game1.GetPlayer(player.UniqueMultiplayerID), ModEntry.SkillID);
+            }
+        }
+
+        [SEvent.StatChanged($"moonslime.Bibliocraft.Machines")]
         private void StatChanged_BookMachinesCheck(object sender, SEvent.StatChanged.EventArgs e)
         {
             Utilities.AddEXP(Game1.player, ModEntry.Config.ExperienceFromBookMachines);

@@ -13,9 +13,6 @@
 
     <ItemGroup>
         <SMAPIDependency Include="Pathoschild.ContentPatcher" MinimumVersion="2.8.0" Required="true" />
-        <SMAPIDependency Include="Shockah.XPDisplay" MinimumVersion="1.0.0" Required="false" />
-        <SMAPIDependency Include="spacechase0.DynamicGameAssets" MinimumVersion="1.0.0" Required="false" />
-        <SMAPIDependency Include="spacechase0.JsonAssets" MinimumVersion="1.0.0" Required="false" />
         <SMAPIDependency Include="spacechase0.GenericModConfigMenu" MinimumVersion="1.0.0" Required="false" />
         <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
         <SMAPIDependency Include="leclair.bettercrafting" version="2.18.0" Required="false" />
@@ -27,10 +24,6 @@
 	    <HintPath>$(GamePath)\Mods\BetterCrafting\BetterCrafting.dll</HintPath>
 	    <Private>False</Private>
 	    <EmbedInteropTypes>False</EmbedInteropTypes>
-	  </Reference>
-	  <Reference Include="BirbCore">
-	    <HintPath>$(GamePath)\Mods\BirbCore\BirbCore.dll</HintPath>
-	    <Private>False</Private>
 	  </Reference>
 	</ItemGroup>
 

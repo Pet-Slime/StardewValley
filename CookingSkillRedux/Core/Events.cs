@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using MoonShared.APIs;
 using Netcode;
 using SpaceCore;
@@ -14,10 +14,7 @@ using StardewValley.Buffs;
 using StardewValley.Extensions;
 using StardewValley.GameData.Objects;
 using StardewValley.Inventories;
-using StardewValley.Locations;
-using StardewValley.Menus;
-using StardewValley.Quests;
-using static BirbCore.Attributes.SMod;
+using MoonSharedSpaceCore;
 
 namespace CookingSkillRedux.Core
 {
@@ -80,147 +77,49 @@ namespace CookingSkillRedux.Core
         private static void BetterCraftingPostCraftEvent(IPostCraftEvent @event)
         {
             // SpaceCore override recipes don't have CraftingRecipe set. In this case compare against vanilla cooking recipes
-            if ((@event.Recipe.CraftingRecipe is not null && @event.Recipe.CraftingRecipe.isCookingRecipe) ||
-                    (@event.Recipe.Name is not null && CraftingRecipe.cookingRecipes.ContainsKey(@event.Recipe.Name)))
+            Log.Trace($"YACS BetterCraftingPostCraftEvent check 1");
+            if (@event.Recipe.CraftingRecipe is not null)
             {
-                //it's easier for me to use a dictionary to not override item stack sized
-                Dictionary<Item, int> consumed_items_dict = new Dictionary<Item, int>();
-                foreach (Item consumed in @event.ConsumedItems)
+                Log.Trace($"YACS BetterCraftingPostCraftEvent check 2");
+                if (@event.Recipe.CraftingRecipe.isCookingRecipe)
                 {
-                    consumed_items_dict.Add(consumed, consumed.Stack);
+                    Go(@event);
                 }
-
-                @event.Item = PostCook(@event.Recipe.CraftingRecipe ?? new CraftingRecipe(@event.Recipe.Name, true), @event.Item, consumed_items_dict, @event.Player, true);
             }
-
+            else if (@event.Recipe.Name is not null)
+            {
+                Log.Trace($"YACS BetterCraftingPostCraftEvent check 3");
+                if (CraftingRecipe.cookingRecipes.ContainsKey(@event.Recipe.Name))
+                {
+                    Go(@event);
+                }
+            }
         }
 
-        [SEvent.MenuChanged]
-        private void MenuChanged(object sender, MenuChangedEventArgs e)
+        private static void Go(IPostCraftEvent @event)
         {
-            if (e.NewMenu is not SkillLevelUpMenu levelUpMenu)
-            {
-                return;
-            }
 
+            Log.Trace($"YACS BetterCraftingPostCraftEvent check Success");
 
+            Dictionary<Item, int> consumed_items_dict = new();
+            foreach (Item consumed in @event.ConsumedItems)
+                consumed_items_dict.Add(consumed, consumed.Stack);
 
-            string skill = ModEntry.Instance.Helper.Reflection.GetField<string>(levelUpMenu, "currentSkill").GetValue();
-            if (skill != "moonslime.Cooking")
-            {
-                return;
-            }
-
-            int level = ModEntry.Instance.Helper.Reflection.GetField<int>(levelUpMenu, "currentLevel").GetValue();
-
-            List<CraftingRecipe> newRecipes = [];
-
-            int menuHeight = 0;
-            foreach (KeyValuePair<string, string> recipePair in CraftingRecipe.craftingRecipes)
-            {
-                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
-                if (!conditions.Contains(skill) || !conditions.Contains(level.ToString()))
-                {
-                    continue;
-                }
-
-                CraftingRecipe recipe = new(recipePair.Key, isCookingRecipe: false);
-                newRecipes.Add(recipe);
-                Game1.player.craftingRecipes.TryAdd(recipePair.Key, 0);
-                menuHeight += recipe.bigCraftable ? 128 : 64;
-            }
-
-            foreach (KeyValuePair<string, string> recipePair in CraftingRecipe.cookingRecipes)
-            {
-                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 3, "");
-                if (!conditions.Contains(skill) || !conditions.Contains(level.ToString()))
-                {
-                    continue;
-                }
-
-                CraftingRecipe recipe = new(recipePair.Key, isCookingRecipe: true);
-                newRecipes.Add(recipe);
-                if (Game1.player.cookingRecipes.TryAdd(recipePair.Key, 0) &&
-                    !Game1.player.hasOrWillReceiveMail("robinKitchenLetter"))
-                {
-                    Game1.mailbox.Add("robinKitchenLetter");
-                }
-
-                menuHeight += recipe.bigCraftable ? 128 : 64;
-            }
-
-            ModEntry.Instance.Helper.Reflection.GetField<List<CraftingRecipe>>(levelUpMenu, "newCraftingRecipes")
-                .SetValue(newRecipes);
-
-            levelUpMenu.height = menuHeight + 256 + (levelUpMenu.getExtraInfoForLevel(skill, level).Count * 64 * 3 / 4);
+            @event.Item = PostCook(
+                @event.Recipe.CraftingRecipe ?? new CraftingRecipe(@event.Recipe.Name, true),
+                @event.Item,
+                consumed_items_dict,
+                @event.Player,
+                true
+            );
         }
 
         [SEvent.SaveLoaded]
         private void SaveLoaded(object sender, SaveLoadedEventArgs e)
         {
-            string Id = "moonslime.Cooking";
-            int skillLevel = Game1.player.GetCustomSkillLevel(Id);
-
-            if (skillLevel >= 5 && !(Game1.player.HasCustomProfession(Cooking_Skill.Cooking5a) ||
-                                     Game1.player.HasCustomProfession(Cooking_Skill.Cooking5b)))
+            foreach (Farmer player in Game1.getAllFarmers())
             {
-                Game1.endOfNightMenus.Push(new SkillLevelUpMenu(Id, 5));
-            }
-
-            if (skillLevel >= 10 && !(Game1.player.HasCustomProfession(Cooking_Skill.Cooking10a1) ||
-                                      Game1.player.HasCustomProfession(Cooking_Skill.Cooking10a2) ||
-                                      Game1.player.HasCustomProfession(Cooking_Skill.Cooking10b1) ||
-                                      Game1.player.HasCustomProfession(Cooking_Skill.Cooking10b2)))
-            {
-                Game1.endOfNightMenus.Push(new SkillLevelUpMenu(Id, 10));
-            }
-
-            foreach (KeyValuePair<string, string> recipePair in DataLoader.CraftingRecipes(Game1.content))
-            {
-                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
-                if (!conditions.Contains(Id))
-                {
-                    continue;
-                }
-                if (conditions.Split(" ").Length < 2)
-                {
-                    continue;
-                }
-
-                int level = int.Parse(conditions.Split(" ")[1]);
-
-                if (skillLevel < level)
-                {
-                    continue;
-                }
-
-                Game1.player.craftingRecipes.TryAdd(recipePair.Key, 0);
-            }
-
-            foreach (KeyValuePair<string, string> recipePair in DataLoader.CookingRecipes(Game1.content))
-            {
-                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 3, "");
-                if (!conditions.Contains(Id))
-                {
-                    continue;
-                }
-                if (conditions.Split(" ").Length < 2)
-                {
-                    continue;
-                }
-
-                int level = int.Parse(conditions.Split(" ")[1]);
-
-                if (skillLevel < level)
-                {
-                    continue;
-                }
-
-                if (Game1.player.cookingRecipes.TryAdd(recipePair.Key, 0) &&
-                    !Game1.player.hasOrWillReceiveMail("robinKitchenLetter"))
-                {
-                    Game1.mailbox.Add("robinKitchenLetter");
-                }
+                SpaceUtilities.LearnRecipesOnLoad(Game1.GetPlayer(player.UniqueMultiplayerID), ModEntry.SkillID);
             }
         }
 
@@ -521,7 +420,7 @@ namespace CookingSkillRedux.Core
                     total_items += consumed.Value;
                 }
                 ingredients_quality_RMS = Math.Sqrt(ingredients_quality_RMS / total_items)/3.0;
-                double cooking_skill_quality = who.GetCustomSkillLevel("moonslime.Cooking") / 10.0;
+                double cooking_skill_quality = who.GetCustomSkillLevel(ModEntry.SkillID) / 10.0;
                 who.recipesCooked.TryGetValue(item.ItemId, out int num_times_cooked);
                 double recipe_experience_quality = Math.Tanh(num_times_cooked / 20.0);
                 double r = Game1.random.NextDouble();

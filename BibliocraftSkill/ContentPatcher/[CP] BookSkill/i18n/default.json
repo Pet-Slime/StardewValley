@@ -1,34 +1,34 @@
 ﻿{
 
 
-    "moonslime.BibliocraftSkill.Letterpress_Workstation.name": "Letterpress Workstation",
-    "moonslime.BibliocraftSkill.Letterpress_Workstation.description": "A station that you can turn a book into a letter press.",
-    "moonslime.BibliocraftSkill.Letterpress_Workstation.need_item": "Copper bar is needed.",
+    "moonslime.Bibliocraft.Letterpress_Workstation.name": "Letterpress Workstation",
+    "moonslime.Bibliocraft.Letterpress_Workstation.description": "A station that you can turn a book into a letter press.",
+    "moonslime.Bibliocraft.Letterpress_Workstation.need_item": "Copper bar is needed.",
 
-    "moonslime.BibliocraftSkill.Pen_Pal_Desk.name": "Pen Pal Writing Desk",
-    "moonslime.BibliocraftSkill.Pen_Pal_Desk.description": "A desk that lets you write letters to fellow villagers",
+    "moonslime.Bibliocraft.Pen_Pal_Desk.name": "Pen Pal Writing Desk",
+    "moonslime.Bibliocraft.Pen_Pal_Desk.description": "A desk that lets you write letters to fellow villagers",
 
-    "moonslime.BibliocraftSkill.Letterpress_Inking_Station.name": "Letterpress Inkstation",
-    "moonslime.BibliocraftSkill.Letterpress_Inking_Station.description": "A station to ink letterpresses.",
-    "moonslime.BibliocraftSkill.Letterpress_Inking_Station.need_item": "Squid Ink is needed.",
+    "moonslime.Bibliocraft.Letterpress_Inking_Station.name": "Letterpress Inkstation",
+    "moonslime.Bibliocraft.Letterpress_Inking_Station.description": "A station to ink letterpresses.",
+    "moonslime.Bibliocraft.Letterpress_Inking_Station.need_item": "Squid Ink is needed.",
 
-    "moonslime.BibliocraftSkill.Book_Donations.name": "Public Book Library",
-    "moonslime.BibliocraftSkill.Book_Donations.description": "Stick around town to randomly find books stored in here.",
+    "moonslime.Bibliocraft.Book_Donations.name": "Public Book Library",
+    "moonslime.Bibliocraft.Book_Donations.description": "Stick around town to randomly find books stored in here.",
 
-    "moonslime.BibliocraftSkill.Book_Restoration.name": "Rebacking Table",
-    "moonslime.BibliocraftSkill.Book_Restoration.description": "Place a book on this table to reback it over time, improving its quality.",
+    "moonslime.Bibliocraft.Book_Restoration.name": "Rebacking Table",
+    "moonslime.Bibliocraft.Book_Restoration.description": "Place a book on this table to reback it over time, improving its quality.",
 
-    "moonslime.BibliocraftSkill.Paper_Press.name": "Paper Press",
-    "moonslime.BibliocraftSkill.Paper_Press.description": "This machine combines wood pulp and limestone to create paper or book covers.",
-    "moonslime.BibliocraftSkill.Paper_Press.need_item": "Limestone is needed.",
+    "moonslime.Bibliocraft.Paper_Press.name": "Paper Press",
+    "moonslime.Bibliocraft.Paper_Press.description": "This machine combines wood pulp and limestone to create paper or book covers.",
+    "moonslime.Bibliocraft.Paper_Press.need_item": "Limestone is needed.",
 
-    "moonslime.BibliocraftSkill.Printing_Press.name": "Printing Press",
-    "moonslime.BibliocraftSkill.Printing_Press.description": "A station that can produce a lot of uncovered books.",
-    "moonslime.BibliocraftSkill.Printing_Press.need_item": "Limestone is needed to mix in with the puple to get paper!",
+    "moonslime.Bibliocraft.Printing_Press.name": "Printing Press",
+    "moonslime.Bibliocraft.Printing_Press.description": "A station that can produce a lot of uncovered books.",
+    "moonslime.Bibliocraft.Printing_Press.need_item": "Limestone is needed to mix in with the puple to get paper!",
 
-    "moonslime.BibliocraftSkill.Binding_station.name": "Binding station",
-    "moonslime.BibliocraftSkill.Binding_station.description": "The final step to making a book!",
-    "moonslime.BibliocraftSkill.Binding_station.need_item": "Two book covers is needed.",
+    "moonslime.Bibliocraft.Binding_station.name": "Binding station",
+    "moonslime.Bibliocraft.Binding_station.description": "The final step to making a book!",
+    "moonslime.Bibliocraft.Binding_station.need_item": "Two book covers is needed.",
 
     "moonslime.Bibliocraft.letterpress.name": "Letterpress",
     "moonslime.Bibliocraft.letterpress.description": "A copy of a book, that needs to be inked.",

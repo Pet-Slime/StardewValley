@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StardewModdingAPI;
 using StardewValley;
+using StardewValley.Monsters;
 
 namespace MoonShared.APIs
 {
@@ -62,6 +65,13 @@ namespace MoonShared.APIs
         void AddExperienceForCustomSkill(Farmer farmer, string skill, int amt);
 
         /// <summary>
+        /// Gets the display name of the skill
+        /// </summary>
+        /// <param name="skill"> The ID of the skill you want to get</param>
+        /// <returns>Texture2D</returns>
+        string GetDisplayNameOfCustomSkill(string skill);
+
+        /// <summary>
         /// Gets the 10x10 icon of the skill that shows up on the skill page
         /// </summary>
         /// <param name="skill"> The ID of the skill you want to get</param>
@@ -88,6 +98,20 @@ namespace MoonShared.APIs
 
         void RegisterCustomProperty(Type declaringType, string name, Type propType, MethodInfo getter, MethodInfo setter);
 
+        void RegisterSpawnableMonster(string id, Func<Vector2, Dictionary<string, object>, Monster> monsterSpawner);
+
+        List<int> GetLocalIndexForMethod(MethodBase meth, string local);
+
         public event EventHandler<Action<string, Action>> AdvancedInteractionStarted;
+
+        public List<string> GetVirtualCurrencyList();
+        public bool IsVirtualCurrencyTeamWide(string currency);
+        public int GetVirtualCurrencyAmount(Farmer who, string currency);
+        public void AddToVirtualCurrency(Farmer who, string currency, int amount); // supports negative numbers
+
+        public void RegisterEquipmentSlot(IManifest modManifest, string globalId, Func<Item, bool> slotValidator, Func<string> slotDisplayName, Texture2D bgTex, Rectangle? bgRect = null);
+        public Item GetItemInEquipmentSlot(Farmer farmer, string globalId);
+        public void SetItemInEquipmentSlot(Farmer farmer, string globalId, Item item);
+        public bool CanItemGoInEquipmentSlot(string globalId, Item item);
     }
 }

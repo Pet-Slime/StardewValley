@@ -1,14 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BirbCore.Attributes;
-using MoonShared.APIs;
 using StardewModdingAPI;
-using StardewValley;
 
-namespace BibliocraftSkill
+namespace BibliocraftSkill.Core
 {
     public class ModEntry : Mod
     {
@@ -18,6 +11,7 @@ namespace BibliocraftSkill
 
         internal ITranslationHelper I18N => this.Helper.Translation;
 
+        public const string SkillID = "moonslime.Bibliocraft";
 
         public override void Entry(IModHelper helper)
         {

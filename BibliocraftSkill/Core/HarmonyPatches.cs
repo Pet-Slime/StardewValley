@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
-using Microsoft.Xna.Framework;
 using MoonShared;
 using SpaceCore;
 using StardewValley;
@@ -9,36 +8,24 @@ using StardewValley.Extensions;
 using Object = StardewValley.Object;
 using System.Linq;
 using StardewValley.Buffs;
-using BirbCore.Attributes;
 using StardewValley.TerrainFeatures;
 using Log = BirbCore.Attributes.Log;
 using StardewValley.GameData.WildTrees;
-using xTile.Dimensions;
-using xTile.Tiles;
 using StardewValley.Monsters;
-using System.Numerics;
-using System.Threading;
-using System.Runtime.Intrinsics;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
-using StardewValley.Objects.Trinkets;
-using StardewValley.GameData.GarbageCans;
-using StardewValley.Internal;
 using StardewValley.Tools;
-using MoonShared.Patching;
 using System.Reflection.Emit;
-using StardewValley.Locations;
-using StardewValley.GameData.Characters;
-using xTile.Layers;
 using System.Reflection;
+using BibliocraftSkill.Objects;
 
-namespace BibliocraftSkill
+namespace BibliocraftSkill.Core
 {
 
-    [HarmonyPatch(typeof(StardewValley.Object), nameof(StardewValley.Object.performUseAction))]
+    [HarmonyPatch(typeof(Object), nameof(Object.performUseAction))]
     class OpenGeode_Patch
     {
         [HarmonyPrefix]
-        private static void Prefix(StardewValley.Object __instance)
+        private static void Prefix(Object __instance)
         {
             if (__instance.HasContextTag("book_item"))
             {
@@ -66,7 +53,7 @@ namespace BibliocraftSkill
         public static KeyedProfession Prof_BookSeller => Book_Skill.Book10b2;
 
 
-        [HarmonyLib.HarmonyPostfix]
+        [HarmonyPostfix]
         public static void Postfix(Object __instance, ref GameLocation location)
         {
             //Get the player
@@ -83,7 +70,7 @@ namespace BibliocraftSkill
                 const int NumAttributes = 16;
                 const int MaxAttributeValue = 5;
                 const int MaxStaminaMultiplier = 16;
-                const int BuffDurationMultiplier = (6000 * 10);
+                const int BuffDurationMultiplier = 6000 * 10;
 
                 // Create the buff
                 Buff buff = new(
@@ -200,7 +187,7 @@ namespace BibliocraftSkill
                 int count = who.newLevels.Count;
                 int EXP = (int)Math.Floor(250 * playerBookLevel * 0.05);
                 who.gainExperience(Convert.ToInt32(itemID.Last().ToString() ?? ""), EXP);
-                if (who.newLevels.Count == count || (who.newLevels.Count > 1 && count >= 1))
+                if (who.newLevels.Count == count || who.newLevels.Count > 1 && count >= 1)
                 {
                     DelayedAction.functionAfterDelay(delegate
                     {
@@ -264,9 +251,9 @@ namespace BibliocraftSkill
         {
             List<Vector2> list = new List<Vector2>();
             list.Add(tileLocation);
-            for (int i = (int)tileLocation.X - power; (float)i <= tileLocation.X + power; i++)
+            for (int i = (int)tileLocation.X - power; i <= tileLocation.X + power; i++)
             {
-                for (int j = (int)tileLocation.Y - power; (float)j <= tileLocation.Y + power; j++)
+                for (int j = (int)tileLocation.Y - power; j <= tileLocation.Y + power; j++)
                 {
                     list.Add(new Vector2(i, j));
                 }
@@ -280,7 +267,7 @@ namespace BibliocraftSkill
     [HarmonyPatch(typeof(Tree), "tickUpdate")]
     class WoodySecret_patch
     {
-        [HarmonyLib.HarmonyPostfix]
+        [HarmonyPostfix]
         public static void Postfix(Tree __instance)
         {
             if (__instance.falling.Value)
@@ -294,34 +281,34 @@ namespace BibliocraftSkill
                 {
                     Vector2 tile = __instance.Tile;
                     GameLocation location = __instance.Location;
-                    int num2 = (int)((farmer.professions.Contains(12) ? 1.25 : 1.0) * (double)(12 + ExtraWoodCalculator(__instance, tile)));
+                    int num2 = (int)((farmer.professions.Contains(12) ? 1.25 : 1.0) * (12 + ExtraWoodCalculator(__instance, tile)));
 
-                    Game1.createRadialDebris(location, 12, (int)tile.X + (__instance.shakeLeft.Value ? (-4) : 4), (int)tile.Y, num2, resource: true);
-                    Game1.createRadialDebris(location, 12, (int)tile.X + (__instance.shakeLeft.Value ? (-4) : 4), (int)tile.Y, (int)((farmer.professions.Contains(12) ? 1.25 : 1.0) * (double)(12 + ExtraWoodCalculator(__instance, tile))), resource: false);
+                    Game1.createRadialDebris(location, 12, (int)tile.X + (__instance.shakeLeft.Value ? -4 : 4), (int)tile.Y, num2, resource: true);
+                    Game1.createRadialDebris(location, 12, (int)tile.X + (__instance.shakeLeft.Value ? -4 : 4), (int)tile.Y, (int)((farmer.professions.Contains(12) ? 1.25 : 1.0) * (12 + ExtraWoodCalculator(__instance, tile))), resource: false);
                 }
             }
         }
 
         private static int ExtraWoodCalculator(Tree tree, Vector2 tileLocation)
         {
-            Random random = Utility.CreateRandom(Game1.uniqueIDForThisGame, Game1.stats.DaysPlayed, (double)tileLocation.X * 7.0, (double)tileLocation.Y * 11.0);
+            Random random = Utility.CreateRandom(Game1.uniqueIDForThisGame, Game1.stats.DaysPlayed, tileLocation.X * 7.0, tileLocation.Y * 11.0);
             int num = 0;
             if (random.NextDouble() < Game1.player.DailyLuck)
             {
                 num++;
             }
 
-            if (random.NextDouble() < (double)Game1.player.ForagingLevel / 12.5)
+            if (random.NextDouble() < Game1.player.ForagingLevel / 12.5)
             {
                 num++;
             }
 
-            if (random.NextDouble() < (double)Game1.player.ForagingLevel / 12.5)
+            if (random.NextDouble() < Game1.player.ForagingLevel / 12.5)
             {
                 num++;
             }
 
-            if (random.NextDouble() < (double)Game1.player.LuckLevel / 25.0)
+            if (random.NextDouble() < Game1.player.LuckLevel / 25.0)
             {
                 num++;
             }
@@ -340,7 +327,7 @@ namespace BibliocraftSkill
     [HarmonyPatch(typeof(GameLocation), "monsterDrop")]
     class MonsterCompedium_patch
     {
-        [HarmonyLib.HarmonyPostfix]
+        [HarmonyPostfix]
         public static void Postfix(GameLocation __instance, ref Monster monster, ref int x, ref int y, ref Farmer who)
         {
             if (who.stats.Get("Book_Void") != 0 && Utilities.GetLevel(who, true) >= 7 && Game1.random.NextDouble() < 0.03 )
@@ -401,7 +388,7 @@ namespace BibliocraftSkill
     [HarmonyPatch(typeof(Grass), "doCollisionAction")]
     class Slitherlegs_patch
     {
-        [HarmonyLib.HarmonyPostfix]
+        [HarmonyPostfix]
         public static void Postfix(Grass __instance, ref Character who)
         {
             if (who is Farmer farmer)
@@ -418,7 +405,7 @@ namespace BibliocraftSkill
     [HarmonyPatch(typeof(Pickaxe), "DoFunction")]
     class DiamondHunter_patch
     {
-        [HarmonyLib.HarmonyPostfix]
+        [HarmonyPostfix]
         public static void Postfix(GameLocation location, int x, int y, int power, Farmer who)
         {
             if (who != null && who.stats.Get("Book_Diamonds") != 0 && Utilities.GetLevel(who, true) >= 8 && Game1.random.NextDouble() < 0.0066 && Utilities.GetLevel(who, true) >= 8)
@@ -447,7 +434,7 @@ namespace BibliocraftSkill
     [HarmonyPatch(typeof(StardewValley.Objects.CrabPot), "checkForAction")]
     class Blank_patch
     {
-        [HarmonyLib.HarmonyTranspiler]
+        [HarmonyTranspiler]
         public static void Postfix()
         {
             static IEnumerable<CodeInstruction> CrabPot_checkForAction_Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -467,7 +454,7 @@ namespace BibliocraftSkill
                   .Advance(1)
                   .InsertAndAdvance(
                 new CodeInstruction(OpCodes.Ldarg_1),
-                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Blank_patch), nameof(Blank_patch.GetExtraCrabPotDoublePercentage))),
+                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Blank_patch), nameof(GetExtraCrabPotDoublePercentage))),
                 new CodeInstruction(OpCodes.Add)
                       );
                 return matcher.InstructionEnumeration();
@@ -490,7 +477,7 @@ namespace BibliocraftSkill
     [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.mailbox))]
     class Mailbox_patch
     {
-        [HarmonyLib.HarmonyPrefix]
+        [HarmonyPrefix]
         public static bool Prefix(GameLocation __instance)
         {
             if (Game1.mailbox.Count == 0)
@@ -535,14 +522,14 @@ namespace BibliocraftSkill
         }
     }
 
-    [HarmonyPatch(typeof(StardewValley.Object), "getPriceAfterMultipliers")]
+    [HarmonyPatch(typeof(Object), "getPriceAfterMultipliers")]
     class GetPriceAfterMultipliers_Patch
     {
 
-        [HarmonyLib.HarmonyPostfix]
+        [HarmonyPostfix]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
         private static void IncereaseCosts(
-        StardewValley.Object __instance, ref float __result, float startPrice, long specificPlayerID)
+        Object __instance, ref float __result, float startPrice, long specificPlayerID)
         {
             //Set the sale multiplier to 1
             float saleMultiplier = 1f;
@@ -588,7 +575,7 @@ namespace BibliocraftSkill
             }
             catch (Exception ex)
             {
-                BirbCore.Attributes.Log.Error($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
+                Log.Error($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             }
             //Take the result, and then multiply it by the sales multiplier, along with the config to control display pricing
             __result *= saleMultiplier;

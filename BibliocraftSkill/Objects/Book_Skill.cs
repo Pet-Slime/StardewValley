@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using BibliocraftSkill.Core;
 using MoonShared;
 using StardewModdingAPI;
 
-namespace BibliocraftSkill
+namespace BibliocraftSkill.Objects
 {
     public class Book_Skill : SpaceCore.Skills.Skill
     {
@@ -14,7 +15,7 @@ namespace BibliocraftSkill
         public static KeyedProfession Book10b2;
         public readonly IModHelper _modHelper;
 
-        public Book_Skill() : base("moonslime.Bibliocraft")
+        public Book_Skill() : base(ModEntry.SkillID)
         {
             this.Icon = ModEntry.Assets.IconA;
             this.SkillsPageIcon = ModEntry.Assets.IconB;

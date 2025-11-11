@@ -1,35 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Reflection;
-using System.Xml.Linq;
-using BirbCore.Attributes;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceCore;
 using StardewModdingAPI;
 using StardewValley;
-using StardewValley.BellsAndWhistles;
-using StardewValley.Enchantments;
-using StardewValley.Extensions;
 using StardewValley.GameData;
 using StardewValley.GameData.Buildings;
-using StardewValley.GameData.Locations;
 using StardewValley.Internal;
 using StardewValley.Inventories;
-using StardewValley.Buildings;
-using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Objects;
-using StardewValley.Tools;
 using Object = StardewValley.Object;
 using System.Linq;
-using Microsoft.VisualBasic;
 using StardewValley.GameData.Machines;
-using StardewValley.ItemTypeDefinitions;
-using System.Collections;
-using StardewValley.GameData.Objects;
 using StardewValley.Quests;
 
 namespace CookingSkillRedux.Core

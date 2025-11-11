@@ -15,26 +15,13 @@
     },
     {
       "UniqueID": "leclair.bettercrafting",
-      "MinimumVersion": "2.18.0",
-      "IsRequired": false
+      "MinimumVersion": "2.18.0"
     },
     {
       "UniqueID": "Pathoschild.ContentPatcher"
     },
     {
-      "UniqueID": "Shockah.XPDisplay",
-      "IsRequired": false
-    },
-    {
-      "UniqueID": "spacechase0.DynamicGameAssets",
-      "IsRequired": false
-    },
-    {
       "UniqueID": "spacechase0.GenericModConfigMenu",
-      "IsRequired": false
-    },
-    {
-      "UniqueID": "spacechase0.JsonAssets",
       "IsRequired": false
     },
     {

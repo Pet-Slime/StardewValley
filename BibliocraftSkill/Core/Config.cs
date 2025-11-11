@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BirbCore.Attributes;
 
-namespace BibliocraftSkill
+namespace BibliocraftSkill.Core
 {
     [SConfig]
     public class Config

@@ -1,8 +1,7 @@
 using StardewModdingAPI;
-using IJsonAssetsApi = MoonShared.APIs.IJsonAssetsApi;
-using BirbCore.Attributes;
 using CookingSkillRedux.Core;
 using MoonShared.APIs;
+using MoonShared.Attributes;
 
 namespace CookingSkillRedux
 {
@@ -13,12 +12,11 @@ namespace CookingSkillRedux
         internal static Config Config;
         internal static Assets Assets;
 
-        internal static bool JALoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("spacechase0.JsonAssets");
         internal static bool BCLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("leclair.bettercrafting");
         internal static bool LoveOfCookingLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("blueberry.LoveOfCooking");
 
-        internal static IJsonAssetsApi JsonAssets;
         internal static IBetterCrafting BetterCrafting;
+        public const string SkillID = "moonslime.Cooking";
 
         internal ITranslationHelper I18n => this.Helper.Translation;
 
@@ -26,7 +24,8 @@ namespace CookingSkillRedux
         public override void Entry(IModHelper helper)
         {
             Instance = this;
-            Parser.ParseAll(this);
+            MoonShared.Attributes.Parser.InitEvents(helper);
+            MoonShared.Attributes.Parser.ParseAll(this);
         }
 
         public override object GetApi()

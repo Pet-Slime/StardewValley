@@ -15,7 +15,7 @@ namespace AthleticSkill.Objects
         public static KeyedProfession Athletic10b2;
         public readonly IModHelper _modHelper;
 
-        public Athletic_Skill() : base("moonslime.Athletic")
+        public Athletic_Skill() : base(ModEntry.SkillID)
         {
             this.Icon = ModEntry.Assets.IconA;
             this.SkillsPageIcon = ModEntry.Config.AlternativeSkillPageIcon ? ModEntry.Assets.IconB_alt : ModEntry.Assets.IconB;

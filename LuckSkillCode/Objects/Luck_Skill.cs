@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using LuckSkill.Core;
 using MoonShared;
 using StardewModdingAPI;
 
-namespace LuckSkill
+namespace LuckSkill.Objects
 {
     public class Luck_Skill : SpaceCore.Skills.Skill
     {

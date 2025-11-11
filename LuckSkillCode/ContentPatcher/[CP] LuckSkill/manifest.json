@@ -1,7 +1,7 @@
 ﻿{
     "Name": "[CP] Luck Skill",
     "Author": "moonslime",
-    "Version": "1.4.0",
+    "Version": "1.5.0",
     "Description": "Luck Skill Content Patcher",
     "UniqueID": "moonslime.LuckSkill.CP",
     "ContentPackFor": {
@@ -12,7 +12,7 @@
     ],
     "Dependencies": [
         {
-            "UniqueID": "moonslime.LuckSkill"
+            "UniqueID": "Pathoschild.ContentPatcher"
         }
     ]
 }

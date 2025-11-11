@@ -70,9 +70,9 @@ namespace AthleticSkill.Core.Patches
             Log.Trace($"The base chance to get exp from using an atheltic's tool is: {baseExpChance}");
 
             // Determine difference between tool upgrade level and player's athletic level
-            int difference = (__instance.UpgradeLevel * 2) - who.GetCustomSkillLevel("moonslime.Athletic");
+            int difference = (__instance.UpgradeLevel * 2) - who.GetCustomSkillLevel(ModEntry.SkillID);
             Log.Trace($"The player's tool level is: {__instance.UpgradeLevel}");
-            Log.Trace($"The player's athletic level is: {who.GetCustomSkillLevel("moonslime.Athletic")}");
+            Log.Trace($"The player's athletic level is: {who.GetCustomSkillLevel(ModEntry.SkillID)}");
             Log.Trace($"The difference between player's tools and level is {difference}");
 
             // Final chance = base chance + 10% per level difference, then normalized to 0-1

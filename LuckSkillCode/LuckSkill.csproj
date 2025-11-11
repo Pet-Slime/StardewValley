@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <Import Project="..\common.targets" />
     <Import Project="..\spacecore.targets" />
 
@@ -6,7 +6,7 @@
     <PropertyGroup>
         <Name>Luck Skill</Name>
         <Description>A Spacecore version of the luck skill.</Description>
-        <Version>1.4.0</Version>
+        <Version>1.5.0</Version>
         <UpdateKeys>Nexus:28103</UpdateKeys>
     </PropertyGroup>
 
@@ -14,16 +14,7 @@
         <SMAPIDependency Include="Pathoschild.ContentPatcher" MinimumVersion="2.8.0" Required="true" />
         <SMAPIDependency Include="spacechase0.GenericModConfigMenu" MinimumVersion="1.0.0" Required="false" />
         <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
-        <SMAPIDependency Include="drbirbdev.BirbCore" version="1.1.0" Required="true" />
+        <SMAPIDependency Include="moonslime.LuckSkill.CP" version="1.5.0" Required="true" />
     </ItemGroup>
-
-	<ItemGroup>
-	  <Reference Include="BirbCore">
-	    <HintPath>$(GamePath)\Mods\BirbCore\BirbCore.dll</HintPath>
-	    <Private>False</Private>
-	  </Reference>
-	</ItemGroup>
-
-
-
+    
 </Project>

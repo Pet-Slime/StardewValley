@@ -19,7 +19,7 @@ namespace CookingSkillRedux
         public static readonly IList<string> StartingRecipes = new List<string>();
         public static readonly IDictionary<int, IList<string>> CookingSkillLevelUpRecipes = new Dictionary<int, IList<string>>();
 
-        public Cooking_Skill() : base("moonslime.Cooking")
+        public Cooking_Skill() : base(ModEntry.SkillID)
         {
             this.Icon = ModEntry.Assets.IconA;
 

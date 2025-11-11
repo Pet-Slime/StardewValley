@@ -18,6 +18,10 @@
       "MinimumVersion": "2.18.0"
     },
     {
+      "UniqueID": "moonslime.Bibliocraft.CP",
+      "MinimumVersion": "1.0.0"
+    },
+    {
       "UniqueID": "Pathoschild.ContentPatcher"
     },
     {

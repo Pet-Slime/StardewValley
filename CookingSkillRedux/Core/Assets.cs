@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework.Graphics;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 
 namespace CookingSkillRedux
 {

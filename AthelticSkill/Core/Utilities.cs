@@ -7,22 +7,20 @@ namespace AthleticSkill.Core
     internal class Utilities
     {
 
-        private const string AthleticSkillId = "moonslime.Athletic";
-
         public static void AddEXP(Farmer who, int amount)
         {
             var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
-            SpaceCore.Skills.AddExperience(farmer, "moonslime.Athletic", amount);
+            SpaceCore.Skills.AddExperience(farmer, ModEntry.SkillID, amount);
         }
 
         public static int GetLevel(Farmer who, bool original = false, bool buff = false)
         {
             var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
-            int baseLevel = SpaceCore.Skills.GetSkillLevel(farmer, AthleticSkillId);
+            int baseLevel = SpaceCore.Skills.GetSkillLevel(farmer, ModEntry.SkillID);
 
             if (original) return baseLevel;
 
-            int buffLevel = SpaceCore.Skills.GetSkillBuffLevel(farmer, AthleticSkillId);
+            int buffLevel = SpaceCore.Skills.GetSkillBuffLevel(farmer, ModEntry.SkillID);
             if (buff) return buffLevel;
 
             return baseLevel + buffLevel;

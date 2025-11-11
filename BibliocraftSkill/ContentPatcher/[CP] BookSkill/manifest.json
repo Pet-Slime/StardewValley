@@ -3,7 +3,7 @@
     "Author": "moonslime",
     "Version": "1.0.0",
     "Description": "Bibliocraft Skill Content Patcher",
-    "UniqueID": "moonslime.BibliocraftSkill.CP",
+    "UniqueID": "moonslime.Bibliocraft.CP",
     "ContentPackFor": {
         "UniqueID": "Pathoschild.ContentPatcher"
     },
@@ -12,8 +12,7 @@
     ],
     "Dependencies": [
         {
-            "UniqueID": "moonslime.BibliocraftSkill",
-            "IsRequired": true
+            "UniqueID": "Pathoschild.ContentPatcher"
         },
         {
             "UniqueID": "Rafseazz.RSVCP",

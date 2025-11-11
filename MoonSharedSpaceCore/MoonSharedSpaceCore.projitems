@@ -9,6 +9,7 @@
     <Import_RootNamespace>MoonSharedSpaceCore</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)SpaceUtilities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FarmerExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyedProfession.cs" />
   </ItemGroup>

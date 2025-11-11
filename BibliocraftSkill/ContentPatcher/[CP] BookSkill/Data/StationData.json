@@ -4,20 +4,20 @@
             "Action": "EditData",
             "Target": "Data/BigCraftables",
             "TargetField": [
-                "moonslime.BibliocraftSkill.Pen_Pal_Desk",
+                "moonslime.Bibliocraft.Pen_Pal_Desk",
                 "CustomFields"
             ],
             "Entries": {
-                "leclair.bettercrafting_PerformAction": "leclair.bettercrafting_OpenMenu FALSE TRUE moonslime.BibliocraftSkill.Pen_Pal_Desk"
+                "leclair.bettercrafting_PerformAction": "leclair.bettercrafting_OpenMenu FALSE TRUE moonslime.Bibliocraft.Pen_Pal_Desk"
             }
         },
         {
             "Action": "EditData",
             "Target": "Mods/leclair.bettercrafting/CraftingStations",
             "Entries": {
-                "moonslime.BibliocraftSkill.Pen_Pal_Desk": {
-                    "Id": "moonslime.BibliocraftSkill.Pen_Pal_Desk",
-                    "DisplayName": "{{i18n:moonslime.BibliocraftSkill.Pen_Pal_Desk.name}}",
+                "moonslime.Bibliocraft.Pen_Pal_Desk": {
+                    "Id": "moonslime.Bibliocraft.Pen_Pal_Desk",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.Pen_Pal_Desk.name}}",
                     "AreRecipesExclusive": true,
                     "DisplayUnknownRecipes": true,
                     "IncludeUnknownRecipes": true,

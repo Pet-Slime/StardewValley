@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BirbCore.Attributes;
-using MoonShared.APIs;
 using StardewModdingAPI;
 
-namespace LuckSkill
+namespace LuckSkill.Core
 {
     public class ModEntry : Mod
     {
@@ -21,7 +14,8 @@ namespace LuckSkill
         public override void Entry(IModHelper helper)
         {
             Instance = this;
-            Parser.ParseAll(this);
+            MoonShared.Attributes.Parser.InitEvents(helper);
+            MoonShared.Attributes.Parser.ParseAll(this);
         }
     }
 }

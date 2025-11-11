@@ -3,15 +3,15 @@
   "UniqueID": "moonslime.LuckSkill",
   "Name": "Luck Skill",
   "Author": "moonslime",
-  "Version": "1.4.0",
+  "Version": "1.5.0",
   "Description": "A Spacecore version of the luck skill.",
   "MinimumApiVersion": "4.3.2",
   "MinimumGameVersion": "1.6.15",
   "EntryDll": "LuckSkill.dll",
   "Dependencies": [
     {
-      "UniqueID": "drbirbdev.BirbCore",
-      "MinimumVersion": "1.1.0"
+      "UniqueID": "moonslime.LuckSkill.CP",
+      "MinimumVersion": "1.5.0"
     },
     {
       "UniqueID": "Pathoschild.ContentPatcher"

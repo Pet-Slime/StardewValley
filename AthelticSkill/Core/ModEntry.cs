@@ -18,6 +18,8 @@ namespace AthleticSkill.Core
 
         internal static bool UseAltProfession;
 
+        public const string SkillID = "moonslime.Athletic";
+
         public override void Entry(IModHelper helper)
         {
             UseAltProfession = false;

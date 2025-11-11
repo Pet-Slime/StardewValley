@@ -1,33 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BirbCore.Attributes;
 using Microsoft.Xna.Framework.Graphics;
+using MoonShared.Attributes;
+using StardewValley;
 
-namespace LuckSkill
+namespace LuckSkill.Core
 {
     [SAsset(Priority = 0)]
     public class Assets
     {
-        [SAsset.Asset("assets/LuckiconA.png")]
-        public Texture2D IconA { get; set; }
 
-        [SAsset.Asset("assets/LuckiconB.png")]
-        public Texture2D IconB { get; set; }
+        public Texture2D IconA => Game1.content.Load<Texture2D>("Mods/moonslime.LuckSkill/interface/LuckiconA");
 
-        [SAsset.Asset("assets/Luck5a.png")]
-        public Texture2D Luck5a { get; set; }
-        [SAsset.Asset("assets/Luck5b.png")]
-        public Texture2D Luck5b { get; set; }
-        [SAsset.Asset("assets/Luck10a1.png")]
-        public Texture2D Luck10a1 { get; set; }
-        [SAsset.Asset("assets/Luck10a2.png")]
-        public Texture2D Luck10a2 { get; set; }
-        [SAsset.Asset("assets/Luck10b1.png")]
-        public Texture2D Luck10b1 { get; set; }
-        [SAsset.Asset("assets/Luck10b2.png")]
-        public Texture2D Luck10b2 { get; set; }
+        public Texture2D IconB => Game1.content.Load<Texture2D>("Mods/moonslime.LuckSkill/interface/Luckiconb");
+
+        public Texture2D Luck5a => Game1.content.Load<Texture2D>("Mods/moonslime.LuckSkill/interface/Luck5a");
+        public Texture2D Luck5b => Game1.content.Load<Texture2D>("Mods/moonslime.LuckSkill/interface/Luck5b");
+        public Texture2D Luck10a1 => Game1.content.Load<Texture2D>("Mods/moonslime.LuckSkill/interface/Luck10a1");
+        public Texture2D Luck10a2 => Game1.content.Load<Texture2D>("Mods/moonslime.LuckSkill/interface/Luck10a2");
+        public Texture2D Luck10b1 => Game1.content.Load<Texture2D>("Mods/moonslime.LuckSkill/interface/Luck10b1");
+        public Texture2D Luck10b2 => Game1.content.Load<Texture2D>("Mods/moonslime.LuckSkill/interface/Luck10b2");
     }
 }

@@ -11,7 +11,7 @@
             "Action": "EditData",
             "Target": "Data/Machines",
             "Entries": {
-                "(BC)moonslime.BibliocraftSkill.Letterpress_Workstation": {
+                "(BC)moonslime.Bibliocraft.Letterpress_Workstation": {
                     "OutputRules": [
                         {
                             "Id": "Making_a_Letterpress",
@@ -67,7 +67,7 @@
                         {
                             "ItemId": "(O)334",
                             "RequiredCount": 1,
-                            "InvalidCountMessage": "{{i18n: moonslime.BibliocraftSkill.Letterpress_Workstation.need_item}}"
+                            "InvalidCountMessage": "{{i18n: moonslime.Bibliocraft.Letterpress_Workstation.need_item}}"
                         }
                     ],
                     "WobbleWhileWorking": true,
@@ -120,11 +120,11 @@
                     ],
                     "StatsToIncrementWhenLoaded": [
                         {
-                            "StatName": "moonslime.BibliocraftSkill.Machines"
+                            "StatName": "moonslime.Bibliocraft.Machines"
                         }
                     ]
                 },
-                "(BC)moonslime.BibliocraftSkill.Letterpress_Inking_Station": {
+                "(BC)moonslime.Bibliocraft.Letterpress_Inking_Station": {
                     "OutputRules": [
                         {
                             "Id": "Inking_a_Letterpress",
@@ -175,7 +175,7 @@
                         {
                             "ItemId": "(O)814",
                             "RequiredCount": 1,
-                            "InvalidCountMessage": "{{i18n: moonslime.BibliocraftSkill.Letterpress_Inking_Station.need_item}}"
+                            "InvalidCountMessage": "{{i18n: moonslime.Bibliocraft.Letterpress_Inking_Station.need_item}}"
                         }
                     ],
                     "WobbleWhileWorking": true,
@@ -228,11 +228,11 @@
                     ],
                     "StatsToIncrementWhenLoaded": [
                         {
-                            "StatName": "moonslime.BibliocraftSkill.Machines"
+                            "StatName": "moonslime.Bibliocraft.Machines"
                         }
                     ]
                 },
-                "(BC)moonslime.BibliocraftSkill.Printing_Press": {
+                "(BC)moonslime.Bibliocraft.Printing_Press": {
                     "OutputRules": [
                         {
                             "Id": "Printing_Pages",
@@ -272,7 +272,7 @@
                         {
                             "ItemId": "(O)moonslime.Bibliocraft.paper",
                             "RequiredCount": 999,
-                            "InvalidCountMessage": "{{i18n: moonslime.BibliocraftSkill.Printing_Press.need_item}}"
+                            "InvalidCountMessage": "{{i18n: moonslime.Bibliocraft.Printing_Press.need_item}}"
                         }
                     ],
                     "WobbleWhileWorking": true,
@@ -325,11 +325,11 @@
                     ],
                     "StatsToIncrementWhenLoaded": [
                         {
-                            "StatName": "moonslime.BibliocraftSkill.Machines"
+                            "StatName": "moonslime.Bibliocraft.Machines"
                         }
                     ]
                 },
-                "(BC)moonslime.BibliocraftSkill.Binding_station": {
+                "(BC)moonslime.Bibliocraft.Binding_station": {
                     "OutputRules": [
                         {
                             "Id": "Binding_Book",
@@ -359,7 +359,7 @@
                         {
                             "ItemId": "(O)moonslime.Bibliocraft.book_cover",
                             "RequiredCount": 2,
-                            "InvalidCountMessage": "{{i18n: moonslime.BibliocraftSkill.Binding_station.need_item}}"
+                            "InvalidCountMessage": "{{i18n: moonslime.Bibliocraft.Binding_station.need_item}}"
                         }
                     ],
                     "WobbleWhileWorking": true,
@@ -418,11 +418,11 @@
                     "InvalidCountMessage": null,
                     "StatsToIncrementWhenLoaded": [
                         {
-                            "StatName": "moonslime.BibliocraftSkill.Machines"
+                            "StatName": "moonslime.Bibliocraft.Machines"
                         }
                     ]
                 },
-                "(BC)moonslime.BibliocraftSkill.Paper_Press": {
+                "(BC)moonslime.Bibliocraft.Paper_Press": {
                     "OutputRules": [
                         {
                             "Id": "Wood_Pulp_Insert",
@@ -483,7 +483,7 @@
                         {
                             "ItemId": "(O)571",
                             "RequiredCount": 1,
-                            "InvalidCountMessage": "{{i18n: moonslime.BibliocraftSkill.Paper_Press.need_item}}"
+                            "InvalidCountMessage": "{{i18n: moonslime.Bibliocraft.Paper_Press.need_item}}"
                         }
                     ],
                     "WobbleWhileWorking": true,
@@ -506,11 +506,11 @@
                     ],
                     "StatsToIncrementWhenLoaded": [
                         {
-                            "StatName": "moonslime.BibliocraftSkill.Machines"
+                            "StatName": "moonslime.Bibliocraft.Machines"
                         }
                     ]
                 },
-                "(BC)moonslime.BibliocraftSkill.Book_Restoration": {
+                "(BC)moonslime.Bibliocraft.Book_Restoration": {
                     "CustomFields": {
                         "selph.ExtraMachineConfig.IsCustomCask": "true",
                         "selph.ExtraMachineConfig.CaskWorksAnywhere": "true",
@@ -581,7 +581,7 @@
                         {
                             "ItemId": "(O)814",
                             "RequiredCount": 1,
-                            "InvalidCountMessage": "{{i18n: moonslime.BibliocraftSkill.Book_Restoration.need_item}}"
+                            "InvalidCountMessage": "{{i18n: moonslime.Bibliocraft.Book_Restoration.need_item}}"
                         }
                     ],
                     "WobbleWhileWorking": true,
@@ -634,11 +634,11 @@
                     ],
                     "StatsToIncrementWhenLoaded": [
                         {
-                            "StatName": "moonslime.BibliocraftSkill.Machines"
+                            "StatName": "moonslime.Bibliocraft.Machines"
                         }
                     ]
                 },
-                "(BC)moonslime.BibliocraftSkill.Book_Donations": {
+                "(BC)moonslime.Bibliocraft.Book_Donations": {
                     "OutputRules": [
                         {
                             "Id": "Default",
@@ -661,7 +661,7 @@
                     "ShowNextIndexWhenReady": true,
                     "StatsToIncrementWhenHarvested": [
                         {
-                            "StatName": "moonslime.BibliocraftSkill.Machines"
+                            "StatName": "moonslime.Bibliocraft.Machines"
                         }
                     ]
                 }
