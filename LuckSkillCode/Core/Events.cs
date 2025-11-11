@@ -70,6 +70,7 @@ namespace LuckSkill.Core
             // Update RNG for today to be deterministic
             CachedRandom = Utility.CreateDaySaveRandom(100.0, Game1.stats.DaysPlayed * 777, Game1.player.stats.StepsTaken);
 
+            Log.Trace($"Running Luck Skill Day events");
             // Only run the master game (host) for multiplayer
             if (!Game1.IsMasterGame)
                 return;
@@ -114,7 +115,7 @@ namespace LuckSkill.Core
                     if (!Utility.isFestivalDay() && !Utility.isFestivalDay(Game1.dayOfMonth + 1, Game1.season))
                     {
 
-                        Log.Warn($"A player has Luck5b, quest of the day is null, and tomorrow is not a festival! increasing quest checks by 3.");
+                        Log.Trace($"A player has Luck5b, quest of the day is null, and tomorrow is not a festival! increasing quest checks by 3.");
                         questchecks += ModEntry.Config.QuestChecks; // Increase number of attempts for generating a quest
                     }
                 }
@@ -122,12 +123,11 @@ namespace LuckSkill.Core
                 LuckSkill(farmer); // Update individual farmer's luck skill values
             }
 
-            Log.Warn($"Master player is {Game1.player.Name}");
-            Log.Warn($"Running Luck Skill Day events");
+            Log.Trace($"Master player is {Game1.player.Name}");
             // Enforce daily luck floor if any player has Luck10a2
             if (raiseLuckFloor)
             {
-                Log.Warn($"A player has Luck10a2, raising luck floor to 0");
+                Log.Trace($"A player has Luck10a2, raising luck floor to 0");
                 Game1.player.team.sharedDailyLuck.Value = 0;
             }
 
@@ -136,14 +136,14 @@ namespace LuckSkill.Core
             {
                 double decimalLuckIncrease = luckincrease * 0.01;
 
-                Log.Warn($"Increasing shared luck by {decimalLuckIncrease}");
+                Log.Trace($"Increasing shared luck by {decimalLuckIncrease}");
                 Game1.player.team.sharedDailyLuck.Value += decimalLuckIncrease;
             }
 
             // Apply max daily luck for Luck10a1 if the RNG triggered
             if (maxDailyLuck)
             {
-                Log.Warn($"A player passed their check to max daily luck out.");
+                Log.Trace($"A player passed their check to max daily luck out.");
                 Game1.player.team.sharedDailyLuck.Value = Math.Max(Game1.player.team.sharedDailyLuck.Value, 0.12);
             }
 
@@ -151,14 +151,14 @@ namespace LuckSkill.Core
             if (questchecks != 0)
             {
 
-                Log.Warn($"A player has added to the quest checks. current quest check value is {questchecks}");
+                Log.Trace($"A player has added to the quest checks. current quest check value is {questchecks}");
                 Quest quest = null;
                 for (int i = 0; i < questchecks && quest == null; ++i)
                 {
                     quest = Utilities.GetQuestOfTheDay(DateTime.Now.Ticks); // Use deterministic RNG for quest
                     if (quest == null)
                     {
-                        Log.Warn($"Quest is null, failed check number {i+1}");
+                        Log.Info($"Quest is null, failed check number {i+1}");
                     }
                 }
 
@@ -166,7 +166,7 @@ namespace LuckSkill.Core
 
                 if (quest != null)
                 {
-                    Log.Info($"Applying quest {quest} for today, due to having PROFESSION_MOREQUESTS.");
+                    Log.Trace($"Applying quest {quest} for today, due to having PROFESSION_MOREQUESTS.");
                     quest?.dailyQuest.Set(newValue: true);
                     quest?.reloadObjective();
                     quest?.reloadDescription();

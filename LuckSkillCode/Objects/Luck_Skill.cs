@@ -17,18 +17,18 @@ namespace LuckSkill.Objects
 
         public Luck_Skill() : base("moonslime.Luck")
         {
-            this.Icon = ModEntry.Assets.IconA;
-            this.SkillsPageIcon = ModEntry.Assets.IconB;
+            this.Icon = Assets.IconA;
+            this.SkillsPageIcon = Assets.IconB;
 
             this.ExperienceBarColor = new Microsoft.Xna.Framework.Color(205, 127, 50);
             this.ExperienceCurve = new[] { 100, 380, 770, 1300, 2150, 3300, 4000, 6900, 10000, 15000 };
             this.AddProfessions(
-                Luck5a = new KeyedProfession(this, "Luck5a", ModEntry.Assets.Luck5a, ModEntry.Instance.I18N),
-                Luck5b = new KeyedProfession(this, "Luck5b", ModEntry.Assets.Luck5b, ModEntry.Instance.I18N),
-                Luck10a1 = new KeyedProfession(this, "Luck10a1", ModEntry.Assets.Luck10a1, ModEntry.Instance.I18N),
-                Luck10a2 = new KeyedProfession(this, "Luck10a2", ModEntry.Assets.Luck10a2, ModEntry.Instance.I18N),
-                Luck10b1 = new KeyedProfession(this, "Luck10b1", ModEntry.Assets.Luck10b1, ModEntry.Instance.I18N),
-                Luck10b2 = new KeyedProfession(this, "Luck10b2", ModEntry.Assets.Luck10b2, ModEntry.Instance.I18N)
+                Luck5a = new KeyedProfession(this, "Luck5a", Assets.Luck5a, ModEntry.Instance.I18N),
+                Luck5b = new KeyedProfession(this, "Luck5b", Assets.Luck5b, ModEntry.Instance.I18N),
+                Luck10a1 = new KeyedProfession(this, "Luck10a1", Assets.Luck10a1, ModEntry.Instance.I18N),
+                Luck10a2 = new KeyedProfession(this, "Luck10a2", Assets.Luck10a2, ModEntry.Instance.I18N),
+                Luck10b1 = new KeyedProfession(this, "Luck10b1", Assets.Luck10b1, ModEntry.Instance.I18N),
+                Luck10b2 = new KeyedProfession(this, "Luck10b2", Assets.Luck10b2, ModEntry.Instance.I18N)
             );
 
 

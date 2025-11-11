@@ -32,7 +32,7 @@ namespace LuckSkill.Core
             }
 
             double num = Utility.CreateDaySaveRandom(100.0, Game1.stats.DaysPlayed * 777, seedEnhancer).NextDouble();
-            Log.Alert($"Quest RNG value is {num}");
+            Log.Info($"Quest RNG value is {num}");
             if (num < 0.08)
             {
                 return new ResourceCollectionQuest();
