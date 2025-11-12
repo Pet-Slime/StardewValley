@@ -16,6 +16,9 @@
     "config.BonusExpLimit": "Bonus Limit",
     "config.BonusExpLimit.tooltip": "How many times you can cook an item to get the bonus exp before diminishing returns kicks in.",
 
+    "config.Cooking10a2": "Chef food selling bonus",
+    "config.Cooking10a2.tooltip": "formula is object price * (cooking level * this value).\nSo an item that is 200g would sell for 1000g with this profession at default value.",
+
     "moonslime.Cooking.no_more_bonus_exp": "You have mastered cooking this dish and won't gain as much knowledge from it.",
 
     "cooking5a.name": "Cook",

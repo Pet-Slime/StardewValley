@@ -1,4 +1,4 @@
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using StardewModdingAPI.Events;
 using StardewValley;
 using BibliocraftSkill.Objects;

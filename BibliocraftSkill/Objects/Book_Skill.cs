@@ -17,18 +17,18 @@ namespace BibliocraftSkill.Objects
 
         public Book_Skill() : base(ModEntry.SkillID)
         {
-            this.Icon = ModEntry.Assets.IconA;
-            this.SkillsPageIcon = ModEntry.Assets.IconB;
+            this.Icon = Assets.IconA;
+            this.SkillsPageIcon = Assets.IconB;
 
             this.ExperienceBarColor = new Microsoft.Xna.Framework.Color(205, 127, 50);
             this.ExperienceCurve = new[] { 100, 380, 770, 1300, 2150, 3300, 4000, 6900, 10000, 15000 };
             this.AddProfessions(
-                Book5a = new KeyedProfession(this, "Book5a", ModEntry.Assets.Book5a, ModEntry.Instance.I18N),
-                Book5b = new KeyedProfession(this, "Book5b", ModEntry.Assets.Book5b, ModEntry.Instance.I18N),
-                Book10a1 = new KeyedProfession(this, "Book10a1", ModEntry.Assets.Book10a1, ModEntry.Instance.I18N),
-                Book10a2 = new KeyedProfession(this, "Book10a2", ModEntry.Assets.Book10a2, ModEntry.Instance.I18N),
-                Book10b1 = new KeyedProfession(this, "Book10b1", ModEntry.Assets.Book10b1, ModEntry.Instance.I18N),
-                Book10b2 = new KeyedProfession(this, "Book10b2", ModEntry.Assets.Book10b2, ModEntry.Instance.I18N)
+                Book5a = new KeyedProfession(this, "Book5a", Assets.Book5a, ModEntry.Instance.I18N),
+                Book5b = new KeyedProfession(this, "Book5b", Assets.Book5b, ModEntry.Instance.I18N),
+                Book10a1 = new KeyedProfession(this, "Book10a1", Assets.Book10a1, ModEntry.Instance.I18N),
+                Book10a2 = new KeyedProfession(this, "Book10a2", Assets.Book10a2, ModEntry.Instance.I18N),
+                Book10b1 = new KeyedProfession(this, "Book10b1", Assets.Book10b1, ModEntry.Instance.I18N),
+                Book10b2 = new KeyedProfession(this, "Book10b2", Assets.Book10b2, ModEntry.Instance.I18N)
             );
 
 

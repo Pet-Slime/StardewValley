@@ -1,0 +1,60 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.BibliocraftSkill/objects/textures",
+            "FromFile": "Assets/objects/sprites.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.BibliocraftSkill/objects/machines",
+            "FromFile": "Assets/objects/machines.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.BibliocraftSkill/interface/Book10a1",
+            "FromFile": "Assets/interface/Book10a1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.BibliocraftSkill/interface/Book10a2",
+            "FromFile": "Assets/interface/Book10a2.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.BibliocraftSkill/interface/Book10b1",
+            "FromFile": "Assets/interface/Book10b1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.BibliocraftSkill/interface/Book10b2",
+            "FromFile": "Assets/interface/Book10b2.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.BibliocraftSkill/interface/Book5a",
+            "FromFile": "Assets/interface/Book5a.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.BibliocraftSkill/interface/Book5b",
+            "FromFile": "Assets/interface/Book5b.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.BibliocraftSkill/interface/BookiconA",
+            "FromFile": "Assets/interface/BookiconA.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.BibliocraftSkill/interface/BookiconB",
+            "FromFile": "Assets/interface/BookiconB.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.BibliocraftSkill/interface/bookworm_buff",
+            "FromFile": "Assets/interface/bookworm_buff.png"
+        }
+
+    ]
+}

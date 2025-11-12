@@ -368,7 +368,7 @@ namespace CookingSkillRedux.Core
                 //If the player has the right profession, increase the selling price
                 if (Game1.player.HasCustomProfession(Cooking_Skill.Cooking10a2))
                 {
-                    obj.Price *= ((int)(levelValue + levelValue));
+                    obj.Price *= (int)(levelValue * ModEntry.Config.Cooking10a2);
 
 
                 }

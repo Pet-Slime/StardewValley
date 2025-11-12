@@ -1,0 +1,65 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.CookingSkill/objects/textures",
+            "FromFile": "Assets/objects/sprites.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.CookingSkill/interface/cooking10a1",
+            "FromFile": "Assets/interface/cooking10a1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.CookingSkill/interface/cooking10a2",
+            "FromFile": "Assets/interface/cooking10a2.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.CookingSkill/interface/cooking10b1",
+            "FromFile": "Assets/interface/cooking10b1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.CookingSkill/interface/cooking10b2",
+            "FromFile": "Assets/interface/cooking10b2.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.CookingSkill/interface/cooking5a",
+            "FromFile": "Assets/interface/cooking5a.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.CookingSkill/interface/cooking5b",
+            "FromFile": "Assets/interface/cooking5b.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.CookingSkill/interface/cookingiconA",
+            "FromFile": "Assets/interface/cookingiconA.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.CookingSkill/interface/cookingiconB_0",
+            "FromFile": "Assets/interface/cookingiconB_0.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.CookingSkill/interface/cookingiconB_1",
+            "FromFile": "Assets/interface/cookingiconB_1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.CookingSkill/interface/cookingiconB_2",
+            "FromFile": "Assets/interface/cookingiconB_2.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.CookingSkill/interface/random_buff",
+            "FromFile": "Assets/interface/random_buff.png"
+        }
+
+    ]
+}

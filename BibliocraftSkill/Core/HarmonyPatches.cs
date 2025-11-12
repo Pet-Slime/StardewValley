@@ -1,22 +1,23 @@
-using System;
-using System.Collections.Generic;
-using HarmonyLib;
-using MoonShared;
-using SpaceCore;
-using StardewValley;
-using StardewValley.Extensions;
 using Object = StardewValley.Object;
-using System.Linq;
-using StardewValley.Buffs;
-using StardewValley.TerrainFeatures;
-using Log = BirbCore.Attributes.Log;
-using StardewValley.GameData.WildTrees;
-using StardewValley.Monsters;
+using Log = MoonShared.Attributes.Log;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
+using HarmonyLib;
+using StardewValley;
+using MoonShared;
+using BibliocraftSkill.Objects;
+using SpaceCore;
+using StardewValley.Buffs;
+using StardewValley.Extensions;
+using System.Collections.Generic;
+using System.Linq;
+using System;
+using StardewValley.TerrainFeatures;
+using StardewValley.GameData.WildTrees;
 using StardewValley.Tools;
+using StardewValley.Monsters;
 using System.Reflection.Emit;
 using System.Reflection;
-using BibliocraftSkill.Objects;
+
 
 namespace BibliocraftSkill.Core
 {
@@ -77,7 +78,7 @@ namespace BibliocraftSkill.Core
                     id: "Bibliocraft:profession:bookworm_buff",
                     displayName: ModEntry.Instance.I18N.Get("moonslime.Bibliocraft.Profession10b2.buff"),
                     description: null,
-                    iconTexture: ModEntry.Assets.Bookworm_buff,
+                    iconTexture: Assets.Bookworm_buff,
                     iconSheetIndex: 0,
                     duration: BuffDurationMultiplier * Utilities.GetLevel(who), //Buff duration based on player Cooking level, to reward them for eating cooking foods
                     effects: null

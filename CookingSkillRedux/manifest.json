@@ -3,20 +3,20 @@
   "UniqueID": "moonslime.CookingSkill",
   "Name": "Yet Another Cooking Skill",
   "Author": "moonslime",
-  "Version": "1.11.1",
+  "Version": "1.12.0",
   "Description": "A remix built from the ground, for players must cook!",
   "MinimumApiVersion": "4.3.2",
   "MinimumGameVersion": "1.6.15",
   "EntryDll": "CookingSkillRedux.dll",
   "Dependencies": [
     {
-      "UniqueID": "drbirbdev.BirbCore",
-      "MinimumVersion": "1.1.0"
-    },
-    {
       "UniqueID": "leclair.bettercrafting",
       "MinimumVersion": "2.18.0",
       "IsRequired": false
+    },
+    {
+      "UniqueID": "moonslime.CookingSkill.CP",
+      "MinimumVersion": "1.12.0"
     },
     {
       "UniqueID": "Pathoschild.ContentPatcher"

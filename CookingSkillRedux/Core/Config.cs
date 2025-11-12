@@ -20,5 +20,9 @@ namespace CookingSkillRedux
 
         [SConfig.Option(1, 4000, 1)]
         public int BonusExpLimit { get; set; } = 11;
+
+
+        [SConfig.Option(0f, 5f, 0.1f)]
+        public float Cooking10a2 { get; set; } = 0.5f;
     }
 }

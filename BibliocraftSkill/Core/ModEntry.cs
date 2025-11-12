@@ -1,4 +1,3 @@
-using BirbCore.Attributes;
 using StardewModdingAPI;
 
 namespace BibliocraftSkill.Core
@@ -16,7 +15,8 @@ namespace BibliocraftSkill.Core
         public override void Entry(IModHelper helper)
         {
             Instance = this;
-            Parser.ParseAll(this);
+            MoonShared.Attributes.Parser.InitEvents(helper);
+            MoonShared.Attributes.Parser.ParseAll(this);
         }
     }
 }
