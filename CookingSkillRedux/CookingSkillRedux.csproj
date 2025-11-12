@@ -19,13 +19,5 @@
         <SMAPIDependency Include="drbirbdev.BirbCore" version="1.1.0" Required="true" />
     </ItemGroup>
 
-	<ItemGroup>
-	  <Reference Include="BetterCrafting">
-	    <HintPath>$(GamePath)\Mods\BetterCrafting\BetterCrafting.dll</HintPath>
-	    <Private>False</Private>
-	    <EmbedInteropTypes>False</EmbedInteropTypes>
-	  </Reference>
-	</ItemGroup>
-
 
 </Project>

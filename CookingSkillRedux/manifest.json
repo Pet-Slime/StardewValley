@@ -15,7 +15,8 @@
     },
     {
       "UniqueID": "leclair.bettercrafting",
-      "MinimumVersion": "2.18.0"
+      "MinimumVersion": "2.18.0",
+      "IsRequired": false
     },
     {
       "UniqueID": "Pathoschild.ContentPatcher"

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MoonShared.Attributes;
-using MoonShared.APIs;
 using Netcode;
 using SpaceCore;
 using SpaceCore.Events;
@@ -15,6 +14,7 @@ using StardewValley.Extensions;
 using StardewValley.GameData.Objects;
 using StardewValley.Inventories;
 using MoonSharedSpaceCore;
+using MoonShared.APIs;
 
 namespace CookingSkillRedux.Core
 {
@@ -60,46 +60,85 @@ namespace CookingSkillRedux.Core
 
         private static void BetterCraftingPerformCraftEvent(IGlobalPerformCraftEvent @event)
         {
-            if (@event.Item is not null)
+            // Ensure the crafted item is a valid Stardew Valley object before proceeding
+            if (@event.Item is not StardewValley.Object)
             {
-                if ((@event.Recipe.CraftingRecipe is not null && @event.Recipe.CraftingRecipe.isCookingRecipe) ||
-                                    (@event.Recipe.Name is not null && CraftingRecipe.cookingRecipes.ContainsKey(@event.Recipe.Name)))
-                {
-                    @event.Item = PreCook(@event.Recipe.CraftingRecipe ?? new CraftingRecipe(@event.Recipe.Name, true), @event.Item, true);
-                    @event.Complete();
-                }
+                Log.Trace("YACS Bettercraft Pre Craft Event: Item is not a StardewValley.Object — skipping.");
+                @event.Complete();
+                return;
             }
-            
-            @event.Complete();
 
+            // Ensure the recipe reference is valid
+            var recipe = @event.Recipe;
+            if (recipe is null)
+            {
+                Log.Trace("YACS Bettercraft Pre Craft Event: Recipe is null — skipping.");
+                @event.Complete();
+                return;
+            }
+
+            // Determine if this recipe is a cooking recipe
+            bool isCookingRecipe =
+                (recipe.CraftingRecipe?.isCookingRecipe == true) ||
+                (recipe.Name is not null && CraftingRecipe.cookingRecipes.ContainsKey(recipe.Name));
+
+            Log.Trace($"YACS Bettercraft Pre Craft Event: Recipe '{recipe.Name ?? "null"}' detected as cooking recipe = {isCookingRecipe}");
+
+            // If the recipe is a cooking recipe, run PreCook before completing the event
+            if (isCookingRecipe)
+            {
+                var craftingRecipe = recipe.CraftingRecipe ?? new CraftingRecipe(recipe.Name, true);
+                Log.Trace("YACS Bettercraft Pre Craft Event: Running PreCook on crafted item...");
+                @event.Item = PreCook(craftingRecipe, @event.Item, true);
+                Log.Trace("YACS Bettercraft Pre Craft Event: PreCook completed.");
+            }
+
+            // Finalize the event (required for Better Crafting API to complete processing)
+            Log.Trace("YACS Bettercraft Pre Craft Event: Completing event.");
+            @event.Complete();
         }
+
 
         private static void BetterCraftingPostCraftEvent(IPostCraftEvent @event)
         {
-            // SpaceCore override recipes don't have CraftingRecipe set. In this case compare against vanilla cooking recipes
-            Log.Trace($"YACS BetterCraftingPostCraftEvent check 1");
-            if (@event.Recipe.CraftingRecipe is not null)
+            // Must have a valid crafted object
+            if (@event.Item is not StardewValley.Object)
             {
-                Log.Trace($"YACS BetterCraftingPostCraftEvent check 2");
-                if (@event.Recipe.CraftingRecipe.isCookingRecipe)
-                {
-                    Go(@event);
-                }
+                Log.Trace("YACS Bettercraft Post Craft Event: Skipped — crafted item is not a StardewValley.Object.");
+                return;
             }
-            else if (@event.Recipe.Name is not null)
+
+            var recipe = @event.Recipe;
+            if (recipe is null)
             {
-                Log.Trace($"YACS BetterCraftingPostCraftEvent check 3");
-                if (CraftingRecipe.cookingRecipes.ContainsKey(@event.Recipe.Name))
-                {
-                    Go(@event);
-                }
+                Log.Trace("YACS Bettercraft Post Craft Event: Skipped — recipe is null.");
+                return;
+            }
+
+            // Log general event info for context
+            Log.Trace($"YACS BBettercraft Post Craft Event: Processing recipe '{recipe.Name ?? "null"}' (Has CraftingRecipe: {recipe.CraftingRecipe is not null}).");
+
+            // Direct CraftingRecipe reference check
+            if (recipe.CraftingRecipe is { isCookingRecipe: true })
+            {
+                Log.Trace("YACS Bettercraft Post Craft Event: Cooking recipe detected via direct CraftingRecipe reference. Invoking Go().");
+                Go(@event);
+                return;
+            }
+
+            // Fallback: check by recipe name
+            if (recipe.Name is not null && CraftingRecipe.cookingRecipes.ContainsKey(recipe.Name))
+            {
+                Log.Trace("YACS Bettercraft Post Craft Event: Cooking recipe detected via name lookup. Invoking Go().");
+                Go(@event);
+                return;
             }
         }
 
         private static void Go(IPostCraftEvent @event)
         {
 
-            Log.Trace($"YACS BetterCraftingPostCraftEvent check Success");
+            Log.Trace($"YACS Postcraft BetterCraftingPostCraftEvent check Success");
 
             Dictionary<Item, int> consumed_items_dict = new();
             foreach (Item consumed in @event.ConsumedItems)
