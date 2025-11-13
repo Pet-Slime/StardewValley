@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using MoonShared.APIs;
 using MoonShared.Attributes;
+using MoonSharedSpaceCore;
 using Netcode;
 using SpaceCore;
 using SpaceCore.Events;
@@ -13,8 +16,6 @@ using StardewValley.Buffs;
 using StardewValley.Extensions;
 using StardewValley.GameData.Objects;
 using StardewValley.Inventories;
-using MoonSharedSpaceCore;
-using MoonShared.APIs;
 using Object = StardewValley.Object;
 
 namespace CookingSkillRedux.Core
@@ -49,10 +50,10 @@ namespace CookingSkillRedux.Core
 
             try
             {
-                Log.Alert("Cooking: Do I see LoC?");
+                Log.Trace("Cooking: Do I see LoC?");
                 if (ModEntry.LoveOfCookingLoaded)
                 {
-                    Log.Alert("Cooking: I do see LoC, Registering API.");
+                    Log.Trace("Cooking: I do see LoC, Registering API.");
                     ModEntry.LoveOfCooking = ModEntry.Instance.Helper.ModRegistry.GetApi<ICookingSkillAPI>("blueberry.LoveOfCooking");
 
                     ModEntry.LoveOfCooking.PostCook += LoveOfCookingPostCraftEvent;
@@ -82,7 +83,8 @@ namespace CookingSkillRedux.Core
             // Ensure the crafted item is a valid Stardew Valley object before proceeding
             if (@event.Item is not StardewValley.Object)
             {
-                Log.Trace("YACS Bettercraft Pre Craft Event: Item is not a StardewValley.Object — skipping.");
+                if (ModEntry.Config.DebugMode)
+                    Log.Trace("YACS Bettercraft Pre Craft Event: Item is not a StardewValley.Object — skipping.");
                 @event.Complete();
                 return;
             }
@@ -91,7 +93,8 @@ namespace CookingSkillRedux.Core
             var recipe = @event.Recipe;
             if (recipe is null)
             {
-                Log.Trace("YACS Bettercraft Pre Craft Event: Recipe is null — skipping.");
+                if (ModEntry.Config.DebugMode)
+                    Log.Trace("YACS Bettercraft Pre Craft Event: Recipe is null — skipping.");
                 @event.Complete();
                 return;
             }
@@ -101,19 +104,23 @@ namespace CookingSkillRedux.Core
                 (recipe.CraftingRecipe?.isCookingRecipe == true) ||
                 (recipe.Name is not null && CraftingRecipe.cookingRecipes.ContainsKey(recipe.Name));
 
-            Log.Trace($"YACS Bettercraft Pre Craft Event: Recipe '{recipe.Name ?? "null"}' detected as cooking recipe = {isCookingRecipe}");
+            if (ModEntry.Config.DebugMode)
+                Log.Trace($"YACS Bettercraft Pre Craft Event: Recipe '{recipe.Name ?? "null"}' detected as cooking recipe = {isCookingRecipe}");
 
             // If the recipe is a cooking recipe, run PreCook before completing the event
             if (isCookingRecipe)
             {
                 var craftingRecipe = recipe.CraftingRecipe ?? new CraftingRecipe(recipe.Name, true);
-                Log.Trace("YACS Bettercraft Pre Craft Event: Running PreCook on crafted item...");
+                if (ModEntry.Config.DebugMode)
+                    Log.Trace("YACS Bettercraft Pre Craft Event: Running PreCook on crafted item...");
                 @event.Item = PreCook(craftingRecipe, @event.Item, true);
-                Log.Trace("YACS Bettercraft Pre Craft Event: PreCook completed.");
+                if (ModEntry.Config.DebugMode)
+                    Log.Trace("YACS Bettercraft Pre Craft Event: PreCook completed.");
             }
 
             // Finalize the event (required for Better Crafting API to complete processing)
-            Log.Trace("YACS Bettercraft Pre Craft Event: Completing event.");
+            if (ModEntry.Config.DebugMode)
+                Log.Trace("YACS Bettercraft Pre Craft Event: Completing event.");
             @event.Complete();
         }
 
@@ -123,24 +130,28 @@ namespace CookingSkillRedux.Core
             // Must have a valid crafted object
             if (@event.Item is not StardewValley.Object)
             {
-                Log.Trace("YACS Bettercraft Post Craft Event: Skipped — crafted item is not a StardewValley.Object.");
+                if (ModEntry.Config.DebugMode)
+                    Log.Trace("YACS Bettercraft Post Craft Event: Skipped — crafted item is not a StardewValley.Object.");
                 return;
             }
 
             var recipe = @event.Recipe;
             if (recipe is null)
             {
-                Log.Trace("YACS Bettercraft Post Craft Event: Skipped — recipe is null.");
+                if (ModEntry.Config.DebugMode)
+                    Log.Trace("YACS Bettercraft Post Craft Event: Skipped — recipe is null.");
                 return;
             }
 
             // Log general event info for context
-            Log.Trace($"YACS BBettercraft Post Craft Event: Processing recipe '{recipe.Name ?? "null"}' (Has CraftingRecipe: {recipe.CraftingRecipe is not null}).");
+            if (ModEntry.Config.DebugMode)
+                Log.Trace($"YACS BBettercraft Post Craft Event: Processing recipe '{recipe.Name ?? "null"}' (Has CraftingRecipe: {recipe.CraftingRecipe is not null}).");
 
             // Direct CraftingRecipe reference check
             if (recipe.CraftingRecipe is { isCookingRecipe: true })
             {
-                Log.Trace("YACS Bettercraft Post Craft Event: Cooking recipe detected via direct CraftingRecipe reference. Invoking Go().");
+                if (ModEntry.Config.DebugMode)
+                    Log.Trace("YACS Bettercraft Post Craft Event: Cooking recipe detected via direct CraftingRecipe reference. Invoking Go().");
                 Go(@event);
                 return;
             }
@@ -148,7 +159,9 @@ namespace CookingSkillRedux.Core
             // Fallback: check by recipe name
             if (recipe.Name is not null && CraftingRecipe.cookingRecipes.ContainsKey(recipe.Name))
             {
-                Log.Trace("YACS Bettercraft Post Craft Event: Cooking recipe detected via name lookup. Invoking Go().");
+                if (ModEntry.Config.DebugMode)
+                    Log.Trace("YACS Bettercraft Post Craft Event: Cooking recipe detected via name lookup. Invoking Go().");
+
                 Go(@event);
                 return;
             }
@@ -157,7 +170,8 @@ namespace CookingSkillRedux.Core
         private static void Go(IPostCraftEvent @event)
         {
 
-            Log.Trace($"YACS Postcraft BetterCraftingPostCraftEvent check Success");
+            if (ModEntry.Config.DebugMode)
+                Log.Trace($"YACS Postcraft BetterCraftingPostCraftEvent check Success");
 
             Dictionary<Item, int> consumed_items_dict = new();
             foreach (Item consumed in @event.ConsumedItems)
@@ -174,34 +188,90 @@ namespace CookingSkillRedux.Core
 
         private static void LoveOfCookingPostCraftEvent(IPostCookEvent @event)
         {
-            Log.Alert("Love of cooking event fired");
+            // Early return if event or player invalid
+            if (@event?.Player == null || @event?.CookedItems == null)
+                return;
+
+            bool debug = ModEntry.Config.DebugMode;
+
+            if (debug)
+                Log.Trace("LoveOfCookingPostCraftEvent fired");
+
+            // --- Extract event data ---
             var player = @event.Player;
             var recipe = @event.Recipe;
-            var itemList = @event.CookedItems;
+            var cookedItems = @event.CookedItems;
+            var consumedItems = @event.ConsumedItems;
 
-            Dictionary<Item, int> consumed_items_dict = new();
-            foreach (Object consumed in @event.ConsumedItems)
+            if (debug)
+                Log.Trace($"Event details: Player='{player?.Name}', Recipe='{recipe?.DisplayName}', CookedItems={cookedItems?.Count ?? 0}");
+
+            // --- Build dictionary of consumed items ---
+            var consumedDict = new Dictionary<Item, int>(capacity: consumedItems.Count * 2);
+            if (debug)
+                Log.Trace("Building consumed_items_dict...");
+
+            foreach (var group in consumedItems)
             {
-                if (consumed is Item item) {
-                    consumed_items_dict.Add(item, item.Stack);
-                }
-            }
-
-            var newlist = new List<Object>();
-
-            foreach (var item in itemList)
-            {
-                Item adjustedItem = null;
-                adjustedItem = PreCook(recipe, item, false);
-                adjustedItem = PostCook(recipe, item, consumed_items_dict, player);
-                if (adjustedItem is Object obj)
+                foreach (var item in group)
                 {
-                    newlist.Add(obj);
+                    consumedDict[item] = item.Stack;
+                    if (debug)
+                        Log.Trace($"  Added consumed item: {item.DisplayName} x{item.Stack}");
                 }
             }
-            if (newlist.Count == @event.CookedItems.Count) 
-                @event.CookedItems = newlist;
+
+            if (debug)
+                Log.Trace($"Finished consumed_items_dict with {consumedDict.Count} entries");
+
+            // --- Prepare cooked item replacements ---
+            var newList = new List<Object>(cookedItems.Count);
+            if (debug)
+                Log.Trace($"Processing {cookedItems.Count} cooked items...");
+
+            foreach (var item in cookedItems)
+            {
+                if (debug)
+                    Log.Trace($"Processing '{item.DisplayName}' (ID {item.ParentSheetIndex})");
+
+                try
+                {
+                    // Apply PreCook → PostCook
+                    var adjusted = PostCook(recipe, PreCook(recipe, item, false), consumedDict, player);
+
+                    if (adjusted is Object obj)
+                    {
+                        newList.Add(obj);
+                        if (debug)
+                            Log.Trace($"  Added adjusted item '{obj.DisplayName}' to newList (total={newList.Count})");
+                    }
+                    else if (debug)
+                    {
+                        Log.Trace($"  Skipped '{item.DisplayName}' — adjustedItem was null or invalid type");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error($"Error processing '{item.DisplayName}': {ex}");
+                }
+            }
+
+            // --- Replace cooked items if valid ---
+            if (newList.Count == cookedItems.Count)
+            {
+                if (debug)
+                    Log.Trace($"Replacing CookedItems list (old={cookedItems.Count}, new={newList.Count})");
+                @event.CookedItems = newList;
+            }
+            else
+            {
+                Log.Warn($"CookedItems mismatch: original={cookedItems.Count}, new={newList.Count} — not replacing");
+            }
+
+            if (debug)
+                Log.Trace("LoveOfCookingPostCraftEvent completed successfully");
         }
+
 
         [SEvent.SaveLoaded]
         private void SaveLoaded(object sender, SaveLoadedEventArgs e)
@@ -404,7 +474,7 @@ namespace CookingSkillRedux.Core
 
         public static Item PreCook(CraftingRecipe recipe, Item item, bool betterCrafting = false)
         {
-            ModEntry.Instance.Monitor.Log($"Starting PreCook for {item.DisplayName}", LogLevel.Trace);
+            Log.Trace($"Starting PreCook for {item.DisplayName}");
 
             //Make sure the item coming out of the cooking recipe is an object
             if (item is StardewValley.Object obj)
@@ -431,13 +501,13 @@ namespace CookingSkillRedux.Core
                 else
                 {
                     Utilities.BetterCraftingTempItem = item;
-                    ModEntry.Instance.Monitor.Log($"Successfully finished with better crafting, returning null and stashing item for postcraft.", LogLevel.Trace);
+                    Log.Trace($"Successfully finished with better crafting, returning null and stashing item for postcraft.");
                     return item;
                 }
             }
             else
             {
-                ModEntry.Instance.Monitor.Log($"Not a cooking recipe - returning item from precraft with no changes", LogLevel.Trace);
+                Log.Trace($"Not a cooking recipe - returning item from precraft with no changes");
             }
             //Return the object
             return item;
@@ -445,24 +515,22 @@ namespace CookingSkillRedux.Core
 
         public static Item PostCook(CraftingRecipe recipe, Item item, Dictionary<Item, int> consumed_items, Farmer who, bool betterCrafting = false)
         {
-
-            Log.Alert("Love of cooking event fired 2");
             if (betterCrafting)
             {
                 item = Utilities.BetterCraftingTempItem;
-                ModEntry.Instance.Monitor.Log($"Using better crafting - retrived stashed item: {item.DisplayName}", LogLevel.Trace);
+                Log.Trace($"Using better crafting - retrived stashed item: {item.DisplayName}");
 
             }
 
             //Make sure the item coming out of the cooking recipe is an object
             if (item is StardewValley.Object obj)
             {
-                ModEntry.Instance.Monitor.Log($"Starting PostCook for {item.DisplayName}", LogLevel.Trace);
+                Log.Trace($"Starting PostCook for {item.DisplayName}");
                 //Make sure I am selecting the right items for debug purposes
                 if (consumed_items != null)
                 {
                     string items_string = string.Join(",", consumed_items.Select(kvp => $"{kvp.Key.DisplayName} of quality {kvp.Key.Quality}: {kvp.Value}"));
-                    ModEntry.Instance.Monitor.Log($"In PostCook for recipe {items_string}", LogLevel.Trace);
+                    Log.Trace($"In PostCook for recipe {items_string}");
 
                 }
 
@@ -492,7 +560,7 @@ namespace CookingSkillRedux.Core
                 }
 
                 //Give the player exp. Make sure to floor the value. Don't want decimels.
-                ModEntry.Instance.Monitor.Log($"Adding to player {who.Name} exp of amount {exp}", LogLevel.Trace);
+                Log.Trace($"Adding to player {who.Name} exp of amount {exp}");
                 Utilities.AddEXP(who, (int)(Math.Floor(exp)));
 
                 //Add the homecooked value to the modData for the item. So we can check for it later
@@ -522,7 +590,7 @@ namespace CookingSkillRedux.Core
                 dish_quality *= 0.5 + 0.15 * cooking_skill_quality + 0.35 * recipe_experience_quality;
                 dish_quality *= 0.6 + 0.1 * cooking_skill_quality + 0.1 * recipe_experience_quality + 0.2*ingredients_quality_RMS;
 
-                ModEntry.Instance.Monitor.Log($"ingredients {ingredients_quality_RMS}, skill {cooking_skill_quality}, experience {recipe_experience_quality} and random {r} led to quality {dish_quality}", LogLevel.Trace);
+                Log.Trace($"ingredients {ingredients_quality_RMS}, skill {cooking_skill_quality}, experience {recipe_experience_quality} and random {r} led to quality {dish_quality}");
                 if (dish_quality < 0.25)
                     obj.Quality = 0;
                 else if (dish_quality < 0.5)
@@ -541,7 +609,7 @@ namespace CookingSkillRedux.Core
                 if (obj.Quality >= 3)
                     obj.Quality = 4;
 
-                ModEntry.Instance.Monitor.Log($"Created item {item.DisplayName} with size {item.Stack}", LogLevel.Trace);
+                Log.Trace($"Created item {item.DisplayName} with size {item.Stack}");
 
 
                 //If the player has the right profession, they get an extra number of crafts from crafting the item.
@@ -563,7 +631,7 @@ namespace CookingSkillRedux.Core
                 {
                     if (who.couldInventoryAcceptThisItem(item))
                     {
-                        ModEntry.Instance.Monitor.Log($"Adding item to directly to inventory instead of to hand, adding {item.DisplayName} with size {item.Stack}", LogLevel.Trace);
+                        Log.Trace($"Adding item to directly to inventory instead of to hand, adding {item.DisplayName} with size {item.Stack}");
                         who.addItemToInventory(item);
                         //register dish as cooked and make the necessary checks
                         Game1.player.NotifyQuests(quest => quest.OnRecipeCrafted(recipe, obj));
@@ -573,7 +641,7 @@ namespace CookingSkillRedux.Core
                     }
                     else
                     {
-                        ModEntry.Instance.Monitor.Log($"Dropping item to ground, adding {item.DisplayName} with size {item.Stack}", LogLevel.Trace);
+                        Log.Trace($"Dropping item to ground, adding {item.DisplayName} with size {item.Stack}");
                         who.currentLocation.debris.Add(new Debris(item, who.Position));
                         //register dish as cooked and make the necessary checks
                         Game1.player.NotifyQuests(quest => quest.OnRecipeCrafted(recipe, obj));
@@ -586,7 +654,7 @@ namespace CookingSkillRedux.Core
             }
             else
             {
-                ModEntry.Instance.Monitor.Log($"Not a cooking recipe - returning item from postcraft with no changes", LogLevel.Trace);
+                Log.Trace($"Not a cooking recipe - returning item from postcraft with no changes");
             }
             //Return the object
             return item;

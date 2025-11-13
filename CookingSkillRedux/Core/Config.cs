@@ -24,5 +24,9 @@ namespace CookingSkillRedux
 
         [SConfig.Option(0f, 5f, 0.1f)]
         public float Cooking10a2 { get; set; } = 0.5f;
+
+
+        [SConfig.Option()]
+        public bool DebugMode = false;
     }
 }
