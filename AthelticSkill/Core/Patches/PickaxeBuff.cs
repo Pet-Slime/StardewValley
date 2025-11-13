@@ -2,6 +2,8 @@ using System;
 using AthleticSkill.Objects;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using MoonShared;
+using MoonShared.Attributes;
 using SpaceCore;
 using StardewValley;
 using StardewValley.Extensions;
@@ -11,108 +13,157 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 namespace AthleticSkill.Core.Patches
 {
     [HarmonyPatch(typeof(Pickaxe), nameof(Pickaxe.beginUsing))]
-    public class PickAxeBeginUsing_patch
+    public static class PickAxeBeginUsing_Patch
     {
         [HarmonyPrefix]
         private static bool Prefix(Pickaxe __instance, GameLocation location, int x, int y, Farmer who)
         {
-            // Copied from Stardewvalley.Tool
-
-            if (!ModEntry.UseAltProfession && who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
+            // Skip if conditions are not met early to minimize nesting
+            if (ModEntry.UseAltProfession
+                || !who.HasCustomProfession(Athletic_Skill.Athletic10a1)
+                || __instance.UpgradeLevel <= 0
+                || !who.modData.GetBool(Events.SprintingOn))
             {
-                MoonShared.Attributes.Log.Warn($"The power of the {__instance.DisplayName} is {who.toolPower.Value}");
-                who.Halt();
-                __instance.Update(who.FacingDirection, 0, who);
-                switch (who.FacingDirection)
-                {
-                    case Game1.up:
-                        who.FarmerSprite.setCurrentFrame(176);
-                        __instance.Update(0, 0, who);
-                        break;
-
-                    case Game1.right:
-                        who.FarmerSprite.setCurrentFrame(168);
-                        __instance.Update(1, 0, who);
-                        break;
-
-                    case Game1.down:
-                        who.FarmerSprite.setCurrentFrame(160);
-                        __instance.Update(2, 0, who);
-                        break;
-
-                    case Game1.left:
-                        who.FarmerSprite.setCurrentFrame(184);
-                        __instance.Update(3, 0, who);
-                        break;
-                }
-
-                return false;
+                return true;
             }
-            return true;
+
+            Log.Trace($"Enhanced pickaxe use: {__instance.DisplayName}, Power={who.toolPower.Value}");
+
+            // Halt player and prepare animation
+            who.Halt();
+            __instance.Update(who.FacingDirection, 0, who);
+
+            // Precompute facing direction data
+            int frame;
+            int facingIndex;
+
+            switch (who.FacingDirection)
+            {
+                case Game1.up:
+                    frame = 176; facingIndex = 0; break;
+                case Game1.right:
+                    frame = 168; facingIndex = 1; break;
+                case Game1.down:
+                    frame = 160; facingIndex = 2; break;
+                case Game1.left:
+                    frame = 184; facingIndex = 3; break;
+                default:
+                    return true; // invalid direction; let vanilla handle it
+            }
+
+            // Apply animation and update
+            who.FarmerSprite.setCurrentFrame(frame);
+            __instance.Update(facingIndex, 0, who);
+
+            return false; // prevent original method
         }
     }
 
     [HarmonyPatch(typeof(Farmer), nameof(Farmer.toolPowerIncrease))]
-    public class FarmerToolPower_patch
+    public static class FarmerToolPower_Patch
     {
-
         private static int ToolPitchAccumulator;
+        private static readonly Random ToolRng = new Random();
+
+        private static readonly (Color Color, float Jitter)[] PowerStages =
+        {
+        (Color.White, 0f),           // 0 — unused
+        (Color.Orange, 0.25f),       // 1
+        (Color.LightSteelBlue, 0.5f),// 2
+        (Color.Gold, 1f),            // 3
+        (Color.Violet, 2f),          // 4
+        (Color.BlueViolet, 3f)       // 5
+    };
+
+        private const int SpriteOffsetY = 192;
+        private const int SpriteSheetY = 1152;
 
         [HarmonyPrefix]
         private static bool Prefix(Farmer __instance)
         {
-            // Copied from Stardewvalley.Tool
             var who = __instance;
-            if (!ModEntry.UseAltProfession && who.HasCustomProfession(Athletic_Skill.Athletic10a1) && who.CurrentTool is Pickaxe)
+
+            // Early exit if any required condition fails 
+            if (ModEntry.UseAltProfession
+                || !who.HasCustomProfession(Athletic_Skill.Athletic10a1)
+                || who.CurrentTool is not Pickaxe
+                || !who.modData.GetBool(Events.SprintingOn))
             {
-
-                if (who.toolPower.Value == 0)
-                {
-                    ToolPitchAccumulator = 0;
-                }
-
-                who.toolPower.Value++;
-
-                Color color = Color.White;
-                int num = who.FacingDirection == 0 ? 4 : who.FacingDirection == 2 ? 2 : 0;
-                switch (who.toolPower.Value)
-                {
-                    case 1:
-                        color = Color.Orange;
-
-                        who.jitterStrength = 0.25f;
-                        break;
-                    case 2:
-                        color = Color.LightSteelBlue;
-
-                        who.jitterStrength = 0.5f;
-                        break;
-                    case 3:
-                        color = Color.Gold;
-                        who.jitterStrength = 1f;
-                        break;
-                    case 4:
-                        color = Color.Violet;
-                        who.jitterStrength = 2f;
-                        break;
-                    case 5:
-                        color = Color.BlueViolet;
-                        who.jitterStrength = 3f;
-                        break;
-                }
-
-                int num2 = who.FacingDirection == 1 ? 40 : who.FacingDirection == 3 ? -40 : who.FacingDirection == 2 ? 32 : 0;
-                int num3 = 192;
-
-                int y = who.StandingPixel.Y;
-                Game1.currentLocation.temporarySprites.Add(new TemporaryAnimatedSprite(21, who.Position - new Vector2(num2, num3), color, 8, flipped: false, 70f, 0, 64, y / 10000f + 0.005f, 128));
-                Game1.currentLocation.temporarySprites.Add(new TemporaryAnimatedSprite("TileSheets\\animations", new Rectangle(192, 1152, 64, 64), 50f, 4, 0, who.Position - new Vector2(who.FacingDirection != 1 ? -64 : 0, 128f), flicker: false, who.FacingDirection == 1, y / 10000f, 0.01f, Color.White, 1f, 0f, 0f, 0f));
-                int value = Utility.CreateRandom(Game1.dayOfMonth, who.Position.X * 1000.0, who.Position.Y).Next(12, 16) * 100 + who.toolPower.Value * 100;
-                Game1.playSound("toolCharge", value);
-
-                return false;
+                return true; // run vanilla
             }
-            return true;
+
+            // Reset accumulator if starting from 0
+            if (who.toolPower.Value == 0)
+                ToolPitchAccumulator = 0;
+
+            // Increase tool charge level 
+            who.toolPower.Value++;
+            int powerLevel = who.toolPower.Value;
+
+            // Clamp power level to valid range (1–5)
+            if (powerLevel >= PowerStages.Length)
+                powerLevel = PowerStages.Length - 1;
+
+            // Color and jitter from precomputed lookup
+            var (color, jitter) = PowerStages[powerLevel];
+            who.jitterStrength = jitter;
+
+            // Direction-based offsets
+            int facing = who.FacingDirection;
+            int offsetX = facing switch
+            {
+                Game1.right => 40,
+                Game1.left => -40,
+                Game1.down => 32,
+                _ => 0
+            };
+
+            int offsetIndex = facing switch
+            {
+                Game1.up => 4,
+                Game1.down => 2,
+                _ => 0
+            };
+
+            int y = who.StandingPixel.Y;
+
+            // Add sparkle/charge sprites
+            var pos = who.Position;
+            var sprites = Game1.currentLocation.temporarySprites;
+            sprites.Add(new TemporaryAnimatedSprite(
+                21,
+                pos - new Vector2(offsetX, SpriteOffsetY),
+                color,
+                8,
+                flipped: false,
+                70f,
+                0,
+                64,
+                y / 10000f + 0.005f,
+                128));
+
+            sprites.Add(new TemporaryAnimatedSprite(
+                "TileSheets\\animations",
+                new Rectangle(192, SpriteSheetY, 64, 64),
+                50f,
+                4,
+                0,
+                pos - new Vector2(facing != Game1.right ? -64 : 0, 128f),
+                flicker: false,
+                facing == Game1.right,
+                y / 10000f,
+                0.01f,
+                Color.White,
+                1f,
+                0f,
+                0f,
+                0f));
+
+            // Play charge-up sound ---
+            int soundPitch = ToolRng.Next(12, 16) * 100 + powerLevel * 100;
+            Game1.playSound("toolCharge", soundPitch);
+
+            return false; // skip vanilla method
         }
     }
 
@@ -126,7 +177,7 @@ namespace AthleticSkill.Core.Patches
         [HarmonyPrefix]
         private static bool Prefix(Pickaxe __instance, GameLocation location, int x, int y, int power, Farmer who)
         {
-            if (!ModEntry.UseAltProfession && who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
+            if (!ModEntry.UseAltProfession && who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0 && who.modData.GetBool(Events.SprintingOn))
             {
                 ProspectorBuff(__instance, location, x, y, power, who);
                 return false; // skip original logic

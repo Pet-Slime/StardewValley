@@ -23,7 +23,7 @@ namespace AthleticSkill.Core
     public class Events
     {
         // Key used to track whether sprinting is active in Farmer.modData
-        private static readonly string SprintingOn = "moonslime.AthelticSkill.sprinting";
+        public const string SprintingOn = "moonslime.AthelticSkill.sprinting";
 
         // SPRINT TICK CONSTANTS
         private const uint TimeChecker = 15;           // Number of ticks between sprint updates (~0.25s)

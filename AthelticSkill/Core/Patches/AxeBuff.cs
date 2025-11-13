@@ -1,6 +1,7 @@
 using AthleticSkill.Objects;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using MoonShared;
 using SpaceCore;
 using StardewValley;
 using StardewValley.Extensions;
@@ -15,38 +16,36 @@ namespace AthleticSkill.Core.Patches
         [HarmonyPrefix]
         private static bool Prefix(Axe __instance, Farmer who)
         {
-            // Copied from Stardewvalley.Tool
+            // Fast exit — skip logic if profession or sprinting state not active
+            if (ModEntry.UseAltProfession
+                || !who.HasCustomProfession(Athletic_Skill.Athletic10a1)
+                || __instance.UpgradeLevel <= 0
+                || !who.modData.GetBool(Events.SprintingOn))
+                return true;
 
-            if (!ModEntry.UseAltProfession && who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
+            // Halt movement before triggering custom swing animation
+            who.Halt();
+
+            // Cache direction for multiple uses
+            int facing = who.FacingDirection;
+
+            // Apply correct animation frame and tool update
+            int frame = facing switch
             {
-                who.Halt();
-                __instance.Update(who.FacingDirection, 0, who);
-                switch (who.FacingDirection)
-                {
-                    case Game1.up:
-                        who.FarmerSprite.setCurrentFrame(176);
-                        __instance.Update(0, 0, who);
-                        break;
+                Game1.up => 176,
+                Game1.right => 168,
+                Game1.down => 160,
+                Game1.left => 184,
+                _ => 160 // safe default
+            };
 
-                    case Game1.right:
-                        who.FarmerSprite.setCurrentFrame(168);
-                        __instance.Update(1, 0, who);
-                        break;
+            // Set the sprite frame once
+            who.FarmerSprite.setCurrentFrame(frame);
 
-                    case Game1.down:
-                        who.FarmerSprite.setCurrentFrame(160);
-                        __instance.Update(2, 0, who);
-                        break;
+            // Update tool behavior (do once, after animation frame)
+            __instance.Update(facing, 0, who);
 
-                    case Game1.left:
-                        who.FarmerSprite.setCurrentFrame(184);
-                        __instance.Update(3, 0, who);
-                        break;
-                }
-
-                return false;
-            }
-            return true;
+            return false;
         }
     }
 
@@ -56,7 +55,7 @@ namespace AthleticSkill.Core.Patches
         [HarmonyPrefix]
         private static bool Prefix(Axe __instance, GameLocation location, int x, int y, int power, Farmer who)
         {
-            if (!ModEntry.UseAltProfession && who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0)
+            if (!ModEntry.UseAltProfession && who.HasCustomProfession(Athletic_Skill.Athletic10a1) && __instance.UpgradeLevel > 0 && who.modData.GetBool(Events.SprintingOn))
             {
                 LumberjackBuff(__instance, location, x, y, power, who);
                 return false; // Skip original
