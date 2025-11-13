@@ -16,6 +16,7 @@ namespace CookingSkillRedux
         internal static bool LoveOfCookingLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("blueberry.LoveOfCooking");
 
         internal static IBetterCrafting BetterCrafting;
+        internal static ICookingSkillAPI LoveOfCooking;
         public const string SkillID = "moonslime.Cooking";
 
         internal ITranslationHelper I18n => this.Helper.Translation;

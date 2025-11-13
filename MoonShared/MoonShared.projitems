@@ -9,6 +9,7 @@
     <Import_RootNamespace>MoonShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)APIs\ICookingSkillAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)APIs\IContentPatcher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)APIs\IManaBarApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)APIs\IBetterCraftingApi.cs" />

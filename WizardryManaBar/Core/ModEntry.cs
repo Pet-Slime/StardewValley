@@ -43,12 +43,16 @@ namespace WizardryManaBar.Core
 
             // Register GameStateQueries
             RegisterManaQueries();
+            this.GetApi();
         }
 
         /// <summary>
         /// Returns this mod's API instance, exposed for other mods to integrate with.
         /// </summary>
-        public override object GetApi() => new Api();
+        public override object GetApi()
+        {
+            return new Api();
+        }
 
         /// <summary>
         /// Registers a trigger action under the ManaBar API namespace.

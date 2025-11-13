@@ -15,6 +15,7 @@ using StardewValley.GameData.Objects;
 using StardewValley.Inventories;
 using MoonSharedSpaceCore;
 using MoonShared.APIs;
+using Object = StardewValley.Object;
 
 namespace CookingSkillRedux.Core
 {
@@ -45,9 +46,27 @@ namespace CookingSkillRedux.Core
             {
                 Log.Trace("Cooking: Error with trying to load better crafting API");
             }
+
+            try
+            {
+                Log.Alert("Cooking: Do I see LoC?");
+                if (ModEntry.LoveOfCookingLoaded)
+                {
+                    Log.Alert("Cooking: I do see LoC, Registering API.");
+                    ModEntry.LoveOfCooking = ModEntry.Instance.Helper.ModRegistry.GetApi<ICookingSkillAPI>("blueberry.LoveOfCooking");
+
+                    ModEntry.LoveOfCooking.PostCook += LoveOfCookingPostCraftEvent;
+                }
+            }
+            catch
+            {
+                Log.Trace("Cooking: Error with trying to load Love of Cooking API");
+            }
             SpaceEvents.OnItemEaten += OnItemEat;
             SpaceEvents.AfterGiftGiven += AfterGiftGiven;
         }
+
+
 
         private static void AfterGiftGiven(object sender, EventArgsGiftGiven e)
         {
@@ -151,6 +170,37 @@ namespace CookingSkillRedux.Core
                 @event.Player,
                 true
             );
+        }
+
+        private static void LoveOfCookingPostCraftEvent(IPostCookEvent @event)
+        {
+            Log.Alert("Love of cooking event fired");
+            var player = @event.Player;
+            var recipe = @event.Recipe;
+            var itemList = @event.CookedItems;
+
+            Dictionary<Item, int> consumed_items_dict = new();
+            foreach (Object consumed in @event.ConsumedItems)
+            {
+                if (consumed is Item item) {
+                    consumed_items_dict.Add(item, item.Stack);
+                }
+            }
+
+            var newlist = new List<Object>();
+
+            foreach (var item in itemList)
+            {
+                Item adjustedItem = null;
+                adjustedItem = PreCook(recipe, item, false);
+                adjustedItem = PostCook(recipe, item, consumed_items_dict, player);
+                if (adjustedItem is Object obj)
+                {
+                    newlist.Add(obj);
+                }
+            }
+            if (newlist.Count == @event.CookedItems.Count) 
+                @event.CookedItems = newlist;
         }
 
         [SEvent.SaveLoaded]
@@ -396,6 +446,7 @@ namespace CookingSkillRedux.Core
         public static Item PostCook(CraftingRecipe recipe, Item item, Dictionary<Item, int> consumed_items, Farmer who, bool betterCrafting = false)
         {
 
+            Log.Alert("Love of cooking event fired 2");
             if (betterCrafting)
             {
                 item = Utilities.BetterCraftingTempItem;
