@@ -334,6 +334,101 @@
                     ],
                     "CustomFields": null
                 },
+                "moonslime.Bibliocraft.bookmark/KnockbackMultiplier": {
+                    "Name": "Book Mark of Weight",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.moonslime.Bibliocraft.bookmark/KnockbackMultiplier.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.moonslime.Bibliocraft.bookmark/KnockbackMultiplier.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 10,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_gray",
+                        "not_placeable"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Bibliocraft.bookmark/WeaponSpeedMultiplier": {
+                    "Name": "Bookmark of Finesse",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.moonslime.Bibliocraft.bookmark/WeaponSpeedMultiplier.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.moonslime.Bibliocraft.bookmark/WeaponSpeedMultiplier.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 10,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_yellow",
+                        "not_placeable"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Bibliocraft.bookmark/Immunity": {
+                    "Name": "Book Mark of Protection",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.moonslime.Bibliocraft.bookmark/Immunity.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.moonslime.Bibliocraft.bookmark/Immunity.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 10,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_dark_purple",
+                        "not_placeable"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Bibliocraft.bookmark/CriticalChanceMultiplier": {
+                    "Name": "Book Mark of True Aim",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.moonslime.Bibliocraft.bookmark/CriticalChanceMultiplier.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.moonslime.Bibliocraft.bookmark/CriticalChanceMultiplier.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 10,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_dark_orange",
+                        "not_placeable"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Bibliocraft.bookmark/CriticalPowerMultiplier": {
+                    "Name": "Book Mark of Power",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.moonslime.Bibliocraft.bookmark/CriticalPowerMultiplier.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.moonslime.Bibliocraft.bookmark/CriticalPowerMultiplier.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 10,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_dark_green",
+                        "not_placeable"
+                    ],
+                    "CustomFields": null
+                },
                 "moonslime.Bibliocraft.letter_robin": {
                     "Name": "Robin",
                     "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_robin.name}}",
@@ -345,13 +440,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Robin" }
                 },
                 "moonslime.Bibliocraft.letter_alex": {
                     "Name": "Alex",
@@ -364,13 +459,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Alex" }
                 },
                 "moonslime.Bibliocraft.letter_elliott": {
                     "Name": "Elliott",
@@ -383,13 +478,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Elliott" }
                 },
                 "moonslime.Bibliocraft.letter_harvey": {
                     "Name": "Harvey",
@@ -402,13 +497,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Harvey" }
                 },
                 "moonslime.Bibliocraft.letter_sam": {
                     "Name": "Sam",
@@ -421,13 +516,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Sam" }
                 },
                 "moonslime.Bibliocraft.letter_sebastian": {
                     "Name": "Sebastian",
@@ -440,13 +535,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Sebastian" }
                 },
                 "moonslime.Bibliocraft.letter_shane": {
                     "Name": "Shane",
@@ -459,13 +554,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Shane" }
                 },
                 "moonslime.Bibliocraft.letter_abigail": {
                     "Name": "Abigail",
@@ -478,13 +573,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Abigail" }
                 },
                 "moonslime.Bibliocraft.letter_emily": {
                     "Name": "Emily",
@@ -497,13 +592,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Emily" }
                 },
                 "moonslime.Bibliocraft.letter_haley": {
                     "Name": "Haley",
@@ -516,13 +611,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Haley" }
                 },
                 "moonslime.Bibliocraft.letter_leah": {
                     "Name": "Leah",
@@ -535,13 +630,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Leah" }
                 },
                 "moonslime.Bibliocraft.letter_maru": {
                     "Name": "Maru",
@@ -554,13 +649,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Maru" }
                 },
                 "moonslime.Bibliocraft.letter_penny": {
                     "Name": "Penny",
@@ -573,13 +668,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Penny" }
                 },
                 "moonslime.Bibliocraft.letter_caroline": {
                     "Name": "Caroline",
@@ -592,13 +687,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Caroline" }
                 },
                 "moonslime.Bibliocraft.letter_clint": {
                     "Name": "Clint",
@@ -611,13 +706,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Clint" }
                 },
                 "moonslime.Bibliocraft.letter_demetrius": {
                     "Name": "Demetrius",
@@ -630,13 +725,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Demetrius" }
                 },
                 "moonslime.Bibliocraft.letter_evelyn": {
                     "Name": "Evelyn",
@@ -649,13 +744,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Evelyn" }
                 },
                 "moonslime.Bibliocraft.letter_george": {
                     "Name": "George",
@@ -668,13 +763,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "George" }
                 },
                 "moonslime.Bibliocraft.letter_gus": {
                     "Name": "Gus",
@@ -687,13 +782,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Gus" }
                 },
                 "moonslime.Bibliocraft.letter_jas": {
                     "Name": "Jas",
@@ -706,13 +801,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Jas" }
                 },
                 "moonslime.Bibliocraft.letter_jodi": {
                     "Name": "Jodi",
@@ -725,13 +820,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Jodi" }
                 },
                 "moonslime.Bibliocraft.letter_kent": {
                     "Name": "Kent",
@@ -744,13 +839,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Kent" }
                 },
                 "moonslime.Bibliocraft.letter_lewis": {
                     "Name": "Lewis",
@@ -763,13 +858,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Lewis" }
                 },
                 "moonslime.Bibliocraft.letter_marnie": {
                     "Name": "Marnie",
@@ -782,13 +877,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Marnie" }
                 },
                 "moonslime.Bibliocraft.letter_pam": {
                     "Name": "Pam",
@@ -801,13 +896,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Pam" }
                 },
                 "moonslime.Bibliocraft.letter_pierre": {
                     "Name": "Pierre",
@@ -820,13 +915,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Pierre" }
                 },
                 "moonslime.Bibliocraft.letter_sandy": {
                     "Name": "Sandy",
@@ -839,13 +934,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Sandy" }
                 },
                 "moonslime.Bibliocraft.letter_vincent": {
                     "Name": "Vincent",
@@ -858,13 +953,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Vincent" }
                 },
                 "moonslime.Bibliocraft.letter_willy": {
                     "Name": "Willy",
@@ -877,13 +972,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Willy" }
                 },
                 "moonslime.Bibliocraft.letter_wizard": {
                     "Name": "Wizard",
@@ -896,13 +991,13 @@
                     "SpriteIndex": 9,
                     "Edibility": -300,
                     "IsDrink": false,
-                    "CanBeGivenAsGift": false,
+                    "CanBeGivenAsGift": true,
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
-                        "not_placeable",
-                        "moonslime.Bibliocraft.mail"
+                        "color_white",
+                        "not_placeable"
                     ],
-                    "CustomFields": null
+                    "CustomFields": { "moonslime.Bibliocraft.mail": "Wizard" }
                 }
             }
         }

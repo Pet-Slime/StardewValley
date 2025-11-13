@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using StardewModdingAPI;
 
 namespace BibliocraftSkill.Core
@@ -11,6 +12,9 @@ namespace BibliocraftSkill.Core
         internal ITranslationHelper I18N => this.Helper.Translation;
 
         public const string SkillID = "moonslime.Bibliocraft";
+
+
+        public static readonly Dictionary<string, string> MailingList = [];
 
         public override void Entry(IModHelper helper)
         {

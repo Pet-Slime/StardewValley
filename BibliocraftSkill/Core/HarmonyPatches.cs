@@ -1,22 +1,23 @@
-using Object = StardewValley.Object;
-using Log = MoonShared.Attributes.Log;
-using Vector2 = Microsoft.Xna.Framework.Vector2;
-using HarmonyLib;
-using StardewValley;
-using MoonShared;
-using BibliocraftSkill.Objects;
-using SpaceCore;
-using StardewValley.Buffs;
-using StardewValley.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using StardewValley.TerrainFeatures;
-using StardewValley.GameData.WildTrees;
-using StardewValley.Tools;
-using StardewValley.Monsters;
-using System.Reflection.Emit;
 using System.Reflection;
+using System.Reflection.Emit;
+using System.Threading;
+using BibliocraftSkill.Objects;
+using HarmonyLib;
+using MoonShared;
+using SpaceCore;
+using StardewValley;
+using StardewValley.Buffs;
+using StardewValley.Extensions;
+using StardewValley.GameData.WildTrees;
+using StardewValley.Monsters;
+using StardewValley.TerrainFeatures;
+using StardewValley.Tools;
+using Log = MoonShared.Attributes.Log;
+using Object = StardewValley.Object;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 
 namespace BibliocraftSkill.Core
@@ -44,7 +45,7 @@ namespace BibliocraftSkill.Core
 
 
     [HarmonyPatch(typeof(Object), "readBook")]
-    class ReadBookPostfix_patch
+    public class ReadBookPostfix_patch
     {
         public static KeyedProfession Prof_BookWorm => Book_Skill.Book5a;
         public static KeyedProfession Prof_PageFinder => Book_Skill.Book5b;
@@ -53,215 +54,218 @@ namespace BibliocraftSkill.Core
         public static KeyedProfession Prof_TypeSetter => Book_Skill.Book10b1;
         public static KeyedProfession Prof_BookSeller => Book_Skill.Book10b2;
 
+        private const int BuffDurationMultiplier = 6000 * 10;
+        private const int NumAttributes = 16;
+        private const int MaxAttributeValue = 5;
+        private const int MaxStaminaMultiplier = 16;
+
+        // Dictionaries for bookmark effects
+        private static readonly Dictionary<string, Action<BuffEffects, int>> BookmarkEffectMap =
+            new(StringComparer.OrdinalIgnoreCase)
+            {
+                ["KnockbackMultiplier"] = (b, lvl) => b.KnockbackMultiplier.Value = lvl,
+                ["WeaponSpeedMultiplier"] = (b, lvl) => b.WeaponSpeedMultiplier.Value = lvl,
+                ["Immunity"] = (b, lvl) => b.Immunity.Value = Math.Max(lvl / 3, 1),
+                ["CriticalChanceMultiplier"] = (b, lvl) => b.CriticalChanceMultiplier.Value = lvl,
+                ["CriticalPowerMultiplier"] = (b, lvl) => b.CriticalPowerMultiplier.Value = lvl,
+                ["Default"] = (b, lvl) => b.AttackMultiplier.Value = lvl
+            };
+
+        // Array of actions for random Bookworm attributes (1-16)
+        private static readonly Action<BuffEffects, int>[] RandomAttributeActions = new Action<BuffEffects, int>[]
+        {
+            (b, lvl) => b.FarmingLevel.Value = lvl,              // 1
+            (b, lvl) => b.FishingLevel.Value = lvl,             // 2
+            (b, lvl) => b.MiningLevel.Value = lvl,              // 3
+            (b, lvl) => b.LuckLevel.Value = lvl,                // 4
+            (b, lvl) => b.ForagingLevel.Value = lvl,            // 5
+            (b, lvl) => b.MaxStamina.Value = lvl * MaxStaminaMultiplier,  // 6
+            (b, lvl) => b.MagneticRadius.Value = lvl * MaxStaminaMultiplier, // 7
+            (b, lvl) => b.Defense.Value = lvl,                  // 8
+            (b, lvl) => b.Attack.Value = lvl,                   // 9
+            (b, lvl) => b.Speed.Value = lvl,                    // 10
+            (b, lvl) => b.AttackMultiplier.Value = lvl,         // 11
+            (b, lvl) => b.Immunity.Value = lvl,                 // 12
+            (b, lvl) => b.KnockbackMultiplier.Value = lvl,      // 13
+            (b, lvl) => b.WeaponSpeedMultiplier.Value = lvl,    // 14
+            (b, lvl) => b.CriticalChanceMultiplier.Value = lvl, // 15
+            (b, lvl) => b.CriticalPowerMultiplier.Value = lvl   // 16
+        };
 
         [HarmonyPostfix]
         public static void Postfix(Object __instance, ref GameLocation location)
         {
-            //Get the player
-            var who = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
-            int playerBookLevel = Utilities.GetLevel(who);
+            Farmer who = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
             string itemID = __instance.ItemId;
+            int playerBookLevel = Utilities.GetLevel(who);
+            int buffDuration = BuffDurationMultiplier * playerBookLevel;
 
+            TryApplyBookmarkBuff(who, playerBookLevel, buffDuration);
 
-            // If the player went down the bookworm profession path,
             if (who.HasCustomProfession(Prof_BookWorm))
             {
-
-                // Define constants for attribute types and max values
-                const int NumAttributes = 16;
-                const int MaxAttributeValue = 5;
-                const int MaxStaminaMultiplier = 16;
-                const int BuffDurationMultiplier = 6000 * 10;
-
-                // Create the buff
-                Buff buff = new(
-                    id: "Bibliocraft:profession:bookworm_buff",
-                    displayName: ModEntry.Instance.I18N.Get("moonslime.Bibliocraft.Profession10b2.buff"),
-                    description: null,
-                    iconTexture: Assets.Bookworm_buff,
-                    iconSheetIndex: 0,
-                    duration: BuffDurationMultiplier * Utilities.GetLevel(who), //Buff duration based on player Cooking level, to reward them for eating cooking foods
-                    effects: null
-                );
-
-                //Chekck to see if the player has the buff
-                if (!who.hasBuff(buff.id))
-                {
-                    // Generate random attribute and level
-                    int attributeBuff = Game1.random.Next(1, NumAttributes + 1);
-                    Log.Trace("Bibliocraft: random attibute is: " + attributeBuff.ToString());
-                    int attributeLevel = Game1.random.Next(1, MaxAttributeValue + 1);
-                    Log.Trace("Bibliocraft: random level is: " + attributeLevel.ToString());
-
-                    // Create a BuffEffects instance
-                    BuffEffects randomEffect = new()
-                    {
-                        FarmingLevel = { 0 },
-                        FishingLevel = { 0 },
-                        MiningLevel = { 0 },
-                        LuckLevel = { 0 },
-                        ForagingLevel = { 0 },
-                        MaxStamina = { 0 },
-                        MagneticRadius = { 0 },
-                        Defense = { 0 },
-                        Attack = { 0 },
-                        Speed = { 0 },
-                        AttackMultiplier = { 0 },
-                        Immunity = { 0 },
-                        KnockbackMultiplier = { 0 },
-                        WeaponSpeedMultiplier = { 0 },
-                        CriticalChanceMultiplier = { 0 },
-                        CriticalPowerMultiplier = { 0 }
-                    };
-
-
-                    // Apply the random effect based on the randomly generated attribute
-                    switch (attributeBuff)
-                    {
-                        case 1: randomEffect.FarmingLevel.Value = attributeLevel; break;
-                        case 2: randomEffect.FishingLevel.Value = attributeLevel; break;
-                        case 3: randomEffect.MiningLevel.Value = attributeLevel; break;
-                        case 4: randomEffect.LuckLevel.Value = attributeLevel; break;
-                        case 5: randomEffect.ForagingLevel.Value = attributeLevel; break;
-                        case 6: randomEffect.MaxStamina.Value = attributeLevel * MaxStaminaMultiplier; break;
-                        case 7: randomEffect.MagneticRadius.Value = attributeLevel * MaxStaminaMultiplier; break;
-                        case 8: randomEffect.Defense.Value = attributeLevel; break;
-                        case 9: randomEffect.Attack.Value = attributeLevel; break;
-                        case 10: randomEffect.Speed.Value = attributeLevel; break;
-                        case 11: randomEffect.AttackMultiplier.Value = attributeLevel; break;
-                        case 12: randomEffect.Immunity.Value = attributeLevel; break;
-                        case 13: randomEffect.KnockbackMultiplier.Value = attributeLevel; break;
-                        case 14: randomEffect.WeaponSpeedMultiplier.Value = attributeLevel; break;
-                        case 15: randomEffect.CriticalChanceMultiplier.Value = attributeLevel; break;
-                        case 16: randomEffect.CriticalPowerMultiplier.Value = attributeLevel; break;
-                    }
-
-                    //Apply the effects to the buff
-                    buff.effects.Add(randomEffect);
-
-                    //Apply the new buff
-                    who.applyBuff(buff);
-                }
-
-                //Profession page master
-                if (who.HasCustomProfession(Prof_PageMaster))
-                {
-                    // use the explode feature!
-                    location.explode(who.Tile, //location
-                        (int)(playerBookLevel * 0.2), // radius
-                        who, // who did the explosion
-                        false, // it does not damage players
-                        Game1.random.Choose(34, 35, 36, 37, 38, 39, 40, 41, 42), // the damage it deals
-                        true); // It does not destroy objects
-
-                    location.playSound("wind");
-                }
-                //Profession seasoned reader
-                if (who.HasCustomProfession(Prof_SeasonedReader))
-                {
-                    //get a list of the tiles affected
-                    List<Vector2> list = TilesAffected(who.Tile, (int)(playerBookLevel * 0.2), who);
-
-                    // check each tile for the crops
-                    foreach (var entry in location.terrainFeatures.Pairs.ToList())
-                    {
-                        var tf = entry.Value;
-                        // If the object in hoedirt and is on the list
-                        if (tf is HoeDirt dirt && list.Contains(entry.Key))
-                        {
-                            // continue if there is no crop or if the crop is fully grown
-                            if (dirt.crop == null || dirt.crop.fullyGrown.Value)
-                                continue;
-                            // If it does contain a a crop, advance the crop for one day
-                            dirt.crop.newDay(1);
-                            location.updateMap();
-                        }
-                    }
-                }
+                TryApplyBookwormBuff(who, playerBookLevel, buffDuration);
+                TryApplyPageMasterEffect(who, location, playerBookLevel);
+                TryApplySeasonedReaderEffect(who, location, playerBookLevel);
             }
 
-            #region EXP increase when reading books
-
-            //Increase the EXP that the player gaineded from exp books (Vanilla books)
-            if (itemID.StartsWith("SkillBook_"))
-            {
-                int count = who.newLevels.Count;
-                int EXP = (int)Math.Floor(250 * playerBookLevel * 0.05);
-                who.gainExperience(Convert.ToInt32(itemID.Last().ToString() ?? ""), EXP);
-                if (who.newLevels.Count == count || who.newLevels.Count > 1 && count >= 1)
-                {
-                    DelayedAction.functionAfterDelay(delegate
-                    {
-                        Game1.showGlobalMessage(Game1.content.LoadString("Strings\\1_6_Strings:SkillBookMessage", Game1.content.LoadString("Strings\\1_6_Strings:SkillName_" + itemID.Last()).ToLower()));
-                    }, 1000);
-                }
-                return;
-            }
-
-            if (itemID == "PurpleBook")
-            {
-                //Vanilla skills
-                int EXP = (int)Math.Floor(250 * playerBookLevel * 0.05);
-                Game1.player.gainExperience(0, EXP);
-                Game1.player.gainExperience(1, EXP);
-                Game1.player.gainExperience(2, EXP);
-                Game1.player.gainExperience(3, EXP);
-                Game1.player.gainExperience(4, EXP);
-
-                //Modded skills
-                string[] VisibleSkills = Skills.GetSkillList().Where(s => Skills.GetSkill(s).ShouldShowOnSkillsPage).ToArray();
-                foreach (string skill in VisibleSkills)
-                {
-                    Skills.AddExperience(Game1.player, skill, EXP);
-                }
-                return;
-            }
-
-            //For vanilla books the player has read
-            if (Game1.player.stats.Get(__instance.itemId.Value) != 0 && itemID != "Book_PriceCatalogue" && itemID != "Book_AnimalCatalogue")
-            {
-                bool flag = false;
-                foreach (string contextTag in __instance.GetContextTags())
-                {
-                    if (contextTag.StartsWithIgnoreCase("book_xp_"))
-                    {
-                        flag = true;
-                        string text = contextTag.Split('_')[2];
-                        int EXP = (int)Math.Floor(100 * playerBookLevel * 0.05);
-                        Game1.player.gainExperience(Farmer.getSkillNumberFromName(text), EXP);
-                        break;
-                    }
-                }
-
-                if (!flag)
-                {
-                    for (int i = 0; i < 5; i++)
-                    {
-                        int EXP = (int)Math.Floor(20 * playerBookLevel * 0.05);
-                        Game1.player.gainExperience(i, EXP);
-                    }
-                }
-                return;
-            }
-
-            #endregion
-
+            HandleBookExperienceGain(who, __instance, itemID, playerBookLevel);
         }
 
-        public static List<Vector2> TilesAffected(Vector2 tileLocation, int power, Farmer who)
+        private static void TryApplyBookmarkBuff(Farmer who, int playerBookLevel, int buffDuration)
         {
-            List<Vector2> list = new List<Vector2>();
-            list.Add(tileLocation);
-            for (int i = (int)tileLocation.X - power; i <= tileLocation.X + power; i++)
+            string prefix = "moonslime.Bibliocraft.bookmark/";
+            if (who.Items.FirstOrDefault(i => i is not null && i.QualifiedItemId.StartsWith(prefix)) is not Item bookmark)
+                return;
+
+            string effectName = bookmark.QualifiedItemId.Split("/")[1];
+            Buff buff = new(
+                id: $"Bibliocraft:bookmark:{effectName}",
+                displayName: ModEntry.Instance.I18N.Get("moonslime.Bibliocraft.Bookmark.buff"),
+                description: null,
+                iconTexture: Assets.Bookworm_buff,
+                iconSheetIndex: 0,
+                duration: buffDuration,
+                effects: null
+            );
+
+            BuffEffects effects = new();
+            if (!BookmarkEffectMap.TryGetValue(effectName, out var action))
+                action = BookmarkEffectMap["Default"];
+            action(effects, playerBookLevel);
+
+            buff.effects.Add(effects);
+            who.applyBuff(buff);
+            who.Items.ReduceId(bookmark.QualifiedItemId, 1);
+        }
+
+        private static void TryApplyBookwormBuff(Farmer who, int playerBookLevel, int buffDuration)
+        {
+            const string buffId = "Bibliocraft:profession:bookworm_buff";
+            if (who.hasBuff(buffId)) return;
+
+            Buff buff = new(
+                id: buffId,
+                displayName: ModEntry.Instance.I18N.Get("moonslime.Bibliocraft.Profession10b2.buff"),
+                description: null,
+                iconTexture: Assets.Bookworm_buff,
+                iconSheetIndex: 0,
+                duration: buffDuration,
+                effects: null
+            );
+
+            int attributeBuff = Game1.random.Next(1, NumAttributes + 1);
+            int attributeLevel = Game1.random.Next(1, MaxAttributeValue + 1);
+
+            // Keep logging as-is
+            Log.Trace("Bibliocraft: random attribute is: " + attributeBuff);
+            Log.Trace("Bibliocraft: random level is: " + attributeLevel);
+
+            BuffEffects randomEffect = new();
+            RandomAttributeActions[attributeBuff - 1](randomEffect, attributeLevel);
+            buff.effects.Add(randomEffect);
+
+            who.applyBuff(buff);
+        }
+
+        private static void TryApplyPageMasterEffect(Farmer who, GameLocation location, int playerBookLevel)
+        {
+            if (!who.HasCustomProfession(Prof_PageMaster)) return;
+
+            location.explode(
+                who.Tile,
+                (int)(playerBookLevel * 0.2),
+                who,
+                false,
+                Game1.random.Choose(34, 35, 36, 37, 38, 39, 40, 41, 42),
+                true
+            );
+            location.playSound("wind");
+        }
+
+        private static void TryApplySeasonedReaderEffect(Farmer who, GameLocation location, int playerBookLevel)
+        {
+            if (!who.HasCustomProfession(Prof_SeasonedReader)) return;
+
+            List<Vector2> affected = TilesAffected(who.Tile, (int)(playerBookLevel * 0.2));
+
+            foreach (var entry in location.terrainFeatures.Pairs)
             {
-                for (int j = (int)tileLocation.Y - power; j <= tileLocation.Y + power; j++)
-                {
-                    list.Add(new Vector2(i, j));
-                }
+                if (entry.Value is not HoeDirt dirt || !affected.Contains(entry.Key)) continue;
+                if (dirt.crop == null || dirt.crop.fullyGrown.Value) continue;
+
+                dirt.crop.newDay(1);
             }
-            return list;
+
+            location.updateMap();
+        }
+
+        private static void HandleBookExperienceGain(Farmer who, Object book, string itemID, int level)
+        {
+            if (itemID.StartsWith("SkillBook_")) { ApplySkillBookExp(who, itemID, level); return; }
+            if (itemID == "PurpleBook") { ApplyPurpleBookExp(who, level); return; }
+
+            if (Game1.player.stats.Get(book.itemId.Value) != 0 && itemID is not ("Book_PriceCatalogue" or "Book_AnimalCatalogue"))
+                ApplyGenericBookExp(who, book, itemID, level);
+        }
+
+        private static void ApplySkillBookExp(Farmer who, string itemID, int level)
+        {
+            int count = who.newLevels.Count;
+            int exp = (int)Math.Floor(250 * level * 0.05);
+            who.gainExperience(Convert.ToInt32(itemID.Last().ToString() ?? "0"), exp);
+
+            if (who.newLevels.Count == count || (who.newLevels.Count > 1 && count >= 1))
+            {
+                DelayedAction.functionAfterDelay(() =>
+                {
+                    Game1.showGlobalMessage(Game1.content.LoadString(
+                        "Strings\\1_6_Strings:SkillBookMessage",
+                        Game1.content.LoadString("Strings\\1_6_Strings:SkillName_" + itemID.Last()).ToLower()));
+                }, 1000);
+            }
+        }
+
+        private static void ApplyPurpleBookExp(Farmer who, int level)
+        {
+            int exp = (int)Math.Floor(250 * level * 0.05);
+            for (int i = 0; i < 5; i++) who.gainExperience(i, exp);
+
+            foreach (string skill in Skills.GetSkillList().Where(s => Skills.GetSkill(s).ShouldShowOnSkillsPage))
+                Skills.AddExperience(who, skill, exp);
+        }
+
+        private static void ApplyGenericBookExp(Farmer who, Object book, string itemID, int level)
+        {
+            bool foundXpTag = false;
+
+            foreach (string tag in book.GetContextTags())
+            {
+                if (!tag.StartsWithIgnoreCase("book_xp_")) continue;
+                foundXpTag = true;
+                string skill = tag.Split('_')[2];
+                int exp = (int)Math.Floor(100 * level * 0.05);
+                who.gainExperience(Farmer.getSkillNumberFromName(skill), exp);
+                break;
+            }
+
+            if (!foundXpTag)
+            {
+                int exp = (int)Math.Floor(20 * level * 0.05);
+                for (int i = 0; i < 5; i++) who.gainExperience(i, exp);
+            }
+        }
+
+        private static List<Vector2> TilesAffected(Vector2 tile, int power)
+        {
+            List<Vector2> result = new();
+            for (int x = (int)tile.X - power; x <= tile.X + power; x++)
+                for (int y = (int)tile.Y - power; y <= tile.Y + power; y++)
+                    result.Add(new Vector2(x, y));
+            return result;
         }
     }
+
 
 
     //Goal of the patch is to increase wood dropping at a low chance if you have woody's secret
@@ -485,9 +489,13 @@ namespace BibliocraftSkill.Core
             {
                 Farmer farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
                 var heldItem = farmer.ActiveItem;
-                if (heldItem != null && heldItem.HasContextTag("moonslime.Bibliocraft.mail"))
+
+
+                if (heldItem != null && Game1.objectData.TryGetValue(heldItem.ItemId, out var data)
+                        && data?.CustomFields != null
+                        && data.CustomFields.TryGetValue("moonslime.Bibliocraft.mail", out string name))
                 {
-                    NPC NPC = Game1.getCharacterFromName(heldItem.Name, true, false);
+                    NPC NPC = Game1.getCharacterFromName(name, true, false);
 
                     if (NPC != null && //Make sure the NPC is not Null
                     NPC.CanReceiveGifts() &&
@@ -504,6 +512,11 @@ namespace BibliocraftSkill.Core
                         friendship.LastGiftDate = new WorldDate(Game1.Date);
                         friendship.Points += 65;
 
+                        if (NPC.Birthday_Day == Game1.dayOfMonth && NPC.Birthday_Season == Game1.currentSeason)
+                        {
+                            friendship.Points += 100;
+                        }
+
                         farmer.removeFirstOfThisItemFromInventory(heldItem.ItemId);
                         Game1.drawObjectDialogue(ModEntry.Instance.I18N.Get("moonslime.Bibliocraft.sent_mail") + $" {NPC.displayName}");
 
@@ -511,12 +524,12 @@ namespace BibliocraftSkill.Core
 
                         //don't run normal mailbox code
                         return false;
-                    } else
+                    }
+                    else
                     {
                         Game1.drawObjectDialogue(ModEntry.Instance.I18N.Get("moonslime.Bibliocraft.can_not_sent_mail"));
                         return false;
                     }
-
                 }
             }
             return true;
