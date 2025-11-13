@@ -17,7 +17,7 @@
     "config.BonusExpLimit.tooltip": "How many times you can cook an item to get the bonus exp before diminishing returns kicks in.",
 
     "config.Cooking10a2": "Foodmonger food selling bonus",
-    "config.Cooking10a2.tooltip": "formula is <object price *= 1+ Cooking level * this value) / 100>.\nSo an item that is 200g would sell for 200g with this profession at default value.",
+    "config.Cooking10a2.tooltip": "formula is <obj.Price = obj.Price * (1f + cooking level * this value)>.\nSo an item that is 100g would sell for 200g with this profession at default value.",
 
     "moonslime.Cooking.no_more_bonus_exp": "You have mastered cooking this dish and won't gain as much knowledge from it.",
 
