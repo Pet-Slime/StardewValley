@@ -158,5 +158,10 @@ namespace MoonShared
                 return new StardewValley.Object("(O)168", 1);
             }
         }
+
+        internal static int GetLevel(Farmer who, bool v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

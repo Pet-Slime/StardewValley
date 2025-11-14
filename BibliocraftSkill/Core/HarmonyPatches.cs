@@ -60,84 +60,146 @@ namespace BibliocraftSkill.Core
         private const int MaxStaminaMultiplier = 16;
 
         // Dictionaries for bookmark effects
-        private static readonly Dictionary<string, Action<BuffEffects, int>> BookmarkEffectMap =
+        private static readonly Dictionary<string, Action<BuffEffects, float>> BookmarkEffectMap =
             new(StringComparer.OrdinalIgnoreCase)
             {
-                ["KnockbackMultiplier"] = (b, lvl) => b.KnockbackMultiplier.Value = lvl,
-                ["WeaponSpeedMultiplier"] = (b, lvl) => b.WeaponSpeedMultiplier.Value = lvl,
-                ["Immunity"] = (b, lvl) => b.Immunity.Value = Math.Max(lvl / 3, 1),
-                ["CriticalChanceMultiplier"] = (b, lvl) => b.CriticalChanceMultiplier.Value = lvl,
-                ["CriticalPowerMultiplier"] = (b, lvl) => b.CriticalPowerMultiplier.Value = lvl,
-                ["Default"] = (b, lvl) => b.AttackMultiplier.Value = lvl
+                ["KnockbackMultiplier"] = (b, lvl) => b.KnockbackMultiplier.Value = lvl/100,
+                ["WeaponSpeedMultiplier"] = (b, lvl) => b.WeaponSpeedMultiplier.Value = lvl/100,
+                ["Immunity"] = (b, lvl) => b.Immunity.Value = (float)Math.Floor( Math.Max(lvl / 3, 1)),
+                ["CriticalChanceMultiplier"] = (b, lvl) => b.CriticalChanceMultiplier.Value = lvl / 100,
+                ["CriticalPowerMultiplier"] = (b, lvl) => b.CriticalPowerMultiplier.Value = lvl / 100,
+                ["Default"] = (b, lvl) => b.AttackMultiplier.Value = lvl / 100
             };
 
         // Array of actions for random Bookworm attributes (1-16)
         private static readonly Action<BuffEffects, int>[] RandomAttributeActions = new Action<BuffEffects, int>[]
         {
-            (b, lvl) => b.FarmingLevel.Value = lvl,              // 1
-            (b, lvl) => b.FishingLevel.Value = lvl,             // 2
-            (b, lvl) => b.MiningLevel.Value = lvl,              // 3
-            (b, lvl) => b.LuckLevel.Value = lvl,                // 4
-            (b, lvl) => b.ForagingLevel.Value = lvl,            // 5
-            (b, lvl) => b.MaxStamina.Value = lvl * MaxStaminaMultiplier,  // 6
-            (b, lvl) => b.MagneticRadius.Value = lvl * MaxStaminaMultiplier, // 7
-            (b, lvl) => b.Defense.Value = lvl,                  // 8
-            (b, lvl) => b.Attack.Value = lvl,                   // 9
-            (b, lvl) => b.Speed.Value = lvl,                    // 10
-            (b, lvl) => b.AttackMultiplier.Value = lvl,         // 11
-            (b, lvl) => b.Immunity.Value = lvl,                 // 12
-            (b, lvl) => b.KnockbackMultiplier.Value = lvl,      // 13
-            (b, lvl) => b.WeaponSpeedMultiplier.Value = lvl,    // 14
-            (b, lvl) => b.CriticalChanceMultiplier.Value = lvl, // 15
-            (b, lvl) => b.CriticalPowerMultiplier.Value = lvl   // 16
+        (b, lvl) => b.FarmingLevel.Value = lvl,              // 1
+        (b, lvl) => b.FishingLevel.Value = lvl,             // 2
+        (b, lvl) => b.MiningLevel.Value = lvl,              // 3
+        (b, lvl) => b.LuckLevel.Value = lvl,                // 4
+        (b, lvl) => b.ForagingLevel.Value = lvl,            // 5
+        (b, lvl) => b.MaxStamina.Value = lvl * MaxStaminaMultiplier,  // 6
+        (b, lvl) => b.MagneticRadius.Value = lvl * MaxStaminaMultiplier, // 7
+        (b, lvl) => b.Defense.Value = lvl,                  // 8
+        (b, lvl) => b.Attack.Value = lvl,                   // 9
+        (b, lvl) => b.Speed.Value = lvl,                    // 10
+        (b, lvl) => b.AttackMultiplier.Value = lvl / 100f,         // 11
+        (b, lvl) => b.Immunity.Value = lvl,                 // 12
+        (b, lvl) => b.KnockbackMultiplier.Value = lvl / 100f,      // 13
+        (b, lvl) => b.WeaponSpeedMultiplier.Value = lvl / 100f,    // 14
+        (b, lvl) => b.CriticalChanceMultiplier.Value = lvl / 100f, // 15
+        (b, lvl) => b.CriticalPowerMultiplier.Value = lvl / 100f   // 16
         };
 
         [HarmonyPostfix]
         public static void Postfix(Object __instance, ref GameLocation location)
         {
             Farmer who = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
-            string itemID = __instance.ItemId;
-            int playerBookLevel = Utilities.GetLevel(who);
-            int buffDuration = BuffDurationMultiplier * playerBookLevel;
+            string itemID = __instance.ItemId;  // Get the item ID of the book
+            int playerBookLevel = Utilities.GetLevel(who);  // Get the player's book level
+            int buffDuration = BuffDurationMultiplier * playerBookLevel;  // Calculate buff duration
 
-            TryApplyBookmarkBuff(who, playerBookLevel, buffDuration);
+            // Log: Check if postfix was called and the player's level
+            Log.Alert($"Postfix called for {itemID}. Player Book Level: {playerBookLevel}, Buff Duration: {buffDuration}");
 
+            TryApplyBookmarkBuff(who, playerBookLevel, buffDuration);  // Apply bookmark buffs
+
+            // Log: Check if the player has the Bookworm profession
             if (who.HasCustomProfession(Prof_BookWorm))
             {
-                TryApplyBookwormBuff(who, playerBookLevel, buffDuration);
-                TryApplyPageMasterEffect(who, location, playerBookLevel);
-                TryApplySeasonedReaderEffect(who, location, playerBookLevel);
+                Log.Alert("Player has Bookworm profession, applying additional buffs.");
+                TryApplyBookwormBuff(who, playerBookLevel, buffDuration);  // Apply Bookworm-specific buffs
+                TryApplyPageMasterEffect(who, location, playerBookLevel);  // Apply Page Master effect
+                TryApplySeasonedReaderEffect(who, location, playerBookLevel);  // Apply Seasoned Reader effect
+            }
+            else
+            {
+                Log.Alert("Player does not have Bookworm profession.");
             }
 
-            HandleBookExperienceGain(who, __instance, itemID, playerBookLevel);
+            HandleBookExperienceGain(who, __instance, itemID, playerBookLevel);  // Handle experience gain from reading the book
+
+            // Log: Experience gain handled
+            Log.Alert($"Experience gain handled for {itemID}. Book Level: {playerBookLevel}");
         }
 
         private static void TryApplyBookmarkBuff(Farmer who, int playerBookLevel, int buffDuration)
         {
-            string prefix = "moonslime.Bibliocraft.bookmark/";
-            if (who.Items.FirstOrDefault(i => i is not null && i.QualifiedItemId.StartsWith(prefix)) is not Item bookmark)
-                return;
+            string prefix = "(O)moonslime.Bibliocraft.bookmark/";
 
+            foreach (var item in who.Items)
+            {
+                if (item != null)
+                {
+                    Log.Alert($"Item: {item.Name}, ItemID: {item.QualifiedItemId}");
+                }
+            }
+
+            // Log: Check if we find a bookmark item
+            var foundBookmark = who.Items.FirstOrDefault(i => i is not null && i.QualifiedItemId.StartsWith(prefix));
+            if (foundBookmark is not Item bookmark)
+            {
+                // Log: No bookmark found
+                Log.Alert("No bookmark found in player's inventory.");
+                return;
+            }
+            else
+            {
+                // Log: Bookmark found
+                Log.Alert($"Bookmark found: {bookmark.QualifiedItemId}");
+            }
+
+            // Extract the effect name
             string effectName = bookmark.QualifiedItemId.Split("/")[1];
+            // Log: Effect name parsed
+            Log.Alert($"Effect name parsed: {effectName}");
+
+            // Create the buff
             Buff buff = new(
                 id: $"Bibliocraft:bookmark:{effectName}",
                 displayName: ModEntry.Instance.I18N.Get("moonslime.Bibliocraft.Bookmark.buff"),
                 description: null,
-                iconTexture: Assets.Bookworm_buff,
+                iconTexture: null,
                 iconSheetIndex: 0,
                 duration: buffDuration,
                 effects: null
             );
-
             BuffEffects effects = new();
+
+            // Check if the effect name exists in the map
             if (!BookmarkEffectMap.TryGetValue(effectName, out var action))
+            {
+                // Log: Default effect used
+                Log.Alert($"Effect for {effectName} not found in map. Using default effect.");
                 action = BookmarkEffectMap["Default"];
+            }
+            else
+            {
+                // Log: Effect found in map
+                Log.Alert($"Effect found in map for {effectName}.");
+            }
+
+            // Apply the effect
             action(effects, playerBookLevel);
 
+            // Log: Effect applied
+            Log.Alert($"Effect applied: {effectName} with player level {playerBookLevel}");
+
+            // Add the effects to the buff and apply it
             buff.effects.Add(effects);
             who.applyBuff(buff);
+
+            // Log: Buff applied to player
+            Log.Alert($"Buff applied: {effectName}");
+
+            // Reduce the item count
             who.Items.ReduceId(bookmark.QualifiedItemId, 1);
+
+            // Log: Item reduced from inventory
+            Log.Alert($"Item reduced from inventory: {bookmark.QualifiedItemId}");
         }
+
 
         private static void TryApplyBookwormBuff(Farmer who, int playerBookLevel, int buffDuration)
         {
