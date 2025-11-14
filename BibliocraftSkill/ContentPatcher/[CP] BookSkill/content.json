@@ -13,7 +13,14 @@
     "Changes": [
         {
             "Action": "Include",
-            "FromFile": "Data/TextureData.json, Data/ObjectsData.json, Data/MillData.json, Data/MachinesData.json, Data/CraftingData.json, Data/StationData.json,, Data/PagefinderData.json, Data/TypeSetterData.json"
+            "FromFile": "Data/TextureData.json, Data/ObjectsData.json, Data/MillData.json, Data/MachinesData.json, Data/CraftingData.json, Data/StationData.json, Data/PagefinderData.json, Data/TypeSetterData.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=FlashShifter.StardewValleyExpandedCP": true
+            },
+            "FromFile": "Data/SVE/ObjectsData.json, Data/SVE/CraftingData.json"
         }
     ]
 }

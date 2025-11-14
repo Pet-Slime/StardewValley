@@ -446,7 +446,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Robin" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Robin",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_alex": {
                     "Name": "Alex",
@@ -465,7 +468,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Alex" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Alex",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_elliott": {
                     "Name": "Elliott",
@@ -484,7 +490,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Elliott" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Elliott",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_harvey": {
                     "Name": "Harvey",
@@ -503,7 +512,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Harvey" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Harvey",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_sam": {
                     "Name": "Sam",
@@ -522,7 +534,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Sam" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Sam",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_sebastian": {
                     "Name": "Sebastian",
@@ -541,7 +556,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Sebastian" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Sebastian",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_shane": {
                     "Name": "Shane",
@@ -560,7 +578,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Shane" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Shane",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_abigail": {
                     "Name": "Abigail",
@@ -579,7 +600,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Abigail" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Abigail",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_emily": {
                     "Name": "Emily",
@@ -598,7 +622,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Emily" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Emily",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_haley": {
                     "Name": "Haley",
@@ -617,7 +644,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Haley" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Haley",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_leah": {
                     "Name": "Leah",
@@ -636,7 +666,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Leah" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Leah",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_maru": {
                     "Name": "Maru",
@@ -655,7 +688,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Maru" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Maru",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_penny": {
                     "Name": "Penny",
@@ -674,7 +710,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Penny" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Penny",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_caroline": {
                     "Name": "Caroline",
@@ -693,7 +732,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Caroline" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Caroline",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_clint": {
                     "Name": "Clint",
@@ -712,7 +754,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Clint" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Clint",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_demetrius": {
                     "Name": "Demetrius",
@@ -731,7 +776,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Demetrius" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Demetrius",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_evelyn": {
                     "Name": "Evelyn",
@@ -750,7 +798,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Evelyn" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Evelyn",
+                        "moonslime.Bibliocraft.mail.friendship": "100"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_george": {
                     "Name": "George",
@@ -769,7 +820,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "George" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "George",
+                        "moonslime.Bibliocraft.mail.friendship": "100"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_gus": {
                     "Name": "Gus",
@@ -788,7 +842,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Gus" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Gus",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_jas": {
                     "Name": "Jas",
@@ -807,7 +864,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Jas" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Jas",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_jodi": {
                     "Name": "Jodi",
@@ -826,7 +886,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Jodi" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Jodi",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_kent": {
                     "Name": "Kent",
@@ -845,7 +908,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Kent" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Kent",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_lewis": {
                     "Name": "Lewis",
@@ -864,7 +930,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Lewis" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Lewis",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_marnie": {
                     "Name": "Marnie",
@@ -883,7 +952,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Marnie" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Marnie",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_pam": {
                     "Name": "Pam",
@@ -902,7 +974,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Pam" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Pam",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_pierre": {
                     "Name": "Pierre",
@@ -921,7 +996,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Pierre" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Pierre",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_sandy": {
                     "Name": "Sandy",
@@ -940,7 +1018,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Sandy" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Sandy",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_vincent": {
                     "Name": "Vincent",
@@ -959,7 +1040,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Vincent" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Vincent",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_willy": {
                     "Name": "Willy",
@@ -978,7 +1062,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Willy" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Willy",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 },
                 "moonslime.Bibliocraft.letter_wizard": {
                     "Name": "Wizard",
@@ -997,7 +1084,10 @@
                         "color_white",
                         "not_placeable"
                     ],
-                    "CustomFields": { "moonslime.Bibliocraft.mail": "Wizard" }
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Wizard",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
                 }
             }
         }

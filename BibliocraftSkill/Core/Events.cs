@@ -34,13 +34,17 @@ namespace BibliocraftSkill.Core
 
             foreach (var entry in Game1.objectData)
             {
-                if (Game1.objectData.TryGetValue(entry.Key, out var data)
-                        && data?.CustomFields != null
-                        && data.CustomFields.TryGetValue("moonslime.Bibliocraft.mail", out string name))
+                if (entry.Key.StartsWith("moonslime.Bibliocraft.letter_"))
                 {
-                    Log.Alert(name);
-                    ModEntry.MailingList.Add(name, entry.Key);
+                    if (Game1.objectData.TryGetValue(entry.Key, out var data)
+                            && data?.CustomFields != null
+                            && data.CustomFields.TryGetValue("moonslime.Bibliocraft.mail", out string name))
+                    {
+                        Log.Alert(name);
+                        ModEntry.MailingList.Add(name, entry.Key);
+                    }
                 }
+
             }
 
             // Get the asset dictionary reference (the asset's data)
@@ -117,8 +121,6 @@ namespace BibliocraftSkill.Core
                     {
                         continue;
                     }
-
-
                     foreach (var kvp in ModEntry.MailingList)
                     {
                         string mailNpcName = kvp.Key; // NPC name from mailing list
@@ -145,8 +147,6 @@ namespace BibliocraftSkill.Core
                             }
                         }
                     }
-
-
                     // Recombine and update the dictionary
                     dict[npcName] = string.Join("/", split);
                 }

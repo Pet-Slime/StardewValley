@@ -1,0 +1,347 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "Entries": {
+                "moonslime.Bibliocraft.letter_Morgan": {
+                    "Name": "Morgan",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_Morgan.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letter_Morgan.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_white",
+                        "not_placeable"
+                    ],
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Morgan",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
+                }
+            },
+            "When": {
+                "HasSeenEvent |contains=5978927": true
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "Entries": {
+                "moonslime.Bibliocraft.letter_Lance": {
+                    "Name": "Lance",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_Lance.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letter_Lance.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_white",
+                        "not_placeable"
+                    ],
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Lance",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
+                }
+            },
+            "When": {
+                "HasSeenEvent |contains=6951319": true
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "Entries": {
+                "moonslime.Bibliocraft.letter_Scarlett": {
+                    "Name": "Scarlett",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_Scarlett.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letter_Scarlett.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_white",
+                        "not_placeable"
+                    ],
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Scarlett",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
+                }
+            },
+            "When": {
+                "HasSeenEvent |contains=8185295": true,
+                "HasSeenEvent |contains=191393, 502261": true
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "Entries": {
+                "moonslime.Bibliocraft.letter_Victor": {
+                    "Name": "Victor",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_Victor.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letter_Victor.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_white",
+                        "not_placeable"
+                    ],
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Victor",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
+                },
+                "moonslime.Bibliocraft.letter_Susan": {
+                    "Name": "Susan",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_Susan.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letter_Susan.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_white",
+                        "not_placeable"
+                    ],
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Susan",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
+                },
+                "moonslime.Bibliocraft.letter_Sophia": {
+                    "Name": "Sophia",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_Sophia.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letter_Sophia.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_white",
+                        "not_placeable"
+                    ],
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Sophia",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
+                },
+
+                "moonslime.Bibliocraft.letter_Olivia": {
+                    "Name": "Olivia",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_Olivia.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letter_Olivia.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_white",
+                        "not_placeable"
+                    ],
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Olivia",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
+                },
+                "moonslime.Bibliocraft.letter_MorrisTod": {
+                    "Name": "MorrisTod",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_MorrisTod.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letter_MorrisTod.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_white",
+                        "not_placeable"
+                    ],
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "MorrisTod",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
+                },
+                "moonslime.Bibliocraft.letter_Martin": {
+                    "Name": "Martin",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_Martin.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letter_Martin.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_white",
+                        "not_placeable"
+                    ],
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Martin",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
+                },
+                "moonslime.Bibliocraft.letter_MarlonFay": {
+                    "Name": "MarlonFay",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_MarlonFay.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letter_MarlonFay.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_white",
+                        "not_placeable"
+                    ],
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "MarlonFay",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
+                },
+                "moonslime.Bibliocraft.letter_GuntherSilvian": {
+                    "Name": "GuntherSilvian",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_GuntherSilvian.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letter_GuntherSilvian.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_white",
+                        "not_placeable"
+                    ],
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "GuntherSilvian",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
+                },
+                "moonslime.Bibliocraft.letter_Claire": {
+                    "Name": "Claire",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_Claire.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letter_Claire.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_white",
+                        "not_placeable"
+                    ],
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Claire",
+                        "moonslime.Bibliocraft.mail.friendship": "65"
+                    }
+                },
+                "moonslime.Bibliocraft.letter_Apples": {
+                    "Name": "Apples",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_Apples.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letter_Apples.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_white",
+                        "not_placeable"
+                    ],
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Apples",
+                        "moonslime.Bibliocraft.mail.friendship": "100"
+                    }
+                },
+                "moonslime.Bibliocraft.letter_Andy": {
+                    "Name": "Andy",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_Andy.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.letter_Andy.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 30,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_white",
+                        "not_placeable"
+                    ],
+                    "CustomFields": {
+                        "moonslime.Bibliocraft.mail": "Andy",
+                        "moonslime.Bibliocraft.mail.friendship": "100"
+                    }
+                }
+            }
+        }
+    ]
+}

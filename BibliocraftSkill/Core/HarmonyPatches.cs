@@ -510,11 +510,16 @@ namespace BibliocraftSkill.Core
                         friendship.GiftsToday++;
                         friendship.GiftsThisWeek++;
                         friendship.LastGiftDate = new WorldDate(Game1.Date);
-                        friendship.Points += 65;
+                        data.CustomFields.TryGetValue($"moonslime.Bibliocraft.mail.friendship", out string points);
+                        int friendshipGain = 65;
+                        if (!string.IsNullOrEmpty(points) && int.TryParse(points, out int parsed))
+                            friendshipGain = parsed;
+
+                        friendship.Points += friendshipGain;
 
                         if (NPC.Birthday_Day == Game1.dayOfMonth && NPC.Birthday_Season == Game1.currentSeason)
                         {
-                            friendship.Points += 100;
+                            friendship.Points += friendshipGain;
                         }
 
                         farmer.removeFirstOfThisItemFromInventory(heldItem.ItemId);

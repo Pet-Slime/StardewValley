@@ -22,6 +22,8 @@
                     "DisplayUnknownRecipes": true,
                     "IncludeUnknownRecipes": true,
                     "Recipes": [
+                        "moonslime.Bibliocraft.letter_Victor",
+                        "moonslime.Bibliocraft.letter_Susan",
                         "moonslime.Bibliocraft.letter_robin",
                         "moonslime.Bibliocraft.letter_alex",
                         "moonslime.Bibliocraft.letter_elliott",
@@ -52,6 +54,60 @@
                         "moonslime.Bibliocraft.letter_vincent",
                         "moonslime.Bibliocraft.letter_willy",
                         "moonslime.Bibliocraft.letter_wizard"
+                    ],
+                    "Categories": [
+                        {
+                            "Id": "moonslime.Bibliocraft.mail.vanilla",
+                            "Name": "{{i18n:moonslime.Bibliocraft.mail.vanilla.name}}",
+                            "Icon": {
+                                "Type": "Item",
+                                "ItemId": "moonslime.Bibliocraft.letter_robin"
+                            },
+                            "Recipes": [
+                                "moonslime.Bibliocraft.letter_robin",
+                                "moonslime.Bibliocraft.letter_alex",
+                                "moonslime.Bibliocraft.letter_elliott",
+                                "moonslime.Bibliocraft.letter_harvey",
+                                "moonslime.Bibliocraft.letter_sam",
+                                "moonslime.Bibliocraft.letter_sebastian",
+                                "moonslime.Bibliocraft.letter_shane",
+                                "moonslime.Bibliocraft.letter_abigail",
+                                "moonslime.Bibliocraft.letter_emily",
+                                "moonslime.Bibliocraft.letter_haley",
+                                "moonslime.Bibliocraft.letter_leah",
+                                "moonslime.Bibliocraft.letter_maru",
+                                "moonslime.Bibliocraft.letter_penny",
+                                "moonslime.Bibliocraft.letter_caroline",
+                                "moonslime.Bibliocraft.letter_clint",
+                                "moonslime.Bibliocraft.letter_demetrius",
+                                "moonslime.Bibliocraft.letter_evelyn",
+                                "moonslime.Bibliocraft.letter_george",
+                                "moonslime.Bibliocraft.letter_gus",
+                                "moonslime.Bibliocraft.letter_jas",
+                                "moonslime.Bibliocraft.letter_jodi",
+                                "moonslime.Bibliocraft.letter_kent",
+                                "moonslime.Bibliocraft.letter_lewis",
+                                "moonslime.Bibliocraft.letter_marnie",
+                                "moonslime.Bibliocraft.letter_pam",
+                                "moonslime.Bibliocraft.letter_pierre",
+                                "moonslime.Bibliocraft.letter_sandy",
+                                "moonslime.Bibliocraft.letter_vincent",
+                                "moonslime.Bibliocraft.letter_willy",
+                                "moonslime.Bibliocraft.letter_wizard"
+                            ]
+                        },
+                        {
+                            "Id": "moonslime.Bibliocraft.mail.SVE",
+                            "Name": "{{i18n:moonslime.Bibliocraft.mail.SVE.name}}",
+                            "Icon": {
+                                "Type": "Item",
+                                "ItemId": "moonslime.Bibliocraft.letter_robin"
+                            },
+                            "Recipes": [
+                                "moonslime.Bibliocraft.letter_Victor",
+                                "moonslime.Bibliocraft.letter_Susan"
+                            ]
+                        }
                     ]
                 }
             }
