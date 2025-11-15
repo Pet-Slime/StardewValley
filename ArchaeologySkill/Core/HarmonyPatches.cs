@@ -5,6 +5,7 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MoonShared;
+using MoonShared.Attributes;
 using SpaceCore;
 using StardewValley;
 using StardewValley.BellsAndWhistles;
@@ -100,15 +101,15 @@ namespace ArchaeologySkill.Core
         private static void Prefix(
         IslandLocation __instance, string __result, int xLocation, int yLocation, bool explosion, bool detectOnly, Farmer who)
         {
-            BirbCore.Attributes.Log.Trace("Archaeology skill: check for buried treasure: Island");
-            BirbCore.Attributes.Log.Trace(__instance.IsBuriedNutLocation(new Point(xLocation, yLocation)).ToString());
+            Log.Trace("Archaeology skill: check for buried treasure: Island");
+            Log.Trace(__instance.IsBuriedNutLocation(new Point(xLocation, yLocation)).ToString());
             if (who != null && __instance.IsBuriedNutLocation(new Point(xLocation, yLocation)))
             {
-                BirbCore.Attributes.Log.Trace("Has the team collected said nut?");
-                BirbCore.Attributes.Log.Trace(Game1.player.team.collectedNutTracker.Contains("Buried_" + __instance.Name + "_" + xLocation + "_" + yLocation).ToString());
+                Log.Trace("Has the team collected said nut?");
+                Log.Trace(Game1.player.team.collectedNutTracker.Contains("Buried_" + __instance.Name + "_" + xLocation + "_" + yLocation).ToString());
                 if (Game1.player.team.collectedNutTracker.Contains("Buried_" + __instance.Name + "_" + xLocation + "_" + yLocation) == false)
                 {
-                    BirbCore.Attributes.Log.Trace("The Team has not collected said not, award the player bonus exp!");
+                    Log.Trace("The Team has not collected said not, award the player bonus exp!");
                     Utilities.AddEXP(Game1.GetPlayer(who.UniqueMultiplayerID), ModEntry.Config.ExperienceFromArtifactSpots);
                 }
             }
@@ -276,11 +277,11 @@ namespace ArchaeologySkill.Core
                 Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: item);
 
                 //Does The player have the Antiquarian Profession?
-                BirbCore.Attributes.Log.Trace("Archaeology skill: Checking to see if the player has Antiquarian");
+                Log.Trace("Archaeology skill: Checking to see if the player has Antiquarian");
                 if (Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology10a1))
                 {
 
-                    BirbCore.Attributes.Log.Trace("Archaeology skill: Player has Antiquarian");
+                    Log.Trace("Archaeology skill: Player has Antiquarian");
                     //Make a random seed
                     Random random = Utility.CreateDaySaveRandom(xLocation * 2000, yLocation, Game1.netWorldState.Value.TreasureTotemsUsed * 777);
                     //Choose a new item from the list
@@ -315,13 +316,13 @@ namespace ArchaeologySkill.Core
             //Add Artifacts to the drop list chance if they have the Trowler Profession
             if (farmer.HasCustomProfession(Archaeology_Skill.Archaeology10b1))
             {
-                BirbCore.Attributes.Log.Trace("Archaeology skill: Dowser skill");
+                Log.Trace("Archaeology skill: Dowser skill");
                 //Get a random Number
                 Random random = Utility.CreateDaySaveRandom(xLocation * 2000, yLocation, Game1.netWorldState.Value.TreasureTotemsUsed * 777);
 
                 if (random.NextDouble() < Utilities.GetLevel(farmer))
                 {
-                    BirbCore.Attributes.Log.Trace("Archaeology skill: Dowser skill artifact roll won");
+                    Log.Trace("Archaeology skill: Dowser skill artifact roll won");
                     var list = new List<string>();
                     //Find a random artifact to add from the artifact loot table
                     //Get the artifact loot table
@@ -342,7 +343,7 @@ namespace ArchaeologySkill.Core
                     __result.Add(new StardewValley.Object(artifact, 1));
                 }
 
-                BirbCore.Attributes.Log.Trace("Archaeology skill: Dowser skill adding additional loot to panning");
+                Log.Trace("Archaeology skill: Dowser skill adding additional loot to panning");
                 random = new Random(xLocation * (int)who.DailyLuck * 2000 + yLocation + (int)Game1.uniqueIDForThisGame / 2 + (int)Game1.stats.DaysPlayed);
                 List<string> newBonusLootTable = new List<string>(ModEntry.BonusLootTable);
                 if (farmer.mailReceived.Contains("willyBoatFixed"))
@@ -450,7 +451,7 @@ namespace ArchaeologySkill.Core
             }
             catch (Exception ex)
             {
-                BirbCore.Attributes.Log.Error($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
+                Log.Error($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             }
             //Take the result, and then multiply it by the sales multiplier, along with the config to control display pricing
             __result *= saleMultiplier;
@@ -469,8 +470,7 @@ namespace ArchaeologySkill.Core
                 Color color_Red = SpriteText.color_Red;
                 string s = "∞" + (__instance.level?.Get() - 10).Value.ToString() ?? "";
                 Microsoft.Xna.Framework.Rectangle titleSafeArea = Game1.game1.GraphicsDevice.Viewport.GetTitleSafeArea();
-                SpriteText.drawString(b, s, titleSafeArea.Left + 16, titleSafeArea.Top + 16, 999999, -1, 999999, 1f, 1f, junimoText: false, 2, "", color_Red);
-
+                SpriteText.drawString(b, s, titleSafeArea.Left + 16, titleSafeArea.Top + 16, 999999, -1, 999999, 1f, 1f, junimoText: false, 2, "", color_Red);               
             }
         }
     }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using ArchaeologySkill.Objects.Restoration_Table;
 using ArchaeologySkill.Objects.Water_Shifter;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using MoonShared.APIs;
 using SpaceCore;
 using SpaceCore.Interface;

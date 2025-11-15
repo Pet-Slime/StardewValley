@@ -10,10 +10,6 @@
   "EntryDll": "ArchaeologySkill.dll",
   "Dependencies": [
     {
-      "UniqueID": "drbirbdev.BirbCore",
-      "MinimumVersion": "1.1.0"
-    },
-    {
       "UniqueID": "leclair.bettercrafting",
       "MinimumVersion": "2.18.0",
       "IsRequired": false

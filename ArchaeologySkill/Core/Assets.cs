@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 

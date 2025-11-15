@@ -1,0 +1,20 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/LocationContexts",
+            "TargetField": [ "Island", "ReviveLocations" ],
+            "Entries": {
+                "Default": {
+                    "Id": "Default",
+                    "Condition": "PLAYER_HAS_MAIL Any Island_UpgradeHouse",
+                    "Location": "IslandSouth",
+                    "Position": {
+                        "X": 13,
+                        "Y": 33
+                    }
+                }
+            }
+        }
+    ]
+}

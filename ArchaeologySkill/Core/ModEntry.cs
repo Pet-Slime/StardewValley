@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using MoonShared.APIs;
 using StardewModdingAPI;
 using StardewValley;
@@ -46,7 +46,8 @@ namespace ArchaeologySkill
         {
             Instance = this;
 
-            Parser.ParseAll(this);
+            MoonShared.Attributes.Parser.InitEvents(helper);
+            MoonShared.Attributes.Parser.ParseAll(this);
         }
 
     }

@@ -6,6 +6,7 @@ using Netcode;
 using StardewValley;
 using StardewValley.GameData.Machines;
 using StardewValley.Tools;
+using MoonShared.Attributes;
 using Object = StardewValley.Object;
 
 namespace ArchaeologySkill.Objects.Restoration_Table
@@ -86,7 +87,7 @@ namespace ArchaeologySkill.Objects.Restoration_Table
             float result = 1f;
             if (outputData?.CustomData != null && outputData.CustomData.TryGetValue("AgingMultiplier", out string value) && (!float.TryParse(value, out result) || result <= 0f))
             {
-                BirbCore.Attributes.Log.Error("Failed to parse cask aging multiplier '" + value + "' for trigger rule. This must be a positive float value.");
+                Log.Error("Failed to parse cask aging multiplier '" + value + "' for trigger rule. This must be a positive float value.");
                 return null;
             }
 

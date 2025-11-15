@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using HarmonyLib;
 using SpaceShared;
 using StardewValley;

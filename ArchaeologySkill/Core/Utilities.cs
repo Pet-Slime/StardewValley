@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using MoonShared;
+using MoonShared.Attributes;
 using SpaceCore;
 using StardewValley;
 using StardewValley.Buffs;
@@ -27,32 +28,32 @@ namespace ArchaeologySkill
             xLocation = farmer.TilePoint.X;
             yLocation = farmer.TilePoint.Y;
             //Give the player EXP
-            BirbCore.Attributes.Log.Trace("Archaeology Skll: Adding EXP to the player");
+            Log.Trace("Archaeology Skll: Adding EXP to the player");
 
             AddEXP(farmer, EXP);
             //If the player has the gold rush profession, give them a speed buff
-            BirbCore.Attributes.Log.Trace("Archaeology Skll: Does the player have gold rusher?");
+            Log.Trace("Archaeology Skll: Does the player have gold rusher?");
             if (farmer.HasCustomProfession(Archaeology_Skill.Archaeology10b2))
             {
-                BirbCore.Attributes.Log.Trace("Archaeology Skll: The player does have gold rusher!");
+                Log.Trace("Archaeology Skll: The player does have gold rusher!");
                 ApplySpeedBoost(farmer);
             }
             else
             {
-                BirbCore.Attributes.Log.Trace("Archaeology Skll: the player does not have gold rusher");
+                Log.Trace("Archaeology Skll: the player does not have gold rusher");
             }
 
             //Check to see if the player wins the double loot chance roll if they are not panning.
             if (!panning)
             {
-                BirbCore.Attributes.Log.Trace("Archaeology Skll: Does the player get bonus loot?");
+                Log.Trace("Archaeology Skll: Does the player get bonus loot?");
                 double doubleLootChance = GetLevel(farmer) * 0.05;
                 double diceRoll = Game1.random.NextDouble();
                 bool didTheyWin = (diceRoll < doubleLootChance);
-                BirbCore.Attributes.Log.Trace("Archaeology Skll: The dice roll is... " + diceRoll.ToString() + ". The player's chance is... " + doubleLootChance.ToString() + ". ");
+                Log.Trace("Archaeology Skll: The dice roll is... " + diceRoll.ToString() + ". The player's chance is... " + doubleLootChance.ToString() + ". ");
                 if (didTheyWin || bonusLoot)
                 {
-                    BirbCore.Attributes.Log.Trace("Archaeology Skill: They do get bonus loot!");
+                    Log.Trace("Archaeology Skill: They do get bonus loot!");
                     string objectID;
 
                     if (!string.IsNullOrEmpty(exactItem))
@@ -74,7 +75,7 @@ namespace ArchaeologySkill
                 }
                 else
                 {
-                    BirbCore.Attributes.Log.Trace("Archaeology Skill: They do not get bonus loot!");
+                    Log.Trace("Archaeology Skill: They do not get bonus loot!");
                 }
                 if (Game1.random.NextDouble() < 0.02)
                 {
