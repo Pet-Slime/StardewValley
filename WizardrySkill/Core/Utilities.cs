@@ -7,6 +7,8 @@ using StardewValley;
 using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Spells;
 using static SpaceCore.Skills;
+using MoonShared;
+using SpaceCore;
 
 namespace WizardrySkill.Core
 {
@@ -64,7 +66,11 @@ namespace WizardrySkill.Core
 
         public static void AddEXP(StardewValley.Farmer who, int amount)
         {
-            SpaceCore.Skills.AddExperience(Game1.GetPlayer(who.UniqueMultiplayerID), "moonslime.Wizard", amount);
+            if (who.modData.GetBool("moonslime.Wizardry.scrollspell") == true)
+            {
+                amount = 0;
+            }
+            who.AddCustomSkillExperience("moonslime.Wizard", amount);
 
         }
 

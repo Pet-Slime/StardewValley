@@ -83,13 +83,11 @@ namespace WizardryManaBar.Core
         [EventPriority(EventPriority.Low)]
         public static void OnRenderedHud(object sender, RenderingHudEventArgs e)
         {
-            if (!Context.IsPlayerFree || Game1.farmEvent != null)
+            // Skip drawing if menus are open, events are active, or the player can't act
+            if  (!Context.IsPlayerFree || Game1.farmEvent != null || Game1.displayHUD == false)
                 return;
 
-
-
-                var player = Game1.player;
-            var graphics = Game1.graphics.GraphicsDevice;
+            var player = Game1.player;
 
             if (player.GetMaxMana() > 0 && ModEntry.Config.RenderManaBar)
             {

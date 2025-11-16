@@ -21,6 +21,13 @@
                 "HasMod |contains=FlashShifter.StardewValleyExpandedCP": true
             },
             "FromFile": "Data/SVE/ObjectsData.json, Data/SVE/CraftingData.json"
+        },
+        {
+            "Action": "Include",
+            "When": {
+                "HasMod |contains=DH.Kiyuga.Characters": true
+            },
+            "FromFile": "Data/Downhill/ObjectsData.json, Data/Downhill/CraftingData.json"
         }
     ]
 }

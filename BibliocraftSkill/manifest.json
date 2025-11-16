@@ -1,7 +1,7 @@
 {
   "$schema": "https://smapi.io/schemas/manifest.json",
   "UniqueID": "moonslime.BibliocraftSkill",
-  "Name": "Bibliocraft, A book crafting Skill",
+  "Name": "Bibliocraft Skill",
   "Author": "moonslime",
   "Version": "1.0.0",
   "Description": "Become a master of the Books!",

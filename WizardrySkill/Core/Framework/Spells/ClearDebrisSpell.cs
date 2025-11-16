@@ -65,7 +65,7 @@ namespace WizardrySkill.Core.Framework.Spells
                         player.AddMana(-this.GetManaCost(player, level));
 
                     actionCount++;
-                    Utilities.AddEXP(player, 10);
+                    Utilities.AddEXP(player, 5);
                 }
             }
 

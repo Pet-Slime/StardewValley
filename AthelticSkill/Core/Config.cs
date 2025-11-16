@@ -45,6 +45,6 @@ namespace AthleticSkill.Core
 
 
         [SConfig.Option()]
-        public bool BuffIcon { get; set; } = false;
+        public bool BuffIcon { get; set; } = true;
     }
 }

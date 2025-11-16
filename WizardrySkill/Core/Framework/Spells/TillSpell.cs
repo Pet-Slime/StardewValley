@@ -108,7 +108,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 }
 
                 actionCount++; // Count how many tiles were affected
-                Utilities.AddEXP(player, 3); // Give experience
+                Utilities.AddEXP(player, 2); // Give experience
                 loc.playSound("hoeHit", tile); // Sound effect
                 Game1.stats.DirtHoed++; // Update game stats
             }

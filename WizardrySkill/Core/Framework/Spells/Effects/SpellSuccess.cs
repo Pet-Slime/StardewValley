@@ -38,10 +38,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             if (who != null)
             {
                 who.currentLocation.playSound(this.Sound, this.Player.Tile);
-                if (this.EXP != 0)
-                {
-                    who.AddCustomSkillExperience(SkillName, this.EXP);
-                }
+                Utilities.AddEXP(who, this.EXP);
             }
             return false;
         }

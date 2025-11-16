@@ -40,7 +40,6 @@ namespace BibliocraftSkill.Core
                             && data?.CustomFields != null
                             && data.CustomFields.TryGetValue("moonslime.Bibliocraft.mail", out string name))
                     {
-                        Log.Alert(name);
                         ModEntry.MailingList.Add(name, entry.Key);
                     }
                 }

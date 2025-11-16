@@ -503,7 +503,7 @@ namespace WizardrySkill.Core
         private static void OnRenderingHud(object sender, RenderingHudEventArgs e)
         {
             // Skip drawing if menus are open, events are active, or the player can't act
-            if ( !LearnedMagic || !Context.IsPlayerFree || Game1.farmEvent != null)
+            if ( !LearnedMagic || !Context.IsPlayerFree || Game1.farmEvent != null || Game1.displayHUD == false)
                 return;
 
             SpriteBatch b = e.SpriteBatch;
@@ -556,8 +556,8 @@ namespace WizardrySkill.Core
         [SEvent.RenderedHud]
         private static void OnRenderedHud(object sender, RenderedHudEventArgs e)
         {
-            // Skip if player isn't in active control
-            if (Game1.activeClickableMenu != null || Game1.eventUp || !LearnedMagic || !Context.IsPlayerFree)
+            // Skip drawing if menus are open, events are active, or the player can't act
+            if (!LearnedMagic || !Context.IsPlayerFree || Game1.farmEvent != null || Game1.displayHUD == false)
                 return;
 
             // Draw hover tooltip *above* the toolbar (if applicable)

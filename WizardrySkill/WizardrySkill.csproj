@@ -15,7 +15,7 @@
         <SMAPIDependency Include="spacechase0.GenericModConfigMenu" Required="false" />
         <SMAPIDependency Include="DaLion.Professions" Required="false" />
         <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
-        <SMAPIDependency Include="moonslime.WizardrySkill.CP" version="1.9.1" Required="true" />
+        <SMAPIDependency Include="moonslime.WizardrySkill.CP" version="1.9.2" Required="true" />
     </ItemGroup>
 
     
