@@ -26,9 +26,6 @@
                         "moonslime.Bibliocraft.mail.friendship": "65"
                     }
                 }
-            },
-            "When": {
-                "HasSeenEvent |contains=5978927": true
             }
         },
         {
@@ -57,9 +54,6 @@
                         "moonslime.Bibliocraft.mail.friendship": "65"
                     }
                 }
-            },
-            "When": {
-                "HasSeenEvent |contains=6951319": true
             }
         },
         {
@@ -88,10 +82,6 @@
                         "moonslime.Bibliocraft.mail.friendship": "65"
                     }
                 }
-            },
-            "When": {
-                "HasSeenEvent |contains=8185295": true,
-                "HasSeenEvent |contains=191393, 502261": true
             }
         },
         {
@@ -295,28 +285,6 @@
                     "CustomFields": {
                         "moonslime.Bibliocraft.mail": "Claire",
                         "moonslime.Bibliocraft.mail.friendship": "65"
-                    }
-                },
-                "moonslime.Bibliocraft.letter_Apples": {
-                    "Name": "Apples",
-                    "DisplayName": "{{i18n:moonslime.Bibliocraft.letter_Apples.name}}",
-                    "Description": "{{i18n:moonslime.Bibliocraft.letter_Apples.description}}",
-                    "Type": "building_resources",
-                    "Category": -16,
-                    "Price": 30,
-                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
-                    "SpriteIndex": 9,
-                    "Edibility": -300,
-                    "IsDrink": false,
-                    "CanBeGivenAsGift": true,
-                    "ExcludeFromShippingCollection": true,
-                    "ContextTags": [
-                        "color_white",
-                        "not_placeable"
-                    ],
-                    "CustomFields": {
-                        "moonslime.Bibliocraft.mail": "Apples",
-                        "moonslime.Bibliocraft.mail.friendship": "100"
                     }
                 },
                 "moonslime.Bibliocraft.letter_Andy": {

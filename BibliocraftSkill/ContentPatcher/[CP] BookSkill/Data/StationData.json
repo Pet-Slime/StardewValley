@@ -53,7 +53,23 @@
                         "moonslime.Bibliocraft.letter_sandy",
                         "moonslime.Bibliocraft.letter_vincent",
                         "moonslime.Bibliocraft.letter_willy",
-                        "moonslime.Bibliocraft.letter_wizard"
+                        "moonslime.Bibliocraft.letter_wizard",
+                        "moonslime.Bibliocraft.letter_Julia",
+                        "moonslime.Bibliocraft.letter_Arthur",
+                        "moonslime.Bibliocraft.letter_Anderson",
+                        "moonslime.Bibliocraft.letter_Victor",
+                        "moonslime.Bibliocraft.letter_Susan",
+                        "moonslime.Bibliocraft.letter_Sophia",
+                        "moonslime.Bibliocraft.letter_Olivia",
+                        "moonslime.Bibliocraft.letter_MorrisTod",
+                        "moonslime.Bibliocraft.letter_Martin",
+                        "moonslime.Bibliocraft.letter_MarlonFay",
+                        "moonslime.Bibliocraft.letter_GuntherSilvian",
+                        "moonslime.Bibliocraft.letter_Claire",
+                        "moonslime.Bibliocraft.letter_Andy",
+                        "moonslime.Bibliocraft.letter_Scarlett",
+                        "moonslime.Bibliocraft.letter_Lance",
+                        "moonslime.Bibliocraft.letter_Morgan"
                     ],
                     "Categories": [
                         {
@@ -105,7 +121,31 @@
                             },
                             "Recipes": [
                                 "moonslime.Bibliocraft.letter_Victor",
-                                "moonslime.Bibliocraft.letter_Susan"
+                                "moonslime.Bibliocraft.letter_Susan",
+                                "moonslime.Bibliocraft.letter_Sophia",
+                                "moonslime.Bibliocraft.letter_Olivia",
+                                "moonslime.Bibliocraft.letter_MorrisTod",
+                                "moonslime.Bibliocraft.letter_Martin",
+                                "moonslime.Bibliocraft.letter_MarlonFay",
+                                "moonslime.Bibliocraft.letter_GuntherSilvian",
+                                "moonslime.Bibliocraft.letter_Claire",
+                                "moonslime.Bibliocraft.letter_Andy",
+                                "moonslime.Bibliocraft.letter_Scarlett",
+                                "moonslime.Bibliocraft.letter_Lance",
+                                "moonslime.Bibliocraft.letter_Morgan"
+                            ]
+                        },
+                        {
+                            "Id": "moonslime.Bibliocraft.mail.Dowhnhill",
+                            "Name": "{{i18n:moonslime.Bibliocraft.mail.Dowhnhill.name}}",
+                            "Icon": {
+                                "Type": "Item",
+                                "ItemId": "moonslime.Bibliocraft.letter_robin"
+                            },
+                            "Recipes": [
+                                "moonslime.Bibliocraft.letter_Julia",
+                                "moonslime.Bibliocraft.letter_Arthur",
+                                "moonslime.Bibliocraft.letter_Anderson"
                             ]
                         }
                     ]

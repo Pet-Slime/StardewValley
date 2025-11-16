@@ -13,39 +13,10 @@
                 "moonslime.Bibliocraft.letter_MarlonFay": "287 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_MarlonFay/false/default/",
                 "moonslime.Bibliocraft.letter_GuntherSilvian": "109 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_GuntherSilvian/false/default/",
                 "moonslime.Bibliocraft.letter_Claire": "349 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Claire/false/default/",
-                "moonslime.Bibliocraft.letter_Apples": "268 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Apples/false/default/",
-                "moonslime.Bibliocraft.letter_Andy": "416 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Andy/false/default/"
-            }
-        },
-        {
-            "Action": "EditData",
-            "Target": "Data/CraftingRecipes",
-            "Entries": {
-                "moonslime.Bibliocraft.letter_Scarlett": "430 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Scarlett/false/default/"
-            },
-            "When": {
-                "HasSeenEvent |contains=8185295": true,
-                "HasSeenEvent |contains=191393, 502261": true
-            }
-        },
-        {
-            "Action": "EditData",
-            "Target": "Data/CraftingRecipes",
-            "Entries": {
-                "moonslime.Bibliocraft.letter_Lance": "909 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Lance/false/default/"
-            },
-            "When": {
-                "HasSeenEvent |contains=6951319": true
-            }
-        },
-        {
-            "Action": "EditData",
-            "Target": "Data/CraftingRecipes",
-            "Entries": {
+                "moonslime.Bibliocraft.letter_Andy": "416 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Andy/false/default/",
+                "moonslime.Bibliocraft.letter_Scarlett": "430 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Scarlett/false/default/",
+                "moonslime.Bibliocraft.letter_Lance": "909 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Lance/false/default/",
                 "moonslime.Bibliocraft.letter_Morgan": "769 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Morgan/false/default/"
-            },
-            "When": {
-                "HasSeenEvent |contains=5978927": true
             }
         }
     ]

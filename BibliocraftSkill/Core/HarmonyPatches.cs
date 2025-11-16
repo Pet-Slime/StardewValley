@@ -63,12 +63,23 @@ namespace BibliocraftSkill.Core
         private static readonly Dictionary<string, Action<BuffEffects, float>> BookmarkEffectMap =
             new(StringComparer.OrdinalIgnoreCase)
             {
-                ["KnockbackMultiplier"] = (b, lvl) => b.KnockbackMultiplier.Value = lvl/100,
-                ["WeaponSpeedMultiplier"] = (b, lvl) => b.WeaponSpeedMultiplier.Value = lvl/100,
-                ["Immunity"] = (b, lvl) => b.Immunity.Value = (float)Math.Floor( Math.Max(lvl / 3, 1)),
-                ["CriticalChanceMultiplier"] = (b, lvl) => b.CriticalChanceMultiplier.Value = lvl / 100,
-                ["CriticalPowerMultiplier"] = (b, lvl) => b.CriticalPowerMultiplier.Value = lvl / 100,
-                ["Default"] = (b, lvl) => b.AttackMultiplier.Value = lvl / 100
+                ["FarmingLevel"] = (b, lvl) => b.FarmingLevel.Value = lvl / 100f,
+                ["FishingLevel"] = (b, lvl) => b.FishingLevel.Value = lvl / 100f,
+                ["MiningLevel"] = (b, lvl) => b.MiningLevel.Value = lvl / 100f,
+                ["LuckLevel"] = (b, lvl) => b.LuckLevel.Value = lvl / 100f,
+                ["ForagingLevel"] = (b, lvl) => b.ForagingLevel.Value = lvl / 100f,
+                ["MaxStamina"] = (b, lvl) => b.MaxStamina.Value = lvl * MaxStaminaMultiplier,
+                ["MagneticRadius"] = (b, lvl) => b.MagneticRadius.Value = lvl * MaxStaminaMultiplier,
+                ["Defense"] = (b, lvl) => b.Defense.Value = lvl / 100f,
+                ["Attack"] = (b, lvl) => b.Attack.Value = lvl / 100f,
+                ["Speed"] = (b, lvl) => b.Speed.Value = lvl,
+                ["AttackMultiplier"] = (b, lvl) => b.AttackMultiplier.Value = lvl / 100f,
+                ["Immunity"] = (b, lvl) => b.Immunity.Value = (float)Math.Floor(Math.Max(lvl / 3f, 1)),
+                ["KnockbackMultiplier"] = (b, lvl) => b.KnockbackMultiplier.Value = lvl / 100f,
+                ["WeaponSpeedMultiplier"] = (b, lvl) => b.WeaponSpeedMultiplier.Value = lvl / 100f,
+                ["CriticalChanceMultiplier"] = (b, lvl) => b.CriticalChanceMultiplier.Value = lvl / 100f,
+                ["CriticalPowerMultiplier"] = (b, lvl) => b.CriticalPowerMultiplier.Value = lvl / 100f,
+                ["Default"] = (b, lvl) => b.AttackMultiplier.Value = lvl / 100f
             };
 
         // Array of actions for random Bookworm attributes (1-16)
@@ -101,59 +112,66 @@ namespace BibliocraftSkill.Core
             int buffDuration = BuffDurationMultiplier * playerBookLevel;  // Calculate buff duration
 
             // Log: Check if postfix was called and the player's level
-            Log.Alert($"Postfix called for {itemID}. Player Book Level: {playerBookLevel}, Buff Duration: {buffDuration}");
+            Log.Trace($"Postfix called for {itemID}. Player Book Level: {playerBookLevel}, Buff Duration: {buffDuration}");
 
-            TryApplyBookmarkBuff(who, playerBookLevel, buffDuration);  // Apply bookmark buffs
+            TryApplyBookmarkBuff(who, playerBookLevel, (int)(buffDuration * 1.5));  // Apply bookmark buffs
 
             // Log: Check if the player has the Bookworm profession
             if (who.HasCustomProfession(Prof_BookWorm))
             {
-                Log.Alert("Player has Bookworm profession, applying additional buffs.");
+                Log.Trace("Player has Bookworm profession, applying additional buffs.");
                 TryApplyBookwormBuff(who, playerBookLevel, buffDuration);  // Apply Bookworm-specific buffs
                 TryApplyPageMasterEffect(who, location, playerBookLevel);  // Apply Page Master effect
                 TryApplySeasonedReaderEffect(who, location, playerBookLevel);  // Apply Seasoned Reader effect
             }
             else
             {
-                Log.Alert("Player does not have Bookworm profession.");
+                Log.Trace("Player does not have Bookworm profession.");
             }
 
             HandleBookExperienceGain(who, __instance, itemID, playerBookLevel);  // Handle experience gain from reading the book
 
             // Log: Experience gain handled
-            Log.Alert($"Experience gain handled for {itemID}. Book Level: {playerBookLevel}");
+            Log.Trace($"Experience gain handled for {itemID}. Book Level: {playerBookLevel}");
         }
 
         private static void TryApplyBookmarkBuff(Farmer who, int playerBookLevel, int buffDuration)
         {
-            string prefix = "(O)moonslime.Bibliocraft.bookmark/";
+            string prefix = "moonslime.Bibliocraft.bookmark:";
 
             foreach (var item in who.Items)
             {
                 if (item != null)
                 {
-                    Log.Alert($"Item: {item.Name}, ItemID: {item.QualifiedItemId}");
+                    Log.Trace($"Item: {item.Name}, ItemID: {item.QualifiedItemId}");
                 }
             }
 
             // Log: Check if we find a bookmark item
-            var foundBookmark = who.Items.FirstOrDefault(i => i is not null && i.QualifiedItemId.StartsWith(prefix));
-            if (foundBookmark is not Item bookmark)
+            var foundBookmark = who.Items.FirstOrDefault(i => i is not null && i.GetContextTags().Any(tag => tag.StartsWith(prefix)));
+            if (foundBookmark == null)
             {
                 // Log: No bookmark found
-                Log.Alert("No bookmark found in player's inventory.");
+                Log.Trace("No bookmark found in player's inventory.");
                 return;
             }
             else
             {
                 // Log: Bookmark found
-                Log.Alert($"Bookmark found: {bookmark.QualifiedItemId}");
+                Log.Trace($"Bookmark found: {foundBookmark.QualifiedItemId}");
             }
 
             // Extract the effect name
-            string effectName = bookmark.QualifiedItemId.Split("/")[1];
+            string effectTag = foundBookmark.GetContextTags().FirstOrDefault(tag => tag.StartsWith(prefix));
+            if (string.IsNullOrEmpty(effectTag) || !effectTag.Contains(':'))
+            {
+                Log.Trace($"Invalid context tag for {foundBookmark.Name}");
+                return;
+            }
+            string effectName = effectTag.Substring(prefix.Length);
+
             // Log: Effect name parsed
-            Log.Alert($"Effect name parsed: {effectName}");
+            Log.Trace($"Effect name parsed: {effectName}");
 
             // Create the buff
             Buff buff = new(
@@ -171,33 +189,33 @@ namespace BibliocraftSkill.Core
             if (!BookmarkEffectMap.TryGetValue(effectName, out var action))
             {
                 // Log: Default effect used
-                Log.Alert($"Effect for {effectName} not found in map. Using default effect.");
+                Log.Trace($"Effect for {effectName} not found in map. Using default effect.");
                 action = BookmarkEffectMap["Default"];
             }
             else
             {
                 // Log: Effect found in map
-                Log.Alert($"Effect found in map for {effectName}.");
+                Log.Trace($"Effect found in map for {effectName}.");
             }
 
             // Apply the effect
             action(effects, playerBookLevel);
 
             // Log: Effect applied
-            Log.Alert($"Effect applied: {effectName} with player level {playerBookLevel}");
+            Log.Trace($"Effect applied: {effectName} with player level {playerBookLevel}");
 
             // Add the effects to the buff and apply it
             buff.effects.Add(effects);
             who.applyBuff(buff);
 
             // Log: Buff applied to player
-            Log.Alert($"Buff applied: {effectName}");
+            Log.Trace($"Buff applied: {effectName}");
 
             // Reduce the item count
-            who.Items.ReduceId(bookmark.QualifiedItemId, 1);
+            who.Items.ReduceId(foundBookmark.QualifiedItemId, 1);
 
             // Log: Item reduced from inventory
-            Log.Alert($"Item reduced from inventory: {bookmark.QualifiedItemId}");
+            Log.Trace($"Item reduced from inventory: {foundBookmark.QualifiedItemId}");
         }
 
 

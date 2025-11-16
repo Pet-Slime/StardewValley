@@ -1,5 +1,16 @@
 ﻿{
     "Changes": [
+
+        {
+            "Action": "EditData",
+            "Target": "Data/CookingRecipes",
+            "Entries": {
+                "moonslime.Bibliocraft.potato_chips": "192 2 247 1//moonslime.Bibliocraft.potato_chips/moonslime.Bibliocraft 2/",
+                "moonslime.Bibliocraft.ink_squid": "151 3//814/moonslime.Bibliocraft 3/",
+                "moonslime.Bibliocraft.ink_octo": "149 3//814/moonslime.Bibliocraft 3/",
+                "moonslime.Bibliocraft.ginger_tea": "614 1 829 3 245 1//moonslime.Bibliocraft.ginger_tea/moonslime.Bibliocraft 9/"
+            }
+        },
         {
             "Action": "EditData",
             "Target": "Data/CraftingRecipes",
@@ -8,10 +19,15 @@
                 "moonslime.Bibliocraft.Letterpress_Inking_Station": "388 15 335 5//moonslime.Bibliocraft.Letterpress_Inking_Station/true/moonslime.Bibliocraft 1",
                 "moonslime.Bibliocraft.Paper_Press": "388 15 335 5//moonslime.Bibliocraft.Paper_Press/true/moonslime.Bibliocraft 2",
                 "moonslime.Bibliocraft.Pen_Pal_Desk": "388 20 444 1//moonslime.Bibliocraft.Pen_Pal_Desk/true/moonslime.Bibliocraft 3",
+                "moonslime.Bibliocraft.bookmark:KnockbackMultiplier": "390 1 428 1 moonslime.Bibliocraft.paper 5//moonslime.Bibliocraft.bookmark:KnockbackMultiplier 3/false/moonslime.Bibliocraft 1",
+                "moonslime.Bibliocraft.bookmark:WeaponSpeedMultiplier": "433 1 428 1 moonslime.Bibliocraft.paper 5//moonslime.Bibliocraft.bookmark:WeaponSpeedMultiplier 3/false/moonslime.Bibliocraft 4",
                 "moonslime.Bibliocraft.Printing_Press": "388 15 335 5//moonslime.Bibliocraft.Printing_Press/true/moonslime.Bibliocraft 6",
                 "moonslime.Bibliocraft.Binding_station": "388 15 335 1 428 2//moonslime.Bibliocraft.Binding_station/true/moonslime.Bibliocraft 6",
                 "moonslime.Bibliocraft.Book_Restoration": "388 15 428 1 444 1//moonslime.Bibliocraft.Book_Restoration/true/moonslime.Bibliocraft 7",
+                "moonslime.Bibliocraft.bookmark:Immunity": "829 1 428 1 moonslime.Bibliocraft.paper 5//moonslime.Bibliocraft.bookmark:Immunity 3/false/moonslime.Bibliocraft 8",
+                "moonslime.Bibliocraft.bookmark:CriticalChanceMultiplier": "Carrot 1 428 1 moonslime.Bibliocraft.paper 5//moonslime.Bibliocraft.bookmark:CriticalChanceMultiplier 3/false/moonslime.Bibliocraft 8",
                 "moonslime.Bibliocraft.Book_Donations": "388 15 335 1//moonslime.Bibliocraft.Book_Donations/true/moonslime.Bibliocraft 9",
+                "moonslime.Bibliocraft.bookmark:CriticalPowerMultiplier": "787 1 428 1 moonslime.Bibliocraft.paper 5//moonslime.Bibliocraft.bookmark:CriticalPowerMultiplier 3/false/moonslime.Bibliocraft 9",
 
                 "moonslime.Bibliocraft.letter_robin": "388 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_robin/false/default/",
                 "moonslime.Bibliocraft.letter_alex": "403 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_alex/false/default/",
@@ -43,16 +59,6 @@
                 "moonslime.Bibliocraft.letter_vincent": "184 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_vincent/false/default/",
                 "moonslime.Bibliocraft.letter_willy": "SkillBook_1 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_willy/false/default/",
                 "moonslime.Bibliocraft.letter_wizard": "337 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_wizard/false/default/"
-            }
-        },
-        {
-            "Action": "EditData",
-            "Target": "Data/CookingRecipes",
-            "Entries": {
-                "moonslime.Bibliocraft.potato_chips": "192 2 247 1//moonslime.Bibliocraft.potato_chips/moonslime.Bibliocraft 2/",
-                "moonslime.Bibliocraft.ink_squid": "151 3//814/moonslime.Bibliocraft 3/",
-                "moonslime.Bibliocraft.ink_octo": "149 3//814/moonslime.Bibliocraft 3/",
-                "moonslime.Bibliocraft.ginger_tea": "614 1 829 3 245 1//moonslime.Bibliocraft.ginger_tea/moonslime.Bibliocraft 9/"
             }
         }
     ]

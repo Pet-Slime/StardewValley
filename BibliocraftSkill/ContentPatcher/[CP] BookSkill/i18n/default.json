@@ -38,6 +38,22 @@
     "moonslime.Bibliocraft.letterpress_inked.name": "Inked Letterpress",
     "moonslime.Bibliocraft.letterpress_inked.description": "A letterpress that has been inked.",
 
+
+    "moonslime.Bibliocraft.bookmark:KnockbackMultiplier.name": "Bookmark of the Powerful Page-Turner",
+    "moonslime.Bibliocraft.bookmark:KnockbackMultiplier.description": "A book mark with the impression of a stone on it.\nIt is consumed when you read a book, granting a weapon knockback buff.",
+
+    "moonslime.Bibliocraft.bookmark:WeaponSpeedMultiplier.name": "Bookmark of the Speedy Reader",
+    "moonslime.Bibliocraft.bookmark:WeaponSpeedMultiplier.description": "A book mark with the impression of a coffe bean on it.\nIt is consumed when you read a book, granting a weapon speed buff.",
+
+    "moonslime.Bibliocraft.bookmark:Immunity.name": "Bookmark of the Stoic Reader",
+    "moonslime.Bibliocraft.bookmark:Immunity.description": "A book mark with the impression of ginger on it.\nIt is consumed when you read a book, granting an immunity buff.",
+
+    "moonslime.Bibliocraft.bookmark:CriticalChanceMultiplier.name": "Bookmark of the Insightful Reader",
+    "moonslime.Bibliocraft.bookmark:CriticalChanceMultiplier.description": "A book mark with the impression of a carrot on it.\nIt is consumed when you read a book, granting a crit. chance buff.",
+
+    "moonslime.Bibliocraft.bookmark:CriticalPowerMultiplier.name": "Bookmark of the Perceptive Reader",
+    "moonslime.Bibliocraft.bookmark:CriticalPowerMultiplier.description": "A book mark with the impression of a battery on it.\nIt is consumed when you read a book, granting a crit. power buff.",
+
     "moonslime.Bibliocraft.paper.name": "Book Paper",
     "moonslime.Bibliocraft.paper.description": "Paper made for books!",
 

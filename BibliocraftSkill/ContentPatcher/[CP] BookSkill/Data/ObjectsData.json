@@ -334,13 +334,13 @@
                     ],
                     "CustomFields": null
                 },
-                "moonslime.Bibliocraft.bookmark/KnockbackMultiplier": {
+                "moonslime.Bibliocraft.bookmark:KnockbackMultiplier": {
                     "Name": "Book Mark of Weight",
-                    "DisplayName": "{{i18n:moonslime.Bibliocraft.bookmark/KnockbackMultiplier.name}}",
-                    "Description": "{{i18n:moonslime.Bibliocraft.bookmark/KnockbackMultiplier.description}}",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.bookmark:KnockbackMultiplier.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.bookmark:KnockbackMultiplier.description}}",
                     "Type": "building_resources",
                     "Category": -16,
-                    "Price": 30,
+                    "Price": 200,
                     "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
                     "SpriteIndex": 10,
                     "Edibility": -300,
@@ -349,17 +349,18 @@
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "color_gray",
-                        "not_placeable"
+                        "not_placeable",
+                        "moonslime.Bibliocraft.bookmark:KnockbackMultiplier"
                     ],
                     "CustomFields": null
                 },
-                "moonslime.Bibliocraft.bookmark/WeaponSpeedMultiplier": {
+                "moonslime.Bibliocraft.bookmark:WeaponSpeedMultiplier": {
                     "Name": "Bookmark of Finesse",
-                    "DisplayName": "{{i18n:moonslime.Bibliocraft.bookmark/WeaponSpeedMultiplier.name}}",
-                    "Description": "{{i18n:moonslime.Bibliocraft.bookmark/WeaponSpeedMultiplier.description}}",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.bookmark:WeaponSpeedMultiplier.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.bookmark:WeaponSpeedMultiplier.description}}",
                     "Type": "building_resources",
                     "Category": -16,
-                    "Price": 30,
+                    "Price": 200,
                     "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
                     "SpriteIndex": 11,
                     "Edibility": -300,
@@ -368,14 +369,15 @@
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "color_yellow",
-                        "not_placeable"
+                        "not_placeable",
+                        "moonslime.Bibliocraft.bookmark:WeaponSpeedMultiplier"
                     ],
                     "CustomFields": null
                 },
-                "moonslime.Bibliocraft.bookmark/Immunity": {
+                "moonslime.Bibliocraft.bookmark:Immunity": {
                     "Name": "Book Mark of Protection",
-                    "DisplayName": "{{i18n:moonslime.Bibliocraft.bookmark/Immunity.name}}",
-                    "Description": "{{i18n:moonslime.Bibliocraft.bookmark/Immunity.description}}",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.bookmark:Immunity.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.bookmark:Immunity.description}}",
                     "Type": "building_resources",
                     "Category": -16,
                     "Price": 30,
@@ -387,17 +389,18 @@
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "color_dark_purple",
-                        "not_placeable"
+                        "not_placeable",
+                        "moonslime.Bibliocraft.bookmark:Immunity"
                     ],
                     "CustomFields": null
                 },
-                "moonslime.Bibliocraft.bookmark/CriticalChanceMultiplier": {
+                "moonslime.Bibliocraft.bookmark:CriticalChanceMultiplier": {
                     "Name": "Book Mark of True Aim",
-                    "DisplayName": "{{i18n:moonslime.Bibliocraft.bookmark/CriticalChanceMultiplier.name}}",
-                    "Description": "{{i18n:moonslime.Bibliocraft.bookmark/CriticalChanceMultiplier.description}}",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.bookmark:CriticalChanceMultiplier.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.bookmark:CriticalChanceMultiplier.description}}",
                     "Type": "building_resources",
                     "Category": -16,
-                    "Price": 30,
+                    "Price": 200,
                     "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
                     "SpriteIndex": 13,
                     "Edibility": -300,
@@ -406,17 +409,18 @@
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "color_dark_orange",
-                        "not_placeable"
+                        "not_placeable",
+                        "moonslime.Bibliocraft.bookmark:CriticalChanceMultiplier"
                     ],
                     "CustomFields": null
                 },
-                "moonslime.Bibliocraft.bookmark/CriticalPowerMultiplier": {
+                "moonslime.Bibliocraft.bookmark:CriticalPowerMultiplier": {
                     "Name": "Book Mark of Power",
-                    "DisplayName": "{{i18n:moonslime.Bibliocraft.bookmark/CriticalPowerMultiplier.name}}",
-                    "Description": "{{i18n:moonslime.Bibliocraft.bookmark/CriticalPowerMultiplier.description}}",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.bookmark:CriticalPowerMultiplier.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.bookmark:CriticalPowerMultiplier.description}}",
                     "Type": "building_resources",
                     "Category": -16,
-                    "Price": 30,
+                    "Price": 350,
                     "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
                     "SpriteIndex": 14,
                     "Edibility": -300,
@@ -425,7 +429,8 @@
                     "ExcludeFromShippingCollection": true,
                     "ContextTags": [
                         "color_dark_green",
-                        "not_placeable"
+                        "not_placeable",
+                        "moonslime.Bibliocraft.bookmark:CriticalPowerMultiplier"
                     ],
                     "CustomFields": null
                 },
