@@ -17,6 +17,8 @@
 
     "moonslime.Bibliocraft.Book_Restoration.name": "Rebacking Table",
     "moonslime.Bibliocraft.Book_Restoration.description": "Place a book on this table to reback it over time, improving its quality.",
+    "moonslime.Bibliocraft.Book_Restoration.need_item": "1 squid ink, 8 fiber, and 2 book covers are additionally needed for this machine.",
+    "moonslime.Bibliocraft.Book_Restoration.need_item2": "1 squid ink, 8 fiber, and 2 book covers are additionally needed for this machine.",
 
     "moonslime.Bibliocraft.Paper_Press.name": "Paper Press",
     "moonslime.Bibliocraft.Paper_Press.description": "This machine combines wood pulp and limestone to create paper or book covers.",

@@ -141,9 +141,11 @@ namespace WizardrySkill.Core.Framework
         public bool KnowsSpell(string spellId, int level)
         {
             var data = this.GetUpdatedData();
+            var dict = data?.KnownSpells;
 
-            return
-                data.KnownSpells.TryGetValue(spellId, out PreparedSpell spell)
+            return spellId is not null
+                && dict != null
+                && dict.TryGetValue(spellId, out var spell)
                 && spell?.Level >= level;
         }
 
@@ -152,15 +154,27 @@ namespace WizardrySkill.Core.Framework
         /// <param name="level">The minimum spell level.</param>
         public bool KnowsSpell(Spell spell, int level)
         {
+            if (spell is null)
+                return false;
+
+            if (spell.FullId is null)
+                return false;
+
             return this.KnowsSpell(spell.FullId, level);
         }
 
         /// <summary>Get whether the player knows any spells in this school.</summary>
         public bool KnowsSchool(School school)
         {
-            return school.GetAllSpellTiers()
-                .SelectMany(tier => tier)
-                .Any(spell => this.KnowsSpell(spell.FullId, 0));
+            if (school?.GetAllSpellTiers() is not { } tiers)
+                return false;
+
+            foreach (var tier in tiers)
+                foreach (var spell in tier ?? Enumerable.Empty<Spell>())
+                    if (spell?.FullId is string id && this.KnowsSpell(id, 0))
+                        return true;
+
+            return false;
         }
 
         /// <summary>Add a spell to the player's list of known spells.</summary>

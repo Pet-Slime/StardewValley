@@ -538,6 +538,7 @@
                                         "selph.ExtraMachineConfig.RequirementId.1": "(O)771",
                                         "selph.ExtraMachineConfig.RequirementCount.1": "8",
                                         "selph.ExtraMachineConfig.RequirementId.2": "(O)moonslime.Bibliocraft.book_cover",
+                                        "selph.ExtraMachineConfig.RequirementInvalidMsg": "{{i18n: moonslime.Bibliocraft.Book_Restoration.need_item2}}",
                                         "selph.ExtraMachineConfig.RequirementCount.2": "2",
                                         "AgingMultiplier": "10"
                                     },
