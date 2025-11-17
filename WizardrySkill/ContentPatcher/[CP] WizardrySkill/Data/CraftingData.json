@@ -17,7 +17,9 @@
                 "moonslime.Wizardry.Scroll_Rewind": "moonslime.Wizardry.Magic_Stone:Mana 10 336 2 99 1//moonslime.Wizardry.Scroll_Rewind/false/arcane:rewind 1",
                 "moonslime.Wizardry.Scroll_Descend": "moonslime.Wizardry.Magic_Stone:Mana 6 99 1//moonslime.Wizardry.Scroll_Descend/false/motion:descend 1",
                 "moonslime.Wizardry.Scroll_Heal": "moonslime.Wizardry.Magic_Stone:Mana 10 98 1//moonslime.Wizardry.Scroll_Heal/false/life:heal 1",
-                "moonslime.Wizardry.Scroll_Crabrain": "moonslime.Wizardry.Magic_Stone:Mana 5 717 1 96 1//moonslime.Wizardry.Scroll_Crabrain/false/nature:crabrain 1"
+                "moonslime.Wizardry.Scroll_Crabrain": "moonslime.Wizardry.Magic_Stone:Mana 5 717 1 96 1//moonslime.Wizardry.Scroll_Crabrain/false/nature:crabrain 1",
+                "moonslime.Wizardry.Scroll_Monster_Tracking": "moonslime.Wizardry.Magic_Stone:Mana 1 767 1 96 1//moonslime.Wizardry.Scroll_Monster_Tracking/false/nature:bat 1",
+                "moonslime.Wizardry.Scroll_Artifact_Tracking": "moonslime.Wizardry.Magic_Stone:Mana 1 767 1 96 1//moonslime.Wizardry.Scroll_Artifact_Tracking/false/nature:bat 1"
 
             }
         },

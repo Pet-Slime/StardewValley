@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells.Effects;
+using MoonShared;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -48,7 +49,10 @@ namespace WizardrySkill.Core.Framework.Spells
                 return null;
 
             // Consume one ticket item
-            player.Items.ReduceId("336", 1);
+            if (player.modData.GetBool("moonslime.Wizardry.scrollspell") == false)
+            {
+                player.Items.ReduceId("336", 1);
+            }
 
             // Determine the starting point for the visual effects
             var point = player.StandingPixel;

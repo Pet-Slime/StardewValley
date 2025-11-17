@@ -56,6 +56,90 @@
                     "PriceModifierMode": 2
                 }
             }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Shops",
+            "TargetField": [
+                "Dwarf",
+                "Items"
+            ],
+            "Entries": {
+                "moonSlime.Wizardry.Dwarfscrollitems": {
+                    "Id": "moonSlime.Wizardry.Dwarfscrollitems",
+                    "RandomItemId": [ "(O)96", "(O)97", "(O)98", "(O)99", "(O)96", "(O)97", "(O)98", "(O)99", "(O)96", "(O)97", "(O)98", "(O)99" ],
+                    "AvailableStock": "{{Random: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}}",
+                    "AvailableStockLimit": "Player",
+                    "MaxItems": 2,
+                    "UseObjectDataPrice": true,
+                    "IgnoreShopPriceModifiers": false,
+                    "PriceModifiers": [
+                        {
+                            "Id": "RandomPrices",
+                            "Condition": null,
+                            "Modification": 4,
+                            "Amount": 0.0,
+                            "RandomAmount": [
+                                25.0,
+                                50.0,
+                                75.0,
+                                100.0,
+                                125.0
+                            ]
+                        },
+                        {
+                            "Id": "RandomMultiples",
+                            "Condition": null,
+                            "Modification": 2,
+                            "Amount": 0.0,
+                            "RandomAmount": [
+                                2.0,
+                                3.0,
+                                4.0,
+                                5.0
+                            ]
+                        }
+                    ],
+                    "PriceModifierMode": 2
+                },
+                "moonSlime.Wizardry.Dwarfscrollitems2": {
+                    "Id": "moonSlime.Wizardry.Dwarfscrollitems2",
+                    "RandomItemId": [ "(O)96", "(O)97", "(O)98", "(O)99", "(O)96", "(O)97", "(O)98", "(O)99", "(O)96", "(O)97", "(O)98", "(O)99" ],
+                    "AvailableStock": "{{Random: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}}",
+                    "AvailableStockLimit": "Player",
+                    "MaxItems": 2,
+                    "UseObjectDataPrice": true,
+                    "IgnoreShopPriceModifiers": false,
+                    "PriceModifiers": [
+                        {
+                            "Id": "RandomPrices",
+                            "Condition": null,
+                            "Modification": 4,
+                            "Amount": 0.0,
+                            "RandomAmount": [
+                                25.0,
+                                50.0,
+                                75.0,
+                                100.0,
+                                125.0
+                            ]
+                        },
+                        {
+                            "Id": "RandomMultiples",
+                            "Condition": null,
+                            "Modification": 2,
+                            "Amount": 0.0,
+                            "RandomAmount": [
+                                2.0,
+                                3.0,
+                                4.0,
+                                5.0
+                            ]
+                        }
+                    ],
+                    "PriceModifierMode": 2
+                }
+            }
         }
 
     ]

@@ -53,6 +53,12 @@
     "moonslime.Wizardry.Scroll_Crabrain.name": "Spell Scroll: Crab Rain",
     "moonslime.Wizardry.Scroll_Crabrain.description": "An ancient dwarf scroll imbued with the magic of Crab Rain. Use to cast a weaker version.",
 
+    "moonslime.Wizardry.Scroll_Monster_Tracking.name": "Spell Scroll: Monster Tracking Bat",
+    "moonslime.Wizardry.Scroll_Monster_Tracking.description": "An ancient dwarf scroll imbued with the magic of Tracking Bat. Use to cast a weaker version.",
+
+    "moonslime.Wizardry.Scroll_Artifact_Tracking.name": "Spell Scroll: Artifact Tracking Bat",
+    "moonslime.Wizardry.Scroll_Artifact_Tracking.description": "An ancient dwarf scroll imbued with the magic of Tracking Bat. Use to cast a weaker version.",
+
 
     "moonslime.Wizardry.CraftableSpellAltar": "Spell Focus Altar",
     "moonslime.Wizardry.CraftableSpellAltar.description": "Right click once this is placed to open the spell book menu.",

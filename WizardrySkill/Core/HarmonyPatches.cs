@@ -66,7 +66,13 @@ namespace WizardrySkill.Core
                 {
                     Log.Trace("Casting " + spell);
                     Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
-                    string entry = $"{player.UniqueMultiplayerID},{spell},0,{pos.X},{pos.Y}";
+                    int spellLevel = 0;
+                    if (spell == "nature:bat1")
+                    {
+                        spellLevel = 1;
+                        spell = "nature:bat";
+                    }
+                    string entry = $"{player.UniqueMultiplayerID},{spell},{spellLevel},{pos.X},{pos.Y}";
                     player.modData["moonslime.Wizardry.scrollspell"] = "yes";
                     Farm farm = Game1.getFarm();
                     foreach (var who in Game1.getOnlineFarmers())

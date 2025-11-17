@@ -8,7 +8,7 @@ using StardewValley.Monsters;
 
 namespace WizardrySkill.Core.Framework.Spells.Effects
 {
-    public class SpiritEffect : IActiveEffect
+    public class BatMonsterEffect : IActiveEffect
     {
         /*********
         ** Fields
@@ -35,10 +35,10 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         /*********
         ** Constructor
         *********/
-        public SpiritEffect(Farmer summoner, float attackrange)
+        public BatMonsterEffect(Farmer summoner, float attackrange)
         {
             this.Summoner = summoner;
-            this.Tex = ModEntry.Assets.Spirit;
+            this.Tex = ModEntry.Assets.Bat;
             this.Pos = summoner.Position;
             this.PrevSummonerLoc = summoner.currentLocation;
             this.AttackRange = attackrange;
@@ -132,13 +132,6 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 return;
 
             this.AttackTimer = 60;
-            int baseDmg = 10 * (this.Summoner.CombatLevel + this.Summoner.GetCustomBuffedSkillLevel(MagicConstants.SkillName));
-
-            // Temporarily move summoner to apply hitbox-based damage
-            Vector2 oldPos = this.Summoner.Position;
-            this.Summoner.Position = new Vector2(mob.GetBoundingBox().Center.X, mob.GetBoundingBox().Center.Y);
-            this.Summoner.currentLocation.damageMonster(mob.GetBoundingBox(), (int)(baseDmg * 0.75f), (int)(baseDmg * 1.5f), false, 1, 0, 0.1f, 2, false, this.Summoner);
-            this.Summoner.Position = oldPos;
         }
 
         private Monster FindNearestMonster(float maxDistance)

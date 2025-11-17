@@ -227,6 +227,11 @@
         },
         {
             "Action": "Load",
+            "Target": "Mods/moonslime.WizardrySkill/magic/nature/bat/1",
+            "FromFile": "Assets/magic/nature/bat/1.png"
+        },
+        {
+            "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/magic/life/magnetic_force/1",
             "FromFile": "Assets/magic/life/magnetic_force/1.png"
         },
@@ -309,6 +314,11 @@
             "Action": "Load",
             "Target": "Mods/moonslime.WizardrySkill/entities/spirit",
             "FromFile": "Assets/entities/spirit.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.WizardrySkill/entities/bat",
+            "FromFile": "Assets/entities/bat.png"
         },
         {
             "Action": "Load",

@@ -169,6 +169,11 @@
     "moonslime.Wizardry.spell.nature:crabrain.desc": "Summons crabs from the sky that might explode.",
     "moonslime.Wizardry.spell.nature:crabrain.hint": "Find all other Nature spells.",
 
+    "moonslime.Wizardry.spell.nature:bat.name": "Tracking Bat",
+    "moonslime.Wizardry.spell.nature:bat.cost": "5 mana, a bat wing",
+    "moonslime.Wizardry.spell.nature:bat.desc": "Summons a bat that flys to the closest thing.\nL1: Monsters\nL2: Artifact and Panning Spots",
+    "moonslime.Wizardry.spell.nature:bat.hint": "I wonder if a bat could help me out somehow?",
+
     "moonslime.Wizardry.spell.nature:tendrils.name": "Tendrils",
     "moonslime.Wizardry.spell.nature:tendrils.cost": "10 mana",
     "moonslime.Wizardry.spell.nature:tendrils.desc": "Summon tendrils to stop a foe in their path.",

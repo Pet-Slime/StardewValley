@@ -28,6 +28,7 @@ namespace WizardrySkill.Core
         public Texture2D CloudMount => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/entities/cloud");
         public Texture2D Thunderbug => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/entities/thunderbug");
         public Texture2D Spirit => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/entities/spirit");
+        public Texture2D Bat => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/entities/bat");
 
         public Texture2D Spellbg => Game1.content.Load<Texture2D>("Mods/moonslime.WizardrySkill/interface/spellbg");
 

@@ -48,6 +48,7 @@ namespace WizardrySkill.Core.Framework
             Register(new LanternSpell(getNewId));
             Register(new CrabRainSpell());
             Register(new FishFrenzySpell());
+            Register(new BatSpell());
             Register(new TendrilsSpell());
             Register(new PhotosynthesisSpell());
 

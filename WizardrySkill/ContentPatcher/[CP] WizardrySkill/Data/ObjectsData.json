@@ -466,6 +466,58 @@
                         "color_white"
                     ],
                     "CustomFields": { "moonslime.Wizardry.analyze": "nature:crabrain" }
+                },
+                "moonslime.Wizardry.Scroll_Monster_Tracking": {
+                    "Name": "nature:bat",
+                    "DisplayName": "{{i18n:moonslime.Wizardry.Scroll_Monster_Tracking.name}}",
+                    "Description": "{{i18n:moonslime.Wizardry.Scroll_Monster_Tracking.description}}",
+                    "Type": "Basic",
+                    "Category": 0,
+                    "Price": 5,
+                    "Texture": "Mods/moonslime.WizardrySkill/objects/Scrolls",
+                    "SpriteIndex": 11,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "scroll_item",
+                        "moonslime_spellscroll",
+                        "not_placeable",
+                        "color_white"
+                    ],
+                    "CustomFields": { "moonslime.Wizardry.analyze": "nature:bat" }
+                },
+                "moonslime.Wizardry.Scroll_Artifact_Tracking": {
+                    "Name": "nature:bat1",
+                    "DisplayName": "{{i18n:moonslime.Wizardry.Scroll_Artifact_Tracking.name}}",
+                    "Description": "{{i18n:moonslime.Wizardry.Scroll_Artifact_Tracking.description}}",
+                    "Type": "Basic",
+                    "Category": 0,
+                    "Price": 5,
+                    "Texture": "Mods/moonslime.WizardrySkill/objects/Scrolls",
+                    "SpriteIndex": 12,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "scroll_item",
+                        "moonslime_spellscroll",
+                        "not_placeable",
+                        "color_white"
+                    ],
+                    "CustomFields": { "moonslime.Wizardry.analyze": "nature:bat" }
                 }
             }
         },

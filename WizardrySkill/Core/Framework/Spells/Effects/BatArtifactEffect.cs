@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceCore;
@@ -8,7 +9,7 @@ using StardewValley.Monsters;
 
 namespace WizardrySkill.Core.Framework.Spells.Effects
 {
-    public class SpiritEffect : IActiveEffect
+    public class BatArtifactEffect : IActiveEffect
     {
         /*********
         ** Fields
@@ -35,10 +36,10 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         /*********
         ** Constructor
         *********/
-        public SpiritEffect(Farmer summoner, float attackrange)
+        public BatArtifactEffect(Farmer summoner, float attackrange)
         {
             this.Summoner = summoner;
-            this.Tex = ModEntry.Assets.Spirit;
+            this.Tex = ModEntry.Assets.Bat;
             this.Pos = summoner.Position;
             this.PrevSummonerLoc = summoner.currentLocation;
             this.AttackRange = attackrange;
@@ -68,18 +69,19 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             }
 
             // Handle attack or movement
-            Monster target = this.AttackTimer > 0 ? null : this.FindNearestMonster(this.AttackRange);
+            Vector2 target = this.AttackTimer > 0 ? Vector2.Zero : this.FindNearestMonster(100);
             if (this.AttackTimer > 0)
                 this.AttackTimer--;
 
-            if (target != null)
+            if (target != Vector2.Zero)
             {
-                this.MoveTowards(target.Position);
+                var targetPosition = target * Game1.tileSize;
+                this.MoveTowards(targetPosition);
 
-                if (Vector2.Distance(this.Pos, target.Position) < Game1.tileSize)
+                if (Vector2.Distance(this.Pos, targetPosition) < Game1.tileSize)
                     this.AttemptAttack(target);
 
-                this.UpdateSprite(target.Position);
+                this.UpdateSprite(targetPosition);
             }
             else
             {
@@ -126,42 +128,45 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             }
         }
 
-        private void AttemptAttack(Monster mob)
+        private void AttemptAttack(Vector2 mob)
         {
             if (this.AttackTimer > 0)
                 return;
 
             this.AttackTimer = 60;
-            int baseDmg = 10 * (this.Summoner.CombatLevel + this.Summoner.GetCustomBuffedSkillLevel(MagicConstants.SkillName));
-
-            // Temporarily move summoner to apply hitbox-based damage
-            Vector2 oldPos = this.Summoner.Position;
-            this.Summoner.Position = new Vector2(mob.GetBoundingBox().Center.X, mob.GetBoundingBox().Center.Y);
-            this.Summoner.currentLocation.damageMonster(mob.GetBoundingBox(), (int)(baseDmg * 0.75f), (int)(baseDmg * 1.5f), false, 1, 0, 0.1f, 2, false, this.Summoner);
-            this.Summoner.Position = oldPos;
         }
 
-        private Monster FindNearestMonster(float maxDistance)
+        private Vector2 FindNearestMonster(float maxDistance)
         {
-            Monster nearest = null;
+            List<Vector2> list = new List<Vector2>();
+            Farmer player = this.Summoner;
+            GameLocation loc = this.PrevSummonerLoc;
             float nearestDist = maxDistance;
-
-            foreach (var character in this.Summoner.currentLocation.characters)
+            Vector2 nearest = Vector2.Zero;
+            if (!loc.orePanPoint.Equals(Point.Zero))
             {
-                if (character is not Monster mob || mob.IsInvisible || mob.isInvincible())
-                    continue;
 
-                if (mob is LavaLurk lurk &&
-                    (lurk.currentState.Value == LavaLurk.State.Submerged || lurk.currentState.Value == LavaLurk.State.Diving))
-                    continue;
+                list.Add(new Vector2(loc.orePanPoint.X, loc.orePanPoint.Y));
+            }
 
-                float dist = Vector2.Distance(mob.Tile, this.Summoner.Tile);
+            foreach (KeyValuePair<Vector2, StardewValley.Object> thing in loc.objects.Pairs)
+            {
+                if (thing.Value.QualifiedItemId == "(O)590")
+                {
+                    list.Add(thing.Key);
+                }
+            }
+
+            foreach (var tile in list)
+            {
+                float dist = Vector2.Distance(tile, this.Summoner.Tile);
                 if (dist < nearestDist)
                 {
-                    nearest = mob;
+                    nearest = tile;
                     nearestDist = dist;
                 }
             }
+
 
             return nearest;
         }
