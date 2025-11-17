@@ -1,12 +1,10 @@
 using MoonShared.Attributes;
 
-namespace ArchaeologySkill
+namespace ArchaeologySkill.Core
 {
     [SConfig]
     public class Config
     {
-        [SConfig.Option()]
-        public bool LargerPanningArrow { get; set; } = false;
 
         [SConfig.Option(1, 2, 1)]
         public int AlternativeSkillPageIcon { get; set; } = 1;
@@ -45,6 +43,6 @@ namespace ArchaeologySkill
 
 
         [SConfig.Option(0, 100, 1)]
-        public int ExperienceFromDonationRewards { get; set; } = 53;
+        public int ExperienceFromDonationRewards { get; set; } = 40;
     }
 }

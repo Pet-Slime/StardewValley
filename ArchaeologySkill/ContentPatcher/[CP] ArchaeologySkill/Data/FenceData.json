@@ -1,11 +1,11 @@
-{
+﻿{
     "Changes": [
         {
             "Action": "EditData",
             "Target": "Data/Fences",
             "Entries": {
                 "moonslime.Archaeology.glass_fence": {
-				"Health": 28,
+				"Health": 84,
 				"RepairHealthAdjustmentMinimum": -5.0,
 				"RepairHealthAdjustmentMaximum": 5.0,
 				"Texture": "Paths\\H_Archeology_Fence_Glass",

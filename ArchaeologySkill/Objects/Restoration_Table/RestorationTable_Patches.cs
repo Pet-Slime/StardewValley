@@ -1,4 +1,5 @@
 using System;
+using ArchaeologySkill.Core;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;

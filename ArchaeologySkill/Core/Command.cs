@@ -1,5 +1,4 @@
-
-namespace ArchaeologySkill
+namespace ArchaeologySkill.Core
 {
     public class Command
     {

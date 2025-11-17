@@ -6,7 +6,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
 
-namespace ArchaeologySkill
+namespace ArchaeologySkill.Core
 {
     [SMod]
     public class ModEntry : Mod
@@ -16,18 +16,21 @@ namespace ArchaeologySkill
 
         internal static Config Config;
         internal static Assets Assets;
-        internal static bool XPDisplayLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("Shockah.XPDisplay");
-        internal static bool JsonAssetsLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("spacechase0.JsonAssets");
-        internal static bool DynamicGameAssetsLoaded => ModEntry.Instance.Helper.ModRegistry.IsLoaded("spacechase0.DynamicGameAssets");
+        internal static bool XPDisplayLoaded => Instance.Helper.ModRegistry.IsLoaded("Shockah.XPDisplay");
+        internal static bool JsonAssetsLoaded => Instance.Helper.ModRegistry.IsLoaded("spacechase0.JsonAssets");
+        internal static bool DynamicGameAssetsLoaded => Instance.Helper.ModRegistry.IsLoaded("spacechase0.DynamicGameAssets");
 
-        internal readonly List<Func<Item, (int? SkillIndex, string? SpaceCoreSkillName)?>> ToolSkillMatchers =
+        public const string SkillID = "moonslime.Archaeology";
+
+
+        internal readonly List<Func<Item, (int? SkillIndex, string SpaceCoreSkillName)?>> ToolSkillMatchers =
         [
-            o => o is Hoe ? (null, "moonslime.Archaeology") : null,
-            o => o is Pan ? (null, "moonslime.Archaeology") : null
+            o => o is Hoe ? (null, SkillID) : null,
+            o => o is Pan ? (null, SkillID) : null
         ];
 
         public ITranslationHelper I18N => this.Helper.Translation;
-        internal static MoonShared.APIs.IJsonAssetsApi JAAPI;
+        internal static IJsonAssetsApi JAAPI;
         internal static IDynamicGameAssetsApi DGAAPI;
         internal static IXPDisplayApi XpAPI;
 
@@ -40,14 +43,12 @@ namespace ArchaeologySkill
 
 
 
-
-
         public override void Entry(IModHelper helper)
         {
             Instance = this;
 
-            MoonShared.Attributes.Parser.InitEvents(helper);
-            MoonShared.Attributes.Parser.ParseAll(this);
+            Parser.InitEvents(helper);
+            Parser.ParseAll(this);
         }
 
     }

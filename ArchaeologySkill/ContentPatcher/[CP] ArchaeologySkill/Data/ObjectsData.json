@@ -94,6 +94,15 @@
                         "draw_water_overlay",
                         "prevent_remove_when_processing"
                     ]
+                },
+
+                "moonslime.Archaeology.soil_sifter": {
+                    "Name": "Soil Sifter",
+                    "DisplayName": "{{i18n:moonslime.Archaeology.soil_sifter.name}}",
+                    "Description": "{{i18n:moonslime.Archaeology.soil_sifter.description}}",
+                    "Price": 50,
+                    "Texture": "Mods/moonslime.ArchaeologySkill/machines",
+                    "SpriteIndex": 20
                 }
             }
         },

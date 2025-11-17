@@ -94,9 +94,9 @@ namespace WizardrySkill.Core.Framework
             int y = Config.RadioY;
 
             if (x < 0)
-                x = this.HasStardewValleyExpanded ? 5 : 1;
+                x = 1;
             if (y < 0)
-                y = this.HasStardewValleyExpanded ? 23 : 5;
+                y = this.HasStardewValleyExpanded ? 15 : 5;
 
             return (x, y);
         }

@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using ArchaeologySkill.Core;
 using MoonShared;
 using StardewModdingAPI;
 
-namespace ArchaeologySkill
+namespace ArchaeologySkill.Objects
 {
     public class Archaeology_Skill : SpaceCore.Skills.Skill
     {
@@ -14,26 +15,26 @@ namespace ArchaeologySkill
         public static KeyedProfession Archaeology10b2;
         public readonly IModHelper _modHelper;
 
-        public Archaeology_Skill() : base("moonslime.Archaeology")
+        public Archaeology_Skill() : base(ModEntry.SkillID)
         {
-            this.Icon = ModEntry.Assets.IconA;
+            this.Icon = Assets.IconA;
             if (ModEntry.Config.AlternativeSkillPageIcon == 1)
             {
-                this.SkillsPageIcon = ModEntry.Assets.IconBalt;
+                this.SkillsPageIcon = Assets.IconBalt;
             }
             else
             {
-                this.SkillsPageIcon = ModEntry.Assets.IconB;
+                this.SkillsPageIcon = Assets.IconB;
             }
             this.ExperienceBarColor = new Microsoft.Xna.Framework.Color(205, 127, 50);
             this.ExperienceCurve = new[] { 100, 380, 770, 1300, 2150, 3300, 4000, 6900, 10000, 15000 };
             this.AddProfessions(
-                Archaeology5a = new KeyedProfession(this, "Archaeology5a", ModEntry.Assets.Archaeology5a, ModEntry.Instance.I18N),
-                Archaeology5b = new KeyedProfession(this, "Archaeology5b", ModEntry.Assets.Archaeology5b, ModEntry.Instance.I18N),
-                Archaeology10a1 = new KeyedProfession(this, "Archaeology10a1", ModEntry.Assets.Archaeology10a1, ModEntry.Instance.I18N),
-                Archaeology10a2 = new KeyedProfession(this, "Archaeology10a2", ModEntry.Assets.Archaeology10a2, ModEntry.Instance.I18N),
-                Archaeology10b1 = new KeyedProfession(this, "Archaeology10b1", ModEntry.Assets.Archaeology10b1, ModEntry.Instance.I18N),
-                Archaeology10b2 = new KeyedProfession(this, "Archaeology10b2", ModEntry.Assets.Archaeology10b2, ModEntry.Instance.I18N)
+                Archaeology5a = new KeyedProfession(this, "Archaeology5a", Assets.Archaeology5a, ModEntry.Instance.I18N),
+                Archaeology5b = new KeyedProfession(this, "Archaeology5b", Assets.Archaeology5b, ModEntry.Instance.I18N),
+                Archaeology10a1 = new KeyedProfession(this, "Archaeology10a1", Assets.Archaeology10a1, ModEntry.Instance.I18N),
+                Archaeology10a2 = new KeyedProfession(this, "Archaeology10a2", Assets.Archaeology10a2, ModEntry.Instance.I18N),
+                Archaeology10b1 = new KeyedProfession(this, "Archaeology10b1", Assets.Archaeology10b1, ModEntry.Instance.I18N),
+                Archaeology10b2 = new KeyedProfession(this, "Archaeology10b2", Assets.Archaeology10b2, ModEntry.Instance.I18N)
             );
             string test = this.Id;
 

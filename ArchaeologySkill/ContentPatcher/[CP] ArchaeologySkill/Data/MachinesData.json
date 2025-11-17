@@ -4,6 +4,67 @@
             "Action": "EditData",
             "Target": "Data/Machines",
             "Entries": {
+                "(BC)moonslime.Archaeology.soil_sifter": {
+                    "OutputRules": [
+                        {
+                            "Id": "clay_to_artifact",
+                            "Triggers": [
+                                {
+                                    "Id": "ItemPlacedInMachine",
+                                    "Trigger": "ItemPlacedInMachine",
+                                    "RequiredItemId": "(O)330",
+                                    "RequiredCount": 20
+                                }
+                            ],
+                            "UseFirstValidOutput": true,
+                            "OutputItem": [
+                                {
+                                    "Id": "RandomArtifact",
+                                    "ItemId": "RANDOM_ARTIFACT_FOR_DIG_SPOT",
+                                    "IncrementMachineParentSheetIndex": 1,
+                                    "MinStack": 1,
+                                    "MaxStack": 2
+                                }
+                            ],
+                            "MinutesUntilReady": 720
+                        }
+                    ],
+                    "AdditionalConsumedItems": [
+                        {
+                            "ItemId": "(O)382",
+                            "RequiredCount": 1,
+                            "InvalidCountMessage": "{{i18n: moonslime.Archaeology.grinder.need_item}}"
+                        }
+                    ],
+                    "WobbleWhileWorking": true,
+                    "ShowNextIndexWhileWorking": true,
+                    "ShowNextIndexWhenReady": true,
+                    "LoadEffects": [
+                        {
+                            "Id": "Default",
+                            "Condition": null,
+                            "Sounds": [
+                                {
+                                    "Id": "clank",
+                                    "Delay": 0
+                                },
+                                {
+                                    "Id": "skeletonHit",
+                                    "Delay": 150
+                                }
+                            ],
+                            "Interval": 100,
+                            "Frames": null,
+                            "ShakeDuration": -1,
+                            "TemporarySprites": null
+                        }
+                    ],
+                    "StatsToIncrementWhenLoaded": [
+                        {
+                            "StatName": "moonslime.ArchaeologySkill.Grinder"
+                        }
+                    ]
+                },
                 "(BC)moonslime.Archaeology.water_shifter": {
                     "HasInput": false,
                     "HasOutput": false,
@@ -563,8 +624,71 @@
                                 {
                                     "Id": "glass",
                                     "ItemId": "(O)118",
-                                    "MinStack": 2,
-                                    "MaxStack": 10
+                                    "MinStack": 4,
+                                    "MaxStack": 20
+                                }
+                            ],
+                            "MinutesUntilReady": 720
+                        },
+                        {
+                            "Id": "RustyScrap_to_iron",
+                            "Triggers": [
+                                {
+                                    "Id": "ItemPlacedInMachine",
+                                    "Trigger": "ItemPlacedInMachine",
+                                    "RequiredItemId": "(O)170",
+                                    "RequiredCount": 50
+                                }
+                            ],
+                            "UseFirstValidOutput": true,
+                            "OutputItem": [
+                                {
+                                    "Id": "iron",
+                                    "ItemId": "(O)380",
+                                    "MinStack": 25,
+                                    "MaxStack": 50
+                                }
+                            ],
+                            "MinutesUntilReady": 720
+                        },
+                        {
+                            "Id": "RefinedQuarrts_to_Glass_shards",
+                            "Triggers": [
+                                {
+                                    "Id": "ItemPlacedInMachine",
+                                    "Trigger": "ItemPlacedInMachine",
+                                    "RequiredItemId": "(O)338",
+                                    "RequiredCount": 50
+                                }
+                            ],
+                            "UseFirstValidOutput": true,
+                            "OutputItem": [
+                                {
+                                    "Id": "glass",
+                                    "ItemId": "(O)118",
+                                    "MinStack": 4,
+                                    "MaxStack": 20
+                                }
+                            ],
+                            "MinutesUntilReady": 720
+                        },
+                        {
+                            "Id": "Malachite_to_copperOre",
+                            "Triggers": [
+                                {
+                                    "Id": "ItemPlacedInMachine",
+                                    "Trigger": "ItemPlacedInMachine",
+                                    "RequiredItemId": "(O)552",
+                                    "RequiredCount": 1
+                                }
+                            ],
+                            "UseFirstValidOutput": true,
+                            "OutputItem": [
+                                {
+                                    "Id": "copper",
+                                    "ItemId": "(O)378",
+                                    "MinStack": 1,
+                                    "MaxStack": 2
                                 }
                             ],
                             "MinutesUntilReady": 720

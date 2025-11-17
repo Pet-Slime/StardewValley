@@ -130,6 +130,14 @@
         },
         {
             "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "767", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "nature:bat"
+            }
+        },
+        {
+            "Action": "EditData",
             "Target": "Data/BigCraftables",
             "TargetField": [ "9", "CustomFields" ],
             "Entries": {

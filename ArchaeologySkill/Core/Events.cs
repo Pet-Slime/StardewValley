@@ -11,6 +11,8 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using Object = StardewValley.Object;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
+using MoonSharedSpaceCore;
+using ArchaeologySkill.Objects;
 
 namespace ArchaeologySkill.Core
 {
@@ -149,73 +151,9 @@ namespace ArchaeologySkill.Core
                 ModEntry.XpAPI.RegisterToolSkillMatcher(ModEntry.Instance.ToolSkillMatchers[1]);
             }
 
-            string Id = "moonslime.Archaeology";
-            int skillLevel = Game1.player.GetCustomSkillLevel(Id);
-            if (skillLevel == 0)
+            foreach (Farmer player in Game1.getAllFarmers())
             {
-                return;
-            }
-
-            if (skillLevel >= 5 && !(Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology5a) ||
-                                     Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology5b)))
-            {
-                Game1.endOfNightMenus.Push(new SkillLevelUpMenu(Id, 5));
-            }
-
-            if (skillLevel >= 10 && !(Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology10a1) ||
-                                      Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology10a2) ||
-                                      Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology10b1) ||
-                                      Game1.player.HasCustomProfession(Archaeology_Skill.Archaeology10b2)))
-            {
-                Game1.endOfNightMenus.Push(new SkillLevelUpMenu(Id, 10));
-            }
-
-            foreach (KeyValuePair<string, string> recipePair in DataLoader.CraftingRecipes(Game1.content))
-            {
-                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
-                if (!conditions.Contains(Id))
-                {
-                    continue;
-                }
-                if (conditions.Split(" ").Length < 2)
-                {
-                    continue;
-                }
-
-                int level = int.Parse(conditions.Split(" ")[1]);
-
-                if (skillLevel < level)
-                {
-                    continue;
-                }
-
-                Game1.player.craftingRecipes.TryAdd(recipePair.Key, 0);
-            }
-
-            foreach (KeyValuePair<string, string> recipePair in DataLoader.CookingRecipes(Game1.content))
-            {
-                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 3, "");
-                if (!conditions.Contains(Id))
-                {
-                    continue;
-                }
-                if (conditions.Split(" ").Length < 2)
-                {
-                    continue;
-                }
-
-                int level = int.Parse(conditions.Split(" ")[1]);
-
-                if (skillLevel < level)
-                {
-                    continue;
-                }
-
-                if (Game1.player.cookingRecipes.TryAdd(recipePair.Key, 0) &&
-                    !Game1.player.hasOrWillReceiveMail("robinKitchenLetter"))
-                {
-                    Game1.mailbox.Add("robinKitchenLetter");
-                }
+                SpaceUtilities.LearnRecipesOnLoad(Game1.GetPlayer(player.UniqueMultiplayerID), ModEntry.SkillID);
             }
         }
 

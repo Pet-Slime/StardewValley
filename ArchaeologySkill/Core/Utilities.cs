@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ArchaeologySkill.Objects;
 using Microsoft.Xna.Framework;
 using MoonShared;
 using MoonShared.Attributes;
@@ -6,7 +7,7 @@ using SpaceCore;
 using StardewValley;
 using StardewValley.Buffs;
 
-namespace ArchaeologySkill
+namespace ArchaeologySkill.Core
 {
     public class Utilities
     {
@@ -49,7 +50,7 @@ namespace ArchaeologySkill
                 Log.Trace("Archaeology Skll: Does the player get bonus loot?");
                 double doubleLootChance = GetLevel(farmer) * 0.05;
                 double diceRoll = Game1.random.NextDouble();
-                bool didTheyWin = (diceRoll < doubleLootChance);
+                bool didTheyWin = diceRoll < doubleLootChance;
                 Log.Trace("Archaeology Skll: The dice roll is... " + diceRoll.ToString() + ". The player's chance is... " + doubleLootChance.ToString() + ". ");
                 if (didTheyWin || bonusLoot)
                 {
@@ -96,7 +97,7 @@ namespace ArchaeologySkill
             Buff buff = new(
                 id: "Archaeology:profession:haste",
                 displayName: ModEntry.Instance.I18N.Get("Archaeology10b2.buff"), // can optionally specify description text too
-                iconTexture: ModEntry.Assets.Gold_Rush_Buff,
+                iconTexture: Assets.GoldRushBuff,
                 iconSheetIndex: 0,
                 duration: 6_000 * GetLevel(player), // 60 seconds by default. Can go higher with buffs.
                 effects: new BuffEffects()
@@ -123,15 +124,15 @@ namespace ArchaeologySkill
             return true;
         }
 
-        public static void AddEXP(StardewValley.Farmer who, int amount)
+        public static void AddEXP(Farmer who, int amount)
         {
-            SpaceCore.Skills.AddExperience(Game1.GetPlayer(who.UniqueMultiplayerID), "moonslime.Archaeology", amount);
+            who.AddCustomSkillExperience(ModEntry.SkillID, amount);
         }
 
-        public static int GetLevel(StardewValley.Farmer who)
+        public static int GetLevel(Farmer who)
         {
             var player = Game1.GetPlayer(who.UniqueMultiplayerID);
-            return SpaceCore.Skills.GetSkillLevel(player, "moonslime.Archaeology") + SpaceCore.Skills.GetSkillBuffLevel(player, "moonslime.Archaeology");
+            return Skills.GetSkillLevel(player, ModEntry.SkillID) + Skills.GetSkillBuffLevel(player, ModEntry.SkillID);
         }
 
     }
