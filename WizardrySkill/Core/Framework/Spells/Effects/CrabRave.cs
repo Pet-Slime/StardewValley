@@ -204,14 +204,14 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                         }
                         else if (roll < 0.95f)
                         {
-                            // 30%: summon a Rock Crab (host sync only)
+                            // 35%: summon a Rock Crab
                             var rocky = new RockCrab(pos);
                             rocky.shellGone.Value = true;
                             this.Loc.addCharacter(rocky);
                         }
                         else
                         {
-                            // 10%: spawn a crab item as loot
+                            // 5%: spawn a crab item as loot
                             var spot = new Vector2((int)pos.X / Game1.tileSize, (int)pos.Y / Game1.tileSize);
                             Game1.createMultipleObjectDebris(this.ItemData.ItemId, (int)spot.X, (int)spot.Y, 1, this.Source.UniqueMultiplayerID);
                         }

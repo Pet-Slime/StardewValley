@@ -48,7 +48,7 @@ namespace WizardrySkill.Core.Framework.Spells
             Utilities.AddEXP(player, 50);
 
             // Spawn the visual/functional effect of the spirit spell
-            return new SpiritEffect(player);
+            return new SpiritEffect(player, ModEntry.Config.Spirit_attack_range);
         }
     }
 }

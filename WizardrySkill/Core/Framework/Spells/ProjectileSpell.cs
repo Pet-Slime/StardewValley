@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using WizardrySkill.Core.Framework.Game;
+using static System.Net.Mime.MediaTypeNames;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace WizardrySkill.Core.Framework.Spells
@@ -59,6 +60,11 @@ namespace WizardrySkill.Core.Framework.Spells
             return this.ManaBase * (level + 1);
         }
 
+        public override int GetMaxCastingLevel()
+        {
+            return 4;
+        }
+
         /*********
         ** Casting the spell
         *********/
@@ -68,9 +74,11 @@ namespace WizardrySkill.Core.Framework.Spells
                 return null;
 
             // Calculate base damage, then add random variation and player buffs
-            int ammoDamage = (this.DamageBase + this.DamageIncr * (level + 1)) * (player.CombatLevel + 1) / 2;
-            int finalDamage = (int)((ammoDamage + Game1.random.Next(-(ammoDamage / 2), ammoDamage + 2)) *
-                                    (1f + player.buffs.AttackMultiplier));
+            int newLevel = level + 1;
+
+            float num = this.DamageBase;
+            int ammoDamage =  this.DamageIncr * newLevel;
+            int finalDamage = (int)(num * (float)(ammoDamage + Game1.random.Next(-(ammoDamage / 2), ammoDamage + 2)) * (1f + player.buffs.AttackMultiplier));
 
             // Determine where the projectile should spawn
             Vector2 shootOrigin = this.GetShootOrigin(player);
@@ -78,7 +86,7 @@ namespace WizardrySkill.Core.Framework.Spells
             // Determine projectile velocity toward the target
             Vector2 velocityTowardPoint = Utility.getVelocityTowardPoint(
                 this.GetShootOrigin(player),
-                AdjustForHeight(new Vector2(targetX, targetY)),
+                this.AdjustForHeight(new Vector2(targetX, targetY)),
                 (15 + Game1.random.Next(4, 6)) * (1f + player.buffs.WeaponSpeedMultiplier)
             );
 
@@ -98,9 +106,9 @@ namespace WizardrySkill.Core.Framework.Spells
             spellProjectile.startingRotation.Value = this.GetRotation(player, targetX, targetY);
 
             // Optional projectile stats
-            spellProjectile.DebuffIntensity.Value = 4000;
+            spellProjectile.DebuffIntensity.Value = 2000 * newLevel;
             spellProjectile.boundingBoxWidth.Value = 32;
-            spellProjectile.maxTravelDistance.Value = 1000;
+            spellProjectile.maxTravelDistance.Value = 1000 * newLevel;
 
             // Optional terrain interaction
             if (this.IgnoreTerrain)
@@ -119,16 +127,19 @@ namespace WizardrySkill.Core.Framework.Spells
         ** Helper methods
         *********/
 
-        // Returns where the projectile should spawn (adjusted for player height)
         public Vector2 GetShootOrigin(Farmer who)
         {
-            return AdjustForHeight(who.getStandingPosition());
+            return this.AdjustForHeight(who.getStandingPosition(), for_cursor: false);
         }
 
-        // Adjusts a position for projectile height (so it doesn't spawn at the player's feet)
-        public static Vector2 AdjustForHeight(Vector2 position)
+        public Vector2 AdjustForHeight(Vector2 position, bool for_cursor = true)
         {
-            return new Vector2(position.X - 8, position.Y - 32f - 8f);
+            if (!Game1.options.useLegacySlingshotFiring && for_cursor)
+            {
+                return new Vector2(position.X, position.Y);
+            }
+
+            return new Vector2(position.X, position.Y - 32f - 8f);
         }
 
         // Calculates the rotation (angle) for the projectile to face the target

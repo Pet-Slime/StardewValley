@@ -26,6 +26,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         private int AttackTimer;
         private int AnimTimer;
         private int AnimFrame;
+        private readonly float AttackRange;
 
         private static readonly Vector2 SpriteOffset = new(-11f, -80f);
         private static Vector2 SharedOscillation;
@@ -34,12 +35,13 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         /*********
         ** Constructor
         *********/
-        public SpiritEffect(Farmer summoner)
+        public SpiritEffect(Farmer summoner, float attackrange)
         {
             this.Summoner = summoner;
             this.Tex = ModEntry.Assets.Spirit;
             this.Pos = summoner.Position;
             this.PrevSummonerLoc = summoner.currentLocation;
+            this.AttackRange = attackrange;
 
             this.AddSprite();
         }
@@ -66,7 +68,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             }
 
             // Handle attack or movement
-            Monster target = this.AttackTimer > 0 ? null : this.FindNearestMonster(10f);
+            Monster target = this.AttackTimer > 0 ? null : this.FindNearestMonster(this.AttackRange);
             if (this.AttackTimer > 0)
                 this.AttackTimer--;
 

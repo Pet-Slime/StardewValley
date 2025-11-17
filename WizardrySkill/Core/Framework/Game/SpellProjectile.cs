@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
@@ -134,7 +135,7 @@ namespace WizardrySkill.Core.Framework.Game
                     this.PeriodicEffectTimer = 0f;
                     Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite("TileSheets\\Projectiles", new Rectangle(32, 32, 16, 16), 9999f, 1, 1, position.Value, flicker: false, flipped: false, 1f, 0.01f, Color.White, 4f, 0f, 0f, 0f)
                     {
-                        motion = Utility.getRandom360degreeVector(1f) + new Vector2(xVelocity.Value, yVelocity.Value),
+                        motion = Utility.getRandom360degreeVector(1f) + new Vector2(this.xVelocity.Value, yVelocity.Value),
                         drawAboveAlwaysFront = true
                     });
                 }
@@ -145,24 +146,26 @@ namespace WizardrySkill.Core.Framework.Game
 
         public override void behaviorOnCollisionWithPlayer(GameLocation location, Farmer player)
         {
-            if (!this.damagesMonsters.Value && Game1.random.Next(11) >= player.Immunity && !player.hasBuff("28") && !player.hasTrinketWithID("BasiliskPaw"))
+            if (damagesMonsters.Value)
             {
-                this.piercesLeft.Value--;
+                return;
+            }
+
+            if (this.Debuff.Value != null && player.CanBeDamaged() && Game1.random.Next(11) >= player.Immunity && !player.hasBuff("28") && !player.hasTrinketWithID("BasiliskPaw"))
+            {
                 if (Game1.player == player)
                 {
                     player.applyBuff(this.Debuff.Value);
                 }
-
-                this.ExplosionAnimation(location);
-                if (this.Debuff.Value == "19")
-                {
-                    location.playSound("frozen");
-                }
-                else
-                {
-                    location.playSound("debuffHit");
-                }
             }
+
+            if (player.CanBeDamaged())
+            {
+                piercesLeft.Value--;
+            }
+
+            player.takeDamage(this.DamageToFarmer.Value, overrideParry: false, null);
+            this.ExplosionAnimation(location);
         }
 
         public override void behaviorOnCollisionWithTerrainFeature(TerrainFeature t, Vector2 tileLocation, GameLocation location)
@@ -191,14 +194,22 @@ namespace WizardrySkill.Core.Framework.Game
         public override void behaviorOnCollisionWithMonster(NPC n, GameLocation location)
         {
 
+            if (!this.damagesMonsters.Value)
+            {
+                return;
+            }
+
+            Farmer playerWhoFiredMe = GetPlayerWhoFiredMe(location);
+            this.ExplosionAnimation(location);
+
             if (n is Monster)
             {
-                Farmer playerWhoFiredMe = GetPlayerWhoFiredMe(location);
                 location.damageMonster(n.GetBoundingBox(), this.DamageToFarmer.Value, this.DamageToFarmer.Value + 1, isBomb: false, playerWhoFiredMe, isProjectile: true);
-                Utilities.AddEXP(this.GetPlayerWhoFiredMe(location), this.DamageToFarmer.Value / ((this.GetPlayerWhoFiredMe(location) as Farmer).CombatLevel + 1));
+                Utilities.AddEXP(playerWhoFiredMe, this.DamageToFarmer.Value >> 2);
+
                 if (this.currentTileSheetIndex.Value == 15)
                 {
-                    Utility.addRainbowStarExplosion(location, this.position.Value, 11);
+                    Utility.addRainbowStarExplosion(location, position.Value, 11);
                 }
 
                 if (!(n as Monster).IsInvisible)
@@ -209,33 +220,35 @@ namespace WizardrySkill.Core.Framework.Game
                         location.explode(new Vector2(n.Tile.X, n.Tile.Y), 3, this.GetPlayerWhoFiredMe(location), damage_amount: this.DamageToFarmer.Value);
                     }
                 }
-            }
 
-
-            if (this.damagesMonsters.Value && n is Monster && this.Debuff.Value == "frozen" && (!(n is Leaper leaper) || !leaper.leaping.Value))
-            {
-                if ((n as Monster).stunTime.Value < 51)
+                if (this.Debuff.Value == "frozen" && (!(n is Leaper leaper) || !leaper.leaping.Value))
                 {
-                    this.piercesLeft.Value--;
-                }
-
-                if ((n as Monster).stunTime.Value < DebuffIntensity.Value - 1000)
-                {
-                    location.playSound("frozen");
-                    Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite("LooseSprites\\Cursors2", new Rectangle(118, 227, 16, 13), new Vector2(0f, 0f), flipped: false, 0f, Color.White)
+                    if ((n as Monster).stunTime.Value < 51)
                     {
-                        layerDepth = (n.StandingPixel.Y + 2) / 10000f,
-                        animationLength = 1,
-                        interval = DebuffIntensity.Value,
-                        scale = 4f,
-                        id = (int)(n.position.X * 777f + n.position.Y * 77777f),
-                        positionFollowsAttachedCharacter = true,
-                        attachedCharacter = n
-                    });
-                }
+                        this.piercesLeft.Value--;
+                    }
 
-                (n as Monster).stunTime.Value = DebuffIntensity.Value;
+                    if ((n as Monster).stunTime.Value < this.DebuffIntensity.Value - 1000)
+                    {
+                        location.playSound("frozen");
+                        Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite("LooseSprites\\Cursors2", new Rectangle(118, 227, 16, 13), new Vector2(0f, 0f), flipped: false, 0f, Color.White)
+                        {
+                            layerDepth = (n.StandingPixel.Y + 2) / 10000f,
+                            animationLength = 1,
+                            interval = this.DebuffIntensity.Value,
+                            scale = 4f,
+                            id = (int)(n.position.X * 777f + n.position.Y * 77777f),
+                            positionFollowsAttachedCharacter = true,
+                            attachedCharacter = n
+                        });
+                    }
+
+                (n as Monster).stunTime.Value = this.DebuffIntensity.Value;
+                }
             }
+
+
+            
         }
 
         //

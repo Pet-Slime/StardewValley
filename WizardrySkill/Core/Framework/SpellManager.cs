@@ -57,9 +57,9 @@ namespace WizardrySkill.Core.Framework
             Register(new MagnetSpell());
             Register(new BuffSpell());
 
-            Register(new ProjectileSpell(SchoolId.Elemental, "magicmissle", 5, 7, 15, "magic_arrow", 16, rotationVelocy: 0f, seeking: true, wavey: false, piercesLeft: 999, ignoreTerrain: true));
-            Register(new ProjectileSpell(SchoolId.Elemental, "frostbolt", 7, 5, 10, "coldSpell", 9, tail: 5, debuff: "frozen", wavey: false));
-            Register(new ProjectileSpell(SchoolId.Elemental, "fireball", 7, 10, 20, "flameSpell", 10, tail: 10, explosion: true));
+            Register(new ProjectileSpell(SchoolId.Elemental, "magicmissle", 4, ModEntry.Config.Magic_arrow_base, ModEntry.Config.Magic_arrow_scale, "magic_arrow_hit", 16, rotationVelocy: 0f, seeking: true, wavey: false, piercesLeft: 999, ignoreTerrain: true));
+            Register(new ProjectileSpell(SchoolId.Elemental, "frostbolt", 6, ModEntry.Config.Frost_bolt_base, ModEntry.Config.Frost_bolt_scale, "coldSpell", 9, tail: 5, debuff: "frozen", wavey: false));
+            Register(new ProjectileSpell(SchoolId.Elemental, "fireball", 6, ModEntry.Config.Fire_ball_base, ModEntry.Config.Fire_ball_scale, "flameSpell", 10, tail: 10, explosion: true));
             Register(new ShockwaveSpell());
             Register(new MeteorSpell());
 

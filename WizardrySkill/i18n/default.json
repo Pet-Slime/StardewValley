@@ -105,7 +105,7 @@
     "moonslime.Wizardry.spell.arcane:spellstones.hint": "Can I imbue rocks with some magical energy?",
 
     "moonslime.Wizardry.spell.elemental:magicmissle.name": "Magic Arrow",
-    "moonslime.Wizardry.spell.elemental:magicmissle.cost": "5 mana per level",
+    "moonslime.Wizardry.spell.elemental:magicmissle.cost": "4 mana per level",
     "moonslime.Wizardry.spell.elemental:magicmissle.desc": "A somewhat weak but piercing projectile.",
     "moonslime.Wizardry.spell.elemental:magicmissle.hint": "No hint, as you start with this spell!",
 
@@ -221,12 +221,12 @@
     "moonslime.Wizardry.spell.life:buff.hint": "Find all other Life spells.",
 
     "moonslime.Wizardry.spell.elemental:fireball.name": "Fireball",
-    "moonslime.Wizardry.spell.elemental:fireball.cost": "7 mana per level",
+    "moonslime.Wizardry.spell.elemental:fireball.cost": "6 mana per level",
     "moonslime.Wizardry.spell.elemental:fireball.desc": "Shoot a ball of fire that explodes against enemies.\nHigher levels improve damage.",
     "moonslime.Wizardry.spell.elemental:fireball.hint": "Some basic minerals seem to contain some magical energy.",
 
     "moonslime.Wizardry.spell.elemental:frostbolt.name": "Frostbolt",
-    "moonslime.Wizardry.spell.elemental:frostbolt.cost": "7 mana per level",
+    "moonslime.Wizardry.spell.elemental:frostbolt.cost": "6 mana per level",
     "moonslime.Wizardry.spell.elemental:frostbolt.desc": "Shoot a ball of snow that freezes monsters.\nHigher levels improve damage.",
     "moonslime.Wizardry.spell.elemental:frostbolt.hint": "I bet you could shoot a blast of ice to slow something down.\nI wonder where you could study ice...?",
 
@@ -282,6 +282,28 @@
 
     "config.VoidSchool": "Enable Blink Spell",
     "config.VoidSchool.tooltip": "REQUIRES GAME RESTART.\nAllows the user to learn the spell blink.\nBlink can sometimes cause softlocks, user beware.",
+
+
+    "config.Magic_arrow_base": "Magic Arrow Base Damage",
+    "config.Magic_arrow_base.tooltip": "REQUIRES GAME RESTART.\nThe base damage of this spell.\n For reference, Slingshot is 1, Master slingshot is 2, Galaxy Slingshot is 4.",
+
+    "config.Magic_arrow_scale": "Magic Arrow Ammo Damage",
+    "config.Magic_arrow_scale.tooltip": "REQUIRES GAME RESTART.\nThe base 'ammo' damage of this spell that scales per level. So Level times this value = ammo damage.\nFor reference: Copper ore is 10, Iron is 20, Iridium is 50.",
+
+    "config.Fire_ball_base": "Fireball Base damage",
+    "config.Fire_ball_base.tooltip": "REQUIRES GAME RESTART.\nThe base damage of this spell.\n For reference, Slingshot is 1, Master slingshot is 2, Galaxy Slingshot is 4.",
+
+    "config.Fire_ball_scale": "Fireball Ammo damage",
+    "config.Fire_ball_scale.tooltip": "REQUIRES GAME RESTART.\nThe base 'ammo' damage of this spell that scales per level. So Level times this value = ammo damage.\nFor reference: Copper ore is 10, Iron is 20, Iridium is 50.",
+
+    "config.Frost_bolt_base": "Frostbolt Base damage",
+    "config.Frost_bolt_base.tooltip": "REQUIRES GAME RESTART.\nThe base damage of this spell.\n For reference, Slingshot is 1, Master slingshot is 2, Galaxy Slingshot is 4.",
+
+    "config.Frost_bolt_scale": "Frostbolt Ammo damage",
+    "config.Frost_bolt_scale.tooltip": "REQUIRES GAME RESTART.\nThe base 'ammo' damage of this spell that scales per level. So Level times this value = ammo damage.\nFor reference: Copper ore is 10, Iron is 20, Iridium is 50.",
+
+    "config.Spirit_attack_range": "Spirit Spell attack range.",
+    "config.Spirit_attack_range.tooltip": "REQUIRES GAME RESTART.\nThe attack range of the spirit spell summon.\n Higher ranges cause more calcualtions and CPU power",
 
     // altar and radio placement
     "config.altar-placement": "Altar placement",

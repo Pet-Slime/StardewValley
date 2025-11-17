@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
@@ -20,7 +21,10 @@ namespace WizardrySkill.Core.Framework.Spells
         public ClearDebrisSpell()
             : base(SchoolId.Toil, "cleardebris") { }
 
-        public override int GetManaCost(Farmer player, int level) => 3;
+        public override int GetManaCost(Farmer player, int level)
+        {
+            return 3;
+        }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
@@ -35,6 +39,7 @@ namespace WizardrySkill.Core.Framework.Spells
             // Setup fake tools for spell
             Axe axe = CreateTool<Axe>(player, level);
             Pickaxe pickaxe = CreateTool<Pickaxe>(player, level);
+            MeleeWeapon scythe = CreateTool<MeleeWeapon>(player, level);
 
             GameLocation loc = player.currentLocation;
             Vector2 targetTile = new(targetX / Game1.tileSize, targetY / Game1.tileSize);
@@ -52,7 +57,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
                 // Handle terrain features (trees, branches, small debris)
                 if (level >= 2)
-                    didAction |= HandleTerrainFeatures(loc, tile, player, axe, pickaxe);
+                    didAction |= HandleTerrainFeatures(loc, tile, player, axe, pickaxe, scythe);
 
                 // Handle resource clumps (stumps, boulders)
                 if (level >= 3)
@@ -101,17 +106,26 @@ namespace WizardrySkill.Core.Framework.Spells
             return !loc.objects.ContainsKey(tile);
         }
 
-        private static bool HandleTerrainFeatures(GameLocation loc, Vector2 tile, Farmer player, Axe axe, Pickaxe pickaxe)
+        private static bool HandleTerrainFeatures(GameLocation loc, Vector2 tile, Farmer player, Axe axe, Pickaxe pickaxe, MeleeWeapon scythe)
         {
             if (!loc.terrainFeatures.TryGetValue(tile, out TerrainFeature feature))
                 return false;
 
-            if (feature is HoeDirt or Flooring or Grass)
+            if (feature is HoeDirt or Flooring)
                 return false;
+
+            if (feature is Grass grass)
+            {
+                bool destroyed = grass.performToolAction(scythe, 0, tile);
+
+                if (destroyed)
+                    loc.terrainFeatures.Remove(tile);
+
+                return destroyed;
+            }
 
             if (feature is Tree tree)
             {
-                player.AddMana(-3); // extra mana cost
                 bool destroyed = tree.performToolAction(axe, 0, tile);
 
                 if (destroyed)
@@ -147,7 +161,6 @@ namespace WizardrySkill.Core.Framework.Spells
                 if (!rcRect.Contains((int)tile.X, (int)tile.Y))
                     continue;
 
-                player.AddMana(-3); // extra mana cost
                 Vector2 topLeft = rc.Tile;
                 bool destroyed = rc.performToolAction(axe, 1, topLeft) || rc.performToolAction(pickaxe, 1, topLeft);
 

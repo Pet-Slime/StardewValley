@@ -51,5 +51,30 @@ namespace WizardrySkill.Core
 
         [SConfig.Option()]
         public SButton Key_Spell5 { get; set; } = SButton.D5;
+
+
+
+        [SConfig.Option(1, 100, 1)]
+        public int Magic_arrow_base { get; set; } = 2;
+
+        [SConfig.Option(1, 100, 1)]
+        public int Magic_arrow_scale { get; set; } = 15;
+
+        [SConfig.Option(1, 100, 1)]
+        public int Fire_ball_base { get; set; } = 3;
+
+        [SConfig.Option(1, 100, 1)]
+        public int Fire_ball_scale { get; set; } = 20;
+
+        [SConfig.Option(1, 100, 1)]
+        public int Frost_bolt_base { get; set; } = 2;
+
+        [SConfig.Option(1, 100, 1)]
+        public int Frost_bolt_scale { get; set; } = 10;
+
+
+
+        [SConfig.Option(1, 100, 1)]
+        public float Spirit_attack_range { get; set; } = 10;
     }
 }

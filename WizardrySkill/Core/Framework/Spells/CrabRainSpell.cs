@@ -108,7 +108,7 @@ namespace WizardrySkill.Core.Framework.Spells
         /// <summary>
         /// Returns only walkable, non-water, non-blocked tiles.
         /// </summary>
-        public List<Vector2> GetWalkableTiles(GameLocation location, List<Vector2> tiles)
+        public static List<Vector2> GetWalkableTiles(GameLocation location, List<Vector2> tiles)
         {
             var walkable = new List<Vector2>();
             int walkableAmount = 0;
