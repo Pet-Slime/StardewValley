@@ -137,7 +137,7 @@ namespace WizardryManaBar.Core
         public static void DrawManaFillEffect(SpriteBatch b, Vector2 position, float value, bool drawText = true, SpriteFont font = null, float alpha = 1, int spacing = 8 * Game1.pixelZoom, float shadowAlpha = 1)
         {
             string manaTitle = ModEntry.Instance.I18N.Get("moonslime.ManaBarApi.Mana");
-            SkillBuff.DrawBuffEffect(b, position, value, drawText ? manaTitle : null, font, ModEntry.Assets.ManaSymbol, new Rectangle(0, 0, 10, 10), alpha: alpha, spacing: spacing, shadowAlpha: shadowAlpha);
+            SkillBuff.DrawBuffEffect(b, position, value, drawText ? manaTitle : null, font, Assets.ManaSymbol, new Rectangle(0, 0, 10, 10), alpha: alpha, spacing: spacing, shadowAlpha: shadowAlpha);
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace WizardryManaBar.Core
         /// <param name="shadowAlpha">Relative opacity of shadow when drawn.</param>
         public static void DrawManaPercentEffect(SpriteBatch b, Vector2 position, float value, bool drawText = true, SpriteFont font = null, float alpha = 1, int spacing = 8 * Game1.pixelZoom, float shadowAlpha = 1)
         {
-            DrawPercentfEffect(b, position, value, null, font, ModEntry.Assets.ManaSymbol, new Rectangle(0, 0, 10, 10), alpha: alpha, spacing: spacing, shadowAlpha: shadowAlpha);
+            DrawPercentfEffect(b, position, value, null, font, Assets.ManaSymbol, new Rectangle(0, 0, 10, 10), alpha: alpha, spacing: spacing, shadowAlpha: shadowAlpha);
         }
 
         /// <summary>

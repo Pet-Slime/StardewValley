@@ -9,7 +9,34 @@
         {
             "Action": "Load",
             "Target": "Mods/moonslime.ManaBarApi/manaSymbol",
-            "FromFile": "Assets/ManaSymbol.png"
+            "FromFile": "Assets/ManaSymbol.png",
+            "When": {
+                "HasMod |contains=Aimon111.HPE_Icons": false
+            }
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ManaBarApi/ManaBarIcon",
+            "FromFile": "Assets/ManaBarIcon.png",
+            "When": {
+                "HasMod |contains=Aimon111.HPE_Icons": false
+            }
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ManaBarApi/manaSymbol",
+            "FromFile": "Assets/Mana_Symbol_alt.png",
+            "When": {
+                "HasMod |contains=Aimon111.HPE_Icons": true
+            }
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ManaBarApi/ManaBarIcon",
+            "FromFile": "Assets/ManaBarIcon_alt.png",
+            "When": {
+                "HasMod |contains=Aimon111.HPE_Icons": true
+            }
         }
     ]
 }

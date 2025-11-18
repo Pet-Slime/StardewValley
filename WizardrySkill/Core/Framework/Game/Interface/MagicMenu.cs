@@ -98,12 +98,12 @@ namespace WizardrySkill.Core.Framework.Game.Interface
             string hoverText = null;
 
             // draw layout
-            DrawBackground(b, hasFifthSlot);
-            DrawSchoolIcons(b, spellBook, ref hoverText, mouseX, mouseY);
-            DrawSpellGrid(b, spellBook, ref hoverText, mouseX, mouseY);
-            DrawSelectedSpellInfo(b, spellBook, ref hoverText, mouseX, mouseY);
-            DrawSpellHotbars(b, spellBook, hasFifthSlot, ref hoverText, mouseX, mouseY);
-            DrawDraggedSpell(b, mouseX, mouseY);
+            this.DrawBackground(b, hasFifthSlot);
+            this.DrawSchoolIcons(b, spellBook, ref hoverText, mouseX, mouseY);
+            this.DrawSpellGrid(b, spellBook, ref hoverText, mouseX, mouseY);
+            this.DrawSelectedSpellInfo(b, spellBook, ref hoverText, mouseX, mouseY);
+            this.DrawSpellHotbars(b, spellBook, hasFifthSlot, ref hoverText, mouseX, mouseY);
+            this.DrawDraggedSpell(b, mouseX, mouseY);
 
             // hover text & cursor
             if (!string.IsNullOrEmpty(hoverText) && this.Dragging == null)
@@ -227,10 +227,11 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                     // Draw the select background if it is selected
                     if (spell == this.SelectedSpell)
                     {
-                        b.Draw(ModEntry.Assets.SpellMenubg, new Rectangle(rect.Left - 12, rect.Top - 12, rect.Width + 24, rect.Height + 24), Color.Green);
+                        b.Draw(Events.SpellBg, new Rectangle(rect.Left - 12, rect.Top - 12, rect.Width + 24, rect.Height + 24), Color.Green);
+
                     }
                     // Draw the spell background
-                    b.Draw(ModEntry.Assets.SpellMenubg, rect, Color.White);
+                    b.Draw(Events.SpellBg, rect, Color.White);
                     // Draw the spell icon
                     b.Draw(known ? spell.Icon : ModEntry.Assets.UnknownSpellBg, rect, Color.White);
 
@@ -317,7 +318,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
                 if (known)
                     b.Draw(ModEntry.Assets.SpellMenubg, new Rectangle(rect.Left - 12, rect.Top - 12, rect.Width + 24, rect.Height + 24), Color.Green);
 
-                b.Draw(ModEntry.Assets.SpellMenubg, rect, Color.White * alpha);
+                b.Draw(Events.SpellBg, rect, Color.White * alpha);
                 b.Draw(icons, rect, Color.White * alpha);
                 b.Draw(spell.SpellLevels[i], rect, Color.White * alpha);
 
@@ -474,7 +475,7 @@ namespace WizardrySkill.Core.Framework.Game.Interface
             if (icon == null) return;
 
             Rectangle rect = new(mouseX - 24, mouseY - 24, HotbarIconSize, HotbarIconSize);
-            b.Draw(ModEntry.Assets.SpellMenubg, rect, Color.White);
+            b.Draw(Events.SpellBg, rect, Color.White);
             b.Draw(icon, rect, Color.White);
             b.Draw(spell.SpellLevels[level], rect, Color.White);
         }

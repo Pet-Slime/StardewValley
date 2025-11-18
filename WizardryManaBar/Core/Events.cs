@@ -89,6 +89,7 @@ namespace WizardryManaBar.Core
 
             var player = Game1.player;
 
+
             if (player.GetMaxMana() > 0 && ModEntry.Config.RenderManaBar)
             {
                 UpdateManaTexture(player);
@@ -120,7 +121,7 @@ namespace WizardryManaBar.Core
 
             int barWidth = 12;
             int barHeaderHeight = 16;
-            int barBottomPosition = ModEntry.Assets.ManaBG.Height - barHeaderHeight;
+            int barBottomPosition = Assets.ManaBG.Height - barHeaderHeight;
             int drawedBarsHeight = default;
 
             int overchargeHeight = Convert.ToInt32(Math.Ceiling(GetManaOvercharge() * ModEntry.Config.SizeMultiplier));
@@ -154,11 +155,24 @@ namespace WizardryManaBar.Core
 
         private static Rectangle DrawManaBarTop(SpriteBatch e, int barWidth, int barHeaderHeight, ref int drawedBarsHeight, Vector2 topOfBar)
         {
-            Rectangle srcRect = new Rectangle(0, 0, barWidth, barHeaderHeight);
+            Rectangle srcRect = new Rectangle(268, 408, barWidth, barHeaderHeight);
+            Rectangle manaIconRect = new Rectangle(0, 0, 12, 12);
             e.Draw(
-                ModEntry.Assets.ManaBG,
+                Game1.mouseCursors,
                 topOfBar,
                 srcRect,
+                Color.White,
+                0f,
+                Vector2.Zero,
+                Game1.pixelZoom,
+                SpriteEffects.None,
+                1f
+            );
+
+            e.Draw(
+                Assets.ManaBarIcon,
+                topOfBar,
+                manaIconRect,
                 Color.White,
                 0f,
                 Vector2.Zero,
@@ -172,15 +186,15 @@ namespace WizardryManaBar.Core
 
         private static Rectangle DrawManaBarBody(SpriteBatch e, int barWidth, int barHeaderHeight, ref int drawedBarsHeight, int overchargeHeight, out Rectangle srcRect, out Rectangle destRect, Vector2 topOfBar)
         {
-            srcRect = new Rectangle(0, barHeaderHeight, barWidth, 20);
+            srcRect = new Rectangle(268, 408+barHeaderHeight, barWidth, 20);
             destRect = new Rectangle(Convert.ToInt32(topOfBar.X),
                                      Convert.ToInt32(topOfBar.Y + drawedBarsHeight * Game1.pixelZoom),
                                      barWidth * 4,
-                                     barHeaderHeight + (ModEntry.Assets.ManaBG.Height - barHeaderHeight * 2) +
+                                     barHeaderHeight + (Assets.ManaBG.Height - barHeaderHeight * 2) +
                                                         Convert.ToInt32(overchargeHeight * Game1.pixelZoom));
 
             e.Draw(
-                ModEntry.Assets.ManaBG,
+                Game1.mouseCursors,
                 destRect,
                 srcRect,
                 Color.White
@@ -192,9 +206,9 @@ namespace WizardryManaBar.Core
 
         private static Rectangle DrawManaBarBottom(SpriteBatch e, int barWidth, int barBottomPosition, ref int drawedBarsHeight, Vector2 topOfBar)
         {
-            Rectangle srcRect = new Rectangle(0, barBottomPosition, barWidth, 16);
+            Rectangle srcRect = new Rectangle(268, 408+barBottomPosition, barWidth, 16);
             e.Draw(
-                ModEntry.Assets.ManaBG,
+                Game1.mouseCursors,
                 new Vector2(topOfBar.X, topOfBar.Y + drawedBarsHeight + barBottomPosition),
                 srcRect,
                 Color.White,
@@ -222,7 +236,7 @@ namespace WizardryManaBar.Core
              * Also, we using check to current mana percent, to prevent magic overflow too.
              **/
             srcRect = new Rectangle(barHeaderHeight, barBottomPosition, fillerWidth, srcHeight);
-            destRect = new Rectangle(Convert.ToInt32(topOfBar.X + ModEntry.Assets.ManaBG.Width * (int)Math.PI),
+            destRect = new Rectangle(Convert.ToInt32(topOfBar.X + Assets.ManaBG.Width * (int)Math.PI),
                                      Convert.ToInt32(topOfBar.Y + drawedBarsHeight + 40),
                                      fillerWidth * Game1.pixelZoom,
                                      Convert.ToInt32((drawedBarsHeight - 12) *
@@ -283,8 +297,8 @@ namespace WizardryManaBar.Core
         private static int CalculateYOffsetToManaBar(int headerHeight, double oversize, int bottomPos)
         {
             const int bottomMargin = 24;
-            int height = ModEntry.Assets.ManaBG.Height + headerHeight * 2;
-            height += ModEntry.Assets.ManaBG.Height - headerHeight * 2 + (int)(oversize * Game1.pixelZoom);
+            int height = Assets.ManaBG.Height + headerHeight * 2;
+            height += Assets.ManaBG.Height - headerHeight * 2 + (int)(oversize * Game1.pixelZoom);
             height += bottomPos + bottomMargin;
             return height;
         }

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MoonShared;
 using MoonShared.APIs;
 using MoonShared.Attributes;
+using MoonSharedSpaceCore;
 using SpaceCore;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -33,12 +34,13 @@ namespace WizardrySkill.Core
         /*********
         ** Fields
         *********/
-        private static Texture2D SpellBg;
+        public static Texture2D SpellBg;
         private static Texture2D ManaBg;
         private static Texture2D ManaFg;
         private static IInputHelper InputHelper;
         private static bool CastPressed;
         private static double CarryoverManaRegen;
+
 
         /// <summary>The active effects, spells, or projectiles which should be updated or drawn.</summary>
         private static readonly IList<IActiveEffect> ActiveEffects = [];
@@ -160,50 +162,9 @@ namespace WizardrySkill.Core
             }
 
             Farmer player = Game1.player;
+
+            SpaceUtilities.LearnRecipesOnLoad(player, "moonslime.Wizard");
             string Id = "moonslime.Wizard";
-            int skillLevel = player.GetCustomSkillLevel(Id);
-            foreach (KeyValuePair<string, string> recipePair in DataLoader.CraftingRecipes(Game1.content))
-            {
-                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
-                if (!conditions.Contains(Id))
-                    continue;
-                if (conditions.Split(" ").Length < 2)
-                    continue;
-
-                int level = int.Parse(conditions.Split(" ")[1]);
-
-                if (skillLevel < level)
-                    continue;
-
-                player.craftingRecipes.TryAdd(recipePair.Key, 0);
-            }
-
-            foreach (KeyValuePair<string, string> recipePair in DataLoader.CookingRecipes(Game1.content))
-            {
-                string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 3, "");
-                if (!conditions.Contains(Id))
-                {
-                    continue;
-                }
-                if (conditions.Split(" ").Length < 2)
-                {
-                    continue;
-                }
-
-                int level = int.Parse(conditions.Split(" ")[1]);
-
-                if (skillLevel < level)
-                {
-                    continue;
-                }
-
-                if (Game1.player.cookingRecipes.TryAdd(recipePair.Key, 0) &&
-                    !Game1.player.hasOrWillReceiveMail("robinKitchenLetter"))
-                {
-                    Game1.mailbox.Add("robinKitchenLetter");
-                }
-            }
-
             SpellBook book = player.GetSpellBook();
             foreach (var spell in book.KnownSpells)
             {
@@ -223,6 +184,9 @@ namespace WizardrySkill.Core
                 }
             }
 
+
+            SpellBg = CopySprite(Game1.mouseCursors, new Rectangle(293, 360, 24, 24));
+
             if (!Context.IsMainPlayer)
                 return;
 
@@ -234,6 +198,9 @@ namespace WizardrySkill.Core
             {
                 Log.Warn($"Exception migrating legacy save data: {ex}");
             }
+
+
+
         }
 
         [SEvent.DayStarted]
@@ -829,6 +796,25 @@ namespace WizardrySkill.Core
 
             Random random = new Random((int)Game1.stats.DaysPlayed + (int)(Game1.uniqueIDForThisGame / 2));
             return $"{I18n.Radio_Static()} {stationTexts[random.Next(stationTexts.Length)]}";
+        }
+
+        public static Texture2D CopySprite(Texture2D sourceTexture, Rectangle sourceRect)
+        {
+            // 1. Read pixel data from the source
+            Color[] data = new Color[sourceRect.Width * sourceRect.Height];
+            sourceTexture.GetData(0, sourceRect, data, 0, data.Length);
+
+            // 2. Create a new texture with the exact size of the sprite
+            Texture2D newTexture = new Texture2D(
+                Game1.graphics.GraphicsDevice,
+                sourceRect.Width,
+                sourceRect.Height
+            );
+
+            // 3. Write the copied pixels into the new texture
+            newTexture.SetData(data);
+
+            return newTexture;
         }
     }
 }

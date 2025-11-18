@@ -13,6 +13,10 @@
     "Dependencies": [
         {
             "UniqueID": "Pathoschild.ContentPatcher"
+        },
+        {
+            "UniqueID": "Aimon111.HPE_Icons",
+            "IsRequired": false
         }
     ]
 }
