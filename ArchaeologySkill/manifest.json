@@ -15,8 +15,7 @@
       "IsRequired": false
     },
     {
-      "UniqueID": "moonslime.ArchaeologySkill.CP",
-      "MinimumVersion": "2.17.3"
+      "UniqueID": "moonslime.ArchaeologySkill.CP"
     },
     {
       "UniqueID": "Pathoschild.ContentPatcher"

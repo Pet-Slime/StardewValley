@@ -36,6 +36,8 @@
     <PropertyGroup>
         <ModZipPath>$(SolutionDir)\_releases\$(Configuration)</ModZipPath>
         <ModReleasePath>$(GamePath)\Mods</ModReleasePath>
+        <Dependencies_VersionBehavior>Ignore</Dependencies_VersionBehavior>
+        <References_VersionBehavior>Ignore</References_VersionBehavior>
     </PropertyGroup>
 
     <PropertyGroup>

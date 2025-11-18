@@ -11,7 +11,8 @@
                 "moonSlime.Wizardry.scrollitems": {
                     "Id": "moonSlime.Wizardry.scrollitems",
                     "Condition": "RANDOM 0.2",
-                    "RandomItemId": [ "(O)moonslime.Wizardry.Magic_Elixir", "(O)moonslime.Wizardry.Magic_Potion", "(O)moonslime.Wizardry.Scroll_Fireball", "(O)moonslime.Wizardry.Scroll_Buff", "(O)moonslime.Wizardry.Scroll_Bloodmana", "(O)moonslime.Wizardry.Scroll_Evac", "(O)moonslime.Wizardry.Scroll_Meteor", "(O)moonslime.Wizardry.Scroll_Thunderbug", "(O)moonslime.Wizardry.Scroll_Rewind", "(O)moonslime.Wizardry.Scroll_Descend", "(O)moonslime.Wizardry.Scroll_Heal", "(O)moonslime.Wizardry.Scroll_Crabrain" ],
+                    "ItemId": "ALL_ITEMS (O)",
+                    "PerItemCondition": "ITEM_OBJECT_TYPE Target Basic ITEM_CONTEXT_TAG moonslime_spellscroll",
                     "AvailableStock": "{{Random: 1, 1, 1, 1, 1, 2, 2, 3, 4, 5}}",
                     "AvailableStockLimit": "Player",
                     "MaxItems": 2,

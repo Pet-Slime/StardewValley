@@ -95,7 +95,6 @@
                         "prevent_remove_when_processing"
                     ]
                 },
-
                 "moonslime.Archaeology.soil_sifter": {
                     "Name": "Soil Sifter",
                     "DisplayName": "{{i18n:moonslime.Archaeology.soil_sifter.name}}",

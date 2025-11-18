@@ -7,26 +7,47 @@
                 "(BC)moonslime.Archaeology.soil_sifter": {
                     "OutputRules": [
                         {
-                            "Id": "clay_to_artifact",
+                            "Id": "stone_to_fossil",
                             "Triggers": [
                                 {
                                     "Id": "ItemPlacedInMachine",
                                     "Trigger": "ItemPlacedInMachine",
-                                    "RequiredItemId": "(O)330",
-                                    "RequiredCount": 20
+                                    "RequiredItemId": "(O)390",
+                                    "RequiredCount": 15
                                 }
                             ],
                             "UseFirstValidOutput": true,
                             "OutputItem": [
                                 {
                                     "Id": "RandomArtifact",
-                                    "ItemId": "RANDOM_ARTIFACT_FOR_DIG_SPOT",
-                                    "IncrementMachineParentSheetIndex": 1,
+                                    "ItemId": "ALL_ITEMS (O)",
+                                    "PerItemCondition": "ITEM_OBJECT_TYPE Target Arch ITEM_CONTEXT_TAG fossil_item",
                                     "MinStack": 1,
-                                    "MaxStack": 2
+                                    "MaxStack": 1
                                 }
                             ],
-                            "MinutesUntilReady": 720
+                            "MinutesUntilReady": 30
+                        },
+                        {
+                            "Id": "clay_to_artifact",
+                            "Triggers": [
+                                {
+                                    "Id": "ItemPlacedInMachine",
+                                    "Trigger": "ItemPlacedInMachine",
+                                    "RequiredItemId": "(O)330",
+                                    "RequiredCount": 5
+                                }
+                            ],
+                            "UseFirstValidOutput": true,
+                            "OutputItem": [
+                                {
+                                    "Id": "RandomArtifact",
+                                    "ItemId": "moonslime.Archaeology.ARCH_ITEM",
+                                    "MinStack": 1,
+                                    "MaxStack": 1
+                                }
+                            ],
+                            "MinutesUntilReady": 10
                         }
                     ],
                     "AdditionalConsumedItems": [
@@ -83,39 +104,13 @@
                             "UseFirstValidOutput": false,
                             "OutputItem": [
                                 {
-                                    "OutputMethod": "ArchaeologySkill.Objects.Water_Shifter.WaterShifter, ArchaeologySkill: OutputCask",
-                                    "CopyColor": false,
-                                    "CopyPrice": false,
-                                    "CopyQuality": false,
-                                    "PreserveType": null,
-                                    "PreserveId": null,
-                                    "IncrementMachineParentSheetIndex": 0,
-                                    "PriceModifiers": null,
-                                    "PriceModifierMode": "Stack",
-                                    "Condition": null,
-                                    "Id": "Default",
-                                    "ItemId": null,
-                                    "RandomItemId": null,
-                                    "MaxItems": null,
-                                    "MinStack": -1,
-                                    "MaxStack": -1,
-                                    "Quality": -1,
-                                    "ObjectInternalName": null,
-                                    "ObjectDisplayName": null,
-                                    "ToolUpgradeLevel": -1,
-                                    "IsRecipe": false,
-                                    "StackModifiers": null,
-                                    "StackModifierMode": "Stack",
-                                    "QualityModifiers": null,
-                                    "QualityModifierMode": "Stack",
-                                    "ModData": null,
-                                    "PerItemCondition": null
+                                    "Id": "RandomArtifact",
+                                    "ItemId": "moonslime.Archaeology.WATER_SIFTER",
+                                    "MinStack": 1,
+                                    "MaxStack": 1
                                 }
                             ],
-                            "MinutesUntilReady": -1,
-                            "DaysUntilReady": -1,
-                            "InvalidCountMessage": null,
-                            "RecalculateOnCollect": false
+                            "MinutesUntilReady": 10
                         }
                     ],
                     "AdditionalConsumedItems": null,

@@ -18,7 +18,7 @@
         <SMAPIDependency Include="spacechase0.GenericModConfigMenu" MinimumVersion="1.0.0" Required="false" />
         <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
         <SMAPIDependency Include="leclair.bettercrafting" version="2.18.0" Required="false" />
-        <SMAPIDependency Include="moonslime.ArchaeologySkill.CP" version="2.17.3" Required="true" />
+        <SMAPIDependency Include="moonslime.ArchaeologySkill.CP" MinimumVersion="2.18.0" Required="true" />
     </ItemGroup>
 
 

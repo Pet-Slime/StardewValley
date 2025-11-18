@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using ArchaeologySkill.Objects.Restoration_Table;
-using ArchaeologySkill.Objects.Water_Shifter;
 using MoonShared.Attributes;
 using MoonShared.APIs;
 using SpaceCore;
@@ -25,7 +24,6 @@ namespace ArchaeologySkill.Core
         {
 
             var sc = ModEntry.Instance.Helper.ModRegistry.GetApi<ISpaceCoreApi>("spacechase0.SpaceCore");
-            sc.RegisterSerializerType(typeof(WaterShifter));
             sc.RegisterSerializerType(typeof(RestorationTable));
             ArchaeologySkill.Objects.Restoration_Table.Patches.Patch(ModEntry.Instance.Helper);
 
