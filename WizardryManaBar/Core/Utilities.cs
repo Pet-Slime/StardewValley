@@ -80,6 +80,15 @@ namespace WizardryManaBar.Core
             
         }
 
+        /// <summary>Sets the player's mana to # value.</summary>
+        /// <param name="player">The player to check.</param>
+        /// <param name="amt">The number of mana points to go to.</param>
+        public static void SetMana(this Farmer player, int amt)
+        {
+            int amount = Math.Clamp(amt, 0, player.GetMaxMana());
+            Utilities.SetCurrentMana(player, amount);
+        }
+
         /// <summary>Get the player's max mana points.</summary>
         /// <param name="player">The player to check.</param>
         public static int GetMaxMana(this Farmer player)

@@ -112,7 +112,7 @@ namespace WizardryManaBar.Core
 
                 // Compute bar height and cap it
                 int calculatedHeight = 168 + (CachedMaxMana - 100);
-                CachedBarFullHeight = Math.Min(calculatedHeight, 500); // 500 is the max bar height
+                CachedBarFullHeight = Math.Min(calculatedHeight, ModEntry.Config.ManaBarGrowthLimit); // 500 is the max bar height
 
                 CachedTopOfBar = new Vector2(
                     Game1.graphics.GraphicsDevice.Viewport.GetTitleSafeArea().Right - 48 - 8,
@@ -128,7 +128,7 @@ namespace WizardryManaBar.Core
                     CachedTopOfBar.Y += Game1.random.Next(-3, 4);
                 }
 
-                CachedTopOfBar.X -= barsPosition;
+                CachedTopOfBar.X -= barsPosition + ModEntry.Config.XManaBarOffset;
 
                 // Precompute rectangles
                 CachedTopRect = new Rectangle((int)CachedTopOfBar.X, (int)CachedTopOfBar.Y, 48, 16); // top
@@ -218,10 +218,12 @@ namespace WizardryManaBar.Core
         private static void OnDayStarted(object sender, DayStartedEventArgs e)
         {
             var player = Game1.player;
-            if ((int)player.Stamina != player.MaxStamina)
-                player.AddMana((int)(player.GetMaxMana() * 0.5));
-            else
-                player.SetManaToMax();
+
+            float staminaPercent = player.Stamina / player.MaxStamina;  // ratio 0–1
+            int maxMana = player.GetMaxMana();
+
+            // Set mana to the same percent as stamina
+            player.SetMana((int)(maxMana * staminaPercent));
         }
     }
 }

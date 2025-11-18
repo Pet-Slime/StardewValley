@@ -20,5 +20,8 @@ namespace WizardryManaBar.Core
         [SConfig.Option(-1, 10, 1)]
         public int ManaBarExtraSnaps { get; set; } = 0;
 
+        [SConfig.Option(10, 10, 1000)]
+        public int ManaBarGrowthLimit { get; set; } = 500;
+
     }
 }

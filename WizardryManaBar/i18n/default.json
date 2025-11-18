@@ -7,10 +7,13 @@
     "config.XManaBarOffset.tooltip": "Control where the mana bar is on the X axis of the screen.\nNote: If Snapping is not set to -1, bar will move when the player's health shows up.",
 
     "config.YManaBarOffset": "Mana Bar Y offset",
-    "config.YManaBarOffset.tooltip": "Control where the mana bar is on the Y axis of the screen.",
+    "config.YManaBarOffset.tooltip": "Control where the mana bar is on the Y axis of the screen.\nNot Functioning Yet",
+
+    "config.ManaBarGrowthLimit": "Mana Bar Growth Limit",
+    "config.ManaBarGrowthLimit.tooltip": "How tall can the mana bar grow?",
 
     "config.ManaBarExtraSnaps": "Mana Bar Extra Snaps",
-    "config.ManaBarExtraSnaps.tooltip": "Automatically moves the bar over a bar's length. So if you have a food and thirst bar, you want to set this to 2.\nSet to -1 to disable snapping",
+    "config.ManaBarExtraSnaps.tooltip": "Automatically moves the bar over a bar's length.\nSo if you have a food and thirst bar, you want to set this to 2.\nSet to -1 to disable snapping",
 
     //Food tooltip
     "moonslime.ManaBarApi.Mana": "Mana"
