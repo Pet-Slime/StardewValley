@@ -23,6 +23,7 @@
                         {
                             "Id": "Ruby",
                             "ItemId": "(O)64",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 3,
                             "MaxStack": 7
                         }
@@ -44,6 +45,7 @@
                         {
                             "Id": "Gold ore",
                             "ItemId": "(O)384",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 1,
                             "MaxStack": 3
                         }
@@ -65,6 +67,7 @@
                         {
                             "Id": "Gold ore",
                             "ItemId": "(O)384",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 1,
                             "MaxStack": 3
                         }

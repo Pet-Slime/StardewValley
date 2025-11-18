@@ -22,11 +22,12 @@
                                     "Id": "RandomArtifact",
                                     "ItemId": "ALL_ITEMS (O)",
                                     "PerItemCondition": "ITEM_OBJECT_TYPE Target Arch ITEM_CONTEXT_TAG fossil_item",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 1,
                                     "MaxStack": 1
                                 }
                             ],
-                            "MinutesUntilReady": 30
+                            "MinutesUntilReady": 720
                         },
                         {
                             "Id": "clay_to_artifact",
@@ -43,11 +44,12 @@
                                 {
                                     "Id": "RandomArtifact",
                                     "ItemId": "moonslime.Archaeology.ARCH_ITEM",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 1,
                                     "MaxStack": 1
                                 }
                             ],
-                            "MinutesUntilReady": 10
+                            "MinutesUntilReady": 720
                         }
                     ],
                     "AdditionalConsumedItems": [
@@ -58,7 +60,7 @@
                         }
                     ],
                     "WobbleWhileWorking": true,
-                    "ShowNextIndexWhileWorking": true,
+                    "ShowNextIndexWhileWorking": false,
                     "ShowNextIndexWhenReady": true,
                     "LoadEffects": [
                         {
@@ -106,16 +108,17 @@
                                 {
                                     "Id": "RandomArtifact",
                                     "ItemId": "moonslime.Archaeology.WATER_SIFTER",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 1,
                                     "MaxStack": 1
                                 }
                             ],
-                            "MinutesUntilReady": 10
+                            "MinutesUntilReady": 1440
                         }
                     ],
                     "AdditionalConsumedItems": null,
                     "WobbleWhileWorking": false,
-                    "ShowNextIndexWhileWorking": true,
+                    "ShowNextIndexWhileWorking": false,
                     "ShowNextIndexWhenReady": true,
                     "PreventTimePass": null,
                     "ReadyTimeModifiers": null,
@@ -176,7 +179,7 @@
                                     "CopyQuality": false,
                                     "PreserveType": null,
                                     "PreserveId": null,
-                                    "IncrementMachineParentSheetIndex": 0,
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "PriceModifiers": null,
                                     "PriceModifierMode": "Stack",
                                     "Condition": null,
@@ -207,7 +210,7 @@
                     ],
                     "AdditionalConsumedItems": null,
                     "WobbleWhileWorking": true,
-                    "ShowNextIndexWhileWorking": true,
+                    "ShowNextIndexWhileWorking": false,
                     "ShowNextIndexWhenReady": true,
                     "PreventTimePass": null,
                     "ReadyTimeModifiers": null,
@@ -297,6 +300,7 @@
                                 {
                                     "Id": "Iron",
                                     "ItemId": "(O)380",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 20,
                                     "MaxStack": 50
                                 }
@@ -318,6 +322,7 @@
                                 {
                                     "Id": "Iron",
                                     "ItemId": "(O)380",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 5,
                                     "MaxStack": 10
                                 }
@@ -339,6 +344,7 @@
                                 {
                                     "Id": "Stone",
                                     "ItemId": "(O)390",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 1,
                                     "MaxStack": 3
                                 }
@@ -360,6 +366,7 @@
                                 {
                                     "Id": "Clay",
                                     "ItemId": "(O)330",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 1,
                                     "MaxStack": 3
                                 }
@@ -382,6 +389,7 @@
                                     "Id": "Iridium",
                                     "Condition": "RANDOM 0.2",
                                     "ItemId": "(O)386",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 1,
                                     "MaxStack": 10
                                 },
@@ -389,12 +397,14 @@
                                     "Id": "Glass",
                                     "Condition": "RANDOM 0.3",
                                     "ItemId": "(O)118",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 5,
                                     "MaxStack": 10
                                 },
                                 {
                                     "Id": "Battery Pack",
                                     "ItemId": "(O)787",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 1,
                                     "MaxStack": 3
                                 }
@@ -416,6 +426,7 @@
                                 {
                                     "Id": "Copper",
                                     "ItemId": "(O)378",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 1,
                                     "MaxStack": 10
                                 }
@@ -437,6 +448,7 @@
                                 {
                                     "Id": "Gold",
                                     "ItemId": "(O)384",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 1,
                                     "MaxStack": 3
                                 }
@@ -458,6 +470,7 @@
                                 {
                                     "Id": "Gold",
                                     "ItemId": "(O)384",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 5,
                                     "MaxStack": 10
                                 }
@@ -479,6 +492,7 @@
                                 {
                                     "Id": "Gold",
                                     "ItemId": "(O)384",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 10,
                                     "MaxStack": 20
                                 }
@@ -501,6 +515,7 @@
                                     "Id": "Prismatic",
                                     "Condition": "RANDOM 0.2",
                                     "ItemId": "(O)74",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 1,
                                     "MaxStack": 1
                                 },
@@ -508,12 +523,14 @@
                                     "Id": "Iridium",
                                     "Condition": "RANDOM 0.3",
                                     "ItemId": "(O)386",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 5,
                                     "MaxStack": 10
                                 },
                                 {
                                     "Id": "Stone",
                                     "ItemId": "(O)390",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 10,
                                     "MaxStack": 20
                                 }
@@ -536,12 +553,14 @@
                                     "Id": "Iron",
                                     "Condition": "RANDOM 0.3",
                                     "ItemId": "(O)380",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 5,
                                     "MaxStack": 10
                                 },
                                 {
                                     "Id": "RustScrap",
                                     "ItemId": "moonslime.Archaeology.rusty_scrap",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 5,
                                     "MaxStack": 10
                                 }
@@ -564,12 +583,14 @@
                                     "Id": "Iron",
                                     "Condition": "RANDOM 0.3",
                                     "ItemId": "(O)380",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 2,
                                     "MaxStack": 7
                                 },
                                 {
                                     "Id": "RustScrap",
                                     "ItemId": "moonslime.Archaeology.rusty_scrap",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 2,
                                     "MaxStack": 7
                                 }
@@ -592,12 +613,14 @@
                                     "Id": "Iron",
                                     "Condition": "RANDOM 0.3",
                                     "ItemId": "(O)380",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 1,
                                     "MaxStack": 3
                                 },
                                 {
                                     "Id": "RustScrap",
                                     "ItemId": "moonslime.Archaeology.rusty_scrap",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 1,
                                     "MaxStack": 3
                                 }
@@ -611,6 +634,7 @@
                                     "Id": "ItemPlacedInMachine",
                                     "Trigger": "ItemPlacedInMachine",
                                     "RequiredItemId": "(O)170",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "RequiredCount": 1
                                 }
                             ],
@@ -619,6 +643,7 @@
                                 {
                                     "Id": "glass",
                                     "ItemId": "(O)118",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "MinStack": 4,
                                     "MaxStack": 20
                                 }
@@ -632,6 +657,7 @@
                                     "Id": "ItemPlacedInMachine",
                                     "Trigger": "ItemPlacedInMachine",
                                     "RequiredItemId": "(O)170",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "RequiredCount": 50
                                 }
                             ],
@@ -639,6 +665,7 @@
                             "OutputItem": [
                                 {
                                     "Id": "iron",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "ItemId": "(O)380",
                                     "MinStack": 25,
                                     "MaxStack": 50
@@ -660,6 +687,7 @@
                             "OutputItem": [
                                 {
                                     "Id": "glass",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "ItemId": "(O)118",
                                     "MinStack": 4,
                                     "MaxStack": 20
@@ -681,6 +709,7 @@
                             "OutputItem": [
                                 {
                                     "Id": "copper",
+                                    "IncrementMachineParentSheetIndex": 1,
                                     "ItemId": "(O)378",
                                     "MinStack": 1,
                                     "MaxStack": 2
@@ -697,7 +726,7 @@
                         }
                     ],
                     "WobbleWhileWorking": true,
-                    "ShowNextIndexWhileWorking": true,
+                    "ShowNextIndexWhileWorking": false,
                     "ShowNextIndexWhenReady": true,
                     "LoadEffects": [
                         {

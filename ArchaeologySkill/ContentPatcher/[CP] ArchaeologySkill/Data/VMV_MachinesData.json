@@ -23,6 +23,7 @@
                         {
                             "Id": "Iridium",
                             "ItemId": "(O)386",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 3,
                             "MaxStack": 7
                         }
@@ -44,6 +45,7 @@
                         {
                             "Id": "Iridium",
                             "ItemId": "(O)386",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 1,
                             "MaxStack": 3
                         }
@@ -66,6 +68,7 @@
                             "Id": "Weird Coins",
                             "Condition": "RANDOM 0.2",
                             "ItemId": "(O)Lumisteria.MtVapius_WeirdCoins",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 5,
                             "MaxStack": 10
                         },
@@ -73,12 +76,14 @@
                             "Id": "Iron Ore",
                             "Condition": "RANDOM 0.3",
                             "ItemId": "(O)380",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 5,
                             "MaxStack": 10
                         },
                         {
                             "Id": "Rust Scrap",
                             "ItemId": "moonslime.Archaeology.rusty_scrap",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 5,
                             "MaxStack": 10
                         }
@@ -100,6 +105,7 @@
                         {
                             "Id": "Iron",
                             "ItemId": "(O)380",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 3,
                             "MaxStack": 7
                         }
@@ -121,6 +127,7 @@
                         {
                             "Id": "Copper",
                             "ItemId": "(O)378",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 10,
                             "MaxStack": 15
                         }
@@ -142,6 +149,7 @@
                         {
                             "Id": "Glass Shard",
                             "ItemId": "(O)118",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 5,
                             "MaxStack": 10
                         }
@@ -164,6 +172,7 @@
                             "Id": "Glass Shard",
                             "Condition": "RANDOM 0.2",
                             "ItemId": "(O)118",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 5,
                             "MaxStack": 10
                         },
@@ -171,12 +180,14 @@
                             "Id": "Iron Ore",
                             "Condition": "RANDOM 0.3",
                             "ItemId": "(O)380",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 5,
                             "MaxStack": 10
                         },
                         {
                             "Id": "Rust Scrap",
                             "ItemId": "(O)moonslime.Archaeology.rusty_scrap",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 5,
                             "MaxStack": 10
                         }
@@ -198,12 +209,14 @@
                         {
                             "Id": "Gold Ore",
                             "Condition": "RANDOM 0.3",
+                            "IncrementMachineParentSheetIndex": 1,
                             "ItemId": "(O)384",
                             "MinStack": 1,
                             "MaxStack": 5
                         },
                         {
                             "Id": "Rust Scrap",
+                            "IncrementMachineParentSheetIndex": 1,
                             "ItemId": "(O)moonslime.Archaeology.rusty_scrap",
                             "MinStack": 1,
                             "MaxStack": 5
@@ -226,6 +239,7 @@
                         {
                             "Id": "Glass Shards",
                             "ItemId": "(O)118",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 10,
                             "MaxStack": 20
                         }
@@ -248,6 +262,7 @@
                             "Id": "Iron",
                             "Condition": "RANDOM 0.4",
                             "ItemId": "(O)380",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 10,
                             "MaxStack": 20
                         },
@@ -255,6 +270,7 @@
                             "Id": "RustScrap",
                             "ItemId": "(O)moonslime.Archaeology.rusty_scrap",
                             "MinStack": 5,
+                            "IncrementMachineParentSheetIndex": 1,
                             "MaxStack": 10
                         }
                     ],
@@ -276,12 +292,14 @@
                             "Id": "Solar Essence",
                             "Condition": "RANDOM 0.3",
                             "ItemId": "(O)768",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 2,
                             "MaxStack": 7
                         },
                         {
                             "Id": "Gold",
                             "ItemId": "(O)384",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 2,
                             "MaxStack": 7
                         }

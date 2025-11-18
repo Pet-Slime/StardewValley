@@ -3,7 +3,7 @@
 
 
     "moonslime.Archaeology.soil_sifter.name": "Soil Sifter",
-    "moonslime.Archaeology.soil_sifter.description": "Sorts through clay for lost artifacts.\nArtifacts based on machine location.",
+    "moonslime.Archaeology.soil_sifter.description": "Sorts through clay or stone for lost artifacts.\nArtifacts found based on machine location.",
 
     "moonslime.Archaeology.water_shifter.name": "Water Sifter",
     "moonslime.Archaeology.water_shifter.description": "Place it in the water, string it with fiber, and check the next day to see it has anything.\nWorks in streams, lakes, and the ocean.",
@@ -21,7 +21,7 @@
     "moonslime.Archaeology.rust_path.description": "Place on the ground to create paths or to make your floors rustic.",
 
     "moonslime.Archaeology.skill_book.name": "Digging Like Worms",
-    "moonslime.Archaeology.skill_book.description": "A Dummy's guide to Archaeology and now to find treasure.",
+    "moonslime.Archaeology.skill_book.description": "A Dummy's guide to Archaeology and now to find treasure.\nRead to gain some experince in Archaeology.",
 
     "moonslime.Archaeology.totem_volcano_warp.name": "Dwarf Gadget: Infinite Volcano Simulation",
     "moonslime.Archaeology.totem_volcano_warp.description": "A device made from your studies of artifacts. Warps you to a harder version of the Volcano that you can climb infinitely./n Warning: Bring a warping item to escape.",

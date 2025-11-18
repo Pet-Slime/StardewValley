@@ -23,6 +23,7 @@
                         {
                             "Id": "Gold",
                             "ItemId": "(O)384",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 1,
                             "MaxStack": 3
                         }
@@ -45,12 +46,14 @@
                             "Id": "Iron Ore",
                             "Condition": "RANDOM 0.3",
                             "ItemId": "(O)380",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 5,
                             "MaxStack": 10
                         },
                         {
                             "Id": "Rust Scrap",
                             "ItemId": "moonslime.Archaeology.rusty_scrap",
+                            "IncrementMachineParentSheetIndex": 1,
                             "MinStack": 5,
                             "MaxStack": 10
                         }

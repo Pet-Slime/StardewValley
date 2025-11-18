@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.PortableExecutable;
 using ArchaeologySkill.Objects;
 using MoonShared;
 using MoonShared.APIs;
@@ -9,12 +7,10 @@ using MoonShared.Attributes;
 using SpaceCore;
 using StardewModdingAPI;
 using StardewValley;
-using StardewValley.Enchantments;
 using StardewValley.Extensions;
 using StardewValley.GameData.Objects;
 using StardewValley.Internal;
 using StardewValley.ItemTypeDefinitions;
-using StardewValley.Objects.Trinkets;
 using StardewValley.Tools;
 using Object = StardewValley.Object;
 
