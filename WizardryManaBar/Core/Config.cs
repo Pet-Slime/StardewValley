@@ -17,15 +17,8 @@ namespace WizardryManaBar.Core
         public int YManaBarOffset { get; set; } = 0;
 
 
-        [SConfig.Option(5f, 30f, 0.5f)]
-        public float SizeMultiplier { get; set; } = 15f;
+        [SConfig.Option(-1, 10, 1)]
+        public int ManaBarExtraSnaps { get; set; } = 0;
 
-
-        [SConfig.Option(1f, 20f, 1f)]
-        public float MaxOverchargeValue { get; set; } = 13f;
-
-
-        [SConfig.Option()]
-        public bool BarsPosition { get; set; } = true;
     }
 }

@@ -1,5 +1,16 @@
 ﻿{
 
+    "config.RenderManaBar": "Render Mana Bar",
+    "config.RenderManaBar.tooltip": "Should the mana bar be rendered at all?",
+
+    "config.XManaBarOffset": "Mana Bar X offset",
+    "config.XManaBarOffset.tooltip": "Control where the mana bar is on the X axis of the screen.\nNote: If Snapping is not set to -1, bar will move when the player's health shows up.",
+
+    "config.YManaBarOffset": "Mana Bar Y offset",
+    "config.YManaBarOffset.tooltip": "Control where the mana bar is on the Y axis of the screen.",
+
+    "config.ManaBarExtraSnaps": "Mana Bar Extra Snaps",
+    "config.ManaBarExtraSnaps.tooltip": "Automatically moves the bar over a bar's length. So if you have a food and thirst bar, you want to set this to 2.\nSet to -1 to disable snapping",
 
     //Food tooltip
     "moonslime.ManaBarApi.Mana": "Mana"

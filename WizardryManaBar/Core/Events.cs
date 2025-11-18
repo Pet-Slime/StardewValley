@@ -110,17 +110,17 @@ namespace WizardryManaBar.Core
                 CachedBarsPosition = barsPosition;
                 CachedViewportSize = viewportSize;
 
-                CachedBarFullHeight = 168 + (CachedMaxMana - 100);
+                // Compute bar height and cap it
+                int calculatedHeight = 168 + (CachedMaxMana - 100);
+                CachedBarFullHeight = Math.Min(calculatedHeight, 500); // 500 is the max bar height
 
                 CachedTopOfBar = new Vector2(
                     Game1.graphics.GraphicsDevice.Viewport.GetTitleSafeArea().Right - 48 - 8,
-                    Game1.graphics.GraphicsDevice.Viewport.GetTitleSafeArea().Bottom - 224 - 16 - (CachedMaxMana - 100)
+                    Game1.graphics.GraphicsDevice.Viewport.GetTitleSafeArea().Bottom - 224 - 16 - (CachedBarFullHeight - 168)
                 );
 
                 if (Game1.isOutdoorMapSmallerThanViewport())
-                {
                     CachedTopOfBar.X = Math.Min(CachedTopOfBar.X, Game1.currentLocation.map.Layers[0].LayerWidth * 64 - 48 - Game1.viewport.X);
-                }
 
                 if (Game1.staminaShakeTimer > 0)
                 {
@@ -202,7 +202,17 @@ namespace WizardryManaBar.Core
             int extraCount = 1;
             if (Game1.showingHealth) extraCount++;
             if (ModEntry.MagicStardewLoaded) extraCount++;
-            return 56f * extraCount;
+
+            extraCount += ModEntry.Config.ManaBarExtraSnaps;
+
+            if (ModEntry.Config.ManaBarExtraSnaps == -1)
+            {
+                return 56f;
+            } else
+            {
+                return 56f * extraCount;
+            }
+
         }
 
         private static void OnDayStarted(object sender, DayStartedEventArgs e)
