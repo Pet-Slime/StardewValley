@@ -65,7 +65,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 ProcessWorldForSpells(player, tilePos, lightningRod, spellsLearnt);
 
             // Step 3: Teach the player any discovered spells
-            bool learnedAny = LearnDiscoveredSpells(player, spellBook, spellsLearnt);
+            bool learnedAny = this.LearnDiscoveredSpells(player, spellBook, spellsLearnt);
 
             // Step 4: Teach the player any tier 3 / ancient spells if they meet the conditions
             bool learnedAncient = CheckAncientSpells(player, spellBook);
@@ -107,6 +107,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 if (activeItem?.QualifiedItemId is null)
                     continue;
 
+
                 // Check for custom spell data on the item
                 if (Game1.objectData.TryGetValue(activeItem.ItemId, out var data)
                     && data?.CustomFields != null
@@ -117,6 +118,17 @@ namespace WizardrySkill.Core.Framework.Spells
                         lightningRod = true;
                     else
                         spellsLearnt.Add(spellString); // Add any other discovered spell
+                }
+
+                if (Game1.bigCraftableData.TryGetValue(activeItem.ItemId, out var data2)
+                    && data2?.CustomFields != null
+                    && data2.CustomFields.TryGetValue("moonslime.Wizardry.analyze", out string spellString2))
+                {
+                    // Special flag for the "nature:lantern" spell
+                    if (spellString2 == "nature:lantern")
+                        lightningRod = true;
+                    else
+                        spellsLearnt.Add(spellString2); // Add any other discovered spell
                 }
 
                 // Some spells are inferred from item type
@@ -139,6 +151,8 @@ namespace WizardrySkill.Core.Framework.Spells
                         break;
                 }
             }
+
+            Log.Alert($"{lightningRod}");
 
             // Return whether the "nature:lantern" condition was found
             return lightningRod;
