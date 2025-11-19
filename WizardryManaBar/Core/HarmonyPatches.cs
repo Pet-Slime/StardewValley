@@ -1,13 +1,57 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MoonShared.Attributes;
 using StardewValley;
 using static SpaceCore.Skills;
 
 namespace WizardryManaBar.Core
 {
+    [HarmonyPatch(typeof(Farmer), "updateCommon")]
+    public static class FarmerUpdateCommon_SwimRegenPatch
+    {
+        [HarmonyTranspiler]
+        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var list = instructions.ToList();
+            var hook = AccessTools.Method(typeof(FarmerUpdateCommon_SwimRegenPatch), nameof(OnSwimRegen));
+
+            for (int i = 2; i < list.Count; i++)
+            {
+                // look for the exact sequence:
+                // ldarg.0
+                // ldc.i4.s 100
+                // stfld swimTimer
+                if (list[i].opcode == OpCodes.Stfld &&
+                    list[i].operand is FieldInfo fld &&
+                    fld.Name == "swimTimer" &&
+                    list[i - 1].opcode == OpCodes.Ldc_I4_S &&
+                    (sbyte)list[i - 1].operand == 100 &&
+                    list[i - 2].opcode == OpCodes.Ldarg_0)
+                {
+                    // Insert after stfld swimTimer
+                    list.Insert(i + 1, new CodeInstruction(OpCodes.Ldarg_0));
+                    list.Insert(i + 2, new CodeInstruction(OpCodes.Call, hook));
+                    break; // ensure NOT injecting again
+                }
+            }
+
+            return list;
+        }
+
+        public static void OnSwimRegen(Farmer who)
+        {
+            if (who.GetCurrentMana() < who.GetMaxMana())
+                who.AddMana(1);
+        }
+    }
+
+
     [HarmonyPatch("SpaceCore.Patches.SkillBuffPatcher", "GetHeightAdjustment")]
     class GetHeightAdjustment_patch
     {
