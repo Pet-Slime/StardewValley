@@ -1,3 +1,6 @@
+using System.Reflection;
+using AthleticSkill.Core.Patches;
+using HarmonyLib;
 using MoonShared.Attributes;
 using StardewModdingAPI;
 
@@ -14,6 +17,8 @@ namespace AthleticSkill.Core
         internal ITranslationHelper I18N => this.Helper.Translation;
 
         internal static bool IsWoLLoaded => Instance.Helper.ModRegistry.IsLoaded("DaLion.Professions");
+        internal static bool IsMOLoaded => Instance.Helper.ModRegistry.IsLoaded("Rafseazz.MovementOverhaul");
+
 
 
         internal static bool UseAltProfession;
@@ -26,6 +31,7 @@ namespace AthleticSkill.Core
             Instance = this;
             MoonShared.Attributes.Parser.InitEvents(helper);
             MoonShared.Attributes.Parser.ParseAll(this);
+
         }
     }
 }

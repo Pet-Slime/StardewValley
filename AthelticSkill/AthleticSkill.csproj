@@ -6,7 +6,7 @@
     <PropertyGroup>
         <Name>Athletics Skill</Name>
         <Description>Adds sprinting and buffs professions as a skill</Description>
-        <Version>1.1.0</Version>
+        <Version>1.2.0</Version>
         <UpdateKeys>Nexus:39240</UpdateKeys>
     </PropertyGroup>
 
@@ -15,6 +15,7 @@
         <SMAPIDependency Include="spacechase0.GenericModConfigMenu" MinimumVersion="1.0.0" Required="false" />
         <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
         <SMAPIDependency Include="DaLion.Professions" Required="false" />
+        <SMAPIDependency Include="Rafseazz.MovementOverhaul" Required="false" />
         <SMAPIDependency Include="moonslime.AthleticSkill.CP" version="1.0.0" Required="true" />
     </ItemGroup>
 

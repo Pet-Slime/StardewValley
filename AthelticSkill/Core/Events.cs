@@ -1,6 +1,9 @@
 using System;
 using System.Numerics;
+using System.Reflection;
+using AthleticSkill.Core.Patches;
 using AthleticSkill.Objects;
+using HarmonyLib;
 using Microsoft.Xna.Framework;
 using MoonShared;
 using MoonShared.Attributes;
@@ -61,6 +64,29 @@ namespace AthleticSkill.Core
 
             Log.Trace("Athletics: Trying to Register skill.");
             SpaceCore.Skills.RegisterSkill(new Athletic_Skill());
+
+            if (ModEntry.IsMOLoaded)
+            {
+                var harmony = new Harmony(ModEntry.Instance.ModManifest.UniqueID);
+
+                // patch SprintLogic.ActivateSprint
+                var sprintActivate = AccessTools.Method("MovementOverhaul.SprintLogic:ActivateSprint");
+                var sprintActivatePostfix = typeof(AthleticSkill.Core.Patches.MovementOverhaul_sprint_HandleActiveSprint_patch)
+                    .GetMethod("Postfix", BindingFlags.Static | BindingFlags.Public);
+                harmony.Patch(sprintActivate, postfix: new HarmonyMethod(sprintActivatePostfix));
+
+                // patch SprintLogic.StopSprint
+                var sprintStop = AccessTools.Method("MovementOverhaul.SprintLogic:StopSprint");
+                var sprintStopPostfix = typeof(MovementOverhaul_sprint_end_patch)
+                    .GetMethod("Postfix", BindingFlags.Static | BindingFlags.Public);
+                harmony.Patch(sprintStop, postfix: new HarmonyMethod(sprintStopPostfix));
+
+                // patch JumpLogic.StartJump
+                var jumpStart = AccessTools.Method("MovementOverhaul.JumpLogic:StartJump");
+                var jumpPostfix = typeof(MovementOverhaul_jump_patch)
+                    .GetMethod("Postfix", BindingFlags.Static | BindingFlags.Public);
+                harmony.Patch(jumpStart, postfix: new HarmonyMethod(jumpPostfix));
+            }
 
             // Legacy stamina hook (commented out): was meant to trigger OnStaminaUse()
             // when the stamina value changes. Currently unused.
