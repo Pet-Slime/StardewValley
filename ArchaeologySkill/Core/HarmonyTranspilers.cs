@@ -128,6 +128,10 @@ namespace ArchaeologySkill.Core
                 ).Advance(1);
 
                 matcher.Insert(
+
+                    new CodeInstruction(OpCodes.Ldloc_S, code.First(ci => ci.opcode == OpCodes.Stloc_S && ((LocalBuilder)ci.operand).LocalIndex >= 0).operand),
+
+
                     new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(MuseumMenu_patch), nameof(ArchaeologySkillEXP)))
                 );
 
@@ -139,13 +143,23 @@ namespace ArchaeologySkill.Core
                 return code;
             }
         }
-        private static void ArchaeologySkillEXP()
+        private static void ArchaeologySkillEXP(Item item)
         {
-            foreach (var farmer in Game1.getOnlineFarmers())
-            {
-                Utilities.AddEXP(farmer, ModEntry.Config.ExperienceFromDonationRewards);
-            }
+            if (item == null)
+                return;
 
+            string key = $"moonslime.Archaeology.donatedArtifacts.{item.QualifiedItemId}";
+            var farm = Game1.getFarm();
+
+            if (!farm.modData.TryGetValue(key, out _))
+            {
+                int amount = ModEntry.Config.ExperienceFromDonationRewards;
+
+                foreach (var farmer in Game1.getOnlineFarmers())
+                    Utilities.AddEXP(farmer, amount);
+
+                farm.modData[key] = "1";
+            }
         }
     }
 }

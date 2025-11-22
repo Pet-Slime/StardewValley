@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using ArchaeologySkill.Objects;
 using ArchaeologySkill.Objects.Restoration_Table;
-using MoonShared.Attributes;
 using MoonShared.APIs;
+using MoonShared.Attributes;
+using MoonSharedSpaceCore;
 using SpaceCore;
-using SpaceCore.Interface;
 using SpaceShared.APIs;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.Extensions;
 using Object = StardewValley.Object;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
-using MoonSharedSpaceCore;
-using ArchaeologySkill.Objects;
 
 namespace ArchaeologySkill.Core
 {
@@ -53,16 +54,10 @@ namespace ArchaeologySkill.Core
                 Log.Trace("Archaeology: Adding " + entry + " to the water shifter loot table");
                 ModEntry.WaterSifterLootTable_GI.Add(entry);
             }
-            foreach (var entry in Game1.objectData)
+            foreach (var kvp in Game1.objectData)
             {
-                if (Game1.objectData.TryGetValue(entry.Key, out var value))
-                {
-                    if (value.Type == "Arch")
-                    {
-                        Log.Trace("Archaeology: Adding " + entry.Key + " to the artifact loot table");
-                        ModEntry.ArtifactLootTable.Add(entry.Key);
-                    };
-                }
+                if (kvp.Value.Type == "Arch")
+                    ModEntry.ArtifactLootTable.Add(kvp.Key);
             }
 
 
@@ -155,42 +150,86 @@ namespace ArchaeologySkill.Core
             }
         }
 
-        private static void SpawnDiggingSpots(int spawn)
+        private static void SpawnDiggingSpots(int extraSpots)
         {
-            List<Tuple<string, Vector2>> locations;
-            locations = new List<Tuple<string, Vector2>>();
+            if (extraSpots <= 0) return;
 
-            int maxspawn = 0;
+            var random = Game1.random;
+            int spotsPlaced = 0;
 
-            foreach (GameLocation loc in Game1.locations)
+            // Get all valid maps: outdoor, non-farm, and shuffle randomly
+            List<GameLocation> validLocations = Game1.locations
+                .Where(loc => loc.IsOutdoors && !loc.IsFarm)
+                .OrderBy(_ => random.Next())
+                .ToList();
+
+            Log.Trace($"[Archaeology] Attempting to spawn up to {extraSpots} extra digging spots today.");
+
+            foreach (GameLocation location in validLocations)
             {
-
-                if (loc.IsFarm || !loc.IsOutdoors)
-                    continue;
-                if (maxspawn >= spawn)
-                    break;
-
-                for (int z = 0; z < spawn; z++)
+                if (spotsPlaced >= extraSpots)
                 {
+                    Log.Trace("[Archaeology] Reached global limit of extra spots. Stopping.");
+                    break;
+                }
 
-                    int i = Game1.random.Next(loc.Map.DisplayWidth / Game1.tileSize);
-                    int j = Game1.random.Next(loc.Map.DisplayHeight / Game1.tileSize);
-                    GameLocation gameLocation = loc;
-                    Vector2 vector = new Vector2(i, j);
-                    if (gameLocation.CanItemBePlacedHere(vector) && !gameLocation.IsTileOccupiedBy(vector) && gameLocation.getTileIndexAt(i, j, "AlwaysFront") == -1 && gameLocation.getTileIndexAt(i, j, "Front") == -1 && !gameLocation.isBehindBush(vector) && (gameLocation.doesTileHaveProperty(i, j, "Diggable", "Back") != null || (gameLocation.GetSeason() == Season.Winter && gameLocation.doesTileHaveProperty(i, j, "Type", "Back") != null && gameLocation.doesTileHaveProperty(i, j, "Type", "Back").Equals("Grass"))))
+                // Count existing artifact/seed spots on this map
+                int existingSpots = location.objects.Pairs.Count(kvp =>
+                    kvp.Value.QualifiedItemId == "(O)590" || kvp.Value.QualifiedItemId == "(O)SeedSpot");
+
+                Log.Trace($"[Archaeology] Checking map '{location.Name}': {existingSpots} existing spots.");
+
+                // Skip maps with 4 or more existing spots
+                if (existingSpots >= 4)
+                {
+                    Log.Trace($"[Archaeology] Skipping map '{location.Name}' because it already has {existingSpots} spots.");
+                    continue;
+                }
+
+                int attempts = 0;
+
+                // Try up to 2 times per map
+                while (attempts < 2 && spotsPlaced < extraSpots)
+                {
+                    attempts++;
+                    int x = random.Next(location.Map.DisplayWidth / Game1.tileSize);
+                    int y = random.Next(location.Map.DisplayHeight / Game1.tileSize);
+                    Vector2 tile = new Vector2(x, y);
+
+                    // Check vanilla-style tile placement rules
+                    bool validTile = location.CanItemBePlacedHere(tile, false, CollisionMask.All, ~CollisionMask.Objects, false, false)
+                                     && !location.IsTileOccupiedBy(tile, CollisionMask.All, CollisionMask.None, false)
+                                     && !location.hasTileAt(x, y, "AlwaysFront", null)
+                                     && !location.hasTileAt(x, y, "Front", null)
+                                     && !location.isBehindBush(tile)
+                                     && (location.doesTileHaveProperty(x, y, "Diggable", "Back", false) != null
+                                         || (location.GetSeason() == Season.Winter
+                                             && location.doesTileHaveProperty(x, y, "Type", "Back", false) != null
+                                             && location.doesTileHaveProperty(x, y, "Type", "Back", false).Equals("Grass")));
+
+                    // Forest special case
+                    if (location.Name.Equals("Forest") && x >= 93 && y <= 22)
+                        validTile = false;
+
+                    if (!validTile)
                     {
-                        if (loc.Name.Equals("Forest") && i >= 93 && j <= 22)
-                        {
-                            continue;
-                        }
-
-                        gameLocation.objects.Add(vector, ItemRegistry.Create<Object>("(O)590"));
+                        Log.Trace($"[Archaeology] Attempt {attempts} failed on map '{location.Name}' at tile ({x},{y}). Invalid location.");
+                        continue;
                     }
-                    locations.Add(new Tuple<string, Vector2>(loc.Name, vector));
-                    Log.Trace($"Location Name: {loc.Name}, IsFarm: {loc.IsFarm}, IsOutDoors: {loc.IsOutdoors}, X: {vector.X}, Y: {vector.Y}");
-                    maxspawn++;
+
+                    // Randomly choose seed spot or artifact spot (vanilla 16.6% chance for seed)
+                    string objectID = random.NextBool(0.166) ? "(O)SeedSpot" : "(O)590";
+                    location.objects.Add(tile, ItemRegistry.Create<Object>(objectID, 1, 0, false));
+
+                    spotsPlaced++;
+                    Log.Trace($"[Archaeology] Spawned '{objectID}' on map '{location.Name}' at tile ({x},{y}). Total placed: {spotsPlaced}/{extraSpots}.");
+
+                    break; // Stop after successfully placing one spot in this map
                 }
             }
+
+            Log.Trace($"[Archaeology] Finished spawning extra digging spots. Total spots placed today: {spotsPlaced}/{extraSpots}.");
         }
+
     }
 }

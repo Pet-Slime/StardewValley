@@ -21,68 +21,77 @@ namespace ArchaeologySkill.Core
         /// <param name="yLocation">the player's y location</param>
         /// <param name="panning">is the effect from panning, since bonus loot works differently there.</param>
         /// <param name="exactItem">What bonus item if it passes the checks do you want to give the player</param>
-        public static void ApplyArchaeologySkill(Farmer who, int EXP, bool bonusLoot = false, int xLocation = 0, int yLocation = 0, bool panning = false, string exactItem = "")
+        public static void ApplyArchaeologySkill(
+            Farmer who,
+            int EXP,
+            bool bonusLoot = false,
+            int xLocation = 0,
+            int yLocation = 0,
+            bool panning = false,
+            string exactItem = ""
+        )
         {
-            var farmer = Game1.GetPlayer(who.UniqueMultiplayerID);
-            if (farmer == null) { return; };
+            // Resolve farmer reference only once
+            var farmer = who ?? Game1.GetPlayer(who.UniqueMultiplayerID);
+            if (farmer == null)
+                return;
 
-            xLocation = farmer.TilePoint.X;
-            yLocation = farmer.TilePoint.Y;
-            //Give the player EXP
-            Log.Trace("Archaeology Skll: Adding EXP to the player");
+            if (xLocation == 0 || yLocation == 0)
+            {
+                // Get tile location once
+                var tile = farmer.TilePoint;
+                xLocation = tile.X;
+                yLocation = tile.Y;
+            }
 
+            // Give the player EXP
             AddEXP(farmer, EXP);
-            //If the player has the gold rush profession, give them a speed buff
-            Log.Trace("Archaeology Skll: Does the player have gold rusher?");
+
+            // Apply Gold Rusher buff if needed
             if (farmer.HasCustomProfession(Archaeology_Skill.Archaeology10b2))
-            {
-                Log.Trace("Archaeology Skll: The player does have gold rusher!");
                 ApplySpeedBoost(farmer);
-            }
-            else
-            {
-                Log.Trace("Archaeology Skll: the player does not have gold rusher");
-            }
 
-            //Check to see if the player wins the double loot chance roll if they are not panning.
-            if (!panning)
+            // No bonus loot for panning
+            if (panning)
+                return;
+
+            // Precompute chance once
+            double doubleLootChance = GetLevel(farmer) * 0.05;
+            double roll = Game1.random.NextDouble();
+
+            if (bonusLoot || roll < doubleLootChance)
             {
-                Log.Trace("Archaeology Skll: Does the player get bonus loot?");
-                double doubleLootChance = GetLevel(farmer) * 0.05;
-                double diceRoll = Game1.random.NextDouble();
-                bool didTheyWin = diceRoll < doubleLootChance;
-                Log.Trace("Archaeology Skll: The dice roll is... " + diceRoll.ToString() + ". The player's chance is... " + doubleLootChance.ToString() + ". ");
-                if (didTheyWin || bonusLoot)
+                string objectID = "390";
+
+                // exact item chosen externally → no need to create tables
+                if (!string.IsNullOrEmpty(exactItem))
                 {
-                    Log.Trace("Archaeology Skill: They do get bonus loot!");
-                    string objectID;
-
-                    if (!string.IsNullOrEmpty(exactItem))
-                    {
-                        objectID = exactItem;
-                    }
-                    else
-                    {
-                        List<string> newBonusLootTable = new List<string>(ModEntry.BonusLootTable);
-
-                        if (farmer.mailReceived.Contains("willyBoatFixed"))
-                            newBonusLootTable.AddRange(ModEntry.BonusLootTable_GI);
-
-                        newBonusLootTable.Shuffle(Game1.random);
-
-                        objectID = newBonusLootTable.RandomChoose(Game1.random, "390");
-                    }
-                    Game1.createMultipleObjectDebris(objectID, xLocation, yLocation, 1, farmer.UniqueMultiplayerID);
+                    objectID = exactItem;
                 }
                 else
                 {
-                    Log.Trace("Archaeology Skill: They do not get bonus loot!");
+                    IList<string> baseTable = ModEntry.BonusLootTable;
+                    IList<string> giTable = ModEntry.BonusLootTable_GI;
+
+                    int baseCount = baseTable.Count;
+                    int giCount = (farmer.mailReceived.Contains("willyBoatFixed")) ? giTable.Count : 0;
+                    int totalCount = baseCount + giCount;
+
+                    if (totalCount > 0) // Only pick randomly if there’s something in the tables
+                    {
+                        // Pick a random index in [0, totalCount)
+                        int index = Game1.random.Next(totalCount);
+                        objectID = index < baseCount ? baseTable[index] : giTable[index - baseCount];
+                    }
+                    // else objectID stays as "390" backup
                 }
-                if (Game1.random.NextDouble() < 0.02)
-                {
-                    Game1.createMultipleObjectDebris("moonslime.Archaeology.skill_book", xLocation, yLocation, 1, farmer.UniqueMultiplayerID);
-                }
+
+                Game1.createMultipleObjectDebris(objectID, xLocation, yLocation, 1, farmer.UniqueMultiplayerID);
             }
+
+            // 2% chance for skill book
+            if (Game1.random.NextDouble() < 0.02)
+                Game1.createMultipleObjectDebris("moonslime.Archaeology.skill_book", xLocation, yLocation, 1, farmer.UniqueMultiplayerID);
         }
 
         //For the goldrush profession
