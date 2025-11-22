@@ -361,43 +361,43 @@ namespace ArchaeologySkill.Core
     [HarmonyPatch(typeof(GameLocation), nameof(GameLocation.performOrePanTenMinuteUpdate))]
     class PerformOrePanTenMinuteUpdate_Patch
     {
-        [HarmonyLib.HarmonyPostfix]
-        private static void TryToSpawnMorePanPoints(
-        GameLocation __instance, bool __result, ref Random r)
+        [HarmonyPostfix]
+        private static void TryToSpawnMorePanPoints(GameLocation __instance, ref bool __result, Random r)
         {
-            if (Game1.IsMasterGame && __instance.orePanPoint.Value.Equals(Point.Zero))
+            if (!Game1.IsMasterGame || __instance.orePanPoint.Value != Point.Zero)
+                return;
+
+            int extraChance = 0;
+            foreach (Farmer farmer in Game1.getOnlineFarmers())
             {
-                int extraPanningPointChance = 0;
+                if (farmer.isActive() && farmer.HasCustomProfession(Archaeology_Skill.Archaeology5b))
+                    extraChance += 4;
+            }
 
-                foreach (Farmer farmer in Game1.getOnlineFarmers())
-                {
-                    var player = Game1.GetPlayer(farmer.UniqueMultiplayerID);
-                    if (player.isActive() && player.HasCustomProfession(Archaeology_Skill.Archaeology5b))
-                    {
-                        extraPanningPointChance += 4;
-                    }
-                }
-                if (Game1.MasterPlayer.mailReceived.Contains("ccFishTank") && __instance is not Beach && __instance.orePanPoint.Value.Equals(Point.Zero) && r.NextBool())
-                {
-                    for (int i = 0; i < extraPanningPointChance; i++)
-                    {
-                        Point point = new Point(r.Next(0, __instance.Map.RequireLayer("Back").LayerWidth), r.Next(0, __instance.Map.RequireLayer("Back").LayerHeight));
-                        if (__instance.isOpenWater(point.X, point.Y) && FishingRod.distanceToLand(point.X, point.Y, __instance, landMustBeAdjacentToWalkableTile: true) <= 1 && __instance.getTileIndexAt(point, "Buildings") == -1)
-                        {
-                            if (Game1.player.currentLocation.Equals(__instance))
-                            {
-                                __instance.playSound("slosh");
-                            }
+            if (!Game1.MasterPlayer.mailReceived.Contains("ccFishTank") || __instance is Beach || extraChance <= 0)
+                return;
 
-                            __instance.orePanPoint.Value = point;
-                            __result = true;
-                            break;
-                        }
-                    }
+            var backLayer = __instance.Map.RequireLayer("Back");
+            int layerWidth = backLayer.LayerWidth;
+            int layerHeight = backLayer.LayerHeight;
+
+            for (int i = 0; i < extraChance; i++)
+            {
+                Point point = new Point(r.Next(layerWidth), r.Next(layerHeight));
+                if (__instance.isOpenWater(point.X, point.Y) &&
+                    FishingRod.distanceToLand(point.X, point.Y, __instance, true) <= 1 &&
+                    __instance.getTileIndexAt(point, "Buildings") == -1)
+                {
+                    __instance.orePanPoint.Value = point;
+                    __result = true;
+                    if (Game1.player.currentLocation.Equals(__instance))
+                        __instance.playSound("slosh");
+                    break; // only one extra pan point
                 }
             }
         }
     }
+
 
     [HarmonyPatch(typeof(StardewValley.Object), "getPriceAfterMultipliers")]
     class GetPriceAfterMultipliers_Patch
