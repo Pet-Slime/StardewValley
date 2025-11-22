@@ -6,7 +6,7 @@
     <PropertyGroup>
         <Name>ArchaeologySkill</Name>
         <Description>Adds a skill related to digging and panning.</Description>
-        <Version>2.18.0</Version>
+        <Version>2.18.1</Version>
         <UpdateKeys>Nexus:22199</UpdateKeys>
     </PropertyGroup>
 
