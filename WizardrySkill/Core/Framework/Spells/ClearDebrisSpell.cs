@@ -70,7 +70,7 @@ namespace WizardrySkill.Core.Framework.Spells
                         player.AddMana(-this.GetManaCost(player, level));
 
                     actionCount++;
-                    Utilities.AddEXP(player, 5);
+                    Utilities.AddEXP(player, 1);
                 }
             }
 
@@ -131,7 +131,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 if (destroyed)
                     loc.terrainFeatures.Remove(tile);
 
-                return destroyed;
+                return true;
             }
             else
             {

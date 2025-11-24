@@ -218,13 +218,7 @@ namespace WizardrySkill.Core
                     }
                     spellBook.SetSpellPointsToZero();
 
-                    // Adjust points for prestige professions
-                    if (player.HasCustomProfession(Wizard_Skill.Magic5a))
-                        magicLevel += 2;
-                    if (player.HasCustomProfession(Wizard_Skill.Magic10a1))
-                        magicLevel += 2;
-
-                    spellBook.UseSpellPoints(magicLevel * -1);
+                    Utilities.SetSpellPoints(player, magicLevel);
 
                     // Re-add default spells
                     foreach (string spellId in spellList)

@@ -656,7 +656,7 @@
                                 {
                                     "Id": "ItemPlacedInMachine",
                                     "Trigger": "ItemPlacedInMachine",
-                                    "RequiredItemId": "(O)170",
+                                    "RequiredItemId": "(O)moonslime.Archaeology.rusty_scrap",
                                     "IncrementMachineParentSheetIndex": 1,
                                     "RequiredCount": 50
                                 }
@@ -680,7 +680,7 @@
                                     "Id": "ItemPlacedInMachine",
                                     "Trigger": "ItemPlacedInMachine",
                                     "RequiredItemId": "(O)338",
-                                    "RequiredCount": 50
+                                    "RequiredCount": 1
                                 }
                             ],
                             "UseFirstValidOutput": true,

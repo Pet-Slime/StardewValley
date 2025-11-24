@@ -6,8 +6,6 @@
             "Target": "Data/CookingRecipes",
             "Entries": {
                 "moonslime.Bibliocraft.potato_chips": "192 2 247 1//moonslime.Bibliocraft.potato_chips/moonslime.Bibliocraft 2/",
-                "moonslime.Bibliocraft.ink_squid": "151 3//814/moonslime.Bibliocraft 3/",
-                "moonslime.Bibliocraft.ink_octo": "149 3//814/moonslime.Bibliocraft 3/",
                 "moonslime.Bibliocraft.ginger_tea": "614 1 829 3 245 1//moonslime.Bibliocraft.ginger_tea/moonslime.Bibliocraft 9/"
             }
         },
@@ -16,8 +14,10 @@
             "Target": "Data/CraftingRecipes",
             "Entries": {
                 "moonslime.Bibliocraft.Letterpress_Workstation": "388 20//moonslime.Bibliocraft.Letterpress_Workstation/true/moonslime.Bibliocraft 1",
-                "moonslime.Bibliocraft.Letterpress_Inking_Station": "388 15 335 5//moonslime.Bibliocraft.Letterpress_Inking_Station/true/moonslime.Bibliocraft 1",
-                "moonslime.Bibliocraft.Paper_Press": "388 15 335 5//moonslime.Bibliocraft.Paper_Press/true/moonslime.Bibliocraft 2",
+                "moonslime.Bibliocraft.Soot_Collector": "390 25//moonslime.Bibliocraft.Soot_Collector/true/moonslime.Bibliocraft 1",
+                "moonslime.Bibliocraft.Letterpress_Inking_Station": "388 15 335 5//moonslime.Bibliocraft.Letterpress_Inking_Station/true/moonslime.Bibliocraft 2",
+                "moonslime.Bibliocraft.book_ink": "moonslime.Bibliocraft.soot 1 724 1//moonslime.Bibliocraft.book_ink/false/moonslime.Bibliocraft 2",
+                "moonslime.Bibliocraft.Paper_Press": "388 15 335 5//moonslime.Bibliocraft.Paper_Press/true/moonslime.Bibliocraft 3",
                 "moonslime.Bibliocraft.Pen_Pal_Desk": "388 20 444 1//moonslime.Bibliocraft.Pen_Pal_Desk/true/moonslime.Bibliocraft 3",
                 "moonslime.Bibliocraft.bookmark:KnockbackMultiplier": "390 1 428 1 moonslime.Bibliocraft.paper 5//moonslime.Bibliocraft.bookmark:KnockbackMultiplier 3/false/moonslime.Bibliocraft 1",
                 "moonslime.Bibliocraft.bookmark:WeaponSpeedMultiplier": "433 1 428 1 moonslime.Bibliocraft.paper 5//moonslime.Bibliocraft.bookmark:WeaponSpeedMultiplier 3/false/moonslime.Bibliocraft 4",
@@ -29,36 +29,74 @@
                 "moonslime.Bibliocraft.Book_Donations": "388 15 335 1//moonslime.Bibliocraft.Book_Donations/true/moonslime.Bibliocraft 9",
                 "moonslime.Bibliocraft.bookmark:CriticalPowerMultiplier": "787 1 428 1 moonslime.Bibliocraft.paper 5//moonslime.Bibliocraft.bookmark:CriticalPowerMultiplier 3/false/moonslime.Bibliocraft 9",
 
-                "moonslime.Bibliocraft.letter_robin": "388 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_robin/false/default/",
-                "moonslime.Bibliocraft.letter_alex": "403 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_alex/false/default/",
-                "moonslime.Bibliocraft.letter_elliott": "151 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_elliott/false/default/",
-                "moonslime.Bibliocraft.letter_harvey": "399 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_harvey/false/default/",
-                "moonslime.Bibliocraft.letter_sam": "167 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_sam/false/default/",
-                "moonslime.Bibliocraft.letter_sebastian": "Book_Void 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_sebastian/false/default/",
-                "moonslime.Bibliocraft.letter_shane": "206 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_shane/false/default/",
-                "moonslime.Bibliocraft.letter_abigail": "SkillBook_4 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_abigail/false/default/",
-                "moonslime.Bibliocraft.letter_emily": "80 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_emily/false/default/",
-                "moonslime.Bibliocraft.letter_haley": "18 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_haley/false/default/",
-                "moonslime.Bibliocraft.letter_leah": "169 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_leah/false/default/",
-                "moonslime.Bibliocraft.letter_maru": "334 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_maru/false/default/",
-                "moonslime.Bibliocraft.letter_penny": "20 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_penny/false/default/",
-                "moonslime.Bibliocraft.letter_caroline": "815 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_caroline/false/default/",
-                "moonslime.Bibliocraft.letter_clint": "SkillBook_3 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_clint/false/default/",
-                "moonslime.Bibliocraft.letter_demetrius": "422 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_demetrius/false/default/",
-                "moonslime.Bibliocraft.letter_evelyn": "393 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_evelyn/false/default/",
-                "moonslime.Bibliocraft.letter_george": "18 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_george/false/default/",
-                "moonslime.Bibliocraft.letter_gus": "430 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_gus/false/default/",
-                "moonslime.Bibliocraft.letter_jas": "88 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_jas/false/default/",
-                "moonslime.Bibliocraft.letter_jodi": "180 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_jodi/false/default/",
-                "moonslime.Bibliocraft.letter_kent": "Book_Bombs 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_kent/false/default/",
-                "moonslime.Bibliocraft.letter_lewis": "258 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_lewis/false/default/",
-                "moonslime.Bibliocraft.letter_marnie": "SkillBook_0 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_marnie/false/default/",
-                "moonslime.Bibliocraft.letter_pam": "18 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_pam/false/default/",
-                "moonslime.Bibliocraft.letter_pierre": "724 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_pierre/false/default/",
-                "moonslime.Bibliocraft.letter_sandy": "440 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_sandy/false/default/",
-                "moonslime.Bibliocraft.letter_vincent": "184 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_vincent/false/default/",
-                "moonslime.Bibliocraft.letter_willy": "SkillBook_1 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_willy/false/default/",
-                "moonslime.Bibliocraft.letter_wizard": "337 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_wizard/false/default/"
+                "moonslime.Bibliocraft.letter_robin": "388 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_robin/false/default/",
+                "moonslime.Bibliocraft.letter_alex": "403 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_alex/false/default/",
+                "moonslime.Bibliocraft.letter_elliott": "151 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_elliott/false/default/",
+                "moonslime.Bibliocraft.letter_harvey": "399 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_harvey/false/default/",
+                "moonslime.Bibliocraft.letter_sam": "167 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_sam/false/default/",
+                "moonslime.Bibliocraft.letter_sebastian": "Book_Void 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_sebastian/false/default/",
+                "moonslime.Bibliocraft.letter_shane": "206 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_shane/false/default/",
+                "moonslime.Bibliocraft.letter_abigail": "SkillBook_4 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_abigail/false/default/",
+                "moonslime.Bibliocraft.letter_emily": "80 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_emily/false/default/",
+                "moonslime.Bibliocraft.letter_haley": "18 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_haley/false/default/",
+                "moonslime.Bibliocraft.letter_leah": "169 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_leah/false/default/",
+                "moonslime.Bibliocraft.letter_maru": "334 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_maru/false/default/",
+                "moonslime.Bibliocraft.letter_penny": "20 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_penny/false/default/",
+                "moonslime.Bibliocraft.letter_caroline": "815 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_caroline/false/default/",
+                "moonslime.Bibliocraft.letter_clint": "SkillBook_3 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_clint/false/default/",
+                "moonslime.Bibliocraft.letter_demetrius": "422 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_demetrius/false/default/",
+                "moonslime.Bibliocraft.letter_evelyn": "393 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_evelyn/false/default/",
+                "moonslime.Bibliocraft.letter_george": "18 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_george/false/default/",
+                "moonslime.Bibliocraft.letter_gus": "430 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_gus/false/default/",
+                "moonslime.Bibliocraft.letter_jas": "88 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_jas/false/default/",
+                "moonslime.Bibliocraft.letter_jodi": "180 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_jodi/false/default/",
+                "moonslime.Bibliocraft.letter_kent": "Book_Bombs 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_kent/false/default/",
+                "moonslime.Bibliocraft.letter_lewis": "258 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_lewis/false/default/",
+                "moonslime.Bibliocraft.letter_marnie": "SkillBook_0 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_marnie/false/default/",
+                "moonslime.Bibliocraft.letter_pam": "18 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_pam/false/default/",
+                "moonslime.Bibliocraft.letter_pierre": "724 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_pierre/false/default/",
+                "moonslime.Bibliocraft.letter_sandy": "440 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_sandy/false/default/",
+                "moonslime.Bibliocraft.letter_vincent": "184 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_vincent/false/default/",
+                "moonslime.Bibliocraft.letter_willy": "SkillBook_1 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_willy/false/default/",
+                "moonslime.Bibliocraft.letter_wizard": "337 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_wizard/false/default/"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "spacechase0.SpaceCore/CraftingRecipeOverrides ",
+            "Entries": {
+                "moonslime.Bibliocraft.book_ink": {
+                    "ProductQualifiedId": "(O)moonslime.Bibliocraft.book_ink",
+                    "ProductAmount": 1,
+                    "Ingredients": [
+                        {
+                            "Type": "ContextTag",
+                            "Value": "moonslime.Bibliocraft.ink_base",
+                            "Amount": 1,
+                            "OverrideText": "{{i18n:moonslime.Bibliocraft.contex_tag_recipe.base}}",
+                            "OverrideTexturePath": "Maps/springobjects",
+                            "OverrideTextureRect": {
+                                "X": 351,
+                                "Y": 528,
+                                "Width": 16,
+                                "Height": 16
+                            }
+                        },
+                        {
+                            "Type": "ContextTag",
+                            "Value": "moonslime.Bibliocraft.ink_binder",
+                            "Amount": 1,
+                            "OverrideText": "{{i18n:moonslime.Bibliocraft.contex_tag_recipe.binder}}",
+                            "OverrideTexturePath": "Maps/springobjects",
+                            "OverrideTextureRect": {
+                                "X": 64,
+                                "Y": 480,
+                                "Width": 16,
+                                "Height": 16
+                            }
+                        }
+                    ]
+                }
             }
         }
     ]

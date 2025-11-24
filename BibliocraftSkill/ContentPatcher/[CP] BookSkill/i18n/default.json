@@ -32,6 +32,9 @@
     "moonslime.Bibliocraft.Binding_station.description": "The final step to making a book!",
     "moonslime.Bibliocraft.Binding_station.need_item": "Two book covers is needed.",
 
+    "moonslime.Bibliocraft.Soot_Collector.name": "Soot Collector",
+    "moonslime.Bibliocraft.Soot_Collector.description": "Place a torch under this glass to collect the soot from it.",
+
     "moonslime.Bibliocraft.letterpress.name": "Letterpress",
     "moonslime.Bibliocraft.letterpress.description": "A copy of a book, that needs to be inked.",
 
@@ -69,11 +72,20 @@
     "moonslime.Bibliocraft.hardwoodpulp.name": "Hardwood Pulp",
     "moonslime.Bibliocraft.hardwoodpulp.description": "Hardwood grounded up in the mill. Can be used with limestone to make book covers at a paper press.",
 
+    "moonslime.Bibliocraft.soot.name": "Soot",
+    "moonslime.Bibliocraft.soot.description": "Mix with a binder to get ink usable for books.",
+
+    "moonslime.Bibliocraft.book_ink.name": "Book ink",
+    "moonslime.Bibliocraft.book_ink.description": "Ink that can be used with the Inking station.",
+
     "moonslime.Bibliocraft.potato_chips.name": "Chips",
     "moonslime.Bibliocraft.potato_chips.description": "Potatoes cut thinly and then fried in oil. A good snack while reading, just make sure to get no grease on the books!",
 
     "moonslime.Bibliocraft.ginger_tea.name": "Ginger Tea",
     "moonslime.Bibliocraft.ginger_tea.description": "Tea made with ginger. A good drink to have on a cold winter day whipe wrapped in a blanket.",
+
+    "moonslime.Bibliocraft.contex_tag_recipe.base": "Ink base (Soot, Squid Ink)",
+    "moonslime.Bibliocraft.contex_tag_recipe.binder": "Ink binder (Honey, Maple syrup)",
 
     "moonslime.Bibliocraft.letter_robin.name": "Written Letter: To Robin",
     "moonslime.Bibliocraft.letter_robin.description": "A letter you wrote for Robin!",

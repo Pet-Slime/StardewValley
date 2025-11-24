@@ -81,5 +81,6 @@ namespace WizardrySkill.Core
             Utilities.LearnedSpell(points);
             return true;
         }
+
     }
 }

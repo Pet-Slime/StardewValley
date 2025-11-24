@@ -25,5 +25,11 @@ namespace WizardrySkill.Core.Framework
 
         /// <summary>The number of mana points gained per magic level.</summary>
         public const string SkillName = "moonslime.Wizard";
+
+
+        public const string ExtraSpellPoints = "moonslime.Wizardry.ExtraSpellPoints"; // Player's current ESP count
+
+
+        public const string CurrentManaDump = "moonslime.Wizardry.CurrentManaDump"; // Accumulated mana toward next ESP
     }
 }

@@ -164,19 +164,8 @@ namespace WizardrySkill.Core.Framework
 
             int magicLevel = player.GetCustomSkillLevel("moonslime.Wizard");
 
-            int subtractor = 0;
-            if (magicLevel >= 5)
-                subtractor += 1;
 
-            if (magicLevel >= 10)
-                subtractor += 1;
-
-            if (Game1.player.HasCustomProfession(Wizard_Skill.Magic5a))
-                magicLevel += 2;
-            if (Game1.player.HasCustomProfession(Wizard_Skill.Magic10a1))
-                magicLevel += 2;
-
-            player.GetSpellBook().UseSpellPoints((magicLevel - subtractor) * -1);
+            Utilities.SetSpellPoints(player, magicLevel);
         }
 
 

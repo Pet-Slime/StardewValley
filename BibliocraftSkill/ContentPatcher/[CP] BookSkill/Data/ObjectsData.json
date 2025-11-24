@@ -67,6 +67,14 @@
                     "Price": 50,
                     "Texture": "Mods/moonslime.BibliocraftSkill/objects/machines",
                     "SpriteIndex": 15
+                },
+                "moonslime.Bibliocraft.Soot_Collector": {
+                    "Name": "Soot Collector",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.Soot_Collector.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.Soot_Collector.description}}",
+                    "Price": 50,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/machines",
+                    "SpriteIndex": 18
                 }
             }
         },
@@ -431,6 +439,46 @@
                         "color_dark_green",
                         "not_placeable",
                         "moonslime.Bibliocraft.bookmark:CriticalPowerMultiplier"
+                    ],
+                    "CustomFields": null
+                },
+
+                "moonslime.Bibliocraft.soot": {
+                    "Name": "Soot",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.soot.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.soot.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 350,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 15,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_black",
+                        "moonslime.Bibliocraft.ink_base",
+                        "not_placeable"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Bibliocraft.book_ink": {
+                    "Name": "Book Ink",
+                    "DisplayName": "{{i18n:moonslime.Bibliocraft.book_ink.name}}",
+                    "Description": "{{i18n:moonslime.Bibliocraft.book_ink.description}}",
+                    "Type": "building_resources",
+                    "Category": -16,
+                    "Price": 350,
+                    "Texture": "Mods/moonslime.BibliocraftSkill/objects/textures",
+                    "SpriteIndex": 16,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "CanBeGivenAsGift": false,
+                    "ExcludeFromShippingCollection": true,
+                    "ContextTags": [
+                        "color_black",
+                        "not_placeable"
                     ],
                     "CustomFields": null
                 },

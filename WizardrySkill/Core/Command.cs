@@ -100,12 +100,7 @@ namespace WizardrySkill.Core
 
                 int magicLevel = player.GetCustomSkillLevel("moonslime.Wizard");
 
-                if (Game1.player.HasCustomProfession(Wizard_Skill.Magic5a))
-                    magicLevel += 2;
-                if (Game1.player.HasCustomProfession(Wizard_Skill.Magic10a1))
-                    magicLevel += 2;
-
-                player.GetSpellBook().UseSpellPoints(magicLevel * -1);
+                Utilities.SetSpellPoints(player, magicLevel);
 
                 foreach (string spellId in CoreSpells)
                 {

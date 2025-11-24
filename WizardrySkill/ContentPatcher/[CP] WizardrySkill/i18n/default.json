@@ -63,6 +63,9 @@
     "moonslime.Wizardry.CraftableSpellAltar": "Spell Focus Altar",
     "moonslime.Wizardry.CraftableSpellAltar.description": "Right click once this is placed to open the spell book menu.",
 
+    "moonslime.Wizardry.ManaSink": "Arcanum Crucible",
+    "moonslime.Wizardry.ManaSink.description": "For Adept Wizards only:\nInsert items with magical energy. This machine devours their mana, and once enough is collected, the user's spell power grows.",
+
     "moonslime.Wizardry.LearnMagic.00": "It is time for you to learn the ways of wizardry. It will take a day before it fully unlocks inside you.",
     "moonslime.Wizardry.LearnMagic.01": "You will need a place to act as a spell altar....",
     "moonslime.Wizardry.LearnMagic.02": "I have adjusted the Yoba altar in Pierre's shop for you to use. Go to it and pray for access to your spells.",

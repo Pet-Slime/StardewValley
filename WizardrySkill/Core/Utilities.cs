@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MoonShared.Attributes;
 using Microsoft.Xna.Framework;
+using MoonShared;
+using MoonShared.Attributes;
+using SpaceCore;
 using StardewValley;
 using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Spells;
+using WizardrySkill.Objects;
 using static SpaceCore.Skills;
-using MoonShared;
-using SpaceCore;
 
 namespace WizardrySkill.Core
 {
@@ -106,6 +107,40 @@ namespace WizardrySkill.Core
                 Game1.addHUDMessage(message);
             }
 
+        }
+
+        /// <summary>
+        /// Calculates and sets the appropriate number of spell points for a player
+        /// based on magic level, custom professions, and extra spell points.
+        /// </summary>
+        /// <param name="player">The player whose spell points to adjust.</param>
+        /// <param name="magicLevel">The base magic level to use for calculation.</param>
+        public static void SetSpellPoints(Farmer player, int magicLevel)
+        {
+            if (player == null)
+                return;
+
+            int subtractor = 0;
+
+            // Reduce by 1 if magic level reaches milestones
+            if (magicLevel >= 5)
+                subtractor += 1;
+
+            if (magicLevel >= 10)
+                subtractor += 1;
+
+            // Add bonuses from custom professions
+            if (player.HasCustomProfession(Wizard_Skill.Magic5a))
+                magicLevel += 2;
+
+            if (player.HasCustomProfession(Wizard_Skill.Magic10a1))
+                magicLevel += 2;
+
+            // Add any extra spell points from modData
+            magicLevel += int.TryParse(player.modData.GetValueOrDefault(MagicConstants.ExtraSpellPoints), out int esp) ? esp : 0;
+
+            // Consume spell points (negative to reduce)
+            player.GetSpellBook().UseSpellPoints((magicLevel - subtractor) * -1);
         }
 
         public static List<Vector2> TilesAffected(Vector2 tileLocation, int level, Farmer who, bool hollow = false)

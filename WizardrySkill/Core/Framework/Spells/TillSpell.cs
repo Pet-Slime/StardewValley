@@ -23,7 +23,7 @@ namespace WizardrySkill.Core.Framework.Spells
         // The mana cost of casting the spell
         public override int GetManaCost(Farmer player, int level)
         {
-            return 2;
+            return 1;
         }
 
         // What happens when the spell is cast
@@ -48,18 +48,34 @@ namespace WizardrySkill.Core.Framework.Spells
             int tileY = targetY / Game1.tileSize;
             var target = new Vector2(tileX, tileY);
 
+            // Cache the mana cost in a variable for use later to reduce calls
+            int manaCost = this.GetManaCost(player, level);
+
             // Get a list of all tiles affected by the spell (radius = level)
             List<Vector2> list = Utilities.TilesAffected(target, level, player);
 
             // Loop over each affected tile
             foreach (Vector2 tile in list)
             {
+
+                if (!this.CanContinueCast(player, level))
+                    return null;
+
                 // Handle terrain features (e.g., grass, bushes)
                 if (loc.terrainFeatures.TryGetValue(tile, out var value))
                 {
                     if (value.performToolAction(dummyHoe, 0, tile))
                     {
-                        loc.terrainFeatures.Remove(tile); // Remove feature if tilled
+                        loc.terrainFeatures.Remove(tile); // Remove feature if tilleds
+
+
+                        // Reduce mana after the first tile
+                        if (actionCount != 0)
+                            player.AddMana(-manaCost);
+                        actionCount++; // Count how many tiles were affected
+                        Utilities.AddEXP(player, 2); // Give experience
+                        loc.playSound("hoeHit", tile); // Sound effect
+                        Game1.stats.DirtHoed++; // Update game stats
                     }
                     continue; // Skip to next tile
                 }
@@ -107,6 +123,9 @@ namespace WizardrySkill.Core.Framework.Spells
                     loc.checkForBuriedItem((int)tile.X, (int)tile.Y, explosion: false, detectOnly: false, player);
                 }
 
+                // Reduce mana after the first tile
+                if (actionCount != 0)
+                    player.AddMana(-manaCost);
                 actionCount++; // Count how many tiles were affected
                 Utilities.AddEXP(player, 2); // Give experience
                 loc.playSound("hoeHit", tile); // Sound effect
@@ -115,7 +134,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
             // If no tiles were affected, the spell fizzles
             return actionCount == 0
-                ? new SpellFizzle(player, this.GetManaCost(player, level))
+                ? new SpellFizzle(player, manaCost)
                 : null;
         }
     }

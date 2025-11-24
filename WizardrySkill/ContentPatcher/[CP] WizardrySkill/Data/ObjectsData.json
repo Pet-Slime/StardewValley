@@ -136,7 +136,7 @@
                     "Type": "Basic",
                     "Category": -16,
                     "Price": 1,
-                    "SpriteIndex": 6,
+                    "SpriteIndex": 10,
                     "ColorOverlayFromNextIndex": false,
                     "Edibility": 5,
                     "IsDrink": false,
@@ -567,6 +567,20 @@
                         }
                     },
                     "DescriptionOverride": "{{i18n:moonslime.Wizardry.CraftableSpellAltar.description}}"
+                }
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/BigCraftables",
+            "Entries": {
+                "moonslime.Wizardry.ManaSink": {
+                    "Name": "Focus Expander",
+                    "DisplayName": "{{i18n:moonslime.Wizardry.ManaSink.name}}",
+                    "Description": "{{i18n:moonslime.Wizardry.ManaSink.description}}",
+                    "Price": 50,
+                    "Texture": "Mods/moonslime.WizardrySkill/objects/Items",
+                    "SpriteIndex": 3
                 }
             }
         }

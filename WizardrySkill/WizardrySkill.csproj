@@ -5,7 +5,7 @@
 	<PropertyGroup>
         <Name>Wizardry</Name>
         <Description>Magic Revisted.</Description>
-        <Version>1.10.2</Version>
+        <Version>1.10.3</Version>
         <UpdateKeys>Nexus:38383</UpdateKeys>
 	</PropertyGroup>
 

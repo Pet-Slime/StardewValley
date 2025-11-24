@@ -22,9 +22,36 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace BibliocraftSkill.Core
 {
+    [HarmonyPatch(typeof(StardewValley.Object), "_PopulateContextTags")]
+    class PopulateContextTags_patch
+    {
+        // Vanilla Ink bases are Squid, Octopuses, Midnight Squid, and Squid Ink
+        private static readonly HashSet<string> InkBaseItems = new()
+            {
+                "(O)814", "(O)151", "(O)798", "(O)149"
+            };
+        // Vanilla Ink binders are maple syrup and Honey
+        private static readonly HashSet<string> InkBinderItems = new()
+            {
+                "(O)724", "(O)340"
+            };
+
+        [HarmonyPostfix]
+        public static void Postfix(StardewValley.Object __instance, ref HashSet<string> tags)
+        {
+            string id = __instance.QualifiedItemId;
+
+            if (InkBaseItems.Contains(id))
+                tags.Add("moonslime.Bibliocraft.ink_base");
+
+            if (InkBinderItems.Contains(id))
+                tags.Add("moonslime.Bibliocraft.ink_binder");
+        }
+    }
+
 
     [HarmonyPatch(typeof(Object), nameof(Object.performUseAction))]
-    class OpenGeode_Patch
+    class VMV_Book_Hook_Patch
     {
         [HarmonyPrefix]
         private static void Prefix(Object __instance)
@@ -517,7 +544,7 @@ namespace BibliocraftSkill.Core
 
     //Goal of this patch is to increase the crabpot bonus rate when harvesting by hand
     [HarmonyPatch(typeof(StardewValley.Objects.CrabPot), "checkForAction")]
-    class Blank_patch
+    class Crabpot_Bonus_patch
     {
         [HarmonyTranspiler]
         public static void Postfix()
@@ -539,7 +566,7 @@ namespace BibliocraftSkill.Core
                   .Advance(1)
                   .InsertAndAdvance(
                 new CodeInstruction(OpCodes.Ldarg_1),
-                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Blank_patch), nameof(GetExtraCrabPotDoublePercentage))),
+                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Crabpot_Bonus_patch), nameof(GetExtraCrabPotDoublePercentage))),
                 new CodeInstruction(OpCodes.Add)
                       );
                 return matcher.InstructionEnumeration();
