@@ -4,9 +4,9 @@
             "Action": "EditData",
             "Target": "Data/CraftingRecipes",
             "Entries": {
-                "moonslime.Bibliocraft.letter_Julia": "814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Julia/false/default/",
-                "moonslime.Bibliocraft.letter_Arthur": "814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Arthur/false/default/",
-                "moonslime.Bibliocraft.letter_Anderson": "814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Anderson/false/default/"
+                "moonslime.Bibliocraft.letter_Julia": "moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Julia/false/default/",
+                "moonslime.Bibliocraft.letter_Arthur": "moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Arthur/false/default/",
+                "moonslime.Bibliocraft.letter_Anderson": "moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Anderson/false/default/"
             }
         }
     ]

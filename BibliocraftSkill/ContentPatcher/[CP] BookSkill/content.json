@@ -13,7 +13,7 @@
     "Changes": [
         {
             "Action": "Include",
-            "FromFile": "Data/TextureData.json, Data/ObjectsData.json, Data/MillData.json, Data/MachinesData.json, Data/CraftingData.json, Data/StationData.json, Data/PagefinderData.json, Data/TypeSetterData.json"
+            "FromFile": "Data/TextureData.json, Data/ObjectsData.json, Data/MillData.json, Data/MachinesData.json, Data/CraftingData.json, Data/StationData.json, Data/PagefinderData.json, Data/TypeSetterData.json, Data/KilnPatchData.json"
         },
         {
             "Action": "Include",

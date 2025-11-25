@@ -217,12 +217,10 @@ namespace ArchaeologySkill.Core
                         continue;
                     }
 
-                    // Randomly choose seed spot or artifact spot (vanilla 16.6% chance for seed)
-                    string objectID = random.NextBool(0.166) ? "(O)SeedSpot" : "(O)590";
-                    location.objects.Add(tile, ItemRegistry.Create<Object>(objectID, 1, 0, false));
+                    location.objects.Add(tile, ItemRegistry.Create<Object>("(O)590", 1, 0, false));
 
                     spotsPlaced++;
-                    Log.Trace($"[Archaeology] Spawned '{objectID}' on map '{location.Name}' at tile ({x},{y}). Total placed: {spotsPlaced}/{extraSpots}.");
+                    Log.Trace($"[Archaeology] Spawned 'artifact spot' on map '{location.Name}' at tile ({x},{y}). Total placed: {spotsPlaced}/{extraSpots}.");
 
                     break; // Stop after successfully placing one spot in this map
                 }

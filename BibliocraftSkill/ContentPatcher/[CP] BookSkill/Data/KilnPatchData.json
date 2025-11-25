@@ -1,0 +1,27 @@
+﻿{
+    "Changes": [
+        {
+            "LogName": "Add Soot as Extra output to Kiln",
+            "Action": "EditData",
+            "Target": "selph.ExtraMachineConfig/ExtraOutputs",
+            "Entries": {
+                "Soot": {
+                    "Id": "JellyExtra",
+                    "ItemId": "(O)moonslime.Bibliocraft.soot",
+                    "MinStack": 1,
+                    "MaxStack": 3,
+                    "Condition": "RANDOM 0.2"
+                }
+            }
+        },
+        {
+            "LogName": "Add Soot to Kiln",
+            "Action": "EditData",
+            "Target": "Data/Machines",
+            "TargetField": [ "(BC)114", "OutputRules", "Default", "OutputItem", "(O)382", "CustomData" ],
+            "Entries": {
+                "selph.ExtraMachineConfig.ExtraOutputIds": "Soot"
+            }
+        }
+    ]
+}

@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
-using System.Threading;
 using BibliocraftSkill.Objects;
 using HarmonyLib;
 using MoonShared;
@@ -11,8 +9,6 @@ using SpaceCore;
 using StardewValley;
 using StardewValley.Buffs;
 using StardewValley.Extensions;
-using StardewValley.GameData.WildTrees;
-using StardewValley.Monsters;
 using StardewValley.TerrainFeatures;
 using StardewValley.Tools;
 using Log = MoonShared.Attributes.Log;
@@ -374,128 +370,6 @@ namespace BibliocraftSkill.Core
     }
 
 
-
-    //Goal of the patch is to increase wood dropping at a low chance if you have woody's secret
-    [HarmonyPatch(typeof(Tree), "tickUpdate")]
-    class WoodySecret_patch
-    {
-        [HarmonyPostfix]
-        public static void Postfix(Tree __instance)
-        {
-            if (__instance.falling.Value)
-            {
-                WildTreeData data = __instance.GetData();
-                Farmer farmer = Game1.GetPlayer(__instance.lastPlayerToHit.Value) ?? Game1.MasterPlayer;
-                if (data.DropWoodOnChop &&
-                    Utilities.GetLevel(farmer, true) >= 4 &&
-                    farmer.stats.Get("Book_Woodcutting") != 0 &&
-                    Game1.random.NextDouble() < 0.05)
-                {
-                    Vector2 tile = __instance.Tile;
-                    GameLocation location = __instance.Location;
-                    int num2 = (int)((farmer.professions.Contains(12) ? 1.25 : 1.0) * (12 + ExtraWoodCalculator(__instance, tile)));
-
-                    Game1.createRadialDebris(location, 12, (int)tile.X + (__instance.shakeLeft.Value ? -4 : 4), (int)tile.Y, num2, resource: true);
-                    Game1.createRadialDebris(location, 12, (int)tile.X + (__instance.shakeLeft.Value ? -4 : 4), (int)tile.Y, (int)((farmer.professions.Contains(12) ? 1.25 : 1.0) * (12 + ExtraWoodCalculator(__instance, tile))), resource: false);
-                }
-            }
-        }
-
-        private static int ExtraWoodCalculator(Tree tree, Vector2 tileLocation)
-        {
-            Random random = Utility.CreateRandom(Game1.uniqueIDForThisGame, Game1.stats.DaysPlayed, tileLocation.X * 7.0, tileLocation.Y * 11.0);
-            int num = 0;
-            if (random.NextDouble() < Game1.player.DailyLuck)
-            {
-                num++;
-            }
-
-            if (random.NextDouble() < Game1.player.ForagingLevel / 12.5)
-            {
-                num++;
-            }
-
-            if (random.NextDouble() < Game1.player.ForagingLevel / 12.5)
-            {
-                num++;
-            }
-
-            if (random.NextDouble() < Game1.player.LuckLevel / 25.0)
-            {
-                num++;
-            }
-
-            if (tree.treeType.Value == "3")
-            {
-                num++;
-            }
-
-            return num;
-        }
-    }
-
-
-    //Goal of the patch is to increase monster drops at a low chance if you have the monster compendium
-    [HarmonyPatch(typeof(GameLocation), "monsterDrop")]
-    class MonsterCompedium_patch
-    {
-        [HarmonyPostfix]
-        public static void Postfix(GameLocation __instance, ref Monster monster, ref int x, ref int y, ref Farmer who)
-        {
-            if (who.stats.Get("Book_Void") != 0 && Utilities.GetLevel(who, true) >= 7 && Game1.random.NextDouble() < 0.03 )
-            {
-                IList<string> objectsToDrop = monster.objectsToDrop;
-                Vector2 vector = Utility.PointToVector2(who.StandingPixel);
-                List<Item> extraDropItems = monster.getExtraDropItems();
-                if (who.isWearingRing("526") && DataLoader.Monsters(Game1.content).TryGetValue(monster.Name, out string value))
-                {
-                    string[] array = ArgUtility.SplitBySpace(value.Split('/')[6]);
-                    for (int i = 0; i < array.Length; i += 2)
-                    {
-                        if (Game1.random.NextDouble() < Convert.ToDouble(array[i + 1]))
-                        {
-                            objectsToDrop.Add(array[i]);
-                        }
-                    }
-                }
-                List<Debris> list = new List<Debris>();
-                for (int j = 0; j < objectsToDrop.Count; j++)
-                {
-                    string text = objectsToDrop[j];
-                    if (text != null && text.StartsWith('-') && int.TryParse(text, out int result))
-                    {
-                        list.Add(monster.ModifyMonsterLoot(new Debris(Math.Abs(result), Game1.random.Next(1, 4), new Vector2(x, y), vector)));
-                    }
-                    else
-                    {
-                        list.Add(monster.ModifyMonsterLoot(new Debris(text, new Vector2(x, y), vector)));
-                    }
-                }
-
-                for (int k = 0; k < extraDropItems.Count; k++)
-                {
-                    list.Add(monster.ModifyMonsterLoot(new Debris(extraDropItems[k], new Vector2(x, y), vector)));
-                }
-                if (who.isWearingRing("526"))
-                {
-                    extraDropItems = monster.getExtraDropItems();
-                    for (int l = 0; l < extraDropItems.Count; l++)
-                    {
-                        Item one = extraDropItems[l].getOne();
-                        one.Stack = extraDropItems[l].Stack;
-                        one.HasBeenInInventory = false;
-                        list.Add(monster.ModifyMonsterLoot(new Debris(one, new Vector2(x, y), vector)));
-                    }
-                }
-                foreach (Debris item2 in list)
-                {
-                    __instance.debris.Add(item2);
-                }
-
-            }
-        }
-    }
-
     //Goal is to prevent slowdown when running through grass
     [HarmonyPatch(typeof(Grass), "doCollisionAction")]
     class Slitherlegs_patch
@@ -517,7 +391,7 @@ namespace BibliocraftSkill.Core
     [HarmonyPatch(typeof(Pickaxe), "DoFunction")]
     class DiamondHunter_patch
     {
-        [HarmonyPostfix]
+        [HarmonyPrefix]
         public static void Postfix(GameLocation location, int x, int y, int power, Farmer who)
         {
             if (who != null && who.stats.Get("Book_Diamonds") != 0 && Utilities.GetLevel(who, true) >= 8 && Game1.random.NextDouble() < 0.0066 && Utilities.GetLevel(who, true) >= 8)
@@ -538,49 +412,6 @@ namespace BibliocraftSkill.Core
                         }
                     }
                 }
-            }
-        }
-    }
-
-    //Goal of this patch is to increase the crabpot bonus rate when harvesting by hand
-    [HarmonyPatch(typeof(StardewValley.Objects.CrabPot), "checkForAction")]
-    class Crabpot_Bonus_patch
-    {
-        [HarmonyTranspiler]
-        public static void Postfix()
-        {
-            static IEnumerable<CodeInstruction> CrabPot_checkForAction_Transpiler(IEnumerable<CodeInstruction> instructions)
-            {
-                CodeMatcher matcher = new(instructions);
-                // Old: NextDouble() < 0.25
-                // New: NextDouble() < 0.25 + Patcher.GetExtraCrabPotDoublePercentage(who)
-                // up to you to implement Patcher.GetExtraCrabPotDoublePercentage(who) returns a float
-                //
-                matcher
-                  .MatchEndForward(
-                    new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(Random), nameof(Random.NextDouble))),
-                    new CodeMatch(OpCodes.Ldc_R8, 0.25)
-                    )
-                  .ThrowIfNotMatch($"Could not find entry point for {nameof(CrabPot_checkForAction_Transpiler)}");
-                matcher
-                  .Advance(1)
-                  .InsertAndAdvance(
-                new CodeInstruction(OpCodes.Ldarg_1),
-                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Crabpot_Bonus_patch), nameof(GetExtraCrabPotDoublePercentage))),
-                new CodeInstruction(OpCodes.Add)
-                      );
-                return matcher.InstructionEnumeration();
-            }
-        }
-
-        private static object GetExtraCrabPotDoublePercentage(Farmer who)
-        {
-            if (Utilities.GetLevel(who, true) >=8)
-            {
-                return 0.25;
-            } else
-            {
-                return 0;
             }
         }
     }

@@ -1,8 +1,9 @@
 ﻿{
     "skill.name": "Bibliocraft",
     "skill.perk": "+{{bonus}}% exp from reading books.",
-    "skill.Book.perk.level_2": "The mill can now grind wood and hardwood into pulp for paper making.",
-    "skill.Book.perk.level_4a": "Increase the effect of the book 'Woody's Secret",
+    "skill.Book.perk.level_2a": "The mill can now grind wood and hardwood into pulp for paper making.",
+    "skill.Book.perk.level_2b": "Increase the effect of the book 'Woody's Secret'",
+    "skill.Book.perk.level_4a": "Increase the effect of the book 'Jack Be Nimble, Jack Be Thick'",
     "skill.Book.perk.level_4b": "Increase the effect of the book 'Ol Slitherlegs'",
     "skill.Book.perk.level_7a": "Increase the effect of the book 'Monster Compendium'",
     "skill.Book.perk.level_7b": "Increase the effect of the book 'Treasure Appraisal Guide'",

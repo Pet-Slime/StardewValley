@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using BibliocraftSkill.Core;
 using MoonShared;
 using StardewModdingAPI;
@@ -62,7 +63,8 @@ namespace BibliocraftSkill.Objects
             };
             if (level == 2)
             {
-                result.Add(ModEntry.Instance.I18N.Get("skill.Book.perk.level_2"));
+                result.Add(ModEntry.Instance.I18N.Get("skill.Book.perk.level_2a"));
+                result.Add(ModEntry.Instance.I18N.Get("skill.Book.perk.level_2b"));
             }
             if (level == 4)
             {
@@ -82,9 +84,42 @@ namespace BibliocraftSkill.Objects
             return result;
         }
 
+        private static readonly Dictionary<int, string> _cachedHoverText = new();
+
         public override string GetSkillPageHoverText(int level)
         {
-            return ModEntry.Instance.I18N.Get("skill.perk", new { bonus = 5 * level });
+            // Check cache first
+            if (_cachedHoverText.TryGetValue(level, out string cached))
+                return cached;
+
+            // Base perk text
+            string text = ModEntry.Instance.I18N.Get("skill.perk", new { bonus = 5 * level });
+
+            // Map of level thresholds to perk translation keys
+            var perks = new Dictionary<int, string[]>
+                {
+                    { 2, new[] { "skill.Book.perk.level_2a", "skill.Book.perk.level_2b" } },
+                    { 4, new[] { "skill.Book.perk.level_4a", "skill.Book.perk.level_4b" } },
+                    { 7, new[] { "skill.Book.perk.level_7a", "skill.Book.perk.level_7b" } },
+                    { 8, new[] { "skill.Book.perk.level_8a", "skill.Book.perk.level_8b" } }
+                };
+
+            // Append perks for levels up to the current level
+            foreach (var kvp in perks.OrderBy(p => p.Key))
+            {
+                if (level >= kvp.Key)
+                {
+                    foreach (string key in kvp.Value)
+                    {
+                        text += "\n" + ModEntry.Instance.I18N.Get(key);
+                    }
+                }
+            }
+
+            // Cache the result for future calls
+            _cachedHoverText[level] = text;
+
+            return text;
         }
     }
 }

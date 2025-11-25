@@ -4,19 +4,19 @@
             "Action": "EditData",
             "Target": "Data/CraftingRecipes",
             "Entries": {
-                "moonslime.Bibliocraft.letter_Victor": "392 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Victor/false/default/",
-                "moonslime.Bibliocraft.letter_Susan": "709 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Susan/false/default/",
-                "moonslime.Bibliocraft.letter_Sophia": "872 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Sophia/false/default/",
-                "moonslime.Bibliocraft.letter_Olivia": "276 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Olivia/false/default/",
-                "moonslime.Bibliocraft.letter_MorrisTod": "430 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_MorrisTod/false/default/",
-                "moonslime.Bibliocraft.letter_Martin": "184 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Martin/false/default/",
-                "moonslime.Bibliocraft.letter_MarlonFay": "287 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_MarlonFay/false/default/",
-                "moonslime.Bibliocraft.letter_GuntherSilvian": "109 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_GuntherSilvian/false/default/",
-                "moonslime.Bibliocraft.letter_Claire": "349 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Claire/false/default/",
-                "moonslime.Bibliocraft.letter_Andy": "416 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Andy/false/default/",
-                "moonslime.Bibliocraft.letter_Scarlett": "430 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Scarlett/false/default/",
-                "moonslime.Bibliocraft.letter_Lance": "909 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Lance/false/default/",
-                "moonslime.Bibliocraft.letter_Morgan": "769 1 814 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Morgan/false/default/"
+                "moonslime.Bibliocraft.letter_Victor": "392 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Victor/false/default/",
+                "moonslime.Bibliocraft.letter_Susan": "709 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Susan/false/default/",
+                "moonslime.Bibliocraft.letter_Sophia": "872 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Sophia/false/default/",
+                "moonslime.Bibliocraft.letter_Olivia": "276 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Olivia/false/default/",
+                "moonslime.Bibliocraft.letter_MorrisTod": "430 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_MorrisTod/false/default/",
+                "moonslime.Bibliocraft.letter_Martin": "184 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Martin/false/default/",
+                "moonslime.Bibliocraft.letter_MarlonFay": "287 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_MarlonFay/false/default/",
+                "moonslime.Bibliocraft.letter_GuntherSilvian": "109 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_GuntherSilvian/false/default/",
+                "moonslime.Bibliocraft.letter_Claire": "349 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Claire/false/default/",
+                "moonslime.Bibliocraft.letter_Andy": "416 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Andy/false/default/",
+                "moonslime.Bibliocraft.letter_Scarlett": "430 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Scarlett/false/default/",
+                "moonslime.Bibliocraft.letter_Lance": "909 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Lance/false/default/",
+                "moonslime.Bibliocraft.letter_Morgan": "769 1 moonslime.Bibliocraft.book_ink 1 moonslime.Bibliocraft.paper 1/Home/moonslime.Bibliocraft.letter_Morgan/false/default/"
             }
         }
     ]
