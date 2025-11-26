@@ -39,10 +39,11 @@ namespace ArchaeologySkill.Core
             if (xLocation == 0 || yLocation == 0)
             {
                 // Get tile location once
-                var tile = farmer.TilePoint;
-                xLocation = tile.X;
-                yLocation = tile.Y;
+                xLocation = (int)farmer.Tile.X;
+                yLocation = (int)farmer.Tile.Y;
             }
+
+
 
             // Give the player EXP
             AddEXP(farmer, EXP);

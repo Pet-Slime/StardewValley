@@ -50,21 +50,18 @@ namespace ArchaeologySkill.Core
 
         private static void ArchaeologySkillCheck_1(int xLocation, int yLocation, Farmer farmer)
         {
-            Log.Alert("Archaeology Insertion 1 successful");
             Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation);
             return;
         }
 
         private static void ArchaeologySkillCheck_2(int xLocation, int yLocation, Farmer farmer)
         {
-            Log.Alert("Archaeology Insertion 2 successful");
             Random r = Utility.CreateDaySaveRandom((double)(xLocation * 2000), (double)(yLocation * 77), Game1.stats.DirtHoed);
             Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: r.Choose("(O)412", "(O)416"));
             return;
         }
         private static void ArchaeologySkillCheck_3(int xLocation, int yLocation, Farmer farmer)
         {
-            Log.Alert("Archaeology Insertion 3 successful");
             Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: "(O)330");
             return;
         }
@@ -101,6 +98,7 @@ namespace ArchaeologySkill.Core
         private static void ArchaeologySkillCheck_4(int xLocation, int yLocation, Farmer who, string item)
         {
             Log.Alert("Archaeology Insertion 4 successful");
+            Log.Alert($"Initial: xLocation is: {xLocation}, yLocation is {yLocation}");
             Utilities.ApplyArchaeologySkill(who, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: item);
         }
     }

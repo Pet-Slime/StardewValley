@@ -270,10 +270,6 @@ namespace ArchaeologySkill.Core
                 //Choose a random item from that list. Else  default to "stone"
                 string item = list.RandomChoose(Game1.random, "390");
 
-                //Get the tile location of the player
-                xLocation = farmer.TilePoint.X;
-                yLocation = farmer.TilePoint.Y;
-
                 //Send it to the generic Archaeology skill function
                 Utilities.ApplyArchaeologySkill(farmer, ModEntry.Config.ExperienceFromArtifactSpots, false, xLocation, yLocation, exactItem: item);
 
@@ -287,10 +283,8 @@ namespace ArchaeologySkill.Core
                     Random random = Utility.CreateDaySaveRandom(xLocation * 2000, yLocation, Game1.netWorldState.Value.TreasureTotemsUsed * 777);
                     //Choose a new item from the list
                     item = list.RandomChoose(random, "390");
-                    //Change the string item into an Item item
-                    Item finalItem = ItemRegistry.Create(item);
                     //Spawn the item
-                    Game1.createItemDebris(finalItem, farmer.Tile, random.Next(4), __instance);
+                    Game1.createMultipleObjectDebris(item, xLocation, yLocation, random.Next(4), who.UniqueMultiplayerID);
                 }
             }
         }
