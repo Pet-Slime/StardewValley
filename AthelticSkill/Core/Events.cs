@@ -51,7 +51,10 @@ namespace AthleticSkill.Core
         private static int CacheExpFromSprinting = 0;  // Amount of EXP awarded per sprint interval
         private static int CachedAthleticLevel = 0;    // Cached athletic skill level for this player
         private static float CacheMinimumEnergyToSprint = 20; // Minimum stamina required to sprint
-
+        private static bool CacheSprintDust = true;
+        private static int CacheSprintDustInterval = 1;
+        private static uint SprintDustTickCounter = 0;
+        
         [SEvent.GameLaunchedLate]
         private static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
@@ -163,6 +166,8 @@ namespace AthleticSkill.Core
 
             // Make a backup of the sprint buff object just in case something happens
             BackupSprintBuff = CachedSprintBuff;
+
+            CacheSprintDust = ModEntry.Config.SprintDust; CacheSprintDustInterval = Math.Max(1, ModEntry.Config.SprintDustInterval); SprintDustTickCounter = 0;
         }
 
         // ITEM EVENT HANDLER
@@ -223,7 +228,14 @@ namespace AthleticSkill.Core
 
             if (!CanSprint(farmer))
                 return;
+            
+            if (CacheSprintDust && !farmer.swimming.Value && !farmer.bathingClothes.Value)
+            {
+                SprintDustTickCounter++;
 
+                // Only spawn dust every N sprint ticks (N=1 means every TimeChecker tick ~0.25s)
+                if (SprintDustTickCounter % (uint)CacheSprintDustInterval == 0) PlaySprintDust(farmer);
+            }
 
             // Maintain / reapply sprint buff
             ApplySprintBuff(farmer);
@@ -322,6 +334,50 @@ namespace AthleticSkill.Core
             } else
             {
                 CachedSprintBuff.effects.Defense.Value = CachedAthleticLevel;
+            }
+        }
+                private static void PlaySprintDust(Farmer farmer)
+        {
+            GameLocation location = farmer.currentLocation;
+            if (location == null)
+                return;
+
+            // Use farmer's pixel position
+            Vector2 position = farmer.Position;
+
+            // Optional safety: don't spawn if player tile isn't passable
+            Vector2 tile = new Vector2((int)(position.X / 64f), (int)(position.Y / 64f));
+            if (!location.isTilePassable(tile))
+                return;
+
+            // Spawn 2 dust sprites, second one slightly delayed
+            for (int i = 0; i < 2; i++)
+            {
+                TemporaryAnimatedSprite dust = TemporaryAnimatedSprite.GetTemporaryAnimatedSprite(
+                    "TileSheets\\animations",
+                    new Microsoft.Xna.Framework.Rectangle(128, 2948, 64, 64),
+                    80f,
+                    8,
+                    0,
+                    new Vector2(
+                        position.X + 16f + Game1.random.Next(i == 0 ? -8 : -4, i == 0 ? 9 : 5),
+                        position.Y + (Game1.random.Next(-3, -1) * 4)
+                    ),
+                    flicker: false,
+                    flipped: Game1.random.NextBool(),
+                    layerDepth: position.Y / 10000f,
+                    alphaFade: 0.03f,
+                    color: Color.Khaki * 0.45f,
+                    scale: (i == 0 ? 0.75f : 0.55f) + Game1.random.Next(-3, 4) * 0.05f,
+                    scaleChange: 0f,
+                    rotation: 0f,
+                    rotationChange: 0f
+                );
+
+                if (i == 1)
+                    dust.delayBeforeAnimationStart = 20;
+
+                location.temporarySprites.Add(dust);
             }
         }
     }

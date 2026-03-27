@@ -9,6 +9,12 @@
 
     "config.AlternativeSkillPageIcon": "Alternative Skill Page Icon",
     "config.AlternativeSkillPageIcon.tooltip": "REQUIRES RESTART!\nChanges the lightningbolt skill icon to a set of dumb-bells.",
+    
+    "config.SprintDust": "Sprint Dust",
+    "config.SprintDust.tooltip": "Spawns the vanilla running/path dust while sprinting and moving.",
+
+    "config.SprintDustInterval": "Sprint Dust Interval",
+    "config.SprintDustInterval.tooltip": "How often to spawn sprint dust. 1 = every sprint tick (~0.25s). Higher = less dust.",
 
 
     "config.Key_Cast": "Sprint Key",

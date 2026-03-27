@@ -46,5 +46,12 @@ namespace AthleticSkill.Core
 
         [SConfig.Option()]
         public bool BuffIcon { get; set; } = true;
+
+
+        [SConfig.Option()]
+        public bool SprintDust { get; set; } = true;
+
+        [SConfig.Option(1, 10, 1)]
+        public int SprintDustInterval { get; set; } = 1;
     }
 }
