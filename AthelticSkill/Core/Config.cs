@@ -14,7 +14,7 @@ namespace AthleticSkill.Core
         public bool AlternativeSkillPageIcon { get; set; } = false;
 
         [SConfig.Option()]
-        public KeybindList Key_Cast { get; set; } = KeybindList.Parse("LeftControl");
+        public KeybindList Key_Cast { get; set; } = KeybindList.Parse("LeftShift");
 
         [SConfig.Option()]
         public bool ToggleSprint { get; set; } = false;
@@ -37,7 +37,7 @@ namespace AthleticSkill.Core
 
 
         [SConfig.Option(1, 8, 1)]
-        public int SprintSpeed { get; set; } = 1;
+        public int SprintSpeed { get; set; } = 2;
 
 
         [SConfig.Option(1, 20, 1)]
@@ -53,5 +53,11 @@ namespace AthleticSkill.Core
 
         [SConfig.Option(1, 10, 1)]
         public int SprintDustInterval { get; set; } = 1;
+
+
+
+        [SConfig.Option(1, 100, 1)]
+        public int AcrobatDodgeChance { get; set; } = 5;
+
     }
 }

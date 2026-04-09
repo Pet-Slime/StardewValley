@@ -9,7 +9,7 @@
 
     "config.AlternativeSkillPageIcon": "Alternative Skill Page Icon",
     "config.AlternativeSkillPageIcon.tooltip": "REQUIRES RESTART!\nChanges the lightningbolt skill icon to a set of dumb-bells.",
-    
+
     "config.SprintDust": "Sprint Dust",
     "config.SprintDust.tooltip": "Spawns the vanilla running/path dust while sprinting and moving.",
 
@@ -18,7 +18,7 @@
 
 
     "config.Key_Cast": "Sprint Key",
-    "config.Key_Cast.tooltip": "The key needed to toggle/hold for sprint.",
+    "config.Key_Cast.tooltip": "The key needed to toggle/hold for sprint, and changed tools if you have that profession",
 
     "config.ToggleSprint": "Toggle sprint",
     "config.ToggleSprint.tooltip": "Change sprinting to be a toggle or a hold.",
@@ -38,6 +38,22 @@
     "config.MinimumEnergyToSprint": "Minimum energy required to sprint.",
     "config.MinimumEnergyToSprint.tooltip": "The minimum required amount of energy that is needed to sprint.",
 
+
+    "config.SprintSpeed": "Sprint Speed",
+    "config.SprintSpeed.tooltip": "The base bonus of the speed buff when sprinting.",
+
+
+    "config.SprintingExpEvent": "Sprint EXP event chance",
+    "config.SprintingExpEvent.tooltip": "Adjust the chance for the sprinting exp event. Requires sleep to take effect.",
+
+
+    "config.BuffIcon": "Visible buff icon",
+    "config.BuffIcon.tooltip": "Should the sprint buff icon be visible?",
+
+
+    "config.AcrobatDodgeChance": "Acrobate Dodge Chance.",
+    "config.AcrobatDodgeChance.tooltip": "The formula adjustment for the Arcobate profession,\nto raise or lower the dodge chance based on Athletic's level.\nThe base formula is; Athletic's level * (this value / 1000) + Luck level * 0.005 ",
+
     "moonslime.Athletics.sprinting.displayName": "Sprinting",
     "moonslime.Athletics.sprinting.description": "Faster movement at the cost of energy!",
 
@@ -48,11 +64,11 @@
     "moonslime.Athletics.GeodeOpen.InventoryFull": "You have no space to add the item you get from cracking this Geode to your inventory.",
 
     "Athletic5a.name": "Bodybuilder",
-    "Athletic5a.desc": "Regenerate health based on athletics level.",
+    "Athletic5a.desc": "Regenerate health based on half of one's athletics level.",
     "Athletic5b.name": "Jogger",
-    "Athletic5b.desc": "Regenerate energy based on athletics level'",
+    "Athletic5b.desc": "Regenerate energy based on a quarter of one's athletics level",
     "Athletic10a1.name": "Strong${man^woman^person}$",
-    "Athletic10a1.desc": "Allows the charging of Axes and Pickaxes.",
+    "Athletic10a1.desc": "Allows the charging of Axes and Pickaxes while using the sprint key.",
     "Athletic10a1.WoL.desc": "Allows cracking open normal geodes with right click when holding them.",
     "Athletic10a2.name": "Gridball Linebacker",
     "Athletic10a2.desc": "While sprinting, increase defense and reflect some damage back to the attacker based on athletics level.",

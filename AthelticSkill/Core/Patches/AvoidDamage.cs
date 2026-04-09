@@ -22,8 +22,8 @@ namespace AthleticSkill.Core.Patches
             if (__instance.HasCustomProfession(Athletic_Skill.Athletic10b1))
             {
                 // --- Calculate dodge chance ---
-                // Formula: 1% per athletic level + 0.5% per luck level
-                double dodgeChance = Utilities.GetLevel(__instance) * 0.01 + __instance.LuckLevel * 0.005;
+                // Formula: 0.05% per athletic level + 0.05% per luck level
+                double dodgeChance = Utilities.GetLevel(__instance) * (ModEntry.Config.AcrobatDodgeChance / 1000) + __instance.LuckLevel * 0.005;
 
                 // --- Roll the dice ---
                 double diceRoll = Game1.random.NextDouble(); // Generates a value between 0.0 and 1.0

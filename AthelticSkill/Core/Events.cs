@@ -310,7 +310,7 @@ namespace AthleticSkill.Core
 
             // Restore stamina for Runner profession
             if (HasEnergyRegen)
-                farmer.stamina = Restore((int)farmer.stamina, farmer.MaxStamina, amount);
+                farmer.stamina = Restore((int)farmer.stamina, farmer.MaxStamina, amount >> 1);
         }
 
         // Helper to safely restore health or stamina, capped at max value
@@ -336,7 +336,8 @@ namespace AthleticSkill.Core
                 CachedSprintBuff.effects.Defense.Value = CachedAthleticLevel;
             }
         }
-                private static void PlaySprintDust(Farmer farmer)
+
+        private static void PlaySprintDust(Farmer farmer)
         {
             GameLocation location = farmer.currentLocation;
             if (location == null)
