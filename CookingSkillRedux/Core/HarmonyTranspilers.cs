@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using CookingSkillRedux.Core;
@@ -15,173 +16,123 @@ using StardewValley.Menus;
 namespace CookingSkillRedux.Core
 {
 
-    //patch isnt loaded. cant get this to work 100% how I want it to. makes me sad.
-    public static class ClickCraftingRecipe_Transpiler
+    [HarmonyPatch(typeof(CraftingPage), "clickCraftingRecipe")]
+    internal static class ClickCraftingRecipe_Transpiler
     {
+        private static readonly MethodInfo ApplyVanillaUICookingHooksMethod = AccessTools.Method(typeof(ClickCraftingRecipe_Transpiler), nameof(ApplyVanillaUICookingHooks));
+        private static readonly FieldInfo HeldItemField = AccessTools.Field(typeof(CraftingPage), "heldItem");
 
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        [HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var codes = new List<CodeInstruction>(instructions);
-
-            // References to fields in the display class
-            var displayClassType = typeof(CraftingPage).GetNestedType("<>c__DisplayClass42_0",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-            var craftedField = AccessTools.Field(displayClassType, "crafted");
-            var heldItemField = AccessTools.Field(displayClassType, "heldItem");
-            var recipeField = AccessTools.Field(displayClassType, "recipe");
-
-            // Reference to helper methods
-            MethodInfo injectMethod = AccessTools.Method(typeof(ClickCraftingRecipe_Transpiler), nameof(InjectCookingHooksAfterSeasoning));
-            MethodInfo handleStackOverflow = AccessTools.Method(typeof(ClickCraftingRecipe_Transpiler), nameof(HandleStackOverflow));
-            MethodInfo debug = AccessTools.Method(typeof(ClickCraftingRecipe_Transpiler), nameof(Debugger));
-
-            // Game1.showRedMessage method
-            MethodInfo showRedMessage = AccessTools.Method(typeof(Game1), nameof(Game1.showRedMessage), new[] { typeof(string) });
+            Type displayClassType = typeof(CraftingPage).GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Public)
+                .FirstOrDefault(type =>
+                    AccessTools.Field(type, "recipe")?.FieldType == typeof(CraftingRecipe) &&
+                    AccessTools.Field(type, "crafted")?.FieldType == typeof(Item));
+            if (displayClassType == null)
+                throw new Exception("Could not find CraftingPage clickCraftingRecipe display class.");
 
 
-            for (int i = 0; i < codes.Count; i++)
-            {
-                var code = codes[i];
+            FieldInfo recipeField = AccessTools.Field(displayClassType, "recipe");
+            FieldInfo craftedField = AccessTools.Field(displayClassType, "crafted");
+            if (recipeField == null || craftedField == null)
+                throw new Exception("Could not find recipe/crafted fields on CraftingPage display class.");
 
-                // Look for the point right before the seasoning list is created
-                if (code.opcode == OpCodes.Newobj && code.operand is ConstructorInfo ctor &&
-                    ctor.DeclaringType == typeof(List<KeyValuePair<string, int>>))
-                {
+            CodeMatcher matcher = new CodeMatcher(instructions)
+                .MatchStartForward(
+                    new CodeMatch(OpCodes.Ldarg_0),
+                    new CodeMatch(OpCodes.Ldfld, HeldItemField)
+                );
 
-                    yield return new CodeInstruction(OpCodes.Call, debug);
-                }
+            if (!matcher.IsValid)
+                throw new Exception("Failed to find CraftingPage.heldItem check in clickCraftingRecipe transpiler.");
 
-                yield return code;
+            matcher.Insert(
+                new CodeInstruction(OpCodes.Ldloc_0),
+                new CodeInstruction(OpCodes.Ldarg_0),
+                new CodeInstruction(OpCodes.Ldloc_0),
+                new CodeInstruction(OpCodes.Ldfld, recipeField),
+                new CodeInstruction(OpCodes.Ldloc_0),
+                new CodeInstruction(OpCodes.Ldfld, craftedField),
+                new CodeInstruction(OpCodes.Call, ApplyVanillaUICookingHooksMethod),
+                new CodeInstruction(OpCodes.Stfld, craftedField)
+            );
 
-
-                // --- Post-seasoning hooks ---
-                if (code.opcode == OpCodes.Call &&
-                    code.operand is MethodInfo method &&
-                    method.Name == nameof(CraftingRecipe.DoesFarmerHaveAdditionalIngredientsInInventory))
-                {
-                    yield return new CodeInstruction(OpCodes.Ldloc_0);
-                    yield return new CodeInstruction(OpCodes.Ldfld, craftedField);
-                    yield return new CodeInstruction(OpCodes.Ldloc_0);
-                    yield return new CodeInstruction(OpCodes.Ldfld, recipeField);
-                    yield return new CodeInstruction(OpCodes.Ldarg_0);
-                    yield return new CodeInstruction(OpCodes.Call, injectMethod);
-                    yield return new CodeInstruction(OpCodes.Ldloc_0);
-                    yield return new CodeInstruction(OpCodes.Stfld, craftedField);
-                }
-
-                // --- Inject stack overflow / add to inventory logic ---
-                // Look for any Stfld assignment to heldItem and inject helper immediately after
-                if (code.opcode == OpCodes.Stfld && code.operand is FieldInfo f && f.Name == "heldItem")
-                {
-                    yield return new CodeInstruction(OpCodes.Ldloc_0);              // display class
-                    yield return new CodeInstruction(OpCodes.Ldfld, craftedField);  // crafted
-                    yield return new CodeInstruction(OpCodes.Ldloc_0);              // display class
-                    yield return new CodeInstruction(OpCodes.Ldfld, recipeField);   // recipe
-                    yield return new CodeInstruction(OpCodes.Ldarg_0);              // CraftingPage 'this'
-                    yield return new CodeInstruction(OpCodes.Call, handleStackOverflow);
-                    yield return new CodeInstruction(OpCodes.Ldloc_0);              // store result back
-                    yield return new CodeInstruction(OpCodes.Stfld, craftedField);
-                }
-            }
+            return matcher.InstructionEnumeration();
         }
 
-        public static void Debugger()
+        private static Item ApplyVanillaUICookingHooks(CraftingPage page, CraftingRecipe recipe, Item crafted)
         {
-            Log.Alert("DEBUGGER LOADED WHOOO");
-        }
-
-        // Post-seasoning hook
-        public static Item InjectCookingHooksAfterSeasoning(Item crafted, CraftingRecipe recipe, CraftingPage page)
-        {
-            if (recipe == null || crafted == null || !recipe.isCookingRecipe)
+            if (recipe == null || !recipe.isCookingRecipe)
                 return crafted;
 
-            var player = Game1.player;
-
-            var consumedItems = FigureOutItems(recipe, page._materialContainers);
-
-            Events.PreCook(recipe, crafted);
-            Events.PostCook(recipe, crafted, consumedItems, player);
-
+            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+            Dictionary<Item, int> consumed_items = FigureOutItems(recipe, page._materialContainers);
+            crafted = Events.PreCook(recipe, crafted);
+            crafted = Events.PostCook(recipe, crafted, consumed_items, player);
             return crafted;
         }
+
 
         public static Dictionary<Item, int> FigureOutItems(CraftingRecipe recipe, List<IInventory> additionalInventories)
         {
             Dictionary<Item, int> items = new Dictionary<Item, int>();
-            foreach (var ingredient in recipe.recipeList)
+            foreach (KeyValuePair<string, int> ingredient in recipe.recipeList)
             {
                 string key = ingredient.Key;
                 int num = ingredient.Value;
-                bool done = false;
-
-                // player inventory
-                for (int i = Game1.player.Items.Count - 1; i >= 0; i--)
+                bool flag = false;
+                for (int num2 = Game1.player.Items.Count - 1; num2 >= 0; num2--)
                 {
-                    if (CraftingRecipe.ItemMatchesForCrafting(Game1.player.Items[i], key))
+                    if (CraftingRecipe.ItemMatchesForCrafting(Game1.player.Items[num2], key))
                     {
                         int amount = num;
-                        num -= Game1.player.Items[i].Stack;
-                        items.Add(Game1.player.Items[i], System.Math.Min(Game1.player.Items[i].Stack, amount));
-                        if (num <= 0) { done = true; break; }
-                    }
-                }
-
-                if (additionalInventories == null || done) continue;
-
-                // additional inventories
-                foreach (var inventory in additionalInventories)
-                {
-                    if (inventory == null) continue;
-                    for (int j = inventory.Count - 1; j >= 0; j--)
-                    {
-                        if (CraftingRecipe.ItemMatchesForCrafting(inventory[j], key))
+                        num -= Game1.player.Items[num2].Stack;
+                        items.Add(Game1.player.Items[num2], Math.Min(Game1.player.Items[num2].Stack, amount));
+                        if (num <= 0)
                         {
-                            int n = System.Math.Min(num, inventory[j].Stack);
-                            num -= n;
-                            items.Add(inventory[j], n);
-                            if (num <= 0) break;
+                            flag = true;
+                            break;
                         }
                     }
-                    if (num <= 0) break;
+                }
+
+                if (additionalInventories == null || flag)
+                {
+                    continue;
+                }
+
+                for (int i = 0; i < additionalInventories.Count; i++)
+                {
+                    IInventory inventory = additionalInventories[i];
+                    if (inventory == null)
+                    {
+                        continue;
+                    }
+                    for (int num3 = inventory.Count - 1; num3 >= 0; num3--)
+                    {
+                        if (CraftingRecipe.ItemMatchesForCrafting(inventory[num3], key))
+                        {
+                            int num4 = Math.Min(num, inventory[num3].Stack);
+                            num -= num4;
+                            items.Add(inventory[num3], num4);
+
+                            if (num <= 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+
+                    if (num <= 0)
+                    {
+                        break;
+                    }
                 }
             }
+
             return items;
-        }
-
-        public static Item HandleStackOverflow(Item crafted, CraftingRecipe recipe, CraftingPage page)
-        {
-            var player = Game1.player;
-
-            if (page.heldItem == null)
-            {
-                recipe.consumeIngredients(page._materialContainers);
-                page.heldItem = crafted;
-            }
-            else
-            {
-                if (!(page.heldItem.Name == crafted.Name) || !page.heldItem.getOne().canStackWith(crafted.getOne()) || page.heldItem.Stack + recipe.numberProducedPerCraft - 1 >= page.heldItem.maximumStackSize())
-                {
-                    crafted.Stack = recipe.numberProducedPerCraft;
-                    if (player.couldInventoryAcceptThisItem(crafted))
-                    {
-                        player.addItemToInventoryBool(crafted);
-                    }
-                    else
-                    {
-                        // Inventory full; early return to skip crafting
-                        return crafted; // transpiler will respect this as stored crafted item
-                    }
-                }
-                else
-                {
-                    page.heldItem.Stack += recipe.numberProducedPerCraft;
-                }
-                recipe.consumeIngredients(page._materialContainers);
-
-            }
-
-            return crafted;
         }
     }
 }

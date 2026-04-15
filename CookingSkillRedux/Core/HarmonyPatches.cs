@@ -20,10 +20,8 @@ using StardewValley.Quests;
 namespace CookingSkillRedux.Core
 {
 
-    [HarmonyPatch(typeof(CraftingPage), "clickCraftingRecipe")]
     class ClickCraftingRecipe_patch
     {
-        [HarmonyLib.HarmonyPrefix]
         public static bool ClickCraftingRecipe(CraftingPage __instance, ClickableTextureComponent c, bool playSound, ref int ___currentCraftingPage, ref Item ___heldItem, ref bool ___cooking)
         {
             //do not change anything not cooking related - pointlessly dangerous
