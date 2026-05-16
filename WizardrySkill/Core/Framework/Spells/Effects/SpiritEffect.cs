@@ -2,7 +2,6 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceCore;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Monsters;
@@ -53,7 +52,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         *********/
         public bool Update(UpdateTickedEventArgs e)
         {
-            if (this.Summoner == null)
+            if (this.Summoner == null || this.Summoner.currentLocation == null)
             {
                 this.CleanUp();
                 return false;
@@ -133,9 +132,12 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
             this.AttackTimer = 60;
 
-            // Only the host should apply monster damage / world mutation.
-            // Farmhands still move and animate the spirit locally.
-            if (!Context.IsMainPlayer)
+            // Only the caster's own client should apply monster damage.
+            // Other clients still move and animate the spirit locally.
+            if (!this.Summoner.IsLocalPlayer)
+                return;
+
+            if (this.Summoner.currentLocation == null || mob == null)
                 return;
 
             int baseDmg = 10 * (this.Summoner.CombatLevel + this.Summoner.GetCustomBuffedSkillLevel(MagicConstants.SkillName));
@@ -220,7 +222,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             if (degrees >= 225 && degrees < 315)
                 return 2; // Down
 
-            return 1; // Right
+            return 1; // Right;
         }
 
         private void AddSprite()

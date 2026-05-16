@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
@@ -65,18 +66,29 @@ namespace WizardrySkill.Core.Framework.Spells
             return 4;
         }
 
+        public override string BuildExtraData(Farmer caster, int level, int targetX, int targetY)
+        {
+            Vector2 shootOrigin = this.GetShootOrigin(caster);
+            return SerializeShootOrigin(shootOrigin);
+        }
+
         public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
         {
             if (!Context.IsMainPlayer)
                 return null;
 
-            this.SpawnProjectile(caster, level, targetX, targetY);
+            Vector2 shootOrigin = this.GetShootOrigin(caster);
+            if (TryParseShootOrigin(extraData, out Vector2 syncedShootOrigin))
+                shootOrigin = syncedShootOrigin;
+
+            this.SpawnProjectile(caster, level, targetX, targetY, shootOrigin);
             return null;
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            this.SpawnProjectile(player, level, targetX, targetY);
+            Vector2 shootOrigin = this.GetShootOrigin(player);
+            this.SpawnProjectile(player, level, targetX, targetY, shootOrigin);
             return null;
         }
 
@@ -84,7 +96,7 @@ namespace WizardrySkill.Core.Framework.Spells
         /*********
         ** Private methods
         *********/
-        private void SpawnProjectile(Farmer player, int level, int targetX, int targetY)
+        private void SpawnProjectile(Farmer player, int level, int targetX, int targetY, Vector2 shootOrigin)
         {
             int newLevel = level + 1;
 
@@ -92,26 +104,16 @@ namespace WizardrySkill.Core.Framework.Spells
             int ammoDamage = this.DamageIncr * newLevel;
             int finalDamage = (int)(num * (ammoDamage + Game1.random.Next(-(ammoDamage / 2), ammoDamage + 2)) * (1f + player.buffs.AttackMultiplier));
 
-            Vector2 shootOrigin = this.GetShootOrigin(player);
-
-            Vector2 velocityTowardPoint = Utility.getVelocityTowardPoint(
-                shootOrigin,
-                this.AdjustForHeight(new Vector2(targetX, targetY)),
-                (15 + Game1.random.Next(4, 6)) * (1f + player.buffs.WeaponSpeedMultiplier)
-            );
+            Vector2 velocityTowardPoint = Utility.getVelocityTowardPoint(shootOrigin, this.AdjustForHeight(new Vector2(targetX, targetY)), (15 + Game1.random.Next(4, 6)) * (1f + player.buffs.WeaponSpeedMultiplier));
 
             GameLocation location = player.currentLocation;
 
-            var spellProjectile = new SpellProjectile(
-                finalDamage, this.Debuff, this.SpriteIndex, this.Bounces,
-                this.Tail, this.RotationalVelocy, velocityTowardPoint.X, velocityTowardPoint.Y,
-                shootOrigin, location, player, true, sound: this.Sound, explosion: this.Explosion
-            );
+            var spellProjectile = new SpellProjectile(finalDamage, this.Debuff, this.SpriteIndex, this.Bounces, this.Tail, this.RotationalVelocy, velocityTowardPoint.X, velocityTowardPoint.Y, shootOrigin, location, player, true, sound: this.Sound, explosion: this.Explosion);
 
             spellProjectile.WavyMotion.Value = this.Wavey;
             spellProjectile.piercesLeft.Value = this.PiercesLeft;
             spellProjectile.rotationVelocity.Value = this.RotationalVelocy;
-            spellProjectile.startingRotation.Value = this.GetRotation(player, targetX, targetY);
+            spellProjectile.startingRotation.Value = this.GetRotationFromOrigin(shootOrigin, targetX, targetY);
 
             spellProjectile.DebuffIntensity.Value = 2000 * newLevel;
             spellProjectile.boundingBoxWidth.Value = 32;
@@ -124,6 +126,35 @@ namespace WizardrySkill.Core.Framework.Spells
             }
 
             location.projectiles.Add(spellProjectile);
+        }
+
+        private static string SerializeShootOrigin(Vector2 shootOrigin)
+        {
+            return string.Join("|",
+                shootOrigin.X.ToString(CultureInfo.InvariantCulture),
+                shootOrigin.Y.ToString(CultureInfo.InvariantCulture)
+            );
+        }
+
+        private static bool TryParseShootOrigin(string raw, out Vector2 shootOrigin)
+        {
+            shootOrigin = Vector2.Zero;
+
+            if (string.IsNullOrWhiteSpace(raw))
+                return false;
+
+            string[] parts = raw.Split('|', 2);
+            if (parts.Length < 2)
+                return false;
+
+            if (!float.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out float x))
+                return false;
+
+            if (!float.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float y))
+                return false;
+
+            shootOrigin = new Vector2(x, y);
+            return true;
         }
 
 
@@ -145,13 +176,12 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public float GetRotation(Farmer player, int targetX, int targetY)
         {
-            Point point = Utility.Vector2ToPoint(new Vector2(targetX, targetY));
-            int mouseX = point.X;
-            int mouseY = point.Y;
+            return this.GetRotationFromOrigin(this.GetShootOrigin(player), targetX, targetY);
+        }
 
-            Vector2 shootOrigin = this.GetShootOrigin(player);
-
-            float rotation = (float)Math.Atan2(mouseY - shootOrigin.Y, mouseX - shootOrigin.X) - MathF.PI / 2f;
+        private float GetRotationFromOrigin(Vector2 shootOrigin, int targetX, int targetY)
+        {
+            float rotation = (float)Math.Atan2(targetY - shootOrigin.Y, targetX - shootOrigin.X) - MathF.PI / 2f;
 
             rotation -= MathF.PI;
             if (rotation < 0f)

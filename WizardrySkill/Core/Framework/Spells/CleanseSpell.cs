@@ -20,6 +20,14 @@ namespace WizardrySkill.Core.Framework.Spells
             // "cleanse" is the internal name for this spell
         }
 
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
+
+        // Cleanse only affects the caster's own buffs, so it should never be executed from a received multiplayer spell packet
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            return null;
+        }
+
         public override int GetManaCost(Farmer player, int level)
         {
             return 25;

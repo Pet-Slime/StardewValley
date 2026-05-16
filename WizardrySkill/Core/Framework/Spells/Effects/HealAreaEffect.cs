@@ -39,7 +39,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         public HealAreaEffect(Farmer summoner, int level)
         {
             this.Summoner = summoner;
-            this.Level = level+1;
+            this.Level = level + 1;
 
             this.Tile = this.Summoner.Tile;
             this.PrevSummonerLoc = summoner.currentLocation;
@@ -47,6 +47,14 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
         public bool Update(UpdateTickedEventArgs e)
         {
+            // This effect heals multiple online farmers, so only the host should run it.
+            if (!Context.IsMainPlayer)
+            {
+                this.CleanUp();
+                this.TimeLeft = 0;
+                return false;
+            }
+
             if (this.Summoner == null)
             {
                 this.CleanUp();

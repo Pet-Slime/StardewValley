@@ -49,8 +49,17 @@ namespace WizardrySkill.Core.Framework.Spells
             return SerializeTiles(selectedTiles);
         }
 
+        public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
+        {
+            string extraData = this.BuildExtraData(player, level, targetX, targetY);
+            return this.OnReceiveCast(player, level, targetX, targetY, extraData);
+        }
+
         public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
         {
+            if (caster == null || caster.currentLocation == null)
+                return null;
+
             if (caster.IsLocalPlayer && caster.modData.GetBool("moonslime.Wizardry.scrollspell") == false)
                 caster.Items.ReduceId("(O)717", 1);
 
@@ -63,14 +72,11 @@ namespace WizardrySkill.Core.Framework.Spells
             return new CrabRave(caster, ItemRegistry.Create("(O)717"), selectedTiles);
         }
 
-        public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
-        {
-            string extraData = this.BuildExtraData(player, level, targetX, targetY);
-            return this.OnReceiveCast(player, level, targetX, targetY, extraData);
-        }
-
         private static List<Vector2> GetSelectedTiles(Farmer player, int targetX, int targetY)
         {
+            if (player == null || player.currentLocation == null)
+                return new List<Vector2>();
+
             int tileX = targetX / Game1.tileSize;
             int tileY = targetY / Game1.tileSize;
             var target = new Vector2(tileX, tileY);

@@ -49,14 +49,6 @@ namespace WizardrySkill.Core.Framework
                     WizardrySkill.Core.Command_playerWizardFixMana.Run();
                 }
             }
-
-            // handle legacy data file
-            if (File.Exists(this.OldFilePath))
-            {
-                long[] players = this.TryApply(JsonConvert.DeserializeObject<LegacySaveData>(File.ReadAllText(this.OldFilePath))).ToArray();
-                if (players.Any())
-                    this.Monitor.Log($"Migrated legacy data file for players {string.Join(", ", players)}.");
-            }
         }
 
         /// <summary>Raised after the player finishes saving.</summary>

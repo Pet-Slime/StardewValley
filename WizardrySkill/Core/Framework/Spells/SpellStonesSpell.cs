@@ -1,4 +1,5 @@
 using MoonShared.Attributes;
+using StardewModdingAPI;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells.Effects;
@@ -36,6 +37,8 @@ namespace WizardrySkill.Core.Framework.Spells
         /// </summary>
         public SpellStonesSpell()
             : base(SchoolId.Arcane, "spellstones") { }
+
+        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
 
 
         /// <summary>
@@ -85,46 +88,109 @@ namespace WizardrySkill.Core.Framework.Spells
         /// </summary>
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            var loc = player.currentLocation;  // Cache current location
-            var tile = player.TilePoint;       // Cache player tile position
+            return this.OnReceiveCast(player, level, targetX, targetY, "");
+        }
 
+        /// <summary>
+        /// Executes the spell's effects when received through the spell sync system.
+        /// </summary>
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            if (caster == null || caster.currentLocation == null)
+                return null;
+
+            var loc = caster.currentLocation;  // Cache current location
+            var tile = caster.TilePoint;       // Cache player tile position
+
+            // Only the actual casting player should pay inventory, health, and stamina costs.
+            if (caster.IsLocalPlayer)
+                this.ApplyCasterCosts(caster, level);
+
+            // Only the host should create shared object debris in the world.
+            if (Context.IsMainPlayer)
+                this.CreateStones(level, tile.X, tile.Y, loc);
+
+            return caster.IsLocalPlayer
+                ? new SpellSuccess(caster, Sound, level == 3 ? 15 : 5)
+                : null;
+        }
+
+
+        /*********
+        ** Private helpers
+        *********/
+
+        /// <summary>
+        /// Applies the caster-owned costs for the spell level.
+        /// </summary>
+        private void ApplyCasterCosts(Farmer player, int level)
+        {
             switch (level)
             {
                 case 0:
                     // Basic mana stone creation
                     player.Items.ReduceId(StoneItemId, 1);
-                    Game1.createObjectDebris(StoneMana, tile.X, tile.Y, loc);
-                    return new SpellSuccess(player, Sound, 5);
+                    break;
 
                 case 1:
                     // Converts health into a health stone
                     player.Items.ReduceId(StoneItemId, 1);
                     player.takeDamage(DamageCost, true, null);
-                    Game1.createObjectDebris(StoneHealth, tile.X, tile.Y, loc);
-                    return new SpellSuccess(player, Sound, 5);
+                    break;
 
                 case 2:
                     // Converts stamina into an energy stone
                     player.Items.ReduceId(StoneItemId, 1);
                     player.Stamina -= StaminaCost;
-                    Game1.createObjectDebris(StoneEnergy, tile.X, tile.Y, loc);
-                    return new SpellSuccess(player, Sound, 5);
+                    break;
 
                 case 3:
                     // Consumes both health and stamina to create all three stones
                     player.Items.ReduceId(StoneItemId, 3);
                     player.takeDamage(DamageCost, true, null);
                     player.Stamina -= StaminaCost;
-                    Game1.createObjectDebris(StoneMana, tile.X, tile.Y, loc);
-                    Game1.createObjectDebris(StoneHealth, tile.X, tile.Y, loc);
-                    Game1.createObjectDebris(StoneEnergy, tile.X, tile.Y, loc);
-                    return new SpellSuccess(player, Sound, 15);
+                    break;
 
                 default:
                     // Fallback behavior — always at least creates a mana stone
                     player.Items.ReduceId(StoneItemId, 1);
-                    Game1.createObjectDebris(StoneMana, tile.X, tile.Y, loc);
-                    return new SpellSuccess(player, Sound, 5);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Creates the host-owned magic stone debris for the spell level.
+        /// </summary>
+        private void CreateStones(int level, int tileX, int tileY, GameLocation loc)
+        {
+            switch (level)
+            {
+                case 0:
+                    // Basic mana stone creation
+                    Game1.createObjectDebris(StoneMana, tileX, tileY, loc);
+                    break;
+
+                case 1:
+                    // Converts health into a health stone
+                    Game1.createObjectDebris(StoneHealth, tileX, tileY, loc);
+                    break;
+
+                case 2:
+                    // Converts stamina into an energy stone
+                    Game1.createObjectDebris(StoneEnergy, tileX, tileY, loc);
+                    break;
+
+                case 3:
+                    // Consumes both health and stamina to create all three stones
+                    Game1.createObjectDebris(StoneMana, tileX, tileY, loc);
+                    Game1.createObjectDebris(StoneHealth, tileX, tileY, loc);
+                    Game1.createObjectDebris(StoneEnergy, tileX, tileY, loc);
+                    break;
+
+                default:
+                    // Fallback behavior — always at least creates a mana stone
+                    Game1.createObjectDebris(StoneMana, tileX, tileY, loc);
+                    break;
             }
         }
     }

@@ -38,8 +38,16 @@ namespace WizardrySkill.Core.Framework.Spells
             return 1;
         }
 
+        public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
+        {
+            return this.OnReceiveCast(player, level, targetX, targetY, "");
+        }
+
         public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
         {
+            if (caster == null || caster.currentLocation == null)
+                return null;
+
             if (caster.IsLocalPlayer && caster.modData.GetBool("moonslime.Wizardry.scrollspell") == false)
             {
                 // Consume 1 Iridium Ore from inventory
@@ -48,11 +56,6 @@ namespace WizardrySkill.Core.Framework.Spells
 
             // Create a meteor effect at the targeted pixel position
             return new Meteor(caster, targetX, targetY);
-        }
-
-        public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
-        {
-            return this.OnReceiveCast(player, level, targetX, targetY, "");
         }
     }
 }

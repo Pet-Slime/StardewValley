@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Extensions;
 using StardewValley.Locations;
@@ -21,6 +22,8 @@ namespace WizardrySkill.Core.Framework.Spells
         public WaterSpell()
             : base(SchoolId.Toil, "water") { }
 
+        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
+
         // The mana cost of casting the spell (1 per cast)
         public override int GetManaCost(Farmer player, int level)
         {
@@ -30,19 +33,28 @@ namespace WizardrySkill.Core.Framework.Spells
         // Main effect of the spell
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Only the local player runs the effect
-            if (!player.IsLocalPlayer)
+            return this.OnReceiveCast(player, level, targetX, targetY, "");
+        }
+
+        // Called when the spell is received through the spell sync system
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            // Only the host should mutate shared terrain/object/location state
+            if (!Context.IsMainPlayer)
+                return null;
+
+            if (caster == null || caster.currentLocation == null)
                 return null;
 
             // Create a fake efficient watering can to simulate watering
             WateringCan water = new();
             water.IsEfficient = true;
-            ModEntry.Instance.Helper.Reflection.GetField<Farmer>(water, "lastUser").SetValue(player);
+            ModEntry.Instance.Helper.Reflection.GetField<Farmer>(water, "lastUser").SetValue(caster);
 
             level += 1; // Increase radius
             int actionCount = 0; // Track number of tiles watered
 
-            GameLocation loc = player.currentLocation;
+            GameLocation loc = caster.currentLocation;
 
             // Convert pixel coordinates to tile coordinates
             int tileX = targetX / Game1.tileSize;
@@ -50,13 +62,13 @@ namespace WizardrySkill.Core.Framework.Spells
             var target = new Vector2(tileX, tileY);
 
             // Get all tiles affected by the spell (radius = level)
-            List<Vector2> list = Utilities.TilesAffected(target, level, player);
+            List<Vector2> list = Utilities.TilesAffected(target, level, caster);
 
             // Loop over each tile in the affected area
             foreach (Vector2 tile in list)
             {
                 // Skip if the player is out of mana
-                if (!this.CanContinueCast(player, level))
+                if (!this.CanContinueCast(caster, level))
                     continue;
 
                 bool didAction = false;
@@ -104,17 +116,17 @@ namespace WizardrySkill.Core.Framework.Spells
 
                     // Reduce mana after the first tile
                     if (actionCount != 0)
-                        player.AddMana(-this.GetManaCost(player, level));
+                        caster.AddMana(-this.GetManaCost(caster, level));
 
                     actionCount++;
-                    Utilities.AddEXP(player, 2); // Give experience
+                    Utilities.AddEXP(caster, 2); // Give experience
                     loc.playSound("wateringCan", tile); // Play watering sound
                 }
             }
 
             // If no tiles were watered, the spell fizzles
-            return actionCount == 0
-                ? new SpellFizzle(player, this.GetManaCost(player, level))
+            return actionCount == 0 && caster.IsLocalPlayer
+                ? new SpellFizzle(caster, this.GetManaCost(caster, level))
                 : null;
         }
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Objects;
@@ -21,6 +22,8 @@ namespace WizardrySkill.Core.Framework.Spells
         public ClearDebrisSpell()
             : base(SchoolId.Toil, "cleardebris") { }
 
+        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
+
         public override int GetManaCost(Farmer player, int level)
         {
             return 3;
@@ -28,54 +31,61 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            if (!player.IsLocalPlayer)
+            return this.OnReceiveCast(player, level, targetX, targetY, "");
+        }
+
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            // Only the host should mutate shared world state.
+            if (!Context.IsMainPlayer)
                 return null;
 
+            if (caster == null || caster.currentLocation == null)
+                return null;
 
             level += 1; // Increment level for area scaling
             int actionCount = 0;
 
-
             // Setup fake tools for spell
-            Axe axe = CreateTool<Axe>(player, level);
-            Pickaxe pickaxe = CreateTool<Pickaxe>(player, level);
-            MeleeWeapon scythe = CreateTool<MeleeWeapon>(player, level);
+            Axe axe = CreateTool<Axe>(caster, level);
+            Pickaxe pickaxe = CreateTool<Pickaxe>(caster, level);
+            MeleeWeapon scythe = CreateTool<MeleeWeapon>(caster, level);
 
-            GameLocation loc = player.currentLocation;
+            GameLocation loc = caster.currentLocation;
             Vector2 targetTile = new(targetX / Game1.tileSize, targetY / Game1.tileSize);
-            List<Vector2> affectedTiles = Utilities.TilesAffected(targetTile, level, player);
+            List<Vector2> affectedTiles = Utilities.TilesAffected(targetTile, level, caster);
 
             foreach (Vector2 tile in affectedTiles)
             {
-                if (!this.CanContinueCast(player, level))
+                if (!this.CanContinueCast(caster, level))
                     return null;
 
                 bool didAction = false;
 
                 // Handle world objects
-                didAction |= HandleObjects(loc, tile, player, axe, pickaxe);
+                didAction |= HandleObjects(loc, tile, caster, axe, pickaxe);
 
                 // Handle terrain features (trees, branches, small debris)
                 if (level >= 2)
-                    didAction |= HandleTerrainFeatures(loc, tile, player, axe, pickaxe, scythe);
+                    didAction |= HandleTerrainFeatures(loc, tile, caster, axe, pickaxe, scythe);
 
                 // Handle resource clumps (stumps, boulders)
                 if (level >= 3)
-                    didAction |= HandleResourceClumps(loc, tile, player, axe, pickaxe);
+                    didAction |= HandleResourceClumps(loc, tile, caster, axe, pickaxe);
 
                 // Deduct mana and give EXP if any action was performed
                 if (didAction)
                 {
                     if (actionCount != 0)
-                        player.AddMana(-this.GetManaCost(player, level));
+                        caster.AddMana(-this.GetManaCost(caster, level));
 
                     actionCount++;
-                    Utilities.AddEXP(player, 1);
+                    Utilities.AddEXP(caster, 1);
                 }
             }
 
             return actionCount == 0
-                ? new SpellFizzle(player, this.GetManaCost(player, level))
+                ? new SpellFizzle(caster, this.GetManaCost(caster, level))
                 : null;
         }
 
@@ -146,7 +156,6 @@ namespace WizardrySkill.Core.Framework.Spells
 
         private static bool HandleResourceClumps(GameLocation loc, Vector2 tile, Farmer player, Axe axe, Pickaxe pickaxe)
         {
-
             ICollection<ResourceClump> clumps = loc.resourceClumps;
 
             if (clumps == null)

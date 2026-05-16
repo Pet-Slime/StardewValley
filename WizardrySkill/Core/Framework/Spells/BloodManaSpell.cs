@@ -15,8 +15,13 @@ namespace WizardrySkill.Core.Framework.Spells
         public BloodManaSpell()
             : base(SchoolId.Eldritch, "bloodmana")
         {
-            // SchoolId.Eldritch identifies which magical school this spell belongs to
-            // "bloodmana" is the internal name used to reference this spell
+        }
+
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
+
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            return null;
         }
 
         public override int GetManaCost(Farmer player, int level)
@@ -26,58 +31,33 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override bool CanCast(Farmer player, int level)
         {
-            return player.GetCurrentMana() != player.GetMaxMana() && player.health > (player.maxHealth / 4);
+            return base.CanCast(player, level)
+                && player.GetCurrentMana() != player.GetMaxMana()
+                && player.health > player.maxHealth / 4;
         }
 
-        // Called when the spell is actually cast
-        // targetX and targetY are coordinates where the spell is aimed (not used here)
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Only execute this logic for the local player (prevents multiplayer issues)
             if (!player.IsLocalPlayer)
                 return null;
 
-            // Calculate health to sacrifice: 1/4 of max health
-            int health = (player.maxHealth / 4);
+            int health = player.maxHealth / 4;
 
             if (player.modData.GetBool("moonslime.Wizardry.scrollspell") == false)
-            {
-                // Reduce the player's health
                 player.health -= health;
-            }
 
-            // Show floating red numbers above the player indicating lost health
-            player.currentLocation.debris.Add(new Debris(
-                health, // amount of health lost
-                new Vector2(player.StandingPixel.X + 8, player.StandingPixel.Y), // position above the player
-                Color.Red, // color of debris
-                1f, // scale of debris
-                player // who caused the debris
-            ));
+            player.currentLocation.debris.Add(new Debris(health, new Vector2(player.StandingPixel.X + 8, player.StandingPixel.Y), Color.Red, 1f, player));
 
-            // Play a hurt sound effect
             player.currentLocation.playSound("ow", player.Tile);
 
-            // Shake the screen to give visual feedback of taking damage
             Game1.hitShakeTimer = 100 * health;
 
-            // Calculate mana gained: 1/6 of max mana plus extra depending on spell level
-            int mana = (player.GetMaxMana() / 6) + ((level + 1) * 4);
-
-            // Add mana to the player
+            int mana = player.GetMaxMana() / 6 + (level + 1) * 4;
             player.AddMana(mana);
 
-            // Show floating blue numbers above the player indicating mana gained
-            player.currentLocation.debris.Add(new Debris(
-                mana,
-                new Vector2(player.StandingPixel.X + 8, player.StandingPixel.Y),
-                Color.Blue,
-                1f,
-                player
-            ));
+            player.currentLocation.debris.Add(new Debris(mana, new Vector2(player.StandingPixel.X + 8, player.StandingPixel.Y), Color.Blue, 1f, player));
 
-            // Return a "success" effect that other systems can react to
-            return new SpellSuccess(player, "ow"); // "ow" can be used for sound/feedback
+            return new SpellSuccess(player, "ow");
         }
     }
 }

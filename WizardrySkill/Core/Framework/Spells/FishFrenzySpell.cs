@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.TokenizableStrings;
@@ -25,6 +26,8 @@ namespace WizardrySkill.Core.Framework.Spells
             AccessTools.Field(typeof(GameLocation), "fishSplashPointTime");
 
         public FishFrenzySpell() : base(SchoolId.Nature, "fish_frenzy") { }
+
+        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
 
         public override int GetManaCost(Farmer player, int level)
         {
@@ -57,22 +60,41 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            if (!player.IsLocalPlayer)
+            return this.OnReceiveCast(player, level, targetX, targetY, "");
+        }
+
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            if (caster == null || caster.currentLocation == null)
                 return null;
 
-            if (player.Items.FirstOrDefault(i => i is StardewValley.Object { Category: -4 } obj) is not StardewValley.Object fishItem)
-                return new SpellFizzle(player, this.GetManaCost(player, level));
-
-            var location = player.currentLocation;
+            var location = caster.currentLocation;
             Point tile = new(targetX / Game1.tileSize, targetY / Game1.tileSize);
 
-            if (!location.isWaterTile(tile.X, tile.Y))
-                return new SpellFizzle(player, this.GetManaCost(player, level));
+            // Only the actual casting player should spend the fish reagent.
+            if (caster.IsLocalPlayer)
+            {
+                if (caster.Items.FirstOrDefault(i => i is StardewValley.Object { Category: -4 } obj) is not StardewValley.Object fishItem)
+                    return new SpellFizzle(caster, this.GetManaCost(caster, level));
 
-            player.Items.ReduceId(fishItem.QualifiedItemId, 1);
-            this.TrySpawnFishFrenzy(location, tile, player);
+                if (!location.isWaterTile(tile.X, tile.Y))
+                    return new SpellFizzle(caster, this.GetManaCost(caster, level));
 
-            return new SpellSuccess(player, "slosh", 10);
+                caster.Items.ReduceId(fishItem.QualifiedItemId, 1);
+            }
+
+            // Only the host should mutate the shared location's fish frenzy state.
+            if (Context.IsMainPlayer)
+            {
+                if (!location.isWaterTile(tile.X, tile.Y))
+                    return caster.IsLocalPlayer ? new SpellFizzle(caster, this.GetManaCost(caster, level)) : null;
+
+                this.TrySpawnFishFrenzy(location, tile, caster);
+            }
+
+            return caster.IsLocalPlayer
+                ? new SpellSuccess(caster, "slosh", 10)
+                : null;
         }
 
         private void TrySpawnFishFrenzy(GameLocation location, Point tile, Farmer player)

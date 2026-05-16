@@ -19,6 +19,15 @@ namespace WizardrySkill.Core.Framework.Spells
             // "heal" is the internal name for this spell
         }
 
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
+
+        // Heal only affects the caster's own health and local healing feedback.
+        // It should never be executed from a received multiplayer spell packet.
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            return null;
+        }
+
         public override int GetManaCost(Farmer player, int level)
         {
             // Mana cost is 25% of the player's maximum mana
@@ -51,10 +60,10 @@ namespace WizardrySkill.Core.Framework.Spells
             // Add a visual indicator of healing above the player
             player.currentLocation.debris.Add(new Debris(
                 health,
-                new Vector2(Game1.player.StandingPixel.X + 8, Game1.player.StandingPixel.Y),
+                new Vector2(player.StandingPixel.X + 8, player.StandingPixel.Y),
                 Color.Green,
                 1f,
-                Game1.player
+                player
             ));
 
             // Spell success: plays "healSound" and grants experience proportional to health restored

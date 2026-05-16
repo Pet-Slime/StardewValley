@@ -21,6 +21,15 @@ namespace WizardrySkill.Core.Framework.Spells
             this.DoesDisenchant = dis;
         }
 
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
+
+        // Enchant and Disenchant only affect the caster's held item, inventory, money, and mana.
+        // They should never be executed from a received multiplayer spell packet.
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            return null;
+        }
+
         public override int GetManaCost(Farmer player, int level) => 3; // Base mana cost
 
         public override int GetMaxCastingLevel() => 1; // Max level of spell is 1

@@ -204,9 +204,6 @@ namespace WizardrySkill.Core
             {
                 Log.Warn($"Exception migrating legacy save data: {ex}");
             }
-
-
-
         }
 
         [SEvent.DayStarted]
@@ -275,10 +272,7 @@ namespace WizardrySkill.Core
 
                 foreach (var msg in messages)
                 {
-                    if (string.IsNullOrWhiteSpace(msg.CastId))
-                        continue;
-
-                    if (!ProcessedCastIds.Add(msg.CastId))
+                    if (!TryRememberProcessedCast(msg.CastId))
                         continue;
 
                     Farmer caster = Game1.GetPlayer(msg.CasterId);
@@ -289,9 +283,6 @@ namespace WizardrySkill.Core
                     if (effect != null)
                         ActiveEffects.Add(effect);
                 }
-
-                if (ProcessedCastIds.Count > 500)
-                    ProcessedCastIds.Clear();
             }
 
             for (int i = ActiveEffects.Count - 1; i >= 0; i--)
@@ -373,69 +364,182 @@ namespace WizardrySkill.Core
                 Game1.player.GetSpellBook().SwapPreparedSet();
                 InputHelper.Suppress(e.Button);
             }
-            else if (CastPressed &&
-                     (e.Button == ModEntry.Config.Key_Spell1 || e.Button == ModEntry.Config.Key_Spell2 ||
-                      e.Button == ModEntry.Config.Key_Spell3 || e.Button == ModEntry.Config.Key_Spell4 ||
-                      (e.Button == ModEntry.Config.Key_Spell5 && hasFifthSpellSlot)))
+            else if (CastPressed && IsSpellSlotButton(e.Button, hasFifthSpellSlot, out int slotIndex))
             {
-                int slotIndex = 0;
-                if (e.Button == ModEntry.Config.Key_Spell1) slotIndex = 0;
-                else if (e.Button == ModEntry.Config.Key_Spell2) slotIndex = 1;
-                else if (e.Button == ModEntry.Config.Key_Spell3) slotIndex = 2;
-                else if (e.Button == ModEntry.Config.Key_Spell4) slotIndex = 3;
-                else if (e.Button == ModEntry.Config.Key_Spell5) slotIndex = 4;
-
                 InputHelper.Suppress(e.Button);
-
-                Farmer player = Game1.player;
-                SpellBook spellBook = player.GetSpellBook();
-                PreparedSpellBar prepared = spellBook.GetPreparedSpells();
-                PreparedSpell slot = prepared?.GetSlot(slotIndex);
-                if (slot == null)
-                    return;
-
-                Spell spell = SpellManager.Get(slot.SpellId);
-                if (spell == null)
-                    return;
-
-                bool canCast =
-                    spellBook.CanCastSpell(spell, slot.Level) &&
-                    (!hasMenuOpen || spell.CanCastInMenus);
-
-                if (!canCast)
-                    return;
-
-                if (Game1.ticks - LastSpellCastTick < SpellCastCooldownTicks)
-                    return;
-
-                LastSpellCastTick = Game1.ticks;
-
-                Log.Trace("Casting " + slot.SpellId);
-
-                player.AddMana(-spell.GetManaCost(player, slot.Level));
-                player.modData["moonslime.Wizardry.scrollspell"] = "no";
-
-                Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
-
-                string castId = Guid.NewGuid().ToString("N");
-                string extraData = spell.BuildExtraData(player, slot.Level, pos.X, pos.Y) ?? "";
-                string entry = $"{castId},{player.UniqueMultiplayerID},{spell.FullId},{slot.Level},{pos.X},{pos.Y},{extraData}";
-
-                Farm farm = Game1.getFarm();
-                foreach (var who in Game1.getOnlineFarmers())
-                {
-                    string playerKey = $"{BaseModDataKey}/{who.UniqueMultiplayerID}";
-                    Log.Trace($"Sending data to {who.displayName}");
-
-                    if (!farm.modData.TryGetValue(playerKey, out string existing))
-                        existing = "";
-
-                    if (!string.IsNullOrEmpty(existing))
-                        existing += "/";
-
-                    farm.modData[playerKey] = existing + entry;
-                }
+                TryCastPreparedSpell(slotIndex, hasMenuOpen);
             }
+        }
+
+        /// <summary>Try to cast a spell from the prepared spell bar.</summary>
+        private static void TryCastPreparedSpell(int slotIndex, bool hasMenuOpen)
+        {
+            Farmer player = Game1.player;
+            SpellBook spellBook = player.GetSpellBook();
+            PreparedSpellBar prepared = spellBook.GetPreparedSpells();
+            PreparedSpell slot = prepared?.GetSlot(slotIndex);
+            if (slot == null)
+                return;
+
+            Spell spell = SpellManager.Get(slot.SpellId);
+            if (spell == null)
+                return;
+
+            bool canCast = spellBook.CanCastSpell(spell, slot.Level) && (!hasMenuOpen || spell.CanCastInMenus);
+            if (!canCast)
+                return;
+
+            if (Game1.ticks - LastSpellCastTick < SpellCastCooldownTicks)
+                return;
+
+            LastSpellCastTick = Game1.ticks;
+
+            Log.Trace($"Casting {slot.SpellId} with sync mode {spell.SyncMode}");
+
+            player.AddMana(-spell.GetManaCost(player, slot.Level));
+            player.modData["moonslime.Wizardry.scrollspell"] = "no";
+
+            Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
+            string castId = Guid.NewGuid().ToString("N");
+            string extraData = spell.BuildExtraData(player, slot.Level, pos.X, pos.Y) ?? "";
+
+            DispatchSpellCast(player, spellBook, spell, slot.Level, pos, castId, extraData);
+        }
+
+        /// <summary>Route the spell based on its declared sync mode.</summary>
+        private static void DispatchSpellCast(Farmer player, SpellBook spellBook, Spell spell, int level, Point pos, string castId, string extraData)
+        {
+            switch (spell.SyncMode)
+            {
+                case SpellSyncMode.LocalOnly:
+                    TryRememberProcessedCast(castId);
+                    AddActiveEffect(spellBook.CastSpell(spell, level, pos.X, pos.Y));
+                    return;
+
+                case SpellSyncMode.VisualOnAll:
+                    TryRememberProcessedCast(castId);
+                    AddActiveEffect(spellBook.ReceiveCastSpell(spell, level, pos.X, pos.Y, extraData));
+                    QueueSpellCastForRemoteFarmers(player, spell, level, pos, castId, extraData);
+                    return;
+
+                case SpellSyncMode.HostWorld:
+                    // HostWorld casts are still routed to all other players, not only the host.
+                    // The host performs world mutations inside the spell/effect. Other clients can still create safe local visuals.
+                    TryRememberProcessedCast(castId);
+                    AddActiveEffect(spellBook.ReceiveCastSpell(spell, level, pos.X, pos.Y, extraData));
+                    QueueSpellCastForRemoteFarmers(player, spell, level, pos, castId, extraData);
+                    return;
+
+                default:
+                    Log.Warn($"Unknown spell sync mode {spell.SyncMode} for {spell.FullId}; defaulting to LocalOnly.");
+                    TryRememberProcessedCast(castId);
+                    AddActiveEffect(spellBook.CastSpell(spell, level, pos.X, pos.Y));
+                    return;
+            }
+        }
+
+        /// <summary>Queue a received-cast payload for every online farmer except the local caster.</summary>
+        private static void QueueSpellCastForRemoteFarmers(Farmer localCaster, Spell spell, int level, Point pos, string castId, string extraData)
+        {
+            Farm farm = Game1.getFarm();
+            if (farm == null)
+                return;
+
+            string entry = BuildCastEntry(localCaster, spell, level, pos, castId, extraData);
+            long localId = localCaster.UniqueMultiplayerID;
+            var recipients = new Dictionary<long, Farmer>();
+
+            foreach (Farmer who in Game1.getOnlineFarmers())
+            {
+                if (who == null || who.UniqueMultiplayerID == localId)
+                    continue;
+
+                recipients[who.UniqueMultiplayerID] = who;
+            }
+
+            Farmer host = Game1.MasterPlayer;
+            if (host != null && host.UniqueMultiplayerID != localId)
+                recipients[host.UniqueMultiplayerID] = host;
+
+            foreach (Farmer who in recipients.Values)
+                QueueSpellCastForFarmer(farm, who, entry);
+        }
+
+        /// <summary>Append one cast payload to a farmer's farm.modData mailbox.</summary>
+        private static void QueueSpellCastForFarmer(Farm farm, Farmer who, string entry)
+        {
+            string playerKey = $"{BaseModDataKey}/{who.UniqueMultiplayerID}";
+            Log.Trace($"Sending spell data to {who.displayName}");
+
+            if (!farm.modData.TryGetValue(playerKey, out string existing))
+                existing = "";
+
+            if (!string.IsNullOrEmpty(existing))
+                existing += "/";
+
+            farm.modData[playerKey] = existing + entry;
+        }
+
+        /// <summary>Build the serialized network payload for a spell cast.</summary>
+        private static string BuildCastEntry(Farmer caster, Spell spell, int level, Point pos, string castId, string extraData)
+        {
+            return $"{castId},{caster.UniqueMultiplayerID},{spell.FullId},{level},{pos.X},{pos.Y},{extraData}";
+        }
+
+        /// <summary>Add an effect to the active-effect list if the spell returned one.</summary>
+        private static void AddActiveEffect(IActiveEffect effect)
+        {
+            if (effect != null)
+                ActiveEffects.Add(effect);
+        }
+
+        /// <summary>Track a processed cast ID and reject duplicates.</summary>
+        private static bool TryRememberProcessedCast(string castId)
+        {
+            if (string.IsNullOrWhiteSpace(castId))
+                return false;
+
+            bool isNew = ProcessedCastIds.Add(castId);
+
+            if (ProcessedCastIds.Count > 500)
+                ProcessedCastIds.Clear();
+
+            return isNew;
+        }
+
+        /// <summary>Map configured spell buttons to a prepared spell slot index.</summary>
+        private static bool IsSpellSlotButton(SButton button, bool hasFifthSpellSlot, out int slotIndex)
+        {
+            slotIndex = 0;
+
+            if (button == ModEntry.Config.Key_Spell1)
+                return true;
+
+            if (button == ModEntry.Config.Key_Spell2)
+            {
+                slotIndex = 1;
+                return true;
+            }
+
+            if (button == ModEntry.Config.Key_Spell3)
+            {
+                slotIndex = 2;
+                return true;
+            }
+
+            if (button == ModEntry.Config.Key_Spell4)
+            {
+                slotIndex = 3;
+                return true;
+            }
+
+            if (button == ModEntry.Config.Key_Spell5 && hasFifthSpellSlot)
+            {
+                slotIndex = 4;
+                return true;
+            }
+
+            return false;
         }
 
         [SEvent.ButtonReleased]
@@ -531,7 +635,7 @@ namespace WizardrySkill.Core
         private static void OnRenderingHud(object sender, RenderingHudEventArgs e)
         {
             // Skip drawing if menus are open, events are active, or the player can't act
-            if ( !LearnedMagic || !Context.IsPlayerFree || Game1.farmEvent != null || Game1.displayHUD == false)
+            if (!LearnedMagic || !Context.IsPlayerFree || Game1.farmEvent != null || Game1.displayHUD == false)
                 return;
 
             SpriteBatch b = e.SpriteBatch;

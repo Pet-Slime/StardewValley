@@ -19,6 +19,14 @@ namespace WizardrySkill.Core.Framework.Spells
             // "descend" is the internal name used to reference this spell
         }
 
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
+
+        // Descend only moves the caster to a different mine level, so it should never be executed from a received multiplayer spell packet
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            return null;
+        }
+
         // Determines whether the spell can be cast
         public override bool CanCast(Farmer player, int level)
         {

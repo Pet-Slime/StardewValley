@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using SpaceCore;
@@ -38,6 +39,13 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         /// <returns>Returns true if the effect is still active, or false if it can be discarded.</returns>
         public bool Update(UpdateTickedEventArgs e)
         {
+            // Shockwave damages monsters and grants EXP, so only the host should run it.
+            if (!Context.IsMainPlayer)
+                return false;
+
+            if (this.Player == null || this.Player.currentLocation == null)
+                return false;
+
             if (this.Jumping)
             {
                 if (this.Player.yJumpVelocity == 0 && this.PrevJumpVel < 0)
@@ -48,12 +56,14 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 }
                 this.PrevJumpVel = this.Player.yJumpVelocity;
             }
+
             if (!this.Jumping)
             {
                 if (--this.Timer > 0)
                 {
                     return true;
                 }
+
                 this.Timer = 10;
 
                 int spotsForCurrRadius = 1 + this.CurrRad * 7;
@@ -69,6 +79,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                     Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(6, pixelPos, Color.White, 8, Game1.random.NextDouble() < 0.5, 30));
                     Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(12, pixelPos, Color.White, 8, Game1.random.NextDouble() < 0.5, 50f));
                 }
+
                 ++this.CurrRad;
 
                 foreach (var character in this.Player.currentLocation.characters)

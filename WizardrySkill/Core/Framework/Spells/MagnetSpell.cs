@@ -16,8 +16,17 @@ namespace WizardrySkill.Core.Framework.Spells
         public MagnetSpell()
             : base(SchoolId.Life, "magnetic_force")
         {
-            // SchoolId.Nature indicates this spell belongs to the Nature school
+            // SchoolId.Life indicates this spell belongs to the Life school
             // "magnetic_force" is the internal name of this spell
+        }
+
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
+
+        // Magnetic Force only affects the caster's own buff state and emote.
+        // It should never be executed from a received multiplayer spell packet.
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            return null;
         }
 
         public override bool CanCast(Farmer player, int level)

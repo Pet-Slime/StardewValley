@@ -1,6 +1,7 @@
 using System;
 using MoonShared.Attributes;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells.Effects;
@@ -18,6 +19,8 @@ namespace WizardrySkill.Core.Framework.Spells
         // Constructor: sets the spell's school and ID
         public RewindSpell()
             : base(SchoolId.Arcane, "rewind") { }
+
+        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
 
         // Limits the maximum level this spell can be cast at
         public override int GetMaxCastingLevel()
@@ -38,22 +41,51 @@ namespace WizardrySkill.Core.Framework.Spells
         // Returns the mana cost for casting this spell
         public override int GetManaCost(Farmer player, int level)
         {
-            return 25; 
+            return 25;
         }
 
         // Called when the spell is cast
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Only execute for the local player (to avoid duplicating effects in multiplayer)
-            if (!player.IsLocalPlayer)
+            return this.OnReceiveCast(player, level, targetX, targetY, "");
+        }
+
+        // Called when the spell is received through the spell sync system
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            if (caster == null || caster.currentLocation == null)
                 return null;
 
-            // Consume one ticket item
-            if (player.modData.GetBool("moonslime.Wizardry.scrollspell") == false)
+            // Only the actual casting player should consume the gold bar.
+            if (caster.IsLocalPlayer && caster.modData.GetBool("moonslime.Wizardry.scrollspell") == false)
+                caster.Items.ReduceId("336", 1);
+
+            // Only the host should mutate shared time and broadcast shared visual effects.
+            if (Context.IsMainPlayer)
             {
-                player.Items.ReduceId("336", 1);
+                // If time somehow reached 6:00 AM before the host processed this, fail safely.
+                if (Game1.timeOfDay == 600)
+                    return caster.IsLocalPlayer ? new SpellFizzle(caster, this.GetManaCost(caster, level)) : null;
+
+                this.BroadcastRewindVisuals(caster);
+
+                // Rewind the in-game time by 2 hours (200 in-game units)
+                // Ensures the time does not go below 6:00 AM
+                Game1.timeOfDay = Math.Max(600, Game1.timeOfDay - 200);
             }
 
+            // Return a successful spell effect with a sound and grant exp
+            return caster.IsLocalPlayer
+                ? new SpellSuccess(caster, "ticket_machine_whir", 25)
+                : null;
+        }
+
+        /*********
+        ** Private helpers
+        *********/
+
+        private void BroadcastRewindVisuals(Farmer player)
+        {
             // Determine the starting point for the visual effects
             var point = player.StandingPixel;
 
@@ -86,13 +118,6 @@ namespace WizardrySkill.Core.Framework.Spells
                 0,
                 Game1.tileSize,
                 100f));
-
-            // Rewind the in-game time by 2 hours (200 in-game units)
-            // Ensures the time does not go below 6:00 AM
-            Game1.timeOfDay = Math.Max(600, Game1.timeOfDay - 200);
-
-            // Return a successful spell effect with a sound and grant exp
-            return new SpellSuccess(player, "ticket_machine_whir", 25);
         }
     }
 }

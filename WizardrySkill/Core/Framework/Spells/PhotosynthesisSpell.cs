@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MoonShared.Attributes;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Extensions;
 using StardewValley.Minigames;
@@ -27,6 +28,8 @@ namespace WizardrySkill.Core.Framework.Spells
             // "photosynthesis" is the internal name for this spell
         }
 
+        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
+
         public override int GetMaxCastingLevel()
         {
             return 3;
@@ -45,10 +48,91 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Only apply effects for the local player
-            if (!player.IsLocalPlayer)
+            return this.OnReceiveCast(player, level, targetX, targetY, "");
+        }
+
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            if (caster == null || caster.currentLocation == null)
                 return null;
 
+            // Only the actual casting player should check failure feedback and consume the reagent.
+            if (caster.IsLocalPlayer)
+            {
+                if (!HasAnyValidTarget(caster, level, targetX, targetY))
+                    return new SpellFizzle(caster, this.GetManaCost(caster, level));
+
+                // Consume one fairydust after casting
+                caster.Items.ReduceId("872", 1);
+            }
+
+            // Only the host should mutate shared crop/tree/terrain state.
+            if (!Context.IsMainPlayer)
+                return null;
+
+            int num = ApplyPhotosynthesis(caster, level, targetX, targetY);
+
+            // If no terrain features were affected, the spell fails
+            if (num == 0)
+                return caster.IsLocalPlayer ? new SpellFizzle(caster, this.GetManaCost(caster, level)) : null;
+
+            return null; // Spell succeeded
+        }
+
+        /*********
+        ** Private helpers
+        *********/
+        private static bool HasAnyValidTarget(Farmer player, int level, int targetX, int targetY)
+        {
+            GameLocation location = player.currentLocation;
+
+            // Convert pixel coordinates to tile coordinates
+            int tileX = targetX / Game1.tileSize;
+            int tileY = targetY / Game1.tileSize;
+            var target = new Vector2(tileX, tileY);
+
+            // Get the tiles affected by the spell based on the spell's level
+            List<Vector2> list = Utilities.TilesAffected(target, 3 * (level + 1), player);
+
+            // Loop through all terrain features (crops, trees, etc.) in the location
+            foreach (var entry in location.terrainFeatures.Pairs.ToList())
+            {
+                var tf = entry.Value;
+
+                // If the terrain feature is HoeDirt with a crop
+                if (tf is HoeDirt dirt && list.Contains(entry.Key))
+                {
+                    if (dirt.crop != null && !dirt.crop.fullyGrown.Value)
+                        return true;
+                }
+
+                // If the terrain feature is a Fruit Tree
+                if (tf is FruitTree fruitTree && list.Contains(entry.Key))
+                {
+                    if (fruitTree.daysUntilMature.Value > 0)
+                        return true;
+
+                    if (!fruitTree.stump.Value && fruitTree.growthStage.Value == 4 &&
+                        (fruitTree.IsInSeasonHere() || location.Name == "Greenhouse") &&
+                        fruitTree.fruit.Count < 3)
+                    {
+                        return true;
+                    }
+                }
+
+                // If the terrain feature is a normal tree
+                if (tf is Tree tree && list.Contains(entry.Key))
+                {
+                    if (tree.growthStage.Value < 5)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static int ApplyPhotosynthesis(Farmer player, int level, int targetX, int targetY)
+        {
             GameLocation location = player.currentLocation;
 
             // Convert pixel coordinates to tile coordinates
@@ -73,6 +157,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 {
                     if (dirt.crop == null || dirt.crop.fullyGrown.Value)
                         continue; // Skip if empty or fully grown
+
                     dirt.crop.newDay(1); // Advance crop growth by one day
                     didAction = true;
                 }
@@ -83,6 +168,7 @@ namespace WizardrySkill.Core.Framework.Spells
                     if (fruitTree.daysUntilMature.Value > 0)
                     {
                         didAction = true;
+
                         // Reduce days until mature by 7 (accelerate growth)
                         fruitTree.daysUntilMature.Value = Math.Max(0, fruitTree.daysUntilMature.Value - 7);
 
@@ -129,16 +215,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 }
             }
 
-            // If no terrain features were affected, the spell fails
-            if (num == 0)
-            {
-                return new SpellFizzle(player, this.GetManaCost(player, level));
-            }
-
-            // Consume one fairydust after casting
-            player.Items.ReduceId("872", 1);
-
-            return null; // Spell succeeded
+            return num;
         }
     }
 }

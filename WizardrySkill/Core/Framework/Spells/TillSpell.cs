@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Extensions;
 using StardewValley.Locations;
@@ -20,6 +21,8 @@ namespace WizardrySkill.Core.Framework.Spells
         public TillSpell()
             : base(SchoolId.Toil, "till") { }
 
+        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
+
         // The mana cost of casting the spell
         public override int GetManaCost(Farmer player, int level)
         {
@@ -29,19 +32,28 @@ namespace WizardrySkill.Core.Framework.Spells
         // What happens when the spell is cast
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Only execute for the local player
-            if (!player.IsLocalPlayer)
+            return this.OnReceiveCast(player, level, targetX, targetY, "");
+        }
+
+        // What happens when the spell is received through the spell sync system
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            // Only the host should mutate shared terrain/object/location state
+            if (!Context.IsMainPlayer)
+                return null;
+
+            if (caster == null || caster.currentLocation == null)
                 return null;
 
             // Create a dummy hoe tool to simulate hoe actions
             Tool dummyHoe = new Hoe();
             dummyHoe.IsEfficient = true; // Makes the tool work instantly
-            ModEntry.Instance.Helper.Reflection.GetField<Farmer>(dummyHoe, "lastUser").SetValue(player);
+            ModEntry.Instance.Helper.Reflection.GetField<Farmer>(dummyHoe, "lastUser").SetValue(caster);
 
             level += 1; // Increase level for spell radius
             int actionCount = 0; // Tracks how many tiles were affected
 
-            GameLocation loc = player.currentLocation;
+            GameLocation loc = caster.currentLocation;
 
             // Convert pixel coordinates to tile coordinates
             int tileX = targetX / Game1.tileSize;
@@ -49,16 +61,15 @@ namespace WizardrySkill.Core.Framework.Spells
             var target = new Vector2(tileX, tileY);
 
             // Cache the mana cost in a variable for use later to reduce calls
-            int manaCost = this.GetManaCost(player, level);
+            int manaCost = this.GetManaCost(caster, level);
 
             // Get a list of all tiles affected by the spell (radius = level)
-            List<Vector2> list = Utilities.TilesAffected(target, level, player);
+            List<Vector2> list = Utilities.TilesAffected(target, level, caster);
 
             // Loop over each affected tile
             foreach (Vector2 tile in list)
             {
-
-                if (!this.CanContinueCast(player, level))
+                if (!this.CanContinueCast(caster, level))
                     return null;
 
                 // Handle terrain features (e.g., grass, bushes)
@@ -68,15 +79,16 @@ namespace WizardrySkill.Core.Framework.Spells
                     {
                         loc.terrainFeatures.Remove(tile); // Remove feature if tilleds
 
-
                         // Reduce mana after the first tile
                         if (actionCount != 0)
-                            player.AddMana(-manaCost);
+                            caster.AddMana(-manaCost);
+
                         actionCount++; // Count how many tiles were affected
-                        Utilities.AddEXP(player, 2); // Give experience
+                        Utilities.AddEXP(caster, 2); // Give experience
                         loc.playSound("hoeHit", tile); // Sound effect
                         Game1.stats.DirtHoed++; // Update game stats
                     }
+
                     continue; // Skip to next tile
                 }
 
@@ -86,8 +98,9 @@ namespace WizardrySkill.Core.Framework.Spells
                     if (value2.Type == "Crafting" && value2.Fragility != 2)
                     {
                         // Drop debris if the object is breakable
-                        loc.debris.Add(new Debris(value2.QualifiedItemId, player.GetToolLocation(), Utility.PointToVector2(player.StandingPixel)));
+                        loc.debris.Add(new Debris(value2.QualifiedItemId, caster.GetToolLocation(), Utility.PointToVector2(caster.StandingPixel)));
                     }
+
                     value2.performRemoveAction(); // Remove object
                     loc.Objects.Remove(tile);
                 }
@@ -101,7 +114,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 {
                     if (loc.makeHoeDirt(tile))
                     {
-                        loc.checkForBuriedItem((int)tile.X, (int)tile.Y, explosion: false, detectOnly: false, player);
+                        loc.checkForBuriedItem((int)tile.X, (int)tile.Y, explosion: false, detectOnly: false, caster);
 
                         // Visual effects for tilled dirt
                         Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(12, new Vector2(tile.X * 64f, tile.Y * 64f), Color.White, 8, Game1.random.NextBool(), 50f));
@@ -120,21 +133,22 @@ namespace WizardrySkill.Core.Framework.Spells
                         Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(6, new Vector2(tile.X * 64f, tile.Y * 64f), Color.White, 8, Game1.random.NextBool(), Vector2.Distance(target, tile) * 30f));
                     }
 
-                    loc.checkForBuriedItem((int)tile.X, (int)tile.Y, explosion: false, detectOnly: false, player);
+                    loc.checkForBuriedItem((int)tile.X, (int)tile.Y, explosion: false, detectOnly: false, caster);
                 }
 
                 // Reduce mana after the first tile
                 if (actionCount != 0)
-                    player.AddMana(-manaCost);
+                    caster.AddMana(-manaCost);
+
                 actionCount++; // Count how many tiles were affected
-                Utilities.AddEXP(player, 2); // Give experience
+                Utilities.AddEXP(caster, 2); // Give experience
                 loc.playSound("hoeHit", tile); // Sound effect
                 Game1.stats.DirtHoed++; // Update game stats
             }
 
             // If no tiles were affected, the spell fizzles
-            return actionCount == 0
-                ? new SpellFizzle(player, manaCost)
+            return actionCount == 0 && caster.IsLocalPlayer
+                ? new SpellFizzle(caster, manaCost)
                 : null;
         }
     }

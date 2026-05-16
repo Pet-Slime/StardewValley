@@ -16,6 +16,13 @@ namespace WizardrySkill.Core.Framework.Spells
         public TeleportSpell()
             : base(SchoolId.Motion, "teleport") { }
 
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
+
+        // Teleport only opens a local menu for the caster, so it should never be executed from a received multiplayer spell packet.
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            return null;
+        }
 
         public override int GetMaxCastingLevel()
         {
@@ -35,7 +42,6 @@ namespace WizardrySkill.Core.Framework.Spells
                    && player.mount == null
                    && player.Items.ContainsId("moonslime.Wizardry.Travel_Core");
         }
-
 
         public override int GetManaCost(Farmer player, int level)
         {

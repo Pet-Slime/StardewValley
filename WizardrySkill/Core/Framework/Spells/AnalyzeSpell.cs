@@ -29,6 +29,13 @@ namespace WizardrySkill.Core.Framework.Spells
             CanCastInMenus = true;
         }
 
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
+
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            return null;
+        }
+
         // The mana cost to cast this spell is always 0
         public override int GetManaCost(Farmer player, int level)
         {
@@ -107,7 +114,6 @@ namespace WizardrySkill.Core.Framework.Spells
                 if (activeItem?.QualifiedItemId is null)
                     continue;
 
-
                 // Check for custom spell data on the item
                 if (Game1.objectData.TryGetValue(activeItem.ItemId, out var data)
                     && data?.CustomFields != null
@@ -168,8 +174,7 @@ namespace WizardrySkill.Core.Framework.Spells
             {
                 foreach (var character in location.characters)
                 {
-                    if (character is StardewValley.Monsters.Bug mob &&
-                        Vector2.DistanceSquared(mob.Tile, tilePos) < 25f) // 5-tile radius
+                    if (character is StardewValley.Monsters.Bug mob && Vector2.DistanceSquared(mob.Tile, tilePos) < 25f)
                     {
                         spellsLearnt.Add("nature:lantern");
                         break;
@@ -178,18 +183,13 @@ namespace WizardrySkill.Core.Framework.Spells
             }
 
             // Detect crops in HoeDirt
-            if (location.terrainFeatures.TryGetValue(tilePos, out var feature)
-                && feature is HoeDirt { crop: not null })
-            {
+            if (location.terrainFeatures.TryGetValue(tilePos, out var feature) && feature is HoeDirt { crop: not null })
                 spellsLearnt.Add("nature:tendrils");
-            }
 
             // Detect meteorites in resource clumps
             foreach (var clump in location.resourceClumps)
             {
-                if (clump.parentSheetIndex.Value == ResourceClump.meteoriteIndex &&
-                    new Rectangle((int)clump.Tile.X, (int)clump.Tile.Y, clump.width.Value, clump.height.Value)
-                        .Contains((int)tilePos.X, (int)tilePos.Y))
+                if (clump.parentSheetIndex.Value == ResourceClump.meteoriteIndex && new Rectangle((int)clump.Tile.X, (int)clump.Tile.Y, clump.width.Value, clump.height.Value).Contains((int)tilePos.X, (int)tilePos.Y))
                 {
                     spellsLearnt.Add("elemental:meteor");
                     break;
@@ -199,9 +199,7 @@ namespace WizardrySkill.Core.Framework.Spells
             // Detect custom location-level spell data
             var data = location.GetData();
             if (data?.CustomFields != null && data.CustomFields.TryGetValue("moonslime.Wizardry.analyze", out string spellString))
-            {
                 spellsLearnt.Add(spellString);
-            }
 
             // Check for specific tiles (e.g., special buildings)
             var tile = location.map.GetLayer("Buildings").Tiles[(int)tilePos.X, (int)tilePos.Y];
@@ -209,11 +207,8 @@ namespace WizardrySkill.Core.Framework.Spells
                 spellsLearnt.Add("motion:descend");
 
             // Check for water tiles in level 100 of the Mine
-            if (location is StardewValley.Locations.MineShaft { mineLevel: 100 } ms &&
-                ms.waterTiles[(int)tilePos.X, (int)tilePos.Y])
-            {
+            if (location is StardewValley.Locations.MineShaft { mineLevel: 100 } ms && ms.waterTiles[(int)tilePos.X, (int)tilePos.Y])
                 spellsLearnt.Add("eldritch:bloodmana");
-            }
         }
 
         // Teaches the player all newly discovered spells and shows HUD messages
@@ -231,7 +226,6 @@ namespace WizardrySkill.Core.Framework.Spells
                 Log.Debug($"Player learnt spell: {spell}");
                 spellBook.LearnSpell(spell, 0, true);
                 LearnSpellScroll(player, spell);
-
 
                 // Show message in HUD
                 ShowLearnMessage(I18n.Spell_Learn(spellName: SpellManager.Get(spell).GetTranslatedName()));
@@ -251,9 +245,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 var school = School.GetSchool(schoolId);
 
                 // Check if the player knows all tier 1 and 2 spells in the school
-                bool knowsAllSchool =
-                    KnowsAllSpellsInTier(spellBook, school.GetSpellsTier1()) &&
-                    KnowsAllSpellsInTier(spellBook, school.GetSpellsTier2());
+                bool knowsAllSchool = KnowsAllSpellsInTier(spellBook, school.GetSpellsTier1()) && KnowsAllSpellsInTier(spellBook, school.GetSpellsTier2());
 
                 if (!knowsAllSchool)
                     knowsAll = false;
@@ -310,6 +302,7 @@ namespace WizardrySkill.Core.Framework.Spells
             {
                 messageSubject = item
             };
+
             Game1.addHUDMessage(message);
         }
 
@@ -325,6 +318,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
                 if (page is InventoryPage)
                     return reflection.GetField<Item>(page, "hoveredItem").GetValue();
+
                 if (page is CraftingPage)
                     return reflection.GetField<Item>(page, "hoverItem").GetValue();
             }
@@ -356,9 +350,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 return null;
 
             int index = buttons.IndexOf(hoveredSlot);
-            return index >= 0 && index < Game1.player.Items.Count
-                ? Game1.player.Items[index]
-                : null;
+            return index >= 0 && index < Game1.player.Items.Count ? Game1.player.Items[index] : null;
         }
 
         public static void LearnSpellScroll(Farmer player, string spell)
@@ -368,6 +360,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
                 if (!conditions.Contains(spell))
                     continue;
+
                 if (conditions.Split(" ").Length < 2)
                     continue;
 

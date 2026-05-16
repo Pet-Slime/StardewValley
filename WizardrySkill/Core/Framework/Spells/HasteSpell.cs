@@ -20,6 +20,15 @@ namespace WizardrySkill.Core.Framework.Spells
             // "haste" is the internal name for this spell
         }
 
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
+
+        // Haste only affects the caster's own buff state, inventory, emote, and sound.
+        // It should never be executed from a received multiplayer spell packet.
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            return null;
+        }
+
         // Determines if the spell can be cast
         public override bool CanCast(Farmer player, int level)
         {

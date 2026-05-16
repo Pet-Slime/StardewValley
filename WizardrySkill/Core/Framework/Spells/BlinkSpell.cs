@@ -1,5 +1,4 @@
 using System.Linq;
-using MoonShared.Attributes;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Extensions;
@@ -15,11 +14,20 @@ namespace WizardrySkill.Core.Framework.Spells
         ** Public methods
         *********/
         public BlinkSpell()
-            : base(SchoolId.Motion, "blink") { }
+            : base(SchoolId.Motion, "blink")
+        {
+        }
+
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
+
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            return null;
+        }
 
         public override int GetManaCost(Farmer player, int level)
         {
-            // Base cost handled dynamically in OnCast
+            // Base cost is handled dynamically in OnCast based on blink distance.
             return 0;
         }
 
@@ -34,25 +42,25 @@ namespace WizardrySkill.Core.Framework.Spells
                 return null;
 
             GameLocation location = player.currentLocation;
-            Vector2 targetTile = Game1.currentCursorTile;
+            Vector2 targetTile = new(targetX / Game1.tileSize, targetY / Game1.tileSize);
 
-            // 1. Prevent teleporting out of bounds
+            // 1. Prevent teleporting out of bounds.
             if (!location.isTileOnMap(targetTile))
                 return new SpellFizzle(player);
 
-            // 2. Compute distance
+            // 2. Compute distance.
             int distance = (int)Vector2.Distance(player.Tile, targetTile);
             if (distance == 0)
                 return new SpellFizzle(player);
 
-            // 3. Build collision rectangle
+            // 3. Build collision rectangle.
             Rectangle boundingBox = BlinkSpot(player, targetX - player.GetBoundingBox().Width / 2, targetY - player.GetBoundingBox().Height / 2);
 
-            // 4. Block solid walls or obstacles
+            // 4. Block solid walls or obstacles.
             if (location.isCollidingPosition(boundingBox, Game1.viewport, isFarmer: true, 0, glider: false, player))
                 return new SpellFizzle(player);
 
-            // 5. Terrain validation (Back layer)
+            // 5. Terrain validation on the Back layer.
             var backLayer = location.map.RequireLayer("Back");
             Tile backTile = backLayer.Tiles[(int)targetTile.X, (int)targetTile.Y];
             if (backTile == null)
@@ -61,30 +69,30 @@ namespace WizardrySkill.Core.Framework.Spells
             if (HasCollision(backTile))
                 return new SpellFizzle(player);
 
-            // 6. Block if there’s an object (chest, crops, etc.)
+            // 6. Block if there's an object on the target tile.
             if (location.objects.ContainsKey(targetTile))
                 return new SpellFizzle(player);
 
-            // 7. Block if NPC, monster, or pet occupies that tile
+            // 7. Block if an NPC, monster, pet, or other character occupies the target tile.
             if (location.isCharacterAtTile(targetTile) != null)
                 return new SpellFizzle(player);
 
-            // 8. Block if furniture occupies the target area
+            // 8. Block if furniture occupies the target area.
             if (location.furniture?.Any(f => f.boundingBox.Value.Contains(targetX, targetY)) == true)
                 return new SpellFizzle(player);
 
-            // 9. Mana cost based on distance
+            // 9. Mana cost based on distance.
             int manaCost = distance * 2;
             if (player.GetCurrentMana() < manaCost)
                 return new SpellFizzle(player);
 
-            // 10. Teleport player
+            // 10. Teleport player.
             player.position.X = targetX - player.GetBoundingBox().Width / 2;
             player.position.Y = targetY - player.GetBoundingBox().Height / 2;
             player.AddMana(-manaCost);
 
-            // 11. Success effect
-            return new SpellSuccess(player, "powerup", 1 * distance);
+            // 11. Success effect.
+            return new SpellSuccess(player, "powerup", distance);
         }
 
         /*********
@@ -92,13 +100,13 @@ namespace WizardrySkill.Core.Framework.Spells
         *********/
         private static Rectangle BlinkSpot(Farmer who, int targetX, int targetY)
         {
-            // Roughly aligns with player's hitbox
+            // Roughly aligns with the player's hitbox.
             return new Rectangle(targetX + 8, targetY + who.Sprite.getHeight() - 32, 48, 32);
         }
 
         private static bool HasCollision(Tile tile)
         {
-            // Checks for any terrain property that should block blinking
+            // Checks for terrain properties that should block blinking.
             return tile.TileIndexProperties.ContainsKey("Passable")
                 || tile.Properties.ContainsKey("Passable")
                 || tile.TileIndexProperties.ContainsKey("Water")

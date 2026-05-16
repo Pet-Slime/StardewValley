@@ -19,6 +19,8 @@ namespace WizardrySkill.Core.Framework.Spells
         public TendrilsSpell()
             : base(SchoolId.Nature, "tendrils") { }
 
+        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
+
         // Mana required to cast
         public override int GetManaCost(Farmer player, int level)
         {
@@ -34,11 +36,20 @@ namespace WizardrySkill.Core.Framework.Spells
         // What happens when the spell is cast
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
+            return this.OnReceiveCast(player, level, targetX, targetY, "");
+        }
+
+        // What happens when the spell is received through the spell sync system
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            if (caster == null || caster.currentLocation == null)
+                return null;
+
             // Create a new collection to hold the tendrils we generate
             TendrilGroup tendrils = new TendrilGroup();
 
             // Loop through all characters in the current location
-            foreach (var npc in player.currentLocation.characters)
+            foreach (var npc in caster.currentLocation.characters)
             {
                 // Only target monsters
                 if (npc is Monster mob)
@@ -53,7 +64,8 @@ namespace WizardrySkill.Core.Framework.Spells
                         tendrils.Add(new Tendril(mob, new Vector2(targetX, targetY), rad, dur));
 
                         // Give some XP to the player for hitting a monster
-                        Utilities.AddEXP(player, 3);
+                        if (caster.IsLocalPlayer)
+                            Utilities.AddEXP(caster, 3);
                     }
                 }
             }
@@ -62,7 +74,7 @@ namespace WizardrySkill.Core.Framework.Spells
             // Otherwise, the spell fizzles
             return tendrils.Any()
                 ? tendrils
-                : new SpellFizzle(player, this.GetManaCost(player, level));
+                : caster.IsLocalPlayer ? new SpellFizzle(caster, this.GetManaCost(caster, level)) : null;
         }
     }
 }

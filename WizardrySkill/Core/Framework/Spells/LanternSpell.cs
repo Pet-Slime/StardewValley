@@ -37,10 +37,18 @@ namespace WizardrySkill.Core.Framework.Spells
                    !Game1.currentLightSources.ContainsKey($"LanternSpell_{player.UniqueMultiplayerID}");
         }
 
+        public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
+        {
+            return this.OnReceiveCast(player, level, targetX, targetY, "");
+        }
+
         public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
         {
+            if (caster == null || caster.currentLocation == null)
+                return null;
+
             // Local sound is safe. Every client receiving the cast may play it locally.
-            caster.currentLocation.playSound("thunder", caster.Tile);
+            caster.currentLocation.LocalSoundAtPixel("thunder", caster.Position);
 
             if (caster.IsLocalPlayer)
             {
@@ -51,11 +59,6 @@ namespace WizardrySkill.Core.Framework.Spells
             // Apply the lantern effect. Visual/light behavior runs locally on each client.
             // World/object mutation inside the effect is host-only.
             return new LanternEffect(caster, level);
-        }
-
-        public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
-        {
-            return this.OnReceiveCast(player, level, targetX, targetY, "");
         }
     }
 }

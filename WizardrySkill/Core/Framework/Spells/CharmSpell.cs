@@ -21,6 +21,20 @@ namespace WizardrySkill.Core.Framework.Spells
             // "charm" is the internal name used to reference this spell
         }
 
+        /// <summary>
+        /// Charm only changes the caster's friendship data, health, mana, and EXP.
+        /// The visual particles are already broadcast manually, so the spell itself should not be replayed by other clients.
+        /// </summary>
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
+
+        /// <summary>
+        /// Charm should never be executed from a received multiplayer spell packet.
+        /// </summary>
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            return null;
+        }
+
         public override int GetManaCost(Farmer player, int level)
         {
             return 15;

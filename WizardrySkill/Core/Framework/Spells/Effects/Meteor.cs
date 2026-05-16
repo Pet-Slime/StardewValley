@@ -39,6 +39,9 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         /// <returns>Returns true if the effect is still active, or false if it can be discarded.</returns>
         public bool Update(UpdateTickedEventArgs e)
         {
+            if (this.Loc == null || this.Source == null)
+                return false;
+
             // decrease height until zero
             this.Height -= this.YVelocity;
             if (this.Height > 0)
@@ -95,7 +98,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
         private void DamageNearbyMonsters()
         {
-            foreach (var npc in this.Source.currentLocation.characters)
+            foreach (var npc in this.Loc.characters)
             {
                 if (npc is not Monster mob)
                     continue;

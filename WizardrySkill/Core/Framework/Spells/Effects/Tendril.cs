@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Monsters;
@@ -36,13 +37,25 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         /// <returns>Returns true if the effect is still active, or false if it can be discarded.</returns>
         public bool Update(UpdateTickedEventArgs e)
         {
-            Vector2 mobPos = new Vector2(this.Mob.GetBoundingBox().Center.X, this.Mob.GetBoundingBox().Center.Y);
-            if (Vector2.Distance(mobPos, this.Pos) >= this.Radius)
+            if (this.Mob == null)
+                return false;
+
+            // Only the host should constrain monster position.
+            // Farmhands still keep the tendril alive locally so it can draw the visual effect.
+            if (Context.IsMainPlayer)
             {
-                Vector2 offset = this.Mob.position.Value - this.Pos;
-                offset.Normalize();
-                offset *= this.Radius;
-                this.Mob.position.Value = this.Pos + offset;
+                Vector2 mobPos = new Vector2(this.Mob.GetBoundingBox().Center.X, this.Mob.GetBoundingBox().Center.Y);
+                if (Vector2.Distance(mobPos, this.Pos) >= this.Radius)
+                {
+                    Vector2 offset = this.Mob.position.Value - this.Pos;
+
+                    if (offset.LengthSquared() > 0.001f)
+                    {
+                        offset.Normalize();
+                        offset *= this.Radius;
+                        this.Mob.position.Value = this.Pos + offset;
+                    }
+                }
             }
 
             return --this.Duration > 0;
@@ -57,6 +70,9 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         /// <param name="spriteBatch">The sprite batch being drawn.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
+            if (this.Mob == null)
+                return;
+
             Vector2 mobPos = new Vector2(this.Mob.GetBoundingBox().Center.X, this.Mob.GetBoundingBox().Center.Y);
             float dist = Vector2.Distance(mobPos, this.Pos);
             Rectangle r = new Rectangle((int)this.Pos.X, (int)this.Pos.Y, 10, (int)dist);
