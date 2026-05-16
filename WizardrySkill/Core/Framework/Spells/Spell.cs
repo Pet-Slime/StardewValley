@@ -6,6 +6,13 @@ using WizardrySkill.Core.Framework.Schools;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
+    public enum SpellSyncMode
+    {
+        LocalOnly,
+        VisualOnAll,
+        HostWorld
+    }
+
     public abstract class Spell
     {
         /*********
@@ -15,6 +22,9 @@ namespace WizardrySkill.Core.Framework.Spells
         public School ParentSchool => School.GetSchool(this.ParentSchoolId);
         public string Id { get; }
         public string FullId => this.ParentSchoolId + ":" + this.Id;
+
+        /// <summary>How this spell should be processed in multiplayer.</summary>
+        public virtual SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
 
         /// <summary>Whether the spell can be cast while a menu is open.</summary>
         public bool CanCastInMenus { get; protected set; }
@@ -48,7 +58,6 @@ namespace WizardrySkill.Core.Framework.Spells
         /// <summary>Get the spell's translated name.</summary>
         public virtual string GetTranslatedName()
         {
-
             return ModEntry.Instance.I18N.Get($"moonslime.Wizardry.spell.{this.FullId}.name");
         }
 
@@ -83,6 +92,27 @@ namespace WizardrySkill.Core.Framework.Spells
             return string.Concat(name, "\n", this.GetTranslatedDescription());
         }
 
+        /// <summary>Build spell-specific synced data when the local player initiates a cast.</summary>
+        /// <param name="caster">The player casting the spell.</param>
+        /// <param name="level">The spell level.</param>
+        /// <param name="targetX">The target X position in pixels.</param>
+        /// <param name="targetY">The target Y position in pixels.</param>
+        public virtual string BuildExtraData(Farmer caster, int level, int targetX, int targetY)
+        {
+            return "";
+        }
+
+        /// <summary>Handle a received cast event. Defaults to the original cast behavior for backwards compatibility.</summary>
+        /// <param name="caster">The player casting the spell.</param>
+        /// <param name="level">The spell level.</param>
+        /// <param name="targetX">The target X position in pixels.</param>
+        /// <param name="targetY">The target Y position in pixels.</param>
+        /// <param name="extraData">Spell-specific synced data.</param>
+        public virtual IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
+        {
+            return this.OnCast(caster, level, targetX, targetY);
+        }
+
         public abstract IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY);
 
         public virtual void LoadIcon()
@@ -104,7 +134,7 @@ namespace WizardrySkill.Core.Framework.Spells
                 this.SpellLevels = new Texture2D[this.GetMaxCastingLevel()];
                 for (int i = 1; i <= this.GetMaxCastingLevel(); ++i)
                 {
-                    this.SpellLevels[i - 1] = Content.LoadTexture($"interface/level_{i-1}_spell");
+                    this.SpellLevels[i - 1] = Content.LoadTexture($"interface/level_{i - 1}_spell");
                 }
             }
             catch (ContentLoadException e)
@@ -122,6 +152,5 @@ namespace WizardrySkill.Core.Framework.Spells
             this.ParentSchoolId = school;
             this.Id = id;
         }
-
     }
 }

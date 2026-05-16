@@ -40,7 +40,10 @@ namespace WizardrySkill.Core
         private static IInputHelper InputHelper;
         private static bool CastPressed;
         private static double CarryoverManaRegen;
+        private static readonly HashSet<string> ProcessedCastIds = new();
 
+        private const int SpellCastCooldownTicks = 30;
+        private static int LastSpellCastTick = -9999;
 
         /// <summary>The active effects, spells, or projectiles which should be updated or drawn.</summary>
         private static readonly IList<IActiveEffect> ActiveEffects = [];
@@ -144,7 +147,10 @@ namespace WizardrySkill.Core
             {
                 effect.CleanUp();
             }
+
             ActiveEffects.Clear();
+            ProcessedCastIds.Clear();
+            LastSpellCastTick = -9999;
         }
 
         [SEvent.SaveLoaded]
@@ -206,6 +212,7 @@ namespace WizardrySkill.Core
         [SEvent.DayStarted]
         private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
+            LastSpellCastTick = -9999;
             Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
             // fix player's magic info if needed
             FixMagicIfNeeded(player);
@@ -265,16 +272,26 @@ namespace WizardrySkill.Core
             {
                 var messages = ReadAndClearActiveEffects(farm, playerKey);
                 Log.Trace($"Got data to {Game1.player.displayName}");
+
                 foreach (var msg in messages)
                 {
-                    Farmer caster = Game1.GetPlayer(msg.CasterId);
-                    if (caster == null) continue;
+                    if (string.IsNullOrWhiteSpace(msg.CastId))
+                        continue;
 
-                    IActiveEffect effect = caster.GetSpellBook()
-                        .CastSpell(msg.SpellFullId, msg.Level, msg.X, msg.Y);
+                    if (!ProcessedCastIds.Add(msg.CastId))
+                        continue;
+
+                    Farmer caster = Game1.GetPlayer(msg.CasterId);
+                    if (caster == null)
+                        continue;
+
+                    IActiveEffect effect = caster.GetSpellBook().ReceiveCastSpell(msg.SpellFullId, msg.Level, msg.X, msg.Y, msg.ExtraData);
                     if (effect != null)
                         ActiveEffects.Add(effect);
                 }
+
+                if (ProcessedCastIds.Count > 500)
+                    ProcessedCastIds.Clear();
             }
 
             for (int i = ActiveEffects.Count - 1; i >= 0; i--)
@@ -285,28 +302,57 @@ namespace WizardrySkill.Core
             }
         }
 
-        public static List<(long CasterId, string SpellFullId, int Level, int X, int Y)>
-            ReadAndClearActiveEffects(Farm farm, string newKey)
+        public static List<(string CastId, long CasterId, string SpellFullId, int Level, int X, int Y, string ExtraData)>
+           ReadAndClearActiveEffects(Farm farm, string newKey)
         {
-            var results = new List<(long, string, int, int, int)>();
-            if (farm == null) return results;
+            var results = new List<(string, long, string, int, int, int, string)>();
+            if (farm == null)
+                return results;
 
             if (!farm.modData.TryGetValue(newKey, out string raw) || string.IsNullOrWhiteSpace(raw))
                 return results;
 
             foreach (string entry in raw.Split('/', StringSplitOptions.RemoveEmptyEntries))
             {
-                string[] parts = entry.Split(',');
-                if (parts.Length < 5) continue;
-                if (!long.TryParse(parts[0], out long casterId)) continue;
+                string[] parts = entry.Split(',', 7);
+                if (parts.Length < 5)
+                    continue;
 
-                string spellFullId = parts[1];
+                // New format:
+                // castId,casterId,spellFullId,level,x,y,extraData
+                if (parts.Length >= 6 && long.TryParse(parts[1], out long casterIdNew))
+                {
+                    string castId = parts[0];
+                    string spellFullId = parts[2];
 
-                if (!int.TryParse(parts[2], out int level)) continue;
-                if (!int.TryParse(parts[3], out int x)) continue;
-                if (!int.TryParse(parts[4], out int y)) continue;
+                    if (!int.TryParse(parts[3], out int level))
+                        continue;
+                    if (!int.TryParse(parts[4], out int x))
+                        continue;
+                    if (!int.TryParse(parts[5], out int y))
+                        continue;
 
-                results.Add((casterId, spellFullId, level, x, y));
+                    string extraData = parts.Length >= 7 ? parts[6] : "";
+                    results.Add((castId, casterIdNew, spellFullId, level, x, y, extraData));
+                    continue;
+                }
+
+                // Old format fallback:
+                // casterId,spellFullId,level,x,y
+                if (!long.TryParse(parts[0], out long casterIdOld))
+                    continue;
+
+                string oldSpellFullId = parts[1];
+
+                if (!int.TryParse(parts[2], out int oldLevel))
+                    continue;
+                if (!int.TryParse(parts[3], out int oldX))
+                    continue;
+                if (!int.TryParse(parts[4], out int oldY))
+                    continue;
+
+                string oldCastId = $"{casterIdOld}:{oldSpellFullId}:{oldLevel}:{oldX}:{oldY}:{Game1.ticks}";
+                results.Add((oldCastId, casterIdOld, oldSpellFullId, oldLevel, oldX, oldY, ""));
             }
 
             farm.modData[newKey] = "";
@@ -319,7 +365,8 @@ namespace WizardrySkill.Core
             bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Wizard_Skill.Magic10a2);
             bool hasMenuOpen = Game1.activeClickableMenu is not null;
 
-            if (e.Button == ModEntry.Config.Key_Cast) CastPressed = true;
+            if (e.Button == ModEntry.Config.Key_Cast)
+                CastPressed = true;
 
             if (CastPressed && e.Button == ModEntry.Config.Key_SwapSpells && !hasMenuOpen)
             {
@@ -339,40 +386,54 @@ namespace WizardrySkill.Core
                 else if (e.Button == ModEntry.Config.Key_Spell5) slotIndex = 4;
 
                 InputHelper.Suppress(e.Button);
+
                 Farmer player = Game1.player;
                 SpellBook spellBook = player.GetSpellBook();
                 PreparedSpellBar prepared = spellBook.GetPreparedSpells();
                 PreparedSpell slot = prepared?.GetSlot(slotIndex);
-                if (slot == null) return;
+                if (slot == null)
+                    return;
 
                 Spell spell = SpellManager.Get(slot.SpellId);
-                if (spell == null) return;
+                if (spell == null)
+                    return;
 
                 bool canCast =
                     spellBook.CanCastSpell(spell, slot.Level) &&
                     (!hasMenuOpen || spell.CanCastInMenus);
 
-                if (canCast)
+                if (!canCast)
+                    return;
+
+                if (Game1.ticks - LastSpellCastTick < SpellCastCooldownTicks)
+                    return;
+
+                LastSpellCastTick = Game1.ticks;
+
+                Log.Trace("Casting " + slot.SpellId);
+
+                player.AddMana(-spell.GetManaCost(player, slot.Level));
+                player.modData["moonslime.Wizardry.scrollspell"] = "no";
+
+                Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
+
+                string castId = Guid.NewGuid().ToString("N");
+                string extraData = spell.BuildExtraData(player, slot.Level, pos.X, pos.Y) ?? "";
+                string entry = $"{castId},{player.UniqueMultiplayerID},{spell.FullId},{slot.Level},{pos.X},{pos.Y},{extraData}";
+
+                Farm farm = Game1.getFarm();
+                foreach (var who in Game1.getOnlineFarmers())
                 {
-                    Log.Trace("Casting " + slot.SpellId);
-                    player.AddMana(-spell.GetManaCost(player, slot.Level));
-                    player.modData["moonslime.Wizardry.scrollspell"] = "no";
-                    Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
-                    string entry = $"{player.UniqueMultiplayerID},{spell.FullId},{slot.Level},{pos.X},{pos.Y}";
+                    string playerKey = $"{BaseModDataKey}/{who.UniqueMultiplayerID}";
+                    Log.Trace($"Sending data to {who.displayName}");
 
-                    Farm farm = Game1.getFarm();
-                    foreach (var who in Game1.getOnlineFarmers())
-                    {
-                        string playerKey = $"{BaseModDataKey}/{who.UniqueMultiplayerID}";
-                        Log.Trace($"Sending data to {who.displayName}");
-                        if (!farm.modData.TryGetValue(playerKey, out string existing))
-                            existing = "";
+                    if (!farm.modData.TryGetValue(playerKey, out string existing))
+                        existing = "";
 
-                        if (!string.IsNullOrEmpty(existing))
-                            existing += "/";
+                    if (!string.IsNullOrEmpty(existing))
+                        existing += "/";
 
-                        farm.modData[playerKey] = existing + entry;
-                    }
+                    farm.modData[playerKey] = existing + entry;
                 }
             }
         }
@@ -666,7 +727,7 @@ namespace WizardrySkill.Core
         }
 
         /// <summary>
-        /// Updates CanCast states every 5 frames to reflect mana or inventory changes.
+        /// Updates CanCast states every 5 frames to reflect mana, inventory, and cooldown updates.
         /// </summary>
         private static void UpdateCanCastCache(SpellBook book, int totalSlots)
         {
@@ -677,11 +738,13 @@ namespace WizardrySkill.Core
             if (CachedStaticSpells == null)
                 return;
 
+            bool cooldownReady = IsSpellCastCooldownReady();
+
             CachedCanCastStates = new bool[totalSlots];
             for (int i = 0; i < totalSlots && i < CachedStaticSpells.Length; i++)
             {
                 var s = CachedStaticSpells[i];
-                CachedCanCastStates[i] = s != null && book.CanCastSpell(s.Spell, s.Level);
+                CachedCanCastStates[i] = s != null && cooldownReady && book.CanCastSpell(s.Spell, s.Level);
             }
         }
 
@@ -736,7 +799,10 @@ namespace WizardrySkill.Core
 
 
 
-
+        private static bool IsSpellCastCooldownReady()
+        {
+            return Game1.ticks - LastSpellCastTick >= SpellCastCooldownTicks;
+        }
 
         /*********
         ** Interaction Handlers

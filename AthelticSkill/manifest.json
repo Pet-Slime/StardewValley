@@ -5,7 +5,7 @@
   "Author": "moonslime",
   "Version": "1.4.0",
   "Description": "Adds sprinting and buffs professions as a skill",
-  "MinimumApiVersion": "4.3.2",
+  "MinimumApiVersion": "4.5.2",
   "MinimumGameVersion": "1.6.15",
   "EntryDll": "AthleticSkill.dll",
   "Dependencies": [

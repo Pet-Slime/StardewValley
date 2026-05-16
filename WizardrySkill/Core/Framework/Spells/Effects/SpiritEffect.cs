@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceCore;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Monsters;
@@ -58,7 +59,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 return false;
             }
 
-            // Handle location changes
+            // Handle location changes.
             if (this.PrevSummonerLoc != this.Summoner.currentLocation)
             {
                 this.CleanUp();
@@ -67,8 +68,8 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 this.AddSprite();
             }
 
-            // Handle attack or movement
             Monster target = this.AttackTimer > 0 ? null : this.FindNearestMonster(this.AttackRange);
+
             if (this.AttackTimer > 0)
                 this.AttackTimer--;
 
@@ -83,7 +84,6 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             }
             else
             {
-                // No enemies found — follow the summoner
                 this.FollowSummoner();
                 this.UpdateSprite(this.Summoner.Position);
             }
@@ -99,7 +99,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
         public void Draw(SpriteBatch b)
         {
-            // nothing; drawn Manually via TemporaryAnimatedSprite
+            // Nothing; drawn manually via TemporaryAnimatedSprite.
         }
 
 
@@ -132,9 +132,15 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 return;
 
             this.AttackTimer = 60;
+
+            // Only the host should apply monster damage / world mutation.
+            // Farmhands still move and animate the spirit locally.
+            if (!Context.IsMainPlayer)
+                return;
+
             int baseDmg = 10 * (this.Summoner.CombatLevel + this.Summoner.GetCustomBuffedSkillLevel(MagicConstants.SkillName));
 
-            // Temporarily move summoner to apply hitbox-based damage
+            // Temporarily move summoner to apply hitbox-based damage.
             Vector2 oldPos = this.Summoner.Position;
             this.Summoner.Position = new Vector2(mob.GetBoundingBox().Center.X, mob.GetBoundingBox().Center.Y);
             this.Summoner.currentLocation.damageMonster(mob.GetBoundingBox(), (int)(baseDmg * 0.75f), (int)(baseDmg * 1.5f), false, 1, 0, 0.1f, 2, false, this.Summoner);
@@ -177,20 +183,19 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         {
             UpdateSharedOscillation();
 
-            // Animate frames
             if (++this.AnimTimer >= 12)
             {
                 this.AnimTimer = 0;
-                this.AnimFrame = (this.AnimFrame + 1) & 3; // faster modulo 4
+                this.AnimFrame = (this.AnimFrame + 1) & 3;
             }
 
             int direction = GetSnappedDirection(this.Pos, target);
             this.Sprite.sourceRect.X = this.AnimFrame * 16;
             this.Sprite.sourceRect.Y = direction * 24;
 
-            // Visual offset + smooth movement
             Vector2 dynamicPos = this.Pos + SharedOscillation + SpriteOffset;
             Vector2 shadowPos = this.Pos + SharedOscillation;
+
             this.Sprite.position = Vector2.Lerp(this.Sprite.position, dynamicPos, 0.2f);
             this.Sprite.layerDepth = shadowPos.Y / 10000f;
 
@@ -203,7 +208,6 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             Vector2 direction = to - from;
 
             float angle = MathF.Atan2(direction.Y, direction.X);
-
             float degrees = MathHelper.ToDegrees(angle);
 
             if (degrees < 0)
@@ -215,6 +219,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 return 3; // Left
             if (degrees >= 225 && degrees < 315)
                 return 2; // Down
+
             return 1; // Right
         }
 
@@ -253,6 +258,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 scale = scale,
                 layerDepth = (startPos.Y - 1) / 10000f
             };
+
             this.PrevSummonerLoc.TemporarySprites.Add(this.Sprite);
             this.PrevSummonerLoc.TemporarySprites.Add(this.Shadow);
         }

@@ -5,7 +5,7 @@
   "Author": "moonslime",
   "Version": "1.0.0",
   "Description": "Become a master of the Books!",
-  "MinimumApiVersion": "4.3.2",
+  "MinimumApiVersion": "4.5.2",
   "MinimumGameVersion": "1.6.15",
   "EntryDll": "BibliocraftSkill.dll",
   "Dependencies": [

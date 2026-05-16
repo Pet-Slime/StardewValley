@@ -1,8 +1,8 @@
 using System;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewValley;
 using WizardrySkill.Core.Framework.Game;
-using static System.Net.Mime.MediaTypeNames;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace WizardrySkill.Core.Framework.Spells
@@ -13,21 +13,21 @@ namespace WizardrySkill.Core.Framework.Spells
         /*********
         ** Fields / Properties
         *********/
-        // Basic spell stats
-        public int ManaBase { get; }           // Base mana cost
-        public int DamageBase { get; }         // Base damage
-        public int DamageIncr { get; }         // Damage increase per level
-        public string Sound { get; }           // Sound played when cast
-        public bool Seeking { get; }           // Does the projectile track a target?
-        public int SpriteIndex { get; }        // Sprite used for the projectile
-        public int Bounces { get; }            // How many times projectile can bounce
-        public string Debuff { get; }          // Debuff applied on hit
-        public int Tail { get; }                // Trail length
-        public float RotationalVelocy { get; } // Rotational speed
-        public bool Wavey { get; }             // Does it have wave motion?
-        public int PiercesLeft { get; }        // How many targets it can pierce
-        public bool IgnoreTerrain { get; }     // Can it pass through terrain?
-        public bool Explosion { get; }         // Does it explode on impact?
+        public int ManaBase { get; }
+        public int DamageBase { get; }
+        public int DamageIncr { get; }
+        public string Sound { get; }
+        public bool Seeking { get; }
+        public int SpriteIndex { get; }
+        public int Bounces { get; }
+        public string Debuff { get; }
+        public int Tail { get; }
+        public float RotationalVelocy { get; }
+        public bool Wavey { get; }
+        public int PiercesLeft { get; }
+        public bool IgnoreTerrain { get; }
+        public bool Explosion { get; }
+
 
         /*********
         ** Constructor
@@ -37,7 +37,6 @@ namespace WizardrySkill.Core.Framework.Spells
             bool seeking = false, bool wavey = true, int piercesLeft = 1, bool ignoreTerrain = false, bool explosion = false)
             : base(school, id)
         {
-            // Initialize all properties with the provided parameters
             this.ManaBase = manaBase;
             this.DamageBase = dmgBase;
             this.DamageIncr = dmgIncr;
@@ -54,9 +53,10 @@ namespace WizardrySkill.Core.Framework.Spells
             this.Explosion = explosion;
         }
 
+        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
+
         public override int GetManaCost(Farmer player, int level)
         {
-            // Mana cost scales with level
             return this.ManaBase * (level + 1);
         }
 
@@ -65,68 +65,71 @@ namespace WizardrySkill.Core.Framework.Spells
             return 4;
         }
 
-        /*********
-        ** Casting the spell
-        *********/
-        public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
         {
-            if (!player.IsLocalPlayer) // Only cast for the local player
+            if (!Context.IsMainPlayer)
                 return null;
 
-            // Calculate base damage, then add random variation and player buffs
+            this.SpawnProjectile(caster, level, targetX, targetY);
+            return null;
+        }
+
+        public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
+        {
+            this.SpawnProjectile(player, level, targetX, targetY);
+            return null;
+        }
+
+
+        /*********
+        ** Private methods
+        *********/
+        private void SpawnProjectile(Farmer player, int level, int targetX, int targetY)
+        {
             int newLevel = level + 1;
 
             float num = this.DamageBase;
-            int ammoDamage =  this.DamageIncr * newLevel;
-            int finalDamage = (int)(num * (float)(ammoDamage + Game1.random.Next(-(ammoDamage / 2), ammoDamage + 2)) * (1f + player.buffs.AttackMultiplier));
+            int ammoDamage = this.DamageIncr * newLevel;
+            int finalDamage = (int)(num * (ammoDamage + Game1.random.Next(-(ammoDamage / 2), ammoDamage + 2)) * (1f + player.buffs.AttackMultiplier));
 
-            // Determine where the projectile should spawn
             Vector2 shootOrigin = this.GetShootOrigin(player);
 
-            // Determine projectile velocity toward the target
             Vector2 velocityTowardPoint = Utility.getVelocityTowardPoint(
-                this.GetShootOrigin(player),
+                shootOrigin,
                 this.AdjustForHeight(new Vector2(targetX, targetY)),
                 (15 + Game1.random.Next(4, 6)) * (1f + player.buffs.WeaponSpeedMultiplier)
             );
 
-            var location = player.currentLocation;
+            GameLocation location = player.currentLocation;
 
-            // Create the projectile object
             var spellProjectile = new SpellProjectile(
                 finalDamage, this.Debuff, this.SpriteIndex, this.Bounces,
                 this.Tail, this.RotationalVelocy, velocityTowardPoint.X, velocityTowardPoint.Y,
                 shootOrigin, location, player, true, sound: this.Sound, explosion: this.Explosion
             );
 
-            // Apply motion and behavior properties
             spellProjectile.WavyMotion.Value = this.Wavey;
             spellProjectile.piercesLeft.Value = this.PiercesLeft;
             spellProjectile.rotationVelocity.Value = this.RotationalVelocy;
             spellProjectile.startingRotation.Value = this.GetRotation(player, targetX, targetY);
 
-            // Optional projectile stats
             spellProjectile.DebuffIntensity.Value = 2000 * newLevel;
             spellProjectile.boundingBoxWidth.Value = 32;
             spellProjectile.maxTravelDistance.Value = 1000 * newLevel;
 
-            // Optional terrain interaction
             if (this.IgnoreTerrain)
             {
                 spellProjectile.ignoreLocationCollision.Value = true;
                 spellProjectile.ignoreTravelGracePeriod.Value = true;
             }
 
-            // Add projectile to the location so it can move and interact
             location.projectiles.Add(spellProjectile);
-
-            return null; // No immediate effect on casting
         }
+
 
         /*********
         ** Helper methods
         *********/
-
         public Vector2 GetShootOrigin(Farmer who)
         {
             return this.AdjustForHeight(who.getStandingPosition(), for_cursor: false);
@@ -135,14 +138,11 @@ namespace WizardrySkill.Core.Framework.Spells
         public Vector2 AdjustForHeight(Vector2 position, bool for_cursor = true)
         {
             if (!Game1.options.useLegacySlingshotFiring && for_cursor)
-            {
                 return new Vector2(position.X, position.Y);
-            }
 
             return new Vector2(position.X, position.Y - 32f - 8f);
         }
 
-        // Calculates the rotation (angle) for the projectile to face the target
         public float GetRotation(Farmer player, int targetX, int targetY)
         {
             Point point = Utility.Vector2ToPoint(new Vector2(targetX, targetY));
@@ -151,13 +151,11 @@ namespace WizardrySkill.Core.Framework.Spells
 
             Vector2 shootOrigin = this.GetShootOrigin(player);
 
-            // Use Atan2 to calculate angle from origin to target
-            float rotation = (float)Math.Atan2(mouseY - shootOrigin.Y, mouseX - shootOrigin.X) - (float)Math.PI / 2;
+            float rotation = (float)Math.Atan2(mouseY - shootOrigin.Y, mouseX - shootOrigin.X) - MathF.PI / 2f;
 
-            // Normalize rotation to 0–360 degrees
-            rotation -= (float)Math.PI;
+            rotation -= MathF.PI;
             if (rotation < 0f)
-                rotation += (float)Math.PI * 2f;
+                rotation += MathF.PI * 2f;
 
             return rotation;
         }

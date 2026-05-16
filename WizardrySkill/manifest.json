@@ -3,9 +3,9 @@
   "UniqueID": "moonslime.WizardrySkill",
   "Name": "Wizardry",
   "Author": "moonslime",
-  "Version": "1.10.3",
+  "Version": "1.11.2",
   "Description": "Magic Revisted.",
-  "MinimumApiVersion": "4.3.2",
+  "MinimumApiVersion": "4.5.2",
   "MinimumGameVersion": "1.6.15",
   "EntryDll": "WizardrySkill.dll",
   "Dependencies": [

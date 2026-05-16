@@ -15,9 +15,11 @@ namespace WizardrySkill.Core.Framework.Spells
         public MeteorSpell()
             : base(SchoolId.Elemental, "meteor")
         {
-            // SchoolId.Eldritch indicates this spell belongs to the Eldritch school
+            // SchoolId.Elemental indicates this spell belongs to the Elemental school
             // "meteor" is the internal name for this spell
         }
+
+        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
 
         public override int GetManaCost(Farmer player, int level)
         {
@@ -36,19 +38,21 @@ namespace WizardrySkill.Core.Framework.Spells
             return 1;
         }
 
-        public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
+        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
         {
-            if (player.IsLocalPlayer)
+            if (caster.IsLocalPlayer && caster.modData.GetBool("moonslime.Wizardry.scrollspell") == false)
             {
-                if (player.modData.GetBool("moonslime.Wizardry.scrollspell") == false)
-                {
-                    // Consume 1 Iridium Ore from inventory
-                    player.Items.ReduceId(SObject.iridium.ToString(), 1);
-                }
+                // Consume 1 Iridium Ore from inventory
+                caster.Items.ReduceId(SObject.iridium.ToString(), 1);
             }
 
-            // Create a meteor effect at the targeted tile
-            return new Meteor(player, targetX, targetY);
+            // Create a meteor effect at the targeted pixel position
+            return new Meteor(caster, targetX, targetY);
+        }
+
+        public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
+        {
+            return this.OnReceiveCast(player, level, targetX, targetY, "");
         }
     }
 }

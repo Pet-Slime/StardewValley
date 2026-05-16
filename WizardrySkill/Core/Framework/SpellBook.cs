@@ -222,7 +222,7 @@ namespace WizardrySkill.Core.Framework
             return spell.CanCast(this.Player, level);
         }
 
-        /// <summary>Cast a spell.</summary>
+        /// <summary>Cast a spell using the original direct-cast behavior.</summary>
         /// <param name="spellId">The spell ID to cast.</param>
         /// <param name="level">The spell level.</param>
         /// <param name="x">The X coordinate on which to cast the spell.</param>
@@ -232,15 +232,36 @@ namespace WizardrySkill.Core.Framework
             return this.CastSpell(SpellManager.Get(spellId), level, x, y);
         }
 
-        /// <summary>Cast a spell.</summary>
+        /// <summary>Cast a spell using the original direct-cast behavior.</summary>
         /// <param name="spell">The spell to cast.</param>
         /// <param name="level">The spell level.</param>
         /// <param name="x">The X coordinate on which to cast the spell.</param>
         /// <param name="y">The Y coordinate on which to cast the spell.</param>
         public IActiveEffect CastSpell(Spell spell, int level, int x = int.MinValue, int y = int.MinValue)
         {
-
             return spell.OnCast(this.Player, level, x, y);
+        }
+
+        /// <summary>Handle a received spell cast using synced spell payload data.</summary>
+        /// <param name="spellId">The spell ID to cast.</param>
+        /// <param name="level">The spell level.</param>
+        /// <param name="x">The X coordinate on which to cast the spell.</param>
+        /// <param name="y">The Y coordinate on which to cast the spell.</param>
+        /// <param name="extraData">Spell-specific synced data.</param>
+        public IActiveEffect ReceiveCastSpell(string spellId, int level, int x = int.MinValue, int y = int.MinValue, string extraData = "")
+        {
+            return this.ReceiveCastSpell(SpellManager.Get(spellId), level, x, y, extraData);
+        }
+
+        /// <summary>Handle a received spell cast using synced spell payload data.</summary>
+        /// <param name="spell">The spell to cast.</param>
+        /// <param name="level">The spell level.</param>
+        /// <param name="x">The X coordinate on which to cast the spell.</param>
+        /// <param name="y">The Y coordinate on which to cast the spell.</param>
+        /// <param name="extraData">Spell-specific synced data.</param>
+        public IActiveEffect ReceiveCastSpell(Spell spell, int level, int x = int.MinValue, int y = int.MinValue, string extraData = "")
+        {
+            return spell.OnReceiveCast(this.Player, level, x, y, extraData ?? "");
         }
 
 

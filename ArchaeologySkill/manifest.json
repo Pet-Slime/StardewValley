@@ -5,7 +5,7 @@
   "Author": "moonslime",
   "Version": "2.18.2",
   "Description": "Adds a skill related to digging and panning.",
-  "MinimumApiVersion": "4.3.2",
+  "MinimumApiVersion": "4.5.2",
   "MinimumGameVersion": "1.6.15",
   "EntryDll": "ArchaeologySkill.dll",
   "Dependencies": [
