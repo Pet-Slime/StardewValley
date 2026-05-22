@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using MoonShared;
@@ -25,11 +24,20 @@ namespace WizardrySkill.Core.Framework.Spells
         {
         }
 
-        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalWorld;
 
         public override int GetManaCost(Farmer player, int level)
         {
             return 25;
+        }
+
+        // Returns the item cost for casting this spell.
+        public override IDictionary<string, int> GetItemCost(Farmer player, int level)
+        {
+            return new Dictionary<string, int>
+            {
+                ["717"] = 1
+            };
         }
 
         public override int GetMaxCastingLevel()
@@ -39,37 +47,26 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override bool CanCast(Farmer player, int level)
         {
-            // Must have at least one crab item
-            return base.CanCast(player, level) && player.Items.ContainsId("(O)717", 1);
-        }
-
-        public override string BuildExtraData(Farmer caster, int level, int targetX, int targetY)
-        {
-            List<Vector2> selectedTiles = GetSelectedTiles(caster, targetX, targetY);
-            return SerializeTiles(selectedTiles);
+            // Must have at least one crab item.
+            return base.CanCast(player, level);
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            string extraData = this.BuildExtraData(player, level, targetX, targetY);
-            return this.OnReceiveCast(player, level, targetX, targetY, extraData);
-        }
-
-        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
-        {
-            if (caster == null || caster.currentLocation == null)
+            if (player == null || player.currentLocation == null)
                 return null;
 
-            if (caster.IsLocalPlayer && caster.modData.GetBool("moonslime.Wizardry.scrollspell") == false)
-                caster.Items.ReduceId("(O)717", 1);
+            // Consume the item unless this cast came from a scroll.
+            if (!this.ConsumeItemCost(player, level))
+                return new SpellFizzle(player, this.GetManaCost(player, level));
 
-            List<Vector2> selectedTiles = ParseTiles(extraData);
-
-            // Fallback for old/empty data. New multiplayer casts should normally have extraData.
+            List<Vector2> selectedTiles = GetSelectedTiles(player, targetX, targetY);
             if (selectedTiles.Count == 0)
-                selectedTiles = GetSelectedTiles(caster, targetX, targetY);
+                return new SpellFizzle(player, this.GetManaCost(player, level));
 
-            return new CrabRave(caster, ItemRegistry.Create("(O)717"), selectedTiles);
+            // The caster-owned effect broadcasts falling TemporaryAnimatedSprites through Stardew.
+            // Remote clients receive those visuals through Stardew's native sprite sync and do not create CrabRave themselves.
+            return new CrabRave(player, ItemRegistry.Create("(O)717"), selectedTiles);
         }
 
         private static List<Vector2> GetSelectedTiles(Farmer player, int targetX, int targetY)
@@ -79,54 +76,20 @@ namespace WizardrySkill.Core.Framework.Spells
 
             int tileX = targetX / Game1.tileSize;
             int tileY = targetY / Game1.tileSize;
-            var target = new Vector2(tileX, tileY);
+            Vector2 target = new(tileX, tileY);
 
-            GameLocation loc = player.currentLocation;
+            GameLocation location = player.currentLocation;
 
-            // Get all candidate tiles (radius 10)
+            // Get all candidate tiles within radius 10.
             List<Vector2> areaTiles = Utilities.TilesAffected(target, 10, player);
-
             if (areaTiles.Count == 0)
                 return new List<Vector2>();
 
-            // Efficiently pick up to 30 random unique tiles from areaTiles (no OrderBy/shuffle of entire list)
+            // Efficiently pick up to 30 random unique tiles from areaTiles.
             List<Vector2> sample30 = PickRandomSubset(areaTiles, 30);
 
-            // Filter to valid ground tiles and stop once we have up to 8 valid tiles
-            return GetWalkableTiles(loc, sample30);
-        }
-
-        private static string SerializeTiles(List<Vector2> tiles)
-        {
-            if (tiles == null || tiles.Count == 0)
-                return "";
-
-            return string.Join(";", tiles.Select(tile => $"{(int)tile.X}:{(int)tile.Y}"));
-        }
-
-        private static List<Vector2> ParseTiles(string raw)
-        {
-            var tiles = new List<Vector2>();
-
-            if (string.IsNullOrWhiteSpace(raw))
-                return tiles;
-
-            foreach (string rawTile in raw.Split(';', StringSplitOptions.RemoveEmptyEntries))
-            {
-                string[] parts = rawTile.Split(':', 2);
-                if (parts.Length < 2)
-                    continue;
-
-                if (!int.TryParse(parts[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out int x))
-                    continue;
-
-                if (!int.TryParse(parts[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out int y))
-                    continue;
-
-                tiles.Add(new Vector2(x, y));
-            }
-
-            return tiles;
+            // Filter to valid ground tiles and stop once we have up to 8 valid tiles.
+            return GetWalkableTiles(location, sample30);
         }
 
         /// <summary>
@@ -135,13 +98,12 @@ namespace WizardrySkill.Core.Framework.Spells
         /// </summary>
         private static List<Vector2> PickRandomSubset(List<Vector2> source, int count)
         {
-            var result = new List<Vector2>(Math.Min(count, source.Count));
+            List<Vector2> result = new(Math.Min(count, source.Count));
             if (source.Count <= count)
             {
-                // small list -> return shallow copy (we'll shuffle for randomness)
                 result.AddRange(source);
 
-                // Fisher-Yates shuffle in-place for variety
+                // Fisher-Yates shuffle in-place for variety.
                 for (int i = result.Count - 1; i > 0; i--)
                 {
                     int j = Rng.Next(i + 1);
@@ -151,13 +113,9 @@ namespace WizardrySkill.Core.Framework.Spells
                 return result;
             }
 
-            // Reservoir sampling style / unique random indices
-            var selectedIndices = new HashSet<int>();
+            HashSet<int> selectedIndices = new();
             while (selectedIndices.Count < count)
-            {
-                int idx = Rng.Next(source.Count);
-                selectedIndices.Add(idx);
-            }
+                selectedIndices.Add(Rng.Next(source.Count));
 
             foreach (int i in selectedIndices)
                 result.Add(source[i]);
@@ -170,13 +128,13 @@ namespace WizardrySkill.Core.Framework.Spells
         /// </summary>
         public static List<Vector2> GetWalkableTiles(GameLocation location, List<Vector2> tiles)
         {
-            var walkable = new List<Vector2>();
+            List<Vector2> walkable = new();
 
             if (location == null || tiles == null || tiles.Count == 0)
                 return walkable;
 
             int walkableAmount = 0;
-            var crab = new RockCrab(tiles[0]);
+            RockCrab crab = new(tiles[0]);
             var backLayer = location.map.RequireLayer("Back");
 
             foreach (Vector2 tile in tiles)
@@ -222,13 +180,13 @@ namespace WizardrySkill.Core.Framework.Spells
 
         private static Rectangle BlinkSpot(Monster who, int targetX, int targetY)
         {
-            // Roughly aligns with player's hitbox
+            // Roughly aligns with player's hitbox.
             return new Rectangle(targetX + 8, targetY + who.Sprite.getHeight() - 32, 48, 32);
         }
 
         private static bool HasCollision(Tile tile)
         {
-            // Checks for any terrain property that should block blinking
+            // Checks for any terrain property that should block blinking.
             return tile.TileIndexProperties.ContainsKey("Passable")
                 || tile.Properties.ContainsKey("Passable")
                 || tile.TileIndexProperties.ContainsKey("Water")

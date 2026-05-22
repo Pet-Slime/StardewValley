@@ -15,17 +15,11 @@ namespace WizardrySkill.Core.Framework.Spells
         public DescendSpell()
             : base(SchoolId.Motion, "descend")
         {
-            // SchoolId.Elemental identifies the spell's magical school
+            // SchoolId.Motion identifies the spell's magical school
             // "descend" is the internal name used to reference this spell
         }
 
         public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
-
-        // Descend only moves the caster to a different mine level, so it should never be executed from a received multiplayer spell packet
-        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
-        {
-            return null;
-        }
 
         // Determines whether the spell can be cast
         public override bool CanCast(Farmer player, int level)
@@ -42,24 +36,22 @@ namespace WizardrySkill.Core.Framework.Spells
         // Called when the spell is cast
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Only run this for the local player
+            if (player == null)
+                return null;
+
+            // Only the caster's own machine should move the player to a new mine level.
             if (!player.IsLocalPlayer)
                 return null;
 
-            var ms = player.currentLocation as MineShaft;
-
-            // If the player is not in a mine, the spell fizzles
-            if (ms == null)
+            if (player.currentLocation is not MineShaft mineShaft)
                 return new SpellFizzle(player, this.GetManaCost(player, level));
 
             // Calculate target mine level to descend to
-            int target = ms.mineLevel + 1 + level;
+            int target = mineShaft.mineLevel + 1 + level;
 
             // Prevent descending past level 120 to avoid going into the Skull Cavern accidentally
-            if (ms.mineLevel <= 120 && target >= 120)
-            {
+            if (mineShaft.mineLevel <= 120 && target >= 120)
                 target = 120;
-            }
 
             // Enter the target mine level
             Game1.enterMine(target);

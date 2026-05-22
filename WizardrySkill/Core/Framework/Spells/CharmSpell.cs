@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using MoonShared.Attributes;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
@@ -7,33 +6,20 @@ using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
-    // This class defines a "CharmSpell" that increases friendship with nearby NPCs
+    // This class defines a "CharmSpell" that increases friendship with nearby NPCs.
     public class CharmSpell : Spell
     {
         /*********
         ** Public methods
         *********/
-
         public CharmSpell()
             : base(SchoolId.Eldritch, "charm")
         {
-            // SchoolId.Eldritch identifies the spell's magical school
-            // "charm" is the internal name used to reference this spell
+            // SchoolId.Eldritch identifies the spell's magical school.
+            // "charm" is the internal name used to reference this spell.
         }
 
-        /// <summary>
-        /// Charm only changes the caster's friendship data, health, mana, and EXP.
-        /// The visual particles are already broadcast manually, so the spell itself should not be replayed by other clients.
-        /// </summary>
-        public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
-
-        /// <summary>
-        /// Charm should never be executed from a received multiplayer spell packet.
-        /// </summary>
-        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
-        {
-            return null;
-        }
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalWorld;
 
         public override int GetManaCost(Farmer player, int level)
         {
@@ -45,127 +31,111 @@ namespace WizardrySkill.Core.Framework.Spells
             return base.CanCast(player, level) && player.health > 25;
         }
 
-        // Called when the spell is cast
+        // Called when the spell is cast.
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Only run this for the local player
+            if (player == null || player.currentLocation == null)
+                return null;
+
+            // Only the caster's own machine should mutate friendship, health, mana, EXP, and NPC visuals.
             if (!player.IsLocalPlayer)
                 return null;
 
-            // Get all characters (NPCs and monsters) in the current location
-            var mobs = player.currentLocation.characters;
-
-            // Calculate the effective range of the spell based on its level
-            int levelAmount = level * 2 + 8;
-
             GameLocation location = player.currentLocation;
             Vector2 playerTile = player.Tile;
+            int range = level * 2 + 8;
 
-            // Lists to store NPCs and monsters that are affected by the spell
-            List<NPC> npcsInRange = new List<NPC>();
-            List<NPC> monstersInRange = new List<NPC>();
+            List<NPC> npcsInRange = new();
 
-            // Go through all characters in the location
-            foreach (var NPC in location.characters)
+            // Go through all characters in the location.
+            foreach (NPC npc in location.characters)
             {
-                float Distance = Vector2.Distance(NPC.Tile, playerTile); // distance from player
-                float profession = levelAmount; // max effective distance
-
-                // Debug logging to trace spell logic (can be ignored by beginners)
-                Log.Trace("Wizardry Charm Spell: going to go through the list...");
-                Log.Trace("NPC name is: " + NPC.Name);
-                Log.Trace("is NPC villager?: " + NPC.IsVillager.ToString());
-                Log.Trace("NPC Distance: " + Distance.ToString());
-                Log.Trace("distance value: " + profession.ToString());
-                Log.Trace("distance check: " + (Distance <= profession).ToString());
+                float distance = Vector2.Distance(npc.Tile, playerTile);
 
                 // Only affect NPCs that meet all these criteria:
-                // 1. Is a villager
-                // 2. Is within the spell's range
-                // 3. Can receive gifts
-                // 4. Player has friendship data with them
-                if (NPC.IsVillager &&
-                    Distance <= profession &&
-                    NPC.CanReceiveGifts() &&
-                    player.friendshipData.ContainsKey(NPC.Name))
+                // 1. Is a villager.
+                // 2. Is within the spell's range.
+                // 3. Can receive gifts.
+                // 4. Player has friendship data with them.
+                if (npc.IsVillager &&
+                    distance <= range &&
+                    npc.CanReceiveGifts() &&
+                    player.friendshipData.ContainsKey(npc.Name))
                 {
-                    npcsInRange.Add(NPC); // add to affected list
-                    continue;
+                    npcsInRange.Add(npc);
                 }
             }
 
-            // If no NPCs are in range, the spell fizzles (fails)
+            // If no NPCs are in range, the spell fizzles.
             if (npcsInRange.Count == 0)
                 return new SpellFizzle(player, this.GetManaCost(player, level));
 
-            int num = 0; // counter to track first NPC (used for mana cost logic)
+            int affectedCount = 0;
 
-            // Apply the charm effect to each NPC in range
-            foreach (var NPC in npcsInRange)
+            // Apply the charm effect to each NPC in range.
+            foreach (NPC npc in npcsInRange)
             {
-                // Stop casting if the player runs out of mana or health
-                if (!this.CanContinueCast(player, level))
-                    return null;
+                // Stop casting if the player runs out of mana or health.
+                if (!this.CanContinueCast(player, level) || player.health <= 24)
+                    break;
 
-                if (player.health <= 24)
-                    return null;
-
-                // Reduce mana for additional NPCs (first one is free)
-                if (num != 0)
-                {
+                // Reduce mana for additional NPCs. The first NPC is covered by the initial spell cost.
+                if (affectedCount != 0)
                     player.AddMana(-this.GetManaCost(player, level));
-                }
 
-                // Increase friendship points
-                player.changeFriendship(20 * (level + 1), NPC);
+                // Increase friendship points.
+                player.changeFriendship(20 * (level + 1), npc);
 
-                // Player loses some health as a cost of casting
+                // Player loses some health as a cost of casting.
                 player.takeDamage(25, false, null);
 
-                // Play sound effect for the NPC
-                NPC.currentLocation.playSound("jingle1", NPC.Tile);
+                // Play sound effect for the NPC.
+                npc.currentLocation.playSound("jingle1", npc.Tile);
 
-                // Award experience points to the player
+                // Award experience points to the player.
                 Utilities.AddEXP(player, 25);
 
-                // Make NPC do a "blush" emote
-                NPC.doEmote(Character.blushEmote);
+                // Make NPC do a "blush" emote.
+                npc.doEmote(Character.blushEmote);
 
-                // Calculate a position above the NPC to display particle effects
-                var point = NPC.StandingPixel;
-                point.X -= NPC.Sprite.SpriteWidth * 2;
-                point.Y -= (int)(NPC.Sprite.SpriteHeight * 1.5);
+                // Calculate a position above the NPC to display particle effects.
+                Point point = npc.StandingPixel;
+                point.X -= npc.Sprite.SpriteWidth * 2;
+                point.Y -= (int)(npc.Sprite.SpriteHeight * 1.5);
 
-                // Show cyan animated sprite above NPC (first layer)
-                Game1.Multiplayer.broadcastSprites(player.currentLocation,
-                    new TemporaryAnimatedSprite(10,
-                    point.ToVector2(),
-                    Color.Cyan,
-                    10,
-                    Game1.random.NextDouble() < 0.5,
-                    70f,
-                    0,
-                    Game1.tileSize,
-                    100f));
+                // Show cyan animated sprite above NPC.
+                Game1.Multiplayer.broadcastSprites(location,
+                    new TemporaryAnimatedSprite(
+                        10,
+                        point.ToVector2(),
+                        Color.Cyan,
+                        10,
+                        Game1.random.NextDouble() < 0.5,
+                        70f,
+                        0,
+                        Game1.tileSize,
+                        100f));
 
-                // Show another cyan animated sprite slightly higher (second layer)
-                point.Y -= (int)(NPC.Sprite.SpriteHeight * 2.5);
-                Game1.Multiplayer.broadcastSprites(player.currentLocation,
-                    new TemporaryAnimatedSprite(10,
-                    point.ToVector2(),
-                    Color.Cyan,
-                    10,
-                    Game1.random.NextDouble() < 0.5,
-                    70f,
-                    0,
-                    Game1.tileSize,
-                    100f));
+                // Show another cyan animated sprite slightly higher.
+                point.Y -= (int)(npc.Sprite.SpriteHeight * 2.5);
+                Game1.Multiplayer.broadcastSprites(location,
+                    new TemporaryAnimatedSprite(
+                        10,
+                        point.ToVector2(),
+                        Color.Cyan,
+                        10,
+                        Game1.random.NextDouble() < 0.5,
+                        70f,
+                        0,
+                        Game1.tileSize,
+                        100f));
 
-                num++; // increment counter
+                affectedCount++;
             }
 
-            // Spell successfully cast, play a sound and reward proportional to affected NPCs
-            return new SpellSuccess(player, "clam_tone", npcsInRange.Count * 25);
+            return affectedCount > 0
+                ? new SpellSuccess(player, "clam_tone", affectedCount * 25)
+                : new SpellFizzle(player, this.GetManaCost(player, level));
         }
     }
 }

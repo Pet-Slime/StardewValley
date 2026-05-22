@@ -1,10 +1,9 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI;
+using SpaceCore;
 using StardewModdingAPI.Events;
 using StardewValley;
-using SpaceCore;
 using StardewValley.Monsters;
 
 namespace WizardrySkill.Core.Framework.Spells.Effects
@@ -39,11 +38,9 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         /// <returns>Returns true if the effect is still active, or false if it can be discarded.</returns>
         public bool Update(UpdateTickedEventArgs e)
         {
-            // Shockwave damages monsters and grants EXP, so only the host should run it.
-            if (!Context.IsMainPlayer)
-                return false;
-
-            if (this.Player == null || this.Player.currentLocation == null)
+            // Only the caster's own machine should run the shockwave effect.
+            // Remote machines may see the jump animation and receive broadcast sprites, but should not run damage/EXP logic.
+            if (this.Player == null || this.Player.currentLocation == null || !this.Player.IsLocalPlayer)
                 return false;
 
             if (this.Jumping)
@@ -54,15 +51,14 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                     this.LandY = this.Player.position.Y;
                     this.Jumping = false;
                 }
+
                 this.PrevJumpVel = this.Player.yJumpVelocity;
             }
 
             if (!this.Jumping)
             {
                 if (--this.Timer > 0)
-                {
                     return true;
-                }
 
                 this.Timer = 10;
 
@@ -74,8 +70,10 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                         y: this.LandY + (float)Math.Sin(Math.PI * 2 / spotsForCurrRadius * i) * this.CurrRad * Game1.tileSize
                     );
 
-                    var loc = this.Player.currentLocation;
-                    loc.playSound("hoeHit", pixelPos);
+                    GameLocation loc = this.Player.currentLocation;
+
+                    // The caster-owned effect broadcasts the shockwave visuals through Stardew's native sprite sync.
+                    loc.playSound("hoeHit", pixelPos / Game1.tileSize);
                     Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(6, pixelPos, Color.White, 8, Game1.random.NextDouble() < 0.5, 30));
                     Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(12, pixelPos, Color.White, 8, Game1.random.NextDouble() < 0.5, 50f));
                 }
@@ -84,17 +82,18 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
                 foreach (var character in this.Player.currentLocation.characters)
                 {
-                    if (character is Monster mob)
-                    {
-                        if (Vector2.Distance(new Vector2(this.LandX, this.LandY), mob.position.Value) < this.CurrRad * Game1.tileSize)
-                        {
-                            int baseDMG = (this.Level + 1) * 5 * (this.Player.CombatLevel + 1 + this.Player.GetCustomBuffedSkillLevel(MagicConstants.SkillName));
-                            int minDMG = (int)(baseDMG * 0.75);
-                            int maxDMG = (int)(baseDMG * 1.5);
-                            this.Player.currentLocation.damageMonster(mob.GetBoundingBox(), minDMG, maxDMG, false, this.Player);
-                            Utilities.AddEXP(this.Player, 3);
-                        }
-                    }
+                    if (character is not Monster mob)
+                        continue;
+
+                    if (Vector2.Distance(new Vector2(this.LandX, this.LandY), mob.position.Value) >= this.CurrRad * Game1.tileSize)
+                        continue;
+
+                    int baseDMG = (this.Level + 1) * 5 * (this.Player.CombatLevel + 1 + this.Player.GetCustomBuffedSkillLevel(MagicConstants.SkillName));
+                    int minDMG = (int)(baseDMG * 0.75);
+                    int maxDMG = (int)(baseDMG * 1.5);
+
+                    this.Player.currentLocation.damageMonster(mob.GetBoundingBox(), minDMG, maxDMG, false, this.Player);
+                    Utilities.AddEXP(this.Player, 3);
                 }
 
                 if (this.CurrRad >= 1 + (this.Level + 1) * 2)
@@ -106,11 +105,15 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
         public void CleanUp()
         {
-
+            // No persistent sprite/light resources to remove.
         }
 
         /// <summary>Draw the effect to the screen if needed.</summary>
         /// <param name="spriteBatch">The sprite batch being drawn.</param>
-        public void Draw(SpriteBatch spriteBatch) { }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            // Nothing to draw manually.
+            // Shockwave visuals are broadcast through TemporaryAnimatedSprite.
+        }
     }
 }

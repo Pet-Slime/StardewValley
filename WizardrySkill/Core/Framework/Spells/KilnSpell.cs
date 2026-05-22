@@ -1,33 +1,31 @@
 using System;
-using StardewModdingAPI;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells.Effects;
+using SObject = StardewValley.Object;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
-    // This class defines a "KilnSpell" that processes wood into coal automatically
+    // This class defines a "KilnSpell" that processes wood into coal automatically.
     public class KilnSpell : Spell
     {
         /*********
         ** Public methods
         *********/
-
         public KilnSpell()
             : base(SchoolId.Toil, "kiln")
         {
-            // SchoolId.Elemental identifies the spell's magical school
-            // "kiln" is the internal name for this spell
+            // SchoolId.Toil identifies the spell's magical school.
+            // "kiln" is the internal name for this spell.
         }
 
-        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalWorld;
 
         public override int GetManaCost(Farmer player, int level)
         {
-            // Mana cost formula scales quadratically with spell level
+            // Mana cost formula scales quadratically with spell level.
             int actualLevel = level + 1;
-            int manaCost = (int)(0.5 * actualLevel * actualLevel - 0.5 * actualLevel + 5);
-            return manaCost;
+            return (int)(0.5 * actualLevel * actualLevel - 0.5 * actualLevel + 5);
         }
 
         public override int GetMaxCastingLevel()
@@ -35,98 +33,77 @@ namespace WizardrySkill.Core.Framework.Spells
             return 4;
         }
 
-        // Determines if the spell can be cast
-        public override bool CanCast(Farmer player, int level)
+        // Checks whether the player has either valid wood cost.
+        public override bool HasItemCost(Farmer player, int level)
         {
+            if (player == null)
+                return false;
+
             int woodAmount = GetRequiredWoodAmount(level);
 
-            // Player must have enough regular wood (ID 388) or driftwood (ID 169)
-            return base.CanCast(player, level) && (
-                player.Items.ContainsId("388", woodAmount) ||
-                player.Items.ContainsId("169", woodAmount)
-            );
+            // Player can pay with either driftwood or regular wood.
+            return player.Items.ContainsId("169", woodAmount)
+                || player.Items.ContainsId("388", woodAmount);
         }
 
-        public override string BuildExtraData(Farmer caster, int level, int targetX, int targetY)
+        // Consumes either driftwood or regular wood for the spell.
+        public override bool ConsumeItemCost(Farmer player, int level)
         {
+            if (player == null)
+                return false;
+
+            if (!this.HasItemCost(player, level))
+                return false;
+
+            // Scroll casts should not consume reagent items.
+            if (!this.ShouldConsumeItemCost(player))
+                return true;
+
             int woodAmount = GetRequiredWoodAmount(level);
 
-            // Prefer driftwood if available, matching the original OnCast behavior.
-            if (caster.Items.ContainsId("169", woodAmount))
-                return "169";
+            // Prefer consuming driftwood if available.
+            if (player.Items.ContainsId("169", woodAmount))
+            {
+                player.Items.ReduceId("169", woodAmount);
+                return true;
+            }
 
-            if (caster.Items.ContainsId("388", woodAmount))
-                return "388";
+            // Otherwise consume regular wood.
+            if (player.Items.ContainsId("388", woodAmount))
+            {
+                player.Items.ReduceId("388", woodAmount);
+                return true;
+            }
 
-            return "";
+            return false;
         }
 
-        // Called when the spell is cast
+        // Called when the spell is cast by the local player.
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            string extraData = this.BuildExtraData(player, level, targetX, targetY);
-            return this.OnReceiveCast(player, level, targetX, targetY, extraData);
-        }
-
-        // Called when the spell is received through the spell sync system
-        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
-        {
-            if (caster == null || caster.currentLocation == null)
+            if (player == null || player.currentLocation == null)
                 return null;
 
-            int woodAmount = GetRequiredWoodAmount(level);
-            string woodId = GetWoodIdToConsume(caster, woodAmount, extraData);
+            // Only the caster's own machine should consume inventory, spawn coal debris, and award success effects.
+            if (!player.IsLocalPlayer)
+                return null;
 
-            // Fail the spell if neither type of wood is available
-            if (string.IsNullOrWhiteSpace(woodId))
-                return caster.IsLocalPlayer ? new SpellFizzle(caster, this.GetManaCost(caster, level)) : null;
+            if (!this.ConsumeItemCost(player, level))
+                return new SpellFizzle(player, this.GetManaCost(player, level));
 
-            // Only the actual casting player should consume the wood from inventory.
-            if (caster.IsLocalPlayer)
-                caster.Items.ReduceId(woodId, woodAmount);
-
-            // Only the host should create shared object debris in the world.
-            if (Context.IsMainPlayer)
-                Game1.createObjectDebris(StardewValley.Object.coal.ToString(), caster.TilePoint.X, caster.TilePoint.Y, caster.currentLocation);
-
-            return caster.IsLocalPlayer
-                ? new SpellSuccess(caster, "furnace", 2 * (level + 1))  // visual/sound effect and XP
-                : null;
+            Game1.createObjectDebris(SObject.coal.ToString(), player.TilePoint.X, player.TilePoint.Y, player.currentLocation);
+            return new SpellSuccess(player, "furnace", 2 * (level + 1));
         }
 
-        /*********
-        ** Private helpers
-        *********/
 
+        /*********
+        ** Private methods
+        *********/
         private static int GetRequiredWoodAmount(int level)
         {
             int actualLevel = level + 1;
-
-            // Calculate required wood amount based on spell level
             int woodAmount = (int)(-0.5 * actualLevel * actualLevel - 0.5 * actualLevel + 18);
-            woodAmount = Math.Max(3, woodAmount); // Minimum of 3 wood required for higher levels
-
-            return woodAmount;
-        }
-
-        private static string GetWoodIdToConsume(Farmer caster, int woodAmount, string extraData)
-        {
-            // Trust the synced choice if the local caster still has enough of that item.
-            if ((extraData == "169" || extraData == "388") && caster.IsLocalPlayer && caster.Items.ContainsId(extraData, woodAmount))
-                return extraData;
-
-            // Remote clients/host use the synced choice as the spell's selected reagent.
-            if (extraData == "169" || extraData == "388")
-                return extraData;
-
-            // Fallback for direct local casts or old/empty packets.
-            if (caster.Items.ContainsId("169", woodAmount))
-                return "169";
-
-            if (caster.Items.ContainsId("388", woodAmount))
-                return "388";
-
-            return "";
+            return Math.Max(3, woodAmount);
         }
     }
 }

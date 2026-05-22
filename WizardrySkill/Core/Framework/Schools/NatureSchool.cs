@@ -17,12 +17,12 @@ namespace WizardrySkill.Core.Framework.Schools
 
         public override Spell[] GetSpellsTier2()
         {
-            return new[] { SpellManager.Get("nature:tendrils") };
+            return new[] { SpellManager.Get("nature:photosynthesis"), SpellManager.Get("nature:tendrils") };
         }
 
         public override Spell[] GetSpellsTier3()
         {
-            return new[] { SpellManager.Get("nature:photosynthesis"), SpellManager.Get("nature:crabrain") };
+            return new[] { SpellManager.Get("nature:crabrain") };
         }
     }
 }

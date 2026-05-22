@@ -159,6 +159,46 @@
             "Entries": {
                 "moonslime.Wizardry.analyze": "eldritch:lucksteal"
             }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "261", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "motion:teleport"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "688", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "motion:teleport"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "689", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "motion:teleport"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "690", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "motion:teleport"
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "886", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "motion:teleport"
+            }
         }
     ]
 }

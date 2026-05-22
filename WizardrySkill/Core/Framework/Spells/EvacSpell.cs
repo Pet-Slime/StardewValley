@@ -13,6 +13,7 @@ namespace WizardrySkill.Core.Framework.Spells
         private static float EnterX; // X-coordinate of last saved location
         private static float EnterY; // Y-coordinate of last saved location
 
+
         /*********
         ** Public methods
         *********/
@@ -20,17 +21,11 @@ namespace WizardrySkill.Core.Framework.Spells
         public EvacSpell()
             : base(SchoolId.Motion, "evac")
         {
-            // SchoolId.Life identifies the spell's magical school
+            // SchoolId.Motion identifies the spell's magical school
             // "evac" is the internal name for this spell
         }
 
         public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
-
-        // Evac only moves the caster's own player position, so it should never be executed from a received multiplayer spell packet
-        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
-        {
-            return null;
-        }
 
         public override int GetMaxCastingLevel()
         {
@@ -45,7 +40,10 @@ namespace WizardrySkill.Core.Framework.Spells
         // Called when the spell is cast
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Only run for the local player
+            if (player == null)
+                return null;
+
+            // Only the caster's own machine should move the player position.
             if (!player.IsLocalPlayer)
                 return null;
 
@@ -57,9 +55,11 @@ namespace WizardrySkill.Core.Framework.Spells
             return new SpellSuccess(player, "stairsdown", 5);
         }
 
+
         /*********
         ** Internal helpers
         *********/
+
         // This should be called when the player changes location to record their entry point
         internal static void OnLocationChanged()
         {

@@ -1,7 +1,8 @@
 using System;
+using System.Linq;
 using StardewValley;
+using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
-using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -9,21 +10,16 @@ namespace WizardrySkill.Core.Framework.Spells
     public class LanternSpell : Spell
     {
         /*********
-        ** Fields
-        *********/
-        private readonly Func<long> GetNewId;
-
-
-        /*********
         ** Public methods
         *********/
         public LanternSpell(Func<long> getNewId)
             : base(SchoolId.Nature, "lantern")
         {
-            this.GetNewId = getNewId;
+            // Kept for the current SpellManager constructor call.
+            // Summon identity now comes from owner multiplayer ID + summon slot instead of a generated ID.
         }
 
-        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
+        public override SpellSyncMode SyncMode => SpellSyncMode.Summon;
 
         public override int GetManaCost(Farmer player, int level)
         {
@@ -32,33 +28,32 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override bool CanCast(Farmer player, int level)
         {
-            // Can cast only if there isn’t already a lantern from this player.
-            return base.CanCast(player, level) &&
-                   !Game1.currentLightSources.ContainsKey($"LanternSpell_{player.UniqueMultiplayerID}");
+            // Can cast only if there isn't already a lantern summon from this player.
+            return player != null
+                && base.CanCast(player, level)
+                && !SummonManager.GetSummonStates(player.UniqueMultiplayerID).Any(state => state.DefId == SummonManager.SummonDefs.Lantern);
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            return this.OnReceiveCast(player, level, targetX, targetY, "");
-        }
-
-        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
-        {
-            if (caster == null || caster.currentLocation == null)
+            if (player == null || player.currentLocation == null)
                 return null;
 
-            // Local sound is safe. Every client receiving the cast may play it locally.
-            caster.currentLocation.LocalSoundAtPixel("thunder", caster.Position);
+            // Only the caster's own machine should create/update durable summon state.
+            if (!player.IsLocalPlayer)
+                return null;
 
-            if (caster.IsLocalPlayer)
-            {
-                // Give experience proportional to the spell level.
-                Utilities.AddEXP(caster, (level + 1) * 3);
-            }
+            // Local sound is safe. Other clients receive summon state and create local visuals from SummonManager.
+            player.currentLocation.LocalSoundAtPixel("thunder", player.Position);
 
-            // Apply the lantern effect. Visual/light behavior runs locally on each client.
-            // World/object mutation inside the effect is host-only.
-            return new LanternEffect(caster, level);
+            // Give experience proportional to the spell level.
+            Utilities.AddEXP(player, (level + 1) * 3);
+
+            // SummonManager owns the durable summon state and creates/recreates the local visual instance.
+            SummonManager.TryAddOrReplaceSummon(player, SummonManager.SummonDefs.Lantern, level, broadcast: true);
+
+            // No active effect is returned here because the local visual is owned by SummonManager.
+            return null;
         }
     }
 }

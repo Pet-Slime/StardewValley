@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using StardewValley;
 using WizardrySkill.Core.Framework.Game.Interface;
 using WizardrySkill.Core.Framework.Schools;
@@ -18,12 +19,6 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
 
-        // Teleport only opens a local menu for the caster, so it should never be executed from a received multiplayer spell packet.
-        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
-        {
-            return null;
-        }
-
         public override int GetMaxCastingLevel()
         {
             return 1;
@@ -33,14 +28,13 @@ namespace WizardrySkill.Core.Framework.Spells
         public override bool CanCast(Farmer player, int level)
         {
             // Requirements:
-            // - Base spell requirements (mana, cooldown, etc.)
-            // - Must be outdoors
-            // - Must not be riding a mount
-            // - Must have a "Travel Core" item in inventory
+            // - Base spell requirements.
+            // - Must be outdoors.
+            // - Must not be riding a mount.
+            // - Must have a Travel Core item in inventory.
             return base.CanCast(player, level)
-                   && player.currentLocation.IsOutdoors
-                   && player.mount == null
-                   && player.Items.ContainsId("moonslime.Wizardry.Travel_Core");
+                && player.currentLocation.IsOutdoors
+                && player.mount == null;
         }
 
         public override int GetManaCost(Farmer player, int level)
@@ -48,18 +42,34 @@ namespace WizardrySkill.Core.Framework.Spells
             return 10;
         }
 
+        // Returns the item cost for casting this spell.
+        public override IDictionary<string, int> GetItemCost(Farmer player, int level)
+        {
+            return new Dictionary<string, int>
+            {
+                ["moonslime.Wizardry.Travel_Core"] = 1
+            };
+        }
+
+
         // What happens when the spell is cast
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Only allow local player to cast (prevents multiplayer desync)
+            if (player == null)
+                return null;
+
+            // Only the caster's own machine should open the teleport menu.
             if (!player.IsLocalPlayer)
                 return null;
 
-            // Open the teleport menu if local player
-            if (player.IsLocalPlayer)
-                Game1.activeClickableMenu = new TeleportMenu(player);
+            // Only the actual casting player should consume the reagent and gain EXP.
+            // Consume the item unless this cast came from a scroll.
+            if (!this.ConsumeItemCost(player, level))
+                return new SpellFizzle(player, this.GetManaCost(player, level));
 
-            // Return a successful spell effect with a sound and grant exp
+            Game1.activeClickableMenu = new TeleportMenu(player);
+
+            // Return a successful spell effect with a sound and grant exp.
             return new SpellSuccess(player, "wand", 50);
         }
     }

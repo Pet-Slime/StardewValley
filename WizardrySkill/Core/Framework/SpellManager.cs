@@ -68,11 +68,8 @@ namespace WizardrySkill.Core.Framework
             Register(new HasteSpell());
             Register(new DescendSpell());
             Register(new TeleportSpell());
-            if (ModEntry.Config.VoidSchool)
-            {
-                Register(new BlinkSpell());
-            }
 
+            Register(new BlinkSpell());
             Register(new CharmSpell());
             Register(new BloodManaSpell());
             Register(new LuckStealSpell());

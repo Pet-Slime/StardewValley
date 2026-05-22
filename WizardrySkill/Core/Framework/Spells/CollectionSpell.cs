@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells.Effects;
@@ -13,112 +12,107 @@ namespace WizardrySkill.Core.Framework.Spells
         /*********
         ** Public methods
         *********/
-
         public CollectionSpell()
             : base(SchoolId.Toil, "collect")
         {
-            // SchoolId.Toil identifies the spell's magical school
-            // "collect" is the internal name used to reference this spell
+            // SchoolId.Toil identifies the spell's magical school.
+            // "collect" is the internal name used to reference this spell.
         }
 
-        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalWorld;
 
         public override int GetManaCost(Farmer player, int level)
         {
-            return 3; // Base mana cost per machine collected
+            return 3; // Base mana cost per machine collected.
         }
 
-        // Called when the spell is cast
+        // Called when the spell is cast by the local player.
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            return this.OnReceiveCast(player, level, targetX, targetY, "");
-        }
-
-        // Called when the spell is received through the spell sync system
-        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
-        {
-            // Only the host should mutate shared machine/world state
-            if (!Context.IsMainPlayer)
+            if (player == null || player.currentLocation == null)
                 return null;
 
-            if (caster == null || caster.currentLocation == null)
+            // Only the caster's own machine should run machine collection.
+            // Remote machines observe the cast packet but do not replay harvest, inventory, item, or EXP mutation.
+            if (!player.IsLocalPlayer)
                 return null;
 
-            int effectiveRange = (level + 1) * 3; // Spell range scales with level
-            int collectedCount = 0; // Tracks how many machines were collected
-            const int baseManaCost = 3; // Mana cost per extra collection
-            const int expPerCollect = 5; // Experience reward per collection
-            const string collectSound = "coin"; // Sound to play when collected
+            int effectiveRange = (level + 1) * 3; // Spell range scales with level.
+            int collectedCount = 0; // Tracks how many machines were collected.
+            int manaCost = this.GetManaCost(player, level);
+            const int expPerCollect = 5;
+            const string collectSound = "coin";
 
-            GameLocation location = caster.currentLocation;
+            GameLocation location = player.currentLocation;
             int tileSize = Game1.tileSize;
 
-            // Determine the target tile for the spell
-            Vector2 target = new Vector2(targetX / tileSize, targetY / tileSize);
+            // Determine the target tile for the spell.
+            Vector2 target = new(targetX / tileSize, targetY / tileSize);
 
-            // Get all tiles affected by the spell
-            List<Vector2> tiles = Utilities.TilesAffected(target, effectiveRange, caster);
+            // Get all tiles affected by the spell.
+            List<Vector2> tiles = Utilities.TilesAffected(target, effectiveRange, player);
 
-            // Loop through each affected tile
+            // Loop through each affected tile.
             foreach (Vector2 tile in tiles)
             {
-                // Stop if the player runs out of mana
-                if (!this.CanContinueCast(caster, level))
+                // Stop if the player runs out of mana.
+                if (!this.CanContinueCast(player, level))
                     break;
 
-                // Check if there's a machine at this tile that is big, ready for harvest, and contains an item
+                // Check if there's a machine at this tile that is big, ready for harvest, and contains an item.
                 if (!location.objects.TryGetValue(tile, out StardewValley.Object machine) ||
                     machine is not { bigCraftable.Value: true, readyForHarvest.Value: true } ||
                     machine.heldObject.Value is null ||
-                    !caster.couldInventoryAcceptThisItem(machine.heldObject.Value))
+                    !player.couldInventoryAcceptThisItem(machine.heldObject.Value))
                     continue;
 
-                // Perform the machine's harvest action
-                machine.checkForAction(caster);
+                // Perform the machine's harvest action.
+                machine.checkForAction(player);
 
-                // Give the player experience points
-                Utilities.AddEXP(caster, expPerCollect);
+                // Give the player experience points.
+                Utilities.AddEXP(player, expPerCollect);
 
-                // Deduct extra mana for additional machines
+                // Deduct extra mana for additional machines.
                 if (collectedCount > 0)
-                    caster.AddMana(-baseManaCost);
+                    player.AddMana(-manaCost);
 
-                // Visual and audio feedback for the collection
+                // Visual and audio feedback for the collection.
                 location.playSound(collectSound, tile);
 
-                var point = machine.TileLocation * tileSize;
+                Vector2 point = machine.TileLocation * tileSize;
 
-                // Show first layer of cyan particles above the machine
-                Game1.Multiplayer.broadcastSprites(caster.currentLocation,
-                    new TemporaryAnimatedSprite(10,
-                    point,
-                    Color.Cyan,
-                    10,
-                    Game1.random.NextDouble() < 0.5,
-                    70f,
-                    0,
-                    Game1.tileSize,
-                    100f));
+                // Show first layer of cyan particles above the machine.
+                Game1.Multiplayer.broadcastSprites(location,
+                    new TemporaryAnimatedSprite(
+                        10,
+                        point,
+                        Color.Cyan,
+                        10,
+                        Game1.random.NextDouble() < 0.5,
+                        70f,
+                        0,
+                        Game1.tileSize,
+                        100f));
 
-                // Show second layer of particles slightly higher
-                point.Y -= (int)(caster.Sprite.SpriteHeight * 2);
-                Game1.Multiplayer.broadcastSprites(caster.currentLocation,
-                    new TemporaryAnimatedSprite(10,
-                    point,
-                    Color.Cyan,
-                    10,
-                    Game1.random.NextDouble() < 0.5,
-                    70f,
-                    0,
-                    Game1.tileSize,
-                    100f));
+                // Show second layer of particles slightly higher.
+                point.Y -= player.Sprite.SpriteHeight * 2;
+                Game1.Multiplayer.broadcastSprites(location,
+                    new TemporaryAnimatedSprite(
+                        10,
+                        point,
+                        Color.Cyan,
+                        10,
+                        Game1.random.NextDouble() < 0.5,
+                        70f,
+                        0,
+                        Game1.tileSize,
+                        100f));
 
-                collectedCount++; // increment number of machines collected
+                collectedCount++;
             }
 
-            // If no machines were collected, the spell fizzles; otherwise it succeeds
             return collectedCount == 0
-                ? new SpellFizzle(caster, this.GetManaCost(caster, level))
+                ? new SpellFizzle(player, manaCost)
                 : null;
         }
     }

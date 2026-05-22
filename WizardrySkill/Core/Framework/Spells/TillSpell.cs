@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Extensions;
 using StardewValley.Locations;
@@ -21,7 +20,7 @@ namespace WizardrySkill.Core.Framework.Spells
         public TillSpell()
             : base(SchoolId.Toil, "till") { }
 
-        public override SpellSyncMode SyncMode => SpellSyncMode.HostWorld;
+        public override SpellSyncMode SyncMode => SpellSyncMode.LocalWorld;
 
         // The mana cost of casting the spell
         public override int GetManaCost(Farmer player, int level)
@@ -29,127 +28,130 @@ namespace WizardrySkill.Core.Framework.Spells
             return 1;
         }
 
-        // What happens when the spell is cast
+        // What happens when the spell is cast by the local player
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            return this.OnReceiveCast(player, level, targetX, targetY, "");
-        }
-
-        // What happens when the spell is received through the spell sync system
-        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
-        {
-            // Only the host should mutate shared terrain/object/location state
-            if (!Context.IsMainPlayer)
+            if (player == null || player.currentLocation == null)
                 return null;
 
-            if (caster == null || caster.currentLocation == null)
+            // Only the caster's own machine should run the tilling logic.
+            // Remote machines observe the cast packet but do not replay terrain, object, buried item, EXP, or stats mutation.
+            if (!player.IsLocalPlayer)
                 return null;
 
-            // Create a dummy hoe tool to simulate hoe actions
+            // Create a dummy hoe tool to simulate hoe actions.
             Tool dummyHoe = new Hoe();
-            dummyHoe.IsEfficient = true; // Makes the tool work instantly
-            ModEntry.Instance.Helper.Reflection.GetField<Farmer>(dummyHoe, "lastUser").SetValue(caster);
+            dummyHoe.IsEfficient = true;
+            ModEntry.Instance.Helper.Reflection.GetField<Farmer>(dummyHoe, "lastUser").SetValue(player);
 
             level += 1; // Increase level for spell radius
             int actionCount = 0; // Tracks how many tiles were affected
+            int manaCost = this.GetManaCost(player, level);
 
-            GameLocation loc = caster.currentLocation;
+            GameLocation loc = player.currentLocation;
 
-            // Convert pixel coordinates to tile coordinates
+            // Convert pixel coordinates to tile coordinates.
             int tileX = targetX / Game1.tileSize;
             int tileY = targetY / Game1.tileSize;
-            var target = new Vector2(tileX, tileY);
+            Vector2 target = new(tileX, tileY);
 
-            // Cache the mana cost in a variable for use later to reduce calls
-            int manaCost = this.GetManaCost(caster, level);
+            // Get a list of all tiles affected by the spell.
+            List<Vector2> affectedTiles = Utilities.TilesAffected(target, level, player);
 
-            // Get a list of all tiles affected by the spell (radius = level)
-            List<Vector2> list = Utilities.TilesAffected(target, level, caster);
-
-            // Loop over each affected tile
-            foreach (Vector2 tile in list)
+            // Loop over each affected tile.
+            foreach (Vector2 tile in affectedTiles)
             {
-                if (!this.CanContinueCast(caster, level))
-                    return null;
+                if (!this.CanContinueCast(player, level))
+                    break;
 
-                // Handle terrain features (e.g., grass, bushes)
-                if (loc.terrainFeatures.TryGetValue(tile, out var value))
+                bool didAction = false;
+
+                // Handle terrain features, like grass or bushes.
+                if (loc.terrainFeatures.TryGetValue(tile, out var terrainFeature))
                 {
-                    if (value.performToolAction(dummyHoe, 0, tile))
+                    if (terrainFeature.performToolAction(dummyHoe, 0, tile))
                     {
-                        loc.terrainFeatures.Remove(tile); // Remove feature if tilleds
-
-                        // Reduce mana after the first tile
-                        if (actionCount != 0)
-                            caster.AddMana(-manaCost);
-
-                        actionCount++; // Count how many tiles were affected
-                        Utilities.AddEXP(caster, 2); // Give experience
-                        loc.playSound("hoeHit", tile); // Sound effect
-                        Game1.stats.DirtHoed++; // Update game stats
+                        loc.terrainFeatures.Remove(tile);
+                        didAction = true;
                     }
-
-                    continue; // Skip to next tile
                 }
-
-                // Handle objects (e.g., stones, small logs)
-                if (loc.objects.TryGetValue(tile, out var value2) && value2.performToolAction(dummyHoe))
+                else if (loc.objects.TryGetValue(tile, out var obj) && obj.performToolAction(dummyHoe))
                 {
-                    if (value2.Type == "Crafting" && value2.Fragility != 2)
-                    {
-                        // Drop debris if the object is breakable
-                        loc.debris.Add(new Debris(value2.QualifiedItemId, caster.GetToolLocation(), Utility.PointToVector2(caster.StandingPixel)));
-                    }
+                    // Handle objects that react to hoe use.
+                    if (obj.Type == "Crafting" && obj.Fragility != 2)
+                        loc.debris.Add(new Debris(obj.QualifiedItemId, player.GetToolLocation(), Utility.PointToVector2(player.StandingPixel)));
 
-                    value2.performRemoveAction(); // Remove object
+                    obj.performRemoveAction();
                     loc.Objects.Remove(tile);
+                    didAction = true;
                 }
 
-                // Skip tiles that cannot be dug
-                if (loc.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") == null)
-                    continue;
-
-                // If in the mine and tile is free
-                if (loc is MineShaft && !loc.IsTileOccupiedBy(tile, CollisionMask.All, CollisionMask.None, useFarmerTile: true))
+                // Handle creating hoe dirt if the tile can be dug.
+                if (loc.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") != null)
                 {
-                    if (loc.makeHoeDirt(tile))
-                    {
-                        loc.checkForBuriedItem((int)tile.X, (int)tile.Y, explosion: false, detectOnly: false, caster);
+                    bool madeHoeDirt = false;
 
-                        // Visual effects for tilled dirt
-                        Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(12, new Vector2(tile.X * 64f, tile.Y * 64f), Color.White, 8, Game1.random.NextBool(), 50f));
-                        if (list.Count > 2)
+                    // Mine tilling.
+                    if (loc is MineShaft && !loc.IsTileOccupiedBy(tile, CollisionMask.All, CollisionMask.None, useFarmerTile: true))
+                    {
+                        madeHoeDirt = loc.makeHoeDirt(tile);
+                        if (madeHoeDirt)
                         {
-                            Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(6, new Vector2(tile.X * 64f, tile.Y * 64f), Color.White, 8, Game1.random.NextBool(), Vector2.Distance(target, tile) * 30f));
+                            loc.checkForBuriedItem((int)tile.X, (int)tile.Y, explosion: false, detectOnly: false, player);
+                            this.BroadcastTillingSprites(loc, tile, target, affectedTiles.Count);
                         }
                     }
-                }
-                // Normal outdoors tiling
-                else if (loc.isTilePassable(new Location((int)tile.X, (int)tile.Y), Game1.viewport) && loc.makeHoeDirt(tile))
-                {
-                    Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(12, new Vector2(tile.X * 64f, tile.Y * 64f), Color.White, 8, Game1.random.NextBool(), 50f));
-                    if (list.Count > 2)
+                    // Normal outdoors tilling.
+                    else if (loc.isTilePassable(new Location((int)tile.X, (int)tile.Y), Game1.viewport))
                     {
-                        Game1.Multiplayer.broadcastSprites(loc, new TemporaryAnimatedSprite(6, new Vector2(tile.X * 64f, tile.Y * 64f), Color.White, 8, Game1.random.NextBool(), Vector2.Distance(target, tile) * 30f));
+                        madeHoeDirt = loc.makeHoeDirt(tile);
+                        if (madeHoeDirt)
+                        {
+                            this.BroadcastTillingSprites(loc, tile, target, affectedTiles.Count);
+                            loc.checkForBuriedItem((int)tile.X, (int)tile.Y, explosion: false, detectOnly: false, player);
+                        }
                     }
 
-                    loc.checkForBuriedItem((int)tile.X, (int)tile.Y, explosion: false, detectOnly: false, caster);
+                    didAction |= madeHoeDirt;
                 }
 
-                // Reduce mana after the first tile
-                if (actionCount != 0)
-                    caster.AddMana(-manaCost);
+                if (!didAction)
+                    continue;
 
-                actionCount++; // Count how many tiles were affected
-                Utilities.AddEXP(caster, 2); // Give experience
-                loc.playSound("hoeHit", tile); // Sound effect
-                Game1.stats.DirtHoed++; // Update game stats
+                // Reduce mana after the first tile.
+                if (actionCount != 0)
+                    player.AddMana(-manaCost);
+
+                actionCount++;
+                Utilities.AddEXP(player, 2);
+                loc.playSound("hoeHit", tile);
+                Game1.stats.DirtHoed++;
             }
 
-            // If no tiles were affected, the spell fizzles
-            return actionCount == 0 && caster.IsLocalPlayer
-                ? new SpellFizzle(caster, manaCost)
+            // If no tiles were affected, the spell fizzles.
+            return actionCount == 0
+                ? new SpellFizzle(player, manaCost)
                 : null;
+        }
+
+
+        /*********
+        ** Private methods
+        *********/
+
+        /// <summary>Broadcast tilling visuals through Stardew's native temporary sprite sync.</summary>
+        /// <param name="location">The location where the tile was tilled.</param>
+        /// <param name="tile">The tile that was affected.</param>
+        /// <param name="target">The spell target tile.</param>
+        /// <param name="affectedTileCount">The number of tiles in the affected area.</param>
+        private void BroadcastTillingSprites(GameLocation location, Vector2 tile, Vector2 target, int affectedTileCount)
+        {
+            Vector2 pixelPosition = new(tile.X * 64f, tile.Y * 64f);
+
+            Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(12, pixelPosition, Color.White, 8, Game1.random.NextBool(), 50f));
+
+            if (affectedTileCount > 2)
+                Game1.Multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(6, pixelPosition, Color.White, 8, Game1.random.NextBool(), Vector2.Distance(target, tile) * 30f));
         }
     }
 }

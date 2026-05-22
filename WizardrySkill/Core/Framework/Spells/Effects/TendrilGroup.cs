@@ -19,7 +19,10 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             {
                 Tendril tendril = this[i];
                 if (!tendril.Update(e))
+                {
+                    tendril.CleanUp();
                     this.RemoveAt(i);
+                }
             }
 
             return this.Any();
@@ -27,7 +30,10 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
         public void CleanUp()
         {
+            foreach (Tendril tendril in this)
+                tendril.CleanUp();
 
+            this.Clear();
         }
 
         /// <summary>Draw the effect to the screen if needed.</summary>

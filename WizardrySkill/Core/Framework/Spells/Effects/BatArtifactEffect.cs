@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpaceCore;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.Monsters;
+using WizardrySkill.Core.Framework;
 
 namespace WizardrySkill.Core.Framework.Spells.Effects
 {
@@ -16,6 +15,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         *********/
         private readonly Farmer Summoner;
         private readonly Texture2D Tex;
+        private readonly int SlotIndex;
 
         private Vector2 Pos;
         private GameLocation PrevSummonerLoc;
@@ -37,10 +37,16 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         ** Constructor
         *********/
         public BatArtifactEffect(Farmer summoner, float attackrange)
+            : this(summoner, 0, attackrange)
+        {
+        }
+
+        public BatArtifactEffect(Farmer summoner, int slotIndex, float attackrange)
         {
             this.Summoner = summoner;
             this.Tex = ModEntry.Assets.Bat;
-            this.Pos = summoner.Position;
+            this.SlotIndex = slotIndex;
+            this.Pos = SummonManager.GetSlotFollowPosition(summoner, slotIndex);
             this.PrevSummonerLoc = summoner.currentLocation;
             this.AttackRange = attackrange;
 
@@ -53,29 +59,31 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         *********/
         public bool Update(UpdateTickedEventArgs e)
         {
-            if (this.Summoner == null)
+            if (this.Summoner == null || this.Summoner.currentLocation == null)
             {
                 this.CleanUp();
                 return false;
             }
 
-            // Handle location changes
+            // Handle location changes.
+            // SummonManager should normally rebuild visuals on warp, but this keeps the effect safe
+            // if the owner location changes while the visual instance is still alive.
             if (this.PrevSummonerLoc != this.Summoner.currentLocation)
             {
                 this.CleanUp();
                 this.PrevSummonerLoc = this.Summoner.currentLocation;
-                this.Pos = this.Summoner.Position;
+                this.Pos = SummonManager.GetSlotFollowPosition(this.Summoner, this.SlotIndex);
                 this.AddSprite();
             }
 
-            // Handle attack or movement
-            Vector2 target = this.AttackTimer > 0 ? Vector2.Zero : this.FindNearestMonster(100);
+            // Handle artifact/pan spot tracking or movement.
+            Vector2 target = this.AttackTimer > 0 ? Vector2.Zero : this.FindNearestArtifactTarget(this.AttackRange);
             if (this.AttackTimer > 0)
                 this.AttackTimer--;
 
             if (target != Vector2.Zero)
             {
-                var targetPosition = target * Game1.tileSize;
+                Vector2 targetPosition = target * Game1.tileSize;
                 this.MoveTowards(targetPosition);
 
                 if (Vector2.Distance(this.Pos, targetPosition) < Game1.tileSize)
@@ -85,9 +93,10 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             }
             else
             {
-                // No enemies found — follow the summoner
-                this.FollowSummoner();
-                this.UpdateSprite(this.Summoner.Position);
+                // No artifact/pan target found — follow the summoner.
+                Vector2 followPosition = SummonManager.GetSlotFollowPosition(this.Summoner, this.SlotIndex);
+                this.FollowSummoner(followPosition);
+                this.UpdateSprite(followPosition);
             }
 
             if (--this.TimeLeft <= 0)
@@ -101,21 +110,39 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
         public void Draw(SpriteBatch b)
         {
-            // nothing; drawn Manually via TemporaryAnimatedSprite
+            // Nothing; drawn manually via TemporaryAnimatedSprite.
+        }
+
+        public void CleanUp()
+        {
+            if (this.PrevSummonerLoc == null)
+                return;
+
+            if (this.Sprite != null)
+                this.PrevSummonerLoc.temporarySprites.Remove(this.Sprite);
+
+            if (this.Shadow != null)
+                this.PrevSummonerLoc.temporarySprites.Remove(this.Shadow);
+
+            this.Sprite = null;
+            this.Shadow = null;
         }
 
 
         /*********
         ** Private helpers
         *********/
-        private void FollowSummoner()
+        private void FollowSummoner(Vector2 followPosition)
         {
-            if (Vector2.Distance(this.Pos, this.Summoner.Position) <= Game1.tileSize)
+            if (Vector2.Distance(this.Pos, followPosition) <= Game1.tileSize)
                 return;
 
-            Vector2 dir = this.Summoner.Position - this.Pos;
-            dir.Normalize();
-            this.Pos += dir * 7f;
+            Vector2 dir = followPosition - this.Pos;
+            if (dir.LengthSquared() > 0.001f)
+            {
+                dir.Normalize();
+                this.Pos += dir * 7f;
+            }
         }
 
         private void MoveTowards(Vector2 target)
@@ -128,7 +155,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             }
         }
 
-        private void AttemptAttack(Vector2 mob)
+        private void AttemptAttack(Vector2 target)
         {
             if (this.AttackTimer > 0)
                 return;
@@ -136,28 +163,26 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             this.AttackTimer = 60;
         }
 
-        private Vector2 FindNearestMonster(float maxDistance)
+        private Vector2 FindNearestArtifactTarget(float maxDistance)
         {
-            List<Vector2> list = new List<Vector2>();
-            Farmer player = this.Summoner;
-            GameLocation loc = this.PrevSummonerLoc;
+            List<Vector2> targets = new();
+            GameLocation loc = this.Summoner.currentLocation ?? this.PrevSummonerLoc;
             float nearestDist = maxDistance;
             Vector2 nearest = Vector2.Zero;
-            if (!loc.orePanPoint.Equals(Point.Zero))
-            {
 
-                list.Add(new Vector2(loc.orePanPoint.X, loc.orePanPoint.Y));
-            }
+            if (loc == null)
+                return nearest;
+
+            if (!loc.orePanPoint.Equals(Point.Zero))
+                targets.Add(new Vector2(loc.orePanPoint.X, loc.orePanPoint.Y));
 
             foreach (KeyValuePair<Vector2, StardewValley.Object> thing in loc.objects.Pairs)
             {
                 if (thing.Value.QualifiedItemId == "(O)590")
-                {
-                    list.Add(thing.Key);
-                }
+                    targets.Add(thing.Key);
             }
 
-            foreach (var tile in list)
+            foreach (Vector2 tile in targets)
             {
                 float dist = Vector2.Distance(tile, this.Summoner.Tile);
                 if (dist < nearestDist)
@@ -166,7 +191,6 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                     nearestDist = dist;
                 }
             }
-
 
             return nearest;
         }
@@ -180,35 +204,41 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
         private void UpdateSprite(Vector2 target)
         {
+            if (this.Sprite == null || this.Shadow == null)
+            {
+                this.AddSprite();
+
+                if (this.Sprite == null || this.Shadow == null)
+                    return;
+            }
+
             UpdateSharedOscillation();
 
-            // Animate frames
             if (++this.AnimTimer >= 12)
             {
                 this.AnimTimer = 0;
-                this.AnimFrame = (this.AnimFrame + 1) & 3; // faster modulo 4
+                this.AnimFrame = (this.AnimFrame + 1) & 3;
             }
 
             int direction = GetSnappedDirection(this.Pos, target);
             this.Sprite.sourceRect.X = this.AnimFrame * 16;
             this.Sprite.sourceRect.Y = direction * 24;
 
-            // Visual offset + smooth movement
-            Vector2 dynamicPos = this.Pos + SharedOscillation + SpriteOffset;
-            Vector2 shadowPos = this.Pos + SharedOscillation;
-            this.Sprite.position = Vector2.Lerp(this.Sprite.position, dynamicPos, 0.2f);
-            this.Sprite.layerDepth = shadowPos.Y / 10000f;
+            Vector2 groundPos = this.Pos + SharedOscillation;
+            Vector2 bodyPos = groundPos + SpriteOffset;
 
-            this.Shadow.position = Vector2.Lerp(this.Shadow.position, shadowPos, 0.2f);
-            this.Shadow.layerDepth = (shadowPos.Y - 1) / 10000f;
+            // Body is visually raised, but depth is based on the ground/shadow anchor.
+            this.Sprite.position = Vector2.Lerp(this.Sprite.position, bodyPos, 0.2f);
+            this.Sprite.layerDepth = SummonManager.GetFlyingSummonBodyLayerDepth(groundPos);
+
+            this.Shadow.position = Vector2.Lerp(this.Shadow.position, groundPos, 0.2f);
+            this.Shadow.layerDepth = SummonManager.GetFlyingSummonShadowLayerDepth(groundPos);
         }
 
         public static int GetSnappedDirection(Vector2 from, Vector2 to)
         {
             Vector2 direction = to - from;
-
             float angle = MathF.Atan2(direction.Y, direction.X);
-
             float degrees = MathHelper.ToDegrees(angle);
 
             if (degrees < 0)
@@ -220,13 +250,17 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 return 3; // Left
             if (degrees >= 225 && degrees < 315)
                 return 2; // Down
+
             return 1; // Right
         }
 
         private void AddSprite()
         {
+            if (this.Summoner == null || this.Summoner.currentLocation == null)
+                return;
+
             float scale = this.Summoner.Scale * 4f;
-            Vector2 startPos = this.Summoner.Position;
+            Vector2 startGroundPos = SummonManager.GetSlotFollowPosition(this.Summoner, this.SlotIndex);
 
             this.Sprite = new TemporaryAnimatedSprite(
                 textureName: "",
@@ -234,14 +268,14 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 animationInterval: 200f,
                 animationLength: 1,
                 numberOfLoops: 9999,
-                position: startPos,
+                position: startGroundPos + SpriteOffset,
                 flicker: false,
                 flipped: false)
             {
                 texture = this.Tex,
                 scale = scale,
                 color = Color.White,
-                layerDepth = startPos.Y / 10000f
+                layerDepth = SummonManager.GetFlyingSummonBodyLayerDepth(startGroundPos)
             };
 
             this.Shadow = new TemporaryAnimatedSprite(
@@ -250,25 +284,18 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 animationInterval: 200f,
                 animationLength: 1,
                 numberOfLoops: 9999,
-                position: startPos,
+                position: startGroundPos,
                 flicker: false,
                 flipped: false)
             {
                 texture = Game1.shadowTexture,
                 scale = scale,
-                layerDepth = (startPos.Y - 1) / 10000f
+                layerDepth = SummonManager.GetFlyingSummonShadowLayerDepth(startGroundPos)
             };
+
+            this.PrevSummonerLoc = this.Summoner.currentLocation;
             this.PrevSummonerLoc.TemporarySprites.Add(this.Sprite);
             this.PrevSummonerLoc.TemporarySprites.Add(this.Shadow);
-        }
-
-        public void CleanUp()
-        {
-            if (this.PrevSummonerLoc == null)
-                return;
-
-            this.PrevSummonerLoc.temporarySprites.Remove(this.Sprite);
-            this.PrevSummonerLoc.temporarySprites.Remove(this.Shadow);
         }
     }
 }

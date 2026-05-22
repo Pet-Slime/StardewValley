@@ -1,7 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Monsters;
@@ -17,8 +16,8 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         private readonly Farmer Source;
         private static readonly Random Rand = new();
         private readonly Vector2 Position;
-        private readonly float YVelocity;
-        private float Height = 1000;
+        private readonly float YVelocity = 64f;
+        private float Height = 1000f;
 
 
         /*********
@@ -31,7 +30,11 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
             this.Position.X = tx;
             this.Position.Y = ty;
-            this.YVelocity = 64;
+
+            // Only the caster's own machine should create and broadcast the falling visual.
+            // Remote clients see this through Stardew's normal TemporaryAnimatedSprite sync.
+            if (this.Source.IsLocalPlayer)
+                this.BroadcastMeteorSprite();
         }
 
         /// <summary>Update the effect state if needed.</summary>
@@ -42,7 +45,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             if (this.Loc == null || this.Source == null)
                 return false;
 
-            // decrease height until zero
+            // Decrease height until the meteor reaches the ground.
             this.Height -= this.YVelocity;
             if (this.Height > 0)
                 return true;
@@ -53,28 +56,65 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
         public void CleanUp()
         {
+            // No persistent sprite/light resources to remove.
         }
 
         /// <summary>Draw the effect to the screen if needed.</summary>
         /// <param name="spriteBatch">The sprite batch being drawn.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 drawPos = Game1.GlobalToLocal(new Vector2(this.Position.X, this.Position.Y - this.Height));
-            spriteBatch.Draw(Game1.objectSpriteSheet, drawPos, new Rectangle(352, 400, 32, 32), Color.White, 0, new Vector2(16, 16), 10f, SpriteEffects.None, (float)((this.Position.Y - this.Height + Game1.tileSize * 3 / 2) / 10000.0));
+            // Nothing to draw manually.
+            // The falling meteor visual is handled by Game1.Multiplayer.broadcastSprites.
         }
 
 
         /*********
         ** Private methods
         *********/
+        /// <summary>Broadcast the falling meteor visual through Stardew's native temporary sprite sync.</summary>
+        private void BroadcastMeteorSprite()
+        {
+            if (this.Loc == null)
+                return;
+
+            Vector2 startPos = this.Position;
+            startPos.Y -= this.Height;
+
+            // numberOfLoops is equal to how many ticks it will take to reach ground level,
+            // matching the old CrabRave falling-object pattern.
+            TemporaryAnimatedSprite sprite = new(
+                textureName: Game1.objectSpriteSheetName,
+                sourceRect: new Rectangle(352, 400, 32, 32),
+                animationInterval: 1f,
+                animationLength: 1,
+                numberOfLoops: (int)(this.Height / this.YVelocity),
+                position: startPos,
+                flicker: false,
+                flipped: false)
+            {
+                scale = 10f,
+                color = Color.White,
+                layerDepth = 1f,
+                motion = new Vector2(0f, this.YVelocity),
+                rotation = (float)(Rand.NextDouble() * Math.PI * 2),
+                rotationChange = MathF.PI / 16f
+            };
+
+            Game1.Multiplayer.broadcastSprites(this.Loc, sprite);
+        }
+
         private void OnImpact()
         {
-            // Local sound is safe. It does not mutate synced world state.
-            this.Loc.LocalSoundAtPixel("explosion", this.Position);
 
-            // Only the host should create debris, damage monsters, grant EXP, or explode the location.
-            if (!Context.IsMainPlayer)
+
+            // Only the caster-owned gameplay meteor should mutate the world.
+            // Remote machines see the broadcast temporary sprite but must not run damage, debris, EXP, or explosion logic.
+            if (!this.Source.IsLocalPlayer)
                 return;
+
+
+            // Play explosion sound at impact.
+            this.Source.currentLocation.playSound("explosion", this.Position / Game1.tileSize);
 
             this.CreateImpactDebris();
             this.DamageNearbyMonsters();

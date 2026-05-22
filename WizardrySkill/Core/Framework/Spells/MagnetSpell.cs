@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using StardewValley;
 using StardewValley.Buffs;
 using WizardrySkill.Core.Framework.Schools;
@@ -7,7 +6,7 @@ using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
-    // This class defines a "MagnetSpell" that gives the player a magnetic effect to attract items and slightly increase defense
+    // This class defines a "MagnetSpell" that gives the player a magnetic effect to attract items and slightly increase defense.
     public class MagnetSpell : Spell
     {
         /*********
@@ -16,59 +15,68 @@ namespace WizardrySkill.Core.Framework.Spells
         public MagnetSpell()
             : base(SchoolId.Life, "magnetic_force")
         {
-            // SchoolId.Life indicates this spell belongs to the Life school
-            // "magnetic_force" is the internal name of this spell
+            // SchoolId.Life indicates this spell belongs to the Life school.
+            // "magnetic_force" is the internal name of this spell.
         }
 
         public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
 
-        // Magnetic Force only affects the caster's own buff state and emote.
-        // It should never be executed from a received multiplayer spell packet.
-        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
-        {
-            return null;
-        }
-
         public override bool CanCast(Farmer player, int level)
         {
-            // Can cast if the player doesn't already have this spell's buff active
-            return base.CanCast(player, level) && !player.hasBuff($"spell:nature:magnetic_force:{level}");
+            string buffId = this.GetBuffId(level);
+
+            // Can cast if the player doesn't already have this spell's buff active.
+            return base.CanCast(player, level) && !player.hasBuff(buffId);
         }
 
         public override int GetManaCost(Farmer player, int level)
         {
-            // Mana cost scales with level
+            // Mana cost scales with level.
             return 5 * (level + 1);
         }
 
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Only run for the local player
+            if (player == null)
+                return null;
+
+            // Only the caster's own machine should apply the buff.
             if (!player.IsLocalPlayer)
                 return null;
 
-            // If the buff is already active, cancel the spell
-            if (player.hasBuff($"spell:nature:magnetic_force:{level}"))
+            string buffId = this.GetBuffId(level);
+
+            // If the buff is already active, cancel the spell.
+            if (player.hasBuff(buffId))
                 return new SpellFizzle(player, this.GetManaCost(player, level));
 
-            // Apply the magnetic buff to the player
+            // Apply the magnetic buff to the player.
             player.buffs.Apply(new Buff(
-                id: $"spell:nature:magnetic_force:{level}",  // Unique ID for this spell
-                source: $"spell:nature:magnetic_force:{level}",  // Source name for display
+                id: buffId,
+                source: buffId,
                 displaySource: ModEntry.Instance.I18N.Get("moonslime.Wizardry.magnetic_force.buffDescription") + level.ToString(),
-                duration: (int)TimeSpan.FromSeconds(60 + level * 120).TotalMilliseconds,  // Duration scales with level
+                duration: (int)TimeSpan.FromSeconds(60 + level * 120).TotalMilliseconds,
                 effects: new BuffEffects
                 {
-                    MagneticRadius = { (level + 1) * 16 }, // Radius for attracting nearby items
-                    Defense = { level + 1 }                // Slightly increase defense
+                    MagneticRadius = { (level + 1) * 16 },
+                    Defense = { level + 1 }
                 }
             ));
 
-            // Make the player do an exclamation emote when casting
+            // Make the player do an exclamation emote when casting.
             player.performPlayerEmote("exclamation");
 
-            // Return a successful spell effect with a sound and grant exp
+            // Return a successful spell effect with a sound and grant exp.
             return new SpellSuccess(player, "powerup", 5);
+        }
+
+
+        /*********
+        ** Private methods
+        *********/
+        private string GetBuffId(int level)
+        {
+            return $"spell:{this.FullId}:{level}";
         }
     }
 }

@@ -5,7 +5,7 @@ using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
-    // This class defines a "HealSpell" that restores health to the player
+    // This class defines a "HealSpell" that restores health to the player.
     public class HealSpell : Spell
     {
         /*********
@@ -15,49 +15,41 @@ namespace WizardrySkill.Core.Framework.Spells
         public HealSpell()
             : base(SchoolId.Life, "heal")
         {
-            // SchoolId.Life identifies the spell's magical school
-            // "heal" is the internal name for this spell
+            // SchoolId.Life identifies the spell's magical school.
+            // "heal" is the internal name for this spell.
         }
 
         public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
 
-        // Heal only affects the caster's own health and local healing feedback.
-        // It should never be executed from a received multiplayer spell packet.
-        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
-        {
-            return null;
-        }
-
         public override int GetManaCost(Farmer player, int level)
         {
-            // Mana cost is 25% of the player's maximum mana
-            return (player.GetMaxMana() / 4);
+            // Mana cost is 25% of the player's maximum mana.
+            return player.GetMaxMana() >> 2;
         }
 
         public override bool CanCast(Farmer player, int level)
         {
-            // Can cast only if the player is not at full health
+            // Can cast only if the player is not at full health.
             return base.CanCast(player, level) && player.health != player.maxHealth;
         }
 
-        // Called when the spell is cast
+        // Called when the spell is cast.
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            // Only run for the local player
+            if (player == null || player.currentLocation == null)
+                return null;
+
+            // Only the caster's own machine should change personal health and local healing feedback.
             if (!player.IsLocalPlayer)
                 return null;
 
-            // Calculate amount of health to restore
-            int health = (player.maxHealth / 6) + ((level + 1) * 4);
+            // Calculate amount of health to restore.
+            int health = player.maxHealth / 6 + (level + 1) * 4;
 
-            // Add health to the player
-            player.health += health;
+            // Add health to the player, capped at max health.
+            player.health = System.Math.Min(player.health + health, player.maxHealth);
 
-            // Ensure health does not exceed maximum
-            if (player.health >= player.maxHealth)
-                player.health = player.maxHealth;
-
-            // Add a visual indicator of healing above the player
+            // Add a visual indicator of healing above the player.
             player.currentLocation.debris.Add(new Debris(
                 health,
                 new Vector2(player.StandingPixel.X + 8, player.StandingPixel.Y),
@@ -66,8 +58,8 @@ namespace WizardrySkill.Core.Framework.Spells
                 player
             ));
 
-            // Spell success: plays "healSound" and grants experience proportional to health restored
-            return new SpellSuccess(player, "healSound", (int)(health * 0.5));
+            // Spell success: plays "healSound" and grants experience proportional to health restored.
+            return new SpellSuccess(player, "healSound", (int)(health >> 1));
         }
     }
 }

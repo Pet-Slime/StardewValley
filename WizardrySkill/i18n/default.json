@@ -78,7 +78,7 @@
     "moonslime.Wizardry.school.elemental.name": "Evocation",
     "moonslime.Wizardry.school.eldritch.name": "Eldritch",
     "moonslime.Wizardry.school.motion.name": "Motion",
-    "moonslime.Wizardry.school.uknown.name": "Unkown",
+    "moonslime.Wizardry.school.uknown.name": "Unknown",
 
     "moonslime.Wizardry.school.arcane.desc": "The Arcane school give you handy tools.\nAlong with a little extra insight into the world around you.",
     "moonslime.Wizardry.school.toil.desc": "Not every school of magic is about hurling fire from your hands.\nThe School of Toil focuses on the practical.\nSpells that make everyday chores a little easier.",
@@ -87,7 +87,7 @@
     "moonslime.Wizardry.school.elemental.desc": "The Evocation School focuses on combat heavy spells.\nNot that other schools can't do combat, Evocation is just the best at it.",
     "moonslime.Wizardry.school.eldritch.desc": "A dash of Eldritch magic can do wonders…\nbut it loves to collect a tiny toll in return.",
     "moonslime.Wizardry.school.motion.desc": "Need a hand with moving around?\nThe Motion School can lend you a hand.",
-    "moonslime.Wizardry.school.uknown.desc": "Unkown",
+    "moonslime.Wizardry.school.uknown.desc": "Unknown",
 
     "moonslime.Wizardry.spellmenu.leftsideTitle": "Spells",
     "moonslime.Wizardry.spell.cost": "Cost: ",
@@ -140,9 +140,9 @@
     "moonslime.Wizardry.spell.toil:water.hint": "Looking to use magic to work around the farm?\nTry analyzing your tools.",
 
     "moonslime.Wizardry.spell.motion:blink.name": "Blink",
-    "moonslime.Wizardry.spell.motion:blink.cost": "5 mana per tile travel",
-    "moonslime.Wizardry.spell.motion:blink.desc": "Teleport to the targeted area.",
-    "moonslime.Wizardry.spell.motion:blink.hint": "Find all other Toil spells.",
+    "moonslime.Wizardry.spell.motion:blink.cost": "2 tavel core",
+    "moonslime.Wizardry.spell.motion:blink.desc": "Try to generate a path to targeted area one can walk to,\nthen teleport there.",
+    "moonslime.Wizardry.spell.motion:blink.hint": "Find all other Motion spells.",
 
     "moonslime.Wizardry.spell.toil:harvest.name": "Grass Removal",
     "moonslime.Wizardry.spell.toil:harvest.cost": "5 mana per tile",
@@ -162,7 +162,7 @@
     "moonslime.Wizardry.spell.nature:fish_frenzy.name": "Fish Frenzy",
     "moonslime.Wizardry.spell.nature:fish_frenzy.cost": "10 mana, first fish in inventory",
     "moonslime.Wizardry.spell.nature:fish_frenzy.desc": "Creates a fish frenzy on water that can be fished in; Not guaranteed to work every time.",
-    "moonslime.Wizardry.spell.nature:fish_frenzy.hint": "Studying the magic behind Magic Bait might lead to something useful.",
+    "moonslime.Wizardry.spell.nature:fish_frenzy.hint": "I wonder if I can study anything magic related to fishing?",
 
     "moonslime.Wizardry.spell.nature:crabrain.name": "Crab Rain",
     "moonslime.Wizardry.spell.nature:crabrain.cost": "25 mana, a crab",
@@ -192,13 +192,12 @@
     "moonslime.Wizardry.spell.nature:photosynthesis.name": "Photosynthesis",
     "moonslime.Wizardry.spell.nature:photosynthesis.cost": "100 mana, Fairy Dust",
     "moonslime.Wizardry.spell.nature:photosynthesis.desc": "Advance all plants in target area a stage.",
-    "moonslime.Wizardry.spell.nature:photosynthesis.hint": "Find all other Nature spells.",
+    "moonslime.Wizardry.spell.nature:photosynthesis.hint": "Fairies sometimes help grow crops at night, if only there was something linked to them I could analyze.",
 
     "moonslime.Wizardry.spell.life:heal.name": "Heal",
     "moonslime.Wizardry.spell.life:heal.cost": "25% mana",
     "moonslime.Wizardry.spell.life:heal.desc": "Restore 16% Health + extra based on spell level.",
     "moonslime.Wizardry.spell.life:heal.hint": "Health potions sure are inconvenient to carry around.\nMaybe we can heal ourselves with magic?",
-
 
     "moonslime.Wizardry.spell.life:healarea.name": "Healing Area",
     "moonslime.Wizardry.spell.life:healarea.cost": "25% mana",
@@ -208,7 +207,7 @@
     "moonslime.Wizardry.spell.motion:haste.name": "Haste",
     "moonslime.Wizardry.spell.motion:haste.cost": "40 mana per level, coffee bean",
     "moonslime.Wizardry.spell.motion:haste.desc": "Move as swift as the wind. Higher levels make you move faster for longer.",
-    "moonslime.Wizardry.spell.motion:haste.hint": "Coffee is delicious.\nWhy not recreate its effects with a spell?",
+    "moonslime.Wizardry.spell.motion:haste.hint": "I wonder if I could study something that could add a spring to my step.",
 
     "moonslime.Wizardry.spell.motion:evac.name": "Evac",
     "moonslime.Wizardry.spell.motion:evac.cost": "25 mana",
@@ -248,16 +247,16 @@
     "moonslime.Wizardry.spell.motion:teleport.name": "Teleport",
     "moonslime.Wizardry.spell.motion:teleport.cost": "10 mana, Travel Core",
     "moonslime.Wizardry.spell.motion:teleport.desc": "When outside, teleport to outdoor locations you been to.",
-    "moonslime.Wizardry.spell.motion:teleport.hint": "Find all other Elemental spells.",
+    "moonslime.Wizardry.spell.motion:teleport.hint": "I can teleport around using totems. I wonder if I study enough of them,\nI can make a spell that can do it.",
 
     "moonslime.Wizardry.spell.elemental:meteor.name": "Meteor",
     "moonslime.Wizardry.spell.elemental:meteor.cost": "Iridium Ore",
     "moonslime.Wizardry.spell.elemental:meteor.desc": "Crash a large meteor into the earth.",
-    "moonslime.Wizardry.spell.elemental:meteor.hint": "I wonder if anything from space can give insperation for a spell.",
+    "moonslime.Wizardry.spell.elemental:meteor.hint": "I wonder if anything from space can give inspiration for a spell.",
 
     "moonslime.Wizardry.spell.eldritch:bloodmana.name": "Blood Mana",
     "moonslime.Wizardry.spell.eldritch:bloodmana.cost": "25% Health",
-    "moonslime.Wizardry.spell.eldritch:bloodmana.desc": "Restore 16% Health along with extra based on spell level.",
+    "moonslime.Wizardry.spell.eldritch:bloodmana.desc": "Restore 16% Mana along with extra based on spell level.",
     "moonslime.Wizardry.spell.eldritch:bloodmana.hint": "I saw someone cast a spell to regain mana!?\nIt looked like it hurt.\nRumor has it they learned this technique while fishing for Lava Eels.",
 
     "moonslime.Wizardry.spell.eldritch:lucksteal.name": "Luck Steal",
@@ -267,8 +266,8 @@
 
     "moonslime.Wizardry.spell.eldritch:charm.name": "Charm",
     "moonslime.Wizardry.spell.eldritch:charm.cost": "15 mana, 25 health per person",
-    "moonslime.Wizardry.spell.eldritch:charm.desc": "Sacrifice Health to make people near you like you.\n Higher level increases the area.",
-    "moonslime.Wizardry.spell.eldritch:charm.hint": "A thing that attracts others might be a useful thing to study...",
+    "moonslime.Wizardry.spell.eldritch:charm.desc": "Sacrifice Health to make people near you like you.\nHigher level increases the area.",
+    "moonslime.Wizardry.spell.eldritch:charm.hint": "A thing that attracts danger might be a useful thing to study...",
 
     "moonslime.Wizardry.spell.eldritch:spirit.name": "Spirit",
     "moonslime.Wizardry.spell.eldritch:spirit.cost": "50 mana, 20% helath",
@@ -286,7 +285,7 @@
 
 
     "config.VoidSchool": "Enable Blink Spell",
-    "config.VoidSchool.tooltip": "REQUIRES GAME RESTART.\nAllows the user to learn the spell blink.\nBlink can sometimes cause softlocks, user beware.",
+    "config.VoidSchool.tooltip": "No longer used.",
 
 
     "config.Magic_arrow_base": "Magic Arrow Base Damage",

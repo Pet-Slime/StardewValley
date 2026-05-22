@@ -1,6 +1,7 @@
 using System;
 using SpaceCore;
 using StardewValley;
+using StardewValley.Buffs;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells.Effects;
 
@@ -12,7 +13,6 @@ namespace WizardrySkill.Core.Framework.Spells
         /*********
         ** Public methods
         *********/
-
         public BuffSpell()
             : base(SchoolId.Life, "buff")
         {
@@ -20,14 +20,9 @@ namespace WizardrySkill.Core.Framework.Spells
 
         public override SpellSyncMode SyncMode => SpellSyncMode.LocalOnly;
 
-        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
-        {
-            return null;
-        }
-
         public override bool CanCast(Farmer player, int level)
         {
-            return base.CanCast(player, level) && !player.hasBuff($"spell:life:buff:{level}");
+            return base.CanCast(player, level) && !player.hasBuff(this.GetBuffId(level));
         }
 
         public override int GetManaCost(Farmer player, int level)
@@ -38,35 +33,49 @@ namespace WizardrySkill.Core.Framework.Spells
         // Called when the spell is cast.
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
+            if (player == null)
+                return null;
+
+            // Only the caster's own machine should apply personal buffs.
             if (!player.IsLocalPlayer)
                 return null;
 
-            if (player.hasBuff($"spell:life:buff:{level}"))
+            string buffId = this.GetBuffId(level);
+            if (player.hasBuff(buffId))
                 return new SpellFizzle(player, this.GetManaCost(player, level));
 
-            int l = level + 1;
+            int buffLevel = level + 1;
 
-            var baseSkillBuff = new Buff(
-                id: $"spell:life:buff:{level}",
-                source: $"spell:life:buff:{level}",
+            Buff baseSkillBuff = new(
+                id: buffId,
+                source: buffId,
                 displaySource: ModEntry.Instance.I18N.Get("moonslime.Wizardry.buff.buffDescription") + level.ToString(),
                 duration: (int)TimeSpan.FromSeconds(60 + level * 120).TotalMilliseconds,
-                effects: new StardewValley.Buffs.BuffEffects
+                effects: new BuffEffects
                 {
-                    FarmingLevel = { l },
-                    FishingLevel = { l },
-                    MiningLevel = { l },
-                    CombatLevel = { l },
-                    ForagingLevel = { l }
+                    FarmingLevel = { buffLevel },
+                    FishingLevel = { buffLevel },
+                    MiningLevel = { buffLevel },
+                    CombatLevel = { buffLevel },
+                    ForagingLevel = { buffLevel }
                 }
             );
 
             foreach (string customSkill in Skills.GetSkillList())
-                baseSkillBuff.customFields.Add($"spacechase.SpaceCore.SkillBuff.{customSkill}", $"{l}");
+                baseSkillBuff.customFields.Add($"spacechase.SpaceCore.SkillBuff.{customSkill}", $"{buffLevel}");
 
             player.buffs.Apply(baseSkillBuff);
 
             return new SpellSuccess(player, "powerup", 10);
+        }
+
+
+        /*********
+        ** Private methods
+        *********/
+        private string GetBuffId(int level)
+        {
+            return $"spell:{this.FullId}:{level}";
         }
     }
 }

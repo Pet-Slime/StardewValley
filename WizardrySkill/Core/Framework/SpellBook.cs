@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Microsoft.Xna.Framework;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells;
@@ -53,6 +51,9 @@ namespace WizardrySkill.Core.Framework
         /// <param name="mutate">Apply changes to the spell data.</param>
         public void Mutate(Action<SpellBookData> mutate)
         {
+            if (mutate == null)
+                return;
+
             this.Data.UpdateIfNeeded();
             mutate(this.Data);
             this.Data.Save();
@@ -63,7 +64,7 @@ namespace WizardrySkill.Core.Framework
         {
             var data = this.GetUpdatedData();
 
-            return data.SelectedPrepared < data.Prepared.Count
+            return data.SelectedPrepared >= 0 && data.SelectedPrepared < data.Prepared.Count
                 ? data.Prepared[data.SelectedPrepared]
                 : null;
         }
@@ -90,6 +91,7 @@ namespace WizardrySkill.Core.Framework
             // skip if spell level isn't known
             if (!data.KnownSpells.TryGetValue(spellId, out PreparedSpell spell) || spell.Level < level)
                 return;
+
             Log.Debug($"Forgetting spell {spellId}, level {level + 1}");
 
             // forget spell
@@ -111,6 +113,9 @@ namespace WizardrySkill.Core.Framework
         /// <param name="level">The level to forget.</param>
         public void ForgetSpell(Spell spell, int level)
         {
+            if (spell == null)
+                return;
+
             this.ForgetSpell(spell.FullId, level);
         }
 
@@ -154,13 +159,7 @@ namespace WizardrySkill.Core.Framework
         /// <param name="level">The minimum spell level.</param>
         public bool KnowsSpell(Spell spell, int level)
         {
-            if (spell is null)
-                return false;
-
-            if (spell.FullId is null)
-                return false;
-
-            return this.KnowsSpell(spell.FullId, level);
+            return spell?.FullId != null && this.KnowsSpell(spell.FullId, level);
         }
 
         /// <summary>Get whether the player knows any spells in this school.</summary>
@@ -170,9 +169,13 @@ namespace WizardrySkill.Core.Framework
                 return false;
 
             foreach (var tier in tiers)
+            {
                 foreach (var spell in tier ?? Enumerable.Empty<Spell>())
-                    if (spell?.FullId is string id && this.KnowsSpell(id, 0))
+                {
+                    if (spell?.FullId is string spellId && this.KnowsSpell(spellId, 0))
                         return true;
+                }
+            }
 
             return false;
         }
@@ -187,7 +190,10 @@ namespace WizardrySkill.Core.Framework
 
             // add spell
             if (!data.KnownSpells.TryGetValue(spellId, out PreparedSpell spell))
+            {
                 data.KnownSpells[spellId] = spell = new PreparedSpell(spellId, 0);
+                Log.Debug($"Learned spell {spellId}, level 1");
+            }
 
             // upgrade level
             int previousLevel = spell.Level;
@@ -196,6 +202,7 @@ namespace WizardrySkill.Core.Framework
             {
                 if (!free)
                     data.FreePoints = Math.Max(0, data.FreePoints - diff);
+
                 data.KnownSpells[spellId].Level = level;
 
                 Log.Debug($"Learned spell {spellId}, level {level + 1}");
@@ -211,6 +218,9 @@ namespace WizardrySkill.Core.Framework
         /// <param name="free">Whether the spell is free, so it shouldn't decrease the available spell points.</param>
         public void LearnSpell(Spell spell, int level, bool free = false)
         {
+            if (spell == null)
+                return;
+
             this.LearnSpell(spell.FullId, level, free);
         }
 
@@ -219,49 +229,49 @@ namespace WizardrySkill.Core.Framework
         /// <param name="level">The spell level.</param>
         public bool CanCastSpell(Spell spell, int level)
         {
-            return spell.CanCast(this.Player, level);
+            return spell != null && spell.CanCast(this.Player, level);
         }
 
-        /// <summary>Cast a spell using the original direct-cast behavior.</summary>
+        /// <summary>Run the real local spell behavior for this spell book's player.</summary>
         /// <param name="spellId">The spell ID to cast.</param>
         /// <param name="level">The spell level.</param>
         /// <param name="x">The X coordinate on which to cast the spell.</param>
         /// <param name="y">The Y coordinate on which to cast the spell.</param>
-        public IActiveEffect CastSpell(string spellId, int level, int x = int.MinValue, int y = int.MinValue)
+        public IActiveEffect CastLocalSpell(string spellId, int level, int x = int.MinValue, int y = int.MinValue)
         {
-            return this.CastSpell(SpellManager.Get(spellId), level, x, y);
+            return this.CastLocalSpell(SpellManager.Get(spellId), level, x, y);
         }
 
-        /// <summary>Cast a spell using the original direct-cast behavior.</summary>
+        /// <summary>Run the real local spell behavior for this spell book's player.</summary>
         /// <param name="spell">The spell to cast.</param>
         /// <param name="level">The spell level.</param>
         /// <param name="x">The X coordinate on which to cast the spell.</param>
         /// <param name="y">The Y coordinate on which to cast the spell.</param>
-        public IActiveEffect CastSpell(Spell spell, int level, int x = int.MinValue, int y = int.MinValue)
+        public IActiveEffect CastLocalSpell(Spell spell, int level, int x = int.MinValue, int y = int.MinValue)
         {
-            return spell.OnCast(this.Player, level, x, y);
+            return spell?.OnCast(this.Player, level, x, y);
         }
 
-        /// <summary>Handle a received spell cast using synced spell payload data.</summary>
-        /// <param name="spellId">The spell ID to cast.</param>
+        /// <summary>Handle an observed remote spell cast without replaying full local spell behavior.</summary>
+        /// <param name="spellId">The spell ID that was observed.</param>
         /// <param name="level">The spell level.</param>
-        /// <param name="x">The X coordinate on which to cast the spell.</param>
-        /// <param name="y">The Y coordinate on which to cast the spell.</param>
-        /// <param name="extraData">Spell-specific synced data.</param>
-        public IActiveEffect ReceiveCastSpell(string spellId, int level, int x = int.MinValue, int y = int.MinValue, string extraData = "")
+        /// <param name="x">The X coordinate on which the spell was cast.</param>
+        /// <param name="y">The Y coordinate on which the spell was cast.</param>
+        /// <param name="data">Spell-specific packet data.</param>
+        public IActiveEffect HandleRemoteSpellObserved(string spellId, int level, int x = int.MinValue, int y = int.MinValue, IDictionary<string, string> data = null)
         {
-            return this.ReceiveCastSpell(SpellManager.Get(spellId), level, x, y, extraData);
+            return this.HandleRemoteSpellObserved(SpellManager.Get(spellId), level, x, y, data);
         }
 
-        /// <summary>Handle a received spell cast using synced spell payload data.</summary>
-        /// <param name="spell">The spell to cast.</param>
+        /// <summary>Handle an observed remote spell cast without replaying full local spell behavior.</summary>
+        /// <param name="spell">The spell that was observed.</param>
         /// <param name="level">The spell level.</param>
-        /// <param name="x">The X coordinate on which to cast the spell.</param>
-        /// <param name="y">The Y coordinate on which to cast the spell.</param>
-        /// <param name="extraData">Spell-specific synced data.</param>
-        public IActiveEffect ReceiveCastSpell(Spell spell, int level, int x = int.MinValue, int y = int.MinValue, string extraData = "")
+        /// <param name="x">The X coordinate on which the spell was cast.</param>
+        /// <param name="y">The Y coordinate on which the spell was cast.</param>
+        /// <param name="data">Spell-specific packet data.</param>
+        public IActiveEffect HandleRemoteSpellObserved(Spell spell, int level, int x = int.MinValue, int y = int.MinValue, IDictionary<string, string> data = null)
         {
-            return spell.OnReceiveCast(this.Player, level, x, y, extraData ?? "");
+            return spell?.OnRemoteCast(this.Player, level, x, y, data ?? new Dictionary<string, string>());
         }
 
 

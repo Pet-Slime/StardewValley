@@ -17,19 +17,13 @@ namespace WizardrySkill.Core.Framework.Schools
 
         public override Spell[] GetSpellsTier2()
         {
-            if (ModEntry.Config.VoidSchool)
-            {
-                return new[] { SpellManager.Get("motion:descend"), SpellManager.Get("motion:blink") };
-            }
-            else
-            {
-                return new[] { SpellManager.Get("motion:descend") };
-            }
+
+            return new[] { SpellManager.Get("motion:teleport"), SpellManager.Get("motion:descend") };
         }
 
         public override Spell[] GetSpellsTier3()
         {
-            return new[] { SpellManager.Get("motion:teleport") };
+            return new[] { SpellManager.Get("motion:blink") };
         }
     }
 }

@@ -27,11 +27,6 @@ namespace WizardrySkill.Core
     public class Events
     {
         /*********
-        ** Constants
-        *********/
-        private const string BaseModDataKey = "moonSlime.Wizardry.ActiveEffect";
-
-        /*********
         ** Fields
         *********/
         public static Texture2D SpellBg;
@@ -39,48 +34,21 @@ namespace WizardrySkill.Core
         private static Texture2D ManaFg;
         private static IInputHelper InputHelper;
         private static bool CastPressed;
+        private static bool IsInitialized;
         private static double CarryoverManaRegen;
-        private static readonly HashSet<string> ProcessedCastIds = new();
-
         private const int SpellCastCooldownTicks = 30;
         private static int LastSpellCastTick = -9999;
 
         /// <summary>The active effects, spells, or projectiles which should be updated or drawn.</summary>
-        private static readonly IList<IActiveEffect> ActiveEffects = [];
+        private static readonly List<IActiveEffect> ActiveEffects = [];
 
         /// <summary>The self-updating views of magic metadata for each player.</summary>
         /// <remarks>This should only be accessed through <see cref="GetSpellBook"/> or <see cref="Extensions.GetSpellBook"/> to make sure an updated instance is retrieved.</remarks>
         private static readonly IDictionary<long, SpellBook> SpellBookCache = new Dictionary<long, SpellBook>();
 
-        /*********
-        ** Caching fields
-        *********/
+        /// <summary>Color used when a spell slot cannot currently be cast.</summary>
         private static readonly Color DisabledColor = new(128, 128, 128);
 
-        private static Point CachedViewport;
-        private static IClickableMenu CachedToolbarRef;
-        private static Rectangle CachedToolbarBounds;
-        private static bool CachedDrawBarAboveToolbar;
-        public static bool CachedSpellMenuOpen = false;
-        private static Point[] CachedSpellSpots;
-        private static StaticSpellDraw[] CachedStaticSpells;
-        private static PreparedSpellBar LastPreparedSpellBar;
-        private static string CachedHoverText;
-        private static int LastMouseX, LastMouseY;
-
-        private static int FrameCounter = 0;
-        private static bool[] CachedCanCastStates;
-
-        // Static spell data cache (layout, textures, tooltips)
-        private class StaticSpellDraw
-        {
-            public Rectangle Bounds;
-            public Texture2D Icon;
-            public Texture2D LevelIcon;
-            public string Tooltip;
-            public Spell Spell;
-            public int Level;
-        }
 
         /*********
         ** Properties / Accessors
@@ -88,11 +56,19 @@ namespace WizardrySkill.Core
         public static Wizard_Skill Skill = new();
         public static EventHandler<AnalyzeEventArgs> OnAnalyzeCast;
 
+        /// <summary>Set by the spell menu when it affects the spell bar cache.</summary>
+        public static bool CachedSpellMenuOpen
+        {
+            get => SpellBarState.CachedSpellMenuOpen;
+            set => SpellBarState.CachedSpellMenuOpen = value;
+        }
+
         private static readonly Lazy<Func<Toolbar, List<ClickableComponent>>> ToolbarButtonsGetter =
             new(() => AccessTools.DeclaredField(typeof(Toolbar), "buttons").EmitInstanceGetter<Toolbar, List<ClickableComponent>>());
 
         public static bool LearnedMagic =>
             Game1.player?.eventsSeen?.Contains(MagicConstants.LearnedMagicEventId.ToString()) == true;
+
 
         /*********
         ** Core spell IDs
@@ -105,13 +81,56 @@ namespace WizardrySkill.Core
             "arcane:disenchant"
         };
 
+
         /*********
-        ** Private helpers
+        ** Private helper models
         *********/
-        private static Toolbar? GetToolbar()
+        /// <summary>Cached spell bar layout, hover, and can-cast state.</summary>
+        private static class SpellBarState
         {
-            return Game1.onScreenMenus.OfType<Toolbar>().FirstOrDefault();
+            public static Point CachedViewport;
+            public static IClickableMenu CachedToolbarRef;
+            public static Rectangle CachedToolbarBounds;
+            public static bool CachedDrawBarAboveToolbar;
+            public static bool CachedSpellMenuOpen;
+            public static Point[] CachedSpellSpots;
+            public static StaticSpellDraw[] CachedStaticSpells;
+            public static PreparedSpellBar LastPreparedSpellBar;
+            public static string CachedHoverText;
+            public static int LastMouseX;
+            public static int LastMouseY;
+            public static int FrameCounter;
+            public static bool[] CachedCanCastStates;
+
+            public static void Reset()
+            {
+                CachedViewport = Point.Zero;
+                CachedToolbarRef = null;
+                CachedToolbarBounds = Rectangle.Empty;
+                CachedDrawBarAboveToolbar = false;
+                CachedSpellMenuOpen = false;
+                CachedSpellSpots = null;
+                CachedStaticSpells = null;
+                LastPreparedSpellBar = null;
+                CachedHoverText = null;
+                LastMouseX = 0;
+                LastMouseY = 0;
+                FrameCounter = 0;
+                CachedCanCastStates = null;
+            }
         }
+
+        /// <summary>Static spell data cache used by the spell bar renderer.</summary>
+        private sealed class StaticSpellDraw
+        {
+            public Rectangle Bounds;
+            public Texture2D Icon;
+            public Texture2D LevelIcon;
+            public string Tooltip;
+            public Spell Spell;
+            public int Level;
+        }
+
 
         /*********
         ** Public lifecycle methods
@@ -143,53 +162,32 @@ namespace WizardrySkill.Core
         [SEvent.ReturnedToTitle]
         public static void ReturnedToTitle(object sender, ReturnedToTitleEventArgs e)
         {
-            foreach (var effect in ActiveEffects)
-            {
-                effect.CleanUp();
-            }
-
-            ActiveEffects.Clear();
-            ProcessedCastIds.Clear();
+            ClearActiveEffects();
+            SpellBookCache.Clear();
+            ResetSpellBarCache();
+            SummonManager.Reset();
+            NetworkEvents.Reset();
             LastSpellCastTick = -9999;
+            CastPressed = false;
         }
 
         [SEvent.SaveLoaded]
         private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
         {
-            foreach (var farmers in Game1.getAllFarmers())
-            {
-                if (farmers.eventsSeen.Contains("90001") &&
-                    !farmers.mailReceived.Contains("moonslimeWizardryLearnedMagic"))
-                {
-                    farmers.mailReceived.Add("moonslimeWizardryLearnedMagic");
-                }
+            ResetSpellBarCache();
 
-                farmers.modData["moonslime.Wizardry.scrollspell"] = "no";
+            foreach (Farmer farmer in Game1.getAllFarmers())
+            {
+                if (farmer.eventsSeen.Contains("90001") && !farmer.mailReceived.Contains("moonslimeWizardryLearnedMagic"))
+                    farmer.mailReceived.Add("moonslimeWizardryLearnedMagic");
+
+                farmer.modData["moonslime.Wizardry.scrollspell"] = "no";
             }
 
             Farmer player = Game1.player;
 
             SpaceUtilities.LearnRecipesOnLoad(player, "moonslime.Wizard");
-            string Id = "moonslime.Wizard";
-            SpellBook book = player.GetSpellBook();
-            foreach (var spell in book.KnownSpells)
-            {
-                Id = spell.Key;
-                foreach (KeyValuePair<string, string> recipePair in DataLoader.CraftingRecipes(Game1.content))
-                {
-                    string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
-                    if (!conditions.Contains(Id))
-                        continue;
-                    if (conditions.Split(" ").Length < 2)
-                        continue;
-
-                    int level = int.Parse(conditions.Split(" ")[1]);
-
-
-                    player.craftingRecipes.TryAdd(recipePair.Key, 0);
-                }
-            }
-
+            AddKnownSpellCraftingRecipes(player);
 
             SpellBg = CopySprite(Game1.mouseCursors, new Rectangle(293, 360, 24, 24));
 
@@ -210,9 +208,18 @@ namespace WizardrySkill.Core
         private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
             LastSpellCastTick = -9999;
-            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+            SummonManager.OnDayStarted();
+
+            Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID) ?? Game1.player;
+
             // fix player's magic info if needed
             FixMagicIfNeeded(player);
+        }
+
+        [SEvent.DayEnding]
+        private void OnDayEnding(object sender, DayEndingEventArgs e)
+        {
+            SummonManager.OnDayEnding();
         }
 
         [SEvent.Saving]
@@ -225,15 +232,21 @@ namespace WizardrySkill.Core
             ModEntry.Instance.Helper.Events.GameLoop.Saving -= this.OnSaving;
         }
 
+
         /*********
         ** Public methods
         *********/
         public static void Init(IInputHelper inputHelper, Func<long> getNewId)
         {
+            if (IsInitialized)
+                return;
+
+            IsInitialized = true;
             InputHelper = inputHelper;
 
             LoadAssets();
             SpellManager.Init(getNewId);
+            NetworkEvents.Init();
 
             OnAnalyzeCast += (sender, e) => ModEntry.Instance.Api.InvokeOnAnalyzeCast(sender as Farmer);
 
@@ -262,98 +275,22 @@ namespace WizardrySkill.Core
             if (!Context.IsWorldReady)
                 return;
 
-            Farm farm = Game1.getFarm();
-            string playerKey = $"{BaseModDataKey}/{Game1.player.UniqueMultiplayerID}";
-
-            if (farm.modData.TryGetValue(playerKey, out string rawData) && !string.IsNullOrWhiteSpace(rawData))
-            {
-                var messages = ReadAndClearActiveEffects(farm, playerKey);
-                Log.Trace($"Got data to {Game1.player.displayName}");
-
-                foreach (var msg in messages)
-                {
-                    if (!TryRememberProcessedCast(msg.CastId))
-                        continue;
-
-                    Farmer caster = Game1.GetPlayer(msg.CasterId);
-                    if (caster == null)
-                        continue;
-
-                    IActiveEffect effect = caster.GetSpellBook().ReceiveCastSpell(msg.SpellFullId, msg.Level, msg.X, msg.Y, msg.ExtraData);
-                    if (effect != null)
-                        ActiveEffects.Add(effect);
-                }
-            }
-
-            for (int i = ActiveEffects.Count - 1; i >= 0; i--)
-            {
-                IActiveEffect effect = ActiveEffects[i];
-                if (!effect.Update(e))
-                    ActiveEffects.RemoveAt(i);
-            }
+            SummonManager.Update(e);
+            UpdateActiveEffects(e);
         }
 
-        public static List<(string CastId, long CasterId, string SpellFullId, int Level, int X, int Y, string ExtraData)>
-           ReadAndClearActiveEffects(Farm farm, string newKey)
+        /// <summary>Add an active spell effect to the shared update/draw list.</summary>
+        /// <param name="effect">The effect returned by a spell, or <c>null</c> if the spell has no active effect.</param>
+        internal static void AddActiveEffect(IActiveEffect effect)
         {
-            var results = new List<(string, long, string, int, int, int, string)>();
-            if (farm == null)
-                return results;
-
-            if (!farm.modData.TryGetValue(newKey, out string raw) || string.IsNullOrWhiteSpace(raw))
-                return results;
-
-            foreach (string entry in raw.Split('/', StringSplitOptions.RemoveEmptyEntries))
-            {
-                string[] parts = entry.Split(',', 7);
-                if (parts.Length < 5)
-                    continue;
-
-                // New format:
-                // castId,casterId,spellFullId,level,x,y,extraData
-                if (parts.Length >= 6 && long.TryParse(parts[1], out long casterIdNew))
-                {
-                    string castId = parts[0];
-                    string spellFullId = parts[2];
-
-                    if (!int.TryParse(parts[3], out int level))
-                        continue;
-                    if (!int.TryParse(parts[4], out int x))
-                        continue;
-                    if (!int.TryParse(parts[5], out int y))
-                        continue;
-
-                    string extraData = parts.Length >= 7 ? parts[6] : "";
-                    results.Add((castId, casterIdNew, spellFullId, level, x, y, extraData));
-                    continue;
-                }
-
-                // Old format fallback:
-                // casterId,spellFullId,level,x,y
-                if (!long.TryParse(parts[0], out long casterIdOld))
-                    continue;
-
-                string oldSpellFullId = parts[1];
-
-                if (!int.TryParse(parts[2], out int oldLevel))
-                    continue;
-                if (!int.TryParse(parts[3], out int oldX))
-                    continue;
-                if (!int.TryParse(parts[4], out int oldY))
-                    continue;
-
-                string oldCastId = $"{casterIdOld}:{oldSpellFullId}:{oldLevel}:{oldX}:{oldY}:{Game1.ticks}";
-                results.Add((oldCastId, casterIdOld, oldSpellFullId, oldLevel, oldX, oldY, ""));
-            }
-
-            farm.modData[newKey] = "";
-            return results;
+            if (effect != null)
+                ActiveEffects.Add(effect);
         }
 
         [SEvent.ButtonPressed]
         public static void OnButtonPressed(object sender, ButtonPressedEventArgs e)
         {
-            bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Wizard_Skill.Magic10a2);
+            Farmer player = Game1.player;
             bool hasMenuOpen = Game1.activeClickableMenu is not null;
 
             if (e.Button == ModEntry.Config.Key_Cast)
@@ -361,185 +298,16 @@ namespace WizardrySkill.Core
 
             if (CastPressed && e.Button == ModEntry.Config.Key_SwapSpells && !hasMenuOpen)
             {
-                Game1.player.GetSpellBook().SwapPreparedSet();
+                player.GetSpellBook().SwapPreparedSet();
                 InputHelper.Suppress(e.Button);
+                return;
             }
-            else if (CastPressed && IsSpellSlotButton(e.Button, hasFifthSpellSlot, out int slotIndex))
+
+            if (CastPressed && IsSpellSlotButton(e.Button, GetAvailableSpellSlotCount(player), out int slotIndex))
             {
                 InputHelper.Suppress(e.Button);
                 TryCastPreparedSpell(slotIndex, hasMenuOpen);
             }
-        }
-
-        /// <summary>Try to cast a spell from the prepared spell bar.</summary>
-        private static void TryCastPreparedSpell(int slotIndex, bool hasMenuOpen)
-        {
-            Farmer player = Game1.player;
-            SpellBook spellBook = player.GetSpellBook();
-            PreparedSpellBar prepared = spellBook.GetPreparedSpells();
-            PreparedSpell slot = prepared?.GetSlot(slotIndex);
-            if (slot == null)
-                return;
-
-            Spell spell = SpellManager.Get(slot.SpellId);
-            if (spell == null)
-                return;
-
-            bool canCast = spellBook.CanCastSpell(spell, slot.Level) && (!hasMenuOpen || spell.CanCastInMenus);
-            if (!canCast)
-                return;
-
-            if (Game1.ticks - LastSpellCastTick < SpellCastCooldownTicks)
-                return;
-
-            LastSpellCastTick = Game1.ticks;
-
-            Log.Trace($"Casting {slot.SpellId} with sync mode {spell.SyncMode}");
-
-            player.AddMana(-spell.GetManaCost(player, slot.Level));
-            player.modData["moonslime.Wizardry.scrollspell"] = "no";
-
-            Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
-            string castId = Guid.NewGuid().ToString("N");
-            string extraData = spell.BuildExtraData(player, slot.Level, pos.X, pos.Y) ?? "";
-
-            DispatchSpellCast(player, spellBook, spell, slot.Level, pos, castId, extraData);
-        }
-
-        /// <summary>Route the spell based on its declared sync mode.</summary>
-        private static void DispatchSpellCast(Farmer player, SpellBook spellBook, Spell spell, int level, Point pos, string castId, string extraData)
-        {
-            switch (spell.SyncMode)
-            {
-                case SpellSyncMode.LocalOnly:
-                    TryRememberProcessedCast(castId);
-                    AddActiveEffect(spellBook.CastSpell(spell, level, pos.X, pos.Y));
-                    return;
-
-                case SpellSyncMode.VisualOnAll:
-                    TryRememberProcessedCast(castId);
-                    AddActiveEffect(spellBook.ReceiveCastSpell(spell, level, pos.X, pos.Y, extraData));
-                    QueueSpellCastForRemoteFarmers(player, spell, level, pos, castId, extraData);
-                    return;
-
-                case SpellSyncMode.HostWorld:
-                    // HostWorld casts are still routed to all other players, not only the host.
-                    // The host performs world mutations inside the spell/effect. Other clients can still create safe local visuals.
-                    TryRememberProcessedCast(castId);
-                    AddActiveEffect(spellBook.ReceiveCastSpell(spell, level, pos.X, pos.Y, extraData));
-                    QueueSpellCastForRemoteFarmers(player, spell, level, pos, castId, extraData);
-                    return;
-
-                default:
-                    Log.Warn($"Unknown spell sync mode {spell.SyncMode} for {spell.FullId}; defaulting to LocalOnly.");
-                    TryRememberProcessedCast(castId);
-                    AddActiveEffect(spellBook.CastSpell(spell, level, pos.X, pos.Y));
-                    return;
-            }
-        }
-
-        /// <summary>Queue a received-cast payload for every online farmer except the local caster.</summary>
-        private static void QueueSpellCastForRemoteFarmers(Farmer localCaster, Spell spell, int level, Point pos, string castId, string extraData)
-        {
-            Farm farm = Game1.getFarm();
-            if (farm == null)
-                return;
-
-            string entry = BuildCastEntry(localCaster, spell, level, pos, castId, extraData);
-            long localId = localCaster.UniqueMultiplayerID;
-            var recipients = new Dictionary<long, Farmer>();
-
-            foreach (Farmer who in Game1.getOnlineFarmers())
-            {
-                if (who == null || who.UniqueMultiplayerID == localId)
-                    continue;
-
-                recipients[who.UniqueMultiplayerID] = who;
-            }
-
-            Farmer host = Game1.MasterPlayer;
-            if (host != null && host.UniqueMultiplayerID != localId)
-                recipients[host.UniqueMultiplayerID] = host;
-
-            foreach (Farmer who in recipients.Values)
-                QueueSpellCastForFarmer(farm, who, entry);
-        }
-
-        /// <summary>Append one cast payload to a farmer's farm.modData mailbox.</summary>
-        private static void QueueSpellCastForFarmer(Farm farm, Farmer who, string entry)
-        {
-            string playerKey = $"{BaseModDataKey}/{who.UniqueMultiplayerID}";
-            Log.Trace($"Sending spell data to {who.displayName}");
-
-            if (!farm.modData.TryGetValue(playerKey, out string existing))
-                existing = "";
-
-            if (!string.IsNullOrEmpty(existing))
-                existing += "/";
-
-            farm.modData[playerKey] = existing + entry;
-        }
-
-        /// <summary>Build the serialized network payload for a spell cast.</summary>
-        private static string BuildCastEntry(Farmer caster, Spell spell, int level, Point pos, string castId, string extraData)
-        {
-            return $"{castId},{caster.UniqueMultiplayerID},{spell.FullId},{level},{pos.X},{pos.Y},{extraData}";
-        }
-
-        /// <summary>Add an effect to the active-effect list if the spell returned one.</summary>
-        private static void AddActiveEffect(IActiveEffect effect)
-        {
-            if (effect != null)
-                ActiveEffects.Add(effect);
-        }
-
-        /// <summary>Track a processed cast ID and reject duplicates.</summary>
-        private static bool TryRememberProcessedCast(string castId)
-        {
-            if (string.IsNullOrWhiteSpace(castId))
-                return false;
-
-            bool isNew = ProcessedCastIds.Add(castId);
-
-            if (ProcessedCastIds.Count > 500)
-                ProcessedCastIds.Clear();
-
-            return isNew;
-        }
-
-        /// <summary>Map configured spell buttons to a prepared spell slot index.</summary>
-        private static bool IsSpellSlotButton(SButton button, bool hasFifthSpellSlot, out int slotIndex)
-        {
-            slotIndex = 0;
-
-            if (button == ModEntry.Config.Key_Spell1)
-                return true;
-
-            if (button == ModEntry.Config.Key_Spell2)
-            {
-                slotIndex = 1;
-                return true;
-            }
-
-            if (button == ModEntry.Config.Key_Spell3)
-            {
-                slotIndex = 2;
-                return true;
-            }
-
-            if (button == ModEntry.Config.Key_Spell4)
-            {
-                slotIndex = 3;
-                return true;
-            }
-
-            if (button == ModEntry.Config.Key_Spell5 && hasFifthSpellSlot)
-            {
-                slotIndex = 4;
-                return true;
-            }
-
-            return false;
         }
 
         [SEvent.ButtonReleased]
@@ -573,18 +341,18 @@ namespace WizardrySkill.Core
         [SEvent.Warped]
         public static void OnWarped(object sender, WarpedEventArgs e)
         {
-            if (!e.IsLocalPlayer) return;
+            if (!e.IsLocalPlayer)
+                return;
 
             EvacSpell.OnLocationChanged();
-
+            SummonManager.OnLocalWarped(e);
             if (e.NewLocation.IsOutdoors && !e.Player.modData.ContainsKey("moonslime.Wizardry.TeleportTo." + e.NewLocation.Name))
                 e.Player.modData.Add("moonslime.Wizardry.TeleportTo." + e.NewLocation.Name, "");
         }
 
         public static SpellBook GetSpellBook(Farmer player)
         {
-            if (!SpellBookCache.TryGetValue(player.UniqueMultiplayerID, out SpellBook book) ||
-                !object.ReferenceEquals(player, book.Player))
+            if (!SpellBookCache.TryGetValue(player.UniqueMultiplayerID, out SpellBook book) || !object.ReferenceEquals(player, book.Player))
                 SpellBookCache[player.UniqueMultiplayerID] = book = new SpellBook(player);
 
             return book;
@@ -592,12 +360,16 @@ namespace WizardrySkill.Core
 
         public static void FixMagicIfNeeded(Farmer player, int? overrideMagicLevel = null, bool fixMana = false)
         {
+            if (player == null)
+                return;
+
             if (!LearnedMagic && overrideMagicLevel is not > 0)
                 return;
 
             int magicLevel = overrideMagicLevel ?? player.GetCustomSkillLevel("moonslime.Wizard");
             SpellBook spellBook = player.GetSpellBook();
 
+            // TODO: Restore mana recalculation here if this flag is still needed.
             if (fixMana) { }
 
             if (spellBook.Prepared.Count < MagicConstants.SpellBarCount)
@@ -619,7 +391,7 @@ namespace WizardrySkill.Core
                 if (!player.modData.ContainsKey(modDataKey))
                 {
                     player.modData.SetBool(modDataKey, true);
-                    MoonShared.Attributes.Log.Trace($"Player now has Profession mod data: {modDataKey}");
+                    Log.Trace($"Player now has Profession mod data: {modDataKey}");
                 }
             }
 
@@ -631,6 +403,140 @@ namespace WizardrySkill.Core
         }
 
 
+        /*********
+        ** Spell casting
+        *********/
+        /// <summary>Try to cast a spell from the prepared spell bar.</summary>
+        private static void TryCastPreparedSpell(int slotIndex, bool hasMenuOpen)
+        {
+            Farmer player = Game1.player;
+            SpellBook spellBook = player.GetSpellBook();
+            PreparedSpellBar prepared = spellBook.GetPreparedSpells();
+            PreparedSpell slot = prepared?.GetSlot(slotIndex);
+            if (slot == null)
+                return;
+
+            Spell spell = SpellManager.Get(slot.SpellId);
+            if (spell == null)
+                return;
+
+            bool canCast = spellBook.CanCastSpell(spell, slot.Level) && (!hasMenuOpen || spell.CanCastInMenus);
+            if (!canCast)
+                return;
+
+            if (!IsSpellCastCooldownReady())
+                return;
+
+            LastSpellCastTick = Game1.ticks;
+
+            Log.Trace($"Casting {slot.SpellId} with sync mode {spell.SyncMode}");
+
+            player.AddMana(-spell.GetManaCost(player, slot.Level));
+            player.modData["moonslime.Wizardry.scrollspell"] = "no";
+
+            Point pos = new Point(Game1.getMouseX() + Game1.viewport.X, Game1.getMouseY() + Game1.viewport.Y);
+            NetworkEvents.DispatchSpellCast(player, spellBook, spell, slot.Level, pos);
+        }
+
+        /// <summary>Map configured spell buttons to a prepared spell slot index.</summary>
+        private static bool IsSpellSlotButton(SButton button, int availableSlots, out int slotIndex)
+        {
+            slotIndex = 0;
+
+            if (button == ModEntry.Config.Key_Spell1)
+                return availableSlots >= 1;
+
+            if (button == ModEntry.Config.Key_Spell2)
+            {
+                slotIndex = 1;
+                return availableSlots >= 2;
+            }
+
+            if (button == ModEntry.Config.Key_Spell3)
+            {
+                slotIndex = 2;
+                return availableSlots >= 3;
+            }
+
+            if (button == ModEntry.Config.Key_Spell4)
+            {
+                slotIndex = 3;
+                return availableSlots >= 4;
+            }
+
+            if (button == ModEntry.Config.Key_Spell5)
+            {
+                slotIndex = 4;
+                return availableSlots >= 5;
+            }
+
+            return false;
+        }
+
+        private static bool IsSpellCastCooldownReady()
+        {
+            return Game1.ticks - LastSpellCastTick >= SpellCastCooldownTicks;
+        }
+
+        private static int GetAvailableSpellSlotCount(Farmer player)
+        {
+            return player.HasCustomProfession(Wizard_Skill.Magic10a2) ? 5 : 4;
+        }
+
+
+        /*********
+        ** Active effects
+        *********/
+        /// <summary>Update all active spell effects, cleaning them up before removal.</summary>
+        /// <param name="e">The update tick event args.</param>
+        private static void UpdateActiveEffects(UpdateTickedEventArgs e)
+        {
+            for (int i = ActiveEffects.Count - 1; i >= 0; i--)
+            {
+                IActiveEffect effect = ActiveEffects[i];
+                if (effect == null)
+                {
+                    ActiveEffects.RemoveAt(i);
+                    continue;
+                }
+
+                if (!effect.Update(e))
+                    RemoveActiveEffectAt(i);
+            }
+        }
+
+        /// <summary>Clear all active spell effects and call cleanup on each one.</summary>
+        private static void ClearActiveEffects()
+        {
+            foreach (IActiveEffect effect in ActiveEffects)
+                effect?.CleanUp();
+
+            ActiveEffects.Clear();
+        }
+
+        /// <summary>Remove an active effect after safely cleaning it up.</summary>
+        /// <param name="index">The active effect index.</param>
+        private static void RemoveActiveEffectAt(int index)
+        {
+            ActiveEffects[index]?.CleanUp();
+            ActiveEffects.RemoveAt(index);
+        }
+
+        /// <summary>
+        /// Draws all currently active spell effects (visual overlays or auras).
+        /// </summary>
+        private static void DrawActiveEffects(SpriteBatch b)
+        {
+            foreach (IActiveEffect effect in ActiveEffects)
+                effect?.Draw(b);
+
+            SummonManager.Draw(b);
+        }
+
+
+        /*********
+        ** HUD rendering
+        *********/
         [SEvent.RenderingHud]
         private static void OnRenderingHud(object sender, RenderingHudEventArgs e)
         {
@@ -639,24 +545,23 @@ namespace WizardrySkill.Core
                 return;
 
             SpriteBatch b = e.SpriteBatch;
-            var viewport = Game1.graphics.GraphicsDevice.Viewport.Bounds;
+            Rectangle viewport = Game1.graphics.GraphicsDevice.Viewport.Bounds;
 
             // 1. Draw all active visual spell effects (e.g. ongoing auras)
             DrawActiveEffects(b);
 
             // 2. Try to get toolbar info (toolbar instance + button list)
-            if (!TryGetToolbarInfo(out Toolbar toolbar, out var buttons))
+            if (!TryGetToolbarInfo(out Toolbar toolbar, out IList<ClickableComponent> buttons))
                 return; // toolbar not ready — skip drawing
 
             // Determine number of available spell slots
-            bool hasFifthSpellSlot = Game1.player.HasCustomProfession(Wizard_Skill.Magic10a2);
-            int totalSlots = hasFifthSpellSlot ? 5 : 4;
+            int totalSlots = GetAvailableSpellSlotCount(Game1.player);
 
             // Detect any changes that require position recalculation
             bool viewportChanged = CheckViewportChanged(viewport);
-            var toolbarBounds = GetToolbarBounds(buttons);
+            Rectangle toolbarBounds = GetToolbarBounds(buttons);
             bool drawBarAboveToolbar = ShouldDrawAboveToolbar(toolbarBounds, viewport);
-            bool toolbarMoved = CheckToolbarChanged(toolbar, toolbarBounds, drawBarAboveToolbar, totalSlots, viewportChanged, CachedSpellMenuOpen);
+            bool toolbarMoved = CheckToolbarChanged(toolbar, toolbarBounds, drawBarAboveToolbar, totalSlots, viewportChanged, SpellBarState.CachedSpellMenuOpen);
 
             // If toolbar or viewport changed → recalculate slot layout
             if (toolbarMoved)
@@ -672,8 +577,8 @@ namespace WizardrySkill.Core
             bool spellBarChanged = DetectSpellBarChange(prepared);
 
             // If toolbar, spell bar, or cache changed → rebuild static icon cache
-            if (CachedStaticSpells == null || spellBarChanged || toolbarMoved)
-                RebuildStaticSpellCache(spellBook, prepared, totalSlots);
+            if (SpellBarState.CachedStaticSpells == null || spellBarChanged || toolbarMoved)
+                RebuildStaticSpellCache(prepared, totalSlots);
 
             // Refresh CanCast states every few frames (for mana/inventory updates)
             UpdateCanCastCache(spellBook, totalSlots);
@@ -682,7 +587,7 @@ namespace WizardrySkill.Core
             DrawEmptySpellSlots(b, totalSlots);
 
             // Draw actual spells + hover text
-            DrawSpellsAndHover(b, spellBook, totalSlots, toolbarMoved, viewportChanged, spellBarChanged);
+            DrawSpellsAndHover(b, totalSlots, toolbarMoved, viewportChanged, spellBarChanged);
         }
 
         [SEvent.RenderedHud]
@@ -693,17 +598,8 @@ namespace WizardrySkill.Core
                 return;
 
             // Draw hover tooltip *above* the toolbar (if applicable)
-            if (CachedHoverText != null && CachedDrawBarAboveToolbar)
-                IClickableMenu.drawHoverText(e.SpriteBatch, CachedHoverText, Game1.smallFont);
-        }
-
-        /// <summary>
-        /// Draws all currently active spell effects (visual overlays or auras).
-        /// </summary>
-        private static void DrawActiveEffects(SpriteBatch b)
-        {
-            foreach (IActiveEffect effect in ActiveEffects)
-                effect.Draw(b);
+            if (SpellBarState.CachedHoverText != null && SpellBarState.CachedDrawBarAboveToolbar)
+                IClickableMenu.drawHoverText(e.SpriteBatch, SpellBarState.CachedHoverText, Game1.smallFont);
         }
 
         /// <summary>
@@ -718,16 +614,24 @@ namespace WizardrySkill.Core
         }
 
         /// <summary>
+        /// Gets the on-screen toolbar if one is currently being drawn.
+        /// </summary>
+        private static Toolbar? GetToolbar()
+        {
+            return Game1.onScreenMenus.OfType<Toolbar>().FirstOrDefault();
+        }
+
+        /// <summary>
         /// Detects if the game window or viewport has changed size since last frame.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool CheckViewportChanged(Rectangle viewportBounds)
         {
-            bool changed = viewportBounds.Width != CachedViewport.X || viewportBounds.Height != CachedViewport.Y;
+            bool changed = viewportBounds.Width != SpellBarState.CachedViewport.X || viewportBounds.Height != SpellBarState.CachedViewport.Y;
             if (changed)
             {
-                CachedViewport.X = viewportBounds.Width;
-                CachedViewport.Y = viewportBounds.Height;
+                SpellBarState.CachedViewport.X = viewportBounds.Width;
+                SpellBarState.CachedViewport.Y = viewportBounds.Height;
             }
             return changed;
         }
@@ -738,9 +642,22 @@ namespace WizardrySkill.Core
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static Rectangle GetToolbarBounds(IList<ClickableComponent> buttons)
         {
-            int minX = buttons.Min(b => b.bounds.X);
-            int maxX = buttons.Max(b => b.bounds.X);
-            int minY = buttons.Min(b => b.bounds.Y);
+            Rectangle first = buttons[0].bounds;
+            int minX = first.X;
+            int maxX = first.X;
+            int minY = first.Y;
+
+            for (int i = 1; i < buttons.Count; i++)
+            {
+                Rectangle bounds = buttons[i].bounds;
+                if (bounds.X < minX)
+                    minX = bounds.X;
+                if (bounds.X > maxX)
+                    maxX = bounds.X;
+                if (bounds.Y < minY)
+                    minY = bounds.Y;
+            }
+
             return new Rectangle(minX, minY, maxX - minX + 64, 64);
         }
 
@@ -757,14 +674,14 @@ namespace WizardrySkill.Core
         /// <summary>
         /// Checks whether toolbar layout, viewport, or slot count changed.
         /// </summary>
-        private static bool CheckToolbarChanged(Toolbar toolbar, Rectangle bounds, bool drawAbove, int slots, bool viewportChanged, bool CachedSpellMenuOpen)
+        private static bool CheckToolbarChanged(Toolbar toolbar, Rectangle bounds, bool drawAbove, int slots, bool viewportChanged, bool cachedSpellMenuOpen)
         {
-            return CachedToolbarRef != toolbar
-                || bounds != CachedToolbarBounds
-                || CachedDrawBarAboveToolbar != drawAbove
-                || (CachedSpellSpots?.Length ?? 0) != slots
+            return SpellBarState.CachedToolbarRef != toolbar
+                || bounds != SpellBarState.CachedToolbarBounds
+                || SpellBarState.CachedDrawBarAboveToolbar != drawAbove
+                || (SpellBarState.CachedSpellSpots?.Length ?? 0) != slots
                 || viewportChanged
-                || CachedSpellMenuOpen;
+                || cachedSpellMenuOpen;
         }
 
         /// <summary>
@@ -775,19 +692,19 @@ namespace WizardrySkill.Core
             int offsetX = ModEntry.Config.SpellBarOffset_X;
             int offsetY = ModEntry.Config.SpellBarOffset_Y;
 
-            CachedSpellSpots = new Point[totalSlots];
+            SpellBarState.CachedSpellSpots = new Point[totalSlots];
             for (int i = 0; i < totalSlots; i++)
             {
                 int x = toolbarBounds.Left + 60 * i + offsetX;
                 int y = drawAbove ? toolbarBounds.Top - 72 - offsetY : toolbarBounds.Bottom + 24 + offsetY;
-                CachedSpellSpots[i] = new Point(x, y);
+                SpellBarState.CachedSpellSpots[i] = new Point(x, y);
             }
 
-            CachedToolbarRef = toolbar;
-            CachedToolbarBounds = toolbarBounds;
-            CachedDrawBarAboveToolbar = drawAbove;
-            CachedSpellMenuOpen = false;
-            CachedHoverText = null;
+            SpellBarState.CachedToolbarRef = toolbar;
+            SpellBarState.CachedToolbarBounds = toolbarBounds;
+            SpellBarState.CachedDrawBarAboveToolbar = drawAbove;
+            SpellBarState.CachedSpellMenuOpen = false;
+            SpellBarState.CachedHoverText = null;
         }
 
         /// <summary>
@@ -795,9 +712,9 @@ namespace WizardrySkill.Core
         /// </summary>
         private static bool DetectSpellBarChange(PreparedSpellBar prepared)
         {
-            bool changed = prepared != LastPreparedSpellBar;
+            bool changed = prepared != SpellBarState.LastPreparedSpellBar;
             if (changed)
-                LastPreparedSpellBar = prepared;
+                SpellBarState.LastPreparedSpellBar = prepared;
             return changed;
         }
 
@@ -805,9 +722,9 @@ namespace WizardrySkill.Core
         /// Builds a static cache of all visible spells (icons, tooltips, bounds).
         /// Called when the spell bar or layout changes.
         /// </summary>
-        private static void RebuildStaticSpellCache(SpellBook book, PreparedSpellBar prepared, int totalSlots)
+        private static void RebuildStaticSpellCache(PreparedSpellBar prepared, int totalSlots)
         {
-            CachedStaticSpells = new StaticSpellDraw[totalSlots];
+            SpellBarState.CachedStaticSpells = new StaticSpellDraw[totalSlots];
             for (int i = 0; i < totalSlots && i < prepared.Spells.Count; i++)
             {
                 PreparedSpell prep = prepared.GetSlot(i);
@@ -818,9 +735,9 @@ namespace WizardrySkill.Core
                 if (spell == null || spell.SpellLevels.Length <= prep.Level || spell.SpellLevels[prep.Level] == null)
                     continue;
 
-                CachedStaticSpells[i] = new StaticSpellDraw
+                SpellBarState.CachedStaticSpells[i] = new StaticSpellDraw
                 {
-                    Bounds = new Rectangle(CachedSpellSpots[i].X, CachedSpellSpots[i].Y, 50, 50),
+                    Bounds = new Rectangle(SpellBarState.CachedSpellSpots[i].X, SpellBarState.CachedSpellSpots[i].Y, 50, 50),
                     Icon = spell.Icon,
                     LevelIcon = spell.SpellLevels[prep.Level],
                     Tooltip = spell.GetTooltip(prep.Level),
@@ -828,6 +745,8 @@ namespace WizardrySkill.Core
                     Level = prep.Level
                 };
             }
+
+            SpellBarState.CachedCanCastStates = null;
         }
 
         /// <summary>
@@ -835,20 +754,20 @@ namespace WizardrySkill.Core
         /// </summary>
         private static void UpdateCanCastCache(SpellBook book, int totalSlots)
         {
-            FrameCounter++;
-            if (FrameCounter % 5 != 0)
+            SpellBarState.FrameCounter++;
+            if (SpellBarState.FrameCounter % 5 != 0 && SpellBarState.CachedCanCastStates != null)
                 return; // skip most frames to save CPU
 
-            if (CachedStaticSpells == null)
+            if (SpellBarState.CachedStaticSpells == null)
                 return;
 
             bool cooldownReady = IsSpellCastCooldownReady();
 
-            CachedCanCastStates = new bool[totalSlots];
-            for (int i = 0; i < totalSlots && i < CachedStaticSpells.Length; i++)
+            SpellBarState.CachedCanCastStates = new bool[totalSlots];
+            for (int i = 0; i < totalSlots && i < SpellBarState.CachedStaticSpells.Length; i++)
             {
-                var s = CachedStaticSpells[i];
-                CachedCanCastStates[i] = s != null && cooldownReady && book.CanCastSpell(s.Spell, s.Level);
+                StaticSpellDraw s = SpellBarState.CachedStaticSpells[i];
+                SpellBarState.CachedCanCastStates[i] = s != null && cooldownReady && book.CanCastSpell(s.Spell, s.Level);
             }
         }
 
@@ -858,29 +777,29 @@ namespace WizardrySkill.Core
         private static void DrawEmptySpellSlots(SpriteBatch b, int totalSlots)
         {
             for (int i = 0; i < totalSlots; i++)
-                b.Draw(SpellBg, new Rectangle(CachedSpellSpots[i].X, CachedSpellSpots[i].Y, 50, 50), Color.White);
+                b.Draw(SpellBg, new Rectangle(SpellBarState.CachedSpellSpots[i].X, SpellBarState.CachedSpellSpots[i].Y, 50, 50), Color.White);
         }
 
         /// <summary>
         /// Draws each spell icon, applies color tint based on CanCast state,
         /// and handles tooltip display logic.
         /// </summary>
-        private static void DrawSpellsAndHover(SpriteBatch b, SpellBook spellBook, int totalSlots, bool toolbarMoved, bool viewportChanged, bool spellBarChanged)
+        private static void DrawSpellsAndHover(SpriteBatch b, int totalSlots, bool toolbarMoved, bool viewportChanged, bool spellBarChanged)
         {
             int mouseX = Game1.getOldMouseX();
             int mouseY = Game1.getOldMouseY();
-            bool mouseMoved = mouseX != LastMouseX || mouseY != LastMouseY;
-            LastMouseX = mouseX;
-            LastMouseY = mouseY;
+            bool mouseMoved = mouseX != SpellBarState.LastMouseX || mouseY != SpellBarState.LastMouseY;
+            SpellBarState.LastMouseX = mouseX;
+            SpellBarState.LastMouseY = mouseY;
 
             string hoveredText = null;
-            for (int i = 0; i < totalSlots && i < CachedStaticSpells.Length; i++)
+            for (int i = 0; i < totalSlots && i < SpellBarState.CachedStaticSpells.Length; i++)
             {
-                var s = CachedStaticSpells[i];
+                StaticSpellDraw s = SpellBarState.CachedStaticSpells[i];
                 if (s == null)
                     continue;
 
-                bool canCast = CachedCanCastStates != null && i < CachedCanCastStates.Length && CachedCanCastStates[i];
+                bool canCast = SpellBarState.CachedCanCastStates != null && i < SpellBarState.CachedCanCastStates.Length && SpellBarState.CachedCanCastStates[i];
                 Color drawColor = canCast ? Color.White : DisabledColor;
 
                 // Draw the spell’s main icon and its level overlay
@@ -894,25 +813,23 @@ namespace WizardrySkill.Core
 
             // Update cached hover text only when needed
             if (mouseMoved || toolbarMoved || viewportChanged || spellBarChanged)
-                CachedHoverText = hoveredText;
+                SpellBarState.CachedHoverText = hoveredText;
 
             // Draw tooltip below toolbar (the above-toolbar case is drawn in OnRenderedHud)
-            if (CachedHoverText != null && !CachedDrawBarAboveToolbar)
-                IClickableMenu.drawHoverText(b, CachedHoverText, Game1.smallFont);
+            if (SpellBarState.CachedHoverText != null && !SpellBarState.CachedDrawBarAboveToolbar)
+                IClickableMenu.drawHoverText(b, SpellBarState.CachedHoverText, Game1.smallFont);
         }
 
-
-
-        private static bool IsSpellCastCooldownReady()
+        /// <summary>Reset all cached spell bar layout, hover, and can-cast state.</summary>
+        private static void ResetSpellBarCache()
         {
-            return Game1.ticks - LastSpellCastTick >= SpellCastCooldownTicks;
+            SpellBarState.Reset();
         }
+
 
         /*********
         ** Interaction Handlers
         *********/
-
-
         internal static bool HandleMagicAltar(GameLocation location, string[] args, Farmer player, Microsoft.Xna.Framework.Point point)
         {
             OnAltarClicked();
@@ -968,6 +885,39 @@ namespace WizardrySkill.Core
             return $"{I18n.Radio_Static()} {stationTexts[random.Next(stationTexts.Length)]}";
         }
 
+
+        /*********
+        ** Save-load helpers
+        *********/
+        /// <summary>Add known-spell crafting recipes to the player on save load.</summary>
+        /// <param name="player">The local player.</param>
+        private static void AddKnownSpellCraftingRecipes(Farmer player)
+        {
+            SpellBook book = player.GetSpellBook();
+            IDictionary<string, string> craftingRecipes = DataLoader.CraftingRecipes(Game1.content);
+
+            foreach (var knownSpell in book.KnownSpells)
+            {
+                string spellDefId = knownSpell.Key;
+                foreach (KeyValuePair<string, string> recipePair in craftingRecipes)
+                {
+                    string conditions = ArgUtility.Get(recipePair.Value.Split('/'), 4, "");
+                    if (!conditions.Contains(spellDefId))
+                        continue;
+
+                    string[] conditionParts = conditions.Split(' ');
+                    if (conditionParts.Length < 2)
+                        continue;
+
+                    player.craftingRecipes.TryAdd(recipePair.Key, 0);
+                }
+            }
+        }
+
+
+        /*********
+        ** Texture helpers
+        *********/
         public static Texture2D CopySprite(Texture2D sourceTexture, Rectangle sourceRect)
         {
             // 1. Read pixel data from the source
@@ -975,11 +925,7 @@ namespace WizardrySkill.Core
             sourceTexture.GetData(0, sourceRect, data, 0, data.Length);
 
             // 2. Create a new texture with the exact size of the sprite
-            Texture2D newTexture = new Texture2D(
-                Game1.graphics.GraphicsDevice,
-                sourceRect.Width,
-                sourceRect.Height
-            );
+            Texture2D newTexture = new Texture2D(Game1.graphics.GraphicsDevice, sourceRect.Width, sourceRect.Height);
 
             // 3. Write the copied pixels into the new texture
             newTexture.SetData(data);

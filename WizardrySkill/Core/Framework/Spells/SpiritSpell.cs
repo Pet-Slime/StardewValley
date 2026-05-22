@@ -1,6 +1,8 @@
+using System.Collections.Generic;
+using System.Globalization;
 using StardewValley;
+using WizardrySkill.Core.Framework;
 using WizardrySkill.Core.Framework.Schools;
-using WizardrySkill.Core.Framework.Spells.Effects;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -17,7 +19,7 @@ namespace WizardrySkill.Core.Framework.Spells
         {
         }
 
-        public override SpellSyncMode SyncMode => SpellSyncMode.VisualOnAll;
+        public override SpellSyncMode SyncMode => SpellSyncMode.Summon;
 
         // Defines how much mana it costs to cast this spell
         public override int GetManaCost(Farmer player, int level)
@@ -35,35 +37,38 @@ namespace WizardrySkill.Core.Framework.Spells
         public override bool CanCast(Farmer player, int level)
         {
             // Player must meet the base spell requirements and have more than 1/5 of their max health.
-            return base.CanCast(player, level) && player.health > player.maxHealth / 5;
+            return player != null && base.CanCast(player, level) && player.health > player.maxHealth / 5;
         }
 
-        // Original direct-cast fallback.
+        // Called when the spell is cast by the local player.
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            return this.OnReceiveCast(player, level, targetX, targetY, "");
-        }
+            if (player == null || player.currentLocation == null)
+                return null;
 
-        // Called when a synced spell cast is received.
-        public override IActiveEffect OnReceiveCast(Farmer caster, int level, int targetX, int targetY, string extraData)
-        {
-            if (caster == null || caster.currentLocation == null)
+            // Only the caster's own machine should pay health, award EXP, and create/update durable summon state.
+            if (!player.IsLocalPlayer)
                 return null;
 
             // Play a ghost sound at the caster's current tile.
-            caster.currentLocation.LocalSoundAtPixel("ghost", caster.Position);
+            player.currentLocation.LocalSoundAtPixel("ghost", player.Position);
 
-            if (caster.IsLocalPlayer)
+            // Cost to cast: remove 1/5 of the caster's max health.
+            player.takeDamage(player.maxHealth / 5, false, null);
+
+            // Give caster experience for casting.
+            Utilities.AddEXP(player, 50);
+
+            Dictionary<string, string> data = new()
             {
-                // Cost to cast: remove 1/5 of the caster's max health.
-                caster.takeDamage(caster.maxHealth / 5, false, null);
+                [SummonManager.SummonDataKeys.AttackRange] = ModEntry.Config.Spirit_attack_range.ToString(CultureInfo.InvariantCulture)
+            };
 
-                // Give caster experience for casting.
-                Utilities.AddEXP(caster, 50);
-            }
+            // SummonManager owns the durable summon state and creates/recreates the local visual instance.
+            SummonManager.TryAddOrReplaceSummon(player, SummonManager.SummonDefs.Spirit, level, data: data, broadcast: true);
 
-            // Spawn the visual/functional effect of the spirit spell.
-            return new SpiritEffect(caster, ModEntry.Config.Spirit_attack_range);
+            // No active effect is returned here because the local visual is owned by SummonManager.
+            return null;
         }
     }
 }

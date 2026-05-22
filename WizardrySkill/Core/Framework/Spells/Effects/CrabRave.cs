@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.GameData.Objects;
@@ -15,8 +14,8 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 {
     /// <summary>
     /// A magical effect that rains crabs from the sky.
-    /// Falling visuals are created locally on each client from synced tile data.
-    /// World-changing impact effects are only created by the host.
+    /// The caster-owned effect broadcasts falling visuals through Stardew's temporary sprite sync,
+    /// then applies impact gameplay only on the caster's machine.
     /// </summary>
     public class CrabRave : IActiveEffect
     {
@@ -33,6 +32,9 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         /// <summary>The item used for the falling visuals and debris.</summary>
         public Object Item;
 
+        /// <summary>Random generator for variation between casts.</summary>
+        private static readonly Random Rand = new();
+
         /// <summary>The pixel-based world positions of each falling object.</summary>
         private readonly List<Vector2> Positions;
 
@@ -41,9 +43,6 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
         /// <summary>The downward velocity per update tick, in pixels.</summary>
         private readonly float YVelocity = 32f;
-
-        /// <summary>Random generator for deterministic variation for this specific effect.</summary>
-        private readonly Random Rand;
 
         /// <summary>Metadata about the item texture and source rect for rendering.</summary>
         public ParsedItemData ItemData { get; }
@@ -68,45 +67,29 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
             this.Positions = new List<Vector2>();
             this.Heights = new List<float>();
-            this.Rand = new Random(GetSeed(theSource, tiles));
 
             if (this.ItemData.IsErrorItem || tiles == null || tiles.Count == 0)
                 return;
 
+            // Create a falling object for each target tile.
             foreach (Vector2 tile in tiles)
             {
+                // Convert tile coordinate to pixel coordinate.
                 Vector2 position = tile * Game1.tileSize;
                 this.Positions.Add(position);
 
-                float randomHeight = this.Rand.Next(700, 1400);
+                // Assign a random initial height between 700–1400 pixels.
+                float randomHeight = Rand.Next(700, 1400);
                 this.Heights.Add(randomHeight);
 
-                Vector2 startPos = position;
-                startPos.Y -= randomHeight;
-
-                var sprite = new TemporaryAnimatedSprite(
-                    textureName: this.ItemData.TextureName,
-                    sourceRect: this.ItemData.GetSourceRect(),
-                    animationInterval: 1f,
-                    animationLength: 1,
-                    numberOfLoops: (int)(randomHeight / this.YVelocity),
-                    position: startPos,
-                    flicker: false,
-                    flipped: false)
-                {
-                    scale = 4f,
-                    color = Color.White,
-                    layerDepth = 1f,
-                    motion = new Vector2(0, this.YVelocity),
-                    rotation = (float)(this.Rand.NextDouble() * Math.PI * 2),
-                    rotationChange = MathF.PI / 16f
-                };
-
-                // Local-only visual. Every client creates this from the synced tile list.
-                this.Loc.temporarySprites.Add(sprite);
+                // Only the caster's own machine should create and broadcast the falling visual.
+                // Remote clients receive these through Stardew's normal TemporaryAnimatedSprite sync.
+                if (this.Source.IsLocalPlayer)
+                    this.BroadcastFallingCrabSprite(position, randomHeight);
             }
 
-            this.AddCasterBurstVisuals();
+            if (this.Source.IsLocalPlayer)
+                this.BroadcastCasterBurstVisuals();
         }
 
 
@@ -125,16 +108,19 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
             bool anyActive = false;
 
+            // Process each falling object.
             for (int i = 0; i < this.Positions.Count; i++)
             {
                 if (this.Heights[i] <= 0)
                     continue;
 
+                // Move downward.
                 this.Heights[i] -= this.YVelocity;
                 anyActive = true;
 
+                // When the object hits the ground.
                 if (this.Heights[i] <= 0)
-                    this.OnImpact(this.Positions[i]);
+                    this.HandleImpact(this.Positions[i]);
             }
 
             return anyActive;
@@ -161,29 +147,102 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         ** Private methods
         *********/
 
+        /// <summary>Broadcast one falling crab visual through Stardew's native temporary sprite sync.</summary>
+        /// <param name="position">The impact position in pixels.</param>
+        /// <param name="height">The initial height above the impact position.</param>
+        private void BroadcastFallingCrabSprite(Vector2 position, float height)
+        {
+            Vector2 startPos = position;
+            startPos.Y -= height;
+
+            // numberOfLoops is equal to how many ticks it will take to reach ground level.
+            TemporaryAnimatedSprite sprite = new(
+                textureName: this.ItemData.TextureName,
+                sourceRect: this.ItemData.GetSourceRect(),
+                animationInterval: 1f,
+                animationLength: 1,
+                numberOfLoops: (int)(height / this.YVelocity),
+                position: startPos,
+                flicker: false,
+                flipped: false)
+            {
+                scale = 4f,
+                color = Color.White,
+                layerDepth = 1f,
+                motion = new Vector2(0f, this.YVelocity),
+                rotation = (float)(Rand.NextDouble() * Math.PI * 2),
+                rotationChange = MathF.PI / 16f
+            };
+
+            Game1.Multiplayer.broadcastSprites(this.Loc, sprite);
+        }
+
+        /// <summary>Add caster burst visuals through Stardew's native temporary sprite sync.</summary>
+        private void BroadcastCasterBurstVisuals()
+        {
+            Point point = this.Source.StandingPixel;
+
+            // Offset to appear above and slightly to the side of the player.
+            point.X -= this.Source.Sprite.SpriteWidth * 2;
+            point.Y -= (int)(this.Source.Sprite.SpriteHeight * 1.5);
+
+            Game1.Multiplayer.broadcastSprites(this.Source.currentLocation,
+                new TemporaryAnimatedSprite(
+                    10,
+                    point.ToVector2(),
+                    Color.Orange,
+                    10,
+                    Rand.NextDouble() < 0.5,
+                    70f,
+                    0,
+                    Game1.tileSize,
+                    100f));
+
+            point.Y -= (int)(this.Source.Sprite.SpriteHeight * 2.5);
+
+            Game1.Multiplayer.broadcastSprites(this.Source.currentLocation,
+                new TemporaryAnimatedSprite(
+                    10,
+                    point.ToVector2(),
+                    Color.Orange,
+                    10,
+                    Rand.NextDouble() < 0.5,
+                    70f,
+                    0,
+                    Game1.tileSize,
+                    100f));
+        }
+
         /// <summary>Handle one crab impact.</summary>
         /// <param name="pos">The impact position in pixels.</param>
-        private void OnImpact(Vector2 pos)
+        private void HandleImpact(Vector2 pos)
         {
-            // Local sound is safe. It does not mutate synced world state.
-            this.Loc.LocalSoundAtPixel("explosion", pos);
 
-            // Only the host should create debris, explosions, monsters, or item drops.
-            if (!Context.IsMainPlayer)
+            // Only the caster-owned CrabRave should mutate gameplay state.
+            // Remote clients receive falling sprites through Stardew, but should not run this effect.
+            if (!this.Source.IsLocalPlayer)
                 return;
 
+
+            // Play explosion sound at impact.
+            this.Source.currentLocation.playSound("explosion", pos / Game1.tileSize);
+
+            // Create debris using the item texture for visual fragments.
             this.CreateImpactDebris(pos);
 
-            float roll = (float)this.Rand.NextDouble();
+            // Randomly determine what happens on impact.
+            float roll = (float)Rand.NextDouble();
 
             if (roll < 0.6f)
             {
-                Vector2 spot = new Vector2((int)pos.X / Game1.tileSize, (int)pos.Y / Game1.tileSize);
+                // 60%: small explosion at the tile.
+                Vector2 spot = new((int)pos.X / Game1.tileSize, (int)pos.Y / Game1.tileSize);
                 this.Loc.explode(spot, 3, this.Source);
             }
             else if (roll < 0.95f)
             {
-                var rocky = new RockCrab(pos)
+                // 35%: summon a Rock Crab.
+                RockCrab rocky = new(pos)
                 {
                     wildernessFarmMonster = true,
                     focusedOnFarmers = true
@@ -193,16 +252,17 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             }
             else
             {
-                Vector2 spot = new Vector2((int)pos.X / Game1.tileSize, (int)pos.Y / Game1.tileSize);
+                // 5%: spawn a crab item as loot.
+                Vector2 spot = new((int)pos.X / Game1.tileSize, (int)pos.Y / Game1.tileSize);
                 Game1.createMultipleObjectDebris(this.ItemData.ItemId, (int)spot.X, (int)spot.Y, 1, this.Source.UniqueMultiplayerID);
             }
         }
 
-        /// <summary>Create host-owned impact debris.</summary>
+        /// <summary>Create caster-owned impact debris.</summary>
         /// <param name="pos">The impact position in pixels.</param>
         private void CreateImpactDebris(Vector2 pos)
         {
-            for (int j = 0; j < 3; j++)
+            for (int j = 0; j < 2; j++)
             {
                 for (int x = -j; x <= j; x++)
                 {
@@ -215,73 +275,13 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                             4,
                             (int)pos.X + x * 20,
                             (int)pos.Y + y * 20,
-                            1,
+                            1 + Rand.Next(1),
                             (int)(pos.Y / Game1.tileSize) + 1,
                             Color.White,
                             4f
                         );
                     }
                 }
-            }
-        }
-
-        /// <summary>Add local-only caster burst visuals.</summary>
-        private void AddCasterBurstVisuals()
-        {
-            var point = this.Source.StandingPixel;
-
-            point.X -= this.Source.Sprite.SpriteWidth * 2;
-            point.Y -= (int)(this.Source.Sprite.SpriteHeight * 1.5);
-
-            this.Source.currentLocation.temporarySprites.Add(
-                new TemporaryAnimatedSprite(
-                    10,
-                    point.ToVector2(),
-                    Color.Orange,
-                    10,
-                    this.Rand.NextDouble() < 0.5,
-                    70f,
-                    0,
-                    Game1.tileSize,
-                    100f));
-
-            point.Y -= (int)(this.Source.Sprite.SpriteHeight * 2.5);
-
-            this.Source.currentLocation.temporarySprites.Add(
-                new TemporaryAnimatedSprite(
-                    10,
-                    point.ToVector2(),
-                    Color.Orange,
-                    10,
-                    this.Rand.NextDouble() < 0.5,
-                    70f,
-                    0,
-                    Game1.tileSize,
-                    100f));
-        }
-
-
-
-        /// <summary>Get a deterministic seed so every client creates matching local visuals from the same synced tile list.</summary>
-        /// <param name="source">The player who cast the spell.</param>
-        /// <param name="tiles">The synced target tiles.</param>
-        private static int GetSeed(Farmer source, List<Vector2> tiles)
-        {
-            unchecked
-            {
-                int seed = 17;
-                seed = seed * 31 + source.UniqueMultiplayerID.GetHashCode();
-
-                if (tiles != null)
-                {
-                    foreach (Vector2 tile in tiles)
-                    {
-                        seed = seed * 31 + (int)tile.X;
-                        seed = seed * 31 + (int)tile.Y;
-                    }
-                }
-
-                return seed;
             }
         }
     }

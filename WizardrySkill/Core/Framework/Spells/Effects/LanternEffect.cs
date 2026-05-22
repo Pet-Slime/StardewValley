@@ -17,7 +17,9 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         *********/
         private readonly Farmer Summoner;
         private readonly Texture2D Tex;
+        private readonly int SlotIndex;
         private readonly int Level;
+        private readonly string LightKey;
 
         private Vector2 Pos;
         private GameLocation PrevSummonerLoc;
@@ -40,13 +42,20 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         ** Public methods
         *********/
         public LanternEffect(Farmer summoner, int level)
+            : this(summoner, 0, level)
+        {
+        }
+
+        public LanternEffect(Farmer summoner, int slotIndex, int level)
         {
             this.Summoner = summoner;
+            this.SlotIndex = slotIndex;
             this.Level = level + 1;
             this.TimeLeft = 30 * 3 * 60;
             this.Tex = ModEntry.Assets.Thunderbug;
+            this.LightKey = $"WizardrySummon_{summoner.UniqueMultiplayerID}_{slotIndex}_lantern";
 
-            this.Pos = summoner.Position;
+            this.Pos = SummonManager.GetSlotFollowPosition(summoner, slotIndex);
             this.PrevSummonerLoc = summoner.currentLocation;
             this.BaseAttackTimer = this.TimeLeft / (this.Level + 1);
             this.AttackTimer = this.BaseAttackTimer;
@@ -55,7 +64,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
         public bool Update(UpdateTickedEventArgs e)
         {
-            if (this.Summoner == null)
+            if (this.Summoner == null || this.Summoner.currentLocation == null)
             {
                 this.CleanUp();
                 this.TimeLeft = 0;
@@ -63,11 +72,13 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             }
 
             // Handle location changes.
+            // SummonManager should normally rebuild visuals on warp, but this keeps the effect safe
+            // if the owner location changes while the visual instance is still alive.
             if (this.PrevSummonerLoc != this.Summoner.currentLocation)
             {
                 this.CleanUp();
                 this.PrevSummonerLoc = this.Summoner.currentLocation;
-                this.Pos = this.Summoner.Position;
+                this.Pos = SummonManager.GetSlotFollowPosition(this.Summoner, this.SlotIndex);
                 this.AddSpriteAndLight();
             }
 
@@ -88,8 +99,9 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             }
             else
             {
-                this.FollowSummoner();
-                this.UpdateSprite(this.Summoner.Position);
+                Vector2 followPosition = SummonManager.GetSlotFollowPosition(this.Summoner, this.SlotIndex);
+                this.FollowSummoner(followPosition);
+                this.UpdateSprite(followPosition);
             }
 
             if (--this.TimeLeft <= 0)
@@ -120,6 +132,7 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             if (this.Light != null)
             {
                 Game1.currentLightSources.Remove(this.Light.Id);
+                Game1.currentLightSources.Remove(this.LightKey);
                 this.Light = null;
             }
 
@@ -131,17 +144,22 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
         /*********
         ** Private helpers
         *********/
-        private void FollowSummoner()
+        private void FollowSummoner(Vector2 followPosition)
         {
-            if (Vector2.Distance(this.Pos, this.Summoner.Position) <= Game1.tileSize)
+            if (Vector2.Distance(this.Pos, followPosition) <= Game1.tileSize)
+            {
+                this.UpdateLightPosition();
                 return;
+            }
 
-            Vector2 direction = this.Summoner.Position - this.Pos;
-            direction.Normalize();
-            this.Pos += direction * 7f;
+            Vector2 direction = followPosition - this.Pos;
+            if (direction.LengthSquared() > 0.001f)
+            {
+                direction.Normalize();
+                this.Pos += direction * 7f;
+            }
 
-            if (this.Light != null)
-                this.Light.position.Value = this.Pos;
+            this.UpdateLightPosition();
         }
 
         private void MoveTowards(Vector2 target)
@@ -153,13 +171,17 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 this.Pos += dir * 7f;
             }
 
-            if (this.Light != null)
-                this.Light.position.Value = this.Pos;
+            this.UpdateLightPosition();
         }
 
         private void AttemptAttack(Vector2 target)
         {
             GameLocation location = this.Summoner.currentLocation;
+            if (location == null)
+            {
+                this.AttackTimer = this.BaseAttackTimer;
+                return;
+            }
 
             if (!location.objects.TryGetValue(target, out Object rod))
             {
@@ -202,6 +224,9 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             float nearestDist = maxDistance;
 
             GameLocation location = this.Summoner.currentLocation;
+            if (location == null)
+                return nearest;
+
             foreach (KeyValuePair<Vector2, Object> thing in location.objects.Pairs)
             {
                 if (thing.Value.QualifiedItemId != "(BC)9" || thing.Value.heldObject.Value != null)
@@ -227,6 +252,14 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
         private void UpdateSprite(Vector2 target)
         {
+            if (this.Sprite == null || this.Shadow == null)
+            {
+                this.AddSpriteAndLight();
+
+                if (this.Sprite == null || this.Shadow == null)
+                    return;
+            }
+
             UpdateSharedOscillation();
 
             if (++this.AnimTimer >= 6)
@@ -239,14 +272,15 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
             this.Sprite.sourceRect.X = this.AnimFrame * 16;
             this.Sprite.sourceRect.Y = direction * 16;
 
-            Vector2 dynamicPos = this.Pos + SharedOscillation + SpriteOffset;
-            Vector2 shadowPos = this.Pos + SharedOscillation;
+            Vector2 groundPos = this.Pos + SharedOscillation;
+            Vector2 bodyPos = groundPos + SpriteOffset;
 
-            this.Sprite.position = Vector2.Lerp(this.Sprite.position, dynamicPos, 0.2f);
-            this.Sprite.layerDepth = shadowPos.Y / 10000f;
+            // Body is visually raised, but depth is based on the ground/shadow anchor.
+            this.Sprite.position = Vector2.Lerp(this.Sprite.position, bodyPos, 0.2f);
+            this.Sprite.layerDepth = SummonManager.GetFlyingSummonBodyLayerDepth(groundPos);
 
-            this.Shadow.position = Vector2.Lerp(this.Shadow.position, shadowPos, 0.2f);
-            this.Shadow.layerDepth = (shadowPos.Y - 1) / 10000f;
+            this.Shadow.position = Vector2.Lerp(this.Shadow.position, groundPos, 0.2f);
+            this.Shadow.layerDepth = SummonManager.GetFlyingSummonShadowLayerDepth(groundPos);
         }
 
         public static int GetSnappedDirection(Vector2 from, Vector2 to)
@@ -270,8 +304,11 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
 
         private void AddSpriteAndLight()
         {
+            if (this.Summoner == null || this.Summoner.currentLocation == null)
+                return;
+
             float scale = this.Summoner.Scale * 2f;
-            Vector2 startPos = this.Summoner.Position;
+            Vector2 startGroundPos = SummonManager.GetSlotFollowPosition(this.Summoner, this.SlotIndex);
 
             this.Sprite = new TemporaryAnimatedSprite(
                 textureName: "",
@@ -279,14 +316,14 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 animationInterval: 200f,
                 animationLength: 1,
                 numberOfLoops: 9999,
-                position: startPos + SpriteOffset,
+                position: startGroundPos + SpriteOffset,
                 flicker: false,
                 flipped: false)
             {
                 texture = this.Tex,
                 scale = scale,
                 color = Color.White,
-                layerDepth = startPos.Y / 10000f
+                layerDepth = SummonManager.GetFlyingSummonBodyLayerDepth(startGroundPos)
             };
 
             this.Shadow = new TemporaryAnimatedSprite(
@@ -295,30 +332,41 @@ namespace WizardrySkill.Core.Framework.Spells.Effects
                 animationInterval: 200f,
                 animationLength: 1,
                 numberOfLoops: 9999,
-                position: startPos,
+                position: startGroundPos,
                 flicker: false,
                 flipped: false)
             {
                 texture = Game1.shadowTexture,
                 scale = scale,
-                layerDepth = (startPos.Y - 1) / 10000f
+                layerDepth = SummonManager.GetFlyingSummonShadowLayerDepth(startGroundPos)
             };
 
-            string lightId = $"LanternSpell_{this.Summoner.UniqueMultiplayerID}";
             this.Light = new LightSource(
-                lightId,
+                this.LightKey,
                 1,
-                new Vector2(this.Summoner.Position.X + 21f, this.Summoner.Position.Y + 64f),
+                this.GetLightPosition(),
                 8f * this.Level,
                 new Color(0, 50, 170),
                 LightSource.LightContext.None,
                 this.Summoner.UniqueMultiplayerID,
                 null);
 
-            Game1.currentLightSources[lightId] = this.Light;
+            Game1.currentLightSources[this.LightKey] = this.Light;
 
+            this.PrevSummonerLoc = this.Summoner.currentLocation;
             this.PrevSummonerLoc.TemporarySprites.Add(this.Sprite);
             this.PrevSummonerLoc.TemporarySprites.Add(this.Shadow);
+        }
+
+        private Vector2 GetLightPosition()
+        {
+            return new Vector2(this.Pos.X + 21f, this.Pos.Y + 64f);
+        }
+
+        private void UpdateLightPosition()
+        {
+            if (this.Light != null)
+                this.Light.position.Value = this.GetLightPosition();
         }
     }
 }
