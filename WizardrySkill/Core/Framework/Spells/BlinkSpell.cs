@@ -66,7 +66,7 @@ namespace WizardrySkill.Core.Framework.Spells
         {
             return new Dictionary<string, int>
             {
-                ["moonslime.Wizardry.Travel_Core"] = 1
+                ["moonslime.Wizardry.Travel_Core"] = 2
             };
         }
 

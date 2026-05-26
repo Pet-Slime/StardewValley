@@ -1375,6 +1375,7 @@
                     "Category": -26,
                     "Texture": "Mods/moonslime.CookingSkill/objects/textures",
                     "SpriteIndex": 34,
+                    "Price": 140,
                     "Edibility": 5,
                     "IsDrink": true,
                     "Buffs": [
@@ -1432,8 +1433,8 @@
                     "ArtifactSpotChances": null,
                     "CanBeGivenAsGift": true,
                     "CanBeTrashed": true,
-                    "ExcludeFromFishingCollection": false,
-                    "ExcludeFromShippingCollection": false,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "color_white"

@@ -7,7 +7,7 @@
         <Name>Yet Another Cooking Skill</Name>
         <UniqueId>$(Authors).CookingSkill</UniqueId>
         <Description>A remix built from the ground, for players must cook!</Description>
-        <Version>1.12.0</Version>
+        <Version>1.13.0</Version>
         <UpdateKeys>Nexus:22681</UpdateKeys>
     </PropertyGroup>
 

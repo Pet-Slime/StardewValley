@@ -135,7 +135,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
             spellProjectile.DebuffIntensity.Value = 2000 * newLevel;
             spellProjectile.boundingBoxWidth.Value = 32;
-            spellProjectile.maxTravelDistance.Value = 1000 * newLevel;
+            spellProjectile.maxTravelDistance.Value = -1;
 
             if (this.IgnoreTerrain)
             {
@@ -143,8 +143,6 @@ namespace WizardrySkill.Core.Framework.Spells
                 spellProjectile.ignoreTravelGracePeriod.Value = true;
             }
 
-            // Only the caster machine creates the projectile.
-            // Stardew's projectile/net-field system handles syncing this projectile to other clients.
             location.projectiles.Add(spellProjectile);
         }
 

@@ -20,6 +20,7 @@ using StardewValley.Quests;
 namespace CookingSkillRedux.Core
 {
 
+    //Left over patch, am not deleting just in case the transpiler breaks
     class ClickCraftingRecipe_patch
     {
         public static bool ClickCraftingRecipe(CraftingPage __instance, ClickableTextureComponent c, bool playSound, ref int ___currentCraftingPage, ref Item ___heldItem, ref bool ___cooking)
@@ -321,168 +322,250 @@ namespace CookingSkillRedux.Core
     class MillItemConversion_patch
     {
         [HarmonyLib.HarmonyPrefix]
-        public static bool Prefix(
-        StardewValley.Buildings.Building __instance, BuildingItemConversion conversion, ItemQueryContext itemQueryContext)
+        public static bool Prefix(StardewValley.Buildings.Building __instance, BuildingItemConversion conversion, ItemQueryContext itemQueryContext)
         {
-            if(__instance.buildingType.Value != "Mill") {
+            // Only replace vanilla conversion logic for Mills.
+            // Returning true lets the original Stardew method run for every other building.
+            if (__instance.buildingType.Value != "Mill")
                 return true;
-            }
+
             ModEntry.Instance.Monitor.Log("Starting to run the logic for Mills", LogLevel.Trace);
-            int[] convertAmount;
+
+            // Track how many valid input items exist at each Stardew quality value.
+            // Stardew normally uses:
+            // 0 = normal, 1 = silver, 2 = gold, 4 = iridium.
+            // Index 3 is included only so item.Quality can be used directly as an array index.
             int[] currentCount = { 0, 0, 0, 0, 0 };
-            List<int[]> consumeCount = new List<int[]>();
+
+            // Get the Mill's source/input chest and destination/output chest from the building conversion data.
             Chest sourceChest = __instance.GetBuildingChest(conversion.SourceChest);
             Chest destinationChest = __instance.GetBuildingChest(conversion.DestinationChest);
-            if (sourceChest == null)
-            {
+
+            // If either chest is missing, skip custom Mill logic.
+            // This prevents errors when trying to read from or add items to a null chest.
+            if (sourceChest == null || destinationChest == null)
                 return false;
-            }
+
+            // Count all valid source items by quality.
+            // This does not consume anything yet; it only builds a summary of available ingredients.
             foreach (Item item in sourceChest.Items)
             {
-                if (item == null)
-                {
+                if (!HasRequiredTags(item, conversion))
                     continue;
-                }
-                bool fail = false;
-                foreach (string requiredTag in conversion.RequiredTags)
-                {
-                    if (!item.HasContextTag(requiredTag))
-                    {
-                        fail = true;
-                        break;
-                    }
-                }
-                if (fail)
-                {
-                    continue;
-                }
+
                 currentCount[item.Quality] += item.Stack;
             }
-            convertAmount = GetConversionsNum(currentCount, consumeCount,conversion.RequiredCount, conversion.MaxDailyConversions);
-            if (convertAmount.Sum() == 0)
-            {
+
+            // Build a list of planned conversions.
+            // Each int[] in consumeCounts represents the exact qualities consumed by one conversion.
+            // Example: [0, 0, 1, 0, 2] means this one conversion uses 1 gold and 2 iridium items.
+            List<int[]> consumeCounts = BuildConversionRecipes(currentCount, conversion.RequiredCount, conversion.MaxDailyConversions);
+            if (consumeCounts.Count == 0)
                 return false;
-            }
-            int totalConversions = 0; 
+
+            // Log how many conversions are planned, grouped by the lowest quality used in each conversion.
+            // This is only for debugging and does not affect gameplay.
+            ModEntry.Instance.Monitor.Log($"Will try to produce [{string.Join(", ", CountConversionsByLowestQuality(consumeCounts))}]", LogLevel.Trace);
+
+            // totalConversions tracks how many conversions successfully produced output.
+            // requiredAmount tracks how many input items of each quality should be deleted afterward.
+            int totalConversions = 0;
             int[] requiredAmount = { 0, 0, 0, 0, 0 };
-            ModEntry.Instance.Monitor.Log($"Will try to produce [{string.Join(", ", convertAmount)}]", LogLevel.Trace);
-            for (int j = 0; j < convertAmount.Sum(); j++)
+
+            // Try to create output items for each planned conversion.
+            for (int j = 0; j < consumeCounts.Count; j++)
             {
                 bool conversionCreatedItem = false;
+
+                // A conversion can define one or more possible produced items.
+                // This mirrors Stardew's data-driven item conversion behavior.
                 for (int i = 0; i < conversion.ProducedItems.Count; i++)
                 {
                     GenericSpawnItemDataWithCondition producedItem = conversion.ProducedItems[i];
-                    if (GameStateQuery.CheckConditions(producedItem.Condition, __instance.GetParentLocation()))
+
+                    // Only produce this item if its game state query condition passes.
+                    if (!GameStateQuery.CheckConditions(producedItem.Condition, __instance.GetParentLocation()))
+                        continue;
+
+                    // Resolve the output item from the building conversion data.
+                    Item item = ItemQueryResolver.TryResolveRandomItem(producedItem, itemQueryContext);
+
+                    // Calculate output quality from the consumed ingredients for this specific conversion.
+                    // This treats qualities as ranks:
+                    // normal = 0, silver = 1, gold = 2, iridium = 3.
+                    // Stardew stores iridium as quality 4, so consumeCounts[j][4] is weighted as rank 3.
+                    double average_quality = (double)(consumeCounts[j][1] + consumeCounts[j][2] * 2 + consumeCounts[j][4] * 3) / consumeCounts[j].Sum();
+
+                    // Probabilistically round fractional quality.
+                    // Example: average 1.75 becomes quality 1 with a 75% chance to round up to 2.
+                    double chance = average_quality - (int)average_quality;
+                    int quality = (int)average_quality;
+                    if (Game1.random.NextDouble() < chance)
                     {
-                        Item item = ItemQueryResolver.TryResolveRandomItem(producedItem, itemQueryContext);
+                        quality++;
+                    }
 
-                        //round off quality
-                        double average_quality = (double)(consumeCount[j][1] + consumeCount[j][2]*2 + consumeCount[j][4] * 3) / consumeCount[j].Sum();
-                        double chance = average_quality - (int)average_quality;
-                        int quality = (int)average_quality;
-                        if(Game1.random.NextDouble() < chance)
-                        {quality++;}
+                    // Add a small random quality swing after the average-quality roll.
+                    // r == 0 gives +1 quality. r == 1, 2, 3, or 4 gives -1 quality.
+                    // Otherwise, quality stays as rolled above.
+                    int r = Game1.random.Next(15);
+                    if (r == 0)
+                    {
+                        quality++;
+                    }
+                    else if (r < 5)
+                    {
+                        quality--;
+                    }
 
-                        //add +- 1 with random chance
-                        int r = Game1.random.Next(15);
-                        if(r == 0)
-                        {quality++;}
-                        else if (r < 5)
-                        {quality--;}
-                        if (quality >= 3)
-                        {quality = 4;}
-                        if (quality < 0)
-                        { quality = 0; }
-                        item.Quality = quality;
-                        //currently, quality is the quality of the worst ingredient. Can be possibly changed to some sort of mean.
-                        int producedCount = item.Stack;
-                        Item item2 = destinationChest.addItem(item);
-                        if (item2 == null || item2.Stack != producedCount)
-                        {
-                            conversionCreatedItem = true;
-                        }
+                    // Convert internal quality rank 3+ back into Stardew's iridium quality value.
+                    if (quality >= 3)
+                    {
+                        quality = 4;
+                    }
+
+                    // Prevent negative quality after the random -1 roll.
+                    if (quality < 0)
+                    {
+                        quality = 0;
+                    }
+
+                    // Apply the calculated quality to the produced Mill output.
+                    item.Quality = quality;
+
+                    // Try to add the produced item to the destination chest.
+                    // If the chest accepts all or part of the item, the conversion counts as successful.
+                    int producedCount = item.Stack;
+                    Item item2 = destinationChest.addItem(item);
+                    if (item2 == null || item2.Stack != producedCount)
+                    {
+                        conversionCreatedItem = true;
                     }
                 }
+
+                // Only mark ingredients for deletion if this conversion actually created output.
+                // This prevents the Mill from eating ingredients when the destination chest is full.
                 if (conversionCreatedItem)
                 {
                     totalConversions++;
-                    for(int k = 0; k < 5; k++)
+
+                    // Add this conversion's consumed quality counts to the final deletion list.
+                    for (int k = 0; k < 5; k++)
                     {
-                        requiredAmount[k] += consumeCount[j][k];
+                        requiredAmount[k] += consumeCounts[j][k];
                     }
                 }
             }
+
+            // If no output could be created, do not consume any source ingredients.
             if (totalConversions <= 0)
-            {
                 return false;
-            }
+
             ModEntry.Instance.Monitor.Log($"Need to delete [{string.Join(", ", requiredAmount)}]", LogLevel.Trace);
 
+            // Delete the exact quality amounts that were used by successful conversions.
+            // This second pass removes items from the actual source chest after output was confirmed.
             for (int i = 0; i < sourceChest.Items.Count; i++)
             {
                 Item item = sourceChest.Items[i];
-                if (item == null)
-                {
+                if (!HasRequiredTags(item, conversion))
                     continue;
-                }
-                bool fail = false;
-                foreach (string requiredTag in conversion.RequiredTags)
-                {
-                    if (!item.HasContextTag(requiredTag))
-                    {
-                        fail = true;
-                        break;
-                    }
-                }
-                if (!fail)
-                {
-                    int consumedAmount = Math.Min(requiredAmount[item.Quality], item.Stack);
-                    sourceChest.Items[i] = item.ConsumeStack(consumedAmount);
-                    requiredAmount[item.Quality] -= consumedAmount;
-                    if (requiredAmount.Sum() <= 0)
-                    {
-                        break;
-                    }
-                }
+
+                // Consume only as many items of this quality as are still required.
+                int consumedAmount = Math.Min(requiredAmount[item.Quality], item.Stack);
+                sourceChest.Items[i] = item.ConsumeStack(consumedAmount);
+                requiredAmount[item.Quality] -= consumedAmount;
+
+                // Stop once all required ingredient amounts have been consumed.
+                if (requiredAmount.Sum() <= 0)
+                    break;
             }
+
+            // Returning false skips vanilla CheckItemConversionRule for Mills,
+            // since this prefix has already handled the conversion.
             return false;
         }
 
-        public static int[] GetConversionsNum(int[] currentCount, List<int[]> consumeCounts, int requiredCount, int maxConversions)
+        private static bool HasRequiredTags(Item item, BuildingItemConversion conversion)
         {
-            int currCount = 0;
-            int[] conversions = { 0, 0, 0, 0, 0 };
-            int[] tempCount;
-            int[] counts = currentCount;
-            //this is stupid but it should work
-            if(maxConversions == -1)
+            // Null slots are not valid ingredients.
+            if (item == null)
+                return false;
+
+            // The item must have every required tag from the conversion data.
+            // This is how the Mill knows whether an item is valid for the current recipe.
+            foreach (string requiredTag in conversion.RequiredTags)
             {
-                maxConversions = int.MaxValue;
+                if (!item.HasContextTag(requiredTag))
+                    return false;
             }
-            for (int i = conversions.Length - 1; i >= 0 && maxConversions > 0; i--)
+
+            return true;
+        }
+
+        private static List<int[]> BuildConversionRecipes(int[] currentCount, int requiredCount, int maxConversions)
+        {
+            // Each entry in this list represents one planned conversion.
+            // Each int[] stores how many items of each quality that conversion will consume.
+            List<int[]> consumeCounts = new();
+
+            // Bad conversion data should not create an infinite loop or free output.
+            if (requiredCount <= 0)
+                return consumeCounts;
+
+
+            int conversionsLeft = maxConversions < 0 ? int.MaxValue : maxConversions;
+
+            while (conversionsLeft > 0)
             {
-                //all conversions done one by one as items are created one by one in the end
-                //"recipes" for conversions stored in the list.
-                while (counts[i] + currCount >= requiredCount && maxConversions > 0)
+                int needed = requiredCount;
+                int[] consumeCount = { 0, 0, 0, 0, 0 };
+
+                // Build one conversion by taking from highest quality to lowest quality.
+                // This makes higher-quality ingredients influence output quality first.
+                for (int quality = currentCount.Length - 1; quality >= 0 && needed > 0; quality--)
                 {
-                    conversions[i]++;
-                    tempCount = Enumerable.Repeat(0, 5).ToArray();
-                    counts[i] -= requiredCount - currCount;
-                    tempCount[i] = requiredCount - currCount;
-                    int j = i + 1;
-                    int prevCount = currCount;
-                    while (currCount > 0)
-                    {
-                        currCount -= Math.Min(counts[j], currCount);
-                        tempCount[j] = Math.Min(counts[j], prevCount);
-                        counts[j] -= Math.Min(counts[j], prevCount);
-                        j++;
-                    }
-                    maxConversions--;
-                    consumeCounts.Add(tempCount);
+                    int consumed = Math.Min(currentCount[quality], needed);
+                    if (consumed <= 0)
+                        continue;
+
+                    currentCount[quality] -= consumed;
+                    consumeCount[quality] = consumed;
+                    needed -= consumed;
                 }
-                currCount += counts[i];
+
+                // If we couldn't gather enough ingredients for this conversion, stop.
+                if (needed > 0)
+                    break;
+
+                // Store the completed conversion recipe.
+                consumeCounts.Add(consumeCount);
+                conversionsLeft--;
             }
+
+            return consumeCounts;
+        }
+
+        private static int[] CountConversionsByLowestQuality(List<int[]> consumeCounts)
+        {
+            // Used for logging only.
+            // Counts how many planned conversions include each quality as their lowest consumed quality.
+            int[] conversions = { 0, 0, 0, 0, 0 };
+
+            foreach (int[] consumeCount in consumeCounts)
+            {
+                // Scan from low quality to high quality.
+                // The first quality with a consumed item is this conversion's lowest ingredient quality.
+                for (int quality = 0; quality < consumeCount.Length; quality++)
+                {
+                    if (consumeCount[quality] <= 0)
+                        continue;
+
+                    conversions[quality]++;
+                    break;
+                }
+            }
+
             return conversions;
         }
     }

@@ -23,7 +23,10 @@ namespace CookingSkillRedux.Core
     [SEvent]
     public class Events
     {
-        public static Skills.SkillBuff Test { get; private set; }
+        private const string HomemadeModDataKey = "moonslime.Cooking.homemade";
+        private const string SpaceCoreSkillBuffPrefix = "spacechase.SpaceCore.SkillBuff.";
+        private const string RandomBuffId = "Cooking:profession:random_buff";
+
 
         [SEvent.GameLaunchedLate]
         public static void GameLaunched(object sender, GameLaunchedEventArgs e)
@@ -63,27 +66,28 @@ namespace CookingSkillRedux.Core
             {
                 Log.Trace("Cooking: Error with trying to load Love of Cooking API");
             }
+
             SpaceEvents.OnItemEaten += OnItemEat;
             SpaceEvents.AfterGiftGiven += AfterGiftGiven;
         }
 
-
-
         private static void AfterGiftGiven(object sender, EventArgsGiftGiven e)
         {
-            if (e.Gift.modDataForSerialization.ContainsKey("moonslime.Cooking.homemade") && sender is StardewValley.Farmer farmer)
+            if (e.Gift.modDataForSerialization.ContainsKey(HomemadeModDataKey) && sender is Farmer farmer)
             {
-                int bonusFriendship = ((int)Math.Ceiling(e.Gift.Edibility * 0.10));
+                int bonusFriendship = (int)Math.Ceiling(e.Gift.Edibility * 0.10);
                 farmer.changeFriendship(bonusFriendship, e.Npc);
             }
         }
 
         private static void BetterCraftingPerformCraftEvent(IGlobalPerformCraftEvent @event)
         {
+            bool debug = ModEntry.Config.DebugMode;
+
             // Ensure the crafted item is a valid Stardew Valley object before proceeding
             if (@event.Item is not StardewValley.Object)
             {
-                if (ModEntry.Config.DebugMode)
+                if (debug)
                     Log.Trace("YACS Bettercraft Pre Craft Event: Item is not a StardewValley.Object — skipping.");
                 @event.Complete();
                 return;
@@ -93,44 +97,43 @@ namespace CookingSkillRedux.Core
             var recipe = @event.Recipe;
             if (recipe is null)
             {
-                if (ModEntry.Config.DebugMode)
+                if (debug)
                     Log.Trace("YACS Bettercraft Pre Craft Event: Recipe is null — skipping.");
                 @event.Complete();
                 return;
             }
 
             // Determine if this recipe is a cooking recipe
-            bool isCookingRecipe =
-                (recipe.CraftingRecipe?.isCookingRecipe == true) ||
-                (recipe.Name is not null && CraftingRecipe.cookingRecipes.ContainsKey(recipe.Name));
+            bool isCookingRecipe = (recipe.CraftingRecipe?.isCookingRecipe == true) || (recipe.Name is not null && CraftingRecipe.cookingRecipes.ContainsKey(recipe.Name));
 
-            if (ModEntry.Config.DebugMode)
+            if (debug)
                 Log.Trace($"YACS Bettercraft Pre Craft Event: Recipe '{recipe.Name ?? "null"}' detected as cooking recipe = {isCookingRecipe}");
 
             // If the recipe is a cooking recipe, run PreCook before completing the event
             if (isCookingRecipe)
             {
                 var craftingRecipe = recipe.CraftingRecipe ?? new CraftingRecipe(recipe.Name, true);
-                if (ModEntry.Config.DebugMode)
+                if (debug)
                     Log.Trace("YACS Bettercraft Pre Craft Event: Running PreCook on crafted item...");
                 @event.Item = PreCook(craftingRecipe, @event.Item, true);
-                if (ModEntry.Config.DebugMode)
+                if (debug)
                     Log.Trace("YACS Bettercraft Pre Craft Event: PreCook completed.");
             }
 
             // Finalize the event (required for Better Crafting API to complete processing)
-            if (ModEntry.Config.DebugMode)
+            if (debug)
                 Log.Trace("YACS Bettercraft Pre Craft Event: Completing event.");
             @event.Complete();
         }
 
-
         private static void BetterCraftingPostCraftEvent(IPostCraftEvent @event)
         {
+            bool debug = ModEntry.Config.DebugMode;
+
             // Must have a valid crafted object
             if (@event.Item is not StardewValley.Object)
             {
-                if (ModEntry.Config.DebugMode)
+                if (debug)
                     Log.Trace("YACS Bettercraft Post Craft Event: Skipped — crafted item is not a StardewValley.Object.");
                 return;
             }
@@ -138,19 +141,19 @@ namespace CookingSkillRedux.Core
             var recipe = @event.Recipe;
             if (recipe is null)
             {
-                if (ModEntry.Config.DebugMode)
+                if (debug)
                     Log.Trace("YACS Bettercraft Post Craft Event: Skipped — recipe is null.");
                 return;
             }
 
             // Log general event info for context
-            if (ModEntry.Config.DebugMode)
+            if (debug)
                 Log.Trace($"YACS BBettercraft Post Craft Event: Processing recipe '{recipe.Name ?? "null"}' (Has CraftingRecipe: {recipe.CraftingRecipe is not null}).");
 
             // Direct CraftingRecipe reference check
             if (recipe.CraftingRecipe is { isCookingRecipe: true })
             {
-                if (ModEntry.Config.DebugMode)
+                if (debug)
                     Log.Trace("YACS Bettercraft Post Craft Event: Cooking recipe detected via direct CraftingRecipe reference. Invoking Go().");
                 Go(@event);
                 return;
@@ -159,7 +162,7 @@ namespace CookingSkillRedux.Core
             // Fallback: check by recipe name
             if (recipe.Name is not null && CraftingRecipe.cookingRecipes.ContainsKey(recipe.Name))
             {
-                if (ModEntry.Config.DebugMode)
+                if (debug)
                     Log.Trace("YACS Bettercraft Post Craft Event: Cooking recipe detected via name lookup. Invoking Go().");
 
                 Go(@event);
@@ -169,21 +172,14 @@ namespace CookingSkillRedux.Core
 
         private static void Go(IPostCraftEvent @event)
         {
-
             if (ModEntry.Config.DebugMode)
                 Log.Trace($"YACS Postcraft BetterCraftingPostCraftEvent check Success");
 
-            Dictionary<Item, int> consumed_items_dict = new();
+            Dictionary<Item, int> consumed_items_dict = new(@event.ConsumedItems.Count);
             foreach (Item consumed in @event.ConsumedItems)
                 consumed_items_dict.Add(consumed, consumed.Stack);
 
-            @event.Item = PostCook(
-                @event.Recipe.CraftingRecipe ?? new CraftingRecipe(@event.Recipe.Name, true),
-                @event.Item,
-                consumed_items_dict,
-                @event.Player,
-                true
-            );
+            @event.Item = PostCook(@event.Recipe.CraftingRecipe ?? new CraftingRecipe(@event.Recipe.Name, true), @event.Item, consumed_items_dict, @event.Player, true);
         }
 
         private static void LoveOfCookingPostCraftEvent(IPostCookEvent @event)
@@ -272,7 +268,6 @@ namespace CookingSkillRedux.Core
                 Log.Trace("LoveOfCookingPostCraftEvent completed successfully");
         }
 
-
         [SEvent.SaveLoaded]
         private void SaveLoaded(object sender, SaveLoadedEventArgs e)
         {
@@ -285,20 +280,26 @@ namespace CookingSkillRedux.Core
         public static void OnItemEat(object sender, EventArgs e)
         {
             // get the farmer. If there is no farmer (like maybe they disconnected, make sure it isnt null)
-            StardewValley.Farmer who = sender as StardewValley.Farmer;
-            if (who == null) return;
+            Farmer who = sender as Farmer;
+            if (who == null)
+                return;
 
             //Get the farmer's unique ID, and again check for an ull player (cause I am parinoid)
             // If they don't have any professions related to food buffs, return so the rest of the code does not get ran.
             var player = Game1.GetPlayer(who.UniqueMultiplayerID);
-            if (player == null || !player.HasCustomProfession(Cooking_Skill.Cooking5b)) return;
+            if (player == null || !player.HasCustomProfession(Cooking_Skill.Cooking5b))
+                return;
 
             //Get the food item the player is going to eat. Make sure it doesnt return as a null item.
             StardewValley.Object food = player.itemToEat as StardewValley.Object;
-            if (food == null) return;
+            if (food == null)
+                return;
 
             //Get the food's ObjectData and make sure it isn't null
-            if (!Game1.objectData.TryGetValue(food.ItemId, out ObjectData data) || data == null) return;
+            if (!Game1.objectData.TryGetValue(food.ItemId, out ObjectData data) || data == null)
+                return;
+
+            bool hasCooking10b1 = player.HasCustomProfession(Cooking_Skill.Cooking10b1);
 
             if (data.Buffs != null)
             {
@@ -306,7 +307,7 @@ namespace CookingSkillRedux.Core
                 foreach (var buffData in data.Buffs)
                 {
                     //If there are any spaceCore buffs on the food, run this code to increase those buffs. If there are not, run the other code.
-                    if (buffData.CustomFields != null && buffData.CustomFields.Any(b => b.Key.StartsWith("spacechase.SpaceCore.SkillBuff.")))
+                    if (buffData.CustomFields != null && buffData.CustomFields.Any(b => b.Key.StartsWith(SpaceCoreSkillBuffPrefix)))
                     {
                         Buff matchingBuff = null;
                         string id = string.IsNullOrWhiteSpace(buffData.BuffId) ? (data.IsDrink ? "drink" : "food") : buffData.BuffId;
@@ -314,28 +315,13 @@ namespace CookingSkillRedux.Core
                         {
                             matchingBuff = buff;
                         }
-                        if (matchingBuff != null)
-                        {
-                            var newSkillBuff = new Skills.SkillBuff(matchingBuff, id, buffData.CustomFields);
-                            if (player.hasBuff(newSkillBuff.id))
-                            {
-                                player.buffs.Remove(newSkillBuff.id);
-                                newSkillBuff.millisecondsDuration = (int)(Utilities.GetLevelValue(player) * newSkillBuff.millisecondsDuration);
-                                if (player.HasCustomProfession(Cooking_Skill.Cooking10b1))
-                                {
-                                    ApplyAttributeBuff(newSkillBuff.effects, 1f);
-                                    newSkillBuff.SkillLevelIncreases = newSkillBuff.SkillLevelIncreases.ToDictionary(kv => kv.Key, kv => kv.Value + 1);
-                                }
-                                player.buffs.Apply(newSkillBuff);
-                            }
-                        }
+
                         //For Food or drink with only custom buffs, matchingBuff will always return null.
                         //So we need to make our own food buff.
                         //With blackjack, and buffs.
-                        else
+                        if (matchingBuff == null)
                         {
-
-                            float durationMultiplier = ((food.Quality != 0) ? 1.5f : 1f);
+                            float durationMultiplier = food.Quality != 0 ? 1.5f : 1f;
                             matchingBuff = new(
                                 id: buffData.BuffId,
                                 source: food.Name,
@@ -343,20 +329,19 @@ namespace CookingSkillRedux.Core
                                 iconSheetIndex: buffData.IconSpriteIndex,
                                 duration: (int)((float)buffData.Duration * durationMultiplier) * Game1.realMilliSecondsPerGameMinute
                             );
+                        }
 
-
-                            var newSkillBuff = new Skills.SkillBuff(matchingBuff, id, buffData.CustomFields);
-                            if (player.hasBuff(newSkillBuff.id))
+                        var newSkillBuff = new Skills.SkillBuff(matchingBuff, id, buffData.CustomFields);
+                        if (player.hasBuff(newSkillBuff.id))
+                        {
+                            player.buffs.Remove(newSkillBuff.id);
+                            newSkillBuff.millisecondsDuration = (int)(Utilities.GetLevelValue(player) * newSkillBuff.millisecondsDuration);
+                            if (hasCooking10b1)
                             {
-                                player.buffs.Remove(newSkillBuff.id);
-                                newSkillBuff.millisecondsDuration = (int)(Utilities.GetLevelValue(player) * newSkillBuff.millisecondsDuration);
-                                if (player.HasCustomProfession(Cooking_Skill.Cooking10b1))
-                                {
-                                    ApplyAttributeBuff(newSkillBuff.effects, 1f);
-                                    newSkillBuff.SkillLevelIncreases = newSkillBuff.SkillLevelIncreases.ToDictionary(kv => kv.Key, kv => kv.Value + 1);
-                                }
-                                player.buffs.Apply(newSkillBuff);
+                                ApplyAttributeBuff(newSkillBuff.effects, 1f);
+                                newSkillBuff.SkillLevelIncreases = newSkillBuff.SkillLevelIncreases.ToDictionary(kv => kv.Key, kv => kv.Value + 1);
                             }
+                            player.buffs.Apply(newSkillBuff);
                         }
                     }
                     else
@@ -367,7 +352,7 @@ namespace CookingSkillRedux.Core
                             {
                                 player.buffs.Remove(buff.id);
                                 buff.millisecondsDuration = (int)(Utilities.GetLevelValue(player) * buff.millisecondsDuration);
-                                if (player.HasCustomProfession(Cooking_Skill.Cooking10b1))
+                                if (hasCooking10b1)
                                 {
                                     ApplyAttributeBuff(buff.effects, 1f);
                                 }
@@ -378,7 +363,6 @@ namespace CookingSkillRedux.Core
                 }
             }
 
-
             // If the player has the right profession, give them an extra buff
             if (player.HasCustomProfession(Cooking_Skill.Cooking10b2))
             {
@@ -386,7 +370,7 @@ namespace CookingSkillRedux.Core
                 const int NumAttributes = 10;
                 const int MaxAttributeValue = 5;
                 const int MaxStaminaMultiplier = 16;
-                const int BuffDurationMultiplier = (6000 * 10);
+                const int BuffDurationMultiplier = 6000 * 10;
 
                 // Generate random attribute and level
                 int attributeBuff = Game1.random.Next(1, NumAttributes + 1);
@@ -409,7 +393,6 @@ namespace CookingSkillRedux.Core
                     Speed = { 0 }
                 };
 
-
                 // Apply the random effect based on the randomly generated attribute
                 switch (attributeBuff)
                 {
@@ -427,7 +410,7 @@ namespace CookingSkillRedux.Core
 
                 // Create the buff
                 Buff buff = new(
-                    id: "Cooking:profession:random_buff",
+                    id: RandomBuffId,
                     displayName: ModEntry.Instance.I18n.Get("moonslime.Cooking.Profession10b2.buff"),
                     description: null,
                     iconTexture: ModEntry.Assets.Random_Buff,
@@ -440,7 +423,6 @@ namespace CookingSkillRedux.Core
                 //Apply the new buff
                 player.applyBuff(buff);
             }
-
         }
 
         private static void ApplyAttributeBuff(BuffEffects effects, float value)
@@ -479,7 +461,6 @@ namespace CookingSkillRedux.Core
             //Make sure the item coming out of the cooking recipe is an object
             if (item is StardewValley.Object obj)
             {
-
                 float levelValue = Utilities.GetLevelValue(Game1.player);
 
                 //increase the edibility of the object based on the cooking level of the player
@@ -494,20 +475,15 @@ namespace CookingSkillRedux.Core
 
                 //Return the object
                 if (!betterCrafting)
-                {
                     return item;
-                }
-                else
-                {
-                    Utilities.BetterCraftingTempItem = item;
-                    Log.Trace($"Successfully finished with better crafting, returning null and stashing item for postcraft.");
-                    return item;
-                }
+
+                Utilities.BetterCraftingTempItem = item;
+                Log.Trace($"Successfully finished with better crafting, returning null and stashing item for postcraft.");
+                return item;
             }
-            else
-            {
-                Log.Trace($"Not a cooking recipe - returning item from precraft with no changes");
-            }
+
+            Log.Trace($"Not a cooking recipe - returning item from precraft with no changes");
+
             //Return the object
             return item;
         }
@@ -518,7 +494,6 @@ namespace CookingSkillRedux.Core
             {
                 item = Utilities.BetterCraftingTempItem;
                 Log.Trace($"Using better crafting - retrived stashed item: {item.DisplayName}");
-
             }
 
             //Make sure the item coming out of the cooking recipe is an object
@@ -530,13 +505,12 @@ namespace CookingSkillRedux.Core
                 {
                     string items_string = string.Join(",", consumed_items.Select(kvp => $"{kvp.Key.DisplayName} of quality {kvp.Key.Quality}: {kvp.Value}"));
                     Log.Trace($"In PostCook for recipe {items_string}");
-
                 }
 
                 //Get the exp value, based off the general exp you get from cooking (Default:2)
                 float exp = ModEntry.Config.ExperienceFromCooking;
                 //Get the bonus exp value based off the object's edbility. (default:50% of the object's edbility)
-                float bonusExp = (obj.Edibility * ModEntry.Config.ExperienceFromEdibility);
+                float bonusExp = obj.Edibility * ModEntry.Config.ExperienceFromEdibility;
 
                 //Find out how many times they have cooked said recipe
                 who.recipesCooked.TryGetValue(item.ItemId, out int value);
@@ -549,7 +523,7 @@ namespace CookingSkillRedux.Core
                 {
                     //Else, give a diminishing return on the bonus exp
                     float min = Math.Max(1, value - ModEntry.Config.BonusExpLimit);
-                    exp += (bonusExp / min);
+                    exp += bonusExp / min;
                 }
 
                 //Send a message to the player at the limit for the bonus exp
@@ -560,10 +534,10 @@ namespace CookingSkillRedux.Core
 
                 //Give the player exp. Make sure to floor the value. Don't want decimels.
                 Log.Trace($"Adding to player {who.Name} exp of amount {exp}");
-                Utilities.AddEXP(who, (int)(Math.Floor(exp)));
+                Utilities.AddEXP(who, (int)Math.Floor(exp));
 
                 //Add the homecooked value to the modData for the item. So we can check for it later
-                obj.modDataForSerialization.TryAdd("moonslime.Cooking.homemade", "yes");
+                obj.modDataForSerialization.TryAdd(HomemadeModDataKey, "yes");
 
                 //determining quality
                 bool QI_seasoning = item.Quality == 2;
@@ -572,11 +546,11 @@ namespace CookingSkillRedux.Core
                 double total_items = 0;
                 foreach (var consumed in consumed_items)
                 {
-                    int q = consumed.Key.Quality ==  4 ? 3 : consumed.Key.Quality;
-                    ingredients_quality_RMS += (q*q) * consumed.Value;
+                    int q = consumed.Key.Quality == 4 ? 3 : consumed.Key.Quality;
+                    ingredients_quality_RMS += (q * q) * consumed.Value;
                     total_items += consumed.Value;
                 }
-                ingredients_quality_RMS = Math.Sqrt(ingredients_quality_RMS / total_items)/3.0;
+                ingredients_quality_RMS = Math.Sqrt(ingredients_quality_RMS / total_items) / 3.0;
                 double cooking_skill_quality = who.GetCustomSkillLevel(ModEntry.SkillID) / 10.0;
                 who.recipesCooked.TryGetValue(item.ItemId, out int num_times_cooked);
                 double recipe_experience_quality = Math.Tanh(num_times_cooked / 20.0);
@@ -584,10 +558,10 @@ namespace CookingSkillRedux.Core
                 //old formula
                 //                double dish_quality = (4*ingredients_quality_RMS + 4*cooking_skill_quality + 4*recipe_experience_quality) / 12.0;
                 double dish_quality = 1.0;
-                dish_quality *= (3.0 + 2.0*r) / 5.0;
+                dish_quality *= (3.0 + 2.0 * r) / 5.0;
                 dish_quality *= 0.4 + 0.45 * cooking_skill_quality + 0.15 * recipe_experience_quality;
                 dish_quality *= 0.5 + 0.15 * cooking_skill_quality + 0.35 * recipe_experience_quality;
-                dish_quality *= 0.6 + 0.1 * cooking_skill_quality + 0.1 * recipe_experience_quality + 0.2*ingredients_quality_RMS;
+                dish_quality *= 0.6 + 0.1 * cooking_skill_quality + 0.1 * recipe_experience_quality + 0.2 * ingredients_quality_RMS;
 
                 Log.Trace($"ingredients {ingredients_quality_RMS}, skill {cooking_skill_quality}, experience {recipe_experience_quality} and random {r} led to quality {dish_quality}");
                 if (dish_quality < 0.25)
@@ -610,7 +584,6 @@ namespace CookingSkillRedux.Core
 
                 Log.Trace($"Created item {item.DisplayName} with size {item.Stack}");
 
-
                 //If the player has the right profession, they get an extra number of crafts from crafting the item.
                 if (who.HasCustomProfession(Cooking_Skill.Cooking10a1) && who.couldInventoryAcceptThisItem(item))
                 {
@@ -618,7 +591,7 @@ namespace CookingSkillRedux.Core
                     //This is to encourage people cooking while having buffs that effect cooking.
                     //So at level 10, your chance for a double craft is 60%.
                     //The player would need level 17 to have a 100% chance at double crafting items
-                    float doubleLevelChance = Utilities.GetLevelValue(who, true) + Utilities.GetLevelValue(who, true);
+                    float doubleLevelChance = Utilities.GetLevelValue(who, true) * 2f;
                     if (Game1.random.NextDouble() < doubleLevelChance)
                     {
                         item.Stack += recipe.numberProducedPerCraft;
@@ -632,34 +605,28 @@ namespace CookingSkillRedux.Core
                     {
                         Log.Trace($"Adding item to directly to inventory instead of to hand, adding {item.DisplayName} with size {item.Stack}");
                         who.addItemToInventory(item);
-                        //register dish as cooked and make the necessary checks
-                        Game1.player.NotifyQuests(quest => quest.OnRecipeCrafted(recipe, obj));
-                        who.cookedRecipe(item.ItemId);
-                        Game1.stats.checkForCookingAchievements();
-                        return null;
                     }
                     else
                     {
                         Log.Trace($"Dropping item to ground, adding {item.DisplayName} with size {item.Stack}");
                         who.currentLocation.debris.Add(new Debris(item, who.Position));
-                        //register dish as cooked and make the necessary checks
-                        Game1.player.NotifyQuests(quest => quest.OnRecipeCrafted(recipe, obj));
-                        who.cookedRecipe(item.ItemId);
-                        Game1.stats.checkForCookingAchievements();
-                        return null;
                     }
-                }
 
+                    //register dish as cooked and make the necessary checks
+                    Game1.player.NotifyQuests(quest => quest.OnRecipeCrafted(recipe, obj));
+                    who.cookedRecipe(item.ItemId);
+                    Game1.stats.checkForCookingAchievements();
+                    return null;
+                }
             }
             else
             {
                 Log.Trace($"Not a cooking recipe - returning item from postcraft with no changes");
             }
+
             //Return the object
             return item;
         }
-
-
 
         public static IList<Item> GetContainerContents(List<IInventory> _materialContainers)
         {
@@ -676,7 +643,5 @@ namespace CookingSkillRedux.Core
 
             return list;
         }
-
-
     }
 }
