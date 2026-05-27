@@ -311,7 +311,7 @@
                     ],
                     "AdditionalConsumedItems": [
                         {
-                            "ItemId": "(O)814",
+                            "ItemId": "(O)moonslime.Bibliocraft.book_ink",
                             "RequiredCount": 1,
                             "InvalidCountMessage": "{{i18n: moonslime.Bibliocraft.Letterpress_Inking_Station.need_item}}"
                         }
@@ -718,7 +718,7 @@
                     ],
                     "AdditionalConsumedItems": [
                         {
-                            "ItemId": "(O)814",
+                            "ItemId": "(O)moonslime.Bibliocraft.book_ink",
                             "RequiredCount": 1,
                             "InvalidCountMessage": "{{i18n: moonslime.Bibliocraft.Book_Restoration.need_item}}"
                         }
