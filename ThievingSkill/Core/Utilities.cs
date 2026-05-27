@@ -2,14 +2,14 @@ using SpaceCore;
 using StardewValley;
 using StardewValley.Menus;
 using MoonShared;
-using static BirbCore.Attributes.SMod;
+using static MoonShared.Attributes.SMod;
 
 namespace ThievingSkill
 {
     internal class Utilities
     {
 
-        const string Boo = "moonslime.Spooky";
+        const string Boo = "moonslime.Thieving";
 
         public static bool IsBetween(int x, int low, int high)
         {

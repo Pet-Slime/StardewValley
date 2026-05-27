@@ -3,23 +3,33 @@
     "moonslime.Spooky.strobberies.name": "Strobberies",
     "moonslime.Spooky.strobberies.description": "Don't make them get the Turnip",
 
-    "moonslime.Spooky.candy_corn.name": "Candy Corn",
-    "moonslime.Spooky.candy_corn.description": "Pure surgar induced speed.",
+    "moonslime.Thieving.candy_corn.name": "Candy Corn",
+    "moonslime.Thieving.candy_corn.description": "Pure surgar induced speed.",
 
-    "moonslime.Spooky.carrot_cake.name": "Carrot Cake",
-    "moonslime.Spooky.carrot_cake.description": "Yummy!",
+    "moonslime.Thieving.carrot_cake.name": "Carrot Cake",
+    "moonslime.Thieving.carrot_cake.description": "Yummy!",
 
-    "moonslime.Spooky.dark_floor.name": "Dark Floor",
-    "moonslime.Spooky.dark_floor.description": "Allows one to move fairly fast and silently on it.",
+    "moonslime.Thieving.dark_floor.name": "Dark Floor",
+    "moonslime.Thieving.dark_floor.description": "Allows one to move fairly fast and silently on it.",
 
-    "moonslime.Spooky.skill_book.name": "Symphony of the Night",
-    "moonslime.Spooky.skill_book.description": "For all Children of the night.",
+    "moonslime.Thieving.skill_book.name": "Symphony of the Night",
+    "moonslime.Thieving.skill_book.description": "For all Children of the night.",
 
-    "moonslime.Spooky.scary_brazier.name": "Scary Brazier",
-    "moonslime.Spooky.scary_brazier.description": "Does it look like this brazier have a face on it?",
+    "moonslime.Thieving.scary_brazier.name": "Scary Brazier",
+    "moonslime.Thieving.scary_brazier.description": "Does it look like this brazier have a face on it?",
 
-    "moonslime.Spooky.dark_brazier.name": "Dark Brazier",
-    "moonslime.Spooky.dark_brazier.description": "Praise the moon!"
+    "moonslime.Thieving.dark_brazier.name": "Dark Brazier",
+    "moonslime.Thieving.dark_brazier.description": "Praise the moon!",
+
+
+    "moonslime.Thieving.lockpick_iridium.name": "Iridium Lockpick",
+    "moonslime.Thieving.lockpick_iridium.description": "A lockpick highly resistant to breaking.",
+    "moonslime.Thieving.lockpick_gold.name": "Gold Lockpick",
+    "moonslime.Thieving.lockpick_gold.description": "A lockpick highly resistant to breaking.",
+    "moonslime.Thieving.lockpick_iron.name": "Iron Lockpick",
+    "moonslime.Thieving.lockpick_iron.description": "A lockpick highly resistant to breaking.",
+    "moonslime.Thieving.lockpick_copper.name": "Copper Lockpick",
+    "moonslime.Thieving.lockpick_copper.description": "A lockpick that is prone to breaking, but can get you into places."
 
 
 }

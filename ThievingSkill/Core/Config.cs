@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 using StardewModdingAPI;
 
 namespace ThievingSkill

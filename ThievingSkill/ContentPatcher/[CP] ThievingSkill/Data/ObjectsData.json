@@ -2,43 +2,27 @@
     "Changes": [
         {
             "Action": "Load",
-            "Target": "Mods/moonslime.SpookySkill/Objects",
+            "Target": "Mods/moonslime.ThievingSkill/Objects",
             "FromFile": "Assets/Objects.png"
         },
 		{
             "Action": "Load",
-            "Target": "Mods/moonslime.SpookySkill/BigCraftables",
+            "Target": "Mods/moonslime.ThievingSkill/BigCraftables",
             "FromFile": "Assets/BigCraftables.png"
         },
         {
             "Action": "EditData",
             "Target": "Data/BigCraftables",
             "Entries": {
-                "moonslime.Spooky.scary_brazier": {
-                    "Name": "Scary Brazier",
-                    "DisplayName": "{{i18n:moonslime.Spooky.scary_brazier.name}}",
-                    "Description": "{{i18n:moonslime.Spooky.scary_brazier.description}}",
-                    "Price": 50,
-                    "CanBePlacedOutdoors": true,
-                    "CanBePlacedIndoors": true,
-                    "IsLamp": false,
-                    "Texture": "Mods/moonslime.SpookySkill/BigCraftables",
-                    "SpriteIndex": 0,
-                    "ContextTags": [
-                        "light_source",
-                        "torch_item"
-                    ],
-                    "CustomFields": null
-                },
-                "moonslime.Spooky.dark_brazier": {
+                "moonslime.Thieving.dark_brazier": {
                     "Name": "Dark Brazier",
-                    "DisplayName": "{{i18n:moonslime.Spooky.dark_brazier.name}}",
-                    "Description": "{{i18n:moonslime.Spooky.dark_brazier.description}}",
+                    "DisplayName": "{{i18n:moonslime.Thieving.dark_brazier.name}}",
+                    "Description": "{{i18n:moonslime.Thieving.dark_brazier.description}}",
                     "Price": 50,
                     "CanBePlacedOutdoors": true,
                     "CanBePlacedIndoors": true,
                     "IsLamp": false,
-                    "Texture": "Mods/moonslime.SpookySkill/BigCraftables",
+                    "Texture": "Mods/moonslime.ThievingSkill/BigCraftables",
                     "SpriteIndex": 1,
                     "ContextTags": [
                         "light_source",
@@ -52,14 +36,14 @@
             "Action": "EditData",
             "Target": "Data/Objects",
             "Entries": {
-                "moonslime.Spooky.strobberies": {
+                "moonslime.Thieving.strobberies": {
                     "Name": "Strobberies",
-                    "DisplayName": "{{i18n:moonslime.Spooky.strobberies.name}}",
-                    "Description": "{{i18n:moonslime.Spooky.strobberies.description}}",
+                    "DisplayName": "{{i18n:moonslime.Thieving.strobberies.name}}",
+                    "Description": "{{i18n:moonslime.Thieving.strobberies.description}}",
                     "Type": "Cooking",
                     "Category": -7,
                     "Price": 270,
-                    "Texture": "Mods/moonslime.SpookySkill/Objects",
+                    "Texture": "Mods/moonslime.ThievingSkill/Objects",
                     "SpriteIndex": 0,
                     "Edibility": 50,
                     "IsDrink": false,
@@ -85,7 +69,7 @@
                                 "Attack": 0
                             },
                             "CustomFields": {
-                                "spacechase.SpaceCore.SkillBuff.moonslime.Spooky": "1"
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Thieving": "1"
                             }
                         }
                     ],
@@ -101,14 +85,14 @@
                     ],
                     "CustomFields": null
                 },
-                "moonslime.Spooky.candy_corn": {
+                "moonslime.Thieving.candy_corn": {
                     "Name": "Candy Corn",
-                    "DisplayName": "{{i18n:moonslime.Spooky.candy_corn.name}}",
-                    "Description": "{{i18n:moonslime.Spooky.candy_corn.description}}",
+                    "DisplayName": "{{i18n:moonslime.Thieving.candy_corn.name}}",
+                    "Description": "{{i18n:moonslime.Thieving.candy_corn.description}}",
                     "Type": "Cooking",
                     "Category": -7,
                     "Price": 125,
-                    "Texture": "Mods/moonslime.SpookySkill/Objects",
+                    "Texture": "Mods/moonslime.ThievingSkill/Objects",
                     "SpriteIndex": 1,
                     "Edibility": 30,
                     "IsDrink": false,
@@ -134,7 +118,7 @@
                                 "Attack": 0
                             },
                             "CustomFields": {
-                                "spacechase.SpaceCore.SkillBuff.moonslime.Spooky": "2"
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Thieving": "2"
                             }
                         }
                     ],
@@ -150,14 +134,14 @@
                     ],
                     "CustomFields": null
                 },
-                "moonslime.Spooky.carrot_cake": {
+                "moonslime.Thieving.carrot_cake": {
                     "Name": "Carrot Cake",
-                    "DisplayName": "{{i18n:moonslime.Spooky.carrot_cake.name}}",
-                    "Description": "{{i18n:moonslime.Spooky.carrot_cake.description}}",
+                    "DisplayName": "{{i18n:moonslime.Thieving.carrot_cake.name}}",
+                    "Description": "{{i18n:moonslime.Thieving.carrot_cake.description}}",
                     "Type": "Cooking",
                     "Category": -7,
                     "Price": 350,
-                    "Texture": "Mods/moonslime.SpookySkill/Objects",
+                    "Texture": "Mods/moonslime.ThievingSkill/Objects",
                     "SpriteIndex": 2,
                     "Edibility": 120,
                     "IsDrink": false,
@@ -183,7 +167,7 @@
                                 "Attack": 2
                             },
                             "CustomFields": {
-                                "spacechase.SpaceCore.SkillBuff.moonslime.Spooky": "3"
+                                "spacechase.SpaceCore.SkillBuff.moonslime.Thieving": "3"
                             }
                         }
                     ],
@@ -199,14 +183,14 @@
                     ],
                     "CustomFields": null
                 },
-                "moonslime.Spooky.dark_floor": {
+                "moonslime.Thieving.dark_floor": {
                     "Name": "Dark Flooring",
-                    "DisplayName": "{{i18n:moonslime.Spooky.dark_floor.name}}",
-                    "Description": "{{i18n:moonslime.Spooky.dark_floor.description}}",
+                    "DisplayName": "{{i18n:moonslime.Thieving.dark_floor.name}}",
+                    "Description": "{{i18n:moonslime.Thieving.dark_floor.description}}",
                     "Type": "Crafting",
                     "Category": -24,
                     "Price": 1,
-                    "Texture": "Mods/moonslime.SpookySkill/Objects",
+                    "Texture": "Mods/moonslime.ThievingSkill/Objects",
                     "SpriteIndex": 3,
                     "Edibility": -300,
                     "IsDrink": false,
@@ -220,14 +204,14 @@
                     "ContextTags": null,
                     "CustomFields": null
                 },
-                "moonslime.Spooky.skill_book": {
+                "moonslime.Thieving.skill_book": {
                     "Name": "Symphony of the Night",
-                    "DisplayName": "{{i18n:moonslime.Spooky.skill_book.name}}",
-                    "Description": "{{i18n:moonslime.Spooky.skill_book.description}}",
+                    "DisplayName": "{{i18n:moonslime.Thieving.skill_book.name}}",
+                    "Description": "{{i18n:moonslime.Thieving.skill_book.description}}",
                     "Type": "asdf",
                     "Category": -103,
                     "Price": 500,
-                    "Texture": "Mods/moonslime.SpookySkill/Objects",
+                    "Texture": "Mods/moonslime.ThievingSkill/Objects",
                     "SpriteIndex": 5,
                     "Edibility": -300,
                     "IsDrink": false,
@@ -239,9 +223,101 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
-                        "moonslime.Spooky",
+                        "moonslime.Thieving",
                         "color_dark_blue",
                         "book_item"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Thieving.lockpick_copper": {
+                    "Name": "Placeholder Item",
+                    "DisplayName": "{{i18n:moonslime.Thieving.lockpick_copper.name}}",
+                    "Description": "{{i18n:moonslime.Thieving.lockpick_copper.description}}",
+                    "Type": "Basic",
+                    "Category": 2,
+                    "Price": 100,
+                    "Texture": "Mods/moonslime.ThievingSkill/Objects",
+                    "SpriteIndex": 6,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_white"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Thieving.lockpick_iron": {
+                    "Name": "Placeholder Item",
+                    "DisplayName": "{{i18n:moonslime.Thieving.lockpick_iron.name}}",
+                    "Description": "{{i18n:moonslime.Thieving.lockpick_iron.description}}",
+                    "Type": "Basic",
+                    "Category": 2,
+                    "Price": 100,
+                    "Texture": "Mods/moonslime.ThievingSkill/Objects",
+                    "SpriteIndex": 7,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_white"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Thieving.lockpick_gold": {
+                    "Name": "Placeholder Item",
+                    "DisplayName": "{{i18n:moonslime.Thieving.lockpick_gold.name}}",
+                    "Description": "{{i18n:moonslime.Thieving.lockpick_gold.description}}",
+                    "Type": "Basic",
+                    "Category": 2,
+                    "Price": 100,
+                    "Texture": "Mods/moonslime.ThievingSkill/Objects",
+                    "SpriteIndex": 8,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_white"
+                    ],
+                    "CustomFields": null
+                },
+                "moonslime.Thieving.lockpick_iridium": {
+                    "Name": "Placeholder Item",
+                    "DisplayName": "{{i18n:moonslime.Thieving.lockpick_iridium.name}}",
+                    "Description": "{{i18n:moonslime.Thieving.lockpick_iridium.description}}",
+                    "Type": "Basic",
+                    "Category": 2,
+                    "Price": 100,
+                    "Texture": "Mods/moonslime.ThievingSkill/Objects",
+                    "SpriteIndex": 9,
+                    "Edibility": -300,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "color_white"
                     ],
                     "CustomFields": null
                 }

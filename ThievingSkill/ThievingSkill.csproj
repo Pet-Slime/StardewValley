@@ -5,23 +5,14 @@
     <PropertyGroup>
         <Name>Thieving Skill</Name>
         <Description>Standalone Thieving Skill.</Description>
-        <Version>1.0.0</Version>
+        <Version>1.4.0</Version>
         <UpdateKeys>Nexus:23791</UpdateKeys>
     </PropertyGroup>
 
     <ItemGroup>
         <SMAPIDependency Include="Pathoschild.ContentPatcher" MinimumVersion="2.8.0" Required="true" />
-        <SMAPIDependency Include="drbirbdev.BirbCore" MinimumVersion="1.1.0" Required="true" />
         <SMAPIDependency Include="spacechase0.GenericModConfigMenu" Required="false" />
         <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
-    </ItemGroup>
-
-
-    <ItemGroup>
-        <Reference Include="BirbCore">
-            <HintPath>$(GamePath)\Mods\BirbCore\BirbCore.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
     </ItemGroup>
 
 
