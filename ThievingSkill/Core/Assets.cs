@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MoonShared.Attributes;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ThievingSkill
+namespace ThievingSkill.Core
 {
     [SAsset(Priority = 0)]
     public class Assets

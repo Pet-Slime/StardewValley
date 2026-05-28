@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using MoonShared;
 using StardewModdingAPI;
 using StardewValley;
+using ThievingSkill.Core;
 
 namespace ThievingSkill
 {

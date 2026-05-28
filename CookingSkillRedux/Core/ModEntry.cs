@@ -5,6 +5,8 @@ using MoonShared.Attributes;
 
 namespace CookingSkillRedux
 {
+
+    [SMod]
     public class ModEntry : Mod
     {
         [SMod.Instance]

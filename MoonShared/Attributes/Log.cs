@@ -58,6 +58,15 @@ namespace MoonShared.Attributes
         // -------------------------------------------------------------------
 
         /// <summary>
+        /// Silently ignores a log message.
+        /// Use this when you want to temporarily disable a log call without deleting it.
+        /// </summary>
+        public static void Mute(string str)
+        {
+            // Intentionally does nothing.
+        }
+
+        /// <summary>
         /// Writes a detailed debug-level message.
         /// Use this for development information that players don’t usually need to see.
         /// </summary>

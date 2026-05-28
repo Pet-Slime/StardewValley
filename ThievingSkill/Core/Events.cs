@@ -28,6 +28,8 @@ namespace ThievingSkill.Core
         public static KeyedProfession Proffession10b1 => Thieving_Skill.Thieving10b1;
         public static KeyedProfession Proffession10b2 => Thieving_Skill.Thieving10b2;
 
+        public static bool IsStealButtonHeld { get; private set; }
+
         [SEvent.GameLaunchedLate]
         private static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
@@ -105,7 +107,12 @@ namespace ThievingSkill.Core
             if (!Game1.player.IsLocalPlayer)
                 return;
 
-            LockpickManager.ClearDailyDoorMemory(Game1.player);
+            Farmer farmer = Game1.GetPlayer(Game1.player.UniqueMultiplayerID);
+
+            ShopliftingManager.ClearDailyAttemptCount(farmer);
+            ShopliftingManager.UpdateShopBansForNewDay(farmer);
+
+            LockpickManager.ClearDailyDoorMemory(farmer);
         }
 
         [SEvent.TimeChanged]
@@ -132,9 +139,29 @@ namespace ThievingSkill.Core
             }
         }
 
+
+        [SEvent.ButtonPressed]
+        private static void ButtonPressed(object sender, ButtonPressedEventArgs e)
+        {
+
+            if (!Game1.player.IsLocalPlayer)
+            {
+                return;
+            }
+
+            if (e.Button == ModEntry.Config.Key_Cast)
+            {
+                IsStealButtonHeld = true;
+            }
+        }
+
         [SEvent.ButtonReleased]
         private static void ButtonReleased(object sender, ButtonReleasedEventArgs e)
         {
+
+            if (Game1.player.IsLocalPlayer && e.Button == ModEntry.Config.Key_Cast)
+                IsStealButtonHeld = false;
+
             if (e.Button != ModEntry.Config.Key_Cast || !Game1.player.IsLocalPlayer || Game1.eventUp || !Context.CanPlayerMove)
                 return;
 
