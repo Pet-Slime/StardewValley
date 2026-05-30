@@ -10,6 +10,11 @@
     "moonslime.Luck.slots_iridium.description": "Insert five iridium bars and a battery to get a random gemstone.",
 
     "moonslime.Luck.slots_radioactive.name": "Radioactive Slot Machine",
-    "moonslime.Luck.slots_radioactive.description": "Insert five radioative bars and a battery to get back a random item people will love."
+    "moonslime.Luck.slots_radioactive.description": "Insert five radioative bars and a battery to get back a random item people will love.",
+
+
+    "moonslime.Luck.battery.need_item": "This machine needs a battery to run."
+
+
 
 }

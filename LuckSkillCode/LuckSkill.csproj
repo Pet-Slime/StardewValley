@@ -6,7 +6,7 @@
     <PropertyGroup>
         <Name>Luck Skill</Name>
         <Description>A Spacecore version of the luck skill.</Description>
-        <Version>1.5.0</Version>
+        <Version>1.6.0</Version>
         <UpdateKeys>Nexus:28103</UpdateKeys>
     </PropertyGroup>
 

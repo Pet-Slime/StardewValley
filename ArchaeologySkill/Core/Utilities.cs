@@ -90,8 +90,8 @@ namespace ArchaeologySkill.Core
                 Game1.createMultipleObjectDebris(objectID, xLocation, yLocation, 1, farmer.UniqueMultiplayerID);
             }
 
-            // 2% chance for skill book
-            if (Game1.random.NextDouble() < 0.02)
+            // 1% chance for skill book
+            if (Game1.random.NextDouble() < 0.01)
                 Game1.createMultipleObjectDebris("moonslime.Archaeology.skill_book", xLocation, yLocation, 1, farmer.UniqueMultiplayerID);
         }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LuckSkill.Objects;
+using MoonShared;
 using MoonShared.Attributes;
 using Netcode;
 using SpaceCore;
@@ -9,6 +10,7 @@ using SpaceCore.Events;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Events;
+using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.Quests;
 using StardewValley.TerrainFeatures;
@@ -18,279 +20,297 @@ namespace LuckSkill.Core
     [SEvent]
     public class Events
     {
-        // Cached deterministic RNG to ensure consistent daily luck/random events
-        private static Random CachedRandom;
+        private const string SyncedLuckLevelKey = "moonslime.LuckSkill.syncedBaseLuckLevel";
+        private const int AssistantExtraQuestChecks = 2;
 
-        // Fired after the game is launched
         [SEvent.GameLaunchedLate]
         private static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
             Log.Trace("Luck: Trying to Register skill.");
             SpaceCore.Skills.RegisterSkill(new Luck_Skill());
 
-            // Hook into the nightly farm event system for custom Luck10b1 behavior
             SpaceEvents.ChooseNightlyFarmEvent += ChangeFarmEvent;
         }
 
-        // Fired when the in-game time changes
-        [SEvent.TimeChanged]
-        private static void TimeChanged(object sender, TimeChangedEventArgs e)
-        {
-            var player = Game1.player;
-            LuckSkill(player); // Update luck skill for the main player
-            Log.Debug($"Luck: Player luck level is: {player.LuckLevel}. Spacecore luck level is: {player.GetCustomSkillLevel(ModEntry.SkillID)}");
-        }
-
-        // Fired when a new save is created
         [SEvent.SaveCreated]
         private static void SaveCreated(object sender, SaveCreatedEventArgs e)
         {
-            LuckSkill(Game1.player); // Initialize luck skill for new save
+            SyncSpaceCoreLuckToVanilla(Game1.player);
         }
 
-        // Fired when a save is loaded
         [SEvent.SaveLoaded]
         private static void SaveLoaded(object sender, SaveLoadedEventArgs e)
         {
-            // Initialize deterministic RNG based on day and player steps for repeatable daily events
-            CachedRandom = Utility.CreateDaySaveRandom(100.0, Game1.stats.DaysPlayed * 777, Game1.player.stats.StepsTaken);
-            LuckSkill(Game1.player);
-
+            SyncSpaceCoreLuckToVanilla(Game1.player);
             MoonSharedSpaceCore.SpaceUtilities.LearnRecipesOnLoad(Game1.GetPlayer(Game1.player.UniqueMultiplayerID), ModEntry.SkillID);
-
         }
 
-        // Fired at the start of each day
+        [SEvent.TimeChanged]
+        private static void TimeChanged(object sender, TimeChangedEventArgs e)
+        {
+            SyncSpaceCoreLuckToVanilla(Game1.player);
+
+            var player = Game1.player;
+            Log.Debug($"Luck: base luckLevel.Value={player.luckLevel.Value}, total LuckLevel={player.LuckLevel}, SpaceCore luck level={player.GetCustomSkillLevel(ModEntry.SkillID)}, buff luck={player.buffs.LuckLevel}");
+        }
+
         [SEvent.DayStarted]
         private static void DayStarted(object sender, DayStartedEventArgs e)
         {
-            // Update RNG for today to be deterministic
-            CachedRandom = Utility.CreateDaySaveRandom(100.0, Game1.stats.DaysPlayed * 777, Game1.player.stats.StepsTaken);
+            SyncSpaceCoreLuckToVanilla(Game1.player);
 
-            Log.Trace($"Running Luck Skill Day events");
-            // Only run the master game (host) for multiplayer
             if (!Game1.IsMasterGame)
                 return;
 
-            bool maxDailyLuck = false; // Flag for raising daily luck to 0.12
-            int luckincrease = 0;      // Number of players with Luck5a to increase team luck
-            bool raiseLuckFloor = false; // Flag for ensuring negative luck floor is 0
-            int questchecks = 0;       // How many attempts we do for assigning a quest
+            Log.Trace("Running Luck Skill Day events.");
 
-            // Loop through all online players to calculate luck effects
+            bool forceMaxDailyLuck = false;
+            bool raiseLuckFloor = false;
+            int gamblerCount = 0;
+            int extraQuestChecks = 0;
+
             foreach (Farmer farmer in Game1.getOnlineFarmers())
             {
-                // Award experience based on daily luck
+                SyncSpaceCoreLuckToVanilla(farmer);
+
                 int exp = (int)(farmer.team.sharedDailyLuck.Value * ModEntry.Config.DailyLuckExpBonus);
                 Utilities.AddEXP(farmer, Math.Max(0, exp));
 
-                // Check for Luck5a profession for minor daily luck increase
                 if (farmer.HasCustomProfession(Luck_Skill.Luck5a))
-                {
-                    luckincrease += 1;
+                    gamblerCount++;
 
-                    // Check for Luck10a1 (chance for max daily luck)
-                    if (farmer.HasCustomProfession(Luck_Skill.Luck10a1))
-                    {
-                        if (CachedRandom.NextDouble() <= 0.20)
-                        {
-                            maxDailyLuck = true;
-                        }
-                    }
+                if (farmer.HasCustomProfession(Luck_Skill.Luck10a1) && RollLuckyProfession(farmer))
+                    forceMaxDailyLuck = true;
 
-                    // Check for Luck10a2 (prevent negative daily luck)
-                    if (farmer.HasCustomProfession(Luck_Skill.Luck10a2))
-                    {
-                        if (farmer.team.sharedDailyLuck.Value < 0)
-                            raiseLuckFloor = true;
-                    }
-                }
+                if (farmer.HasCustomProfession(Luck_Skill.Luck10a2) && farmer.team.sharedDailyLuck.Value < 0)
+                    raiseLuckFloor = true;
 
-                // Check for Luck5b (additional quest generation)
-                if (farmer.HasCustomProfession(Luck_Skill.Luck5b) && Game1.questOfTheDay == null)
-                {
-                    if (!Utility.isFestivalDay() && !Utility.isFestivalDay(Game1.dayOfMonth + 1, Game1.season))
-                    {
-
-                        Log.Trace($"A player has Luck5b, quest of the day is null, and tomorrow is not a festival! increasing quest checks by 3.");
-                        questchecks += ModEntry.Config.QuestChecks; // Increase number of attempts for generating a quest
-                    }
-                }
-
-                LuckSkill(farmer); // Update individual farmer's luck skill values
+                if (farmer.HasCustomProfession(Luck_Skill.Luck5b) && Game1.questOfTheDay == null && CanHaveQuestOfTheDay())
+                    extraQuestChecks += AssistantExtraQuestChecks;
             }
 
-            Log.Trace($"Master player is {Game1.player.Name}");
-            // Enforce daily luck floor if any player has Luck10a2
             if (raiseLuckFloor)
             {
-                Log.Trace($"A player has Luck10a2, raising luck floor to 0");
-                Game1.player.team.sharedDailyLuck.Value = 0;
+                Log.Trace("A player has Fortune Teller, raising daily luck floor to 0.");
+                Game1.player.team.sharedDailyLuck.Value = Math.Max(0, Game1.player.team.sharedDailyLuck.Value);
             }
 
-            // Apply cumulative minor daily luck increases for Luck5a players
-            if (luckincrease != 0)
+            if (gamblerCount > 0)
             {
-                double decimalLuckIncrease = luckincrease * 0.01;
-
-                Log.Trace($"Increasing shared luck by {decimalLuckIncrease}");
-                Game1.player.team.sharedDailyLuck.Value += decimalLuckIncrease;
+                double luckIncrease = gamblerCount * 0.01;
+                Log.Trace($"Increasing shared daily luck by {luckIncrease} from Gambler.");
+                Game1.player.team.sharedDailyLuck.Value += luckIncrease;
             }
 
-            // Apply max daily luck for Luck10a1 if the RNG triggered
-            if (maxDailyLuck)
+            if (forceMaxDailyLuck)
             {
-                Log.Trace($"A player passed their check to max daily luck out.");
+                Log.Trace("A player passed their Lucky check. Raising daily luck to at least 0.12.");
                 Game1.player.team.sharedDailyLuck.Value = Math.Max(Game1.player.team.sharedDailyLuck.Value, 0.12);
             }
 
-            // Assign quest of the day based on Luck5b profession
-            if (questchecks != 0)
-            {
-
-                Log.Trace($"A player has added to the quest checks. current quest check value is {questchecks}");
-                Quest quest = null;
-                for (int i = 0; i < questchecks && quest == null; ++i)
-                {
-                    quest = Utilities.GetQuestOfTheDay(DateTime.Now.Ticks); // Use deterministic RNG for quest
-                    if (quest == null)
-                    {
-                        Log.Info($"Quest is null, failed check number {i+1}");
-                    }
-                }
-
-                if (quest != null)
-                {
-                    Log.Trace($"Applying quest {quest} for today, due to having PROFESSION_MOREQUESTS.");
-                    quest?.dailyQuest.Set(newValue: true);
-                    quest?.reloadObjective();
-                    quest?.reloadDescription();
-                    Game1.netWorldState.Value.SetQuestOfTheDay(quest); // Sync across network
-                }
-            }
+            TryApplyAssistantQuest(extraQuestChecks);
         }
 
-        // Hook to modify nightly farm events for Luck10b1 profession
+        private static bool CanHaveQuestOfTheDay()
+        {
+            return !Utility.isFestivalDay(Game1.dayOfMonth, Game1.season) && !Utility.isFestivalDay(Game1.dayOfMonth + 1, Game1.season);
+        }
+
+        private static bool RollLuckyProfession(Farmer farmer)
+        {
+            Random random = Utility.CreateRandom(Game1.uniqueIDForThisGame, Game1.stats.DaysPlayed, farmer.UniqueMultiplayerID, 5105);
+            return random.NextDouble() <= 0.20;
+        }
+
+        private static void TryApplyAssistantQuest(int extraQuestChecks)
+        {
+            if (extraQuestChecks <= 0 || Game1.questOfTheDay != null)
+                return;
+
+            Log.Trace($"Assistant added {extraQuestChecks} extra quest checks.");
+
+            Quest quest = null;
+            for (int i = 1; i <= extraQuestChecks && quest == null; i++)
+            {
+                quest = Utilities.GetQuestOfTheDay(i);
+                if (quest == null)
+                    Log.Info($"Assistant quest check {i} failed.");
+            }
+
+            if (quest == null)
+                return;
+
+            Log.Trace($"Applying quest {quest} for today due to Assistant.");
+
+            quest.dailyQuest.Set(newValue: true);
+            quest.reloadObjective();
+            quest.reloadDescription();
+            Game1.netWorldState.Value.SetQuestOfTheDay(quest);
+        }
+
         private static void ChangeFarmEvent(object sender, EventArgsChooseNightlyFarmEvent args)
         {
-            if (Game1.player.HasCustomProfession(Luck_Skill.Luck10b1) && !Game1.weddingToday &&
-                (args.NightEvent == null || (args.NightEvent is SoundInTheNightEvent &&
-                ModEntry.Instance.Helper.Reflection.GetField<NetInt>(args.NightEvent, "behavior").GetValue().Value == 2)))
-            {
-                // Pick a farm event using deterministic RNG
-                FarmEvent ev = Utilities.PickFarmEvent(DateTime.Now.Ticks);
+            if (!Game1.IsMasterGame)
+                return;
 
-                // Ensure the event can actually be set up; if not, discard
-                if (ev != null && ev.setUp())
-                {
-                    ev = null;
-                }
+            if (!HasAnyOnlineFarmerWithProfession(Luck_Skill.Luck10b1))
+                return;
 
-                if (ev != null)
-                {
-                    Log.Info($"Applying {ev} as tonight's nightly event, due to having PROFESSION_NIGHTLY_EVENTS");
-                    args.NightEvent = ev;
-                }
-            }
+            if (Game1.weddingToday || !CanReplaceNightEvent(args.NightEvent))
+                return;
+
+            FarmEvent ev = Utilities.PickFarmEvent(99999);
+
+            if (ev != null && ev.setUp())
+                ev = null;
+
+            if (ev == null)
+                return;
+
+            Log.Info($"Applying {ev} as tonight's nightly event due to Shooting Star.");
+            args.NightEvent = ev;
+        }
+
+        private static bool CanReplaceNightEvent(FarmEvent nightEvent)
+        {
+            if (nightEvent == null)
+                return true;
+
+            if (nightEvent is not SoundInTheNightEvent)
+                return false;
+
+            return ModEntry.Instance.Helper.Reflection.GetField<NetInt>(nightEvent, "behavior").GetValue().Value == 2;
         }
 
         [SEvent.DayEnding]
         private static void OnDayEnding(object sender, DayEndingEventArgs args)
         {
-            // Only the master game should handle shared farm-wide effects.
             if (!Game1.IsMasterGame)
                 return;
 
-            // Phase 1: aggregate total rolls from all farmers who have Luck10b2 and gave gifts today.
-            int totalRolls = 0;
-            foreach (Farmer farmer in Game1.getOnlineFarmers())
-            {
-                if (!farmer.HasCustomProfession(Luck_Skill.Luck10b2))
-                    continue;
-
-                totalRolls += farmer.friendshipData.Values.Count(d => d.GiftsToday > 0);
-            }
-
+            int totalRolls = CountSpiritChildGiftRolls();
             if (totalRolls <= 0)
                 return;
 
-            // Cache and prepare shared context once
-            List<AnimalHouse> eligibleBarns = new();
-            List<GameLocation> allLocations = new(Game1.locations);
-            foreach (var loc in Game1.locations)
-            {
-                if (loc.IsBuildableLocation())
-                {
-                    allLocations.AddRange(loc.buildings
-                        .Select(b => b.indoors.Value)
-                        .Where(i => i != null));
+            Random random = Utility.CreateRandom(Game1.uniqueIDForThisGame, Game1.stats.DaysPlayed, 10003);
+            List<GameLocation> farmAdvanceLocations = GetFarmAdvanceLocations();
+            List<AnimalHouse> eligibleAnimalHouses = GetEligibleAnimalHouses();
 
-                    foreach (var building in loc.buildings)
-                    {
-                        if (building.indoors.Value is AnimalHouse ah &&
-                            ah.Animals.Values.Any(a => a.friendshipTowardFarmer.Value < 1000))
-                        {
-                            eligibleBarns.Add(ah);
-                        }
-                    }
-                }
-            }
-
-            // --- Phase 2: resolve global effect rolls ---
             for (int i = 0; i < totalRolls; i++)
             {
-                // 15% chance to trigger any reward roll
-                if (CachedRandom.NextDouble() > 0.15)
+                if (random.NextDouble() > 0.15)
                     continue;
 
-                // 5% chance: prismatic shard reward
-                if (CachedRandom.NextDouble() <= 0.05 &&
-                    Game1.player.addItemToInventoryBool(new StardewValley.Object(StardewValley.Object.prismaticShardID, 1)))
+                if (random.NextDouble() <= 0.05 && Game1.player.addItemToInventoryBool(new StardewValley.Object(StardewValley.Object.prismaticShardID, 1)))
                 {
                     Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("junimo-rewards.prismatic-shard"));
                     break;
                 }
 
-                // Build action pool — crops favored slightly more often
                 List<Action> rewards = new()
-                    {
-                        () => AdvanceCrops(allLocations),
-                        () => AdvanceCrops(allLocations),
-                        () => AdvanceCrops(allLocations)
-                    };
+                {
+                    () => AdvanceCrops(farmAdvanceLocations),
+                    () => AdvanceCrops(farmAdvanceLocations),
+                    () => AdvanceCrops(farmAdvanceLocations),
+                    GrassAndFences
+                };
 
-                foreach (var barn in eligibleBarns)
-                    rewards.Add(() => AdvanceBarn(barn));
+                foreach (AnimalHouse house in eligibleAnimalHouses)
+                {
+                    AnimalHouse capturedHouse = house;
+                    rewards.Add(() => AdvanceBarn(capturedHouse));
+                }
 
-                rewards.Add(GrassAndFences);
-
-                // Randomly pick one reward to apply globally
-                rewards[CachedRandom.Next(rewards.Count)]();
+                rewards[random.Next(rewards.Count)]();
                 break;
             }
         }
 
+        private static int CountSpiritChildGiftRolls()
+        {
+            int totalRolls = 0;
+
+            foreach (Farmer farmer in Game1.getOnlineFarmers())
+            {
+                if (!farmer.HasCustomProfession(Luck_Skill.Luck10b2))
+                    continue;
+
+                totalRolls += farmer.friendshipData.Values.Count(data => data.GiftsToday > 0);
+            }
+
+            return totalRolls;
+        }
+
+        private static List<GameLocation> GetFarmAdvanceLocations()
+        {
+            List<GameLocation> locations = Game1.locations.Where(loc => loc != null).Distinct().ToList();
+
+            foreach (GameLocation loc in Game1.locations.ToList())
+            {
+                if (loc == null || !loc.IsBuildableLocation())
+                    continue;
+
+                foreach (var building in loc.buildings.ToList())
+                {
+                    GameLocation indoors = building?.indoors.Value;
+                    if (indoors != null && !locations.Contains(indoors))
+                        locations.Add(indoors);
+                }
+            }
+
+            return locations;
+        }
+
+        private static List<AnimalHouse> GetEligibleAnimalHouses()
+        {
+            List<AnimalHouse> houses = new();
+
+            foreach (GameLocation loc in Game1.locations.ToList())
+            {
+                if (loc == null || !loc.IsBuildableLocation())
+                    continue;
+
+                foreach (var building in loc.buildings.ToList())
+                {
+                    if (building?.indoors.Value is not AnimalHouse house)
+                        continue;
+
+                    if (house.Animals.Values.ToList().Any(animal => animal.friendshipTowardFarmer.Value < 1000))
+                        houses.Add(house);
+                }
+            }
+
+            return houses;
+        }
+
         private static void AdvanceCrops(IEnumerable<GameLocation> locs)
         {
-            foreach (var loc in locs)
+            foreach (GameLocation loc in locs.Where(loc => loc != null).Distinct())
             {
-                foreach (var obj in loc.objects.Values.OfType<IndoorPot>())
+                foreach (var entry in loc.objects.Pairs.ToList())
                 {
-                    var dirt = obj.hoeDirt.Value;
-                    if (dirt?.crop != null && !dirt.crop.fullyGrown.Value)
-                        dirt.crop.newDay(1);
+                    if (entry.Value is not IndoorPot pot)
+                        continue;
+
+                    HoeDirt dirt = pot.hoeDirt.Value;
+                    if (dirt?.crop == null || dirt.crop.fullyGrown.Value)
+                        continue;
+
+                    dirt.crop.newDay(1);
                 }
 
-                foreach (var tf in loc.terrainFeatures.Values)
+                foreach (var entry in loc.terrainFeatures.Pairs.ToList())
                 {
-                    switch (tf)
+                    switch (entry.Value)
                     {
                         case HoeDirt dirt when dirt.crop != null && !dirt.crop.fullyGrown.Value:
                             dirt.crop.newDay(1);
                             break;
-                        case FruitTree ft:
-                            ft.dayUpdate();
+
+                        case FruitTree fruitTree:
+                            fruitTree.dayUpdate();
                             break;
+
                         case Tree tree:
                             tree.dayUpdate();
                             break;
@@ -301,65 +321,69 @@ namespace LuckSkill.Core
             Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("junimo-rewards.grow-crops"));
         }
 
-
         private static void AdvanceBarn(AnimalHouse house)
         {
-            foreach (var animal in house.Animals.Values)
+            foreach (var animal in house.Animals.Values.ToList())
                 animal.friendshipTowardFarmer.Value = Math.Min(1000, animal.friendshipTowardFarmer.Value + 100);
 
             Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("junimo-rewards.animal-friendship"));
         }
 
-
         private static void GrassAndFences()
         {
-            var farm = Game1.getFarm();
-            foreach (var entry in farm.terrainFeatures.Values.OfType<Grass>())
-                entry.numberOfWeeds.Value = 4;
+            Farm farm = Game1.getFarm();
 
-            foreach (var fence in farm.Objects.Values.OfType<Fence>())
-                fence.repair();
+            foreach (var entry in farm.terrainFeatures.Pairs.ToList())
+            {
+                if (entry.Value is Grass grass)
+                    grass.numberOfWeeds.Value = 4;
+            }
+
+            foreach (var entry in farm.Objects.Pairs.ToList())
+            {
+                if (entry.Value is Fence fence)
+                    fence.repair();
+            }
 
             Game1.showGlobalMessage(ModEntry.Instance.I18N.Get("junimo-rewards.grow-grass"));
         }
 
-
-        private static void LuckSkill(Farmer farmer)
+        private static bool HasAnyOnlineFarmerWithProfession(KeyedProfession professionId)
         {
-            // Skip null or non-local players entirely
-            if (farmer is null || !farmer.IsLocalPlayer)
-                return;
-
-            const string key = "moonslime.LuckSkill.skillValue";
-            int currentSkillLevel = Utilities.GetLevel(farmer);
-            int storedSkillLevel = 0;
-
-            // Try get cached level once
-            if (farmer.modDataForSerialization.TryGetValue(key, out string stored))
-                _ = int.TryParse(stored, out storedSkillLevel);
-
-            // Only apply changes if needed
-            if (currentSkillLevel != storedSkillLevel)
+            foreach (Farmer farmer in Game1.getOnlineFarmers())
             {
-                const int skillIndex = 5; // luck skill slot
-                int delta = currentSkillLevel - storedSkillLevel;
-
-                // Adjust player's luck and XP directly
-                farmer.luckLevel.Value += delta;
-                farmer.experiencePoints[skillIndex] = GetXPForLevel(currentSkillLevel);
-
-                // Cache updated value
-                farmer.modDataForSerialization[key] = currentSkillLevel.ToString();
+                if (farmer.HasCustomProfession(professionId))
+                    return true;
             }
+
+            return false;
         }
 
+        private static void SyncSpaceCoreLuckToVanilla(Farmer farmer)
+        {
+            if (farmer is null)
+                return;
 
-        // Return XP required for a given luck skill level
+            if (!Game1.IsMasterGame && !farmer.IsLocalPlayer)
+                return;
+
+            int spaceCoreLuckLevel = Utilities.GetLevel(farmer);
+
+            if (farmer.luckLevel.Value != spaceCoreLuckLevel)
+            {
+                Log.Trace($"Syncing {farmer.Name}'s base vanilla luck from {farmer.luckLevel.Value} to SpaceCore luck level {spaceCoreLuckLevel}.");
+                farmer.luckLevel.Value = spaceCoreLuckLevel;
+            }
+
+            farmer.experiencePoints[Farmer.luckSkill] = GetXPForLevel(spaceCoreLuckLevel);
+            farmer.modDataForSerialization[SyncedLuckLevelKey] = spaceCoreLuckLevel.ToString();
+        }
+
         public static int GetXPForLevel(int level)
         {
-            if (level < 1) level = 1;
+            if (level <= 0)
+                return 0;
 
-            // --- 1–20: exact XP table ---
             int[] xpTable = new int[]
             {
                 100, 380, 770, 1300, 2150, 3300, 4800, 6900, 10000, 15000,
@@ -367,13 +391,10 @@ namespace LuckSkill.Core
             };
 
             if (level <= 20)
-                return xpTable[level - 1]; // exact match
+                return xpTable[level - 1];
 
-            // --- 21+: continuous formula ---
-            int lastXP = xpTable[19];        // XP at level 20
+            int lastXP = xpTable[19];
             int extraLevels = level - 20;
-
-            // Slightly accelerating growth per level (5%)
             double multiplier = 1.0 + 0.05 * extraLevels;
             double xpBeyond20 = lastXP + extraLevels * 5000 * multiplier;
 
