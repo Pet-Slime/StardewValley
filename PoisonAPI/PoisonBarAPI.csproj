@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="..\common.targets" />
+    <Import Project="..\spacecore.targets" />
+
+    
+    <PropertyGroup>
+        <Name>Poison bar API</Name>
+        <Description>Allows the farmer to get poisoned for stardew  1.6.</Description>
+        <Version>1.0.0</Version>
+        <UpdateKeys>Nexus:-1</UpdateKeys>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <SMAPIDependency Include="Pathoschild.ContentPatcher" MinimumVersion="2.8.0" Required="true" />
+        <SMAPIDependency Include="spacechase0.GenericModConfigMenu" MinimumVersion="1.0.0" Required="false" />
+        <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
+        <SMAPIDependency Include="moonslime.PoisonBarAPI.CP" version="1.0.0" Required="true" />
+    </ItemGroup>
+
+</Project>

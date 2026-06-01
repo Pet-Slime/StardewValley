@@ -1,0 +1,21 @@
+﻿{
+    "config.PoisonBarRed": "Poison Bar Red",
+    "config.PoisonBarRed.tooltip": "Controls the red color value for the main poison fill.\nAccepted values: 0 to 255.",
+
+    "config.PoisonBarGreen": "Poison Bar Green",
+    "config.PoisonBarGreen.tooltip": "Controls the green color value for the main poison fill.\nAccepted values: 0 to 255.",
+
+    "config.PoisonBarBlue": "Poison Bar Blue",
+    "config.PoisonBarBlue.tooltip": "Controls the blue color value for the main poison fill.\nAccepted values: 0 to 255.",
+
+    "config.PoisonBarTopRed": "Poison Bar Top Red",
+    "config.PoisonBarTopRed.tooltip": "Controls the red color value for the brighter top edge of the poison fill.\nAccepted values: 0 to 255.",
+
+    "config.PoisonBarTopGreen": "Poison Bar Top Green",
+    "config.PoisonBarTopGreen.tooltip": "Controls the green color value for the brighter top edge of the poison fill.\nAccepted values: 0 to 255.",
+
+    "config.PoisonBarTopBlue": "Poison Bar Top Blue",
+    "config.PoisonBarTopBlue.tooltip": "Controls the blue color value for the brighter top edge of the poison fill.\nAccepted values: 0 to 255.",
+
+    "moonslime.PoisonBarApi.Poison": "Poison"
+}

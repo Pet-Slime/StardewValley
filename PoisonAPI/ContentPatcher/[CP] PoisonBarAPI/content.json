@@ -1,0 +1,54 @@
+﻿{
+    "Format": "2.4.0",
+    "Changes": [
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.PoisonBarApi/poisonSymbol",
+            "FromFile": "Assets/PoisonSymbol.png"
+        },
+		{
+            "Action": "Load",
+            "Target": "Mods/moonslime.PoisonBarApi/poisonFoodTest",
+            "FromFile": "Assets/PoisonFoodTest.png"
+        },
+		{
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "Entries": {
+                "moonslime.PoisonBarAPI.poison_food_example": {
+                    "Name": "Poison Mushroom",
+                    "DisplayName": "{{i18n:moonslime.PoisonBarAPI.poison_food_example.name}}",
+                    "Description": "{{i18n:moonslime.PoisonBarAPI.poison_food_example.description}}",
+                    "Type": "Basic",
+                    "Category": -81,
+                    "Price": 75,
+                    "Texture": "Mods/moonslime.PoisonBarApi/poisonFoodTest",
+                    "SpriteIndex": 0,
+                    "ColorOverlayFromNextIndex": false,
+                    "Edibility": -20,
+                    "IsDrink": false,
+                    "Buffs": null,
+                    "GeodeDropsDefaultItems": false,
+                    "GeodeDrops": null,
+                    "ArtifactSpotChances": null,
+                    "CanBeGivenAsGift": true,
+                    "CanBeTrashed": true,
+                    "ExcludeFromFishingCollection": true,
+                    "ExcludeFromShippingCollection": true,
+                    "ExcludeFromRandomSale": false,
+                    "ContextTags": [
+                        "moonslime.PoisonBarApi.PoisonFill/25",
+                        "moonslime.ManaBarApi.ManaFill/5",
+                        "color_red",
+                        "forage_item",
+                        "forage_item_mines",
+                        "forage_item_secret",
+                        "season_fall",
+                        "season_summer"
+                    ],
+                    "CustomFields": null
+                }
+            }
+		}
+    ]
+}

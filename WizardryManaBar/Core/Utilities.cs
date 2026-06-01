@@ -101,7 +101,11 @@ namespace WizardryManaBar.Core
         /// <param name="newCap">The value to set.</param>
         public static void SetMaxMana(this Farmer player, int newCap)
         {
-            Utilities.SetMaxMana(player, Math.Max(0, newCap));
+            int maxMana = Math.Max(0, newCap);
+            Utilities.SetMaxMana(player, maxMana);
+
+            if (player.GetCurrentMana() > maxMana)
+                Utilities.SetCurrentMana(player, maxMana);
         }
 
         /// <summary>Set's the player's mana to their current max.</summary>

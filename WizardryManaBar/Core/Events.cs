@@ -11,26 +11,50 @@ using StardewValley.Menus;
 
 namespace WizardryManaBar.Core
 {
-    internal class Events
+    public class Events
     {
         private const string ManaFill = "moonslime.ManaBarApi.ManaFill";
         private const string ManaRestore = "moonslime.ManaBarApi.ManaRestore";
 
+        private const int ManaBarOriginalBaseMana = 100;
+        private const int ManaBarBaseHeight = 168;
+        private const int ManaBarVisualBase = 50;
+        private const int ManaBarVisualCap = 250;
+        private const int ManaBarMaxHeight = ManaBarBaseHeight + (ManaBarVisualCap - ManaBarOriginalBaseMana);
+
+        private static int ManaBarManaPerChunk => Math.Max(1, ModEntry.Config.ManaBarGrowthLimit);
+
+        private const int ManaPipSourceWidth = 3;
+        private const int ManaPipSourceHeight = 6;
+        private const int ManaPipDrawScale = 4;
+        private const int ManaPipSourceOverlap = 1;
+
+        private static readonly Rectangle ManaPipSourceRect = new Rectangle(398, 497, ManaPipSourceWidth, ManaPipSourceHeight);
+
+        private const int ManaPipDrawWidth = ManaPipSourceWidth * ManaPipDrawScale;
+        private const int ManaPipDrawHeight = ManaPipSourceHeight * ManaPipDrawScale;
+        private const int ManaPipOverlap = ManaPipSourceOverlap * ManaPipDrawScale;
+        private const int ManaPipStep = ManaPipDrawHeight - ManaPipOverlap;
+
         // --- Cached static bar data ---
         private static int CachedMaxMana = -1;
+        private static int CachedVisualMana = -1;
+        private static int CachedManaBarManaPerChunk = -1;
+        private static int CachedXManaBarOffset;
+        private static int CachedYManaBarOffset;
         private static Point CachedViewportSize;
         private static float CachedBarsPosition;
         private static int CachedBarFullHeight;
         private static Vector2 CachedTopOfBar;
-        private static Rectangle CachedTopRect;
+        private static Vector2 CachedBottomOfBar;
         private static Rectangle CachedMiddleRect;
         private static Rectangle CachedBottomRect;
-        private static Rectangle CachedMIconRect;
 
         // --- Cached dynamic filler ---
         private static int CachedCurrentMana = -1;
         private static Color CachedManaColor;
         private static Rectangle CachedFillerRect;
+        private static Rectangle[] CachedManaPipRects = Array.Empty<Rectangle>();
 
         public static void GameLaunched(object sender, GameLaunchedEventArgs e)
         {
@@ -99,92 +123,180 @@ namespace WizardryManaBar.Core
             // Draw everything
             DrawStaticBar(sb);
             DrawFiller(sb);
+            DrawManaPips(sb);
             DrawHoverText(sb);
         }
 
         private static void UpdateStaticBarCache(Farmer player, Point viewportSize, float barsPosition)
         {
-            if (CachedMaxMana != player.GetMaxMana() || CachedViewportSize != viewportSize || CachedBarsPosition != barsPosition)
+            int maxMana = player.GetMaxMana();
+            int xOffset = ModEntry.Config.XManaBarOffset;
+            int yOffset = ModEntry.Config.YManaBarOffset;
+            int manaPerChunk = ManaBarManaPerChunk;
+
+            if (CachedMaxMana != maxMana || CachedViewportSize != viewportSize || CachedBarsPosition != barsPosition || CachedXManaBarOffset != xOffset || CachedYManaBarOffset != yOffset || CachedManaBarManaPerChunk != manaPerChunk)
             {
-                CachedMaxMana = player.GetMaxMana();
+                CachedMaxMana = maxMana;
+                CachedManaBarManaPerChunk = manaPerChunk;
+                CachedVisualMana = GetVisualManaForMaxMana(maxMana, manaPerChunk);
                 CachedBarsPosition = barsPosition;
                 CachedViewportSize = viewportSize;
+                CachedXManaBarOffset = xOffset;
+                CachedYManaBarOffset = yOffset;
 
-                // Compute bar height and cap it
-                int calculatedHeight = 168 + (CachedMaxMana - 100);
-                CachedBarFullHeight = Math.Min(calculatedHeight, ModEntry.Config.ManaBarGrowthLimit); // 500 is the max bar height
+                // The bar's maximum physical size remains the old 250-mana size.
+                // The player's max mana is scaled against the configured mana-per-chunk value to decide the current visual height.
+                CachedBarFullHeight = GetBarHeightForVisualMana(CachedVisualMana);
 
-                CachedTopOfBar = new Vector2(
-                    Game1.graphics.GraphicsDevice.Viewport.GetTitleSafeArea().Right - 48 - 8,
-                    Game1.graphics.GraphicsDevice.Viewport.GetTitleSafeArea().Bottom - 224 - 16 - (CachedBarFullHeight - 168)
-                );
+                // Anchor the bar from the bottom so the bottom cap and mana pips stay stable while the top grows upward.
+                CachedBottomOfBar = new Vector2(Game1.graphics.GraphicsDevice.Viewport.GetTitleSafeArea().Right - 48 - 8, Game1.graphics.GraphicsDevice.Viewport.GetTitleSafeArea().Bottom - 80);
 
                 if (Game1.isOutdoorMapSmallerThanViewport())
-                    CachedTopOfBar.X = Math.Min(CachedTopOfBar.X, Game1.currentLocation.map.Layers[0].LayerWidth * 64 - 48 - Game1.viewport.X);
+                    CachedBottomOfBar.X = Math.Min(CachedBottomOfBar.X, Game1.currentLocation.map.Layers[0].LayerWidth * 64 - 48 - Game1.viewport.X);
 
                 if (Game1.staminaShakeTimer > 0)
                 {
-                    CachedTopOfBar.X += Game1.random.Next(-3, 4);
-                    CachedTopOfBar.Y += Game1.random.Next(-3, 4);
+                    CachedBottomOfBar.X += Game1.random.Next(-3, 4);
+                    CachedBottomOfBar.Y += Game1.random.Next(-3, 4);
                 }
 
-                CachedTopOfBar.X -= barsPosition + ModEntry.Config.XManaBarOffset;
+                CachedBottomOfBar.X -= barsPosition + xOffset;
+                CachedBottomOfBar.Y += yOffset;
+
+                CachedTopOfBar = new Vector2(CachedBottomOfBar.X, CachedBottomOfBar.Y - (CachedBarFullHeight - 8));
 
                 // Precompute rectangles
-                CachedTopRect = new Rectangle((int)CachedTopOfBar.X, (int)CachedTopOfBar.Y, 48, 16); // top
-                CachedMiddleRect = new Rectangle((int)CachedTopOfBar.X, (int)(CachedTopOfBar.Y + 64f), 48, Game1.graphics.GraphicsDevice.Viewport.GetTitleSafeArea().Bottom - 64 - 16 - (int)(CachedTopOfBar.Y + 64f - 8f)); // middle
-                CachedBottomRect = new Rectangle((int)CachedTopOfBar.X, (int)(CachedTopOfBar.Y + 224f + (CachedMaxMana - 100) - 64f), 48, 16); // bottom
-                CachedMIconRect = new Rectangle((int)CachedTopOfBar.X, (int)CachedTopOfBar.Y, 48, 12); // M icon (scaled in draw call)
+                CachedMiddleRect = new Rectangle((int)CachedTopOfBar.X, (int)(CachedTopOfBar.Y + 64f), 48, Math.Max(1, CachedBarFullHeight - 64));
+                CachedBottomRect = new Rectangle((int)CachedBottomOfBar.X, (int)CachedBottomOfBar.Y, 48, 16);
 
-                // Update filler when ever the rest updates
-                CachedCurrentMana = player.GetCurrentMana();
-                float manaPercent = (float)CachedCurrentMana / CachedMaxMana;
-                CachedManaColor = GetBlueToWhiteLerpColor(manaPercent);
-
-                int height = (int)(manaPercent * CachedBarFullHeight);
-                CachedFillerRect = new Rectangle((int)CachedTopOfBar.X + 12, (int)CachedTopOfBar.Y + 16 + 32 + CachedBarFullHeight - height, 24, height);
+                // Update dynamic draw data whenever the static position/height changes.
+                UpdateDynamicManaCache(player);
             }
         }
 
         private static void UpdateFillerCache(Farmer player)
         {
             if (CachedCurrentMana != player.GetCurrentMana())
-            {
-                CachedCurrentMana = player.GetCurrentMana();
-                float manaPercent = (float)CachedCurrentMana / CachedMaxMana;
-                CachedManaColor = GetBlueToWhiteLerpColor(manaPercent);
+                UpdateDynamicManaCache(player);
+        }
 
-                int height = (int)(manaPercent * CachedBarFullHeight);
-                CachedFillerRect = new Rectangle((int)CachedTopOfBar.X + 12, (int)CachedTopOfBar.Y + 16 + 32 + CachedBarFullHeight - height, 24, height);
-            }
+        private static void UpdateDynamicManaCache(Farmer player)
+        {
+            CachedCurrentMana = player.GetCurrentMana();
+
+            int displayMana = GetDisplayMana(CachedCurrentMana);
+            int displayMaxMana = Math.Max(1, Math.Min(CachedMaxMana, ManaBarManaPerChunk));
+            float manaPercent = MathHelper.Clamp((float)displayMana / displayMaxMana, 0f, 1f);
+
+            CachedManaColor = GetBlueToWhiteLerpColor(manaPercent);
+
+            int height = (int)(manaPercent * CachedBarFullHeight);
+            int fillerBottom = CachedBottomRect.Y + 56;
+            CachedFillerRect = new Rectangle((int)CachedBottomOfBar.X + 12, fillerBottom - height, 24, height);
+
+            int pipCount = Math.Min(GetManaPipCount(CachedCurrentMana), GetMaxManaPipsThatFit(fillerBottom));
+            CachedManaPipRects = BuildManaPipRects(pipCount, fillerBottom);
+        }
+
+        private static int GetVisualManaForMaxMana(int maxMana, int manaPerChunk)
+        {
+            if (maxMana <= 0)
+                return ManaBarVisualBase;
+
+            float ratio = MathHelper.Clamp((float)maxMana / manaPerChunk, 0f, 1f);
+            int visualMana = (int)(ManaBarVisualCap * ratio);
+            return Math.Clamp(visualMana, ManaBarVisualBase, ManaBarVisualCap);
+        }
+
+        private static int GetBarHeightForVisualMana(int visualMana)
+        {
+            int clampedVisualMana = Math.Clamp(visualMana, ManaBarVisualBase, ManaBarVisualCap);
+            float ratio = (float)(clampedVisualMana - ManaBarVisualBase) / (ManaBarVisualCap - ManaBarVisualBase);
+            return ManaBarBaseHeight + (int)Math.Round(ratio * (ManaBarMaxHeight - ManaBarBaseHeight));
+        }
+
+        private static int GetMaxManaPipsThatFit(int fillerBottom)
+        {
+            int availableHeight = fillerBottom - (int)CachedTopOfBar.Y;
+
+            if (availableHeight < ManaPipDrawHeight)
+                return 0;
+
+            return 1 + (availableHeight - ManaPipDrawHeight) / ManaPipStep;
+        }
+
+        private static int GetDisplayMana(int currentMana)
+        {
+            if (currentMana <= 0)
+                return 0;
+
+            int manaPerChunk = ManaBarManaPerChunk;
+            int remainder = currentMana % manaPerChunk;
+            return remainder == 0 ? manaPerChunk : remainder;
+        }
+
+        private static int GetManaPipCount(int currentMana)
+        {
+            int manaPerChunk = ManaBarManaPerChunk;
+
+            if (currentMana <= manaPerChunk)
+                return 0;
+
+            return (currentMana - 1) / manaPerChunk;
+        }
+
+        private static Rectangle[] BuildManaPipRects(int pipCount, int fillerBottom)
+        {
+            if (pipCount <= 0)
+                return Array.Empty<Rectangle>();
+
+            Rectangle[] rects = new Rectangle[pipCount];
+
+            int x = (int)(CachedBottomOfBar.X + 24 - ManaPipDrawWidth / 2) + 5;
+
+            for (int i = 0; i < pipCount; i++)
+                rects[i] = new Rectangle(x, fillerBottom - ManaPipDrawHeight - i * ManaPipStep, ManaPipDrawWidth, ManaPipDrawHeight);
+
+            return rects;
         }
 
         private static void DrawStaticBar(SpriteBatch sb)
         {
-            sb.Draw(Game1.mouseCursors, CachedTopOfBar, new Rectangle?(new Rectangle(268, 408, 12, 16)), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
-            sb.Draw(Assets.ManaBarIcon, CachedTopOfBar, new Rectangle?(new Rectangle(0, 0, 12, 12)), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
-            sb.Draw(Game1.mouseCursors, CachedMiddleRect, new Rectangle?(new Rectangle(256, 424, 12, 16)), Color.White);
-            sb.Draw(Game1.mouseCursors, new Vector2(CachedBottomRect.X, CachedBottomRect.Y), new Rectangle?(new Rectangle(256, 448, 12, 16)), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
+            sb.Draw(Game1.mouseCursors, CachedTopOfBar, new Rectangle(268, 408, 12, 16), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
+            sb.Draw(Assets.ManaBarIcon, CachedTopOfBar, new Rectangle(0, 0, 12, 12), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
+            sb.Draw(Game1.mouseCursors, CachedMiddleRect, new Rectangle(256, 424, 12, 16), Color.White);
+            sb.Draw(Game1.mouseCursors, new Vector2(CachedBottomRect.X, CachedBottomRect.Y), new Rectangle(256, 448, 12, 16), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
         }
 
         private static void DrawFiller(SpriteBatch sb)
         {
+            if (CachedFillerRect.Height <= 0)
+                return;
+
             sb.Draw(Game1.staminaRect, CachedFillerRect, CachedManaColor);
 
             Rectangle bottomShadeRect = CachedFillerRect;
-            bottomShadeRect.Height = 4;
+            bottomShadeRect.Height = Math.Min(4, CachedFillerRect.Height);
+
             Color bottomShade = CachedManaColor;
             bottomShade.R = (byte)Math.Max(0, bottomShade.R - 50);
             bottomShade.G = (byte)Math.Max(0, bottomShade.G - 50);
             sb.Draw(Game1.staminaRect, bottomShadeRect, bottomShade);
         }
 
+        private static void DrawManaPips(SpriteBatch sb)
+        {
+            for (int i = CachedManaPipRects.Length - 1; i >= 0; i--)
+                sb.Draw(Game1.mouseCursors, CachedManaPipRects[i], ManaPipSourceRect, Color.White);
+        }
+
         private static void DrawHoverText(SpriteBatch sb)
         {
             if (Game1.getOldMouseX() >= CachedTopOfBar.X && Game1.getOldMouseY() >= CachedTopOfBar.Y && Game1.getOldMouseX() < CachedTopOfBar.X + 32f)
             {
-                Game1.drawWithBorder(Math.Max(0, CachedCurrentMana) + "/" + CachedMaxMana, Color.Black * 0f, Color.Blue,
-                    CachedTopOfBar + new Vector2(-Game1.dialogueFont.MeasureString("999/999").X - 32f, 64f));
+                string text = Math.Max(0, CachedCurrentMana) + "/" + CachedMaxMana;
+                float textWidth = Game1.dialogueFont.MeasureString(text).X;
+                Game1.drawWithBorder(text, Color.Black * 0f, Color.Blue, CachedTopOfBar + new Vector2(-textWidth - 32f, 64f));
             }
         }
 
@@ -208,11 +320,11 @@ namespace WizardryManaBar.Core
             if (ModEntry.Config.ManaBarExtraSnaps == -1)
             {
                 return 56f;
-            } else
+            }
+            else
             {
                 return 56f * extraCount;
             }
-
         }
 
         private static void OnDayStarted(object sender, DayStartedEventArgs e)

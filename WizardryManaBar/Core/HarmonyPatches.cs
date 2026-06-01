@@ -55,30 +55,30 @@ namespace WizardryManaBar.Core
     [HarmonyPatch("SpaceCore.Patches.SkillBuffPatcher", "GetHeightAdjustment")]
     class GetHeightAdjustment_patch
     {
-        [HarmonyLib.HarmonyPostfix]
-        public static void Postfix( string[] buffIconsToDisplay, Item hoveredItem, int height,ref int __result)
+        [HarmonyPostfix]
+        public static void Postfix(string[] buffIconsToDisplay, Item hoveredItem, int height, ref int __result)
         {
-            __result = ManaToolTip_patch.GetHeightAdjustment(buffIconsToDisplay, hoveredItem, height);
+            __result = ManaToolTip_patch.GetHeightAdjustment(buffIconsToDisplay, hoveredItem, __result);
         }
     }
 
     [HarmonyPatch("SpaceCore.Patches.SkillBuffPatcher", "GetWidthAdjustment")]
     class GetWidthAdjustment_patch
     {
-        [HarmonyLib.HarmonyPostfix]
-        public static void Postfix( SpriteFont font,  Item hoveredItem,  int width, ref int __result)
+        [HarmonyPostfix]
+        public static void Postfix(SpriteFont font, Item hoveredItem, int width, ref int __result)
         {
-            __result = ManaToolTip_patch.GetWidthAdjustment(font, hoveredItem, width);
+            __result = ManaToolTip_patch.GetWidthAdjustment(font, hoveredItem, __result);
         }
     }
 
     [HarmonyPatch("SpaceCore.Patches.SkillBuffPatcher", "DrawAdditionalBuffEffects")]
     class DrawAdditionalBuffEffects_patch
     {
-        [HarmonyLib.HarmonyPostfix]
-        public static void Postfix( SpriteBatch b,  SpriteFont font, Item hoveredItem, int x, int y, ref int __result)
+        [HarmonyPostfix]
+        public static void Postfix(SpriteBatch b, SpriteFont font, Item hoveredItem, int x, int y, ref int __result)
         {
-            __result = ManaToolTip_patch.DrawAdditionalBuffEffects(b, font, hoveredItem, x, y);
+            __result = ManaToolTip_patch.DrawAdditionalBuffEffects(b, font, hoveredItem, x, __result);
         }
     }
 

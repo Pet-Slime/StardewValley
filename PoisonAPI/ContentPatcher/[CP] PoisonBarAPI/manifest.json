@@ -1,0 +1,22 @@
+﻿{
+    "Name": "[CP] Poison bar",
+    "Author": "moonslime",
+    "Version": "1.0.0",
+    "Description": "Poison bar Content Patcher",
+    "UniqueID": "moonslime.PoisonBarAPI.CP",
+    "ContentPackFor": {
+        "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    "UpdateKeys": [
+        "-1"
+    ],
+    "Dependencies": [
+        {
+            "UniqueID": "Pathoschild.ContentPatcher"
+        },
+        {
+            "UniqueID": "Aimon111.HPE_Icons",
+            "IsRequired": false
+        }
+    ]
+}

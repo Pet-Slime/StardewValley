@@ -1,21 +1,17 @@
 {
   "$schema": "https://smapi.io/schemas/manifest.json",
-  "UniqueID": "moonslime.ManaBarAPI",
-  "Name": "Mana bar API",
+  "UniqueID": "moonslime.PoisonBarAPI",
+  "Name": "Poison bar API",
   "Author": "moonslime",
-  "Version": "1.7.0",
-  "Description": "A port of spacechase0's API to 1.6.",
+  "Version": "1.0.0",
+  "Description": "Allows the farmer to get poisoned for stardew  1.6.",
   "MinimumApiVersion": "4.5.2",
   "MinimumGameVersion": "1.6.15",
-  "EntryDll": "ManaBarAPI.dll",
+  "EntryDll": "PoisonBarAPI.dll",
   "Dependencies": [
     {
-      "UniqueID": "HeyImAmethyst.ArsVenefici",
-      "IsRequired": false
-    },
-    {
-      "UniqueID": "moonslime.ManaBarApi.CP",
-      "MinimumVersion": "1.4.0"
+      "UniqueID": "moonslime.PoisonBarAPI.CP",
+      "MinimumVersion": "1.0.0"
     },
     {
       "UniqueID": "Pathoschild.ContentPatcher"
@@ -27,13 +23,9 @@
     {
       "UniqueID": "spacechase0.SpaceCore",
       "MinimumVersion": "1.28.0"
-    },
-    {
-      "UniqueID": "Zexu2K.MagicStardew.C",
-      "IsRequired": false
     }
   ],
   "UpdateKeys": [
-    "Nexus:39117"
+    "Nexus:-1"
   ]
 }

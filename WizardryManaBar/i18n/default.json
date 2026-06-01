@@ -9,8 +9,8 @@
     "config.YManaBarOffset": "Mana Bar Y offset",
     "config.YManaBarOffset.tooltip": "Control where the mana bar is on the Y axis of the screen.\nNot Functioning Yet",
 
-    "config.ManaBarGrowthLimit": "Mana Bar Growth Limit",
-    "config.ManaBarGrowthLimit.tooltip": "How tall can the mana bar grow?",
+    "config.ManaBarGrowthLimit": "Mana Bar Pips",
+    "config.ManaBarGrowthLimit.tooltip": "The mana bar is visually capped between 50 and 250 mana.\nHowever, the bar itself can represent anywhere from 100 to 1000 mana.\nThe Default is 500.\nIf you have more mana than this value, you start to get mana pips on your bar, representing this value.",
 
     "config.ManaBarExtraSnaps": "Mana Bar Extra Snaps",
     "config.ManaBarExtraSnaps.tooltip": "Automatically moves the bar over a bar's length.\nSo if you have a food and thirst bar, you want to set this to 2.\nSet to -1 to disable snapping",
