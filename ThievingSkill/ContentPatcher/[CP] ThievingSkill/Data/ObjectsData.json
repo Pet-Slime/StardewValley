@@ -85,13 +85,13 @@
                     ],
                     "CustomFields": null
                 },
-                "moonslime.Thieving.candy_corn": {
-                    "Name": "Candy Corn",
-                    "DisplayName": "{{i18n:moonslime.Thieving.candy_corn.name}}",
-                    "Description": "{{i18n:moonslime.Thieving.candy_corn.description}}",
+                "moonslime.Thieving.sticky_buns": {
+                    "Name": "Sticky Buns",
+                    "DisplayName": "{{i18n:moonslime.Thieving.sticky_buns.name}}",
+                    "Description": "{{i18n:moonslime.Thieving.sticky_buns.description}}",
                     "Type": "Cooking",
                     "Category": -7,
-                    "Price": 125,
+                    "Price": 200,
                     "Texture": "Mods/moonslime.ThievingSkill/Objects",
                     "SpriteIndex": 1,
                     "Edibility": 30,
@@ -130,6 +130,7 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "color_yellow",
+                        "food_bakery",
                         "food_sweet"
                     ],
                     "CustomFields": null
@@ -179,6 +180,8 @@
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
                         "color_brown",
+                        "food_bakery",
+                        "food_cake",
                         "food_sweet"
                     ],
                     "CustomFields": null
@@ -230,12 +233,12 @@
                     "CustomFields": null
                 },
                 "moonslime.Thieving.lockpick_copper": {
-                    "Name": "Placeholder Item",
+                    "Name": "Copper Lockpick",
                     "DisplayName": "{{i18n:moonslime.Thieving.lockpick_copper.name}}",
                     "Description": "{{i18n:moonslime.Thieving.lockpick_copper.description}}",
                     "Type": "Basic",
                     "Category": 2,
-                    "Price": 100,
+                    "Price": 21,
                     "Texture": "Mods/moonslime.ThievingSkill/Objects",
                     "SpriteIndex": 6,
                     "Edibility": -300,
@@ -248,17 +251,17 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
-                        "color_white"
+                        "color_copper"
                     ],
                     "CustomFields": null
                 },
                 "moonslime.Thieving.lockpick_iron": {
-                    "Name": "Placeholder Item",
+                    "Name": "Iron Lockpick",
                     "DisplayName": "{{i18n:moonslime.Thieving.lockpick_iron.name}}",
                     "Description": "{{i18n:moonslime.Thieving.lockpick_iron.description}}",
                     "Type": "Basic",
                     "Category": 2,
-                    "Price": 100,
+                    "Price": 41,
                     "Texture": "Mods/moonslime.ThievingSkill/Objects",
                     "SpriteIndex": 7,
                     "Edibility": -300,
@@ -271,17 +274,17 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
-                        "color_white"
+                        "color_iron"
                     ],
                     "CustomFields": null
                 },
                 "moonslime.Thieving.lockpick_gold": {
-                    "Name": "Placeholder Item",
+                    "Name": "Gold Lockpick",
                     "DisplayName": "{{i18n:moonslime.Thieving.lockpick_gold.name}}",
                     "Description": "{{i18n:moonslime.Thieving.lockpick_gold.description}}",
                     "Type": "Basic",
                     "Category": 2,
-                    "Price": 100,
+                    "Price": 84,
                     "Texture": "Mods/moonslime.ThievingSkill/Objects",
                     "SpriteIndex": 8,
                     "Edibility": -300,
@@ -294,17 +297,17 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
-                        "color_white"
+                        "color_gold"
                     ],
                     "CustomFields": null
                 },
                 "moonslime.Thieving.lockpick_iridium": {
-                    "Name": "Placeholder Item",
+                    "Name": "Iridium Lockpick",
                     "DisplayName": "{{i18n:moonslime.Thieving.lockpick_iridium.name}}",
                     "Description": "{{i18n:moonslime.Thieving.lockpick_iridium.description}}",
                     "Type": "Basic",
                     "Category": 2,
-                    "Price": 100,
+                    "Price": 334,
                     "Texture": "Mods/moonslime.ThievingSkill/Objects",
                     "SpriteIndex": 9,
                     "Edibility": -300,
@@ -317,7 +320,7 @@
                     "ExcludeFromShippingCollection": true,
                     "ExcludeFromRandomSale": false,
                     "ContextTags": [
-                        "color_white"
+                        "color_iridium"
                     ],
                     "CustomFields": null
                 }
