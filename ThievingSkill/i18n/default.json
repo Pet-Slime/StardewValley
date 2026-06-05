@@ -1,6 +1,6 @@
 ﻿{
 
-    "skill.Thieving.name": "Thieving",
+    "skill.Thieving.name": "Thievery",
     "skill.Thieving.perk": "+{{bonus}}% bonus to your steal chance.",
     "skill.Thieving.perk.level_3": "Chance to get Universal Neutrals when pickpocketing.",
     "skill.Thieving.perk.level_6": "Chance to get Universal Likes when pickpocketing.",
@@ -11,13 +11,13 @@
     "Thieving5b.name": "Robin Hood",
     "Thieving5b.desc": "Chance to avoid friendship loss from thieving actions",
     "Thieving10a1.name": "Highwayman",
-    "Thieving10a1.desc": "Can pickpocket from multiple people around you at once.",
+    "Thieving10a1.desc": "Can pickpocket from multiple people around you at once",
     "Thieving10a2.name": "Mugger",
     "Thieving10a2.desc": "Gain Life and Stamina when you pickpocketing",
     "Thieving10b1.name": "Phantom",
     "Thieving10b1.desc": "Gain better rewards and leave fewer traces when thieving",
     "Thieving10b2.name": "Rogue",
-    "Thieving10b2.desc": "Improves your chance of successful thieving actions.",
+    "Thieving10b2.desc": "Improves your chance of successful thieving actions",
 
     "moonslime.Thieving.Cooldown.apply": "You can't steal for a bit after your last attempt.",
 

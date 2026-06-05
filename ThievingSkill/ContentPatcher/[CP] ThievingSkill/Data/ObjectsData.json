@@ -1,16 +1,6 @@
 ﻿{
     "Changes": [
         {
-            "Action": "Load",
-            "Target": "Mods/moonslime.ThievingSkill/Objects",
-            "FromFile": "Assets/Objects.png"
-        },
-		{
-            "Action": "Load",
-            "Target": "Mods/moonslime.ThievingSkill/BigCraftables",
-            "FromFile": "Assets/BigCraftables.png"
-        },
-        {
             "Action": "EditData",
             "Target": "Data/BigCraftables",
             "Entries": {

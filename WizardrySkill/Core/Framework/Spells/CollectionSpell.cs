@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using WizardrySkill.Core.Framework.Schools;
 using WizardrySkill.Core.Framework.Spells.Effects;
+using Log = MoonShared.Attributes.Log;
 
 namespace WizardrySkill.Core.Framework.Spells
 {
@@ -29,19 +30,38 @@ namespace WizardrySkill.Core.Framework.Spells
         // Called when the spell is cast by the local player.
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
-            if (player == null || player.currentLocation == null)
+            if (player == null)
+            {
+                Log.Trace("[CollectionSpell] Cast aborted: player is null.");
                 return null;
+            }
+
+            if (player.currentLocation == null)
+            {
+                Log.Trace($"[CollectionSpell] Cast aborted: player '{player.Name}' has no current location.");
+                return null;
+            }
 
             // Only the caster's own machine should run machine collection.
             // Remote machines observe the cast packet but do not replay harvest, inventory, item, or EXP mutation.
             if (!player.IsLocalPlayer)
+            {
+                Log.Trace($"[CollectionSpell] Ignoring non-local cast for player '{player.Name}' ({player.UniqueMultiplayerID}).");
                 return null;
+            }
 
             int effectiveRange = (level + 1) * 3; // Spell range scales with level.
             int collectedCount = 0; // Tracks how many machines were collected.
             int manaCost = this.GetManaCost(player, level);
             const int expPerCollect = 5;
             const string collectSound = "coin";
+
+            int emptyTiles = 0;
+            int notBigCraftable = 0;
+            int notReady = 0;
+            int noHeldObject = 0;
+            int inventoryFull = 0;
+            int checkedMachines = 0;
 
             GameLocation location = player.currentLocation;
             int tileSize = Game1.tileSize;
@@ -52,29 +72,74 @@ namespace WizardrySkill.Core.Framework.Spells
             // Get all tiles affected by the spell.
             List<Vector2> tiles = Utilities.TilesAffected(target, effectiveRange, player);
 
+            Log.Trace($"[CollectionSpell] Cast started. Player='{player.Name}' ({player.UniqueMultiplayerID}), Location='{location.NameOrUniqueName}', Level={level}, Range={effectiveRange}, TargetPixel=({targetX},{targetY}), TargetTile={target}, TilesChecked={tiles.Count}, ManaCost={manaCost}, CurrentMana={player.GetCurrentMana()}.");
+
             // Loop through each affected tile.
             foreach (Vector2 tile in tiles)
             {
                 // Stop if the player runs out of mana.
                 if (!this.CanContinueCast(player, level))
+                {
+                    Log.Trace($"[CollectionSpell] Stopped early: not enough mana to continue. Collected={collectedCount}, CurrentMana={player.GetCurrentMana()}, ManaCost={manaCost}, Tile={tile}.");
                     break;
+                }
 
-                // Check if there's a machine at this tile that is big, ready for harvest, and contains an item.
-                if (!location.objects.TryGetValue(tile, out StardewValley.Object machine) ||
-                    machine is not { bigCraftable.Value: true, readyForHarvest.Value: true } ||
-                    machine.heldObject.Value is null ||
-                    !player.couldInventoryAcceptThisItem(machine.heldObject.Value))
+                // Check if there's a machine at this tile.
+                if (!location.objects.TryGetValue(tile, out StardewValley.Object machine))
+                {
+                    emptyTiles++;
                     continue;
+                }
+
+                checkedMachines++;
+
+                if (!machine.bigCraftable.Value)
+                {
+                    notBigCraftable++;
+                    Log.Trace($"[CollectionSpell] Skipped object at {tile}: not a big craftable. QualifiedItemId='{machine.QualifiedItemId}', Name='{machine.Name}'.");
+                    continue;
+                }
+
+                if (!machine.readyForHarvest.Value)
+                {
+                    notReady++;
+                    Log.Trace($"[CollectionSpell] Skipped machine at {tile}: not ready for harvest. QualifiedItemId='{machine.QualifiedItemId}', Name='{machine.Name}', MinutesUntilReady={machine.MinutesUntilReady}.");
+                    continue;
+                }
+
+                if (machine.heldObject.Value is null)
+                {
+                    noHeldObject++;
+                    Log.Trace($"[CollectionSpell] Skipped machine at {tile}: readyForHarvest=true but heldObject is null. QualifiedItemId='{machine.QualifiedItemId}', Name='{machine.Name}'.");
+                    continue;
+                }
+
+                StardewValley.Object heldObject = machine.heldObject.Value;
+                string heldObjectId = heldObject.QualifiedItemId;
+                string heldObjectName = heldObject.Name;
+                int heldObjectStack = heldObject.Stack;
+                int heldObjectQuality = heldObject.Quality;
+
+                if (!player.couldInventoryAcceptThisItem(heldObject))
+                {
+                    inventoryFull++;
+                    Log.Trace($"[CollectionSpell] Skipped machine at {tile}: inventory cannot accept held item. Machine='{machine.Name}' ({machine.QualifiedItemId}), Held='{heldObjectName}' ({heldObjectId}), Stack={heldObjectStack}, Quality={heldObjectQuality}.");
+                    continue;
+                }
+
+                Log.Trace($"[CollectionSpell] Collecting machine at {tile}. Machine='{machine.Name}' ({machine.QualifiedItemId}), Held='{heldObjectName}' ({heldObjectId}), Stack={heldObjectStack}, Quality={heldObjectQuality}, CollectedSoFar={collectedCount}.");
 
                 // Perform the machine's harvest action.
-                machine.checkForAction(player);
+                bool actionResult = machine.checkForAction(player);
 
-                // Give the player experience points.
-                Utilities.AddEXP(player, expPerCollect);
+                Log.Trace($"[CollectionSpell] checkForAction result at {tile}: Result={actionResult}, HeldObjectAfter={(machine.heldObject.Value == null ? "null" : machine.heldObject.Value.QualifiedItemId)}, ReadyAfter={machine.readyForHarvest.Value}.");
 
                 // Deduct extra mana for additional machines.
                 if (collectedCount > 0)
+                {
                     player.AddMana(-manaCost);
+                    Log.Trace($"[CollectionSpell] Deducted extra mana for additional collection. Amount={manaCost}, CurrentMana={player.GetCurrentMana()}, CollectedSoFar={collectedCount}.");
+                }
 
                 // Visual and audio feedback for the collection.
                 location.playSound(collectSound, tile);
@@ -111,9 +176,18 @@ namespace WizardrySkill.Core.Framework.Spells
                 collectedCount++;
             }
 
-            return collectedCount == 0
-                ? new SpellFizzle(player, manaCost)
-                : null;
+            Log.Trace($"[CollectionSpell] Cast finished. Player='{player.Name}', Location='{location.NameOrUniqueName}', Collected={collectedCount}, CheckedMachines={checkedMachines}, EmptyTiles={emptyTiles}, NotBigCraftable={notBigCraftable}, NotReady={notReady}, NoHeldObject={noHeldObject}, InventoryFull={inventoryFull}, CurrentMana={player.GetCurrentMana()}.");
+
+            if (collectedCount == 0)
+            {
+                Log.Trace("[CollectionSpell] Result: fizzle because no machines were collected.");
+                return new SpellFizzle(player, manaCost);
+            }
+
+            int exp = expPerCollect * collectedCount;
+            Log.Trace($"[CollectionSpell] Result: success. EXP={exp}, Sound='coin'.");
+
+            return new SpellSuccess(player, "coin", exp);
         }
     }
 }

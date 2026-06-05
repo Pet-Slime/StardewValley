@@ -1,0 +1,65 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ThievingSkill/Objects",
+            "FromFile": "Assets/Objects.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ThievingSkill/BigCraftables",
+            "FromFile": "Assets/BigCraftables.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ThievingSkill/interface/Thieving10a1",
+            "FromFile": "Assets/interface/Thieving10a1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ThievingSkill/interface/Thieving10a2",
+            "FromFile": "Assets/interface/Thieving10a2.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ThievingSkill/interface/Thieving10b1",
+            "FromFile": "Assets/interface/Thieving10b1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ThievingSkill/interface/Thieving10b2",
+            "FromFile": "Assets/interface/Thieving10b2.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ThievingSkill/interface/Thieving5a",
+            "FromFile": "Assets/interface/Thieving5a.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ThievingSkill/interface/Thieving5b",
+            "FromFile": "Assets/interface/Thieving5b.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ThievingSkill/interface/ThievingiconA",
+            "FromFile": "Assets/interface/ThievingiconA.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ThievingSkill/interface/ThievingiconB1",
+            "FromFile": "Assets/interface/ThievingiconB1.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ThievingSkill/interface/ThievingiconB2",
+            "FromFile": "Assets/interface/ThievingiconB2.png"
+        },
+        {
+            "Action": "Load",
+            "Target": "Mods/moonslime.ThievingSkill/interface/ThievingiconB3",
+            "FromFile": "Assets/interface/ThievingiconB3.png"
+        }
+
+    ]
+}

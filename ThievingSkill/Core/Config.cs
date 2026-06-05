@@ -124,14 +124,14 @@ namespace ThievingSkill.Core
 
         // How far away NPCs can witness the player getting caught
         [SConfig.Option(0.0f, 25f, 0.5f)]
-        public float ShopliftingWitnessRadius { get; set; } = 10f;
+        public float ShopliftingWitnessRadius { get; set; } = 25f;
 
         // How much friendship nearby NPCs lose when the player is caught
         [SConfig.Option(0, 500, 5)]
-        public int ShopliftingWitnessFriendshipLoss { get; set; } = 25;
+        public int ShopliftingWitnessFriendshipLoss { get; set; } = 75;
 
         // How much friendship the shop owner loses when the player is caught
         [SConfig.Option(0, 500, 5)]
-        public int ShopliftingShopOwnerFriendshipLoss { get; set; } = 50;
+        public int ShopliftingShopOwnerFriendshipLoss { get; set; } = 75;
     }
 }
