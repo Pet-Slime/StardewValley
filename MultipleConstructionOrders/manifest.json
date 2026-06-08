@@ -1,0 +1,14 @@
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "moonslime.MultipleConstructionOrders",
+  "Name": "Multiple Construction Orders",
+  "Author": "moonslime",
+  "Version": "1.0.0",
+  "Description": "Allows Robin to work on multiple construction buildings at once",
+  "MinimumApiVersion": "4.5.2",
+  "MinimumGameVersion": "1.6.15",
+  "EntryDll": "MultipleConstructionOrders.dll",
+  "UpdateKeys": [
+    "Nexus:-1"
+  ]
+}

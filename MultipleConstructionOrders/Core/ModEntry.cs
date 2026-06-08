@@ -1,21 +1,17 @@
 using MoonShared.Attributes;
 using StardewModdingAPI;
 
-namespace LuckSkill.Core
+namespace MultipleConstructionOrders.Core
 {
+
     [SMod]
     public class ModEntry : Mod
     {
-
         [SMod.Instance]
         internal static ModEntry Instance;
 
-        internal static Config Config;
-        internal static Assets Assets;
-
         internal ITranslationHelper I18N => this.Helper.Translation;
 
-        public const string SkillID = "moonslime.Luck";
 
         public override void Entry(IModHelper helper)
         {

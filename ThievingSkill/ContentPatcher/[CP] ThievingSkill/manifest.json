@@ -1,5 +1,5 @@
 ﻿{
-    "Name": "[CP] Thieving Skill",
+    "Name": "[CP] Thievery Skill",
     "Author": "moonslime",
     "Version": "1.0.0",
     "Description": "Thieving Skill Content Patcher",
@@ -11,8 +11,5 @@
         "Nexus:-1"
     ],
     "Dependencies": [
-        {
-            "UniqueID": "moonslime.ThievingSkill"
-        }
     ]
 }

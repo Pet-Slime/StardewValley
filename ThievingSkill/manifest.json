@@ -1,14 +1,18 @@
 {
   "$schema": "https://smapi.io/schemas/manifest.json",
   "UniqueID": "moonslime.ThievingSkill",
-  "Name": "Thieving Skill",
+  "Name": "Thievery, a sneaky skill",
   "Author": "moonslime",
-  "Version": "1.4.0",
+  "Version": "1.0.1",
   "Description": "Standalone Thieving Skill.",
   "MinimumApiVersion": "4.5.2",
   "MinimumGameVersion": "1.6.15",
   "EntryDll": "ThievingSkill.dll",
   "Dependencies": [
+    {
+      "UniqueID": "moonslime.ThievingSkill.CP",
+      "MinimumVersion": "1.0.0"
+    },
     {
       "UniqueID": "Pathoschild.ContentPatcher"
     },
@@ -22,6 +26,6 @@
     }
   ],
   "UpdateKeys": [
-    "Nexus:23791"
+    "Nexus:47198"
   ]
 }
