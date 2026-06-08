@@ -18,7 +18,7 @@ namespace MultipleConstructionOrders.Core
 
         private const string RobinOrderDayKey = ModDataPrefix + "/RobinOrderDay";
         private const string WorkerKindKey = ModDataPrefix + "/WorkerKind";
-        private const string ConstructionSeenDayKey = ModDataPrefix + "/ConstructionSeenDay";
+        private const string WorkerAssignedDayKey  = ModDataPrefix + "/ConstructionSeenDay";
 
         private const string WorkerKindRobin = "Robin";
         private const string WorkerKindConstructionWorker = "ConstructionWorker";
@@ -89,8 +89,8 @@ namespace MultipleConstructionOrders.Core
                     ? WorkerKindRobin
                     : WorkerKindConstructionWorker;
 
-                if (!building.modData.ContainsKey(ConstructionSeenDayKey))
-                    building.modData[ConstructionSeenDayKey] = currentDay.ToString();
+                if (!building.modData.ContainsKey(WorkerAssignedDayKey ))
+                    building.modData[WorkerAssignedDayKey ] = currentDay.ToString();
             }
         }
 
@@ -111,7 +111,7 @@ namespace MultipleConstructionOrders.Core
                         continue;
 
                     building.modData.Remove(WorkerKindKey);
-                    building.modData.Remove(ConstructionSeenDayKey);
+                    building.modData.Remove(WorkerAssignedDayKey );
                 }
             }
         }
@@ -327,54 +327,30 @@ namespace MultipleConstructionOrders.Core
             worker.ignoreScheduleToday = true;
             worker.datable.Value = false;
 
-            ApplyHammerAnimation(worker, workerLocation);
+            ApplyBuildingAnimation(worker, workerLocation);
 
             if (!workerLocation.characters.Contains(worker))
                 workerLocation.characters.Add(worker);
         }
 
-        private static void ApplyHammerAnimation(NPC worker, GameLocation location)
+        private static void ApplyBuildingAnimation(NPC worker, GameLocation location)
         {
             AnimatedSprite.endOfAnimationBehavior hammerSound = delegate
             {
-                if (Utility.isOnScreen(worker.TilePoint, 3, location))
-                {
-                    location.playSound(Game1.random.NextDouble() < 0.1 ? "clank" : "axchop", null, null, SoundContext.Default);
-                    worker.shakeTimer = 250;
-                }
-            };
-
-            Action<Farmer> variablePause = null;
-
-            variablePause = delegate
-            {
-                if (worker.Sprite.CurrentAnimation == null || worker.Sprite.CurrentAnimation.Count == 0)
+                if (!Utility.isOnScreen(worker.TilePoint, 3, location))
                     return;
 
-                // Frame 3 is the "pause / held hammer" frame in your trimmed sheet.
-                int pauseDuration = Game1.random.NextDouble() < 0.4
-                    ? 300
-                    : Game1.random.Next(1000, 4000);
-
-                worker.Sprite.CurrentAnimation[worker.Sprite.currentAnimationIndex] =
-                    new FarmerSprite.AnimationFrame(
-                        3,
-                        pauseDuration,
-                        false,
-                        false,
-                        new AnimatedSprite.endOfAnimationBehavior(variablePause.Invoke),
-                        false
-                    );
+                location.playSound(Game1.random.NextDouble() < 0.1 ? "clank" : "axchop", null, null, SoundContext.Default);
+                worker.shakeTimer = 250;
             };
 
             worker.Sprite.CurrentAnimation = new List<FarmerSprite.AnimationFrame>
-            {
-                // These are the four working frames from your 64x32 sheet.
-                new FarmerSprite.AnimationFrame(0, 75),
-                new FarmerSprite.AnimationFrame(1, 75),
-                new FarmerSprite.AnimationFrame(2, 300, false, false, hammerSound, false),
-                new FarmerSprite.AnimationFrame(3, 1000, false, false, new AnimatedSprite.endOfAnimationBehavior(variablePause.Invoke), false)
-            };
+                {
+                    new FarmerSprite.AnimationFrame(0, 90),
+                    new FarmerSprite.AnimationFrame(1, 90),
+                    new FarmerSprite.AnimationFrame(2, 260, false, false, hammerSound, false),
+                    new FarmerSprite.AnimationFrame(3, Game1.random.Next(700, 1600))
+                };
 
             worker.Sprite.loop = true;
         }
