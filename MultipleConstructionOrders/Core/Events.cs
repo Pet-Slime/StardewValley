@@ -20,7 +20,7 @@ namespace MultipleConstructionOrders.Core
         {
 
             RobinCanAcceptConstructionOrdersToday = !AnyBuildingUnderConstruction();
-            Log.Alert($"{RobinCanAcceptConstructionOrdersToday}");
+            Log.Trace($"Can robin accept multiple orders today: {RobinCanAcceptConstructionOrdersToday}");
         }
 
         [SEvent.DayEnding]
@@ -39,16 +39,15 @@ namespace MultipleConstructionOrders.Core
 
         private static bool AnyBuildingUnderConstruction()
         {
-
-            foreach (var location in Game1.locations)
+            foreach (GameLocation location in Game1.locations.ToArray())
             {
-                if (location == null) continue;
+                if (location == null)
+                    continue;
 
                 if (location.isThereABuildingUnderConstruction())
-                {
                     return true;
-                }
             }
+
             return false;
         }
     }

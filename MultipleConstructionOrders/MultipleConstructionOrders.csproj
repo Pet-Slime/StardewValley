@@ -6,7 +6,7 @@
         <Name>Multiple Construction Orders</Name>
         <Description>Allows Robin to work on multiple construction buildings at once</Description>
         <Version>1.0.0</Version>
-        <UpdateKeys>Nexus:-1</UpdateKeys>
+        <UpdateKeys>Nexus:47289</UpdateKeys>
     </PropertyGroup>
 
     <ItemGroup>
