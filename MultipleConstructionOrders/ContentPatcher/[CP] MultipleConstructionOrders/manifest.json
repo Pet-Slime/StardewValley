@@ -1,0 +1,18 @@
+﻿{
+    "Name": "[CP] Multiple Construction Orders",
+    "Author": "moonslime",
+    "Version": "1.0.0",
+    "Description": "Multiple Construction Orders",
+    "UniqueID": "moonslime.MultipleConstructionOrders.CP",
+    "ContentPackFor": {
+        "UniqueID": "Pathoschild.ContentPatcher"
+    },
+    "UpdateKeys": [
+        "-1"
+    ],
+    "Dependencies": [
+        {
+            "UniqueID": "Pathoschild.ContentPatcher"
+        }
+    ]
+}

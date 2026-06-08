@@ -3,11 +3,20 @@
   "UniqueID": "moonslime.MultipleConstructionOrders",
   "Name": "Multiple Construction Orders",
   "Author": "moonslime",
-  "Version": "1.0.0",
+  "Version": "1.1.0",
   "Description": "Allows Robin to work on multiple construction buildings at once",
   "MinimumApiVersion": "4.5.2",
   "MinimumGameVersion": "1.6.15",
   "EntryDll": "MultipleConstructionOrders.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "moonslime.MultipleConstructionOrders.CP",
+      "MinimumVersion": "1.0.0"
+    },
+    {
+      "UniqueID": "Pathoschild.ContentPatcher"
+    }
+  ],
   "UpdateKeys": [
     "Nexus:47289"
   ]

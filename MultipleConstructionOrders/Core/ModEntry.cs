@@ -9,6 +9,7 @@ namespace MultipleConstructionOrders.Core
     {
         [SMod.Instance]
         internal static ModEntry Instance;
+        internal static Assets Assets;
 
         internal ITranslationHelper I18N => this.Helper.Translation;
 

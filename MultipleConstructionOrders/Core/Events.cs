@@ -1,10 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Graphics;
 using MoonShared.Attributes;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
@@ -15,40 +11,66 @@ namespace MultipleConstructionOrders.Core
     {
         internal static bool RobinCanAcceptConstructionOrdersToday { get; private set; }
 
+        public const string ConstructionWorkerSpriteAsset = "Mods/moonslime.MultipleConstructionOrders/textures";
+        public const string ConstructionWorkerPortraitPrefix = "Portraits/moonslime_MCO_ConstructionWorker_";
+
+        [SEvent.SaveLoaded]
+        private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
+        {
+            RefreshConstructionState();
+        }
+
         [SEvent.DayStarted]
         private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
-
-            RobinCanAcceptConstructionOrdersToday = !AnyBuildingUnderConstruction();
-            Log.Trace($"Can robin accept multiple orders today: {RobinCanAcceptConstructionOrdersToday}");
+            RefreshConstructionState();
+            ConstructionOrderManager.SpawnTemporaryWorkers();
         }
 
         [SEvent.DayEnding]
         private void OnDayEnding(object sender, DayEndingEventArgs e)
         {
             // Important:
-            // Do not let yesterday's "Robin can take orders" value leak into tomorrow morning.
+            // Do not let today's "Robin can take orders" value leak into tomorrow morning.
             RobinCanAcceptConstructionOrdersToday = false;
+
+            ConstructionOrderManager.ClearRobinOrderDay();
+            ConstructionOrderManager.RemoveTemporaryWorkers();
+            ConstructionOrderManager.AssignConstructionWorkers();
         }
 
         [SEvent.ReturnedToTitle]
         private void OnReturnedToTitle(object sender, ReturnedToTitleEventArgs e)
         {
             RobinCanAcceptConstructionOrdersToday = false;
+
+            ConstructionOrderManager.ClearRobinOrderDay();
+            ConstructionOrderManager.RemoveTemporaryWorkers();
         }
 
-        private static bool AnyBuildingUnderConstruction()
+        internal static void RefreshConstructionState()
         {
-            foreach (GameLocation location in Game1.locations.ToArray())
+            ConstructionOrderManager.CleanFinishedConstructionTags();
+            ConstructionOrderManager.AssignConstructionWorkers();
+
+            RobinCanAcceptConstructionOrdersToday = ConstructionOrderManager.CanRobinAcceptOrdersToday();
+
+            Log.Trace($"Can Robin accept multiple orders today: {RobinCanAcceptConstructionOrdersToday}");
+        }
+
+
+        [SEvent.AssetRequested]
+        private void OnAssetRequested(object sender, AssetRequestedEventArgs e)
+        {
+
+            // This prevents the game from logging missing portrait warnings for temporary worker NPCs.
+            if (e.NameWithoutLocale.Name.StartsWith(ConstructionWorkerPortraitPrefix, StringComparison.Ordinal))
             {
-                if (location == null)
-                    continue;
-
-                if (location.isThereABuildingUnderConstruction())
-                    return true;
+                e.LoadFrom(
+                    () => Game1.content.Load<Texture2D>("Portraits/Robin"),
+                    AssetLoadPriority.Exclusive
+                );
             }
-
-            return false;
         }
     }
 }
