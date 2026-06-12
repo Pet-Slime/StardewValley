@@ -1,5 +1,5 @@
 using StardewModdingAPI;
-using BirbCore.Attributes;
+using MoonShared.Attributes;
 
 namespace ExpControl.Core
 {

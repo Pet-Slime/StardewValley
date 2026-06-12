@@ -12,12 +12,5 @@
     <ItemGroup>
         <SMAPIDependency Include="drbirbdev.BirbCore" version="1.1.0" Required="true" />
     </ItemGroup>
-    
-    <ItemGroup>
-        <Reference Include="BirbCore">
-            <HintPath>$(GamePath)\Mods\BirbCore\BirbCore.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-    </ItemGroup>
 
 </Project>
