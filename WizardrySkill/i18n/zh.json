@@ -1,0 +1,331 @@
+﻿{
+    /*********
+    ** General text
+    *********/
+    // HUD messages
+    "spell.learn": "你学会了一个新咒语：{{spellName}}",
+    "spell.learn.ancient": "你学会了一个远古咒语：{{spellName}}",
+
+    // menu tooltips
+    "tooltip.spell.known": "点击并拖动来将{{spell}}加入到你下方的咒语条。",
+    "tooltip.spell.can-learn": "点击以使用一个剩余点数来学习{{spell}}。",
+    "tooltip.spell.need-free-points": "你没有剩余点数来学习{{spell}}。",
+    "tooltip.spell.need-previous-levels": "你必须先学习之前的咒语级别。",
+    "tooltip.spell.name-and-level": "{{spellName}}级别{{level}}",
+
+    // altar
+    "altar.click-message": "一个闪着光的祭坛。",
+
+    // Skill info
+    "skill.name": "奥术",
+    "skill.perk1": "+{{bonus}}法力",
+    "skill.perk_bonus1": "+{{bonus}}法力",
+    "skill.perk2": "+{{bonus}}法力再生",
+    "skill.perk_bonus2": "+{{bonus}}法力再生",
+
+    "skill.perk0.1": "基础法力值设定为100",
+    "skill.perk0.2": "现在可以点击皮埃尔的杂货店里的由巴祭坛来设定咒语栏里的咒语。",
+    "skill.perk0.3": "按住Q然后按1-4来选择咒语以释放咒语栏里的咒语。",
+    "skill.perk0.4": "按住Q然后按tab来切换咒语快捷栏。",
+
+    "Magic5a.name": "学徒",
+    "Magic5a.desc": "+2咒语升级点",
+    "Magic5b.name": "侍僧",
+    "Magic5b.desc": "每级别+0.5法力再生",
+    "Magic10a1.name": "能手",
+    "Magic10a1.desc": "+2咒语升级点",
+    "Magic10a2.name": "学士",
+    "Magic10a2.desc": "每个咒语集增加第五个咒语。",
+    "Magic10b1.name": "通灵师",
+    "Magic10b1.desc": "每级别+0.5法力再生",
+    "Magic10b2.name": "秘术师",
+    "Magic10b2.desc": "+100最大法力值",
+
+    //Food tooltip
+    "moonslime.Wizardry.Mana": "法力",
+
+    "moonslime.Wizardry.buff.buffDescription": "增益(咒语)",
+    "moonslime.Wizardry.magnetic_force.buffDescription": "磁力(咒语)",
+    "moonslime.Wizardry.haste.buffDescription": "疾速(咒语)",
+
+
+    /*********
+    ** Radio station
+    *********/
+    "radio.static": "*噪音*",
+    "radio.analyzehints.1": "想用魔法来帮助你的农场？试试分析你的工具。",
+    "radio.analyzehints.2": "需要快速逃跑？我觉得鞋子会给你一些启发。",
+    "radio.analyzehints.3": "我能不能把闪电和虫子结合起来？我需要在靠近一只虫子的同时有什么能够掌控闪电力量的东西，才能做研究。",
+    "radio.analyzehints.4": "有些基础的矿物似乎含有一些魔法能量。",
+    "radio.analyzehints.5": "之前有一颗陨石掉在我的后院里了。它看起来十分神秘。",
+    "radio.analyzehints.6": "咖啡可好喝了。为什么不用一个咒语来再现它的效果呢？",
+    "radio.analyzehints.7": "有一天我看到有人从地里生根困住了一个怪物不让它动，简直像一个作物一样。",
+    "radio.analyzehints.8": "我赌你可以用一股寒冰让东西减速。到底在哪里可以让你研究冰呢...？",
+    "radio.analyzehints.9": "我有天在某人房子里看到一个黑暗神龛。好吧，说是'房子'，其实更像个小屋。",
+    "radio.analyzehints.10": "一直拿着生命药水的确很麻烦。也许我们可以用魔法来回复？",
+    "radio.analyzehints.11": "大多数人都用梯子来往地下走，但是我曾经见过一个人施了一个咒就直接往地里钻了。",
+    "radio.analyzehints.12": "我看到有人施咒来重获法力！？看起来很痛。有传言那人是在钓岩浆鳗鱼时学到这个技巧的。",
+
+
+
+    /*********
+    ** Magic spells
+    *********/
+    "moonslime.Wizardry.school.arcane.name": "秘法",
+    "moonslime.Wizardry.school.toil.name": "辛劳",
+    "moonslime.Wizardry.school.nature.name": "自然",
+    "moonslime.Wizardry.school.life.name": "生命",
+    "moonslime.Wizardry.school.elemental.name": "塑能",
+    "moonslime.Wizardry.school.eldritch.name": "诡奇",
+    "moonslime.Wizardry.school.motion.name": "移形",
+    "moonslime.Wizardry.school.uknown.name": "未知",
+
+    "moonslime.Wizardry.school.arcane.desc": "秘法学派为你提供趁手的工具。\n并让你对周遭世界多一分洞见。",
+    "moonslime.Wizardry.school.toil.desc": "并非所有魔法学派都讲究双手生火。\n辛劳学派专注于实用之道。\n让日常杂务变得轻松一些的咒语。",
+    "moonslime.Wizardry.school.nature.desc": "自然学派的魔法让草木鸟兽也能一同嬉戏。",
+    "moonslime.Wizardry.school.life.desc": "生命魔法会伸出援手；\n抚慰伤痛，驱散阴霾，\n并为你增添一线额外的生机。",
+    "moonslime.Wizardry.school.elemental.desc": "塑能学派专精于战斗向的咒语。\n倒不是说其他学派就不能战斗，只是塑能最擅长罢了。",
+    "moonslime.Wizardry.school.eldritch.desc": "少许诡奇魔法能创造奇迹…\n但它总爱索取一丝微薄的代价。",
+    "moonslime.Wizardry.school.motion.desc": "想在移动上搭把手？\n移形学派可以助你一臂之力。",
+    "moonslime.Wizardry.school.uknown.desc": "未知",
+
+    "moonslime.Wizardry.spellmenu.leftsideTitle": "咒语",
+    "moonslime.Wizardry.spell.cost": "消耗：",
+    "moonslime.Wizardry.spell.spellpoints": "剩余点数：",
+    "moonslime.Wizardry.spell.effect": "效果：",
+
+    "moonslime.Wizardry.spell.arcane:analyze.name": "分析",
+    "moonslime.Wizardry.spell.arcane:analyze.cost": "无消耗",
+    "moonslime.Wizardry.spell.arcane:analyze.desc": "检视一个物品来获得魔法启发。",
+    "moonslime.Wizardry.spell.arcane:analyze.hint": "没有提示，因为你一开始就有这个咒语！",
+
+    "moonslime.Wizardry.spell.arcane:spellstones.name": "咒语石",
+    "moonslime.Wizardry.spell.arcane:spellstones.cost": "1级: 10法力. 2级: 10法力,10生命.\n3级: 10法力,10能量. 4级: 30法力,10生命,10能量.",
+    "moonslime.Wizardry.spell.arcane:spellstones.desc": "根据使用的咒语级别创造一块魔法石。",
+    "moonslime.Wizardry.spell.arcane:spellstones.hint": "我可以给石头注入一些魔法能量吗？",
+
+    "moonslime.Wizardry.spell.elemental:magicmissle.name": "魔法箭",
+    "moonslime.Wizardry.spell.elemental:magicmissle.cost": "每级4法力",
+    "moonslime.Wizardry.spell.elemental:magicmissle.desc": "一种有些弱但是带穿透的发射物。",
+    "moonslime.Wizardry.spell.elemental:magicmissle.hint": "没有提示，因为你一开始就有这个咒语！",
+
+    "moonslime.Wizardry.spell.arcane:disenchant.name": "祛魅降级",
+    "moonslime.Wizardry.spell.arcane:disenchant.cost": "每个物品3法力",
+    "moonslime.Wizardry.spell.arcane:disenchant.desc": "降低物品的品质。获得差价一半的钱。",
+    "moonslime.Wizardry.spell.arcane:disenchant.hint": "没有提示，因为你一开始就有这个咒语！",
+
+    "moonslime.Wizardry.spell.arcane:enchant.name": "附魔升品",
+    "moonslime.Wizardry.spell.arcane:enchant.cost": "每个物品3法力，以及两倍的差价",
+    "moonslime.Wizardry.spell.arcane:enchant.desc": "提升物品的品质。",
+    "moonslime.Wizardry.spell.arcane:enchant.hint": "没有提示，因为你一开始就有这个咒语！",
+
+    "moonslime.Wizardry.spell.arcane:rewind.name": "回溯",
+    "moonslime.Wizardry.spell.arcane:rewind.cost": "25法力，一个金锭",
+    "moonslime.Wizardry.spell.arcane:rewind.desc": "回到过去。",
+    "moonslime.Wizardry.spell.arcane:rewind.hint": "找到其他的所有咒语！",
+
+    "moonslime.Wizardry.spell.toil:cleardebris.name": "清除杂物",
+    "moonslime.Wizardry.spell.toil:cleardebris.cost": "每件东西3法力",
+    "moonslime.Wizardry.spell.toil:cleardebris.desc": "把目标区域内的杂物清除\n更高的等级能清除更大的杂物。",
+    "moonslime.Wizardry.spell.toil:cleardebris.hint": "想用魔法来帮助你的农场？\n试试分析你的工具。",
+
+    "moonslime.Wizardry.spell.toil:till.name": "锄地",
+    "moonslime.Wizardry.spell.toil:till.cost": "每格2法力",
+    "moonslime.Wizardry.spell.toil:till.desc": "在目标区域把魔法当做锄头用。\n更高的等级意味着更大的范围。",
+    "moonslime.Wizardry.spell.toil:till.hint": "想用魔法来帮助你的农场？\n试试分析你的工具。",
+
+    "moonslime.Wizardry.spell.toil:water.name": "浇水",
+    "moonslime.Wizardry.spell.toil:water.cost": "每格1法力",
+    "moonslime.Wizardry.spell.toil:water.desc": "在目标区域把魔法当做喷壶用。\n更高的等级意味着更大的范围。",
+    "moonslime.Wizardry.spell.toil:water.hint": "想用魔法来帮助你的农场？\n试试分析你的工具。",
+
+    "moonslime.Wizardry.spell.motion:blink.name": "闪现",
+    "moonslime.Wizardry.spell.motion:blink.cost": "2个移动核心",
+    "moonslime.Wizardry.spell.motion:blink.desc": "尝试生成一条道指定区域的可走道路，\n然后传送过去。",
+    "moonslime.Wizardry.spell.motion:blink.hint": "找到所有其他的移形咒语。",
+
+    "moonslime.Wizardry.spell.toil:harvest.name": "除草",
+    "moonslime.Wizardry.spell.toil:harvest.cost": "每格5法力",
+    "moonslime.Wizardry.spell.toil:harvest.desc": "清除一大片草并从每一颗清除的草中获得一份干草。",
+    "moonslime.Wizardry.spell.toil:harvest.hint": "想用魔法来帮助你的农场？\n试试分析你的工具。",
+
+    "moonslime.Wizardry.spell.toil:collect.name": "收集",
+    "moonslime.Wizardry.spell.toil:collect.cost": "每个机器3法力",
+    "moonslime.Wizardry.spell.toil:collect.desc": "用来远程从机器里收集物品！\n高等级增加收集半径。",
+    "moonslime.Wizardry.spell.toil:collect.hint": "找到所有其他的辛劳咒语。",
+
+    "moonslime.Wizardry.spell.nature:lantern.name": "雷之虫",
+    "moonslime.Wizardry.spell.nature:lantern.cost": "每级10法力",
+    "moonslime.Wizardry.spell.nature:lantern.desc": "召唤一只跟着你的发光虫子，有时会充能避雷针。\n高等级释放更多光芒。",
+    "moonslime.Wizardry.spell.nature:lantern.hint": "我能不能把闪电和虫子结合起来？\n我需要在靠近一只虫子的同时有什么能够掌控闪电力量的东西，才能做研究。",
+
+    "moonslime.Wizardry.spell.nature:fish_frenzy.name": "鱼鱼狂潮",
+    "moonslime.Wizardry.spell.nature:fish_frenzy.cost": "10法力，物品栏里的第一条鱼",
+    "moonslime.Wizardry.spell.nature:fish_frenzy.desc": "在可钓鱼的水域生成一次鱼的狂潮；不保证每次都能生效。",
+    "moonslime.Wizardry.spell.nature:fish_frenzy.hint": "我能不能研究一下与钓鱼有关的魔法物品？",
+
+    "moonslime.Wizardry.spell.nature:crabrain.name": "螃蟹雨",
+    "moonslime.Wizardry.spell.nature:crabrain.cost": "25法力，一只螃蟹",
+    "moonslime.Wizardry.spell.nature:crabrain.desc": "从天上召唤可能会爆炸的螃蟹。",
+    "moonslime.Wizardry.spell.nature:crabrain.hint": "找到其他所有自然咒语。",
+
+    "moonslime.Wizardry.spell.nature:bat.name": "追踪蝙蝠",
+    "moonslime.Wizardry.spell.nature:bat.cost": "5法力，一个蝙蝠翅膀",
+    "moonslime.Wizardry.spell.nature:bat.desc": "召唤一只飞翔最近物品的蝙蝠。\n1级: 怪物\n2级: 古物和淘金点",
+    "moonslime.Wizardry.spell.nature:bat.hint": "我好奇一只蝙蝠是否能帮到我？",
+
+    "moonslime.Wizardry.spell.nature:tendrils.name": "根须",
+    "moonslime.Wizardry.spell.nature:tendrils.cost": "10法力",
+    "moonslime.Wizardry.spell.nature:tendrils.desc": "召唤根须来使敌人停在路上。",
+    "moonslime.Wizardry.spell.nature:tendrils.hint": "有一天我看到有人从地里生根困住了一个怪物不让它动，\n简直像一个作物一样。",
+
+    "moonslime.Wizardry.spell.elemental:shockwave.name": "震荡波",
+    "moonslime.Wizardry.spell.elemental:shockwave.cost": "10法力",
+    "moonslime.Wizardry.spell.elemental:shockwave.desc": "跳到空中然后砸下，发出震荡波。\n高级别更大。",
+    "moonslime.Wizardry.spell.elemental:shockwave.hint": "有些基础的矿物似乎含有一些魔法能量。",
+
+    "moonslime.Wizardry.spell.life:magnetic_force.name": "磁性屏障",
+    "moonslime.Wizardry.spell.life:magnetic_force.cost": "每级5法力",
+    "moonslime.Wizardry.spell.life:magnetic_force.desc": "一个磁性盾。保护一个人的同时吸引物品。",
+    "moonslime.Wizardry.spell.life:magnetic_force.hint": "我听说磁性效果能成为一个咒语,\n但是我需要一个物品来研究。\n会是什么呢。",
+
+    "moonslime.Wizardry.spell.nature:photosynthesis.name": "光合作用",
+    "moonslime.Wizardry.spell.nature:photosynthesis.cost": "100法力，仙尘",
+    "moonslime.Wizardry.spell.nature:photosynthesis.desc": "使所有在指定区域内的作物推进一个生长阶段。",
+    "moonslime.Wizardry.spell.nature:photosynthesis.hint": "仙子有时候在晚上帮助作物长大，如果有什么和她们相关的我能研究的东西就好了。",
+
+    "moonslime.Wizardry.spell.life:heal.name": "恢复",
+    "moonslime.Wizardry.spell.life:heal.cost": "25%法力",
+    "moonslime.Wizardry.spell.life:heal.desc": "恢复16%的生命 + 根据级别的额外生命。",
+    "moonslime.Wizardry.spell.life:heal.hint": "一直拿着生命药水的确很麻烦。\n也许我们可以用魔法来回复？",
+
+    "moonslime.Wizardry.spell.life:healarea.name": "恢复结界",
+    "moonslime.Wizardry.spell.life:healarea.cost": "25%法力",
+    "moonslime.Wizardry.spell.life:healarea.desc": "创造一个持续60秒恢复所有在里面的玩家的结界\n高等级范围更大",
+    "moonslime.Wizardry.spell.life:healarea.hint": "在哪里能够让我学到恢复别人的生命魔法呢？",
+
+    "moonslime.Wizardry.spell.motion:haste.name": "疾速",
+    "moonslime.Wizardry.spell.motion:haste.cost": "每级40法力，咖啡豆",
+    "moonslime.Wizardry.spell.motion:haste.desc": "像风一样快速移动。高等级让你移动更快且持续时间更长。",
+    "moonslime.Wizardry.spell.motion:haste.hint": "我也许能够研究一些让我健步如飞的东西。",
+
+    "moonslime.Wizardry.spell.motion:evac.name": "撤离",
+    "moonslime.Wizardry.spell.motion:evac.cost": "25法力",
+    "moonslime.Wizardry.spell.motion:evac.desc": "传送到你进入这片区域的地方。",
+    "moonslime.Wizardry.spell.motion:evac.hint": "需要快速逃跑？\n我觉得鞋子会给你一些启发。",
+
+    "moonslime.Wizardry.spell.life:cleanse.name": "净化",
+    "moonslime.Wizardry.spell.life:cleanse.cost": "25法力",
+    "moonslime.Wizardry.spell.life:cleanse.desc": "移除自己身上所有的正面和负面效果。",
+    "moonslime.Wizardry.spell.life:cleanse.hint": "肯定有一种让人净化身上效果的办法。\n就像一只滑溜溜的鱿鱼那样。",
+
+    "moonslime.Wizardry.spell.life:buff.name": "增益",
+    "moonslime.Wizardry.spell.life:buff.cost": "每级25法力",
+    "moonslime.Wizardry.spell.life:buff.desc": "增强每一种技能。高等级使你更强且持续更久。",
+    "moonslime.Wizardry.spell.life:buff.hint": "找到所有其他生命咒语。",
+
+    "moonslime.Wizardry.spell.elemental:fireball.name": "火球",
+    "moonslime.Wizardry.spell.elemental:fireball.cost": "每级6法力",
+    "moonslime.Wizardry.spell.elemental:fireball.desc": "射出一颗对敌人爆炸的火球。\n高等级增加伤害。",
+    "moonslime.Wizardry.spell.elemental:fireball.hint": "有些基础的矿物似乎含有一些魔法能量。",
+
+    "moonslime.Wizardry.spell.elemental:frostbolt.name": "霜弹",
+    "moonslime.Wizardry.spell.elemental:frostbolt.cost": "每级6法力",
+    "moonslime.Wizardry.spell.elemental:frostbolt.desc": "射出一团会冰冻怪物的雪。\n高等级增加伤害。",
+    "moonslime.Wizardry.spell.elemental:frostbolt.hint": "我赌你可以用一股寒冰让东西减速。\n到底在哪里可以让你研究冰呢...？",
+
+    "moonslime.Wizardry.spell.motion:descend.name": "深遁",
+    "moonslime.Wizardry.spell.motion:descend.cost": "每级25法力",
+    "moonslime.Wizardry.spell.motion:descend.desc": "在矿洞向下层移动。\n高等级增加移动的层数，且不会有额外法力消耗。",
+    "moonslime.Wizardry.spell.motion:descend.hint": "大多数人都用梯子来往地下走，\n但是我曾经见过一个人施了一个咒就直接往地里钻了。",
+
+    "moonslime.Wizardry.spell.toil:kiln.name": "制煤",
+    "moonslime.Wizardry.spell.toil:kiln.cost": "以5法力随级别快速增长，木头或浮木",
+    "moonslime.Wizardry.spell.toil:kiln.desc": "将木头转化为煤炭。\n高等级快速减少所需木头。",
+    "moonslime.Wizardry.spell.toil:kiln.hint": "有什么办法可以用魔法来生成煤炭？",
+
+    "moonslime.Wizardry.spell.motion:teleport.name": "传送",
+    "moonslime.Wizardry.spell.motion:teleport.cost": "10法力，移动核心",
+    "moonslime.Wizardry.spell.motion:teleport.desc": "当在外面时，传送到你去过的户外地点。",
+    "moonslime.Wizardry.spell.motion:teleport.hint": "我可以用图腾传送。如果我研究足够多的图腾，\n我也许能创造一个传送咒语。",
+
+    "moonslime.Wizardry.spell.elemental:meteor.name": "陨石",
+    "moonslime.Wizardry.spell.elemental:meteor.cost": "铱矿石",
+    "moonslime.Wizardry.spell.elemental:meteor.desc": "往地面砸下一颗大陨石",
+    "moonslime.Wizardry.spell.elemental:meteor.hint": "也许太空里的什么能给我咒语启发。",
+
+    "moonslime.Wizardry.spell.eldritch:bloodmana.name": "鲜血法力",
+    "moonslime.Wizardry.spell.eldritch:bloodmana.cost": "25%生命",
+    "moonslime.Wizardry.spell.eldritch:bloodmana.desc": "恢复16%以及根据咒语级别附加的法力",
+    "moonslime.Wizardry.spell.eldritch:bloodmana.hint": "我看到有人施咒来重获法力！？\n看起来很痛。\n有传言那人是在钓岩浆鳗鱼时学到这个技巧的。",
+
+    "moonslime.Wizardry.spell.eldritch:lucksteal.name": "幸运窃取",
+    "moonslime.Wizardry.spell.eldritch:lucksteal.cost": "你爱的人的幸福",
+    "moonslime.Wizardry.spell.eldritch:lucksteal.desc": "使你本日运气最大。",
+    "moonslime.Wizardry.spell.eldritch:lucksteal.hint": "我有天在某人房子里看到一个黑暗神龛。I saw an dark altar in someone's house the other day.\n好吧，说是'房子'，\n其实更像个小屋。",
+
+    "moonslime.Wizardry.spell.eldritch:charm.name": "迷人",
+    "moonslime.Wizardry.spell.eldritch:charm.cost": "每人15法力, 25生命",
+    "moonslime.Wizardry.spell.eldritch:charm.desc": "奉献生命来使附近的人们喜欢你。\n高等级增加范围。",
+    "moonslime.Wizardry.spell.eldritch:charm.hint": "会吸引危险的东西可能对研究很有帮助...",
+
+    "moonslime.Wizardry.spell.eldritch:spirit.name": "唤灵",
+    "moonslime.Wizardry.spell.eldritch:spirit.cost": "50法力，20%生命",
+    "moonslime.Wizardry.spell.eldritch:spirit.desc": "召唤一个迷失的灵魂来为你战斗。\n能力随战斗和奥术等级增幅。",
+    "moonslime.Wizardry.spell.eldritch:spirit.hint": "找到所有其他诡奇咒语。",
+
+
+
+
+
+
+    /*********
+    ** Generic Mod Config Menu UI
+    *********/
+
+
+    "config.VoidSchool": "启用闪现技能",
+    "config.VoidSchool.tooltip": "已弃用。",
+
+
+    "config.Magic_arrow_base": "魔法箭基础伤害",
+    "config.Magic_arrow_base.tooltip": "需要重启游戏。\n这个咒语的基础伤害。\n作为参考，弹弓是1, 高级弹弓是2，银河弹弓是4。",
+
+    "config.Magic_arrow_scale": "魔法箭弹药伤害",
+    "config.Magic_arrow_scale.tooltip": "需要重启游戏。\n这个咒语随机别增强的基础‘弹药’伤害。所以 级别乘上这个值 = 弹药伤害。\n作为参考：铜矿石是10，铁矿石是20，铱矿石是50。",
+
+    "config.Fire_ball_base": "火球基础伤害",
+    "config.Fire_ball_base.tooltip": "需要重启游戏。\n这个咒语的基础伤害。\n作为参考，弹弓是1, 高级弹弓是2，银河弹弓是4。",
+
+    "config.Fire_ball_scale": "火球弹药伤害",
+    "config.Fire_ball_scale.tooltip": "需要重启游戏。\n这个咒语随机别增强的基础‘弹药’伤害。所以 级别乘上这个值 = 弹药伤害。\n作为参考：铜矿石是10，铁矿石是20，铱矿石是50。",
+
+    "config.Frost_bolt_base": "霜弹基础伤害",
+    "config.Frost_bolt_base.tooltip": "需要重启游戏。\n这个咒语的基础伤害。\n作为参考，弹弓是1, 高级弹弓是2，银河弹弓是4。",
+
+    "config.Frost_bolt_scale": "霜弹弹药伤害",
+    "config.Frost_bolt_scale.tooltip": "需要重启游戏。\n这个咒语随机别增强的基础‘弹药’伤害。所以 级别乘上这个值 = 弹药伤害。\n作为参考：铜矿石是10，铁矿石是20，铱矿石是50。",
+
+    "config.Spirit_attack_range": "唤灵咒语攻击范围",
+    "config.Spirit_attack_range.tooltip": "需要重启游戏。\n唤灵召唤的灵魂的攻击范围。\n 更高的范围会导致更多计算和CPU消耗",
+
+    // altar and radio placement
+    "config.altar-placement": "祭坛放置位置",
+    "config.radio-placement": "无线电放置位置",
+    "config.location.name": "位置",
+    "config.location.tooltip": "放置位置的地点内部名，应当和在Debug Mode模组里显示的一致。",
+    "config.x.name": "X位置",
+    "config.x.tooltip": "放置位置的X位置（格），应当和在Debug Mode模组里显示的一致。",
+    "config.y.name": "Y位置",
+    "config.y.tooltip": "放置位置的Y位置（格），应当和在Debug Mode模组里显示的一致。",
+    "config.x-or-y.automatic-position": "自动",
+
+    // controls
+    "config.controls": "控制",
+    "config.cast-key.name": "按键：施放",
+    "config.cast-key.tooltip": "用来开始释放咒语的按键",
+    "config.swap-spells-key.name": "按键：切换咒语",
+    "config.swap-spells-key.tooltip": "用来切换咒语集的按键。",
+    "config.select-spell-key.name": "按键：第{{slotNumber}}个咒语",
+    "config.select-spell-key.tooltip": "用来选择第{{slotNumber}}个咒语的按键。"
+}
