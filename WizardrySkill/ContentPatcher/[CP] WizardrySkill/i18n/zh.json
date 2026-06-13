@@ -1,0 +1,88 @@
+﻿{
+
+    "moonslime.Wizardry.placeholder_item.name": "火花",
+    "moonslime.Wizardry.placeholder_item.description": "你不应该看到这个。",
+
+    "moonslime.Wizardry.Travel_Core.name": "移动核心",
+    "moonslime.Wizardry.Travel_Core.description": "一个法师用来到处移动的物品。",
+
+    "moonslime.Wizardry.Magic_Elixir.name": "法力药水",
+    "moonslime.Wizardry.Magic_Elixir.description": "由一瓶生命药水和仙尘熬制转化而来的法力药水。失去了恢复生命的效果，但可以恢复所有法力。",
+
+    "moonslime.Wizardry.Magic_Potion.name": "法力滋补水",
+    "moonslime.Wizardry.Magic_Potion.description": "由一瓶能量滋补水和仙尘熬制转化而来的法力滋补水。失去了恢复能量的效果，但可以恢复一半法力。",
+
+
+    "moonslime.Wizardry.Magic_Stone:Energy.name": "魔法石：能量",
+    "moonslime.Wizardry.Magic_Stone:Energy.description": "注入了一个人的耐力的石头。",
+
+    "moonslime.Wizardry.Magic_Stone:Health.name": "魔法石：生命",
+    "moonslime.Wizardry.Magic_Stone:Health.description": "注入了一个人的生命的石头。",
+
+    "moonslime.Wizardry.Magic_Stone:Mana.name": "魔法石：法力",
+    "moonslime.Wizardry.Magic_Stone:Mana.description": "注入了一个人的法力的石头。",
+
+
+    "moonslime.Wizardry.Scroll_Fireball.name": "法术卷轴：火球",
+    "moonslime.Wizardry.Scroll_Fireball.description": "一卷充满着火球魔法的远古矮人卷轴。使用以施放较弱的一个版本。",
+
+    "moonslime.Wizardry.Scroll_Buff.name": "法术卷轴：增益",
+    "moonslime.Wizardry.Scroll_Buff.description": "一卷充满着增益魔法的远古矮人卷轴。使用以施放较弱的一个版本。",
+
+    "moonslime.Wizardry.Scroll_Bloodmana.name": "法术卷轴：鲜血法力",
+    "moonslime.Wizardry.Scroll_Bloodmana.description": "一卷充满着鲜血法力魔法的远古矮人卷轴。使用以施放较弱的一个版本。",
+
+    "moonslime.Wizardry.Scroll_Evac.name": "法术卷轴：撤离",
+    "moonslime.Wizardry.Scroll_Evac.description": "一卷充满着撤离魔法的远古矮人卷轴。使用以施放较弱的一个版本。",
+
+    "moonslime.Wizardry.Scroll_Meteor.name": "法术卷轴：陨石",
+    "moonslime.Wizardry.Scroll_Meteor.description": "一卷充满着陨石魔法的远古矮人卷轴。使用以施放较弱的一个版本。",
+
+    "moonslime.Wizardry.Scroll_Thunderbug.name": "法术卷轴：雷之虫",
+    "moonslime.Wizardry.Scroll_Thunderbug.description": "一卷充满着雷之虫魔法的远古矮人卷轴。使用以施放较弱的一个版本。",
+
+    "moonslime.Wizardry.Scroll_Rewind.name": "法术卷轴：回溯",
+    "moonslime.Wizardry.Scroll_Rewind.description": "一卷充满着回溯魔法的远古矮人卷轴。使用以施放较弱的一个版本。",
+
+    "moonslime.Wizardry.Scroll_Descend.name": "法术卷轴：深遁",
+    "moonslime.Wizardry.Scroll_Descend.description": "一卷充满着深遁魔法的远古矮人卷轴。使用以施放较弱的一个版本。",
+
+    "moonslime.Wizardry.Scroll_Heal.name": "法术卷轴：恢复",
+    "moonslime.Wizardry.Scroll_Heal.description": "一卷充满着恢复魔法的远古矮人卷轴。使用以施放较弱的一个版本。",
+
+    "moonslime.Wizardry.Scroll_Crabrain.name": "法术卷轴：螃蟹雨",
+    "moonslime.Wizardry.Scroll_Crabrain.description": "一卷充满着螃蟹雨魔法的远古矮人卷轴。使用以施放较弱的一个版本。",
+
+    "moonslime.Wizardry.Scroll_Monster_Tracking.name": "法术卷轴：怪物追踪蝙蝠",
+    "moonslime.Wizardry.Scroll_Monster_Tracking.description": "一卷充满着怪物追踪蝙蝠魔法的远古矮人卷轴。使用以施放较弱的一个版本。",
+
+    "moonslime.Wizardry.Scroll_Artifact_Tracking.name": "法术卷轴：古物追踪蝙蝠",
+    "moonslime.Wizardry.Scroll_Artifact_Tracking.description": "一卷充满着古物追踪蝙蝠魔法的远古矮人卷轴。使用以施放较弱的一个版本。",
+
+
+    "moonslime.Wizardry.CraftableSpellAltar": "咒语聚焦祭坛",
+    "moonslime.Wizardry.CraftableSpellAltar.description": "放下后右键点击以打开咒语书目录。",
+
+    "moonslime.Wizardry.ManaSink": "奥秘熔炉",
+    "moonslime.Wizardry.ManaSink.description": "仅对能手巫师：\n放入有魔法能量的物品。这个机器会吞噬它们的法力，一旦收集到足够多的法力，使用者的咒语力量会变强。",
+
+    "moonslime.Wizardry.LearnMagic.00": "是时候让你学习奥术之道了。需要一天的时间，它才会在你体内完全觉醒。",
+    "moonslime.Wizardry.LearnMagic.01": "你需要一个地方，作为咒语的祭坛…",
+    "moonslime.Wizardry.LearnMagic.02": "我已经调整了皮埃尔店铺里的由巴祭坛供你使用。去吧，在那里祈祷，以连通你的咒语。",
+    "moonslime.Wizardry.LearnMagic.03": "我会教你秘法咒语的基本功，但其余的必须靠你自己去发现。",
+    "moonslime.Wizardry.LearnMagic.04": "秘法学派的‘分析’咒语可以帮你发现大多数咒语。不过，某些更强大的咒术，需要用别的方式才能找到。",
+    "moonslime.Wizardry.LearnMagic.05": "每一个奥术学派都有四个普通咒语，以及第五个古代咒语。连我也不知道那些古咒藏于何处。",
+    "moonslime.Wizardry.LearnMagic.06": "为了帮你入门，我给你一个提示：试试对你的喷壶使用‘分析’。",
+    "moonslime.Wizardry.LearnMagic.07": "现在，去休息吧。好好睡上一觉，一切自会明了。",
+    "moonslime.Wizardry.LearnMagic.10": "魔法！",
+
+    "moonslime.Wizardry.LearnMagic.SVE.00": "看到你在那座幻象雕像上展现的才能后，我决定让你探索奥术之道。需要一天的时间，它才会在你体内完全觉醒。",
+    "moonslime.Wizardry.LearnMagic.SVE.01": "你需要一个地方，作为咒语的祭坛…",
+    "moonslime.Wizardry.LearnMagic.SVE.02": "我已经调整了皮埃尔店铺里的由巴祭坛供你使用。去吧，在那里祈祷，以连通你的咒语。",
+    "moonslime.Wizardry.LearnMagic.SVE.03": "我会教你秘法咒语的基本功，但其余的必须靠你自己去发现。",
+    "moonslime.Wizardry.LearnMagic.SVE.04": "秘法学派的‘分析’咒语可以帮你发现大多数咒语。不过，某些更强大的咒术，需要用别的方式才能找到。",
+    "moonslime.Wizardry.LearnMagic.SVE.05": "每一个奥术学派都有四个普通咒语，以及第五个古代咒语。连我也不知道那些古咒藏于何处。",
+    "moonslime.Wizardry.LearnMagic.SVE.06": "为了帮你入门，我给你一个提示：试试对你的喷壶使用‘分析’。",
+    "moonslime.Wizardry.LearnMagic.SVE.07": "现在，去休息吧。好好睡上一觉，一切自会明了。",
+    "moonslime.Wizardry.LearnMagic.SVE.10": "魔法！"
+}

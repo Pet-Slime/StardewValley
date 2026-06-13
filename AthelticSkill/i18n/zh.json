@@ -1,0 +1,80 @@
+﻿{
+    "skill.name": "体能",
+    "skill.perk": "+{{bonus}} 冲刺效率",
+    "skill.perk_bonus": "减少冲刺的能量消耗",
+
+
+    "config.AlternativeStrongmanProfession": "可替换的职业",
+    "config.AlternativeStrongmanProfession.tooltip": "需要重启！\n将大力士职业从允许镐子斧子蓄力\n改成可以徒手开晶球。\n如果安装了重生之路(Walk of Life)，该选项会被强制开启。",
+
+    "config.AlternativeSkillPageIcon": "可替换的技能图标",
+    "config.AlternativeSkillPageIcon.tooltip": "需要重启！\n将闪电技能图标改为一组杠铃。",
+
+    "config.SprintDust": "冲刺扬尘",
+    "config.SprintDust.tooltip": "当冲刺移动时生成原版的跑步/小路灰尘。",
+
+    "config.SprintDustInterval": "冲刺扬尘间隔",
+    "config.SprintDustInterval.tooltip": "扬尘的频率。 1 = 每一冲刺帧(~0.25秒). 更大 = 更少灰尘.",
+
+
+    "config.Key_Cast": "冲刺键",
+    "config.Key_Cast.tooltip": "用来切换/按住生效冲刺和蓄力工具（如果你有那个职业）的键",
+
+    "config.ToggleSprint": "切换冲刺",
+    "config.ToggleSprint.tooltip": "选取后用冲刺键切换冲刺，而不是按住生效",
+
+    "config.ExpFromSprinting": "冲刺经验",
+    "config.ExpFromSprinting.tooltip": "从冲刺中获得的经验",
+
+    "config.ExpChanceFromTools": "用工具时获得经验的概率",
+    "config.ExpChanceFromTools.tooltip": "用工具时获得经验的概率。 25 是 25% 的概率。",
+
+    "config.ExpFromLightToolUse": "轻工具的经验",
+    "config.ExpFromLightToolUse.tooltip": "从使用耗能量为轻的工具获得的经验（默认：除斧子和镐子外的所有工具）",
+
+    "config.ExpFromHeavyToolUse": "重工具的经验",
+    "config.ExpFromHeavyToolUse.tooltip": "从使用耗能量为重的工具获得的经验（默认：斧子和镐子）",
+
+    "config.MinimumEnergyToSprint": "冲刺最低所需的能量",
+    "config.MinimumEnergyToSprint.tooltip": "能够使用冲刺最低所需的能量。",
+
+
+    "config.SprintSpeed": "冲刺速度",
+    "config.SprintSpeed.tooltip": "冲刺时的基础额外速度增益。",
+
+
+    "config.SprintingExpEvent": "冲刺经验事件概率",
+    "config.SprintingExpEvent.tooltip": "调整冲刺经验事件的概率。需要睡一觉生效。",
+
+
+    "config.BuffIcon": "可见增益图标",
+    "config.BuffIcon.tooltip": "冲刺增益的图标是否可见？",
+
+
+    "config.AcrobatDodgeChance": "杂技演员闪避概率",
+    "config.AcrobatDodgeChance.tooltip": "根据体能技能等级调整,\n杂技演员职业闪避几率的公式。\n基础公式是： 体能等级 * (这个值 / 1000) + 运气等级 * 0.005 ",
+
+    "moonslime.Athletics.sprinting.displayName": "冲刺",
+    "moonslime.Athletics.sprinting.description": "消耗能量获得更快的移动！",
+
+    "moonslime.Athletics.sprinting.displayName_Gridball": "冲撞",
+    "moonslime.Athletics.sprinting.description_Gridball": "获得更快的移动的同时伤害敌人！",
+
+
+    "moonslime.Athletics.GeodeOpen.InventoryFull": "你没有足够的物品栏空间来存放从这块晶球中获得的物品。",
+
+    "Athletic5a.name": "健身者",
+    "Athletic5a.desc": "根据体能一半的级别恢复生命",
+    "Athletic5b.name": "慢跑者",
+    "Athletic5b.desc": "根据体能一半的级别恢复能量",
+    "Athletic10a1.name": "大力${士^士^士}$",
+    "Athletic10a1.desc": "允许用冲刺键来蓄力斧子和镐子",
+    "Athletic10a1.WoL.desc": "允许在拿着普通晶球时用右键打开它们",
+    "Athletic10a2.name": "橄榄球后卫",
+    "Athletic10a2.desc": "在冲刺时，根据体能级别增加防御并反弹伤害至攻击者。",
+    "Athletic10b1.name": "杂技演员",
+    "Athletic10b1.desc": "根据体能和运气级别提供小概率闪避",
+    "Athletic10b2.name": "马拉松选手",
+    "Athletic10b2.desc": "增加冲刺速度并减少冲刺体能消耗"
+
+}
