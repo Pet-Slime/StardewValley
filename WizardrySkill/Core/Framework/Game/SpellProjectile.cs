@@ -192,7 +192,7 @@ namespace WizardrySkill.Core.Framework.Game
                 return;
 
             location.damageMonster(npc.GetBoundingBox(), this.DamageToFarmer.Value, this.DamageToFarmer.Value + 1, isBomb: false, playerWhoFiredMe, isProjectile: true);
-            Utilities.AddEXP(playerWhoFiredMe, this.DamageToFarmer.Value >> 2);
+
 
             if (this.currentTileSheetIndex.Value == 15)
                 Utility.addRainbowStarExplosion(location, this.position.Value, 11);

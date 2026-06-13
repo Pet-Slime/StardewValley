@@ -91,6 +91,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
             Vector2 shootOrigin = this.GetShootOrigin(player);
             this.SpawnProjectile(player, level, targetX, targetY, shootOrigin);
+            Utilities.AddEXP(player, this.GetManaCost(player, level));
 
             return null;
         }

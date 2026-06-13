@@ -130,7 +130,7 @@ namespace WizardrySkill.Core.Framework.Spells
 
             // If no tiles were affected, the spell fizzles.
             return actionCount == 0
-                ? new SpellFizzle(player, manaCost)
+                ? new SpellFizzle(player, manaCost >> 1)
                 : null;
         }
 
