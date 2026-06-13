@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using StardewModdingAPI;
 
@@ -22,6 +24,18 @@ namespace MoonShared.Attributes
         // to the mod's IMonitor instance.
         // This allows each mod using this shared code to log separately.
         private static readonly Dictionary<string, IMonitor> Monitors = new();
+
+        private const string MuteConfigPropertyName = "MuteLogging";
+
+        /// <summary>
+        /// Cached getter for each assembly's mute config value.
+        /// </summary>
+        private static readonly Dictionary<string, Func<bool>> MuteConfigGetters = new();
+
+        /// <summary>
+        /// Assemblies where no mute config getter could be found.
+        /// </summary>
+        private static readonly HashSet<string> MissingMuteConfigGetter = new();
 
         /// <summary>
         /// Initializes the logging system for a mod by linking its assembly to its monitor.
@@ -63,7 +77,26 @@ namespace MoonShared.Attributes
         /// </summary>
         public static void Mute(string str)
         {
-            // Intentionally does nothing.
+            Assembly caller = Assembly.GetCallingAssembly();
+            string key = GetKey(caller);
+
+            // Default behavior is still muted.
+            if (ShouldMute(caller, key))
+                return;
+
+            // If the config says not muted, print as trace.
+            Monitors[key].Log(str);
+        }
+
+        public static void Mute(Func<string> getMessage)
+        {
+            Assembly caller = Assembly.GetCallingAssembly();
+            string key = GetKey(caller);
+
+            if (ShouldMute(caller, key))
+                return;
+
+            Monitors[key].Log(getMessage());
         }
 
         /// <summary>
@@ -136,6 +169,93 @@ namespace MoonShared.Attributes
             // Otherwise, fallback to this shared library’s assembly.
             // This ensures logging still works even if the mod forgot to register itself.
             return Assembly.GetExecutingAssembly().FullName;
+        }
+        private static bool ShouldMute(Assembly caller, string key)
+        {
+            if (MuteConfigGetters.TryGetValue(key, out Func<bool> getter))
+                return getter();
+
+            if (MissingMuteConfigGetter.Contains(key))
+                return true;
+
+            getter = TryBuildMuteConfigGetter(caller);
+            if (getter == null)
+            {
+                MissingMuteConfigGetter.Add(key);
+                return true;
+            }
+
+            MuteConfigGetters[key] = getter;
+            return getter();
+        }
+
+        private static Func<bool> TryBuildMuteConfigGetter(Assembly caller)
+        {
+            if (caller == null)
+                return null;
+
+            Type configType = caller
+                .GetTypes()
+                .FirstOrDefault(type => type.GetCustomAttributes(false).Any(IsSConfigAttribute));
+
+            if (configType == null)
+                return null;
+
+            PropertyInfo muteProperty = configType.GetProperty(
+                MuteConfigPropertyName,
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+            if (muteProperty == null || muteProperty.PropertyType != typeof(bool))
+                return null;
+
+            object configInstance = TryFindConfigInstance(caller, configType);
+            if (configInstance == null)
+                return null;
+
+            return () =>
+            {
+                object value = muteProperty.GetValue(configInstance);
+                return value is bool muted && muted;
+            };
+        }
+
+        private static object TryFindConfigInstance(Assembly caller, Type configType)
+        {
+            foreach (Type type in caller.GetTypes())
+            {
+                FieldInfo[] fields = type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                foreach (FieldInfo field in fields)
+                {
+                    if (!configType.IsAssignableFrom(field.FieldType))
+                        continue;
+
+                    object value = field.GetValue(null);
+                    if (value != null)
+                        return value;
+                }
+
+                PropertyInfo[] properties = type.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                foreach (PropertyInfo property in properties)
+                {
+                    if (!configType.IsAssignableFrom(property.PropertyType))
+                        continue;
+
+                    if (property.GetIndexParameters().Length > 0)
+                        continue;
+
+                    object value = property.GetValue(null);
+                    if (value != null)
+                        return value;
+                }
+            }
+
+            return null;
+        }
+
+        private static bool IsSConfigAttribute(object attribute)
+        {
+            string name = attribute.GetType().Name;
+            return name == "SConfig" || name == "SConfigAttribute";
         }
     }
 }

@@ -6,6 +6,7 @@ using SpaceCore.Events;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.Events;
 using StardewValley.Extensions;
 using StardewValley.Menus;
 
@@ -101,8 +102,13 @@ namespace WizardryManaBar.Core
         [EventPriority(EventPriority.Low)]
         public static void OnRenderedHud(object sender, RenderingHudEventArgs e)
         {
-            if (!Context.IsPlayerFree || Game1.farmEvent != null || !Game1.displayHUD)
+            if (!Game1.IsHudDrawn)
                 return;
+
+            if (Game1.eventUp || Game1.farmEvent != null)
+            {
+                return;
+            }
 
             var player = Game1.player;
             if (player.GetMaxMana() <= 0 || !ModEntry.Config.RenderManaBar)

@@ -245,7 +245,7 @@
     "moonslime.Wizardry.spell.toil:kiln.hint": "Is there a way we can use magic to generate coal?",
 
     "moonslime.Wizardry.spell.motion:teleport.name": "Teleport",
-    "moonslime.Wizardry.spell.motion:teleport.cost": "10 mana, Travel Core",
+    "moonslime.Wizardry.spell.motion:teleport.cost": "10 mana, 2 Travel Cores",
     "moonslime.Wizardry.spell.motion:teleport.desc": "When outside, teleport to outdoor locations you been to.",
     "moonslime.Wizardry.spell.motion:teleport.hint": "I can teleport around using totems. I wonder if I study enough of them,\nI can make a spell that can do it.",
 
@@ -282,6 +282,10 @@
     /*********
     ** Generic Mod Config Menu UI
     *********/
+
+
+    "config.MuteLogging": "Mute (some) Logging",
+    "config.MuteLogging.tooltip": "Some detailed logging to help find bugs or show that the game isn't froze.\nThis will mute those.",
 
 
     "config.VoidSchool": "Enable Blink Spell",

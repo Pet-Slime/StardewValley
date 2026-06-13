@@ -8,8 +8,7 @@ namespace WizardrySkill.Core
     {
 
         [SConfig.Option()]
-        public bool VoidSchool { get; set; } = false;
-
+        public bool MuteLogging { get; set; } = false;
 
         [SConfig.Option()]
         public bool EnableBaseManaRegen { get; set; } = true;

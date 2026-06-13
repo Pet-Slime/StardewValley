@@ -199,6 +199,14 @@
             "Entries": {
                 "moonslime.Wizardry.analyze": "motion:teleport"
             }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "872", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "nature:photosynthesis"
+            }
         }
     ]
 }

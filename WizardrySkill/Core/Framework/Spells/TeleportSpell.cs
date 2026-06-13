@@ -33,7 +33,7 @@ namespace WizardrySkill.Core.Framework.Spells
             // - Must not be riding a mount.
             // - Must have a Travel Core item in inventory.
             return base.CanCast(player, level)
-                && player.currentLocation.IsOutdoors
+                && player?.currentLocation?.IsOutdoors == true
                 && player.mount == null;
         }
 
@@ -51,7 +51,6 @@ namespace WizardrySkill.Core.Framework.Spells
             };
         }
 
-
         // What happens when the spell is cast
         public override IActiveEffect OnCast(Farmer player, int level, int targetX, int targetY)
         {
@@ -62,7 +61,12 @@ namespace WizardrySkill.Core.Framework.Spells
             if (!player.IsLocalPlayer)
                 return null;
 
-            // Only the actual casting player should consume the reagent and gain EXP.
+            if (player.currentLocation?.IsOutdoors != true)
+                return new SpellFizzle(player, this.GetManaCost(player, level));
+
+            PlayerRoutePathfinder.EnsureCache(player);
+
+            // Only consume the item after the route cache is ready and we know the menu can open.
             // Consume the item unless this cast came from a scroll.
             if (!this.ConsumeItemCost(player, level))
                 return new SpellFizzle(player, this.GetManaCost(player, level));

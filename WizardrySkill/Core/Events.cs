@@ -169,6 +169,7 @@ namespace WizardrySkill.Core
             NetworkEvents.Reset();
             LastSpellCastTick = -9999;
             CastPressed = false;
+            PlayerRoutePathfinder.Reset();
         }
 
         [SEvent.SaveLoaded]
@@ -212,6 +213,7 @@ namespace WizardrySkill.Core
 
             Farmer player = Game1.GetPlayer(Game1.player.UniqueMultiplayerID) ?? Game1.player;
 
+            PlayerRoutePathfinder.PopulateCache(Game1.player);
             // fix player's magic info if needed
             FixMagicIfNeeded(player);
         }
@@ -346,8 +348,17 @@ namespace WizardrySkill.Core
 
             EvacSpell.OnLocationChanged();
             SummonManager.OnLocalWarped(e);
-            if (e.NewLocation.IsOutdoors && !e.Player.modData.ContainsKey("moonslime.Wizardry.TeleportTo." + e.NewLocation.Name))
-                e.Player.modData.Add("moonslime.Wizardry.TeleportTo." + e.NewLocation.Name, "");
+
+            if (!e.NewLocation.IsOutdoors)
+                return;
+
+            string teleportKey = "moonslime.Wizardry.TeleportTo." + e.NewLocation.Name;
+            if (e.Player.modData.ContainsKey(teleportKey))
+                return;
+
+            e.Player.modData.Add(teleportKey, "");
+
+            PlayerRoutePathfinder.AddKnownOutdoorLocation(e.Player, e.NewLocation);
         }
 
         public static SpellBook GetSpellBook(Farmer player)
@@ -541,8 +552,21 @@ namespace WizardrySkill.Core
         private static void OnRenderingHud(object sender, RenderingHudEventArgs e)
         {
             // Skip drawing if menus are open, events are active, or the player can't act
-            if (!LearnedMagic || !Context.IsPlayerFree || Game1.farmEvent != null || Game1.displayHUD == false)
+            if (!LearnedMagic)
                 return;
+
+            if (!Game1.IsHudDrawn)
+                return;
+
+            if (Game1.eventUp || Game1.farmEvent != null)
+            {
+                return;
+            }
+
+            if (Game1.activeClickableMenu != null)
+            {
+                return;
+            }
 
             SpriteBatch b = e.SpriteBatch;
             Rectangle viewport = Game1.graphics.GraphicsDevice.Viewport.Bounds;

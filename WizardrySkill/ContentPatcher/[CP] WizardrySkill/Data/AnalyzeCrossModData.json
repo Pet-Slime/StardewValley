@@ -1,0 +1,92 @@
+﻿{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "Rafseazz.RSVCP_Warp_Totem__Ridgeside", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "motion:teleport"
+            },
+            "When": {
+                "HasMod |contains=Rafseazz.RSVCP": true
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "EastScarp_Scarp_Warp_Totem", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "motion:teleport"
+            },
+            "When": {
+                "HasMod |contains=Lemurkat.EastScarp": true
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "jennajuffuffles.vineyardtravelpackage_Aurora_Vineyard_Totem", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "motion:teleport"
+            },
+            "When": {
+                "HasMod |contains=jennajuffuffles.vineyardtravelpackage": true
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "Lumisteria.MtVapius_OwlCarving", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "motion:teleport"
+            },
+            "When": {
+                "HasMod |contains=Lumisteria.MtVapius": true
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "skellady.SBVCP_WarpTotemSunberry", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "motion:teleport"
+            },
+            "When": {
+                "HasMod |contains=skellady.SBVCP": true
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "dreamy.kickitspot_SeaCapeWarpTotem", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "motion:teleport"
+            },
+            "When": {
+                "HasMod |contains=dreamy.kickitspot": true
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Objects",
+            "TargetField": [ "Rexstrife20.MineralTownCP_Warp_Totem_Mineral_Town", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "motion:teleport"
+            },
+            "When": {
+                "HasMod |contains=Rexstrife20.MineralTownCP": true
+            }
+        },
+        {
+            "Action": "EditData",
+            "Target": "Data/Locations",
+            "TargetField": [ "Custom_Ridgeside_PaulaClinic", "CustomFields" ],
+            "Entries": {
+                "moonslime.Wizardry.analyze": "life:healarea"
+            },
+            "When": {
+                "HasMod |contains=Rafseazz.RSVCP": true
+            }
+        }
+    ]
+}
