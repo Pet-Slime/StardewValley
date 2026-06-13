@@ -19,6 +19,11 @@
     "junimo-rewards.animal-friendship": "祝尼魔们让你的一些动物更喜欢你了！",
     "junimo-rewards.grow-crops": "祝尼魔们提高了你的产量！",
     "junimo-rewards.grow-grass": "祝尼魔们催生了你的牧草并且修好了你的栅栏！",
-    "junimo-rewards.prismatic-shard": "祝尼魔们赠予你了一个五彩碎片！"
+    "junimo-rewards.prismatic-shard": "祝尼魔们赠予你了一个五彩碎片！",
+
+
+
+    "config.MuteLogging": "Mute (some) Logging",
+    "config.MuteLogging.tooltip": "Some detailed logging to help find bugs or show that the game isn't froze.\nThis will mute those."
 }
 

@@ -19,5 +19,10 @@
     "junimo-rewards.animal-friendship": "Die Junimos haben einige deiner Tiere zutraulicher gemacht!",
     "junimo-rewards.grow-crops": "Die Junimos haben deine Pflanzen wachsen lassen!",
     "junimo-rewards.grow-grass": "Die Junimos haben Weide gepflanzt und deine Zäune repariert!",
-    "junimo-rewards.prismatic-shard": "Die Junimos haben dir eine prismatische Scherbe gebracht!"
+    "junimo-rewards.prismatic-shard": "Die Junimos haben dir eine prismatische Scherbe gebracht!",
+
+
+
+    "config.MuteLogging": "Mute (some) Logging",
+    "config.MuteLogging.tooltip": "Some detailed logging to help find bugs or show that the game isn't froze.\nThis will mute those."
 }

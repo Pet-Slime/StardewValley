@@ -1,4 +1,4 @@
-{
+﻿{
     "skill.name": "행운",
     "skill.perk": "좋은 일이 발생할 확률은 높이고, 나쁜 일이 발생할 확률은 낮춥니다.",
     "skill.perk_bonus": "좋은 일이 발생할 확률은 높이고, 나쁜 일이 발생할 확률은 낮춥니다.",
@@ -19,5 +19,10 @@
     "junimo-rewards.animal-friendship": "주니모들이 당신의 동물들중 일부가 당신을 더 좋아하게 만들었습니다!",
     "junimo-rewards.grow-crops": "주니모들이 당신의 작물을 발전시켰습니다!",
     "junimo-rewards.grow-grass": "주니모들이 당신의 잔디를 자라게 하고 울타리를 고쳤습니다!",
-    "junimo-rewards.prismatic-shard": "주니모들이 당신에게 무지갯빛 파편을 선물했습니다!"
+    "junimo-rewards.prismatic-shard": "주니모들이 당신에게 무지갯빛 파편을 선물했습니다!",
+
+
+
+    "config.MuteLogging": "Mute (some) Logging",
+    "config.MuteLogging.tooltip": "Some detailed logging to help find bugs or show that the game isn't froze.\nThis will mute those."
 }

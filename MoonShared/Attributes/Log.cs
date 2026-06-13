@@ -114,7 +114,21 @@ namespace MoonShared.Attributes
         /// </summary>
         public static void Trace(string str)
         {
-            Monitors[GetKey(Assembly.GetCallingAssembly())].Log(str);
+            Assembly caller = Assembly.GetCallingAssembly();
+            string key = GetKey(caller);
+
+            Monitors[key].Log(str);
+        }
+
+        public static void Trace(Func<string> getMessage)
+        {
+            if (getMessage == null)
+                return;
+
+            Assembly caller = Assembly.GetCallingAssembly();
+            string key = GetKey(caller);
+
+            Monitors[key].Log(getMessage());
         }
 
         /// <summary>

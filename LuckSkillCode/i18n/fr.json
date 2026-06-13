@@ -1,4 +1,4 @@
-{
+﻿{
     "skill.name": "Chance",
     "skill.perk": "Plus de chances d'avoir de bons événements, moins de chances d'avoir de mauvais événements.",
     "skill.perk_bonus": "Plus de chances d'avoir de bons événements, moins de chances d'avoir de mauvais événements.",
@@ -19,5 +19,10 @@
     "junimo-rewards.animal-friendship": "Les junimos ont rendu certains de vos animaux plus affectueux !",
     "junimo-rewards.grow-crops": "Les junimos ont fait progresser vos récoltes !",
     "junimo-rewards.grow-grass": "Les junimos ont fait pousser votre gazon et réparé vos clôtures !",
-    "junimo-rewards.prismatic-shard": "Les Junimos vous ont offert un éclat prismatique !"
+    "junimo-rewards.prismatic-shard": "Les Junimos vous ont offert un éclat prismatique !",
+
+
+
+    "config.MuteLogging": "Mute (some) Logging",
+    "config.MuteLogging.tooltip": "Some detailed logging to help find bugs or show that the game isn't froze.\nThis will mute those."
 }
