@@ -3,7 +3,7 @@
   "UniqueID": "moonslime.LuckSkill",
   "Name": "Luck Skill",
   "Author": "moonslime",
-  "Version": "1.6.0",
+  "Version": "1.7.0",
   "Description": "A Spacecore version of the luck skill.",
   "MinimumApiVersion": "4.5.2",
   "MinimumGameVersion": "1.6.15",
