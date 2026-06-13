@@ -1,0 +1,88 @@
+{
+
+    "moonslime.Wizardry.placeholder_item.name": "Pó Brilhante",
+    "moonslime.Wizardry.placeholder_item.description": "Você não deveria estar vendo isso.",
+
+    "moonslime.Wizardry.Travel_Core.name": "Núcleo de Teleporte",
+    "moonslime.Wizardry.Travel_Core.description": "Um item que magos usam às vezes para se locomover.",
+
+    "moonslime.Wizardry.Magic_Elixir.name": "Elixir de Mana",
+    "moonslime.Wizardry.Magic_Elixir.description": "Um Elixir de Vida convertido em Elixir de Mana ao ser cozinhado com pó de fada. Perdeu sua potência de cura, mas restaurará toda a mana.",
+
+    "moonslime.Wizardry.Magic_Potion.name": "Tônico de Mana",
+    "moonslime.Wizardry.Magic_Potion.description": "Um Tônico de Energia convertido em Tônico de Mana ao ser cozinhado com pó de fada. Perdeu sua potência de recuperar energia, mas restaurará metade da mana.",
+
+
+    "moonslime.Wizardry.Magic_Stone:Energy.name": "Pedra Mágica: Energia",
+    "moonslime.Wizardry.Magic_Stone:Energy.description": "Uma pedra imbuída com a stamina de uma pessoa.",
+
+    "moonslime.Wizardry.Magic_Stone:Health.name": "Pedra Mágica: Vida",
+    "moonslime.Wizardry.Magic_Stone:Health.description": "Uma pedra imbuída com a vida de uma pessoa.",
+
+    "moonslime.Wizardry.Magic_Stone:Mana.name": "Pedra Mágica: Mana",
+    "moonslime.Wizardry.Magic_Stone:Mana.description": "Uma pedra imbuída com a mana de uma pessoa.",
+
+
+    "moonslime.Wizardry.Scroll_Fireball.name": "Pergaminho de Magia: Bola de Fogo",
+    "moonslime.Wizardry.Scroll_Fireball.description": "Um antigo pergaminho anão imbuído com a magia de Bola de Fogo. Use para lançar uma versão mais fraca.",
+
+    "moonslime.Wizardry.Scroll_Buff.name": "Pergaminho de Magia: Melhorias",
+    "moonslime.Wizardry.Scroll_Buff.description": "Um antigo pergaminho anão imbuído com a magia de Melhorias. Use para lançar uma versão mais fraca.",
+
+    "moonslime.Wizardry.Scroll_Bloodmana.name": "Pergaminho de Magia: Mana Vermelha",
+    "moonslime.Wizardry.Scroll_Bloodmana.description": "Um antigo pergaminho anão imbuído com a magia de Mana Vermelha. Use para lançar uma versão mais fraca.",
+
+    "moonslime.Wizardry.Scroll_Evac.name": "Pergaminho de Magia: Evacuar",
+    "moonslime.Wizardry.Scroll_Evac.description": "Um antigo pergaminho anão imbuído com a magia de Evacuar. Use para lançar uma versão mais fraca.",
+
+    "moonslime.Wizardry.Scroll_Meteor.name": "Pergaminho de Magia: Meteoro",
+    "moonslime.Wizardry.Scroll_Meteor.description": "Um antigo pergaminho anão imbuído com a magia de Meteoro. Use para lançar uma versão mais fraca.",
+
+    "moonslime.Wizardry.Scroll_Thunderbug.name": "Pergaminho de Magia: Inseto Trovão",
+    "moonslime.Wizardry.Scroll_Thunderbug.description": "Um antigo pergaminho anão imbuído com a magia de Inseto Trovão. Use para lançar uma versão mais fraca.",
+
+    "moonslime.Wizardry.Scroll_Rewind.name": "Pergaminho de Magia: Rebobinar",
+    "moonslime.Wizardry.Scroll_Rewind.description": "Um antigo pergaminho anão imbuído com a magia de Rebobinar. Use para lançar uma versão mais fraca.",
+
+    "moonslime.Wizardry.Scroll_Descend.name": "Pergaminho de Magia: Atravessar",
+    "moonslime.Wizardry.Scroll_Descend.description": "Um antigo pergaminho anão imbuído com a magia de Atravessar. Use para lançar uma versão mais fraca.",
+
+    "moonslime.Wizardry.Scroll_Heal.name": "Pergaminho de Magia: Cura",
+    "moonslime.Wizardry.Scroll_Heal.description": "Um antigo pergaminho anão imbuído com a magia de Cura. Use para lançar uma versão mais fraca.",
+
+    "moonslime.Wizardry.Scroll_Crabrain.name": "Pergaminho de Magia: Chuva de Caranguejos",
+    "moonslime.Wizardry.Scroll_Crabrain.description": "Um antigo pergaminho anão imbuído com a magia de Chuva de Caranguejos. Use para lançar uma versão mais fraca.",
+
+    "moonslime.Wizardry.Scroll_Monster_Tracking.name": "Pergaminho de Magia: Morcego Rastreador de Monstros",
+    "moonslime.Wizardry.Scroll_Monster_Tracking.description": "Um antigo pergaminho anão imbuído com a magia de Morcego Rastreador. Use para lançar uma versão mais fraca.",
+
+    "moonslime.Wizardry.Scroll_Artifact_Tracking.name": "Pergaminho de Magia: Morcego Rastreador de Artefatos",
+    "moonslime.Wizardry.Scroll_Artifact_Tracking.description": "Um antigo pergaminho anão imbuído com a magia de Morcego Rastreador. Use para lançar uma versão mais fraca.",
+
+
+    "moonslime.Wizardry.CraftableSpellAltar": "Altar de Foco de Conjuração",
+    "moonslime.Wizardry.CraftableSpellAltar.description": "Clique com o botão direito após posicioná-lo para abrir o menu do grimório.",
+
+    "moonslime.Wizardry.ManaSink": "Cadinho Arcano",
+    "moonslime.Wizardry.ManaSink.description": "Apenas para Magos Adeptos:\nInsira itens com energia mágica. Esta máquina devora a mana deles e, uma vez que energia suficiente for coletada, o poder mágico do usuário cresce.",
+
+    "moonslime.Wizardry.LearnMagic.00": "É hora de você aprender os caminhos da magia. Levará um dia para que ela se desperte completamente em você.",
+    "moonslime.Wizardry.LearnMagic.01": "Você precisará de um lugar para servir como altar de magias...",
+    "moonslime.Wizardry.LearnMagic.02": "Eu ajustei o altar de Yoba na loja do Pierre para você usar. Vá até ele e ore para ter acesso às suas magias.",
+    "moonslime.Wizardry.LearnMagic.03": "Vou te ensinar o básico da magia arcana, mas o resto você terá de descobrir por conta própria.",
+    "moonslime.Wizardry.LearnMagic.04": "A magia arcana 'Analisar' pode ser usada para descobrir a maioria das magias. No entanto, algumas mais poderosas precisam ser descobertas de outras maneiras.",
+    "moonslime.Wizardry.LearnMagic.05": "Cada escola de magia tem quatro magias normais e uma quinta magia anciã. Até eu não sei onde essas magias se encontram.",
+    "moonslime.Wizardry.LearnMagic.06": "Para te ajudar a começar, vou te dar uma dica. Tente usar Analisar no seu regador.",
+    "moonslime.Wizardry.LearnMagic.07": "Por favor, vá descansar agora. Tudo fará sentido após uma boa noite de sono.",
+    "moonslime.Wizardry.LearnMagic.10": "MÁGICA!",
+
+    "moonslime.Wizardry.LearnMagic.SVE.00": "Após ver o seu talento com a estátua ilusória, decidi deixar você explorar os caminhos da magia. Levará um dia para que ela se desperte completamente em você.",
+    "moonslime.Wizardry.LearnMagic.SVE.01": "Você precisará de um lugar para servir como altar de magias...",
+    "moonslime.Wizardry.LearnMagic.SVE.02": "Eu ajustei o altar de Yoba na loja do Pierre para você usar. Vá até ele e ore para ter acesso às suas magias.",
+    "moonslime.Wizardry.LearnMagic.SVE.03": "Vou te ensinar o básico da magia Arcana, mas o resto você terá de descobrir por conta própria.",
+    "moonslime.Wizardry.LearnMagic.SVE.04": "A magia Arcana 'Analisar' pode ser usada para descobrir a maioria das magias. No entanto, algumas mais poderosas precisam ser descobertas de outras maneiras.",
+    "moonslime.Wizardry.LearnMagic.SVE.05": "Cada escola de magia tem quatro magias normais e uma quinta magia anciã. Até eu não sei onde essas magias se encontram.",
+    "moonslime.Wizardry.LearnMagic.SVE.06": "Para te ajudar a começar, vou te dar uma dica. Tente usar Analisar no seu regador.",
+    "moonslime.Wizardry.LearnMagic.SVE.07": "Por favor, vá descansar agora. Tudo fará sentido após uma boa noite de sono.",
+    "moonslime.Wizardry.LearnMagic.SVE.10": "MÁGICA!"
+}

@@ -1,0 +1,324 @@
+{
+    /*********
+    ** General text
+    *********/
+    // HUD messages
+    "spell.learn": "Você aprendeu uma magia: {{spellName}}",
+    "spell.learn.ancient": "Você aprendeu uma magia anciã: {{spellName}}",
+
+    // menu tooltips
+    "tooltip.spell.known": "Clique e arraste para adicionar {{spell}} à sua barra de magias abaixo.",
+    "tooltip.spell.can-learn": "Clique para gastar um ponto livre e aprender {{spell}}.",
+    "tooltip.spell.need-free-points": "Você não tem pontos livres para aprender {{spell}}.",
+    "tooltip.spell.need-previous-levels": "Você deve aprender os níveis anteriores da magia primeiro.",
+    "tooltip.spell.name-and-level": "{{spellName}} nível {{level}}",
+
+    // altar
+    "altar.click-message": "Um altar brilhante.",
+
+    // Skill info
+    "skill.name": "Magia",
+    "skill.perk1": "+{{bonus}} Mana",
+    "skill.perk_bonus1": "+{{bonus}} Mana",
+    "skill.perk2": "+{{bonus}} Regen. de Mana",
+    "skill.perk_bonus2": "+{{bonus}} Regen. de Mana",
+
+    "skill.perk0.1": "Mana base definida para 100",
+    "skill.perk0.2": "Agora é possível definir magias nos Slots de Magia clicando no Altar de Yoba na loja do Pierre.",
+    "skill.perk0.3": "Lance magias dos Slots segurando Q. Depois pressione 1-4 para escolher a magia.",
+    "skill.perk0.4": "Mude os conjuntos de magias segurando Q. Depois pressione TAB.",
+
+    "Magic5a.name": "Estudante",
+    "Magic5a.desc": "+2 pontos de aprimoramento de magia",
+    "Magic5b.name": "Acólito",
+    "Magic5b.desc": "+0,5 de regen. de mana por nível",
+    "Magic10a1.name": "Adepto",
+    "Magic10a1.desc": "+2 pontos de aprimoramento de magia",
+    "Magic10a2.name": "Estudioso",
+    "Magic10a2.desc": "Adiciona uma quinta magia por conjunto de magias.",
+    "Magic10b1.name": "Espiritualista",
+    "Magic10b1.desc": "+0,5 de regen. de mana por nível",
+    "Magic10b2.name": "Místico",
+    "Magic10b2.desc": "+100 de mana máxima",
+
+    //Food tooltip
+    "moonslime.Wizardry.Mana": "Mana",
+
+    "moonslime.Wizardry.buff.buffDescription": "Melhorias (Magia)",
+    "moonslime.Wizardry.magnetic_force.buffDescription": "Força Magnética (Magia)",
+    "moonslime.Wizardry.haste.buffDescription": "Velocidade (Magia)",
+
+
+    /*********
+    ** Radio station
+    *********/
+    "radio.static": "*estática*",
+    "radio.analyzehints.1": "Procurando usar magia para trabalhar na fazenda? Tente analisar suas ferramentas.",
+    "radio.analyzehints.2": "Precisando de uma fuga rápida? Acho que umas botas vão te dar uma inspiração.",
+    "radio.analyzehints.3": "Será que é possível combinar relâmpago com um inseto? Para estudar isso, vou precisar de algo que possa capturar o poder do relâmpago enquanto estou perto o suficiente de um inseto.",
+    "radio.analyzehints.4": "Alguns minerais básicos parecem conter algum tipo de energia mágica.",
+    "radio.analyzehints.5": "Outro dia um meteoro caiu no meu quintal. Parecia algo muito misterioso.",
+    "radio.analyzehints.6": "Café é delicioso. Por que não recriar seus efeitos com uma magia?",
+    "radio.analyzehints.7": "Outro dia eu vi alguém fazer raízes brotarem do chão e impedir um monstro de se mover, quase como uma planta.",
+    "radio.analyzehints.8": "Aposto que daria para lançar uma rajada de gelo para deixar algo mais lento. Onde será que daria para estudar gelo...?",
+    "radio.analyzehints.9": "Vi um altar negro na casa de alguém outro dia. Bem, eu disse 'casa'... Era mais uma cabana.",
+    "radio.analyzehints.10": "Poções de cura são muito inconvenientes para carregar. Talvez possamos nos curar com magia?",
+    "radio.analyzehints.11": "A maioria das pessoas usa escadas para descer nas minas, mas vi uma pessoa lançar uma magia e atravessar direto pelo chão.",
+    "radio.analyzehints.12": "Vi alguém lançar uma magia para recuperar mana!? Parecia doloroso. Dizem que essa pessoa aprendeu essa técnica pescando Enguias de Lava.",
+
+
+    /*********
+    ** Magic spells
+    *********/
+    "moonslime.Wizardry.school.arcane.name": "Arcana",
+    "moonslime.Wizardry.school.toil.name": "Trabalho",
+    "moonslime.Wizardry.school.nature.name": "Natural",
+    "moonslime.Wizardry.school.life.name": "Vida",
+    "moonslime.Wizardry.school.elemental.name": "Evocação",
+    "moonslime.Wizardry.school.eldritch.name": "Sobrenatural",
+    "moonslime.Wizardry.school.motion.name": "Movimento",
+    "moonslime.Wizardry.school.uknown.name": "Desconhecida",
+
+    "moonslime.Wizardry.school.arcane.desc": "A escola Arcana oferece ferramentas úteis.\nAlém de uma visão extra sobre o mundo ao seu redor.",
+    "moonslime.Wizardry.school.toil.desc": "Nem toda escola de magia é sobre arremessar fogo pelas mãos.\nA Escola de Trabalho foca no prático.\nMagias que tornam as tarefas do dia a dia um pouco mais fáceis.",
+    "moonslime.Wizardry.school.nature.desc": "A escola Natural tece magias que fazem plantas e animais participarem da diversão.",
+    "moonslime.Wizardry.school.life.desc": "A magia de Vida oferece uma mão amiga;\ncurando dores, dissipando tristezas\ne dando um pique extra de saúde.",
+    "moonslime.Wizardry.school.elemental.desc": "A Escola de Evocação foca em magias voltadas ao combate.\nNão que outras escolas não possam combater, a Evocação é simplesmente a melhor nisso.",
+    "moonslime.Wizardry.school.eldritch.desc": "Um toque de magia Sobrenatural pode fazer maravilhas…\nmas ela adora cobrar um pequeno pedágio em troca.",
+    "moonslime.Wizardry.school.motion.desc": "Precisa de ajuda para se locomover?\nA Escola de Movimento pode te dar uma mão.",
+    "moonslime.Wizardry.school.uknown.desc": "Desconhecida",
+
+    "moonslime.Wizardry.spellmenu.leftsideTitle": "Magias",
+    "moonslime.Wizardry.spell.cost": "Custo: ",
+    "moonslime.Wizardry.spell.spellpoints": "Pontos Livres: ",
+    "moonslime.Wizardry.spell.effect": "Efeito: ",
+
+    "moonslime.Wizardry.spell.arcane:analyze.name": "Analisar",
+    "moonslime.Wizardry.spell.arcane:analyze.cost": "Grátis",
+    "moonslime.Wizardry.spell.arcane:analyze.desc": "Examine um item em busca de inspiração mágica.",
+    "moonslime.Wizardry.spell.arcane:analyze.hint": "Sem dica, pois você começa com essa magia!",
+
+    "moonslime.Wizardry.spell.arcane:spellstones.name": "Pedras Mágicas",
+    "moonslime.Wizardry.spell.arcane:spellstones.cost": "N1: 10m. N2: 10m,10v.\nN3: 10m,10e. N4: 30m,10v,10e.",
+    "moonslime.Wizardry.spell.arcane:spellstones.desc": "Cria uma pedra mágica baseada no nível usado.",
+    "moonslime.Wizardry.spell.arcane:spellstones.hint": "Será que consigo imbuir pedras com energia mágica?",
+
+    "moonslime.Wizardry.spell.elemental:magicmissle.name": "Flecha Mágica",
+    "moonslime.Wizardry.spell.elemental:magicmissle.cost": "4 de mana por nível",
+    "moonslime.Wizardry.spell.elemental:magicmissle.desc": "Um projétil relativamente fraco, mas perfurante.",
+    "moonslime.Wizardry.spell.elemental:magicmissle.hint": "Sem dica, pois você começa com essa magia!",
+
+    "moonslime.Wizardry.spell.arcane:disenchant.name": "Desencantar",
+    "moonslime.Wizardry.spell.arcane:disenchant.cost": "3 de mana por item",
+    "moonslime.Wizardry.spell.arcane:disenchant.desc": "Diminui a qualidade dos itens. Recebe metade da diferença de preço.",
+    "moonslime.Wizardry.spell.arcane:disenchant.hint": "Sem dica, pois você começa com essa magia!",
+
+    "moonslime.Wizardry.spell.arcane:enchant.name": "Encantar",
+    "moonslime.Wizardry.spell.arcane:enchant.cost": "3 de mana por item, o dobro da diferença de preço",
+    "moonslime.Wizardry.spell.arcane:enchant.desc": "Aumenta a qualidade dos itens.",
+    "moonslime.Wizardry.spell.arcane:enchant.hint": "Sem dica, pois você começa com essa magia!",
+
+    "moonslime.Wizardry.spell.arcane:rewind.name": "Rebobinar",
+    "moonslime.Wizardry.spell.arcane:rewind.cost": "25 de mana, uma barra de ouro",
+    "moonslime.Wizardry.spell.arcane:rewind.desc": "Volta no tempo.",
+    "moonslime.Wizardry.spell.arcane:rewind.hint": "Encontre todas as outras magias!",
+
+    "moonslime.Wizardry.spell.toil:cleardebris.name": "Limpa-tudo",
+    "moonslime.Wizardry.spell.toil:cleardebris.cost": "3 de mana por objeto",
+    "moonslime.Wizardry.spell.toil:cleardebris.desc": "Limpa destroços na área indicada.\nNíveis maiores limpam tipos maiores de destroços.",
+    "moonslime.Wizardry.spell.toil:cleardebris.hint": "Procurando usar magia para trabalhar na fazenda?\nTente analisar suas ferramentas.",
+
+    "moonslime.Wizardry.spell.toil:till.name": "Arar",
+    "moonslime.Wizardry.spell.toil:till.cost": "2 de mana por bloco",
+    "moonslime.Wizardry.spell.toil:till.desc": "Usa magia para agir como uma Enxada na área indicada.\nNíveis maiores indicam uma área maior.",
+    "moonslime.Wizardry.spell.toil:till.hint": "Procurando usar magia para trabalhar na fazenda?\nTente analisar suas ferramentas.",
+
+    "moonslime.Wizardry.spell.toil:water.name": "Irrigar",
+    "moonslime.Wizardry.spell.toil:water.cost": "1 de mana por bloco",
+    "moonslime.Wizardry.spell.toil:water.desc": "Usa magia para agir como um Regador na área indicada.\nNíveis maiores indicam uma área maior.",
+    "moonslime.Wizardry.spell.toil:water.hint": "Procurando usar magia para trabalhar na fazenda?\nTente analisar suas ferramentas.",
+
+    "moonslime.Wizardry.spell.motion:blink.name": "Teletransporte Fraco",
+    "moonslime.Wizardry.spell.motion:blink.cost": "2 Centros de Teleporte",
+    "moonslime.Wizardry.spell.motion:blink.desc": "Tenta gerar um caminho até a área indicada pelo qual se possa caminhar,\ne então teleporta até lá.",
+    "moonslime.Wizardry.spell.motion:blink.hint": "Encontre todas as outras magias de Movimento.",
+
+    "moonslime.Wizardry.spell.toil:harvest.name": "Remoção de Grama",
+    "moonslime.Wizardry.spell.toil:harvest.cost": "5 de mana por bloco",
+    "moonslime.Wizardry.spell.toil:harvest.desc": "Limpa uma grande área de grama e fornece feno para cada uma removida.",
+    "moonslime.Wizardry.spell.toil:harvest.hint": "Procurando usar magia para trabalhar na fazenda?\nTente analisar suas ferramentas",
+
+    "moonslime.Wizardry.spell.toil:collect.name": "Coletar",
+    "moonslime.Wizardry.spell.toil:collect.cost": "3 de mana por máquina",
+    "moonslime.Wizardry.spell.toil:collect.desc": "Use para coletar itens de máquinas à distância!\nNíveis maiores aumentam o raio de coleta.",
+    "moonslime.Wizardry.spell.toil:collect.hint": "Encontre todas as outras magias de Trabalho.",
+
+    "moonslime.Wizardry.spell.nature:lantern.name": "Inseto Trovão",
+    "moonslime.Wizardry.spell.nature:lantern.cost": "10 de mana por nível",
+    "moonslime.Wizardry.spell.nature:lantern.desc": "Invoca um inseto brilhante que te segue e pode carregar para-raios.\nNíveis maiores produzem mais luz.",
+    "moonslime.Wizardry.spell.nature:lantern.hint": "Será que é possível combinar relâmpago com um inseto?\nPara estudar isso, vou precisar de algo que possa capturar o poder do relâmpago enquanto estou perto o suficiente de um inseto.",
+
+    "moonslime.Wizardry.spell.nature:fish_frenzy.name": "Frenesi de Pesca",
+    "moonslime.Wizardry.spell.nature:fish_frenzy.cost": "10 de mana, primeiro peixe no inventário",
+    "moonslime.Wizardry.spell.nature:fish_frenzy.desc": "Cria um frenesi de peixes na água que podem ser pescados; não tem garantia de funcionar sempre.",
+    "moonslime.Wizardry.spell.nature:fish_frenzy.hint": "Será que consigo estudar algo relacionado à magia e pesca?",
+
+    "moonslime.Wizardry.spell.nature:crabrain.name": "Chuva de Caranguejos",
+    "moonslime.Wizardry.spell.nature:crabrain.cost": "25 de mana, um caranguejo",
+    "moonslime.Wizardry.spell.nature:crabrain.desc": "Invoca caranguejos do céu que podem explodir.",
+    "moonslime.Wizardry.spell.nature:crabrain.hint": "Encontre todas as outras magias Naturais.",
+
+    "moonslime.Wizardry.spell.nature:bat.name": "Morcego Rastreador",
+    "moonslime.Wizardry.spell.nature:bat.cost": "5 de mana, uma asa de morcego",
+    "moonslime.Wizardry.spell.nature:bat.desc": "Invoca um morcego que voa até a coisa mais próxima.\nN1: Monstros\nN2: Artefatos e Pontos de Peneiração",
+    "moonslime.Wizardry.spell.nature:bat.hint": "Será que um morcego poderia me ajudar de alguma forma?",
+
+    "moonslime.Wizardry.spell.nature:tendrils.name": "Vinhas",
+    "moonslime.Wizardry.spell.nature:tendrils.cost": "10 de mana",
+    "moonslime.Wizardry.spell.nature:tendrils.desc": "Invoca vinhas para deter um inimigo no caminho.",
+    "moonslime.Wizardry.spell.nature:tendrils.hint": "Outro dia eu vi alguém fazer raízes brotarem do chão e impedir um monstro de se mover,\nquase como uma planta.",
+
+    "moonslime.Wizardry.spell.elemental:shockwave.name": "Terremoto",
+    "moonslime.Wizardry.spell.elemental:shockwave.cost": "10 de mana",
+    "moonslime.Wizardry.spell.elemental:shockwave.desc": "Pule no ar e caia com força, enviando uma onda de choque.\nNíveis maiores aumentam a área.",
+    "moonslime.Wizardry.spell.elemental:shockwave.hint": "Alguns minerais básicos parecem conter algum tipo de energia mágica.",
+
+    "moonslime.Wizardry.spell.life:magnetic_force.name": "Barreira Magnética",
+    "moonslime.Wizardry.spell.life:magnetic_force.cost": "5 de mana por nível",
+    "moonslime.Wizardry.spell.life:magnetic_force.desc": "Um escudo magnético. Protege a si mesmo enquanto atrai itens.",
+    "moonslime.Wizardry.spell.life:magnetic_force.hint": "Ouvi dizer que um efeito magnético pode virar uma magia,\nmas preciso de algo para estudar.\nMas o quê?",
+
+    "moonslime.Wizardry.spell.nature:photosynthesis.name": "Fotossíntese",
+    "moonslime.Wizardry.spell.nature:photosynthesis.cost": "100 de mana, Pó de Fada",
+    "moonslime.Wizardry.spell.nature:photosynthesis.desc": "Avança todas as plantas na área indicada um estágio.",
+    "moonslime.Wizardry.spell.nature:photosynthesis.hint": "Fadas às vezes ajudam a crescer plantações à noite. Se ao menos houvesse algo ligado a elas que eu pudesse analisar.",
+
+    "moonslime.Wizardry.spell.life:heal.name": "Cura",
+    "moonslime.Wizardry.spell.life:heal.cost": "25% de mana",
+    "moonslime.Wizardry.spell.life:heal.desc": "Restaura 16% de Vida + extra baseado no nível da magia.",
+    "moonslime.Wizardry.spell.life:heal.hint": "Poções de cura são muito inconvenientes para carregar.\nTalvez possamos nos curar com magia?",
+
+    "moonslime.Wizardry.spell.life:healarea.name": "Área de Cura",
+    "moonslime.Wizardry.spell.life:healarea.cost": "25% de mana",
+    "moonslime.Wizardry.spell.life:healarea.desc": "Cria uma área que curará todos os jogadores nela por 60 segundos.\nNíveis maiores aumentam a área.",
+    "moonslime.Wizardry.spell.life:healarea.hint": "Onde será que consigo aprender a curar outros com magia de Vida?",
+
+    "moonslime.Wizardry.spell.motion:haste.name": "Velocidade",
+    "moonslime.Wizardry.spell.motion:haste.cost": "40 de mana por nível, grão de café",
+    "moonslime.Wizardry.spell.motion:haste.desc": "Mova-se como o vento. Níveis maiores aumentam a velocidade e a duração.",
+    "moonslime.Wizardry.spell.motion:haste.hint": "Será que consigo estudar algo que me deixe mais ágil?",
+
+    "moonslime.Wizardry.spell.motion:evac.name": "Evacuar",
+    "moonslime.Wizardry.spell.motion:evac.cost": "25 de mana",
+    "moonslime.Wizardry.spell.motion:evac.desc": "Teleporte para onde você entrou na área atual.",
+    "moonslime.Wizardry.spell.motion:evac.hint": "Precisando de uma fuga rápida?\nAcho que umas botas vão te dar uma inspiração.",
+
+    "moonslime.Wizardry.spell.life:cleanse.name": "Purificar",
+    "moonslime.Wizardry.spell.life:cleanse.cost": "25 de mana",
+    "moonslime.Wizardry.spell.life:cleanse.desc": "Remove todos os buffs e debuffs de si mesmo.",
+    "moonslime.Wizardry.spell.life:cleanse.hint": "Deve haver uma forma de se purificar de aprimoramentos.\nComo uma lula escorregadia.",
+
+    "moonslime.Wizardry.spell.life:buff.name": "Melhorias",
+    "moonslime.Wizardry.spell.life:buff.cost": "25 de mana por nível",
+    "moonslime.Wizardry.spell.life:buff.desc": "Melhora todas as habilidades. Níveis maiores melhoram mais por mais tempo.",
+    "moonslime.Wizardry.spell.life:buff.hint": "Encontre todas as outras magias de Vida.",
+
+    "moonslime.Wizardry.spell.elemental:fireball.name": "Bola de Fogo",
+    "moonslime.Wizardry.spell.elemental:fireball.cost": "6 de mana por nível",
+    "moonslime.Wizardry.spell.elemental:fireball.desc": "Lança uma bola de fogo que explode contra inimigos.\nNíveis maiores aumentam o dano.",
+    "moonslime.Wizardry.spell.elemental:fireball.hint": "Alguns minerais básicos parecem conter algum tipo de energia mágica.",
+
+    "moonslime.Wizardry.spell.elemental:frostbolt.name": "Bola de Gelo",
+    "moonslime.Wizardry.spell.elemental:frostbolt.cost": "6 de mana por nível",
+    "moonslime.Wizardry.spell.elemental:frostbolt.desc": "Lança uma bola de neve que congela monstros.\nNíveis maiores aumentam o dano.",
+    "moonslime.Wizardry.spell.elemental:frostbolt.hint": "Aposto que daria para lançar uma rajada de gelo para deixar algo mais lento.\nOnde será que daria para estudar gelo...?",
+
+    "moonslime.Wizardry.spell.motion:descend.name": "Atravessar",
+    "moonslime.Wizardry.spell.motion:descend.cost": "25 de mana por nível",
+    "moonslime.Wizardry.spell.motion:descend.desc": "Desce nas minas.\nNíveis maiores aumentam os andares percorridos, sem custo adicional de mana.",
+    "moonslime.Wizardry.spell.motion:descend.hint": "A maioria das pessoas usa escadas para descer nas minas,\nmas vi uma pessoa lançar uma magia e atravessar direto pelo chão.",
+
+    "moonslime.Wizardry.spell.toil:kiln.name": "Carbonizar Madeira",
+    "moonslime.Wizardry.spell.toil:kiln.cost": "5 de Mana (aumenta rapidamente com o nível), Madeira ou Madeira Flutuante",
+    "moonslime.Wizardry.spell.toil:kiln.desc": "Transforma madeira em carvão.\nNíveis maiores reduzem a quantidade de madeira necessária de forma crescente.",
+    "moonslime.Wizardry.spell.toil:kiln.hint": "Existe uma forma de usar magia para gerar carvão?",
+
+    "moonslime.Wizardry.spell.motion:teleport.name": "Teletransporte",
+    "moonslime.Wizardry.spell.motion:teleport.cost": "10 de mana, Núcleo de Teletransporte",
+    "moonslime.Wizardry.spell.motion:teleport.desc": "Quando estiver do lado de fora, teleporte-se para locais externos que já visitou.",
+    "moonslime.Wizardry.spell.motion:teleport.hint": "Consigo me teleportar usando totens. Se eu estudar o suficiente deles,\ntalvez consiga criar uma magia que faça o mesmo.",
+
+    "moonslime.Wizardry.spell.elemental:meteor.name": "Meteoro",
+    "moonslime.Wizardry.spell.elemental:meteor.cost": "Minério de Irídio",
+    "moonslime.Wizardry.spell.elemental:meteor.desc": "Faz um grande meteoro colidir com a terra.",
+    "moonslime.Wizardry.spell.elemental:meteor.hint": "Será que algo do espaço pode inspirar uma magia?",
+
+    "moonslime.Wizardry.spell.eldritch:bloodmana.name": "Mana Vermelha",
+    "moonslime.Wizardry.spell.eldritch:bloodmana.cost": "25% de Vida",
+    "moonslime.Wizardry.spell.eldritch:bloodmana.desc": "Restaura 16% de Mana + extra baseado no nível da magia.",
+    "moonslime.Wizardry.spell.eldritch:bloodmana.hint": "Vi alguém lançar uma magia para recuperar mana!?\nParecia doloroso.\nDizem que essa pessoa aprendeu essa técnica pescando Enguias de Lava.",
+
+    "moonslime.Wizardry.spell.eldritch:lucksteal.name": "Roubo de Sorte",
+    "moonslime.Wizardry.spell.eldritch:lucksteal.cost": "A felicidade dos seus entes queridos",
+    "moonslime.Wizardry.spell.eldritch:lucksteal.desc": "Maximiza a sua sorte diária.",
+    "moonslime.Wizardry.spell.eldritch:lucksteal.hint": "Vi um altar negro na casa de alguém outro dia.\nBem, eu disse 'casa'.\nEra mais uma cabana.",
+
+    "moonslime.Wizardry.spell.eldritch:charm.name": "Encantar Pessoas",
+    "moonslime.Wizardry.spell.eldritch:charm.cost": "15 de mana, 25 de vida por pessoa",
+    "moonslime.Wizardry.spell.eldritch:charm.desc": "Sacrifica Vida para fazer as pessoas perto de você gostarem de você.\nNíveis maiores aumentam a área.",
+    "moonslime.Wizardry.spell.eldritch:charm.hint": "Uma coisa que atrai perigo pode ser algo útil para estudar...",
+
+    "moonslime.Wizardry.spell.eldritch:spirit.name": "Conjurar Espírito",
+    "moonslime.Wizardry.spell.eldritch:spirit.cost": "50 de mana, 20% de vida",
+    "moonslime.Wizardry.spell.eldritch:spirit.desc": "Invoca um espírito perdido para lutar por você.\nEscala com o nível de Combate e Magia.",
+    "moonslime.Wizardry.spell.eldritch:spirit.hint": "Encontre todas as outras magias Sobrenaturais.",
+
+
+    /*********
+    ** Generic Mod Config Menu UI
+    *********/
+
+    "config.VoidSchool": "Ativar Magia Teletransporte Fraco",
+    "config.VoidSchool.tooltip": "Não é mais utilizado.",
+
+    "config.Magic_arrow_base": "Dano Base da Flecha Mágica",
+    "config.Magic_arrow_base.tooltip": "REQUER REINÍCIO DO JOGO.\nO dano base desta magia.\nPara referência: Estilingue é 1, Estilingue Mestre é 2, Estilingue Galáxia é 4.",
+
+    "config.Magic_arrow_scale": "Dano de Munição da Flecha Mágica",
+    "config.Magic_arrow_scale.tooltip": "REQUER REINÍCIO DO JOGO.\nO dano base de 'munição' desta magia, que escala por nível. Ou seja, Nível vezes este valor = dano de munição.\nPara referência: Minério de Cobre é 10, Ferro é 20, Irídio é 50.",
+
+    "config.Fire_ball_base": "Dano Base da Bola de Fogo",
+    "config.Fire_ball_base.tooltip": "REQUER REINÍCIO DO JOGO.\nO dano base desta magia.\nPara referência: Estilingue é 1, Estilingue Mestre é 2, Estilingue Galáxia é 4.",
+
+    "config.Fire_ball_scale": "Dano de Munição da Bola de Fogo",
+    "config.Fire_ball_scale.tooltip": "REQUER REINÍCIO DO JOGO.\nO dano base de 'munição' desta magia, que escala por nível. Ou seja, Nível vezes este valor = dano de munição.\nPara referência: Minério de Cobre é 10, Ferro é 20, Irídio é 50.",
+
+    "config.Frost_bolt_base": "Dano Base da Bola de Gelo",
+    "config.Frost_bolt_base.tooltip": "REQUER REINÍCIO DO JOGO.\nO dano base desta magia.\nPara referência: Estilingue é 1, Estilingue Mestre é 2, Estilingue Galáxia é 4.",
+
+    "config.Frost_bolt_scale": "Dano de Munição da Bola de Gelo",
+    "config.Frost_bolt_scale.tooltip": "REQUER REINÍCIO DO JOGO.\nO dano base de 'munição' desta magia, que escala por nível. Ou seja, Nível vezes este valor = dano de munição.\nPara referência: Minério de Cobre é 10, Ferro é 20, Irídio é 50.",
+
+    "config.Spirit_attack_range": "Alcance de Ataque da Magia Espírito.",
+    "config.Spirit_attack_range.tooltip": "REQUER REINÍCIO DO JOGO.\nO alcance de ataque da invocação da magia Espírito.\nAlcances maiores exigem mais cálculos e poder de CPU.",
+
+    // altar and radio placement
+    "config.altar-placement": "Posicionamento do altar",
+    "config.radio-placement": "Posicionamento do rádio",
+    "config.location.name": "Localização",
+    "config.location.tooltip": "O nome interno da localização onde deve ser colocado, conforme exibido pelo mod Debug Mode.",
+    "config.x.name": "Posição X",
+    "config.x.tooltip": "A posição X do tile onde deve ser colocado, conforme exibido pelo mod Debug Mode.",
+    "config.y.name": "Posição Y",
+    "config.y.tooltip": "A posição Y do tile onde deve ser colocado, conforme exibido pelo mod Debug Mode.",
+    "config.x-or-y.automatic-position": "automático",
+
+    // controls
+    "config.controls": "Controles",
+    "config.cast-key.name": "Tecla: Lançar",
+    "config.cast-key.tooltip": "A tecla para iniciar o lançamento de uma magia.",
+    "config.swap-spells-key.name": "Tecla: Trocar Magias",
+    "config.swap-spells-key.tooltip": "A tecla para trocar os conjuntos de magias.",
+    "config.select-spell-key.name": "Tecla: Magia {{slotNumber}}",
+    "config.select-spell-key.tooltip": "A tecla para selecionar a magia {{slotNumber}}."
+}
