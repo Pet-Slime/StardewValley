@@ -171,7 +171,7 @@
 
     "moonslime.Wizardry.spell.nature:bat.name": "追踪蝙蝠",
     "moonslime.Wizardry.spell.nature:bat.cost": "5法力，一个蝙蝠翅膀",
-    "moonslime.Wizardry.spell.nature:bat.desc": "召唤一只飞翔最近物品的蝙蝠。\n1级: 怪物\n2级: 古物和淘金点",
+    "moonslime.Wizardry.spell.nature:bat.desc": "召唤一只飞向最近物品的蝙蝠。\n1级: 怪物\n2级: 古物和淘金点",
     "moonslime.Wizardry.spell.nature:bat.hint": "我好奇一只蝙蝠是否能帮到我？",
 
     "moonslime.Wizardry.spell.nature:tendrils.name": "根须",
@@ -262,7 +262,7 @@
     "moonslime.Wizardry.spell.eldritch:lucksteal.name": "幸运窃取",
     "moonslime.Wizardry.spell.eldritch:lucksteal.cost": "你爱的人的幸福",
     "moonslime.Wizardry.spell.eldritch:lucksteal.desc": "使你本日运气最大。",
-    "moonslime.Wizardry.spell.eldritch:lucksteal.hint": "我有天在某人房子里看到一个黑暗神龛。I saw an dark altar in someone's house the other day.\n好吧，说是'房子'，\n其实更像个小屋。",
+    "moonslime.Wizardry.spell.eldritch:lucksteal.hint": "我有天在某人房子里看到一个黑暗神龛。\n好吧，说是'房子'，\n其实更像个小屋。",
 
     "moonslime.Wizardry.spell.eldritch:charm.name": "迷人",
     "moonslime.Wizardry.spell.eldritch:charm.cost": "每人15法力, 25生命",
