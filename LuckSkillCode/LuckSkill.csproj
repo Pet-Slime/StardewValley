@@ -4,17 +4,16 @@
 
 
     <PropertyGroup>
-        <Name>Luck Skill</Name>
-        <Description>A Spacecore version of the luck skill.</Description>
+        <Name>SpaceCoreConsole</Name>
+        <Description>Trying to fix all the events </Description>
         <Version>1.7.0</Version>
-        <UpdateKeys>Nexus:28103</UpdateKeys>
+        <UpdateKeys>Nexus:0</UpdateKeys>
     </PropertyGroup>
 
     <ItemGroup>
         <SMAPIDependency Include="Pathoschild.ContentPatcher" MinimumVersion="2.8.0" Required="true" />
         <SMAPIDependency Include="spacechase0.GenericModConfigMenu" MinimumVersion="1.0.0" Required="false" />
         <SMAPIDependency Include="spacechase0.SpaceCore" version="1.28.0" Required="true" />
-        <SMAPIDependency Include="moonslime.LuckSkill.CP" version="1.5.0" Required="true" />
     </ItemGroup>
     
 </Project>

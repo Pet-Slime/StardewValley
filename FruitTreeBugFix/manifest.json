@@ -1,0 +1,14 @@
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "moonslime.FruitTreeBugFix",
+  "Name": "Fruit Tree Bug Fix",
+  "Author": "moonslime",
+  "Version": "1.0.0",
+  "Description": "If the game says you can place a fruit tree, you can place a fruit tree.",
+  "MinimumApiVersion": "4.5.2",
+  "MinimumGameVersion": "1.6.15",
+  "EntryDll": "FruitTreeBugFix.dll",
+  "UpdateKeys": [
+    "Nexus:-1"
+  ]
+}

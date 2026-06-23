@@ -29,3 +29,6 @@ _ReSharper*/
 _releases/Debug/*
 /UpgradeLog.htm
 /Backup
+/SpaceCoreConsole/SpaceCoreConsole.csproj
+/_releases/Release/SpaceCoreConsole 1.0.0.zip
+/SpaceCoreConsole
