@@ -6,7 +6,7 @@
         <Name>Fruit Tree Bug Fix</Name>
         <Description>If the game says you can place a fruit tree, you can place a fruit tree.</Description>
         <Version>1.0.0</Version>
-        <UpdateKeys>Nexus:-1</UpdateKeys>
+        <UpdateKeys>Nexus:48095</UpdateKeys>
     </PropertyGroup>
 
 
