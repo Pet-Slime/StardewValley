@@ -3,6 +3,9 @@
     "config.RenderManaBar": "Render Mana Bar",
     "config.RenderManaBar.tooltip": "Should the mana bar be rendered at all?",
 
+    "config.ManaBarMode": "Mana Bar Mode",
+    "config.ManaBarMode.tooltip": "Compact: Stardew's Health Bar with ManaBarIcon.png overlaid.\nCustom: Uses manabg.png as the full Mana Bar.",
+
     "config.XManaBarOffset": "Mana Bar X offset",
     "config.XManaBarOffset.tooltip": "Control where the mana bar is on the X axis of the screen.\nNote: If Snapping is not set to -1, bar will move when the player's health shows up.",
 

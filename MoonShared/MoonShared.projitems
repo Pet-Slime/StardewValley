@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)APIs\IMargo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)APIs\IProducerFrameworkAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)APIs\ISpaceCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)APIs\IWearMoreRingsApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\SAsset.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\Parser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\Log.cs" />
