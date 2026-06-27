@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MoonShared.APIs;
 using MoonShared.Attributes;
 using SpaceCore.Events;
 using StardewModdingAPI;
@@ -16,6 +17,7 @@ namespace WizardryManaBar.Core
     {
         private const string ManaFill = "moonslime.ManaBarApi.ManaFill";
         private const string ManaRestore = "moonslime.ManaBarApi.ManaRestore";
+        private const string MagicStardewSpellBookQualifiedItemId = "(O)MagicStardew.SpellBook";
 
         private const int ManaBarOriginalBaseMana = 100;
         private const int ManaBarBaseHeight = 168;
@@ -31,6 +33,14 @@ namespace WizardryManaBar.Core
         private const int ManaPipSourceOverlap = 1;
 
         private static readonly Rectangle ManaPipSourceRect = new Rectangle(398, 497, ManaPipSourceWidth, ManaPipSourceHeight);
+
+        // Custom art mode uses manabg.png as a vanilla-style 12x56 bar frame.
+        private static readonly Rectangle CompactFrameTopSource = new Rectangle(268, 408, 12, 16);
+        private static readonly Rectangle CompactFrameMiddleSource = new Rectangle(268, 424, 12, 16);
+        private static readonly Rectangle CompactFrameBottomSource = new Rectangle(268, 448, 12, 16);
+        private static readonly Rectangle CustomFrameTopSource = new Rectangle(0, 0, 12, 16);
+        private static readonly Rectangle CustomFrameMiddleSource = new Rectangle(0, 16, 12, 24);
+        private static readonly Rectangle CustomFrameBottomSource = new Rectangle(0, 40, 12, 16);
 
         private const int ManaPipDrawWidth = ManaPipSourceWidth * ManaPipDrawScale;
         private const int ManaPipDrawHeight = ManaPipSourceHeight * ManaPipDrawScale;
@@ -50,6 +60,7 @@ namespace WizardryManaBar.Core
         private static Vector2 CachedBottomOfBar;
         private static Rectangle CachedMiddleRect;
         private static Rectangle CachedBottomRect;
+        private static bool WarnedInvalidCustomFrameTexture;
 
         // --- Cached dynamic filler ---
         private static int CachedCurrentMana = -1;
@@ -268,10 +279,31 @@ namespace WizardryManaBar.Core
 
         private static void DrawStaticBar(SpriteBatch sb)
         {
-            sb.Draw(Game1.mouseCursors, CachedTopOfBar, new Rectangle(268, 408, 12, 16), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
+            if (IsCustomManaBarMode())
+            {
+                Texture2D customFrame = Assets.ManaBG;
+                if (customFrame.Width >= 12 && customFrame.Height >= 56)
+                {
+                    DrawFrame(sb, customFrame, CustomFrameTopSource, CustomFrameMiddleSource, CustomFrameBottomSource);
+                    return;
+                }
+
+                if (!WarnedInvalidCustomFrameTexture)
+                {
+                    WarnedInvalidCustomFrameTexture = true;
+                    ModEntry.Instance.Monitor.Log($"Custom mana bar art must be at least 12x56 pixels, but Mods/moonslime.ManaBarApi/textures is {customFrame.Width}x{customFrame.Height}. Falling back to compact mode.", LogLevel.Warn);
+                }
+            }
+
+            DrawFrame(sb, Game1.mouseCursors, CompactFrameTopSource, CompactFrameMiddleSource, CompactFrameBottomSource);
             sb.Draw(Assets.ManaBarIcon, CachedTopOfBar, new Rectangle(0, 0, 12, 12), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
-            sb.Draw(Game1.mouseCursors, CachedMiddleRect, new Rectangle(256, 424, 12, 16), Color.White);
-            sb.Draw(Game1.mouseCursors, new Vector2(CachedBottomRect.X, CachedBottomRect.Y), new Rectangle(256, 448, 12, 16), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
+        }
+
+        private static void DrawFrame(SpriteBatch sb, Texture2D texture, Rectangle topSource, Rectangle middleSource, Rectangle bottomSource)
+        {
+            sb.Draw(texture, CachedTopOfBar, topSource, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
+            sb.Draw(texture, CachedMiddleRect, middleSource, Color.White);
+            sb.Draw(texture, new Vector2(CachedBottomRect.X, CachedBottomRect.Y), bottomSource, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
         }
 
         private static void DrawFiller(SpriteBatch sb)
@@ -317,20 +349,66 @@ namespace WizardryManaBar.Core
 
         public static float SetBarsPosition()
         {
+            if (ModEntry.Config.ManaBarExtraSnaps == -1)
+                return 56f;
+
             int extraCount = 1;
             if (Game1.showingHealth) extraCount++;
-            if (ModEntry.MagicStardewLoaded) extraCount++;
+            if (ShouldSnapToMagicStardewManaBar()) extraCount++;
 
             extraCount += ModEntry.Config.ManaBarExtraSnaps;
 
-            if (ModEntry.Config.ManaBarExtraSnaps == -1)
+            return 56f * Math.Max(1, extraCount);
+        }
+
+        private static bool IsCustomManaBarMode()
+        {
+            return string.Equals(ModEntry.Config.ManaBarMode, ManaBarModes.Custom, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool ShouldSnapToMagicStardewManaBar()
+        {
+            if (!ModEntry.MagicStardewLoaded || !Context.IsWorldReady || Game1.currentLocation is null || Game1.eventUp)
+                return false;
+
+            Farmer player = Game1.player;
+            if (player is null)
+                return false;
+
+            return HasMagicStardewSpellBook(player);
+        }
+
+        private static bool HasMagicStardewSpellBook(Farmer player)
+        {
+            if (player.leftRing.Value?.QualifiedItemId == MagicStardewSpellBookQualifiedItemId || player.rightRing.Value?.QualifiedItemId == MagicStardewSpellBookQualifiedItemId)
+                return true;
+
+            if (HasMagicStardewSpellBookInWearMoreRingsSlot())
+                return true;
+
+            foreach (Item item in player.Items)
             {
-                return 56f;
+                if (item?.QualifiedItemId == MagicStardewSpellBookQualifiedItemId)
+                    return true;
             }
-            else
+
+            return false;
+        }
+
+        private static bool HasMagicStardewSpellBookInWearMoreRingsSlot()
+        {
+            var wearMoreRingsApi = ModEntry.Instance.Helper.ModRegistry.GetApi<IWearMoreRingsAPI_2>("bcmpinc.WearMoreRings");
+            if (wearMoreRingsApi is null)
+                return false;
+
+            int slotCount = wearMoreRingsApi.RingSlotCount();
+            for (int i = 0; i < slotCount; i++)
             {
-                return 56f * extraCount;
+                if (wearMoreRingsApi.GetRing(i)?.QualifiedItemId == MagicStardewSpellBookQualifiedItemId)
+                    return true;
             }
+
+            return false;
         }
 
         private static void OnDayStarted(object sender, DayStartedEventArgs e)
